@@ -1,34 +1,32 @@
 <html>
 <head>
-  <title>Member activity - GBIF</title>
-  <meta name="gmap" content="true"/>
+  <title>Occurrence activity - GBIF</title>
+  <meta name="menu" content="occurrences"/>
 </head>
-<body class="species typesmap">
+<body class="typesmap">
 
 <content tag="infoband">
   <ul class="breadcrumb">
-    <li><a href="<@s.url value='/members'/>" title="GBIF Network Members">GBIF Network Members</a></li>
+    <li><a href="#" title="Explore">Explore</a></li>
+    <li class="last"><a href="#" title="Occurrences">Occurrences</a></li>
   </ul>
 
-  <h1>Academy of Natural Sciences</h1>
+  <h1>ANSP HRP 10</h1>
 
-  <h3 class="separator">More info at: <a href="#" title="Academy of Natural Sciences">www.acnatsci.org</a></h3>
-
-  <ul class="tags">
-    <li><a href="#" title="Turkey">Turkey</a></li>
-    <li><a href="#" title="coastal">coastal</a></li>
-    <li class="last"><a href="#" title="herbal">herbal</a></li>
-  </ul>
+  <h3>An occurrence of <a href="<@s.url value='/species/123/'/>">Puma Concolor</a> from <a
+          href="<@s.url value='/dataset/42'/>">Sudamerican
+    Felines</a> dataset.</h3>
 </content>
 
 <content tag="tabs">
-  <ul>
-    <li><a href="<@s.url value='/member/${id!}'/>" title="Information"><span>Information</span></a></li>
-    <li><a href="<@s.url value='/member/${id!}/datasets'/>" title="Datasets"><span>Datasets</span></a></li>
-    <li><a href="<@s.url value='/member/${id!}/occurrences'/>" title="Occurrences"><span>Occurrences</span></a></li>
-    <li class='selected'><a href="<@s.url value='/member/${id!}/activity'/>" title="Activity"><span>Activity </span></a>
-    </li>
-  </ul>
+  <div id="tabs">
+    <ul>
+      <li><a href="<@s.url value='/occurrences/${id}'/>" title="Information"><span>Information</span></a></li>
+      <li class='selected'><a id="activity_tab" href="<@s.url value='/occurrences/${id}/activity'/>"
+                              title="Activity"><span>Activity <sup>(3)</sup></span></a></li>
+      <li><a href="<@s.url value='/occurrences/${id}/detail_raw'/>" title="Details"><span>Details</span></a></li>
+    </ul>
+  </div>
 </content>
 
 <article class="graph">

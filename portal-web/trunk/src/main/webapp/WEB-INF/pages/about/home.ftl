@@ -7,7 +7,7 @@
   <content tag="infoband">
     <h1>About GBIF Data</h1>
 
-    <h3>Making biodiversity data accesible.</h3>
+    <h3>Making biodiversity data accessible.</h3>
   </content>
 
   <article class="light_pane static">
@@ -99,7 +99,8 @@
 
         <h3>Do you want to collaborate with GBIF Data?</h3>
 
-        <p><a href="/dataset/register-step-1">Share your data on GBIF</a>. We will contact you soon with the details of the
+        <p><a href="<@s.url value='/dataset/register-step-1'/>">Share your data on GBIF</a>. We will contact you soon
+          with the details of the
           publication.</p>
 
 
@@ -107,16 +108,18 @@
 
       <div class="right">
         <ul class="section first">
-          <li><h3>About GBIF Data</h3></li>
+          <li><h3><a href="<@s.url value='/about'/>" title="About GBIF Data">About GBIF Data</a></h3></li>
         </ul>
         <ul class="section">
-          <li><h3><a href="/about/terms" title="Terms and conditions">Terms and conditions</a></h3></li>
+          <li><h3><a href="<@s.url value='/about/terms'/>" title="Terms and conditions">Terms and conditions</a></h3>
+          </li>
         </ul>
         <ul class="section">
-          <li><h3><a href="/about/tools" title="Tools &amp; projects">Tools &amp; projects</a></h3></li>
+          <li><h3><a href="<@s.url value='/about/tools'/>" title="Tools &amp; projects">Tools &amp; projects</a></h3>
+          </li>
         </ul>
         <ul class="section last">
-          <li><h3><a href="/about/contact" title="Contact us">Contact us</a></h3></li>
+          <li><h3><a href="<@s.url value='/about/contact'/>" title="Contact Us">Contact Us</a></h3></li>
         </ul>
       </div>
     </div>

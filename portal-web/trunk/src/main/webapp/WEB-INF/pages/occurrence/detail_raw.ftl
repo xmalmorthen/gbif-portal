@@ -1,35 +1,35 @@
 <html>
 <head>
-  <title>Raw name usage - GBIF</title>
-  <meta name="menu" content="species"/>
+  <title>Occurrence detail - GBIF</title>
+  <meta name="menu" content="occurrences"/>
 </head>
-<body class="species big">
+<body class="stats">
 
 <content tag="infoband">
   <ul class="breadcrumb">
-    <li class="last"><a href="/species/${id!}/name_usage" title="Name usage">Name usage</a></li>
+    <li><a href="#" title="Explore">Explore</a></li>
+    <li class="last"><a href="#" title="Occurrences">Occurrences</a></li>
   </ul>
 
-  <h1>Puma Concolor</h1>
+  <h1>ANSP HRP 10</h1>
 
-  <h3>according to <a href="<@s.url value='/dataset/1'/>">Mexican felines</a> checklist</h3>
+  <h3>An occurrence of <a href="<@s.url value='/species/42'/>">Puma Concolor</a> from <a
+          href="<@s.url value='/dataset/123'/>">Sudamerican
+    Felines</a> dataset.</h3>
 
-  <h3 class="separator">Animalia</h3>
-
-  <ul class="tags">
-    <li><a href="#" title="Turkey">Turkey</a></li>
-    <li><a href="#" title="coastal">coastal</a></li>
-    <li class="last"><a href="#" title="herbal">herbal</a></li>
-  </ul>
 </content>
 
 <content tag="tabs">
-<ul>
-<li><a href="<@s.url value='/species/${id!}/name_usage'>"><span>Information</span></a></li>
-<li><a href="<@s.url value='/species/${id!}/activity'>" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
-</li>
-<li class='selected'><a href="<@s.url value='/species/${id!}/name_usage_raw'>"><span>Details</span></a></li>
-</ul>
+  <div id="tabs">
+    <ul>
+      <li><a href="<@s.url value='/occurrence/${id}'/>" title="Information"><span>Information</span></a>
+      </li>
+      <li><a id="activity_tab" href="<@s.url value='/occurrence/${id}/activity'/>"
+             title="Activity"><span>Activity <sup>(3)</sup></span></a></li>
+      <li class='selected'><a href="<@s.url value='/occurrence/${id}/detail_raw'/>" title="Details"><span>Details</span></a>
+      </li>
+    </ul>
+  </div>
 </content>
 
 <article>
@@ -37,7 +37,7 @@
   <div class="content">
 
     <div class="header">
-      <div class="left"><h2>Name usage raw data</h2></div>
+      <div class="left"><h2>Occurrence raw data</h2></div>
     </div>
 
     <div class="left">
@@ -46,13 +46,13 @@
       <p>This is the Puma Concolor according to Mexican Felines checklist in its raw, unprocessed version. This is the
         data as provided by the publisher, without any kind of GBIF processing or interpretation.</p>
 
-      <h3>Checklist</h3>
+      <h3>Dataset</h3>
 
-      <p><a href="<@s.url value='/dataset/1'/>" title="Mexican Felines">Mexican Felines</a></p>
+      <p><a href="#" title="Mexican Felines">Mexican Felines</a></p>
 
       <h3>Publisher</h3>
 
-      <p><a href="<@s.url value='/member/123'/>" title="Berlin Natural Museum">Berlin Natural Museum</a></p>
+      <p><a href="#" title="Berlin Natural Museum">Berlin Natural Museum</a></p>
 
       <h3>Date of publication</h3>
 
@@ -67,13 +67,13 @@
 
       <h3>Networks</h3>
       <ul>
-        <li><a href="<@s.url value='/member/123'/>" title="World Museums">World Museums</a></li>
-        <li><a href="<@s.url value='/member/123'/>" title="World Museums">World Museums</a></li>
-        <li><a href="<@s.url value='/member/123'/>" title="World Museums">World Museums</a></li>
+        <li><a href="<@s.url value='/member/42'/>" title="World Museums">World Museums</a></li>
+        <li><a href="<@s.url value='/member/42'/>" title="World Museums">World Museums</a></li>
+        <li><a href="<@s.url value='/member/42'/>" title="World Museums">World Museums</a></li>
       </ul>
       <h3>Technical partner</h3>
 
-      <p><a href="<@s.url value='/member/123'/>" title="Harvard ETSUM">Harvard ETSUM</a></p>
+      <p><a href="<@s.url value='/member/42'/>" title="Harvard ETSUM">Harvard ETSUM</a></p>
     </div>
   </div>
   <footer></footer>
@@ -84,34 +84,45 @@
   <div class="content">
 
     <div class="header">
-      <div class="left"><h2>Description</h2></div>
+      <div class="left"><h2>Record level terms</h2></div>
     </div>
     <div class="left">
       <div class="row first odd">
-        <h4>habitat</h4>
+        <h4>Type</h4>
 
         <div class="value">
-          Terrestrial<br>
+          Value<br>
           <span class="source">Source: A. Duran & al. in Nordic J. Bot. 29. 2011</span>
         </div>
       </div>
+
       <div class="row even">
-        <h4>typematerial</h4>
+        <h4>Modified</h4>
 
         <div class="value">
-          Holotype<br/>
+          Value<br/>
           <span class="source">Source: A. Duran & al. in Nordic J. Bot. 29. 2011</span>
         </div>
       </div>
-      <div class="row last odd">
-        <h4>ecology</h4>
+
+      <div class="row odd">
+        <h4>Language</h4>
 
         <div class="value">
-          Chromatophotina, a remarkable new genus praying mantid from the Neotropioc Region and its two new species
-          (Mantodea: Mantidae, Photinainae).<br/>
+          Value<br>
           <span class="source">Source: A. Duran & al. in Nordic J. Bot. 29. 2011</span>
         </div>
       </div>
+
+      <div class="row even last">
+        <h4>Rights</h4>
+
+        <div class="value">
+          Value<br/>
+          <span class="source">Source: A. Duran & al. in Nordic J. Bot. 29. 2011</span>
+        </div>
+      </div>
+
     </div>
   </div>
   <footer></footer>
@@ -122,7 +133,7 @@
   <header></header>
   <div class="content">
     <div class="header">
-      <div class="left"><h2>Distribution</h2></div>
+      <div class="left"><h2>Occurrence</h2></div>
     </div>
     <div class="left">
       <div class="row first odd">
@@ -199,7 +210,7 @@
   <header></header>
   <div class="content">
     <div class="header">
-      <div class="left"><h2>Image</h2></div>
+      <div class="left"><h2>Event</h2></div>
     </div>
     <div class="left">
       <div class="row unique odd">
@@ -229,7 +240,7 @@
   <header></header>
   <div class="content">
     <div class="header">
-      <div class="left"><h2>Reference</h2></div>
+      <div class="left"><h2>Geological name</h2></div>
     </div>
     <div class="left">
       <div class="row first odd">
@@ -260,7 +271,8 @@
           <li class="last"><h4>Bibliographic citation</h4>
 
             <div class="value">Stiewe. 2009. Dysaulophthalma nathani gen et sp. n. A new praying mantis from Southern
-              India (Dictyoptera: Mantodea, Tarachodidae). Entomologist`s Monthly Magazine (Ent. Mon. Mag.) 145(1):51-60
+              India (Dictyoptera: Mantodea, Tarachodidae). Entomologist`s Monthly Magazine (Ent. Mon. Mag.)
+              145(1):51-60
             </div>
           </li>
         </ul>
@@ -304,7 +316,6 @@
   </div>
   <footer></footer>
 </article>
-
 
 </body>
 </html>

@@ -13,9 +13,9 @@
 
 <content tag="tabs">
   <ul>
-    <li class='selected'><a href="/stats"><span>Content</span></a></li>
-    <li><a href="/stats/history" title="History"><span>History </span></a></li>
-    <li><a href="/stats/activity"><span>Usage</span></a></li>
+    <li class='selected'><a href="<@s.url value='/stats'/>"><span>Content</span></a></li>
+    <li><a href="<@s.url value='/stats/history'/>" title="History"><span>History </span></a></li>
+    <li><a href="<@s.url value='/stats/activity'/>"><span>Activity</span></a></li>
   </ul>
 </content>
 

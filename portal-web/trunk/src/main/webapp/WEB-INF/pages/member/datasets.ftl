@@ -7,7 +7,7 @@
 
   <content tag="infoband">
     <ul class="breadcrumb">
-      <li><a href="/members/" title="GBIF Network Members">GBIF Network Members</a></li>
+      <li><a href="<@s.url value='/members'/>" title="GBIF Network Members">GBIF Network Members</a></li>
     </ul>
 
     <h1>Academy of Natural Sciences</h1>
@@ -23,10 +23,12 @@
 
   <content tag="tabs">
     <ul>
-      <li><a href="/member/${id!}" title="Information"><span>Information</span></a></li>
-      <li class='selected'><a href="/member/${id!}/datasets" title="Datasets"><span>Datasets</span></a></li>
-      <li><a href="/member/${id!}/occurrences" title="Occurrences"><span>Occurrences</span></a></li>
-      <li><a href="/member/${id!}/activity" title="Activity"><span>Activity </span></a></li>
+      <li><a href="<@s.url value='/member/${id!}'/>" title="Information"><span>Information</span></a></li>
+      <li class='selected'><a href="<@s.url value='/member/${id!}/datasets'/>"
+                              title="Datasets"><span>Datasets</span></a></li>
+      <li><a href="<@s.url value='/member/${id!}/occurrences'/>" title="Occurrences"><span>Occurrences</span></a></li>
+      <li><a href="<@s.url value='/member/${id!}/activity'/>"
+             title="Activity"><span>Activity </span></a></li>
     </ul>
   </content>
 
@@ -45,57 +47,67 @@
 
       <div class="left">
         <div class="result">
-          <h2><a href="/dataset/42" title="World Mangroves Fauna"><strong>World Mangroves Fauna</strong></a></h2>
+          <h2><a href="<@s.url value='/dataset/42'/>" title="World Mangroves Fauna"><strong>World Mangroves
+            Fauna</strong></a></h2>
 
-          <p>An occurrences dataset published by <a href="/members/detail.html">Academy of Natural Sciences</a> at 1978.
+          <p>An occurrences dataset published by <a href="<@s.url value='/member/123'/>">Academy of Natural Sciences</a>
+            at 1978.
           </p>
 
           <div class="footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p></div>
         </div>
 
         <div class="result">
-          <h2><a href="/dataset/43" title="Herpetology"><strong>Herpetology</strong></a></h2>
+          <h2><a href="<@s.url value='/dataset/42'/>" title="Herpetology"><strong>Herpetology</strong></a></h2>
 
-          <p>A checklist published by <a href="/members/detail.html" title="Academy of Natural Sciences">Academy of
+          <p>A checklist published by <a href="<@s.url value='/member/123'/>" title="Academy of Natural Sciences">Academy
+            of
             Natural Sciences</a> at 1978.</p>
 
           <div class="footer"><p>201.456 name usages | covering Europe, Asia, Africa and Oceania</p></div>
         </div>
 
         <div class="result">
-          <h2><a href="/dataset/44"
+          <h2><a href="<@s.url value='/dataset/42'/>"
                  title="Absolute abundance of particles and planktic foraminifera in..".><strong>Absolute abundance of
             particles and planktic foraminifera in...</strong></a></h2>
 
-          <p>An external dataset published by <a href="/members/detail.html">Academy of Natural Sciences</a> at 1978.
+          <p>An external dataset published by <a href="<@s.url value='/member/123'/>">Academy of Natural Sciences</a> at
+            1978.
           </p>
 
           <div class="footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p></div>
         </div>
 
         <div class="result">
-          <h2><a href="/dataset/45" title="ARGOS Satellite Tracking of animals"><strong>ARGOS Satellite Tracking
+          <h2><a href="<@s.url value='/dataset/42'/>" title="ARGOS Satellite Tracking of animals"><strong>ARGOS
+            Satellite Tracking
             of animals</strong></a></h2>
 
-          <p>An occurrences dataset published by <a href="/members/detail.html">Academy of Natural Sciences</a> at 1978.
+          <p>An occurrences dataset published by <a href="<@s.url value='/member/123'/>">Academy of Natural Sciences</a>
+            at 1978.
           </p>
 
           <div class="footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p></div>
         </div>
 
         <div class="result">
-          <h2><a href="/dataset/45" title="World Mangroves Fauna"><strong>World Mangroves Fauna</strong></a></h2>
+          <h2><a href="<@s.url value='/dataset/42'/>" title="World Mangroves Fauna"><strong>World Mangroves
+            Fauna</strong></a></h2>
 
-          <p>An occurrences dataset published by <a href="/members/detail.html">Academy of Natural Sciences</a> at 1978.
+          <p>An occurrences dataset published by <a href="<@s.url value='/member/123'/>">Academy of Natural Sciences</a>
+            at 1978.
           </p>
 
           <div class="footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p></div>
         </div>
 
         <div class="result last">
-          <h2><a href="/dataset/47" title="World Mangroves Fauna"><strong>World Mangroves Fauna</strong></a></h2>
+          <h2><a href="<@s.url value='/dataset/42'/>" title="World Mangroves Fauna"><strong>World Mangroves
+            Fauna</strong></a></h2>
 
-          <p>An occurrences dataset published by <a href="/members/detail.html">Academy of Natural Sciences</a> at 1978.
+          <p>An occurrences dataset published by <a href="<@s.url value='/member/123'/>">Academy of Natural Sciences</a>
+            at 1978.
           </p>
 
           <div class="footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p></div>

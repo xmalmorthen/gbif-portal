@@ -27,7 +27,8 @@
       <div class="left">
 
         <div class="result">
-          <h2><a href="/member/72" title="Denmark School of Biology"><strong>Denmark School of Biology</strong></a>
+          <h2><a href="<@s.url value='/member/123'/>" title="Denmark School of Biology"><strong>Denmark School of
+            Biology</strong></a>
           </h2>
 
           <div class="footer">
@@ -40,7 +41,8 @@
         </div>
 
         <div class="result">
-          <h2><a href="/member/72" title="Academy of Natural Sciences of Mexico"><strong>Academy of Natural
+          <h2><a href="<@s.url value='/member/123'/>" title="Academy of Natural Sciences of Mexico"><strong>Academy of
+            Natural
             Sciences of Mexico</strong></a></h2>
 
           <div class="footer">
@@ -53,7 +55,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="/member/72" title="GBIF France"><strong>GBIF France</strong></a></h2>
+          <h2><a href="<@s.url value='/member/123'/>" title="GBIF France"><strong>GBIF France</strong></a></h2>
 
           <div class="footer">
             <ul>
@@ -65,7 +67,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="/member/72" title="Tecnilogica"><strong>Tecnilogica</strong></a></h2>
+          <h2><a href="<@s.url value='/member/123'/>" title="Tecnilogica"><strong>Tecnilogica</strong></a></h2>
 
           <div class="footer">
             <ul>
@@ -77,7 +79,8 @@
         </div>
 
         <div class="result">
-          <h2><a href="/member/72" title="Denmark School of Biology"><strong>Denmark School of Biology</strong></a>
+          <h2><a href="<@s.url value='/member/123'/>" title="Denmark School of Biology"><strong>Denmark School of
+            Biology</strong></a>
           </h2>
 
           <div class="footer">
@@ -90,7 +93,8 @@
         </div>
 
         <div class="result">
-          <h2><a href="/member/72" title="Academy of Natural Sciences of Mexico"><strong>Academy of Natural
+          <h2><a href="<@s.url value='/member/123'/>" title="Academy of Natural Sciences of Mexico"><strong>Academy of
+            Natural
             Sciences of Mexico</strong></a></h2>
 
           <div class="footer">
@@ -103,7 +107,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="/member/72" title="GBIF France"><strong>GBIF France</strong></a></h2>
+          <h2><a href="<@s.url value='/member/123'/>" title="GBIF France"><strong>GBIF France</strong></a></h2>
 
           <div class="footer">
             <ul>
@@ -115,7 +119,7 @@
         </div>
 
         <div class="result last">
-          <h2><a href="/member/72" title="Tecnilogica"><strong>Tecnilogica</strong></a></h2>
+          <h2><a href="<@s.url value='/member/123'/>" title="Tecnilogica"><strong>Tecnilogica</strong></a></h2>
 
           <div class="footer">
             <ul>

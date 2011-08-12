@@ -21,8 +21,8 @@
             laoreet
             dolore magna.</p>
           <ul>
-            <li><a href="/theme/niche_modelling">Niche modelling</a></li>
-            <li><a href="/theme/agrobiodiversity">Agrobiodiversity</a></li>
+            <li><a href="<@s.url value='/theme/niche_modelling'/>">Niche modelling</a></li>
+            <li><a href="<@s.url value='/theme/agrobiodiversity'/>">Agrobiodiversity</a></li>
           </ul>
         </li>
         <li>
@@ -32,8 +32,8 @@
             laoreet
             dolore magna aliquam.</p>
           <ul>
-            <li><a href="/theme/popular_species">Popular species</a></li>
-            <li><a href="/theme/what_lives_in_my_area">What lives in my area?</a></li>
+            <li><a href="<@s.url value='/theme/popular_species'/>">Popular species</a></li>
+            <li><a href="<@s.url value='/theme/what_lives_in_my_area'/>">What lives in my area?</a></li>
           </ul>
         </li>
         <li class="last">
@@ -43,10 +43,10 @@
             aliquam
             erat volutpat.</p>
           <ul>
-            <li><a href="/theme/invasive_species">Invasive species</a></li>
-            <li><a href="/theme/protected_areas">Protected Areas</a></li>
-            <li><a href="/theme/redlist">Redlist taxa</a></li>
-            <li><a href="/theme/cbd_reporting">CBD reporting</a></li>
+            <li><a href="<@s.url value='/theme/invasive_species'/>">Invasive species</a></li>
+            <li><a href="<@s.url value='/theme/protected_areas'/>">Protected Areas</a></li>
+            <li><a href="<@s.url value='/theme/redlist'/>">Redlist taxa</a></li>
+            <li><a href="<@s.url value='/theme/cbd_reporting'/>">CBD reporting</a></li>
           </ul>
         </li>
       </ul>

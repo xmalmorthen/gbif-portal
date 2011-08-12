@@ -180,12 +180,8 @@
       <result>/WEB-INF/pages/occurrence/activity.ftl</result>
     </action>
 
-    <action name="{id}/stats" class="org.gbif.portal.action.occurrence.StatsAction">
-      <result>/WEB-INF/pages/occurrence/stats.ftl</result>
-    </action>
-
-    <action name="{id}/discussion" class="org.gbif.portal.action.occurrence.DiscussionAction">
-      <result>/WEB-INF/pages/occurrence/discussion.ftl</result>
+    <action name="{id}/detail_raw" class="org.gbif.portal.action.occurrence.DetailAction" method="raw">
+      <result>/WEB-INF/pages/occurrence/detail_raw.ftl</result>
     </action>
 
     <action name="{id}" class="org.gbif.portal.action.occurrence.DetailAction">

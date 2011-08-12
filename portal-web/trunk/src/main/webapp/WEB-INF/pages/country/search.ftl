@@ -27,52 +27,52 @@
 
       <div class="left">
         <div class="result">
-          <h2><a href="/country/42" title="France"><strong>France</strong></a></h2>
+          <h2><a href="<@s.url value='/country/42'/>" title="France"><strong>France</strong></a></h2>
 
           <p class="footer">Country with 182,200 occurrences and 23 data publishers</p>
         </div>
         <div class="result">
-          <h2><a href="/country/42" title="France"><strong>France</strong></a></h2>
+          <h2><a href="<@s.url value='/country/42'/>" title="France"><strong>France</strong></a></h2>
 
           <p class="footer">Country with 182,200 occurrences and 23 data publishers</p>
         </div>
         <div class="result">
-          <h2><a href="/country/42" title="France"><strong>France</strong></a></h2>
+          <h2><a href="<@s.url value='/country/42'/>" title="France"><strong>France</strong></a></h2>
 
           <p class="footer">Country with 182,200 occurrences and 23 data publishers</p>
         </div>
         <div class="result">
-          <h2><a href="/country/42" title="France"><strong>France</strong></a></h2>
+          <h2><a href="<@s.url value='/country/42'/>" title="France"><strong>France</strong></a></h2>
 
           <p class="footer">Country with 182,200 occurrences and 23 data publishers</p>
         </div>
         <div class="result">
-          <h2><a href="/country/42" title="France"><strong>France</strong></a></h2>
+          <h2><a href="<@s.url value='/country/42'/>" title="France"><strong>France</strong></a></h2>
 
           <p class="footer">Country with 182,200 occurrences and 23 data publishers</p>
         </div>
         <div class="result">
-          <h2><a href="/country/42" title="France"><strong>France</strong></a></h2>
+          <h2><a href="<@s.url value='/country/42'/>" title="France"><strong>France</strong></a></h2>
 
           <p class="footer">Country with 182,200 occurrences and 23 data publishers</p>
         </div>
         <div class="result">
-          <h2><a href="/country/42" title="France"><strong>France</strong></a></h2>
+          <h2><a href="<@s.url value='/country/42'/>" title="France"><strong>France</strong></a></h2>
 
           <p class="footer">Country with 182,200 occurrences and 23 data publishers</p>
         </div>
         <div class="result">
-          <h2><a href="/country/42" title="France"><strong>France</strong></a></h2>
+          <h2><a href="<@s.url value='/country/42'/>" title="France"><strong>France</strong></a></h2>
 
           <p class="footer">Country with 182,200 occurrences and 23 data publishers</p>
         </div>
         <div class="result">
-          <h2><a href="/country/42" title="France"><strong>France</strong></a></h2>
+          <h2><a href="<@s.url value='/country/42'/>" title="France"><strong>France</strong></a></h2>
 
           <p class="footer">Country with 182,200 occurrences and 23 data publishers</p>
         </div>
         <div class="result">
-          <h2><a href="/country/42" title="France"><strong>France</strong></a></h2>
+          <h2><a href="<@s.url value='/country/42'/>" title="France"><strong>France</strong></a></h2>
 
           <p class="footer">Country with 182,200 occurrences and 23 data publishers</p>
         </div>

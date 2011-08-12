@@ -12,9 +12,9 @@
 
 <content tag="tabs">
   <ul>
-    <li><a href="/stats"><span>Content</span></a></li>
-    <li class='selected'><a href="/stats/history" title="History"><span>History </span></a></li>
-    <li><a href="/stats/activity"><span>Activity</span></a></li>
+    <li><a href="<@s.url value='/stats'/>"><span>Content</span></a></li>
+    <li class='selected'><a href="<@s.url value='/stats/history'/>" title="History"><span>History </span></a></li>
+    <li><a href="<@s.url value='/stats/activity'/>"><span>Activity</span></a></li>
   </ul>
 </content>
 
@@ -58,7 +58,7 @@
     <div class="minigraphs">
       <div id="dataset-graph1" class="minigraph">
         <h3>121,221,212<span>occurrences</span></h3>
-        <a href="#" id="help2" class="help"><img src="/img/icons/questionmark.png"/></a>
+        <a href="#" id="help2" class="help"><img src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
 
         <div class="percentage down">21% last year</div>
         <div class="start">1998</div>
@@ -68,7 +68,7 @@
       </div>
       <div id="dataset-graph2" class="minigraph">
         <h3>21,232<span>occurrences datasets</span></h3>
-        <a href="#" id="help3" class="help"><img src="/img/icons/questionmark.png"/></a>
+        <a href="#" id="help3" class="help"><img src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
 
         <div class="percentage up">21% last year</div>
         <div class="start">1998</div>
@@ -78,7 +78,7 @@
       </div>
       <div id="dataset-graph3" class="minigraph last">
         <h3>213<span>checklists</span></h3>
-        <a href="#" id="help" class="help"><img src="/img/icons/questionmark.png"/></a>
+        <a href="#" id="help" class="help"><img src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
 
         <div class="percentage down">21% last year</div>
         <div class="start">1998</div>

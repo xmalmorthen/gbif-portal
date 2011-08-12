@@ -108,23 +108,28 @@
 
       <div class="right">
         <ul class="section first">
-          <li><h3><a href="/about" title="About GBIF Data">About GBIF Data</a></h3></li>
+          <li><h3><a href="<@s.url value='/about'/>" title="About GBIF Data">About GBIF Data</a></h3></li>
         </ul>
         <ul class="section">
-          <li><h3><a href="/about/terms" title="Terms and conditions">Terms and conditions</a></h3></li>
-          <li class="selected"><a href="/about/use" title="GBIF Data Use Agreement">GBIF Data Use Agreement</a></li>
-          <li class="last"><a href="/about/sharing" title="GBIF Data Sharing Agreement">GBIF Data Sharing Agreement</a>
+          <li><h3><a href="<@s.url value='/about/terms'/>" title="Terms and conditions">Terms and
+            conditions</a></h3>
+          </li>
+          <li class="selected"><a href="<@s.url value='/about/use'/>" title="GBIF Data Use Agreement">GBIF Data Use
+            Agreement</a></li>
+          <li class="last"><a href="<@s.url value='/about/sharing'/>" title="GBIF Data Sharing Agreement">GBIF
+            Data
+            Sharing Agreement</a>
           </li>
         </ul>
         <ul class="section">
-          <li><h3><a href="/about/tools" title="Tools &amp; projects">Tools &amp; projects</a></h3></li>
+          <li><h3><a href="<@s.url value='/about/tools'/>" title="Tools &amp; projects">Tools &amp; projects</a></h3>
+          </li>
         </ul>
         <ul class="section last">
-          <li><h3><a href="/about/contact" title="Contact us">Contact us</a></h3></li>
+          <li><h3><a href="<@s.url value='/about/contact'/>" title="Contact us">Contact us</a></h3></li>
         </ul>
       </div>
-    </div>
-    <footer></footer>
+      <footer></footer>
   </article>
 </body>
 </html>

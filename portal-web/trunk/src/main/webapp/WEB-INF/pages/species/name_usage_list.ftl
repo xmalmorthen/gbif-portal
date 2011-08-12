@@ -31,20 +31,18 @@
     </div>
   </content>
 
-  <content tag="tabs">
-    <ul>
-      <li class='selected highlighted'><a href="/species/${id!}"><span>Information</span></a></li>
-      <li><a href="/species/${id!}/occurrences" title="Occurrences" id="occurrences_tab"><span>Occurrences </span></a>
-      </li>
-      <li><a href="/species/${id!}/activity" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
-      </li>
-      <li><a href="/species/${id!}/stats" title="Stats"><span>Stats <sup>(2)</sup></span></a></li>
-    </ul>
-  </content>
+<content tag="tabs">
+<ul>
+<li class='selected'><a href="<@s.url value='/species/${id!}/name_usage'>"><span>Information</span></a></li>
+<li><a href="<@s.url value='/species/${id!}/activity'>" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
+</li>
+<li><a href="<@s.url value='/species/${id!}/name_usage_raw'>"><span>Details</span></a></li>
+</ul>
+</content>
 
   <div class="back">
     <div class="content">
-      <a href="/species/${id!}" title="Back to species overview">Back to species overview</a>
+      <a href="<@s.url value='/species/${id!}'/>" title="Back to species overview">Back to species overview</a>
     </div>
   </div>
 
@@ -61,54 +59,54 @@
 
       <div class="left">
         <div class="result">
-          <h2><a href="/species/${id}/name_usage"><strong>Felix Concolor</strong></a></h2>
+          <h2><a href="<@s.url value='/species/${id!}/name_usage'/>"><strong>Felix Concolor</strong></a></h2>
 
-          <div class="footer">In <a href="/dataset/1">Fauna Europea</a> checklist</div>
+          <div class="footer">In <a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> checklist</div>
         </div>
         <div class="result">
-          <h2><a href="/species/${id}/name_usage"><strong>Felix Concolor</strong></a></h2>
+          <h2><a href="<@s.url value='/species/${id!}/name_usage'/>"><strong>Felix Concolor</strong></a></h2>
 
-          <div class="footer">In <a href="/dataset/1">Fauna Europea</a> checklist</div>
+          <div class="footer">In <a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> checklist</div>
         </div>
         <div class="result">
-          <h2><a href="/species/${id}/name_usage"><strong>Felix Concolor</strong></a></h2>
+          <h2><a href="<@s.url value='/species/${id!}/name_usage'/>"><strong>Felix Concolor</strong></a></h2>
 
-          <div class="footer">In <a href="/dataset/1">Fauna Europea</a> checklist</div>
+          <div class="footer">In <a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> checklist</div>
         </div>
         <div class="result">
-          <h2><a href="/species/${id}/name_usage"><strong>Felix Concolor</strong></a></h2>
+          <h2><a href="<@s.url value='/species/${id!}/name_usage'/>"><strong>Felix Concolor</strong></a></h2>
 
-          <div class="footer">In <a href="/dataset/1">Fauna Europea</a> checklist</div>
+          <div class="footer">In <a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> checklist</div>
         </div>
         <div class="result">
-          <h2><a href="/species/${id}/name_usage"><strong>Felix Concolor</strong></a></h2>
+          <h2><a href="<@s.url value='/species/${id!}/name_usage'/>"><strong>Felix Concolor</strong></a></h2>
 
-          <div class="footer">In <a href="/dataset/1">Fauna Europea</a> checklist</div>
+          <div class="footer">In <a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> checklist</div>
         </div>
         <div class="result">
-          <h2><a href="/species/${id}/name_usage"><strong>Felix Concolor</strong></a></h2>
+          <h2><a href="<@s.url value='/species/${id!}/name_usage'/>"><strong>Felix Concolor</strong></a></h2>
 
-          <div class="footer">In <a href="/dataset/1">Fauna Europea</a> checklist</div>
+          <div class="footer">In <a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> checklist</div>
         </div>
         <div class="result">
-          <h2><a href="/species/${id}/name_usage"><strong>Felix Concolor</strong></a></h2>
+          <h2><a href="<@s.url value='/species/${id!}/name_usage'/>"><strong>Felix Concolor</strong></a></h2>
 
-          <div class="footer">In <a href="/dataset/1">Fauna Europea</a> checklist</div>
+          <div class="footer">In <a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> checklist</div>
         </div>
         <div class="result">
-          <h2><a href="/species/${id}/name_usage"><strong>Felix Concolor</strong></a></h2>
+          <h2><a href="<@s.url value='/species/${id!}/name_usage'/>"><strong>Felix Concolor</strong></a></h2>
 
-          <div class="footer">In <a href="/dataset/1">Fauna Europea</a> checklist</div>
+          <div class="footer">In <a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> checklist</div>
         </div>
         <div class="result">
-          <h2><a href="/species/${id}/name_usage"><strong>Felix Concolor</strong></a></h2>
+          <h2><a href="<@s.url value='/species/${id!}/name_usage'/>"><strong>Felix Concolor</strong></a></h2>
 
-          <div class="footer">In <a href="/dataset/1">Fauna Europea</a> checklist</div>
+          <div class="footer">In <a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> checklist</div>
         </div>
         <div class="result">
-          <h2><a href="/species/${id}/name_usage"><strong>Felix Concolor</strong></a></h2>
+          <h2><a href="<@s.url value='/species/${id!}/name_usage'/>"><strong>Felix Concolor</strong></a></h2>
 
-          <div class="footer">In <a href="/dataset/1">Fauna Europea</a> checklist</div>
+          <div class="footer">In <a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> checklist</div>
         </div>
 
         <div class="footer">

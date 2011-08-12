@@ -23,7 +23,7 @@
         <p>Other tools and projects related with biodiversity that we are working on.</p>
 
         <div class="tool">
-          <img class="tool_thumbnail" src="/img/photos/tool1.jpg">
+          <img class="tool_thumbnail" src="<@s.url value='/external/photos/tool1.jpg'/>">
 
           <h3>Mountain biodiversity</h3>
           <a class="tool_url" href="www.mountainbiodiversity.org">www.mountainbiodiversity.org</a>
@@ -34,7 +34,7 @@
         </div>
 
         <div class="tool">
-          <img class="tool_thumbnail" src="/img/photos/tool2.jpg">
+          <img class="tool_thumbnail" src="<@s.url value='/external/photos/tool2.jpg'/>">
 
           <h3>Red List Assessment Tool</h3>
           <a class="tool_url" href="www.mountainbiodiversity.org">www.mountainbiodiversity.org</a>
@@ -45,7 +45,7 @@
         </div>
 
         <div class="tool">
-          <img class="tool_thumbnail" src="/img/photos/tool3.jpg">
+          <img class="tool_thumbnail" src="<@s.url value='/external/photos/tool3.jpg'/>">
 
           <h3>Protected Planet</h3>
           <a class="tool_url" href="www.mountainbiodiversity.org">www.mountainbiodiversity.org</a>
@@ -59,16 +59,18 @@
 
       <div class="right">
         <ul class="section first">
-          <li><h3><a href="/about" title="About GBIF Data">About GBIF Data</a></h3></li>
+          <li><h3><a href="<@s.url value='/about'/>" title="About GBIF Data">About GBIF Data</a></h3></li>
         </ul>
         <ul class="section">
-          <li><h3><a href="/about/terms" title="Terms and conditions">Terms and conditions</a></h3></li>
+          <li><h3><a href="<@s.url value='/about/terms'/>" title="Terms and conditions">Terms and conditions</a></h3>
+          </li>
         </ul>
         <ul class="section">
-          <li><h3>Tools &amp; projects</h3></li>
+          <li><h3>Tools &amp; projects</h3>
+          </li>
         </ul>
         <ul class="section last">
-          <li><h3><a href="/about/contact" title="Contact us">Contact us</a></h3></li>
+          <li><h3><a href="<@s.url value='/about/contact'/>" title="Contact Us">Contact Us</a></h3></li>
         </ul>
       </div>
     </div>

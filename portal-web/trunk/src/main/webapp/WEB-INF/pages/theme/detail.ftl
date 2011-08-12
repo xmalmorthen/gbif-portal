@@ -6,7 +6,7 @@
 
   <content tag="infoband">
     <ul class="breadcrumb">
-      <li><a href="/themes/" title="Themes">Themes</a></li>
+      <li><a href="<@s.url value='/themes'/>" title="Themes">Themes</a></li>
     </ul>
     <h1>${themeName!}</h1>
 
@@ -25,7 +25,7 @@
         on this area, but we would like to give you an idea of what may be coming up, and invite you to contact us if
         you
         would like to discuss your involvement in the process.</p>
-      <img src="/img/icons/notice_icon.png"/>
+      <img src="<@s.url value='/img/icons/notice_icon.png'/>"/>
     </div>
     <footer></footer>
   </article>
@@ -79,47 +79,55 @@
       <h2>Predefined downloads</h2>
 
       <ul class="triptic">
-        <li><h3><a href="/occurrences/search.html" title="Puma Concolor">Puma Concolor</a> <span class="">32,325</span>
+        <li><h3><a href=<@s.url value='/occurrences/search?q=fake'/> title="Puma Concolor">Puma Concolor</a> <span
+                class="">32,325</span>
         </h3>
 
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing eli.</p></li>
-        <li><h3><a href="/occurrences/search.html" title="Puma Concolor">Puma Concolor</a> <span class="">32,325</span>
+        <li><h3><a href=<@s.url value='/occurrences/search?q=fake'/> title="Puma Concolor">Puma Concolor</a> <span
+                class="">32,325</span>
         </h3>
 
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing eli.</p></li>
-        <li class="last"><h3><a href="/occurrences/search.html" title="Puma Concolor">Puma Concolor</a> <span class="">32,325</span>
+        <li class="last"><h3><a href=<@s.url value='/occurrences/search?q=fake'/> title="Puma Concolor">Puma
+          Concolor</a> <span class="">32,325</span>
         </h3>
 
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing eli.</p></li>
       </ul>
 
       <ul class="triptic">
-        <li><h3><a href="/occurrences/search.html" title="Puma Concolor">Puma Concolor</a> <span class="">32,325</span>
+        <li><h3><a href=<@s.url value='/occurrences/search?q=fake'/> title="Puma Concolor">Puma Concolor</a> <span
+                class="">32,325</span>
         </h3>
 
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing eli.</p></li>
-        <li><h3><a href="/occurrences/search.html" title="Puma Concolor">Puma Concolor</a> <span class="">32,325</span>
+        <li><h3><a href=<@s.url value='/occurrences/search?q=fake'/> title="Puma Concolor">Puma Concolor</a> <span
+                class="">32,325</span>
         </h3>
 
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing eli.</p></li>
-        <li class="last"><h3><a href="/occurrences/search.html" title="Puma Concolor">Luzula Luzuloides</a> <span
-                class="">32,325</span></h3>
+        <li class="last"><h3><a href=<@s.url value='/occurrences/search?q=fake'/> title="Puma Concolor">Luzula
+          Luzuloides</a> <span
+                  class="">32,325</span></h3>
 
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing eli.</p></li>
       </ul>
 
       <ul class="triptic last">
-        <li><h3><a href="/occurrences/search.html" title="Puma Concolor">Puma Concolor</a> <span class="">32,325</span>
+        <li><h3><a href=<@s.url value='/occurrences/search?q=fake'/> title="Puma Concolor">Puma Concolor</a> <span
+                class="">32,325</span>
         </h3>
 
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing eli. Lorem ipsum dolor sit amet, consectetuer
             adipiscing
             eli.</p></li>
-        <li><h3><a href="/occurrences/search.html" title="Puma Concolor">Luzula Luzuloides</a> <span
+        <li><h3><a href=<@s.url value='/occurrences/search?q=fake'/> title="Puma Concolor">Luzula Luzuloides</a> <span
                 class="">32,325</span></h3>
 
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing eli.</p></li>
-        <li class="last"><h3><a href="/occurrences/search.html" title="Puma Concolor">Puma Concolor</a> <span class="">32,325</span>
+        <li class="last"><h3><a href=<@s.url value='/occurrences/search?q=fake'/> title="Puma Concolor">Puma
+          Concolor</a> <span class="">32,325</span>
         </h3>
 
           <p>Lorem ipsum dolor sit amet, consectetuer adipiscing eli.</p></li>
@@ -143,8 +151,9 @@
         <p>Esse molest e consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
           dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
 
-        <a href="#"><img src="/img/temp/logo_1.jpg" title="logo_1" width="64px" height="92px"/></a>
-        <a href="#"><img src="/img/temp/logo_2.jpg" title="logo_2 " width="98px" height="92px"/></a>
+        <a href="#"><img src=<@s.url value='/external/temp/logo_1.jpg'/> title="logo_1" width="64px" height="92px"/></a>
+        <a href="#"><img src=<@s.url value='/external/temp/logo_2.jpg'/> title="logo_2 " width="98px"
+          height="92px"/></a>
 
       </div>
       <div class="right">

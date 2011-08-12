@@ -10,26 +10,26 @@
     <div class="content">
       <h1>Search through 121,201 species</h1>
 
-      <form action="/species/search">
+      <form action="<@s.url value='/species/search'/>">
         <span class="input_text">
           <input type="text" name="q" placeholder="Search species by name, taxon, place..."/>
         </span>
         <button type="submit" class="search_button"><span>Search</span></button>
       </form>
       <ul class="species">
-        <li><a href="/species/search?q=birds" title="Birds">Birds</a></li>
-        <li><a href="/species/search?q=butterflies" title="Butterflies">Butterflies</a></li>
-        <li><a href="/species/search?q=lizards" title="Lizards">Lizards</a></li>
-        <li><a href="/species/search?q=reptiles" title="Reptiles">Reptiles</a></li>
-        <li><a href="/species/search?q=fishes" title="Fishes">Fishes</a></li>
-        <li><a href="/species/search?q=mammals" title="Mammals">Mammals</a></li>
-        <li><a href="/species/search?q=insects" title="Insects">Insects</a></li>
+        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Birds">Birds</a></li>
+        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Butterflies">Butterflies</a></li>
+        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Lizards">Lizards</a></li>
+        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Reptiles">Reptiles</a></li>
+        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Fishes">Fishes</a></li>
+        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Mammals">Mammals</a></li>
+        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Insects">Insects</a></li>
       </ul>
       <div class="results">
         <ul>
-          <li><a href="/species/search?q=taxa" title="">2,183,212</a>total taxon</li>
-          <li><a href="/species/search?q=species" title="">1,291,282</a>total species</li>
-          <li class="last"><a href="/species/search?q=usage" title="">121,251</a>name usages</li>
+          <li><a href="<@s.url value='/species/search?q=fake'/>" title="">2,183,212</a>total taxon</li>
+          <li><a href="<@s.url value='/species/search?q=fake'/>" title="">1,291,282</a>total species</li>
+          <li class="last"><a href="<@s.url value='/species/search?q=fake'/>" title="">121,251</a>name usages</li>
         </ul>
       </div>
     </div>

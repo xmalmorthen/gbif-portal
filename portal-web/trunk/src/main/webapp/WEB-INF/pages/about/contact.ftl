@@ -87,13 +87,15 @@
 
       <div class="right">
         <ul class="section first">
-          <li><h3><a href="/about" title="About GBIF Data">About GBIF Data</a></h3></li>
+          <li><h3><a href="<@s.url value='/about'/>" title="About GBIF Data">About GBIF Data</a></h3></li>
         </ul>
         <ul class="section">
-          <li><h3><a href="/about/terms" title="Terms and conditions">Terms and conditions</a></h3></li>
+          <li><h3><a href="<@s.url value='/about/terms'/>" title="Terms and conditions">Terms and conditions</a></h3>
+          </li>
         </ul>
         <ul class="section">
-          <li><h3><a href="/about/tools" title="Tools &amp; projects">Tools &amp; projects</a></h3></li>
+          <li><h3><a href="<@s.url value='/about/tools'/>" title="Tools &amp; projects">Tools &amp; projects</a></h3>
+          </li>
         </ul>
         <ul class="section last">
           <li><h3>Contact us</h3></li>

@@ -23,10 +23,13 @@
 
 <content tag="tabs">
   <ul>
-    <li><a href="/member/${id!}" title="Information"><span>Information</span></a></li>
-    <li><a href="/member/${id!}/datasets" title="Datasets"><span>Datasets</span></a></li>
-    <li class='selected'><a href="/member/${id!}/occurrences" title="Occurrences"><span>Occurrences</span></a></li>
-    <li><a href="/member/${id!}/activity" title="Activity"><span>Activity </span></a></li>
+    <li><a href="<@s.url value='/member/${id!}'/>" title="Information"><span>Information</span></a>
+    </li>
+    <li><a href="<@s.url value='/member/${id!}/datasets'/>" title="Datasets"><span>Datasets</span></a></li>
+    <li class='selected'><a href="<@s.url value='/member/${id!}/occurrences'/>"
+                            title="Occurrences"><span>Occurrences</span></a></li>
+    <li><a href="<@s.url value='/member/${id!}/activity'/>" title="Activity"><span>Activity </span></a>
+    </li>
   </ul>
 </content>
 
@@ -93,73 +96,103 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>- ANSP HARP
+        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          ANSP HARP
           10</a></h2>
 
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> | Observation</div>
+        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> |
+          Observation
+        </div>
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>- ANSP HARP
+        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          ANSP HARP
           10</a></h2>
 
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> | Observation</div>
+        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> |
+          Observation
+        </div>
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>- ANSP HARP
+        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          ANSP HARP
           10</a></h2>
 
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> | Observation</div>
+        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> |
+          Observation
+        </div>
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>- ANSP HARP
+        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          ANSP HARP
           10</a></h2>
 
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> | Observation</div>
+        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> |
+          Observation
+        </div>
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>- ANSP HARP
+        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          ANSP HARP
           10</a></h2>
 
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> | Observation</div>
+        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> |
+          Observation
+        </div>
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>- ANSP HARP
+        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          ANSP HARP
           10</a></h2>
 
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> | Observation</div>
+        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> |
+          Observation
+        </div>
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>- ANSP HARP
+        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          ANSP HARP
           10</a></h2>
 
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> | Observation</div>
+        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> |
+          Observation
+        </div>
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>- ANSP HARP
+        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          ANSP HARP
           10</a></h2>
 
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> | Observation</div>
+        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> |
+          Observation
+        </div>
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>- ANSP HARP
+        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          ANSP HARP
           10</a></h2>
 
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> | Observation</div>
+        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> |
+          Observation
+        </div>
       </div>
 
       <div class="result last">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>- ANSP HARP
+        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          ANSP HARP
           10</a></h2>
 
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> | Observation</div>
+        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/42'/>">Sudamerican Felines</a> |
+          Observation
+        </div>
       </div>
 
       <div class="footer">

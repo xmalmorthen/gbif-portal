@@ -12,7 +12,7 @@
 
   <h1>Puma Concolor</h1>
 
-  <h3>according to <a href="/dataset/1">Mexican felines</a> checklist</h3>
+<h3>according to <a href="<@s.url value='/dataset/1'>">Mexican felines</a> checklist</h3>
 
   <h3 class="separator">Animalia</h3>
 
@@ -24,241 +24,251 @@
 </content>
 
 <content tag="tabs">
-  <ul>
-    <li class='selected'><a href="/species/${id!}/name_usage"><span>Information</span></a></li>
-    <li><a href="/species/${id!}/activity" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
-    </li>
-    <li><a href="/species/${id!}/name_usage_raw"><span>Details</span></a></li>
-  </ul>
+<ul>
+<li class='selected'><a href="<@s.url value='/species/${id!}/name_usage'>"><span>Information</span></a></li>
+<li><a href="<@s.url value='/species/${id!}/activity'>" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
+</li>
+<li><a href="<@s.url value='/species/${id!}/name_usage_raw'>"><span>Details</span></a></li>
+</ul>
 </content>
 
 <article class="notice">
   <header></header>
-  <div class="content">
-    <h3>This is a particular view of Puma Concolor</h3>
+<div class="content">
+  <h3>This is a particular view of Puma Concolor</h3>
 
-    <p>This is an unofficial Puma Concolor view, as seen by <a href="/dataset/1">Mexican Felines</a>
-      checklist. Remember that you can also check the <a href="/species/${id!}">official Puma Concolor species
-        page</a>. You can also see the <a href="/species/${id!}/name_usage_raw">raw version</a> submitted by the data
-      publisher.</p>
-    <img id="notice_icon" src="/img/icons/notice_icon.png"/>
-  </div>
+<p>This is an unofficial Puma Concolor view, as seen by <a href="<@s.url value='/dataset/1'>">Mexican Felines</a>
+  checklist. Remember that you can also check the <a href="<@s.url value='/species/${id!}'>">official Puma Concolor
+  species
+  page</a>. You can also see the <a href="<@s.url value='/species/${id!}/name_usage_raw'>">raw version</a> submitted by
+  the data
+  publisher.</p>
+        <img id="notice_icon" src="<@s.url value='/img/icons/notice_icon.png'>"/>
+</div>
   <footer></footer>
 </article>
 
 <article>
   <header></header>
-  <div class="content">
+<div class="content">
 
-    <div class="header">
-      <div class="left"><h2>Species Overview</h2></div>
-    </div>
-
-    <div class="left">
-      <ul class="thumbs_list">
-        <li><img src="/external/photos/puma_thumbnail.jpg"/></li>
-        <li><img src="/external/photos/puma_thumbnail.jpg"/></li>
-        <li><img src="/external/photos/puma_thumbnail.jpg"/></li>
-        <li class="last"><img src="/external/photos/puma_thumbnail.jpg"/></li>
-      </ul>
-
-      <h3>Full name</h3>
-
-      <p>Puma Concolor Linnaeus 1771</p>
-
-      <h3>Status</h3>
-
-      <p>Accepted</p>
-
-      <h3>Description <a href="#" title="Help" id="help"><img src="/img/icons/questionmark.png"/></a></h3>
-
-      <p>Plant specimens gathered in the Toroslar mountain range of southern Turkey and the Pontic mountain range in
-        north eastern torkey in 1999. The collection mainly covers grass vegetation plots of the subalpine level. It was
-        collected together with many more observation records for vegetational studies applying phytosociological
-        analysis. The resulting thesis was released in the public domain and is available at <a href="#">http://www.archive.org/details/Vegetationskundliche</a>.
-      </p>
-
-      <p>Specimens have been deposited at the Berlin Botanical Garden Herbarium (B) with duplicates send to the Istanbul
-        herbarium and the private collection of Gerald Parolly who supervised this work.</p>
-
-      <h3>Ecology <a href="#" title="Help" id="help2"><img src="/img/icons/questionmark.png"/></a></h3>
-
-      <p>Scorzonera tuzgoluensis is a halophytic species growing in salt marshes at Tuz Lake.</p>
-
-      <h3>Systematics <a href="#" title="Help" id="help3"><img src="/img/icons/questionmark.png"/></a></h3>
-
-      <p>Scorzonera tuzgoluensis is considered by its author to be related to the similar S. parviflora and S. elata,
-        two other halophytic species in the genus.</p>
-
-      <h3>Living period</h3>
-
-      <p>Quaternary.</p>
-
-      <h3>Habitat</h3>
-
-      <p>Pre-cordilleran steppe.</p>
-    </div>
-    <div class="right">
-      <h3>Synonyms</h3>
-      <ul class="no_bottom">
-        <li>Felix Linnaeus</li>
-        <li>Felix Mexicalis</li>
-        <li>Puma Mexicalies</li>
-      </ul>
-      <p><a class="more_link" href="/species/${id!}/synonyms">and 42 more</a></p>
-
-      <h3>Common names</h3>
-      <ul>
-        <li>Mountain lion, Puma <span class="small">ENG</span></li>
-        <li>Puma de montaña <span class="small">SPA</span></li>
-      </ul>
-      <h3>Basyonism</h3>
-
-      <p>Felix Concolor</p>
-
-      <h3>External Links</h3>
-      <ul>
-        <li><a href="#" title="Original source">Original dataset source</a></li>
-        <li><a href="#" title="Author's blog">Author's blog</a></li>
-        <li><a href="#" title="Methodology">A discussion board over the methodology</a></li>
-      </ul>
-      <h3>Metadata</h3>
-      <ul>
-        <li class="download">EML file &nbsp;<a class="small" href="#" title="EML file (english)">ENG</a> · <a
-                class="small" href="#" title="EML file (spanish)">SPA</a> · <a class="small" href="#"
-                                                                               title="EML file (german)">GER</a></li>
-      </ul>
-    </div>
+  <div class="header">
+    <div class="left"><h2>Species Overview</h2></div>
   </div>
+
+<div class="left">
+<ul class="thumbs_list">
+<li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'>"/></li>
+<li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'>"/></li>
+<li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'>"/></li>
+<li class="last"><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'>"/></li>
+</ul>
+
+  <h3>Full name</h3>
+
+  <p>Puma Concolor Linnaeus 1771</p>
+
+  <h3>Status</h3>
+
+  <p>Accepted</p>
+
+<h3>Description <a href="#" title="Help" id="help"><img src="src="<@s.url value='/img/icons/questionmark.png'>""/></a>
+</h3>
+
+  <p>Plant specimens gathered in the Toroslar mountain range of southern Turkey and the Pontic mountain range in
+    north eastern torkey in 1999. The collection mainly covers grass vegetation plots of the subalpine level. It was
+    collected together with many more observation records for vegetational studies applying phytosociological
+    analysis. The resulting thesis was released in the public domain and is available at <a href="#">http://www.archive.org/details/Vegetationskundliche</a>.
+  </p>
+
+  <p>Specimens have been deposited at the Berlin Botanical Garden Herbarium (B) with duplicates send to the Istanbul
+    herbarium and the private collection of Gerald Parolly who supervised this work.</p>
+
+<h3>Ecology <a href="#" title="Help" id="help2"><img src="src="<@s.url value='/img/icons/questionmark.png'>""/></a></h3>
+
+  <p>Scorzonera tuzgoluensis is a halophytic species growing in salt marshes at Tuz Lake.</p>
+
+<h3>Systematics <a href="#" title="Help" id="help3"><img src="src="<@s.url value='/img/icons/questionmark.png'>""/></a>
+</h3>
+
+  <p>Scorzonera tuzgoluensis is considered by its author to be related to the similar S. parviflora and S. elata,
+    two other halophytic species in the genus.</p>
+
+  <h3>Living period</h3>
+
+  <p>Quaternary.</p>
+
+  <h3>Habitat</h3>
+
+  <p>Pre-cordilleran steppe.</p>
+</div>
+  <div class="right">
+    <h3>Synonyms</h3>
+    <ul class="no_bottom">
+      <li>Felix Linnaeus</li>
+      <li>Felix Mexicalis</li>
+      <li>Puma Mexicalies</li>
+    </ul>
+    <p><a class="more_link" href="<@s.url value='/species/${id!}/synonyms'/>">and 42 more</a></p>
+
+    <h3>Common names</h3>
+    <ul>
+      <li>Mountain lion, Puma <span class="small">ENG</span></li>
+      <li>Puma de montaña <span class="small">SPA</span></li>
+    </ul>
+    <h3>Basyonism</h3>
+
+    <p>Felix Concolor</p>
+
+    <h3>External Links</h3>
+    <ul>
+      <li><a href="#" title="Original source">Original dataset source</a></li>
+      <li><a href="#" title="Author's blog">Author's blog</a></li>
+      <li><a href="#" title="Methodology">A discussion board over the methodology</a></li>
+    </ul>
+    <h3>Metadata</h3>
+    <ul>
+      <li class="download">EML file &nbsp;<a class="small" href="#" title="EML file (english)">ENG</a> · <a
+              class="small" href="#" title="EML file (spanish)">SPA</a> · <a class="small" href="#"
+                                                                             title="EML file (german)">GER</a></li>
+    </ul>
+  </div>
+</div>
   <footer></footer>
 </article>
 
 <article class="taxonomies">
   <header></header>
-  <div class="content">
-    <h2>Taxonomic classification <span class="subtitle">according to <a href="/dataset/1">GBIF Backbone
-      Taxonomy</a></span></h2>
+<div class="content">
+<h2>Taxonomic classification <span class="subtitle">according to <a href="<@s.url value='/dataset/1'>">GBIF Backbone
+  Taxonomy</a></span></h2>
 
-    <div class="left">
-      <div id="taxonomy">
-        <div class="inner">
-          <div class="sp">
-            <ul>
-              <li data="40"><span>Animalia</span> <a href="/species/42">see details</a>
-                <ul>
-                  <li data="10"><span>Acantocephala</span> <a href="/species/42">see details</a></li>
-                  <li data="90"><span>Annelida</span> <a href="/species/42">see details</a></li>
-                  <li data="180"><span>Arthropoda</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Brachipoda</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Cephalorhyncha</span><a href="/species/42">see details</a></li>
-                  <li data="20"><span>Chaetognatha</span><a href="/species/42">see details</a></li>
-                  <li data="50"><span>Chordata</span><a href="/species/42">see details</a></li>
-                  <li data="10"><span>Cnidaria</span><a href="/species/42">see details</a></li>
-                  <li data="60"><span>Ctenophora</span><a href="/species/42">see details</a></li>
-                </ul>
-              </li>
-              <li data="20"><span>Archaea</span><a href="/species/42">see details</a></li>
-              <li data="10"><span>Bacteria</span><a href="/species/42">see details</a>
-                <ul>
-                  <li data="10"><span>Acidobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="90"><span>Actinobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Aquificae</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Bacteroidetes</span><a href="/species/42">see details</a></li>
-                  <li data="10"><span>Acidobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="90"><span>Actinobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Aquificae</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Bacteroidetes</span><a href="/species/42">see details</a></li>
-                  <li data="10"><span>Acidobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="90"><span>Actinobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Aquificae</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Bacteroidetes</span><a href="/species/42">see details</a></li>
-                  <li data="10"><span>Acidobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="90"><span>Actinobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Aquificae</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Bacteroidetes</span><a href="/species/42">see details</a></li>
-                  <li data="10"><span>Acidobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="90"><span>Actinobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Aquificae</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Bacteroidetes</span><a href="/species/42">see details</a></li>
-                  <li data="10"><span>Acidobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="90"><span>Actinobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Aquificae</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Bacteroidetes</span><a href="/species/42">see details</a></li>
-                  <li data="10"><span>Acidobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="90"><span>Actinobacteria</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Aquificae</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Bacteroidetes</span><a href="/species/42">see details</a></li>
-                </ul>
-              </li>
-              <li data="90"><span>Chromista</span><a href="/species/42">see details</a></li>
-              <li data="30"><span>Fungi</span><a href="/species/42">see details</a></li>
-              <li data="50"><span>Plantae</span><a href="/species/42">see details</a>
-                <ul>
-                  <li data="10"><span>Anthocerotophyta</span><a href="/species/42">see details</a>
-                    <ul>
-                      <li data="80"><span>Anthocerotopsida</span><a href="/species/42">see details</a>
-                        <ul>
-                          <li data="10"><span>Anthocerotales</span><a href="/species/42">see details</a>
-                            <ul>
-                              <li data="10"><span>Anthocerotaceae</span><a href="/species/42">see details</a>
-                                <ul>
-                                  <li data="10"><span>Anthoceros</span><a href="/species/42">see details</a>
-                                  </li>
-                                  <li data="90"><span>Phaeoceros</span><a href="/species/42">see details</a>
-                                  </li>
-                                </ul>
-                              </li>
-                            </ul>
-                          </li>
-                          <li data="20"><span>Codoniaceae</span><a href="/species/42">see details</a></li>
-                          <li data="30"><span>Dendrocerotaceae</span><a href="/species/42">see details</a></li>
-                          <li data="60"><span>Notothyladaceae</span><a href="/species/42">see details</a></li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                  <li data="80"><span>Bacillariophyta</span><a href="/species/42">see details</a></li>
-                  <li data="90"><span>Bryophyta</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Chlorophyta</span><a href="/species/42">see details</a></li>
-                  <li data="20"><span>Cyanidiophyta</span><a href="/species/42">see details</a></li>
-                  <li data="30"><span>Cycadophyta</span><a href="/species/42">see details</a></li>
-                  <li data="80"><span>Bacillariophyta</span><a href="/species/42">see details</a></li>
-                  <li data="90"><span>Bryophyta</span><a href="/species/42">see details</a></li>
-                  <li data="40"><span>Chlorophyta</span><a href="/species/42">see details</a></li>
-                  <li data="20"><span>Cyanidiophyta</span><a href="/species/42">see details</a></li>
-                  <li data="30"><span>Cycadophyta</span><a href="/species/42">see details</a></li>
-                </ul>
-              </li>
-              <li data="100"><span>Protozoa</span><a href="/species/42">see details</a></li>
-              <li data="60"><span>Viruses</span><a href="/species/42">see details</a></li>
+  <div class="left">
+    <div id="taxonomy">
+      <div class="inner">
+        <div class="sp">
+          <ul>
+            <li data="40"><span>Animalia</span> <a href="<@s.url value='/species/42'/>">see details</a>
+              <ul>
+                <li data="10"><span>Acantocephala</span> <a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="90"><span>Annelida</span> <a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="180"><span>Arthropoda</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Brachipoda</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Cephalorhyncha</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="20"><span>Chaetognatha</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="50"><span>Chordata</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="10"><span>Cnidaria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="60"><span>Ctenophora</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+              </ul>
+            </li>
+            <li data="20"><span>Archaea</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+            <li data="10"><span>Bacteria</span><a href="<@s.url value='/species/42'/>">see details</a>
+              <ul>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+              </ul>
+            </li>
+            <li data="90"><span>Chromista</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+            <li data="30"><span>Fungi</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+            <li data="50"><span>Plantae</span><a href="<@s.url value='/species/42'/>">see details</a>
+              <ul>
+                <li data="10"><span>Anthocerotophyta</span><a href="<@s.url value='/species/42'/>">see details</a>
+                  <ul>
+                    <li data="80"><span>Anthocerotopsida</span><a href="<@s.url value='/species/42'/>">see details</a>
+                      <ul>
+                        <li data="10"><span>Anthocerotales</span><a href="<@s.url value='/species/42'/>">see details</a>
+                          <ul>
+                            <li data="10"><span>Anthocerotaceae</span><a href="<@s.url value='/species/42'/>">see
+                              details</a>
+                              <ul>
+                                <li data="10"><span>Anthoceros</span><a href="<@s.url value='/species/42'/>">see
+                                  details</a>
+                                </li>
+                                <li data="90"><span>Phaeoceros</span><a href="<@s.url value='/species/42'/>">see
+                                  details</a>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li data="20"><span>Codoniaceae</span><a href="<@s.url value='/species/42'/>">see details</a>
+                        </li>
+                        <li data="30"><span>Dendrocerotaceae</span><a href="<@s.url value='/species/42'/>">see
+                          details</a></li>
+                        <li data="60"><span>Notothyladaceae</span><a href="<@s.url value='/species/42'/>">see
+                          details</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li data="80"><span>Bacillariophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="90"><span>Bryophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Chlorophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="20"><span>Cyanidiophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="30"><span>Cycadophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="80"><span>Bacillariophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="90"><span>Bryophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="40"><span>Chlorophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="20"><span>Cyanidiophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="30"><span>Cycadophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+              </ul>
+            </li>
+            <li data="100"><span>Protozoa</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+            <li data="60"><span>Viruses</span><a href="<@s.url value='/species/42'/>">see details</a></li>
 
-              </li>
-            </ul>
-          </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-
-    <div class="right">
-      <h3>Related usages</h3>
-      <ul class="notes">
-        <li><a href="/species/${id!}/name_usage">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
-        </li>
-        <li><a href="/species/${id!}/name_usage">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
-        </li>
-        <li><a href="/species/${id!}/name_usage">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
-        </li>
-      </ul>
-      <p><a class="more_link" href="/species/${id!}/name_usage_list">and 35 more</a></p>
-
-      <h3>Appears on</h3>
-      <ul>
-        <li><a href="/dataset/search?q=fake">13 nomenclator</a></li>
-        <li><a href="/dataset/search?q=fake">2 reconciled</a></li>
-      </ul>
-    </div>
-
   </div>
+
+<div class="right">
+  <h3>Related usages</h3>
+<ul class="notes">
+<li><a href="<@s.url value='/species/${id!}/name_usage'>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+</li>
+<li><a href="<@s.url value='/species/${id!}/name_usage'>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+</li>
+<li><a href="<@s.url value='/species/${id!}/name_usage'>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+</li>
+</ul>
+<p><a class="more_link" href="<@s.url value='/species/${id!}/name_usage_list'>">and 35 more</a></p>
+
+  <h3>Appears on</h3>
+<ul>
+<li><a href="<@s.url value='/dataset/search?q=fake'>">13 nomenclator</a></li>
+<li><a href="<@s.url value='/dataset/search?q=fake'>">2 reconciled</a></li>
+</ul>
+</div>
+
+</div>
   <footer></footer>
 </article>
 
@@ -266,8 +276,10 @@
   <div class="content">
 
     <div class="slideshow">
-      <div class="photos"><img src="/external/slideshow/001.jpg"/><img src="/external/slideshow/002.jpg"/><img
-              src="/external/slideshow/003.jpg"/><img src="/external/slideshow/004.jpg"/></div>
+      <div class="photos"><img src="<@s.url value='/external/slideshow/001.jpg'/>"/><img
+              src="<@s.url value='/external/slideshow/002.jpg'/>"/><img
+              src="<@s.url value='/external/slideshow/003.jpg'/>"/><img
+              src="<@s.url value='/external/slideshow/004.jpg'/>"/></div>
     </div>
 
     <div class="right">
@@ -313,7 +325,7 @@
           <li><a href="">Connecticut, United States of America</a> <span class="note">Native</span></li>
           <li><a href="">Ukraine</a> <span class="note">Introduced | Endangered</span></li>
         </ul>
-        <p><a class="more_link" href="/species/${id}/distribution">and 23 more</a></p>
+        <p><a class="more_link" href="<@s.url value='/species/${id!}/distribution'/>">and 23 more</a></p>
       </div>
 
       <div class="col">
@@ -374,13 +386,14 @@
 
 <article class="notice">
   <header></header>
-  <div class="content">
-    <h3>Further information</h3>
+<div class="content">
+  <h3>Further information</h3>
 
-    <p>There may be more details available about this name usage in the <a href="/species/${id!}/name_usage_raw">raw
-      data
-      version</a> of the record</p>
-  </div>
+<p>There may be more details available about this name usage in the
+        <a href="<@s.url value='/species/${id!}/name_usage_raw'>">raw
+  data
+  version</a> of the record</p>
+</div>
   <footer></footer>
 </article>
 
