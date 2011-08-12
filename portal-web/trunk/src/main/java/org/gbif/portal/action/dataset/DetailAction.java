@@ -30,6 +30,7 @@ public class DetailAction extends BaseAction {
 
   @Override
   public String execute() {
+    log.debug("Fetching detail for dataset id [{}]", id);
     /** TODO: re-enable real lookup, render based on dataset type */
     // just for testing each of the 3 dataset type views
     if (id == null) return NOT_FOUND;

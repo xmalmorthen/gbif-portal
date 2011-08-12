@@ -8,9 +8,6 @@
 <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-<#if useGooglemaps!false>
-  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-</#if>
 <#-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
 Remove this if you use the .htaccess -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -40,7 +37,6 @@ ${head}
 </head>
 <body class="${page.properties["body.class"]!}">
   <header>
-
     <!-- top -->
     <div id="top">
       <div class="content">
@@ -57,47 +53,20 @@ ${head}
           <span>Free and open access to biodiversity data</span>
         </div>
 
-      <#assign menu=(page.properties["meta.menu"])!"home" />
-      <#assign menuItems=["occurrences","datasets","species"] />
         <nav>
           <ul>
-          <#list menuItems as m>
-            <li<#if menu==m> class="selected"</#if>>
-            <@s.text id="menuName" name="menu.${m}" />
-                <@s.a value="/${m}" title="%{menuName}"><@s.text name="menu.${m}"/></@s.a></li>
-          </#list>
-            <li><a href="#" class="more" title="<@s.text name="menu.more"/>"><@s.text name="menu.more"/><span
-                    class="more"></span></a>
-            </li>
+            <li><a href="#" class="more" title="Browse">Browse<span class="more"></span></a></li>
             <li class="search">
-              <form href="<@s.url value='/datasets/search'/>" method="post">
+              <form>
                 <span class="input_text">
-                  <input type="text" name="q"/>
+                  <input type="text" name="search"/>
                 </span>
               </form>
-            </li>
           </ul>
         </nav>
       </div>
     </div>
     <!-- /top -->
-
-  <#if page.properties["page.infoband"]?has_content>
-    <div id="infoband">
-      <div class="content">
-      ${page.properties["page.infoband"]}
-      </div>
-    </div>
-  </#if>
-
-  <#if page.properties["page.tabs"]?has_content>
-    <div id="tabs">
-      <div class="content">
-      ${page.properties["page.tabs"]}
-      </div>
-    </div>
-  </#if>
-
   </header>
 
   <div id="content">
@@ -107,76 +76,8 @@ ${head}
   </div>
 
   <footer>
-    <div class="content">
-      <ul>
-        <li><h3>EXPLORE THE DATA</h3></li>
-        <li><a href="<@s.url value='/occurrences'/>"><@s.text name="menu.occurrences"/></a></li>
-        <li><a href="<@s.url value='/datasets'/>"><@s.text name="menu.datasets"/></a></li>
-        <li><a href="<@s.url value='/species'/>"><@s.text name="menu.species"/></a></li>
-        <li><a href="<@s.url value='/countries'/>"><@s.text name="menu.countries"/></a></li>
-        <li><a href="<@s.url value='/members'/>"><@s.text name="menu.members"/></a></li>
-        <li><a href="<@s.url value='/themes'/>"><@s.text name="menu.themes"/></a></li>
-      </ul>
 
-      <ul>
-        <li><h3>VIEW THE STATISTICS (not implemented)</h3></li>
-        <li><a href="#">Global numbers</a></li>
-        <li><a href="#">Taxonomic coverage</a></li>
-        <li><a href="#">Providers</a></li>
-        <li><a href="#">Countries</a></li>
-      </ul>
-
-      <ul>
-        <li><h3>JOIN THE COMMUNITY</h3></li>
-        <li><a class="login" href="<@s.url value='/session/login'/>"><@s.text name="menu.login"/></a></li>
-        <li><a href="<@s.url value='/user/register/step1'/>"><@s.text name="menu.register"/></a></li>
-        <li><a href="<@s.url value='/terms'/>"><@s.text name="menu.terms"/></a></li>
-        <li><a href="<@s.url value='/about'/>"><@s.text name="menu.about"/></a></li>
-      </ul>
-
-      <!--
-      <ul class="first">
-        <li><h3>LATEST FROM THE GBIF DEVELOPER BLOG (not implemented)</h3></li>
-        <li>
-          <p><a href="#">A Fake Blog Post</a>
-            <span class="date">11th, April of 2011</span></p>
-          <p>The GBIF development team has made a fake blog post for testing purposes...</p>
-        </li>
-      </ul>
-
-      <ul>
-        <li class="no_title">
-          <p><a href="#">Another Blog Post</a>
-            <span class="date">11th, April of 2011</span></p>
-          <p>Another fake blog post for testing purposes...</p>
-        </li>
-      </ul>
-
-      <ul>
-        <li><h3>LATEST FROM THE GBIF NEWS (not implemented)</h3></li>
-        <li>
-          <p><a href="#">An Event at GBIF...</a>
-            <span class="date">11th, April of 2011</span></p>
-          <p>The GBIF Secretariat is pleased to announce a new unimplemented event for testing purposes</p>
-        </li>
-      </ul>
-      -->
-    </div>
   </footer>
-
-  <div class="copyright">
-    <p>2011 &copy; GBIF. Data publishers retain all rights to data.</p>
-  </div>
-
-<#--<div style="text-align:left">-->
-<#--<p>Sitemesh debugging, page properties in decorator</p>-->
-<#--<br/>-->
-<#--<pre>-->
-<#--<#list page.properties?keys as k>-->
-<#--${k} = ${page.properties[k]!""}-->
-<#--</#list>-->
-<#--</pre>-->
-<#--</div>-->
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
@@ -216,6 +117,7 @@ ${head}
 
   <script type="text/javascript">
     $(function() {
+
       $('nav ul li a.more').bindLinkPopover({
         links:{
           "<@s.text name="menu.countries"/>":"<@s.url value='/countries'/>",
@@ -225,6 +127,40 @@ ${head}
           "<@s.text name="menu.about"/>":"<@s.url value='/about'/>"
         }
       });
+
+      $(".data_policy").selectBox();
+      $(".select").selectBox();
+
+      // Autocomplete for the publisher name field
+      publishers = [
+        { name: "Publisher 1", desc: "Description"},
+        { name: "Publisher 2", desc: "Description"},
+        { name: "Publisher 3", desc: "Description"},
+        { name: "Publisher 4", desc: "Description"}
+      ],
+
+              $("#publisher_name").autocomplete(publishers, {
+                minChars: 0, scroll:false, width: 225, matchContains: "word", autoFill: false, max:3,
+                formatItem: function(row, i, max) {
+                  var clase = "";
+
+                  // Classes to choose the right background for the row
+                  if (max == 1) {
+                    clase = ' unique';
+                  } else if (max == 2 && i == 2) {
+                    clase = ' last_double';
+                  } else if (i == 1) {
+                    clase = ' first';
+                  } else if (i == max) {
+                    clase = ' last';
+                  }
+                  return '<div class="row' + clase + '"><span class="name">' + row.name + '</span>' + row.desc +
+                         '</div>';
+                },
+                formatResult: function(row) {
+                  return row.name;
+                }
+              });
     });
   </script>
 

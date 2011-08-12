@@ -120,6 +120,18 @@
       <result type="redirect">/datasets</result>
     </action>
 
+    <action name="register-step-1" class="org.gbif.portal.action.dataset.RegisterAction" method="step1">
+      <result>/WEB-INF/pages/dataset/register_step_1.ftl</result>
+    </action>
+
+    <action name="register-step-2" class="org.gbif.portal.action.dataset.RegisterAction" method="step2">
+      <result>/WEB-INF/pages/dataset/register_step_2.ftl</result>
+    </action>
+
+    <action name="register-step-3" class="org.gbif.portal.action.dataset.RegisterAction" method="step3">
+      <result>/WEB-INF/pages/dataset/register_step_3.ftl</result>
+    </action>
+
     <!-- {id} matches anything but "/" -->
     <action name="{id}/activity" class="org.gbif.portal.action.dataset.ActivityAction">
       <result>/WEB-INF/pages/dataset/activity.ftl</result>
