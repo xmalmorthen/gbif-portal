@@ -26,6 +26,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 public class SearchAction extends BaseAction {
+
   @Inject
   private ChecklistBankClient clb;
   // search
@@ -40,19 +41,19 @@ public class SearchAction extends BaseAction {
     usages = new ArrayList<Map>();
     usages.add(new HashMap<String, String>());
     usages.add(new HashMap<String, String>());
-//    if (q == null) {
-//      log.debug("Got species search request for null q, ignoring");
-//    }
-//    else {
-//      log.debug("Trying species search for q [{}]", q);
-//      try {
-//        usages=clb.searchSpecies(q);
-//      }
-//      catch (Exception e) {
-//        log.warn("Got exception trying for species lookup with q ["+q+"]", e);
-//      }
-//      log.debug("Got [{}] species results for q [{}]", usages.size(), q);
-//    }
+    //    if (q == null) {
+    //      log.debug("Got species search request for null q, ignoring");
+    //    }
+    //    else {
+    //      log.debug("Trying species search for q [{}]", q);
+    //      try {
+    //        usages=clb.searchSpecies(q);
+    //      }
+    //      catch (Exception e) {
+    //        log.warn("Got exception trying for species lookup with q ["+q+"]", e);
+    //      }
+    //      log.debug("Got [{}] species results for q [{}]", usages.size(), q);
+    //    }
     return SUCCESS;
   }
 

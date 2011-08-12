@@ -7,6 +7,7 @@
 
   <content tag="infoband">
     <h2>Search datasets</h2>
+
     <form>
       <input type="text" name="q"/>
     </form>
@@ -29,19 +30,23 @@
 
         <!-- full examples -->
         <div class="result">
-          <h2><a href="<@s.url value='/dataset/42'/>" title="World Mangroves Fauna"><strong>MOCK OCCURRENCES: World Mangroves Fauna</strong></a>
+          <h2><a href="<@s.url value='/dataset/42'/>" title="World Mangroves Fauna"><strong>MOCK OCCURRENCES: World
+            Mangroves Fauna</strong></a>
           </h2>
 
-          <p>An occurrences dataset published by <a href="<@s.url value='/member/123'/>">Academy of Natural Sciences</a> at 1978.
+          <p>An occurrences dataset published by <a href="<@s.url value='/member/123'/>">Academy of Natural Sciences</a>
+            at 1978.
           </p>
 
           <div class="footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p></div>
         </div>
 
         <div class="result">
-          <h2><a href="<@s.url value='/dataset/1'/>" title="Herpetology"><strong>MOCK CHECKLIST: Herpetology</strong></a></h2>
+          <h2><a href="<@s.url value='/dataset/1'/>" title="Herpetology"><strong>MOCK CHECKLIST:
+            Herpetology</strong></a></h2>
 
-          <p>A checklist published by <a href="<@s.url value='/member/123'/>" title="Academy of Natural Sciences">Academy of
+          <p>A checklist published by <a href="<@s.url value='/member/123'/>" title="Academy of Natural Sciences">Academy
+            of
             Natural Sciences</a> at 1978.</p>
 
           <div class="footer"><p>201.456 name usages | covering Europe, Asia, Africa and Oceania</p></div>
@@ -49,23 +54,27 @@
 
         <div class="result">
           <h2><a href="<@s.url value='/dataset/2'/>"
-                 title="Absolute abundance of particles and planktic foraminifera in..".><strong>MOCK EXTERNAL DATASET: Absolute abundance of
+                 title="Absolute abundance of particles and planktic foraminifera in..".><strong>MOCK EXTERNAL DATASET:
+            Absolute abundance of
             particles and planktic foraminifera in...</strong></a></h2>
-          <p>An external dataset published by <a href="<@s.url value='/member/123'/>">Academy of Natural Sciences</a> at 1978.
+
+          <p>An external dataset published by <a href="<@s.url value='/member/123'/>">Academy of Natural Sciences</a> at
+            1978.
           </p>
+
           <div class="footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p></div>
         </div>
 
         <!-- dynamic -->
-        <#--
-        <#list datasets as d>
-          <div class="result">
-            <h2><a href="/dataset/${d.key!}" title="${d.name!"No Title"}"><strong>${d.name!"No Title"}</strong></a></h2>
-            <p>A ??? dataset published by <a href="/members/${d.organisationKey!}">Organisation ${d.organisationKey!}</a></p>
-            <div class="footer"><p>??? occurrences | covering ???</p></div>
-          </div>
-        </#list>
-        -->
+      <#--
+      <#list datasets as d>
+        <div class="result">
+          <h2><a href="/dataset/${d.key!}" title="${d.name!"No Title"}"><strong>${d.name!"No Title"}</strong></a></h2>
+          <p>A ??? dataset published by <a href="/members/${d.organisationKey!}">Organisation ${d.organisationKey!}</a></p>
+          <div class="footer"><p>??? occurrences | covering ???</p></div>
+        </div>
+      </#list>
+      -->
 
         <div class="footer">
           <a href="#" class="candy_white_button previous"><span>Previous page</span></a>

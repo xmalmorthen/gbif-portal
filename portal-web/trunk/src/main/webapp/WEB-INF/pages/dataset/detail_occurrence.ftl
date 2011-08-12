@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>Dataset detail - GBIF</title>
-  <meta name="menu" content="dataset"/>
+  <meta name="menu" content="datasets"/>
 </head>
 <body class="species typesmap">
 
@@ -12,7 +12,8 @@
 
   <h1>Pontaurus collection</h1>
 
-  <h3 class="separator">Provided by <a href="<@s.url value='/member/123'/>">Botanic Garden and Botanical Museum Berlin-Dahlem</a>
+  <h3 class="separator">Provided by <a href="<@s.url value='/member/123'/>">Botanic Garden and Botanical Museum
+    Berlin-Dahlem</a>
   </h3>
   <ul class="tags">
     <li><a href="#" title="Turkey">Turkey</a></li>
@@ -33,16 +34,15 @@
 </content>
 
 <content tag="tabs">
-  <!-- tabs -->
   <div id="tabs">
     <ul>
       <li class="selected"><a href="<@s.url value='/dataset/${id}'/>"><span>Information</span></a></li>
+      <!-- TODO: dynamically display occurrences entry only for occurrence datasets -->
       <li><a href="<@s.url value='/dataset/${id}/occurrences'/>"><span>Occurrences</span></a></li>
       <li><a href="<@s.url value='/dataset/${id}/activity'/>"><span>Activity <sup>(2)</sup></span></a></li>
       <li><a href="<@s.url value='/dataset/${id}/discussion'/>"><span>Discussion <sup>(5)</sup></span></a></li>
     </ul>
   </div>
-  <!-- /tabs-->
 </content>
 
 <article>
@@ -93,16 +93,18 @@
 
       <h3>Provided by</h3>
 
-      <p><a href="<@s.url value='/members/123'/>" title="Botanic Garden and Botannical Museum Berlin-Danhem">Botanic Garden and
+      <p><a href="<@s.url value='/member/123'/>" title="Botanic Garden and Botannical Museum Berlin-Danhem">Botanic
+        Garden and
         Botannical Museum Berlin-Danhem</a></p>
 
       <h3>Hosted by</h3>
 
-      <p><a href="<@s.url value='/members/123'/>" title="DanBIF Data Hosting Center">DanBIF Data Hosting Center</a></p>
+      <p><a href="<@s.url value='/member/123'/>" title="DanBIF Data Hosting Center">DanBIF Data Hosting Center</a></p>
 
       <h3>Endorsed by</h3>
 
-      <p><a href="<@s.url value='/members/123'/>" title="GBIF Germany Participant Node">GBIF Germany Participant Node</a></p>
+      <p><a href="<@s.url value='/member/123'/>" title="GBIF Germany Participant Node">GBIF Germany Participant Node</a>
+      </p>
 
       <h3>Alternative Identifiers</h3>
 
@@ -229,21 +231,28 @@
                     <ul>
                       <li data="80"><span>Anthocerotopsida</span><a href="<@s.url value='/species/42'/>">see details</a>
                         <ul>
-                          <li data="10"><span>Anthocerotales</span><a href="<@s.url value='/species/42'/>">see details</a>
+                          <li data="10"><span>Anthocerotales</span><a href="<@s.url value='/species/42'/>">see
+                            details</a>
                             <ul>
-                              <li data="10"><span>Anthocerotaceae</span><a href="<@s.url value='/species/42'/>">see details</a>
+                              <li data="10"><span>Anthocerotaceae</span><a href="<@s.url value='/species/42'/>">see
+                                details</a>
                                 <ul>
-                                  <li data="10"><span>Anthoceros</span><a href="<@s.url value='/species/42'/>">see details</a>
+                                  <li data="10"><span>Anthoceros</span><a href="<@s.url value='/species/42'/>">see
+                                    details</a>
                                   </li>
-                                  <li data="90"><span>Phaeoceros</span><a href="<@s.url value='/species/42'/>">see details</a>
+                                  <li data="90"><span>Phaeoceros</span><a href="<@s.url value='/species/42'/>">see
+                                    details</a>
                                   </li>
                                 </ul>
                               </li>
                             </ul>
                           </li>
-                          <li data="20"><span>Codoniaceae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                          <li data="30"><span>Dendrocerotaceae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                          <li data="60"><span>Notothyladaceae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                          <li data="20"><span>Codoniaceae</span><a href="<@s.url value='/species/42'/>">see details</a>
+                          </li>
+                          <li data="30"><span>Dendrocerotaceae</span><a href="<@s.url value='/species/42'/>">see
+                            details</a></li>
+                          <li data="60"><span>Notothyladaceae</span><a href="<@s.url value='/species/42'/>">see
+                            details</a></li>
                         </ul>
                       </li>
                     </ul>
@@ -272,9 +281,12 @@
     <div class="right">
       <h3>More occurrences species</h3>
       <ul>
-        <li><a href="<@s.url value='/species/42'/>" title="Puma Concolor">Puma Concolor</a> <span class="number">2,002,372</span></li>
-        <li><a href="<@s.url value='/species/42'/>" title="Puma Concolor">Puma Concolor</a> <span class="number">9,123</span></li>
-        <li><a href="<@s.url value='/species/42'/>" title="Puma Concolor">Puma Concolor</a> <span class="number">200</span></li>
+        <li><a href="<@s.url value='/species/42'/>" title="Puma Concolor">Puma Concolor</a> <span class="number">2,002,372</span>
+        </li>
+        <li><a href="<@s.url value='/species/42'/>" title="Puma Concolor">Puma Concolor</a> <span
+                class="number">9,123</span></li>
+        <li><a href="<@s.url value='/species/42'/>" title="Puma Concolor">Puma Concolor</a> <span
+                class="number">200</span></li>
       </ul>
     </div>
   </div>

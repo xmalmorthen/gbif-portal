@@ -17,10 +17,10 @@ package org.gbif.portal.client;
 
 import org.gbif.portal.config.PortalConfig;
 
-import javax.inject.Singleton;
-import javax.ws.rs.core.MultivaluedMap;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Singleton;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.google.inject.Inject;
 import com.sun.jersey.api.client.WebResource;
@@ -34,13 +34,14 @@ import org.apache.commons.lang.StringUtils;
  * API documentation: http://ecat-dev.gbif.org/api/clb
  * TODO: this is broken because the server is broken - see http://code.google.com/p/gbif-ecat/issues/detail?id=61
  */
-public class ChecklistBankClientImpl extends BaseClient implements ChecklistBankClient{
+public class ChecklistBankClientImpl extends BaseClient implements ChecklistBankClient {
+
   private WebResource USAGE_RESOURCE;
   private WebResource NAV_RESOURCE;
 
   @Inject
   public ChecklistBankClientImpl(PortalConfig cfg, ApacheHttpClient client) {
-    log.info("Creating checklist bank client with base url "+ cfg.getSpeciesWs());
+    log.info("Creating checklist bank client with base url " + cfg.getSpeciesWs());
     USAGE_RESOURCE = client.resource(cfg.getSpeciesWs() + "usage/");
     NAV_RESOURCE = client.resource(cfg.getSpeciesWs() + "resource");
   }
@@ -71,9 +72,10 @@ public class ChecklistBankClientImpl extends BaseClient implements ChecklistBank
     return removeMessageWrapperAsMap(USAGE_RESOURCE.path(id.toString()).get(Map.class));
   }
 
-  private List<Map> removeMessageWrapperAsList(Map obj){
+  private List<Map> removeMessageWrapperAsList(Map obj) {
     return (List<Map>) obj.get("data");
   }
+
   private Map removeMessageWrapperAsMap(Map obj) {
     return (Map) obj.get("data");
   }

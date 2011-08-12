@@ -3,7 +3,10 @@ package org.gbif.portal.action.country;
 import org.gbif.portal.action.BaseAction;
 
 public class SearchAction extends BaseAction {
-  /** TODO: implement country lookup */
+
+  /**
+   * TODO: implement country lookup
+   */
   // search
   private String q;
 

@@ -34,8 +34,10 @@
 <content tag="tabs">
   <ul>
     <li><a href="/species/${id!}"><span>Information</span></a></li>
-    <li class='selected'><a href="/species/${id!}/occurrences" title="Occurrences" id="occurrences_tab"><span>Occurrences </span></a></li>
-    <li><a href="/species/${id!}/activity" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a></li>
+    <li class='selected'><a href="/species/${id!}/occurrences" title="Occurrences" id="occurrences_tab"><span>Occurrences </span></a>
+    </li>
+    <li><a href="/species/${id!}/activity" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
+    </li>
     <li><a href="/species/${id!}/stats" title="Stats"><span>Stats <sup>(2)</sup></span></a></li>
   </ul>
 </content>

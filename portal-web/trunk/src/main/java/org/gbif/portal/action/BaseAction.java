@@ -3,20 +3,20 @@ package org.gbif.portal.action;
 import org.gbif.ecat.cfg.DataDirConfig;
 import org.gbif.portal.config.PortalConfig;
 
+import java.util.Map;
+
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
-
 import org.apache.struts2.interceptor.SessionAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map;
 
 /**
  *
  */
 public abstract class BaseAction extends ActionSupport implements Action, SessionAware {
+
   protected final Logger log = LoggerFactory.getLogger(getClass());
   public static final String NOT_FOUND = "404";
   public static final String NOT_ALLOWED = "401";
@@ -28,10 +28,11 @@ public abstract class BaseAction extends ActionSupport implements Action, Sessio
   protected Map<String, Object> session;
 
   @Override
-  public String execute(){
-    log.debug("executing action class: "+this.getClass().getName());
+  public String execute() {
+    log.debug("executing action class: " + this.getClass().getName());
     return SUCCESS;
   }
+
   public Object getUser() {
     Object u = null;
     try {

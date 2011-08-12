@@ -4,71 +4,75 @@
 </head>
 <body class="static">
 
-<content tag="infoband">
-  <h1>About GBIF Data</h1>
-  <h3>Making biodiversity data accesible.</h3>
-</content>
+  <content tag="infoband">
+    <h1>About GBIF Data</h1>
 
-<article class="light_pane static">
-  <header></header>
-  <div class="content">
+    <h3>Making biodiversity data accesible.</h3>
+  </content>
 
-    <div class="left">
+  <article class="light_pane static">
+    <header></header>
+    <div class="content">
 
-      <div class="header">
-        <div class="left"><h2>Tools & Projects</h2></div>
+      <div class="left">
+
+        <div class="header">
+          <div class="left"><h2>Tools & Projects</h2></div>
+        </div>
+
+        <p>Other tools and projects related with biodiversity that we are working on.</p>
+
+        <div class="tool">
+          <img class="tool_thumbnail" src="/img/photos/tool1.jpg">
+
+          <h3>Mountain biodiversity</h3>
+          <a class="tool_url" href="www.mountainbiodiversity.org">www.mountainbiodiversity.org</a>
+
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+            laoreet
+            dolore magna aliquam erat volutpat.</p>
+        </div>
+
+        <div class="tool">
+          <img class="tool_thumbnail" src="/img/photos/tool2.jpg">
+
+          <h3>Red List Assessment Tool</h3>
+          <a class="tool_url" href="www.mountainbiodiversity.org">www.mountainbiodiversity.org</a>
+
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+            laoreet
+            dolore magna aliquam erat volutpat.</p>
+        </div>
+
+        <div class="tool">
+          <img class="tool_thumbnail" src="/img/photos/tool3.jpg">
+
+          <h3>Protected Planet</h3>
+          <a class="tool_url" href="www.mountainbiodiversity.org">www.mountainbiodiversity.org</a>
+
+          <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
+            laoreet
+            dolore magna aliquam erat volutpat.</p>
+        </div>
+
       </div>
 
-      <p>Other tools and projects related with biodiversity that we are working on.</p>
-
-      <div class="tool">
-        <img class="tool_thumbnail" src="/img/photos/tool1.jpg">
-
-        <h3>Mountain biodiversity</h3>
-        <a class="tool_url" href="www.mountainbiodiversity.org">www.mountainbiodiversity.org</a>
-
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-          dolore magna aliquam erat volutpat.</p>
+      <div class="right">
+        <ul class="section first">
+          <li><h3><a href="/about" title="About GBIF Data">About GBIF Data</a></h3></li>
+        </ul>
+        <ul class="section">
+          <li><h3><a href="/about/terms" title="Terms and conditions">Terms and conditions</a></h3></li>
+        </ul>
+        <ul class="section">
+          <li><h3>Tools &amp; projects</h3></li>
+        </ul>
+        <ul class="section last">
+          <li><h3><a href="/about/contact" title="Contact us">Contact us</a></h3></li>
+        </ul>
       </div>
-
-      <div class="tool">
-        <img class="tool_thumbnail" src="/img/photos/tool2.jpg">
-
-        <h3>Red List Assessment Tool</h3>
-        <a class="tool_url" href="www.mountainbiodiversity.org">www.mountainbiodiversity.org</a>
-
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-          dolore magna aliquam erat volutpat.</p>
-      </div>
-
-      <div class="tool">
-        <img class="tool_thumbnail" src="/img/photos/tool3.jpg">
-
-        <h3>Protected Planet</h3>
-        <a class="tool_url" href="www.mountainbiodiversity.org">www.mountainbiodiversity.org</a>
-
-        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-          dolore magna aliquam erat volutpat.</p>
-      </div>
-
     </div>
-
-    <div class="right">
-      <ul class="section first">
-        <li><h3><a href="/about" title="About GBIF Data">About GBIF Data</a></h3></li>
-      </ul>
-      <ul class="section">
-        <li><h3><a href="/about/terms" title="Terms and conditions">Terms and conditions</a></h3></li>
-      </ul>
-      <ul class="section">
-        <li><h3>Tools &amp; projects</h3></li>
-      </ul>
-      <ul class="section last">
-        <li><h3><a href="/about/contact" title="Contact us">Contact us</a></h3></li>
-      </ul>
-    </div>
-  </div>
-  <footer></footer>
-</article>
+    <footer></footer>
+  </article>
 </body>
 </html>

@@ -1,12 +1,12 @@
 package org.gbif.portal.struts;
 
-import org.gbif.portal.action.BaseAction;
 import org.gbif.ecat.cfg.DataDirConfig;
+import org.gbif.portal.action.BaseAction;
+
+import java.util.Map;
 
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
-
-import java.util.Map;
 
 /**
  * An Interceptor that makes sure a user is currently logged in and returns a notLoggedIn otherwise

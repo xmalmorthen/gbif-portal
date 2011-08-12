@@ -7,6 +7,7 @@
 
 <content tag="infoband">
   <h1>GBIF Data Portal statistics</h1>
+
   <h3>Status in numbers</h3>
 </content>
 

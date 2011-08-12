@@ -11,6 +11,7 @@
   </ul>
 
   <h1>Puma Concolor</h1>
+
   <h3 class="separator">Animalia</h3>
 
   <ul class="tags">
@@ -42,228 +43,228 @@
 </content>
 
 <article class="graph">
-  <header></header>
-  <div class="content">
-    <div class="header">
-      <div><h2>Occurrences by year</h2></div>
-    </div>
-    <div class="bargraph 20px">
-      <ul>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">100</div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">35</div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">87</div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">67</div>
-          </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">23</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">12</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">43</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">62</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">52</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">87</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">83</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">92</div>
-        </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">100</div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">35</div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">87</div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">67</div>
-          </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">23</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">12</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">43</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">62</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">52</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">87</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">83</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">92</div>
-        </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">100</div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">35</div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">87</div>
-          </a>
-        </li>
-        <li>
-          <a href="#">
-            <div class="label">LABEL</div>
-            <div class="value">67</div>
-          </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">23</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">12</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">43</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">62</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">52</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">87</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">83</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">92</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">52</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">87</div>
-        </a>
-        </li>
-        <li><a href="#">
-          <div class="label">LABEL</div>
-          <div class="value">83</div>
-        </a>
-        </li>
-      </ul>
-      <div class="graph_axis">
-        <div class="start">1965</div>
-        <div class="end">2011</div>
-      </div>
-    </div>
-  </div>
-  <footer></footer>
+<header></header>
+<div class="content">
+<div class="header">
+  <div><h2>Occurrences by year</h2></div>
+</div>
+<div class="bargraph 20px">
+<ul>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">100</div>
+  </a>
+</li>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">35</div>
+  </a>
+</li>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">87</div>
+  </a>
+</li>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">67</div>
+  </a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">23</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">12</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">43</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">62</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">52</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">87</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">83</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">92</div>
+</a>
+</li>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">100</div>
+  </a>
+</li>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">35</div>
+  </a>
+</li>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">87</div>
+  </a>
+</li>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">67</div>
+  </a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">23</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">12</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">43</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">62</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">52</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">87</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">83</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">92</div>
+</a>
+</li>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">100</div>
+  </a>
+</li>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">35</div>
+  </a>
+</li>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">87</div>
+  </a>
+</li>
+<li>
+  <a href="#">
+    <div class="label">LABEL</div>
+    <div class="value">67</div>
+  </a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">23</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">12</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">43</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">62</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">52</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">87</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">83</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">92</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">52</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">87</div>
+</a>
+</li>
+<li><a href="#">
+  <div class="label">LABEL</div>
+  <div class="value">83</div>
+</a>
+</li>
+</ul>
+<div class="graph_axis">
+  <div class="start">1965</div>
+  <div class="end">2011</div>
+</div>
+</div>
+</div>
+<footer></footer>
 </article>
 
 <article class="graph multigraph">

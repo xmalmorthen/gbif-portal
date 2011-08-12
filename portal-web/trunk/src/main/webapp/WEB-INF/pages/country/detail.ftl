@@ -12,6 +12,7 @@
   </ul>
 
   <h1>Poland</h1>
+
   <h3>Occurrences data related to this country</h3>
 
   <div class="box">

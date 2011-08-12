@@ -3,6 +3,7 @@ package org.gbif.portal.action.country;
 import org.gbif.portal.action.BaseAction;
 
 public class DetailAction extends BaseAction {
+
   // detail
   private Integer id;
 

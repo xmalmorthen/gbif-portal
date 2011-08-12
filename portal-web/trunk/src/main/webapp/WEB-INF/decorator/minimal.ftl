@@ -1,8 +1,8 @@
 <html>
 <head>
-	<title>Minimal Decorator</title>
+  <title>Minimal Decorator</title>
 </head>
 <body>
-	${body}
+${body}
 </body>
 </html>

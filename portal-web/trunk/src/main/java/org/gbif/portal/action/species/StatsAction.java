@@ -18,6 +18,7 @@ package org.gbif.portal.action.species;
 import org.gbif.portal.action.BaseAction;
 
 public class StatsAction extends BaseAction {
+
   private Integer id;
 
   @Override

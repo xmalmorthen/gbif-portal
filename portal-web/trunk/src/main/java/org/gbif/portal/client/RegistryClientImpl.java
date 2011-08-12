@@ -17,12 +17,11 @@ package org.gbif.portal.client;
 
 import org.gbif.portal.config.PortalConfig;
 
-import javax.inject.Singleton;
-import javax.ws.rs.core.MultivaluedMap;
-
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import javax.inject.Singleton;
+import javax.ws.rs.core.MultivaluedMap;
 
 import com.google.inject.Inject;
 import com.sun.jersey.api.client.WebResource;
@@ -31,17 +30,18 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.apache.commons.lang.StringUtils;
 
 @Singleton
-public class RegistryClientImpl extends BaseClient implements RegistryClient{
+public class RegistryClientImpl extends BaseClient implements RegistryClient {
+
   private WebResource REGISTRY_RESOURCE;
 
   @Inject
   public RegistryClientImpl(PortalConfig cfg, ApacheHttpClient client) {
-    log.info("Creating registry client with base url "+ cfg.getRegistryWs());
+    log.info("Creating registry client with base url " + cfg.getRegistryWs());
     REGISTRY_RESOURCE = client.resource(cfg.getRegistryWs());
   }
 
   @Override
-  public List<Map> searchDatasets(String q){
+  public List<Map> searchDatasets(String q) {
     //TODO: manipulate query string?
     MultivaluedMap<String, String> queryParams = new MultivaluedMapImpl();
     queryParams.add("q", StringUtils.trimToNull(q));
@@ -51,6 +51,6 @@ public class RegistryClientImpl extends BaseClient implements RegistryClient{
 
   @Override
   public Map getDataset(UUID uuid) {
-    return REGISTRY_RESOURCE.path("resource/"+uuid.toString()+".json").get(Map.class);
+    return REGISTRY_RESOURCE.path("resource/" + uuid.toString() + ".json").get(Map.class);
   }
 }

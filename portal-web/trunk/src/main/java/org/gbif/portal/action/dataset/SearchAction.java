@@ -25,6 +25,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 public class SearchAction extends BaseAction {
+
   @Inject
   private RegistryClient registry;
   // search
@@ -39,8 +40,8 @@ public class SearchAction extends BaseAction {
     q = "Pontaurus";
     datasets = new ArrayList<Map>();
 
-//    datasets=registry.searchDatasets(q);
-//    log.debug("Got [{}] datasets matching [{}]", datasets.size(), q);
+    //    datasets=registry.searchDatasets(q);
+    //    log.debug("Got [{}] datasets matching [{}]", datasets.size(), q);
     return SUCCESS;
   }
 

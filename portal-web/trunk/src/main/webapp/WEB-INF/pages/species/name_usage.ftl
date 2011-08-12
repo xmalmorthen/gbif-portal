@@ -11,7 +11,9 @@
   </ul>
 
   <h1>Puma Concolor</h1>
+
   <h3>according to <a href="/dataset/1">Mexican felines</a> checklist</h3>
+
   <h3 class="separator">Animalia</h3>
 
   <ul class="tags">
@@ -24,7 +26,8 @@
 <content tag="tabs">
   <ul>
     <li class='selected'><a href="/species/${id!}/name_usage"><span>Information</span></a></li>
-    <li><a href="/species/${id!}/activity" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a></li>
+    <li><a href="/species/${id!}/activity" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
+    </li>
     <li><a href="/species/${id!}/name_usage_raw"><span>Details</span></a></li>
   </ul>
 </content>
@@ -374,7 +377,8 @@
   <div class="content">
     <h3>Further information</h3>
 
-    <p>There may be more details available about this name usage in the <a href="/species/${id!}/name_usage_raw">raw data
+    <p>There may be more details available about this name usage in the <a href="/species/${id!}/name_usage_raw">raw
+      data
       version</a> of the record</p>
   </div>
   <footer></footer>

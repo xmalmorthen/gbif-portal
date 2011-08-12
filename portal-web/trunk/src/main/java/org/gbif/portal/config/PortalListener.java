@@ -17,13 +17,13 @@ package org.gbif.portal.config;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
+import com.google.inject.struts2.Struts2GuicePluginModule;
 import com.opensymphony.sitemesh.webapp.SiteMeshFilter;
 import org.apache.struts2.dispatcher.ng.filter.StrutsExecuteFilter;
-import com.google.inject.Singleton;
 import org.apache.struts2.dispatcher.ng.filter.StrutsPrepareFilter;
-import com.google.inject.struts2.Struts2GuicePluginModule;
 
 /**
  * Setting up filter and servlets in addition to the ones in web.xml

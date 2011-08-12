@@ -21,6 +21,7 @@ import org.gbif.portal.client.RegistryClient;
 import com.google.inject.Inject;
 
 public class DetailAction extends BaseAction {
+
   @Inject
   private RegistryClient registry;
   // detail
@@ -29,24 +30,37 @@ public class DetailAction extends BaseAction {
 
   @Override
   public String execute() {
-    /** TODO: re-enable real lookup */
-    dataset = "Pontaurus";
-    return SUCCESS;
+    /** TODO: re-enable real lookup, render based on dataset type */
+    // just for testing each of the 3 dataset type views
+    if (id == null) return NOT_FOUND;
 
-//    log.debug("executing action class: " + this.getClass().getName());
-//    if (!StringUtils.isBlank(id)) {
-//      UUID uuid = null;
-//      try {
-//        uuid = UUID.fromString(id.trim());
-//        dataset = registry.getDataset(uuid);
-//        if (dataset != null) {
-//          return SUCCESS;
-//        }
-//      } catch (Exception e) {
-//        // swallow
-//      }
-//    }
-//    return NOT_FOUND;
+    if (id.equals("1")) {
+      dataset = "Checklist - GBIF Backbone Taxonomy";
+      return "detail_checklist";
+    }
+
+    if (id.equals("2")) {
+      dataset = "External dataset";
+      return "detail_external";
+    }
+
+    dataset = "Pontaurus";
+    return "detail_occurrence";
+
+    //    log.debug("executing action class: " + this.getClass().getName());
+    //    if (!StringUtils.isBlank(id)) {
+    //      UUID uuid = null;
+    //      try {
+    //        uuid = UUID.fromString(id.trim());
+    //        dataset = registry.getDataset(uuid);
+    //        if (dataset != null) {
+    //          return SUCCESS;
+    //        }
+    //      } catch (Exception e) {
+    //        // swallow
+    //      }
+    //    }
+    //    return NOT_FOUND;
   }
 
   public Object getDataset() {

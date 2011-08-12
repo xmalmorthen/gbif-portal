@@ -3,6 +3,7 @@ package org.gbif.portal.action.theme;
 import org.gbif.portal.action.BaseAction;
 
 public class DetailAction extends BaseAction {
+
   private String id;
   private String themeName;
 
@@ -16,7 +17,9 @@ public class DetailAction extends BaseAction {
     return SUCCESS;
   }
 
-  /** TODO: move to utils of some kind */
+  /**
+   * TODO: move to utils of some kind
+   */
   private String humanize(String underscoredString, boolean allFirstCharsUpper) {
     String[] parts = underscoredString.toLowerCase().split("_");
     StringBuffer result = new StringBuffer();
@@ -26,11 +29,10 @@ public class DetailAction extends BaseAction {
       if (partCount == 0 || allFirstCharsUpper) {
         result.append(part.substring(0, 1).toUpperCase());
         result.append(part.substring(1, part.length()));
-      }
-      else {
+      } else {
         result.append(part);
       }
-      if ((partCount+1) < parts.length) result.append(" ");
+      if ((partCount + 1) < parts.length) result.append(" ");
     }
 
     return result.toString();

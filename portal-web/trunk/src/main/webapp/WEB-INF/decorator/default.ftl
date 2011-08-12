@@ -8,9 +8,9 @@
 <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <#if useGooglemaps!false>
+<#if useGooglemaps!false>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-  </#if>
+</#if>
 <#-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
 Remove this if you use the .htaccess -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -35,7 +35,7 @@ Remove this if you use the .htaccess -->
 
   <script src="<@s.url value='/js/modernizr-1.7.min.js'/>"></script>
 
-  ${head}
+${head}
 
 </head>
 <body class="${page.properties["body.class"]!}">
@@ -46,7 +46,8 @@ Remove this if you use the .htaccess -->
       <div class="content">
         <div class="account">
           <a href="#" class="login" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
-          <a href="<@s.url value='/user/register/step1'/>" title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
+          <a href="<@s.url value='/user/register/step1'/>"
+             title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
         </div>
 
         <div id="logo">
@@ -56,16 +57,17 @@ Remove this if you use the .htaccess -->
           <span>Free and open access to biodiversity data</span>
         </div>
 
-        <#assign menu=(page.properties["meta.menu"])!"home" />
-        <#assign menuItems=["occurrences","datasets","species"] />
+      <#assign menu=(page.properties["meta.menu"])!"home" />
+      <#assign menuItems=["occurrences","datasets","species"] />
         <nav>
           <ul>
-            <#list menuItems as m>
-              <li<#if menu==m> class="selected"</#if>>
-                <@s.text id="menuName" name="menu.${m}" />
+          <#list menuItems as m>
+            <li<#if menu==m> class="selected"</#if>>
+            <@s.text id="menuName" name="menu.${m}" />
                 <@s.a value="/${m}" title="%{menuName}"><@s.text name="menu.${m}"/></@s.a></li>
-            </#list>
-            <li><a href="#" class="more" title="<@s.text name="menu.more"/>"><@s.text name="menu.more"/><span class="more"></span></a>
+          </#list>
+            <li><a href="#" class="more" title="<@s.text name="menu.more"/>"><@s.text name="menu.more"/><span
+                    class="more"></span></a>
             </li>
             <li class="search">
               <form href="<@s.url value='/datasets/search'/>" method="post">
@@ -83,7 +85,7 @@ Remove this if you use the .htaccess -->
   <#if page.properties["page.infoband"]?has_content>
     <div id="infoband">
       <div class="content">
-        ${page.properties["page.infoband"]}
+      ${page.properties["page.infoband"]}
       </div>
     </div>
   </#if>
@@ -100,7 +102,7 @@ Remove this if you use the .htaccess -->
 
   <div id="content">
 
-    ${body}
+  ${body}
 
   </div>
 
@@ -166,15 +168,15 @@ Remove this if you use the .htaccess -->
     <p>2011 &copy; GBIF. Data publishers retain all rights to data.</p>
   </div>
 
-  <#--<div style="text-align:left">-->
-    <#--<p>Sitemesh debugging, page properties in decorator</p>-->
-    <#--<br/>-->
-    <#--<pre>-->
-    <#--<#list page.properties?keys as k>-->
-      <#--${k} = ${page.properties[k]!""}-->
-    <#--</#list>-->
-    <#--</pre>-->
-  <#--</div>-->
+<#--<div style="text-align:left">-->
+<#--<p>Sitemesh debugging, page properties in decorator</p>-->
+<#--<br/>-->
+<#--<pre>-->
+<#--<#list page.properties?keys as k>-->
+<#--${k} = ${page.properties[k]!""}-->
+<#--</#list>-->
+<#--</pre>-->
+<#--</div>-->
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
@@ -226,9 +228,9 @@ Remove this if you use the .htaccess -->
     });
   </script>
 
-  <#if page.properties["page.extra_scripts"]?has_content>
-    ${page.properties["page.extra_scripts"]}
-  </#if>
+<#if page.properties["page.extra_scripts"]?has_content>
+${page.properties["page.extra_scripts"]}
+</#if>
 
 </body>
 </html>

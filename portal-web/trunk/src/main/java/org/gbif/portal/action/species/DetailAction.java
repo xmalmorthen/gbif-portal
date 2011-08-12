@@ -23,6 +23,7 @@ import java.util.Map;
 import com.google.inject.Inject;
 
 public class DetailAction extends BaseAction {
+
   @Inject
   private ChecklistBankClient clb;
   // detail
@@ -34,13 +35,13 @@ public class DetailAction extends BaseAction {
     // static until layout is solid
     return SUCCESS;
     /** TODO: re-enable dynamic lookup */
-//    if (id!=null) {
-//      usage = clb.getUsage(id);
-//      if (usage != null) {
-//        return SUCCESS;
-//      }
-//    }
-//    return NOT_FOUND;
+    //    if (id!=null) {
+    //      usage = clb.getUsage(id);
+    //      if (usage != null) {
+    //        return SUCCESS;
+    //      }
+    //    }
+    //    return NOT_FOUND;
   }
 
   public void setId(Integer id) {

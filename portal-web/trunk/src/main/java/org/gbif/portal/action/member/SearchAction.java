@@ -4,7 +4,9 @@ import org.gbif.portal.action.BaseAction;
 
 public class SearchAction extends BaseAction {
 
-  /** TODO: implement member lookup */
+  /**
+   * TODO: implement member lookup
+   */
   // search
   private String q;
 

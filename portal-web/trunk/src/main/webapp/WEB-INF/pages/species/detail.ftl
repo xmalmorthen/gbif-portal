@@ -12,6 +12,7 @@
   </ul>
 
   <h1>Puma Concolor</h1>
+
   <h3 class="separator">Animalia</h3>
 
   <ul class="tags">
@@ -34,8 +35,10 @@
 <content tag="tabs">
   <ul>
     <li class='selected'><a href="/species/${id!}"><span>Information</span></a></li>
-    <li><a href="/species/${id!}/occurrences" title="Occurrences" id="occurrences_tab"><span>Occurrences </span></a></li>
-    <li><a href="/species/${id!}/activity" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a></li>
+    <li><a href="/species/${id!}/occurrences" title="Occurrences" id="occurrences_tab"><span>Occurrences </span></a>
+    </li>
+    <li><a href="/species/${id!}/activity" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
+    </li>
     <li><a href="/species/${id!}/stats" title="Stats"><span>Stats <sup>(2)</sup></span></a></li>
   </ul>
 </content>
@@ -50,10 +53,14 @@
 
     <div class="left">
       <ul class="thumbs_list">
-        <li><a href="#" id="puma_help_1" class="images"><span><img src="/external/photos/puma_thumbnail.jpg"/></span></a></li>
-        <li><a href="#" id="puma_help_2" class="images"><span><img src="/external/photos/puma_thumbnail.jpg"/></span></a></li>
-        <li><a href="#" id="puma_help_3" class="images"><span><img src="/external/photos/puma_thumbnail.jpg"/></span></a></li>
-        <li class="last"><a href="#" id="puma_help_4" class="images"><span><img src="/external/photos/puma_thumbnail.jpg"/></span></a></li>
+        <li><a href="#" id="puma_help_1" class="images"><span><img
+                src="/external/photos/puma_thumbnail.jpg"/></span></a></li>
+        <li><a href="#" id="puma_help_2" class="images"><span><img
+                src="/external/photos/puma_thumbnail.jpg"/></span></a></li>
+        <li><a href="#" id="puma_help_3" class="images"><span><img
+                src="/external/photos/puma_thumbnail.jpg"/></span></a></li>
+        <li class="last"><a href="#" id="puma_help_4" class="images"><span><img
+                src="/external/photos/puma_thumbnail.jpg"/></span></a></li>
       </ul>
 
       <h3>Full name</h3>
@@ -303,12 +310,16 @@
     <div class="right">
       <h3>Visualize</h3>
 
-      <p class="maptype"><a href="#" title="points" class="selected">occurrence</a> | <a href="#" title="grid">density</a> | <a href="#" title="polygons">distribution</a></p>
+      <p class="maptype"><a href="#" title="points" class="selected">occurrence</a> | <a href="#"
+                                                                                         title="grid">density</a> | <a
+              href="#" title="polygons">distribution</a></p>
 
       <h3>Download</h3>
       <ul>
-        <li class="download"><a href="#" title="One Degree cell density">One Degree cell density <abbr title="Keyhole Markup Language">(KML)</abbr></a></li>
-        <li class="download"><a href="#" title="Placemarks">Placemarks <abbr title="Keyhole Markup Language">(KML)</abbr></a></li>
+        <li class="download"><a href="#" title="One Degree cell density">One Degree cell density <abbr
+                title="Keyhole Markup Language">(KML)</abbr></a></li>
+        <li class="download"><a href="#" title="Placemarks">Placemarks <abbr
+                title="Keyhole Markup Language">(KML)</abbr></a></li>
       </ul>
     </div>
 
@@ -427,8 +438,8 @@
       <div class="col">
         <div>
           <p class="no_bottom"><a href="/occurrences/789">Puma Concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                     title="Help"
-                                                                                                     id="help2"><img
+                                                                                             title="Help"
+                                                                                             id="help2"><img
                   src="/img/icons/questionmark.png"/></a></p>
 
           <p class="note semi_bottom">Holotype by original designation</p>
@@ -439,8 +450,8 @@
 
         <div>
           <p class="no_bottom"><a href="/occurrences/789">Puma Concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                     title="Help"
-                                                                                                     id="help"><img
+                                                                                             title="Help"
+                                                                                             id="help"><img
                   src="/img/icons/questionmark.png"/></a></p>
 
           <p class="note semi_bottom">Holotype by original designation</p>
@@ -455,8 +466,8 @@
       <div class="col">
         <div>
           <p class="no_bottom"><a href="/occurrences/789">Puma Concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                     title="Help"
-                                                                                                     id="help4"><img
+                                                                                             title="Help"
+                                                                                             id="help4"><img
                   src="/img/icons/questionmark.png"/></a></p>
 
           <p class="note semi_bottom">Holotype by original designation</p>
@@ -467,8 +478,8 @@
 
         <div>
           <p class="no_bottom"><a href="/occurrences/789">Puma Concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                     title="Help"
-                                                                                                     id="help3"><img
+                                                                                             title="Help"
+                                                                                             id="help3"><img
                   src="/img/icons/questionmark.png"/></a></p>
 
           <p class="note semi_bottom">Holotype by original designation</p>
