@@ -156,5 +156,5 @@ Evaluate CAS and Shiro for the central authentication.
 OLIVER NOTES
 - dataset/extended_taxonomy.html, species/distribution.html and species/bibliography.html don't exist (weren't contracted from vizz but exist as links)
 - status: users (registration and profile) and sessions (login/logout) haven't been touched.  Everything else is ready, using struts url tags.
-TODO: copy html from vizz for users and sessions (Tim), fix up example text (Andrea), finish js and style (vizz).  When that's done, branch so that
+TODO: copy html from vizz for sessions (Tim), fix up example text (Andrea), finish js and style (vizz).  When that's done, branch so that
 the "static", style and design-only implementation can live on for comments and fixes, while in trunk the real work can begin (call webservices/dbs etc)

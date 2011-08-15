@@ -5,6 +5,9 @@
   <decorator name="dataset-register" page="dataset_register.ftl">
     <pattern>/dataset/register*</pattern>
   </decorator>
+  <decorator name="user-register" page="user_register.ftl">
+    <pattern>/user/register/*</pattern>
+  </decorator>
   <decorator name="default" page="default.ftl">
     <pattern>/*</pattern>
   </decorator>
