@@ -19,7 +19,7 @@
 
     <div class="header">
       <div class="left">
-        <h2>213,212 results for "Puma Concolor"</h2>
+        <h2>213,212 results for "Puma concolor"</h2>
       </div>
       <div class="right"><h3>Refine your search</h3></div>
     </div>
@@ -78,7 +78,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
           ANSP
           HARP 10</a></h2>
 
@@ -88,7 +88,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
           ANSP
           HARP 10</a></h2>
 
@@ -98,7 +98,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
           ANSP
           HARP 10</a></h2>
 
@@ -108,7 +108,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
           ANSP
           HARP 10</a></h2>
 
@@ -118,7 +118,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
           ANSP
           HARP 10</a></h2>
 
@@ -128,7 +128,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
           ANSP
           HARP 10</a></h2>
 
@@ -138,7 +138,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
           ANSP
           HARP 10</a></h2>
 
@@ -148,7 +148,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
           ANSP
           HARP 10</a></h2>
 
@@ -158,7 +158,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
           ANSP
           HARP 10</a></h2>
 
@@ -168,7 +168,7 @@
       </div>
 
       <div class="result last">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
           ANSP
           HARP 10</a></h2>
 
@@ -203,7 +203,7 @@
       </div>
 
       <div class="refine">
-        <h4>GEOSPATIAL UBICATION</h4>
+        <h4>GEOSPATIAL</h4>
         <a href="#">All the world</a>
       </div>
 
@@ -212,7 +212,7 @@
         <a href="#">All dates</a>
       </div>
 
-      <a href="#" title="Add another criteria" class="add_criteria" id="add_criteria">Add another criteria <span
+      <a href="#" title="Add another criteria" class="add_criteria" id="add_criteria">Add another criterion <span
               class="more"></span></a>
 
       <div class="download">

@@ -109,7 +109,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
             ANSP HARP
             10</a></h2>
 
@@ -119,7 +119,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
             ANSP HARP
             10</a></h2>
 
@@ -129,7 +129,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
             ANSP HARP
             10</a></h2>
 
@@ -139,7 +139,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
             ANSP HARP
             10</a></h2>
 
@@ -149,7 +149,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
             ANSP HARP
             10</a></h2>
 
@@ -159,7 +159,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
             ANSP HARP
             10</a></h2>
 
@@ -169,7 +169,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
             ANSP HARP
             10</a></h2>
 
@@ -179,7 +179,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
             ANSP HARP
             10</a></h2>
 
@@ -189,7 +189,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
             ANSP HARP
             10</a></h2>
 
@@ -199,7 +199,7 @@
         </div>
 
         <div class="result last">
-          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+          <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
             ANSP HARP
             10</a></h2>
 
@@ -229,7 +229,7 @@
         </div>
 
         <div class="refine">
-          <h4>GEOSPATIAL UBICATION</h4>
+          <h4>GEOSPATIAL</h4>
           <a href="#">All the world</a>
         </div>
 
@@ -238,7 +238,7 @@
           <a href="#">All dates</a>
         </div>
 
-        <a href="#" title="Add another criteria" class="add_criteria">Add another criteria <span
+        <a href="#" title="Add another criterion" class="add_criteria">Add another criterion <span
                 class="more"></span></a>
 
         <div class="download">

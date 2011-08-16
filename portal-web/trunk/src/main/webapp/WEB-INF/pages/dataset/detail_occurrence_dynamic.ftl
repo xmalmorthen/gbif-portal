@@ -58,8 +58,8 @@
       <p>${dataset.description!"Not available"}
       </p>
 
-      <p>Specimens have been deposited at the Berlin Botanical Garden Herbarium (B) with duplicates send to the Istanbul
-        herbarium and the private collection of Gerald Parolly who supervised this work.</p>
+      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat nulla facilisis.</p>
 
       <h3>Purpose</h3>
 
@@ -67,7 +67,7 @@
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi.</p>
 
-      <h3>Aditional information</h3>
+      <h3>Additional information</h3>
 
       <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
@@ -156,10 +156,11 @@
 
       <h3>Study area description</h3>
 
-      <p>Plant specimens gathered in the Toroslar mountain range of southern Turkey and the Pontic mountain range in
-        north eastern torkey in 1999. The collection mainly covers grass vegetation plots of the subalpine level. It was
-        collected together with many more observation records for vegetational studies applying phytosociological
-        analysis. </p>
+      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+        delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
+        et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
+        facilisi. </p>
 
       <h3>Design description</h3>
 

@@ -13,7 +13,7 @@
 
   <h1>ANSP HRP 10</h1>
 
-  <h3>An occurrence of <a href="<@s.url value='/species/42'/>">Puma Concolor</a> from <a
+  <h3>An occurrence of <a href="<@s.url value='/species/42'/>">Puma concolor</a> from <a
           href="<@s.url value='/dataset/123'/>">Sudamerican
     Felines</a> dataset.</h3>
 
@@ -43,8 +43,8 @@
     <div class="left">
       <h3>Description</h3>
 
-      <p>This is the Puma Concolor according to Mexican Felines checklist in its raw, unprocessed version. This is the
-        data as provided by the publisher, without any kind of GBIF processing or interpretation.</p>
+      <p>This is the original version of the record according to the Mexican Felines dataset,
+        as provided by the publisher, without any kind of additional processing or interpretation.</p>
 
       <h3>Dataset</h3>
 
@@ -129,11 +129,11 @@
 </article>
 
 <article class="raw odd">
-  <!-- added "odd" class because there're an odd number of rows and the footer has to be diferent -->
+  <!-- added "odd" class because there're an odd number of rows and the footer has to be different -->
   <header></header>
   <div class="content">
     <div class="header">
-      <div class="left"><h2>Occurrence</h2></div>
+      <div class="left"><h2>Location</h2></div>
     </div>
     <div class="left">
       <div class="row first odd">
@@ -210,7 +210,7 @@
   <header></header>
   <div class="content">
     <div class="header">
-      <div class="left"><h2>Event</h2></div>
+      <div class="left"><h2>Multimedia</h2></div>
     </div>
     <div class="left">
       <div class="row unique odd">
@@ -240,7 +240,7 @@
   <header></header>
   <div class="content">
     <div class="header">
-      <div class="left"><h2>Geological name</h2></div>
+      <div class="left"><h2>Publications</h2></div>
     </div>
     <div class="left">
       <div class="row first odd">

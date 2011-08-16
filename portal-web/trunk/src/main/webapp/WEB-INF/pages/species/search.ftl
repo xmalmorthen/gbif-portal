@@ -50,7 +50,7 @@
 
   <!-- canned -->
   <div class="result">
-    <h2><a href="<@s.url value='/species/42'/>" title="Puma Concolor"><strong>Puma Concolor</strong></a></h2>
+    <h2><a href="<@s.url value='/species/42'/>" title="Puma concolor"><strong>Puma concolor</strong></a></h2>
 
     <div class="footer">
       <ul class="taxonomy">
@@ -65,7 +65,7 @@
   </div>
 
   <div class="result">
-    <h2><a href="<@s.url value='/species/42/name_usage'/>" title="Puma Concolor"><strong>Puma Concolor</strong>
+    <h2><a href="<@s.url value='/species/42/name_usage'/>" title="Puma concolor"><strong>Puma concolor</strong>
       according to World
       Felines checklist</a></h2>
 
@@ -82,7 +82,7 @@
   </div>
 
   <div class="result">
-    <h2><a href="<@s.url value='/species/42'/>" title="Puma Concolor"><strong>Puma Concolor</strong></a></h2>
+    <h2><a href="<@s.url value='/species/42'/>" title="Puma concolor"><strong>Puma concolor</strong></a></h2>
 
     <div class="footer">
       <ul class="taxonomy">
@@ -97,7 +97,7 @@
   </div>
 
   <div class="result">
-    <h2><a href="<@s.url value='/species/42'/>" title="Puma Concolor"><strong>Puma Concolor</strong></a></h2>
+    <h2><a href="<@s.url value='/species/42'/>" title="Puma concolor"><strong>Puma concolor</strong></a></h2>
 
     <div class="footer">
       <ul class="taxonomy">
@@ -112,7 +112,7 @@
   </div>
 
   <div class="result">
-    <h2><a href="<@s.url value='/species/42'/>" title="Puma Concolor"><strong>Puma Concolor</strong></a></h2>
+    <h2><a href="<@s.url value='/species/42'/>" title="Puma concolor"><strong>Puma concolor</strong></a></h2>
 
     <div class="footer">
       <ul class="taxonomy">
@@ -127,7 +127,7 @@
   </div>
 
   <div class="result">
-    <h2><a href="<@s.url value='/species/42'/>" title="Puma Concolor"><strong>Puma Concolor</strong></a></h2>
+    <h2><a href="<@s.url value='/species/42'/>" title="Puma concolor"><strong>Puma concolor</strong></a></h2>
 
     <div class="footer">
       <ul class="taxonomy">
@@ -142,7 +142,7 @@
   </div>
 
   <div class="result">
-    <h2><a href="<@s.url value='/species/42'/>" title="Puma Concolor"><strong>Puma Concolor</strong></a></h2>
+    <h2><a href="<@s.url value='/species/42'/>" title="Puma concolor"><strong>Puma concolor</strong></a></h2>
 
     <div class="footer">
       <ul class="taxonomy">
@@ -157,7 +157,7 @@
   </div>
 
   <div class="result">
-    <h2><a href="<@s.url value='/species/42'/>" title="Puma Concolor"><strong>Puma Concolor</strong></a></h2>
+    <h2><a href="<@s.url value='/species/42'/>" title="Puma concolor"><strong>Puma concolor</strong></a></h2>
 
     <div class="footer">
       <ul class="taxonomy">
@@ -172,7 +172,7 @@
   </div>
 
   <div class="result">
-    <h2><a href="<@s.url value='/species/42'/>" title="Puma Concolor"><strong>Puma Concolor</strong></a></h2>
+    <h2><a href="<@s.url value='/species/42'/>" title="Puma concolor"><strong>Puma concolor</strong></a></h2>
 
     <div class="footer">
       <ul class="taxonomy">
@@ -187,7 +187,7 @@
   </div>
 
   <div class="result">
-    <h2><a href="<@s.url value='/species/42'/>" title="Puma Concolor"><strong>Puma Concolor</strong></a></h2>
+    <h2><a href="<@s.url value='/species/42'/>" title="Puma concolor"><strong>Puma concolor</strong></a></h2>
 
     <div class="footer">
       <ul class="taxonomy">
@@ -240,7 +240,7 @@
   </div>
 
 
-  <a href="#" title="Add another criteria" class="add_criteria">Add another criteria <span class="more"></span></a>
+  <a href="#" title="Add another criterion" class="add_criteria">Add another criterion <span class="more"></span></a>
 
   <div class="download">
 

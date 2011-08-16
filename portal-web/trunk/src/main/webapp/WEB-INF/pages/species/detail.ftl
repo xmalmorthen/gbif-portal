@@ -11,7 +11,7 @@
     <li class="last"><a href="#" title="Species">Species</a></li>
   </ul>
 
-  <h1>Puma Concolor</h1>
+  <h1>Puma concolor</h1>
 
   <h3 class="separator">Animalia</h3>
 
@@ -66,7 +66,7 @@
 
       <h3>Full name</h3>
 
-      <p>Puma Concolor Linnaeus 1771</p>
+      <p>Puma concolor Linnaeus 1771</p>
 
       <h3>Status</h3>
 
@@ -74,14 +74,16 @@
 
       <h3>Description</h3>
 
-      <p>Plant specimens gathered in the Toroslar mountain range of southern Turkey and the Pontic mountain range in
-        north eastern torkey in 1999. The collection mainly covers grass vegetation plots of the subalpine level. It was
-        collected together with many more observation records for vegetational studies applying phytosociological
-        analysis. The resulting thesis was released in the public domain and is available at <a href="#">http://www.archive.org/details/Vegetationskundliche</a>.
+      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+        delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
+        et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
+        facilisi.
       </p>
 
-      <p>Specimens have been deposited at the Berlin Botanical Garden Herbarium (B) with duplicates send to the Istanbul
-        herbarium and the private collection of Gerald Parolly who supervised this work.</p>
+      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+        delenit.</p>
 
       <h3>Living period</h3>
 
@@ -94,9 +96,9 @@
     <div class="right">
       <h3>Synonyms</h3>
       <ul class="no_bottom">
-        <li>Felix Linnaeus</li>
-        <li>Felix Mexicalis</li>
-        <li>Puma Mexicalies</li>
+        <li>Felix linnaeus</li>
+        <li>Felix mexicalis</li>
+        <li>Puma mexicalis</li>
       </ul>
       <p><a class="more_link" href="<@s.url value='/species/${id!}/synonyms'/>">and 42 more</a></p>
 
@@ -105,9 +107,9 @@
         <li>Mountain lion, Puma <span class="small">ENG</span></li>
         <li>Puma de montaña <span class="small">SPA</span></li>
       </ul>
-      <h3>Basyonism</h3>
+      <h3>Basionym</h3>
 
-      <p>Felix Concolor</p>
+      <p>Felix concolor</p>
 
       <h3>External Links</h3>
       <ul>
@@ -136,7 +138,7 @@
     <div class="left">
       <h3>Species</h3>
 
-      <p><a href="<@s.url value='/species/123'/>">Puma Concolor</a></p>
+      <p><a href="<@s.url value='/species/123'/>">Puma concolor</a></p>
 
       <h3>Taxonomic classification</h3>
 
@@ -265,12 +267,13 @@
 
     <div class="right">
       <h3>Related usages</h3>
+      <!-- TODO: link to name_usage area -->
       <ul class="notes">
-        <li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+        <li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma concolor</a> <span class="note">in Fauna Europea checklist</span>
         </li>
-        <li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+        <li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma concolor</a> <span class="note">in Fauna Europea checklist</span>
         </li>
-        <li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+        <li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma concolor</a> <span class="note">in Fauna Europea checklist</span>
         </li>
       </ul>
       <p><a class="more_link" href="<@s.url value='/species/${id!}/name_usage_list'/>">and 35 more</a></p>
@@ -350,7 +353,7 @@
 
     <div class="right">
       <div class="controllers">
-        <h2>Puma Concolor in his natural habitat</h2>
+        <h2>Puma concolor in its natural habitat</h2>
         <a class="previous_slide" href="#" title="Previous image"></a>
         <a class="next_slide" href="#" title="Next image"></a>
       </div>
@@ -449,24 +452,24 @@
     <div class="left">
       <div class="col">
         <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma Concolor - ANSP HRP 10</a> <a href="#"
+          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
                                                                                                                title="Help"
                                                                                                                id="help2"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
 
-          <p class="note semi_bottom">Holotype by original designation</p>
+          <p class="note semi_bottom">Syntype by original designation</p>
 
           <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
             Rech. 12083 (W!).</p>
         </div>
 
         <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma Concolor - ANSP HRP 10</a> <a href="#"
+          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
                                                                                                                title="Help"
                                                                                                                id="help"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
 
-          <p class="note semi_bottom">Holotype by original designation</p>
+          <p class="note semi_bottom">Syntype by original designation</p>
 
           <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
             Rech. 12083 (W!).</p>
@@ -477,24 +480,24 @@
 
       <div class="col">
         <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma Concolor - ANSP HRP 10</a> <a href="#"
+          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
                                                                                                                title="Help"
                                                                                                                id="help4"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
 
-          <p class="note semi_bottom">Holotype by original designation</p>
+          <p class="note semi_bottom">Syntype by original designation</p>
 
           <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
             Rech. 12083 (W!).</p>
         </div>
 
         <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma Concolor - ANSP HRP 10</a> <a href="#"
+          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
                                                                                                                title="Help"
                                                                                                                id="help3"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
 
-          <p class="note semi_bottom">Holotype by original designation</p>
+          <p class="note semi_bottom">Syntype by original designation</p>
 
           <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
             Rech. 12083 (W!).</p>
@@ -506,8 +509,7 @@
     <div class="right">
       <h3>Specimens by type</h3>
       <ul>
-        <li><a href="<@s.url value='/occurrences/search?q=holotype'/>">13 holotypes</a></li>
-        <li><a href="<@s.url value='/occurrences/search?q=holotype'/>">2 syntypes</a></li>
+        <li><a href="<@s.url value='/occurrences/search?q=syntype'/>">13 syntypes</a></li>
       </ul>
     </div>
 

@@ -12,7 +12,7 @@
 
       <form action="<@s.url value='/species/search'/>">
         <span class="input_text">
-          <input type="text" name="q" placeholder="Search species by name, taxon, place..."/>
+          <input type="text" name="q" placeholder="Search species by name, higher taxon, place..."/>
         </span>
         <button type="submit" class="search_button"><span>Search</span></button>
       </form>
@@ -27,9 +27,9 @@
       </ul>
       <div class="results">
         <ul>
-          <li><a href="<@s.url value='/species/search?q=fake'/>" title="">2,183,212</a>total taxon</li>
+          <li><a href="<@s.url value='/species/search?q=fake'/>" title="">2,183,212</a>total taxa</li>
           <li><a href="<@s.url value='/species/search?q=fake'/>" title="">1,291,282</a>total species</li>
-          <li class="last"><a href="<@s.url value='/species/search?q=fake'/>" title="">121,251</a>name usages</li>
+          <li class="last"><a href="<@s.url value='/species/search?q=fake'/>" title="">13,121,251</a>name usages</li>
         </ul>
       </div>
     </div>

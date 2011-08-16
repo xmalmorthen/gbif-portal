@@ -13,7 +13,7 @@
 
   <h1>ANSP HRP 10</h1>
 
-  <h3>An occurrence of <a href="<@s.url value='/species/42'/>">Puma Concolor</a> from <a
+  <h3>An occurrence of <a href="<@s.url value='/species/42'/>">Puma concolor</a> from <a
           href="<@s.url value='/dataset/123'/>">Sudamerican
     Felines</a> dataset.</h3>
 
@@ -59,7 +59,7 @@
 
       <p>-300m → -100m</p>
 
-      <h3>Geoprecission</h3>
+      <h3>Geoprecision</h3>
 
       <p>100m</p>
 
@@ -94,7 +94,7 @@
 
         <h3>Typified name string</h3>
 
-        <p>Puma Concolor</p>
+        <p>Puma concolor</p>
       </div>
       <div class="col">
         <h3>Individual count</h3>
@@ -139,7 +139,7 @@
     <div class="left">
       <h3>Species</h3>
 
-      <p><a href="<@s.url value='/species/123'/>">Puma Concolor</a></p>
+      <p><a href="<@s.url value='/species/123'/>">Puma concolor</a></p>
 
       <h3>Taxonomic classification</h3>
       <ul class="taxonomy">
@@ -157,7 +157,7 @@
 
       <p>Oct 23th, 2007</p>
 
-      <h3>Identificator name</h3>
+      <h3>Identifier name</h3>
 
       <p>Thomas Function</p>
     </div>

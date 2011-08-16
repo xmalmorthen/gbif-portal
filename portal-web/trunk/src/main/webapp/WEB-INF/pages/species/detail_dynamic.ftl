@@ -68,14 +68,16 @@
 
       <h3>Description</h3>
 
-      <p>Plant specimens gathered in the Toroslar mountain range of southern Turkey and the Pontic mountain range in
-        north eastern torkey in 1999. The collection mainly covers grass vegetation plots of the subalpine level. It was
-        collected together with many more observation records for vegetational studies applying phytosociological
-        analysis. The resulting thesis was released in the public domain and is available at <a href="#">http://www.archive.org/details/Vegetationskundliche</a>.
+      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+        delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
+        et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
+        facilisi.
       </p>
 
-      <p>Specimens have been deposited at the Berlin Botanical Garden Herbarium (B) with duplicates send to the Istanbul
-        herbarium and the private collection of Gerald Parolly who supervised this work.</p>
+      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+        delenit.</p>
 
       <h3>Living period</h3>
 
@@ -88,9 +90,9 @@
     <div class="right">
       <h3>Synonyms</h3>
       <ul class="no_bottom">
-        <li>Felix Linnaeus</li>
-        <li>Felix Mexicalis</li>
-        <li>Puma Mexicalies</li>
+        <li>Felix linnaeus</li>
+        <li>Felix mexicalis</li>
+        <li>Puma mexicalies</li>
       </ul>
       <p><a class="more_link" href="/species/synonyms.html">and 42 more</a></p>
 
@@ -99,9 +101,9 @@
         <li>Mountain lion, Puma <span class="small">ENG</span></li>
         <li>Puma de montaña <span class="small">SPA</span></li>
       </ul>
-      <h3>Basyonism</h3>
+      <h3>Basionym</h3>
 
-      <p>Felix Concolor</p>
+      <p>Felix concolor</p>
 
       <h3>External Links</h3>
       <ul>
@@ -129,7 +131,7 @@
     <div class="left">
       <h3>Species</h3>
 
-      <p>Puma Concolor</p>
+      <p>Puma concolor</p>
       <ul class="taxonomy">
         <li><a href="/species/detail.html">Animalia</a></li>
         <li><a href="/species/detail.html">Chordata</a></li>
@@ -144,11 +146,11 @@
     <div class="right">
       <h3>Related usages</h3>
       <ul class="notes">
-        <li><a href="/species/name_usage.html">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+        <li><a href="/species/name_usage.html">Puma concolor</a> <span class="note">in Fauna Europea checklist</span>
         </li>
-        <li><a href="/species/name_usage.html">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+        <li><a href="/species/name_usage.html">Puma concolor</a> <span class="note">in Fauna Europea checklist</span>
         </li>
-        <li><a href="/species/name_usage.html">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+        <li><a href="/species/name_usage.html">Puma concolor</a> <span class="note">in Fauna Europea checklist</span>
         </li>
       </ul>
       <p><a class="more_link" href="/species/name_usage_list.html">and 35 more</a></p>
@@ -207,7 +209,7 @@
 
     <div class="header">
       <div class="right">
-        <h2>Puma Concolor in his natural habitat</h2>
+        <h2>Puma concolor in its natural habitat</h2>
         <a class="previous_slide" href="#" title="Previous image"></a>
         <a class="next_slide" href="#" title="Next image"></a>
       </div>
@@ -255,17 +257,17 @@
       <div class="col">
         <h3>Type specimens</h3>
         <ul class="notes">
-          <li><a href="/occurrences/detail.html">Holotype at Mamal Collection</a> <span class="note">from Avian Knowledge Network</span>
+          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
-          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Avian Knowledge Network</span>
+          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
-          <li><a href="/occurrences/detail.html">Holotype at Mamal Collection</a> <span class="note">from Avian Knowledge Network</span>
+          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
-          <li><a href="/occurrences/detail.html">Holotype at Mamal Collection</a> <span class="note">from Avian Knowledge Network</span>
+          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
-          <li><a href="/occurrences/detail.html">Holotype at Mamal Collection</a> <span class="note">from Avian Knowledge Network</span>
+          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
-          <li><a href="/occurrences/detail.html">Holotype at Mamal Collection</a> <span class="note">from Avian Knowledge Network</span>
+          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
         </ul>
         <p><a class="more_link" href="/occurrences/search.html">and 2 more</a></p>

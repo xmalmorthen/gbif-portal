@@ -10,14 +10,14 @@
     <li class="last"><a href="<@s.url value='/datasets'/>" title="Datasets">Datasets</a></li>
   </ul>
 
-  <h1>GBIF Backbone Taxonomy</h1>
+  <h1>Herpetology</h1>
 
   <h3 class="separator">Provided by <a href="<@s.url value='/member/1'/>">GBIF</a>
   </h3>
   <ul class="tags">
-    <li><a href="#" title="Turkey">Turkey</a></li>
-    <li><a href="#" title="coastal">coastal</a></li>
-    <li class="last"><a href="#" title="herbal">herbal</a></li>
+    <li><a href="#" title="North America">North America</a></li>
+    <li><a href="#" title="terrestrial">terrestrial</a></li>
+    <li class="last"><a href="#" title="reptiles">reptiles</a></li>
   </ul>
 
   <div class="box">
@@ -53,14 +53,14 @@
     <div class="left">
       <h3>Abstract</h3>
 
-      <p>Plant specimens gathered in the Toroslar mountain range of southern Turkey and the Pontic mountain range in
-        north eastern torkey in 1999. The collection mainly covers grass vegetation plots of the subalpine level. It was
-        collected together with many more observation records for vegetational studies applying phytosociological
-        analysis. The resulting thesis was released in the public domain and is available at <a href="#">http://www.archive.org/details/Vegetationskundliche</a>.
-      </p>
+      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+        delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
+        et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
+        facilisi.</p>
 
-      <p>Specimens have been deposited at the Berlin Botanical Garden Herbarium (B) with duplicates send to the Istanbul
-        herbarium and the private collection of Gerald Parolly who supervised this work.</p>
+      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui</p>
 
       <h3>Purpose</h3>
 
@@ -68,7 +68,7 @@
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi.</p>
 
-      <h3>Aditional information</h3>
+      <h3>Additional information</h3>
 
       <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
@@ -92,9 +92,9 @@
 
       <h3>Provided by</h3>
 
-      <p><a href="<@s.url value='/member/123'/>" title="Botanic Garden and Botannical Museum Berlin-Danhem">Botanic
+      <p><a href="<@s.url value='/member/123'/>" title="Botanic Garden and Botanical Museum Berlin-Dahlem">Botanic
         Garden and
-        Botannical Museum Berlin-Danhem</a></p>
+        Botanical Museum Berlin-Dahlem</a></p>
 
       <h3>Hosted by</h3>
 
