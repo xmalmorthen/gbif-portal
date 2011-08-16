@@ -84,7 +84,7 @@
         <h3>Languages</h3>
 
         <p>English</p>
-
+      </div>
       <div class="right">
         <div class="logo_holder">
           <img src="<@s.url value='/external/logos/logo1.jpg'/>"/>
@@ -225,10 +225,10 @@
 
         <h3>Study area description</h3>
 
-        <p>Plant specimens gathered in the Toroslar mountain range of southern Turkey and the Pontic mountain range in
-          north eastern torkey in 1999. The collection mainly covers grass vegetation plots of the subalpine level. It
-          was collected together with many more observation records for vegetational studies applying phytosociological
-          analysis. </p>
+        <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+          feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+          delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et
+          accumsan et iusto odio dignissim qui blandit.</p>
 
         <h3>Design description</h3>
 
@@ -313,10 +313,10 @@
 
         <h3>Study extent</h3>
 
-        <p>Plant specimens gathered in the Toroslar mountain range of southern Turkey and the Pontic mountain range in
-          north eastern torkey in 1999. The collection mainly covers grass vegetation plots of the subalpine level. It
-          was collected together with many more observation records for vegetational studies applying phytosociological
-          analysis. </p>
+        <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+          feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+          delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et
+          accumsan et iusto odio dignissim qui blandit.</p>
 
         <h3>Sampling description</h3>
 

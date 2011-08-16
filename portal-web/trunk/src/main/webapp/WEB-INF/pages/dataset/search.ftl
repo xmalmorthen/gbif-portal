@@ -89,7 +89,7 @@
 
         <div class="refine">
           <h4>DATA PUBLISHER</h4>
-          <a href="#">Any data provider</a>
+          <a href="#">Any data publisher</a>
         </div>
 
         <div class="refine">
@@ -104,10 +104,10 @@
 
         <div class="refine">
           <h4>GEOSPATIAL COVERAGE</h4>
-          <a href="#">All species</a>
+          <a href="#">World</a>
         </div>
 
-        <a href="#" title="Add another criteria" class="add_criteria">Add another criteria <span
+        <a href="#" title="Add another criterion" class="add_criteria">Add another criterion <span
                 class="more"></span></a>
       </div>
     </div>

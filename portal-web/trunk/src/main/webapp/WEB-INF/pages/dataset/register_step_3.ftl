@@ -17,9 +17,9 @@
 
       <h3>Thank you Miguel Marino.</h3>
 
-      <p>Your dataset “Australian Birds” has been registered correctly in our database.</p>
+      <p>Your dataset “Australian Birds” has now been registered.</p>
 
-      <p class="extra">We will contact you as soon as we extract the data from your server.</p>
+      <p class="extra">We will contact you as soon as we index the data from your server.</p>
 
       <nav class="right"><a href="<@s.url value='/dataset/register-step-1'/>" class="candy_white_button"><span>Register another dataset</span></a>
 

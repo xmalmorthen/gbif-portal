@@ -14,7 +14,7 @@
         <li class="last"><h2>Finish</h2></li>
       </ul>
 
-      <p>Once you have the DRT installed we just need to ask you for two simple things:</p>
+      <p>Once you have the data publishing software installed, we just need to ask you for three simple things:</p>
 
       <div class="important">
         <div class="top"></div>
@@ -24,7 +24,7 @@
           <form>
 
             <div class="field">
-              <p>Provide us your dataset URL access point. <a href="#" title="Help" id="help" class="help"><img
+              <p>Provide us your dataset's access point URL. <a href="#" title="Help" id="help" class="help"><img
                       src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
               <input type="text" name="text"/>
               <button type="submit" class="button"><span>Connect</span></button>
@@ -42,12 +42,12 @@
             <div class="field">
               <p>GBIF endorsing node <a href="#" title="Help" id="help3" class="help"><img
                       src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
-              <select id="data_policy" class="data_policy" name="data-policy">
+              <select id="endorsing_node" class="endorsing_node" name="endorsing_node">
                 <option value="">Select one of the list below...</option>
-                <option value="policy-1">Data policy 1</option>
-                <option value="policy-2">Data policy 2</option>
-                <option value="policy-3">Data policy 3</option>
-                <option value="policy-4">Data policy 4</option>
+                <option value="endorsing_node-1">ACB</option>
+                <option value="endorsing_node-2">Andorra</option>
+                <option value="endorsing_node-3">Austria</option>
+                <option value="endorsing_node-4">Argentina</option>
               </select>
             </div>
           </form>
@@ -57,7 +57,7 @@
 
       <nav><a href="<@s.url value='/dataset/register-step-3'/>" title="Finish" class="candy_white_button next"><span>Finish</span></a>
 
-        <p>Clicking on "Finish" you are accepting the GBIF Data Providers <a href="<@s.url value='/about/sharing'/>"
+        <p>Clicking on "Finish" you are accepting the GBIF Data Sharing Agreement <a href="<@s.url value='/about/sharing'/>"
                                                                              title="Terms &amp; Conditions">Terms &amp;
           Conditions</a></p></nav>
     </div>

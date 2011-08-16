@@ -15,7 +15,7 @@
         <li><h2>Finish</h2></li>
       </ul>
 
-      <p>If you are the owner of a certain biodiversity dataset suitable to be published on GBIF Data, you can register
+      <p>If you are the owner of a biodiversity dataset suitable to be published on the GBIF Data Portal, you can register
         it right now. Take into consideration:</p>
 
       <ul>
@@ -33,11 +33,11 @@
         <div class="inner">
           <img src="<@s.url value='/img/icons/computer_add.png'/>" class="icon"/>
 
-          <h3>Install the Data Reconciliation Tool</h3>
+          <h3>Install a data publishing software package</h3>
 
-          <p>You need to install a data sharing software in an internet-connected database server.</p>
+          <p>You need to install a data sharing software on an internet-connected database server.</p>
 
-          <p>For help &amp; instructions take a look at the <a href="#" title="Installation documentation">instalation
+          <p>For help &amp; instructions take a look at the <a href="#" title="Installation documentation">installation
             documentation</a>.</p>
         </div>
         <div class="bottom"></div>
@@ -45,7 +45,7 @@
 
       <nav class="right"><a href="<@s.url value='/dataset/register-step-2'/>" class="candy_white_button next"><span>Continue</span></a>
 
-        <p>Do you have the DTR already installed?</p></nav>
+        <p>Do you have the publishing software already installed?</p></nav>
 
     </div>
     <footer></footer>
