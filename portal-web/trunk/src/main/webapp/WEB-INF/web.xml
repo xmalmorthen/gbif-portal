@@ -12,19 +12,27 @@
     <session-timeout>-1</session-timeout>
   </session-config>
 
-  <!--
-  guice listener that configures all other filters and servlets
-  The freemarker one below does not work inside the guice listener :(
-  -->
+  <!-- The Guice configuration -->
   <listener>
     <listener-class>org.gbif.portal.config.PortalListener</listener-class>
+  </listener>
+  <!-- Required for the FreemarkerDecoratorServlet -->
+  <listener>
+    <listener-class>org.apache.struts2.dispatcher.ng.listener.StrutsListener</listener-class>
+  </listener>
+  <!-- Required for the FreemarkerDecoratorServlet -->
+  <listener>
+    <listener-class>org.apache.struts2.dispatcher.ng.listener.StrutsListener</listener-class>
+  </listener>
+  <!-- Initiates the Freemarker environment (SLF4J) -->
+  <listener>
+    <listener-class>org.gbif.portal.config.FreemarkerConfigListener</listener-class>
   </listener>
 
   <filter>
     <filter-name>guice</filter-name>
     <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
   </filter>
-
   <filter-mapping>
     <filter-name>guice</filter-name>
     <url-pattern>/*</url-pattern>
@@ -40,14 +48,8 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
-
   <servlet-mapping>
     <servlet-name>sitemesh-freemarker</servlet-name>
     <url-pattern>*.ftl</url-pattern>
   </servlet-mapping>
-
-  <!-- Required for the FreemarkerDecoratorServlet -->
-  <listener>
-    <listener-class>org.apache.struts2.dispatcher.ng.listener.StrutsListener</listener-class>
-  </listener>
 </web-app>
