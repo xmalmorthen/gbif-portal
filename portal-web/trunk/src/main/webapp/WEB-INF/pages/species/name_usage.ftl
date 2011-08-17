@@ -12,7 +12,7 @@
 
   <h1>Puma Concolor</h1>
 
-<h3>according to <a href="<@s.url value='/dataset/1'>">Mexican felines</a> checklist</h3>
+<h3>according to <a href="<@s.url value='/dataset/1'/>">Mexican felines</a> checklist</h3>
 
   <h3 class="separator">Animalia</h3>
 
@@ -25,10 +25,10 @@
 
 <content tag="tabs">
 <ul>
-<li class='selected'><a href="<@s.url value='/species/${id!}/name_usage'>"><span>Information</span></a></li>
-<li><a href="<@s.url value='/species/${id!}/activity'>" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
+<li class='selected'><a href="<@s.url value='/species/${id!}/name_usage'/>"><span>Information</span></a></li>
+<li><a href="<@s.url value='/species/${id!}/activity'/>" title="Activity" id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
 </li>
-<li><a href="<@s.url value='/species/${id!}/name_usage_raw'>"><span>Details</span></a></li>
+<li><a href="<@s.url value='/species/${id!}/name_usage_raw'/>"><span>Details</span></a></li>
 </ul>
 </content>
 
@@ -37,13 +37,13 @@
 <div class="content">
   <h3>This is a particular view of Puma Concolor</h3>
 
-<p>This is an unofficial Puma Concolor view, as seen by <a href="<@s.url value='/dataset/1'>">Mexican Felines</a>
-  checklist. Remember that you can also check the <a href="<@s.url value='/species/${id!}'>">official Puma Concolor
+<p>This is an unofficial Puma Concolor view, as seen by <a href="<@s.url value='/dataset/1'/>">Mexican Felines</a>
+  checklist. Remember that you can also check the <a href="<@s.url value='/species/${id!}'/>">official Puma Concolor
   species
-  page</a>. You can also see the <a href="<@s.url value='/species/${id!}/name_usage_raw'>">raw version</a> submitted by
+  page</a>. You can also see the <a href="<@s.url value='/species/${id!}/name_usage_raw'/>">raw version</a> submitted by
   the data
   publisher.</p>
-        <img id="notice_icon" src="<@s.url value='/img/icons/notice_icon.png'>"/>
+        <img id="notice_icon" src="<@s.url value='/img/icons/notice_icon.png'/>"/>
 </div>
   <footer></footer>
 </article>
@@ -58,10 +58,10 @@
 
 <div class="left">
 <ul class="thumbs_list">
-<li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'>"/></li>
-<li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'>"/></li>
-<li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'>"/></li>
-<li class="last"><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'>"/></li>
+<li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></li>
+<li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></li>
+<li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></li>
+<li class="last"><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></li>
 </ul>
 
   <h3>Full name</h3>
@@ -72,7 +72,7 @@
 
   <p>Accepted</p>
 
-<h3>Description <a href="#" title="Help" id="help"><img src="src="<@s.url value='/img/icons/questionmark.png'>""/></a>
+<h3>Description <a href="#" title="Help" id="help"><img src="src="<@s.url value='/img/icons/questionmark.png'/>""/></a>
 </h3>
 
   <p>Plant specimens gathered in the Toroslar mountain range of southern Turkey and the Pontic mountain range in
@@ -84,11 +84,11 @@
   <p>Specimens have been deposited at the Berlin Botanical Garden Herbarium (B) with duplicates send to the Istanbul
     herbarium and the private collection of Gerald Parolly who supervised this work.</p>
 
-<h3>Ecology <a href="#" title="Help" id="help2"><img src="src="<@s.url value='/img/icons/questionmark.png'>""/></a></h3>
+<h3>Ecology <a href="#" title="Help" id="help2"><img src="src="<@s.url value='/img/icons/questionmark.png'/>""/></a></h3>
 
   <p>Scorzonera tuzgoluensis is a halophytic species growing in salt marshes at Tuz Lake.</p>
 
-<h3>Systematics <a href="#" title="Help" id="help3"><img src="src="<@s.url value='/img/icons/questionmark.png'>""/></a>
+<h3>Systematics <a href="#" title="Help" id="help3"><img src="src="<@s.url value='/img/icons/questionmark.png'/>""/></a>
 </h3>
 
   <p>Scorzonera tuzgoluensis is considered by its author to be related to the similar S. parviflora and S. elata,
@@ -140,7 +140,7 @@
 <article class="taxonomies">
   <header></header>
 <div class="content">
-<h2>Taxonomic classification <span class="subtitle">according to <a href="<@s.url value='/dataset/1'>">GBIF Backbone
+<h2>Taxonomic classification <span class="subtitle">according to <a href="<@s.url value='/dataset/1'/>">GBIF Backbone
   Taxonomy</a></span></h2>
 
   <div class="left">
@@ -252,19 +252,19 @@
 <div class="right">
   <h3>Related usages</h3>
 <ul class="notes">
-<li><a href="<@s.url value='/species/${id!}/name_usage'>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+<li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
 </li>
-<li><a href="<@s.url value='/species/${id!}/name_usage'>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+<li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
 </li>
-<li><a href="<@s.url value='/species/${id!}/name_usage'>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
+<li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
 </li>
 </ul>
-<p><a class="more_link" href="<@s.url value='/species/${id!}/name_usage_list'>">and 35 more</a></p>
+<p><a class="more_link" href="<@s.url value='/species/${id!}/name_usage_list'/>">and 35 more</a></p>
 
   <h3>Appears on</h3>
 <ul>
-<li><a href="<@s.url value='/dataset/search?q=fake'>">13 nomenclator</a></li>
-<li><a href="<@s.url value='/dataset/search?q=fake'>">2 reconciled</a></li>
+<li><a href="<@s.url value='/dataset/search?q=fake'/>">13 nomenclator</a></li>
+<li><a href="<@s.url value='/dataset/search?q=fake'/>">2 reconciled</a></li>
 </ul>
 </div>
 
@@ -390,7 +390,7 @@
   <h3>Further information</h3>
 
 <p>There may be more details available about this name usage in the
-        <a href="<@s.url value='/species/${id!}/name_usage_raw'>">raw
+        <a href="<@s.url value='/species/${id!}/name_usage_raw'/>">raw
   data
   version</a> of the record</p>
 </div>
