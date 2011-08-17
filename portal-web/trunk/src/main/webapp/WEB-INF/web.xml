@@ -6,11 +6,11 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
   <display-name>GBIF Portal</display-name>
-
+  
+  <!-- Force sessions to remain open indefinitely -->
   <session-config>
     <session-timeout>-1</session-timeout>
   </session-config>
-
 
   <!--
   guice listener that configures all other filters and servlets
@@ -46,6 +46,7 @@
     <url-pattern>*.ftl</url-pattern>
   </servlet-mapping>
 
+  <!-- Required for the FreemarkerDecoratorServlet -->
   <listener>
     <listener-class>org.apache.struts2.dispatcher.ng.listener.StrutsListener</listener-class>
   </listener>

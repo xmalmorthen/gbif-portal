@@ -2,7 +2,12 @@ package org.gbif.portal.action.species;
 
 import org.gbif.portal.action.BaseAction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class NameUsageAction extends BaseAction {
+
+  private final static Logger LOG = LoggerFactory.getLogger(NameUsageAction.class);
 
   private Integer id;
 
@@ -12,17 +17,17 @@ public class NameUsageAction extends BaseAction {
   }
 
   public String nameUsage() {
-    log.debug("Loading name usage for species id [{}]", id);
+    LOG.debug("Loading name usage for species id [{}]", id);
     return SUCCESS;
   }
 
   public String nameUsageRaw() {
-    log.debug("Loading raw name usage for species id [{}]", id);
+    LOG.debug("Loading raw name usage for species id [{}]", id);
     return SUCCESS;
   }
 
   public String nameUsageList() {
-    log.debug("Loading name usage list for species id [{}]", id);
+    LOG.debug("Loading name usage list for species id [{}]", id);
     return SUCCESS;
   }
 

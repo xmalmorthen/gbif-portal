@@ -2,14 +2,19 @@ package org.gbif.portal.action.occurrence;
 
 import org.gbif.portal.action.BaseAction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SearchAction extends BaseAction {
+
+  private final static Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
   // search
   private String q;
 
   @Override
   public String execute() {
-    log.debug("Trying occurrence search for q [{}]", q);
+    LOG.debug("Trying occurrence search for q [{}]", q);
     return SUCCESS;
   }
 

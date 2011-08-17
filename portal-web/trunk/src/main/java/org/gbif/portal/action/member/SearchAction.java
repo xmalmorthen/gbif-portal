@@ -2,7 +2,12 @@ package org.gbif.portal.action.member;
 
 import org.gbif.portal.action.BaseAction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SearchAction extends BaseAction {
+
+  private final static Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
   /**
    * TODO: implement member lookup
@@ -12,7 +17,7 @@ public class SearchAction extends BaseAction {
 
   @Override
   public String execute() {
-    log.debug("Trying member search for q [{}]", q);
+    LOG.debug("Trying member search for q [{}]", q);
     return SUCCESS;
   }
 

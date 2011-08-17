@@ -1,10 +1,5 @@
 package org.gbif.portal.struts;
 
-import org.gbif.ecat.cfg.DataDirConfig;
-import org.gbif.portal.action.BaseAction;
-
-import java.util.Map;
-
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
@@ -15,11 +10,11 @@ public class RequireLoginInterceptor extends AbstractInterceptor {
 
   @Override
   public String intercept(final ActionInvocation invocation) throws Exception {
-    final Map session = invocation.getInvocationContext().getSession();
-    final Object user = (Object) session.get(DataDirConfig.SESSION_USER);
-    if (user == null) {
-      return BaseAction.LOGIN_REQUIRED;
-    }
+// final Map session = invocation.getInvocationContext().getSession();
+// final Object user = (Object) session.get(DataDirConfig.SESSION_USER);
+// if (user == null) {
+// return BaseAction.LOGIN_REQUIRED;
+// }
     return invocation.invoke();
   }
 

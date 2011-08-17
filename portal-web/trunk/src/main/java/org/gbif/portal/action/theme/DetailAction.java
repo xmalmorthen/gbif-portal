@@ -2,7 +2,12 @@ package org.gbif.portal.action.theme;
 
 import org.gbif.portal.action.BaseAction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DetailAction extends BaseAction {
+
+  private final static Logger LOG = LoggerFactory.getLogger(DetailAction.class);
 
   private String id;
   private String themeName;
@@ -10,9 +15,9 @@ public class DetailAction extends BaseAction {
   @Override
   public String execute() {
     if (id != null) {
-      log.debug("Got requested theme id of [{}]", id);
+      LOG.debug("Got requested theme id of [{}]", id);
       themeName = humanize(id, true);
-      log.debug("Using theme name of {}", themeName);
+      LOG.debug("Using theme name of {}", themeName);
     }
     return SUCCESS;
   }
@@ -32,7 +37,9 @@ public class DetailAction extends BaseAction {
       } else {
         result.append(part);
       }
-      if ((partCount + 1) < parts.length) result.append(" ");
+      if ((partCount + 1) < parts.length) {
+        result.append(" ");
+      }
     }
 
     return result.toString();

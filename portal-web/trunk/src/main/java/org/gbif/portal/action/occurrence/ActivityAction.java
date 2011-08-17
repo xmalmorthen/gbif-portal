@@ -2,7 +2,12 @@ package org.gbif.portal.action.occurrence;
 
 import org.gbif.portal.action.BaseAction;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ActivityAction extends BaseAction {
+
+  private final static Logger LOG = LoggerFactory.getLogger(ActivityAction.class);
 
   // detail
   private Integer id;
@@ -10,11 +15,11 @@ public class ActivityAction extends BaseAction {
   @Override
   public String execute() {
     if (id != null) {
-      log.debug("Getting activity for occurrence id [{}]", id);
+      LOG.debug("Getting activity for occurrence id [{}]", id);
       /** TODO: implement occurrence lookup */
       return SUCCESS;
     }
-    return NOT_FOUND;
+    return HTTP_NOT_FOUND;
   }
 
   public void setId(Integer id) {

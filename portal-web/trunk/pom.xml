@@ -28,26 +28,16 @@
     <notDevMode>false</notDevMode>
 
     <gbif-common.version>0.4</gbif-common.version>
-    <ecat-common.version>1.5.1-SNAPSHOT</ecat-common.version>
-    <dwca-reader.version>1.8</dwca-reader.version>
 
-    <commons-io.version>2.0.1</commons-io.version>
-    <commons-lang.version>3.0</commons-lang.version>
-    <jackson.version>1.7.5</jackson.version>
-    <jersey.version>1.8</jersey.version>
-    <guava.version>r09</guava.version>
     <guice.version>3.0</guice.version>
-
     <struts.version>2.2.3</struts.version>
     <sitemesh.version>2.4.2</sitemesh.version>
     <freemarker.version>2.3.18</freemarker.version>
-    <javassist.version>3.8.0.GA</javassist.version>
-    <servlet-api.version>2.5</servlet-api.version>
-
     <logback.version>0.9.29</logback.version>
     <slf4j.version>1.6.1</slf4j.version>
     <junit.version>4.8.2</junit.version>
     <mockito.version>1.8.5</mockito.version>
+    <servletapi.version>2.5</servletapi.version>
     <jetty-maven-plugin.version>7.4.5.v20110725</jetty-maven-plugin.version>
   </properties>
 
@@ -117,12 +107,6 @@
       <id>gbif-thirdparty</id>
       <url>http://repository.gbif.org/content/repositories/thirdparty/</url>
     </repository>
-    <!-- For Jersey -->
-    <repository>
-      <id>maven2-repository.dev.java.net</id>
-      <name>Java.net repository</name>
-      <url>http://download.java.net/maven/2</url>
-    </repository>
   </repositories>
 
   <dependencies>
@@ -132,23 +116,8 @@
       <artifactId>gbif-common</artifactId>
       <version>${gbif-common.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.gbif</groupId>
-      <artifactId>ecat-common</artifactId>
-      <version>${ecat-common.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gbif</groupId>
-      <artifactId>dwca-reader</artifactId>
-      <version>${dwca-reader.version}</version>
-    </dependency>
 
     <!-- Google -->
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
-    </dependency>
     <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
@@ -164,16 +133,16 @@
       <artifactId>guice-struts2</artifactId>
       <version>${guice.version}</version>
     </dependency>
-    <dependency>
-      <groupId>com.google.inject.extensions</groupId>
-      <artifactId>guice-assistedinject</artifactId>
-      <version>${guice.version}</version>
-    </dependency>
 
     <!-- Struts2 -->
     <dependency>
       <groupId>org.apache.struts</groupId>
       <artifactId>struts2-core</artifactId>
+      <version>${struts.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.struts.xwork</groupId>
+      <artifactId>xwork-core</artifactId>
       <version>${struts.version}</version>
     </dependency>
     <!--
@@ -184,17 +153,8 @@
       <groupId>org.apache.struts</groupId>
       <artifactId>struts2-javatemplates-plugin</artifactId>
       <version>${struts.version}</version>
+      <scope>runtime</scope>
     </dependency>
-    <!--
-    http://struts.apache.org/2.x/docs/convention-plugin.html
-    -->
-    <!--
-    <dependency>
-      <groupId>org.apache.struts</groupId>
-      <artifactId>struts2-convention-plugin</artifactId>
-      <version>${struts.version}</version>
-    </dependency>
-    -->
 
     <!--
       http://struts.apache.org/2.x/docs/config-browser-plugin.html
@@ -205,28 +165,21 @@
       <groupId>org.apache.struts</groupId>
       <artifactId>struts2-config-browser-plugin</artifactId>
       <version>${struts.version}</version>
-    </dependency>
-
-    <dependency>
-      <!-- This is needed as struts2-core has a dependency on OGNL which has a dependency on javassist which is
-marked as "provided" so it needs to be specified explicitly. -->
-      <groupId>javassist</groupId>
-      <artifactId>javassist</artifactId>
-      <version>${javassist.version}</version>
       <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.struts.xwork</groupId>
-      <artifactId>xwork-core</artifactId>
-      <version>${struts.version}</version>
     </dependency>
 
     <!-- View Engines, Servlet & other web things-->
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>${servlet-api.version}</version>
-      <scope>provided</scope>
+      <groupId>org.apache.struts</groupId>
+      <artifactId>struts2-sitemesh-plugin</artifactId>
+      <version>${struts.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>opensymphony</groupId>
+      <artifactId>sitemesh</artifactId>
+      <version>${sitemesh.version}</version>
+     <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.freemarker</groupId>
@@ -234,50 +187,11 @@ marked as "provided" so it needs to be specified explicitly. -->
       <version>${freemarker.version}</version>
     </dependency>
     <dependency>
-      <groupId>opensymphony</groupId>
-      <artifactId>sitemesh</artifactId>
-      <version>${sitemesh.version}</version>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servletapi.version}</version>
+      <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>org.apache.struts</groupId>
-      <artifactId>struts2-sitemesh-plugin</artifactId>
-      <version>${struts.version}</version>
-    </dependency>
-
-    <!-- jersey/json -->
-    <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-client</artifactId>
-      <version>${jersey.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.jersey.contribs</groupId>
-      <artifactId>jersey-apache-client</artifactId>
-      <version>${jersey.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-json</artifactId>
-      <version>${jersey.version}</version>
-    </dependency>
-    <!-- not used right now -->
-    <!--
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-jaxrs</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-    -->
 
     <!-- Logging -->
     <dependency>
@@ -291,19 +205,12 @@ marked as "provided" so it needs to be specified explicitly. -->
       <version>${logback.version}</version>
       <scope>runtime</scope>
     </dependency>
-
-    <!-- Commons -->
+    <!-- Commons logging bridge for Struts2 -->
     <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>${commons-io.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>${commons-lang.version}</version>
-    </dependency>
-
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.6.1</version>
+    </dependency>  
 
     <!-- Test -->
     <dependency>
