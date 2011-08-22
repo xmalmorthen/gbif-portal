@@ -10,7 +10,7 @@
       <li class="last"><a href="#" title="Species">Species</a></li>
     </ul>
 
-    <h1>Puma Concolor</h1>
+    <h1>Puma concolor</h1>
 
     <h3 class="separator">Animalia</h3>
 
@@ -57,7 +57,7 @@
 <div class="header">
 <div class="left">
 <hgroup>
-  <h2>10 taxonomy levels for "Puma Concolor"</h2>
+  <h2>10 taxonomy levels for "Puma concolor"</h2>
 
 <h3>According to <a href="<@s.url value='/dataset/1'>">GBIF Backbone Taxonomy</a></h3>
 </hgroup>
@@ -86,6 +86,12 @@
 </li>
 
 <li>
+  <span class="taxon_level">Subclass</span>
+  <span class="separator" style="width:50px"></span>
+        <a href="<@s.url value='/species/123'>">Mammaliasub</a>
+</li>
+
+<li>
   <span class="taxon_level">Order</span>
   <span class="separator" style="width:60px"></span>
         <a href="<@s.url value='/species/123'>">Carnivora</a>
@@ -98,27 +104,27 @@
 </li>
 
 <li>
-  <span class="taxon_level">Genus</span>
+  <span class="taxon_level">Subfamily</span>
+  <span class="separator" style="width:70px"></span>
+        <a href="<@s.url value='/species/123'>">Felidaesub</a>
+</li>
+
+<li>
+  <span class="taxon_level">Supragenus</span>
   <span class="separator" style="width:80px"></span>
+        <a href="<@s.url value='/species/123'>">Pumasuper</a>
+</li>
+
+<li>
+  <span class="taxon_level">Genus</span>
+  <span class="separator" style="width:90px"></span>
         <a href="<@s.url value='/species/123'>">Puma</a>
 </li>
 
 <li>
-  <span class="taxon_level">Taxus</span>
+  <span class="taxon_level">Tribus</span>
   <span class="separator" style="width:90px"></span>
-        <a href="<@s.url value='/species/123'>">Taxus</a>
-</li>
-
-<li>
-  <span class="taxon_level">Fauxus</span>
-  <span class="separator" style="width:100px"></span>
-        <a href="<@s.url value='/species/123'>">Fauxus</a>
-</li>
-
-<li>
-  <span class="taxon_level">Lexus</span>
-  <span class="separator" style="width:110px"></span>
-        <a href="<@s.url value='/species/123'>">Lexus</a>
+        <a href="<@s.url value='/species/123'>">Pumatribus</a>
 </li>
 
 <li>
