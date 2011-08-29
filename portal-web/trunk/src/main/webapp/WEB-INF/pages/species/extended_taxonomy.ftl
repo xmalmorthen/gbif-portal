@@ -10,7 +10,7 @@
       <li class="last"><a href="#" title="Species">Species</a></li>
     </ul>
 
-    <h1>Puma Concolor</h1>
+    <h1>Puma concolor</h1>
 
     <h3 class="separator">Animalia</h3>
 
@@ -44,110 +44,105 @@
     </ul>
   </content>
 
-<div class="back">
-<div class="content">
-        <a href="<@s.url value='/species/${id}'>" title="Back to species overview">Back to species overview</a>
-</div>
-</div>
-
-<article class="extended_taxonomy">
-  <header></header>
-<div class="content">
-
-<div class="header">
-<div class="left">
-<hgroup>
-  <h2>10 taxonomy levels for "Puma Concolor"</h2>
-
-<h3>According to <a href="<@s.url value='/dataset/1'>">GBIF Backbone Taxonomy</a></h3>
-</hgroup>
-</div>
-</div>
-
-<div class="left">
-
-<ul class="extended_taxonomy">
-<li>
-  <span class="taxon_level">Kingdom</span>
-  <span class="separator" style="width:30px"></span>
-        <a href="<@s.url value='/species/123'>">Animalia</a>
-</li>
-
-<li>
-  <span class="taxon_level">Phylum</span>
-  <span class="separator" style="width:40px"></span>
-        <a href="<@s.url value='/species/123'>">Chordata</a>
-</li>
-
-<li>
-  <span class="taxon_level">Class</span>
-  <span class="separator" style="width:50px"></span>
-        <a href="<@s.url value='/species/123'>">Mammalia</a>
-</li>
-
-<li>
-  <span class="taxon_level">Order</span>
-  <span class="separator" style="width:60px"></span>
-        <a href="<@s.url value='/species/123'>">Carnivora</a>
-</li>
-
-<li>
-  <span class="taxon_level">Family</span>
-  <span class="separator" style="width:70px"></span>
-        <a href="<@s.url value='/species/123'>">Felidae</a>
-</li>
-
-<li>
-  <span class="taxon_level">Genus</span>
-  <span class="separator" style="width:80px"></span>
-        <a href="<@s.url value='/species/123'>">Puma</a>
-</li>
-
-<li>
-  <span class="taxon_level">Taxus</span>
-  <span class="separator" style="width:90px"></span>
-        <a href="<@s.url value='/species/123'>">Taxus</a>
-</li>
-
-<li>
-  <span class="taxon_level">Fauxus</span>
-  <span class="separator" style="width:100px"></span>
-        <a href="<@s.url value='/species/123'>">Fauxus</a>
-</li>
-
-<li>
-  <span class="taxon_level">Lexus</span>
-  <span class="separator" style="width:110px"></span>
-        <a href="<@s.url value='/species/123'>">Lexus</a>
-</li>
-
-<li>
-  <span class="taxon_level">Species</span>
-  <span class="separator" style="width:120px"></span>
-        <a href="<@s.url value='/species/123'>">Concolor</a>
-</li>
-</ul>
-
-</div>
-
-  <div class="right">
-
-    <div class="refine">
-      <h3>Download</h3>
-      <ul>
-        <li class="download"><a href="#" title="Extended taxonomy">Extended taxonomy <abbr
-                title="Comma separated values">(CSV)</abbr></a></li>
-      </ul>
+  <div class="back">
+    <div class="content">
+      <a href="<@s.url value='/species/${id!}'/>" title="Back to species overview">Back to species overview</a>
     </div>
-
-    <div class="download">
-    </div>
-
   </div>
 
-</div>
-  <footer></footer>
-</article>
+  <article class="extended_taxonomy">
+    <header></header>
+    <div class="content">
 
+      <div class="header">
+        <div class="left">
+          <hgroup>
+            <h2>10 taxonomy levels for "Puma Concolor"</h2>
+
+            <h3>According to <a href="<@s.url value='/dataset/1'/>">GBIF Backbone Taxonomy</a></h3>
+          </hgroup>
+        </div>
+      </div>
+
+      <div class="left">
+        <ul class="extended_taxonomy">
+          <li>
+            <span class="taxon_level">Kingdom</span>
+            <span class="separator" style="width:30px"></span>
+            <a href="<@s.url value='/species/123'/>">Animalia</a>
+          </li>
+
+          <li>
+            <span class="taxon_level">Phylum</span>
+            <span class="separator" style="width:40px"></span>
+            <a href="<@s.url value='/species/123'/>">Chordata</a>
+          </li>
+
+          <li>
+            <span class="taxon_level">Class</span>
+            <span class="separator" style="width:50px"></span>
+            <a href="<@s.url value='/species/123'/>">Mammalia</a>
+          </li>
+
+          <li>
+            <span class="taxon_level">Order</span>
+            <span class="separator" style="width:60px"></span>
+            <a href="<@s.url value='/species/123'/>">Carnivora</a>
+          </li>
+
+          <li>
+            <span class="taxon_level">Family</span>
+            <span class="separator" style="width:70px"></span>
+            <a href="<@s.url value='/species/123'/>">Felidae</a>
+          </li>
+
+          <li>
+            <span class="taxon_level">Genus</span>
+            <span class="separator" style="width:80px"></span>
+            <a href="<@s.url value='/species/123'/>">Puma</a>
+          </li>
+
+          <li>
+            <span class="taxon_level">Taxus</span>
+            <span class="separator" style="width:90px"></span>
+            <a href="<@s.url value='/species/123'/>">Taxus</a>
+          </li>
+
+          <li>
+            <span class="taxon_level">Fauxus</span>
+            <span class="separator" style="width:100px"></span>
+            <a href="<@s.url value='/species/123'/>">Fauxus</a>
+          </li>
+
+          <li>
+            <span class="taxon_level">Lexus</span>
+            <span class="separator" style="width:110px"></span>
+            <a href="<@s.url value='/species/123'/>">Lexus</a>
+          </li>
+
+          <li>
+            <span class="taxon_level">Species</span>
+            <span class="separator" style="width:120px"></span>
+            <a href="<@s.url value='/species/123'/>">Concolor</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="right">
+        <div class="refine">
+          <h3>Download</h3>
+          <ul>
+            <li class="download"><a href="#" title="Extended taxonomy">Extended taxonomy <abbr
+                    title="Comma separated values">(CSV)</abbr></a></li>
+          </ul>
+        </div>
+
+        <div class="download">
+        </div>
+      </div>
+
+    </div>
+    <footer></footer>
+  </article>
 </body>
 </html>
