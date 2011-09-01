@@ -1,18 +1,18 @@
 package org.gbif.portal.action;
 
+import java.util.Map;
+
+import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.interceptor.SessionAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.opensymphony.xwork2.ActionSupport;
-
-import java.util.Map;
 
 /**
  *
  */
 public abstract class BaseAction extends ActionSupport implements SessionAware {
 
-  private final static Logger LOG = LoggerFactory.getLogger(BaseAction.class);
+  private static final Logger LOG = LoggerFactory.getLogger(BaseAction.class);
 
   public static final String HTTP_NOT_FOUND = "404";
   public static final String HTTP_NOT_ALLOWED = "401";

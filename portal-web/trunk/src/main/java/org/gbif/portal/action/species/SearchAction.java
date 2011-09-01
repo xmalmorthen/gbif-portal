@@ -8,40 +8,43 @@
  */
 package org.gbif.portal.action.species;
 
+import org.gbif.checklistbank.api.model.Name;
+import org.gbif.checklistbank.ws.client.NameWsClient;
 import org.gbif.portal.action.BaseAction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SearchAction extends BaseAction {
+
+  private final static Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
   // search
   private String q;
   private List<Map> usages;
 
+  @Inject
+  private NameWsClient nameClient;
+
   @Override
   public String execute() {
-    /** TODO: re-enable dynamic content */
+    // testing new ws lookup
+    LOG.debug("Testing species lookup of [{}]", q);
+    Name name = nameClient.getName(q);
+    LOG.debug("Got result name with nubid [{}]", (name != null) ? name.getNubId() : null);
+
     // using static just to make sure all layout is working properly
     q = "Puma concolor";
     usages = new ArrayList<Map>();
     usages.add(new HashMap<String, String>());
     usages.add(new HashMap<String, String>());
-    // if (q == null) {
-    // log.debug("Got species search request for null q, ignoring");
-    // }
-    // else {
-    // log.debug("Trying species search for q [{}]", q);
-    // try {
-    // usages=clb.searchSpecies(q);
-    // }
-    // catch (Exception e) {
-    // log.warn("Got exception trying for species lookup with q ["+q+"]", e);
-    // }
-    // log.debug("Got [{}] species results for q [{}]", usages.size(), q);
-    // }
+
     return SUCCESS;
   }
 

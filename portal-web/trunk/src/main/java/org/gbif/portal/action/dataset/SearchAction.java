@@ -9,13 +9,15 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.portal.action.BaseAction;
+import org.gbif.registry.api.model.CollectionResult;
+import org.gbif.registry.ws.client.ResourceWsClient;
+
+import java.util.List;
+import java.util.Map;
+import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class SearchAction extends BaseAction {
 
@@ -23,23 +25,27 @@ public class SearchAction extends BaseAction {
 
   // search
   private String q;
-  private List<?> datasets;
+  private CollectionResult<?> datasets;
+
+  @Inject
+  private ResourceWsClient resourceClient;
 
   @Override
   public String execute() {
     LOG.debug("Searching for datasets matching [{}]", q);
-    /** TODO: re-enable real lookup */
+    // TODO: this call is wrong - API method not available yet
+    datasets = resourceClient.list(0);
+    LOG.debug("Found [{}] matching datasets", (datasets != null) ? datasets.getResults().size() : 0);
+
     // using static just to make sure all layout is working properly
     q = "Pontaurus";
-    datasets = new ArrayList<Map>();
+    datasets = new CollectionResult<Map>();
 
-    // datasets=registry.searchDatasets(q);
-    // log.debug("Got [{}] datasets matching [{}]", datasets.size(), q);
     return SUCCESS;
   }
 
   public List<?> getDatasets() {
-    return datasets;
+    return (datasets != null) ? datasets.getResults() : null;
   }
 
   public String getQ() {

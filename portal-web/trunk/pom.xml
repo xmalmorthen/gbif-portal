@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -18,16 +19,18 @@
   <url>http://sites.gbif.org/portal/portal-web</url>
 
   <properties>
-    <baseurl></baseurl>
-    <ws.species>http://ecat-dev.gbif.org/ws/</ws.species>
-    <ws.registry>http://gbrdstest.gbif.org/registry/</ws.registry>
-    <ws.occurrence>TO.BE.DONE</ws.occurrence>
+    <checklistbank.ws.url>http://staging.gbif.org:8080/checklistbank-ws/</checklistbank.ws.url>
+    <registry.ws.url>http://staging.gbif.org:8080/registry-ws-api-compatible/</registry.ws.url>
+    <occurrencestore.ws.url>http://staging.gbif.org:8080/occurrencestore-ws/</occurrencestore.ws.url>
 
     <!-- this looks silly, but we're not aware of a way to negate a variable, so we keep them separate to be used in struts config files -->
     <devMode>true</devMode>
     <notDevMode>false</notDevMode>
 
     <gbif-common.version>0.4</gbif-common.version>
+    <checklistbank-ws-client.version>0.1-SNAPSHOT</checklistbank-ws-client.version>
+    <registry-ws-client.version>0.1-SNAPSHOT</registry-ws-client.version>
+    <occurrencestore-ws-client.version>0.1-SNAPSHOT</occurrencestore-ws-client.version>
 
     <guice.version>3.0</guice.version>
     <struts.version>2.2.3</struts.version>
@@ -39,8 +42,9 @@
     <mockito.version>1.8.5</mockito.version>
     <servletapi.version>2.5</servletapi.version>
     <jetty-maven-plugin.version>7.4.5.v20110725</jetty-maven-plugin.version>
+    <jersey-apache-client4.version>1.8</jersey-apache-client4.version>
+    <jersey-json.version>1.8</jersey-json.version>
   </properties>
-
 
   <scm>
     <connection>scm:svn:http://gbif-portal.googlecode.com/svn/portal-web/trunk</connection>
@@ -115,6 +119,21 @@
       <groupId>org.gbif</groupId>
       <artifactId>gbif-common</artifactId>
       <version>${gbif-common.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>checklistbank-ws-client</artifactId>
+      <version>${checklistbank-ws-client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>registry-ws-client</artifactId>
+      <version>${registry-ws-client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>occurrencestore-ws-client</artifactId>
+      <version>${occurrencestore-ws-client.version}</version>
     </dependency>
 
     <!-- Google -->
@@ -192,6 +211,18 @@
       <scope>provided</scope>
     </dependency>
 
+    <!-- For webservice guice modules -->
+    <dependency>
+      <groupId>com.sun.jersey.contribs</groupId>
+      <artifactId>jersey-apache-client4</artifactId>
+      <version>${jersey-apache-client4.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-json</artifactId>
+      <version>${jersey-json.version}</version>
+    </dependency>
+
     <!-- Logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -209,7 +240,7 @@
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
       <version>1.6.1</version>
-    </dependency>  
+    </dependency>
 
     <!-- Test -->
     <dependency>
