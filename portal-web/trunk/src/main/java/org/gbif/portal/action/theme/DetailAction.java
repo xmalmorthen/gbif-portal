@@ -27,7 +27,7 @@ public class DetailAction extends BaseAction {
    */
   private String humanize(String underscoredString, boolean allFirstCharsUpper) {
     String[] parts = underscoredString.toLowerCase().split("_");
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     int partCount = -1;
     for (String part : parts) {
       partCount++;
@@ -37,8 +37,8 @@ public class DetailAction extends BaseAction {
       } else {
         result.append(part);
       }
-      if ((partCount + 1) < parts.length) {
-        result.append(" ");
+      if (partCount + 1 < parts.length) {
+        result.append(' ');
       }
     }
 
