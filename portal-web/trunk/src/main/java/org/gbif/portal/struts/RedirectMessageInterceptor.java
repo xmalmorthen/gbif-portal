@@ -63,7 +63,7 @@ public class RedirectMessageInterceptor extends MethodFilterInterceptor {
 
     @SuppressWarnings("unchecked")
     final Collection<String> actionErrors = (Collection) session.remove(ACTION_ERRORS_KEY);
-    if (actionErrors != null && actionErrors.size() > 0) {
+    if (actionErrors != null && !actionErrors.isEmpty()) {
       for (final String error : actionErrors) {
         validationAware.addActionError(error);
       }
@@ -71,7 +71,7 @@ public class RedirectMessageInterceptor extends MethodFilterInterceptor {
 
     @SuppressWarnings("unchecked")
     final Collection<String> actionMessages = (Collection) session.remove(ACTION_MESSAGES_KEY);
-    if (actionMessages != null && actionMessages.size() > 0) {
+    if (actionMessages != null && !actionMessages.isEmpty()) {
       for (final String message : actionMessages) {
         validationAware.addActionMessage(message);
       }
@@ -79,7 +79,7 @@ public class RedirectMessageInterceptor extends MethodFilterInterceptor {
 
     @SuppressWarnings("unchecked")
     final Map<String, List<String>> fieldErrors = (Map) session.remove(FIELD_ERRORS_KEY);
-    if (fieldErrors != null && fieldErrors.size() > 0) {
+    if (fieldErrors != null && !fieldErrors.isEmpty()) {
       for (final Map.Entry<String, List<String>> fieldError : fieldErrors.entrySet()) {
         for (final String message : fieldError.getValue()) {
           validationAware.addFieldError(fieldError.getKey(), message);
@@ -98,17 +98,17 @@ public class RedirectMessageInterceptor extends MethodFilterInterceptor {
       final Map<String, Object> session = invocation.getInvocationContext().getSession();
 
       final Collection<String> actionErrors = validationAware.getActionErrors();
-      if (actionErrors != null && actionErrors.size() > 0) {
+      if (actionErrors != null && !actionErrors.isEmpty()) {
         session.put(ACTION_ERRORS_KEY, actionErrors);
       }
 
       final Collection<String> actionMessages = validationAware.getActionMessages();
-      if (actionMessages != null && actionMessages.size() > 0) {
+      if (actionMessages != null && !actionMessages.isEmpty()) {
         session.put(ACTION_MESSAGES_KEY, actionMessages);
       }
 
       final Map<String, List<String>> fieldErrors = validationAware.getFieldErrors();
-      if (fieldErrors != null && fieldErrors.size() > 0) {
+      if (fieldErrors != null && !fieldErrors.isEmpty()) {
         session.put(FIELD_ERRORS_KEY, fieldErrors);
       }
     }
