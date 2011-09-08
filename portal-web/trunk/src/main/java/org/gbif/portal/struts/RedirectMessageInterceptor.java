@@ -35,9 +35,6 @@ public class RedirectMessageInterceptor extends MethodFilterInterceptor {
   public static final String ACTION_ERRORS_KEY = "RedirectMessageInterceptor_ActionErrors";
   public static final String ACTION_MESSAGES_KEY = "RedirectMessageInterceptor_ActionMessages";
 
-  public RedirectMessageInterceptor() {
-  }
-
   @Override
   public String doIntercept(final ActionInvocation invocation) throws Exception {
     final Object action = invocation.getAction();
