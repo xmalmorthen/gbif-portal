@@ -14,7 +14,7 @@ public class PortalModule extends AbstractModule {
   }
 
   /**
-   * @throws IOException If the application properties cannot be read
+   * @throws ConfigurationException If the application properties cannot be read
    */
   private void bindApplicationProperties() throws ConfigurationException {
     try {
@@ -23,7 +23,7 @@ public class PortalModule extends AbstractModule {
       Names.bindProperties(binder(), properties);
     } catch (IOException e) {
       throw new ConfigurationException(
-        "Unable to read the application.properties (perhaps missing in WEB-ING/classes?)");
+        "Unable to read the application.properties (perhaps missing in WEB-INF/classes?)");
     }
   }
 }
