@@ -27,17 +27,19 @@
     <devMode>true</devMode>
     <notDevMode>false</notDevMode>
 
-    <gbif-common.version>0.4</gbif-common.version>
+    <checklistbank-api.version>0.1-SNAPSHOT</checklistbank-api.version>
     <checklistbank-ws-client.version>0.1-SNAPSHOT</checklistbank-ws-client.version>
+    <registry-api.version>0.1-SNAPSHOT</registry-api.version>
     <registry-ws-client.version>0.1-SNAPSHOT</registry-ws-client.version>
+    <occurrencestore-api.version>0.1-SNAPSHOT</occurrencestore-api.version>
     <occurrencestore-ws-client.version>0.1-SNAPSHOT</occurrencestore-ws-client.version>
 
     <guice.version>3.0</guice.version>
-    <struts.version>2.2.3</struts.version>
+    <struts.version>2.2.3.1</struts.version>
     <sitemesh.version>2.4.2</sitemesh.version>
     <freemarker.version>2.3.18</freemarker.version>
     <logback.version>0.9.29</logback.version>
-    <slf4j.version>1.6.1</slf4j.version>
+    <slf4j.version>1.6.2</slf4j.version>
     <junit.version>4.8.2</junit.version>
     <mockito.version>1.8.5</mockito.version>
     <servletapi.version>2.5</servletapi.version>
@@ -64,9 +66,9 @@
     <defaultGoal>jetty:run</defaultGoal>
     <plugins>
       <plugin>
-        <version>${jetty-maven-plugin.version}</version>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
+        <version>${jetty-maven-plugin.version}</version>
         <configuration>
           <scanIntervalSeconds>10</scanIntervalSeconds>
           <webAppConfig>
@@ -107,18 +109,14 @@
       <id>gbif-all</id>
       <url>http://repository.gbif.org/content/groups/gbif</url>
     </repository>
-    <repository>
-      <id>gbif-thirdparty</id>
-      <url>http://repository.gbif.org/content/repositories/thirdparty/</url>
-    </repository>
   </repositories>
 
   <dependencies>
     <!-- GBIF -->
     <dependency>
       <groupId>org.gbif</groupId>
-      <artifactId>gbif-common</artifactId>
-      <version>${gbif-common.version}</version>
+      <artifactId>checklistbank-api</artifactId>
+      <version>${checklistbank-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gbif</groupId>
@@ -127,8 +125,18 @@
     </dependency>
     <dependency>
       <groupId>org.gbif</groupId>
+      <artifactId>registry-api</artifactId>
+      <version>${registry-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
       <artifactId>registry-ws-client</artifactId>
       <version>${registry-ws-client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>occurrencestore-api</artifactId>
+      <version>${occurrencestore-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gbif</groupId>
@@ -175,18 +183,6 @@
       <scope>runtime</scope>
     </dependency>
 
-    <!--
-      http://struts.apache.org/2.x/docs/config-browser-plugin.html
-      open in your browser
-      http://localhost:8080/config-browser/actionNames.action
-      -->
-    <dependency>
-      <groupId>org.apache.struts</groupId>
-      <artifactId>struts2-config-browser-plugin</artifactId>
-      <version>${struts.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-
     <!-- View Engines, Servlet & other web things-->
     <dependency>
       <groupId>org.apache.struts</groupId>
@@ -216,6 +212,7 @@
       <groupId>com.sun.jersey.contribs</groupId>
       <artifactId>jersey-apache-client4</artifactId>
       <version>${jersey-apache-client4.version}</version>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
@@ -239,7 +236,8 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
-      <version>1.6.1</version>
+      <version>${slf4j.version}</version>
+      <scope>runtime</scope>
     </dependency>
 
     <!-- Test -->
@@ -259,6 +257,23 @@
   </dependencies>
 
   <profiles>
+    <profile>
+      <id>development</id>
+      <dependencies>
+        <!--
+        http://struts.apache.org/2.x/docs/config-browser-plugin.html
+        open in your browser
+        http://localhost:8080/config-browser/actionNames.action
+        -->
+        <dependency>
+          <groupId>org.apache.struts</groupId>
+          <artifactId>struts2-config-browser-plugin</artifactId>
+          <version>${struts.version}</version>
+          <scope>runtime</scope>
+        </dependency>
+      </dependencies>
+    </profile>
+
     <profile>
       <!-- used by hudson for unit tests and continous integration -->
       <id>hudson</id>
