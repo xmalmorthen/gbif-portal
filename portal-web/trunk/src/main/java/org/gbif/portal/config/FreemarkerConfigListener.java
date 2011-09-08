@@ -8,10 +8,10 @@
  */
 package org.gbif.portal.config;
 
-import freemarker.log.Logger;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
+import freemarker.log.Logger;
 
 /**
  * Sets up freemarker (SLF4J)
