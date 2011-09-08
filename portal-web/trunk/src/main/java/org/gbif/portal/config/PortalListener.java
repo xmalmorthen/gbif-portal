@@ -23,7 +23,7 @@ import com.google.inject.struts2.Struts2GuicePluginModule;
 import com.opensymphony.sitemesh.webapp.SiteMeshFilter;
 
 /**
- * Setting up filter and servlets in addition to the ones in web.xml
+ * Setting up filter and servlets in addition to the ones in web.xml.
  */
 public class PortalListener extends GuiceServletContextListener {
 

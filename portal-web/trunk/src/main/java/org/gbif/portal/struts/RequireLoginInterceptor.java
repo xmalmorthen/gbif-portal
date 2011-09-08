@@ -4,7 +4,7 @@ import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
 /**
- * An Interceptor that makes sure a user is currently logged in and returns a notLoggedIn otherwise
+ * An Interceptor that makes sure a user is currently logged in and returns a notLoggedIn otherwise.
  */
 public class RequireLoginInterceptor extends AbstractInterceptor {
 

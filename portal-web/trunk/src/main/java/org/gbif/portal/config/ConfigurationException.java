@@ -1,7 +1,7 @@
 package org.gbif.portal.config;
 
 /**
- * Inidcates that the application configuration is incorrect
+ * Indicates that the application configuration is incorrect.
  *
  * @author timrobertson
  */

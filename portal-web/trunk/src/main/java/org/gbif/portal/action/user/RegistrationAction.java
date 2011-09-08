@@ -11,8 +11,8 @@ package org.gbif.portal.action.user;
 import org.gbif.portal.action.BaseAction;
 
 /**
- * Manages registrations
- * 
+ * Manages registrations.
+ *
  * @author timrobertson
  */
 public class RegistrationAction extends BaseAction {
