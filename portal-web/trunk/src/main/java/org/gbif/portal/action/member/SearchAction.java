@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class SearchAction extends BaseAction {
 
-  private final static Logger LOG = LoggerFactory.getLogger(SearchAction.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
   /**
    * TODO: implement member lookup

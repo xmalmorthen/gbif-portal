@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 public class DiscussionAction extends BaseAction {
 
-  private final static Logger LOG = LoggerFactory.getLogger(DiscussionAction.class);
+  private static final Logger LOG = LoggerFactory.getLogger(DiscussionAction.class);
   // detail
   private Integer id;
 

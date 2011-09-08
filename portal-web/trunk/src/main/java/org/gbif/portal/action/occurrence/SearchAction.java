@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class SearchAction extends BaseAction {
 
-  private final static Logger LOG = LoggerFactory.getLogger(SearchAction.class);
+  private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
   // search
   private String q;

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class DatasetsAction extends BaseAction {
 
-  private final static Logger LOG = LoggerFactory.getLogger(DatasetsAction.class);
+  private static final Logger LOG = LoggerFactory.getLogger(DatasetsAction.class);
 
   // detail
   private Integer id;

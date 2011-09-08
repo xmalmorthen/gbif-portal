@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 public class StatsAction extends BaseAction {
 
-  private final static Logger LOG = LoggerFactory.getLogger(StatsAction.class);
+  private static final Logger LOG = LoggerFactory.getLogger(StatsAction.class);
 
   private Integer id;
 

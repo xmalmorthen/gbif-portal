@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class ActivityAction extends BaseAction {
 
-  private final static Logger LOG = LoggerFactory.getLogger(ActivityAction.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ActivityAction.class);
 
   // detail
   private Integer id;
