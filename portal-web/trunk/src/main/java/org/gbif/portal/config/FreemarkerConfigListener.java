@@ -20,6 +20,7 @@ public class FreemarkerConfigListener implements ServletContextListener {
 
   @Override
   public void contextDestroyed(ServletContextEvent sce) {
+    // Nothing to destroy for this listener
   }
 
   @Override
