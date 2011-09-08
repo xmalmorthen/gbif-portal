@@ -25,7 +25,7 @@ public class SearchAction extends BaseAction {
     LOG.debug("Trying fake occurrence search for q [{}]", q);
     // TODO this call is wrong, proper API call not available yet
     Occurrence occ = occurrenceClient.getOccurrence(1);
-    LOG.debug("Got occurrence with id [{}]", (occ != null) ? occ.getId() : null);
+    LOG.debug("Got occurrence with id [{}]", occ == null ? null : occ.getId());
 
     return SUCCESS;
   }

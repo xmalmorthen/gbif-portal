@@ -35,7 +35,7 @@ public class SearchAction extends BaseAction {
     LOG.debug("Searching for datasets matching [{}]", q);
     // TODO: this call is wrong - API method not available yet
     datasets = resourceClient.list(0);
-    LOG.debug("Found [{}] matching datasets", (datasets != null) ? datasets.getResults().size() : 0);
+    LOG.debug("Found [{}] matching datasets", datasets == null ? 0 : datasets.getResults().size());
 
     // using static just to make sure all layout is working properly
     q = "Pontaurus";
@@ -45,7 +45,7 @@ public class SearchAction extends BaseAction {
   }
 
   public List<?> getDatasets() {
-    return (datasets != null) ? datasets.getResults() : null;
+    return datasets == null ? null : datasets.getResults();
   }
 
   public String getQ() {

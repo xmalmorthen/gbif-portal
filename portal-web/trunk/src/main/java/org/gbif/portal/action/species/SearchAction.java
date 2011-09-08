@@ -37,7 +37,7 @@ public class SearchAction extends BaseAction {
     // testing new ws lookup
     LOG.debug("Testing species lookup of [{}]", q);
     Name name = nameClient.getName(q);
-    LOG.debug("Got result name with nubid [{}]", (name != null) ? name.getNubId() : null);
+    LOG.debug("Got result name with nubid [{}]", name == null ? null : name.getNubId());
 
     // using static just to make sure all layout is working properly
     q = "Puma concolor";
