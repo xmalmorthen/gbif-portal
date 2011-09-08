@@ -23,7 +23,7 @@ public class PortalModule extends AbstractModule {
       Names.bindProperties(binder(), properties);
     } catch (IOException e) {
       throw new ConfigurationException(
-        "Unable to read the application.properties (perhaps missing in WEB-INF/classes?)");
+        "Unable to read the application.properties (perhaps missing in WEB-INF/classes?)", e);
     }
   }
 }

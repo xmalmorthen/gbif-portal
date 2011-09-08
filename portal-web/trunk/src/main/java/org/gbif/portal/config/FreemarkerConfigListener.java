@@ -30,7 +30,7 @@ public class FreemarkerConfigListener implements ServletContextListener {
       Logger.selectLoggerLibrary(Logger.LIBRARY_SLF4J);
     } catch (ClassNotFoundException e) {
       throw new ConfigurationException(
-        "Unable to use SLF4J for Freemarker - check dependencies that freemarker is >2.3.17");
+        "Unable to use SLF4J for Freemarker - check dependencies that freemarker is >2.3.17", e);
     }
   }
 }
