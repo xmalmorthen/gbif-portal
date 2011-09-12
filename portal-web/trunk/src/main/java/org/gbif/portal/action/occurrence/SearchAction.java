@@ -24,7 +24,7 @@ public class SearchAction extends BaseAction {
     // testing new ws integration
     LOG.debug("Trying fake occurrence search for q [{}]", q);
     // TODO this call is wrong, proper API call not available yet
-    Occurrence occ = occurrenceClient.getOccurrence(1);
+    Occurrence occ = occurrenceClient.get(1);
     LOG.debug("Got occurrence with id [{}]", occ == null ? null : occ.getId());
 
     return SUCCESS;
