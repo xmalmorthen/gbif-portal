@@ -8,7 +8,7 @@
  */
 package org.gbif.portal.action.species;
 
-import org.gbif.checklistbank.api.model.Name;
+//import org.gbif.checklistbank.api.model.UsageName;
 import org.gbif.checklistbank.ws.client.NameWsClient;
 import org.gbif.portal.action.BaseAction;
 
@@ -35,15 +35,15 @@ public class SearchAction extends BaseAction {
   @Override
   public String execute() {
     // testing new ws lookup
-    LOG.debug("Testing species lookup of [{}]", q);
-    Name name = nameClient.getName(q);
-    LOG.debug("Got result name with nubid [{}]", name == null ? null : name.getNubId());
+    //LOG.debug("Testing species lookup of [{}]", q);
+    //Name name = nameClient.getName(q);
+    //LOG.debug("Got result name with nubid [{}]", name == null ? null : name.getNubId());
 
     // using static just to make sure all layout is working properly
-    q = "Puma concolor";
-    usages = new ArrayList<Map>();
-    usages.add(new HashMap<String, String>());
-    usages.add(new HashMap<String, String>());
+    //q = "Puma concolor";
+    //usages = new ArrayList<Map>();
+    //usages.add(new HashMap<String, String>());
+    //usages.add(new HashMap<String, String>());
 
     return SUCCESS;
   }
