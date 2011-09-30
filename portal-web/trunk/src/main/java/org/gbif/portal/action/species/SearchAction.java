@@ -9,11 +9,10 @@
 package org.gbif.portal.action.species;
 
 //import org.gbif.checklistbank.api.model.UsageName;
-import org.gbif.checklistbank.ws.client.NameWsClient;
+
+import org.gbif.checklistbank.ws.client.NameUsageWsClient;
 import org.gbif.portal.action.BaseAction;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
@@ -30,7 +29,7 @@ public class SearchAction extends BaseAction {
   private List<Map> usages;
 
   @Inject
-  private NameWsClient nameClient;
+  private NameUsageWsClient nameClient;
 
   @Override
   public String execute() {
