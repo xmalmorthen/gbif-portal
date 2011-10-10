@@ -10,7 +10,7 @@ package org.gbif.portal.action.species;
 
 //import org.gbif.checklistbank.api.model.UsageName;
 
-import org.gbif.checklistbank.ws.client.NameUsageWsClient;
+import org.gbif.checklistbank.ws.client.NubUsageWsClient;
 import org.gbif.portal.action.BaseAction;
 
 import java.util.List;
