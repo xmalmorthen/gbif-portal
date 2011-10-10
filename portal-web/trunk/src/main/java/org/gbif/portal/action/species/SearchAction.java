@@ -29,7 +29,7 @@ public class SearchAction extends BaseAction {
   private List<Map> usages;
 
   @Inject
-  private NameUsageWsClient nameClient;
+  private NubUsageWsClient nameClient;
 
   @Override
   public String execute() {
