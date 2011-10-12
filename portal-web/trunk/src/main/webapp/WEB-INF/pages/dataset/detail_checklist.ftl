@@ -13,7 +13,7 @@
     <li class="last"><a href="<@s.url value='/datasets'/>" title="Datasets">Datasets</a></li>
   </ul>
 
-  <!-- TODO: use the Registry's dataset 'name' property -->
+  <!-- TODO: posibly use the Registry's dataset 'name' property -->
   <h1>${dataset.name}</h1>
 
   <h3 class="separator">Provided by <a href="<@s.url value='/member/1'/>" class="placeholder_temp">GBIF</a>
@@ -90,7 +90,8 @@
     </div>
     <div class="right">
       <div class="logo_holder">
-        <img src="<@s.url value='/external/logos/logo1.jpg'/>"/>
+        <!-- TODO: posibly use the Registry's dataset 'logoUrl' property -->
+        <img src="${dataset.logoUrl}"/>
       </div>
       <h3>Checklist type</h3>
 
