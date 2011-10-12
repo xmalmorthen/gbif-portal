@@ -4,7 +4,6 @@ import org.gbif.occurrencestore.api.model.Occurrence;
 import org.gbif.occurrencestore.ws.client.OccurrenceWsClient;
 import org.gbif.portal.action.BaseAction;
 
-
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

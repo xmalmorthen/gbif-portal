@@ -1,10 +1,10 @@
 package org.gbif.portal.config;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.name.Names;
-
 import java.io.IOException;
 import java.util.Properties;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.name.Names;
 
 public class PortalModule extends AbstractModule {
 

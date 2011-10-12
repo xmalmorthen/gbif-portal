@@ -12,8 +12,6 @@ import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
 import org.gbif.occurrencestore.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
 
-import org.apache.struts2.dispatcher.ng.filter.StrutsExecuteFilter;
-import org.apache.struts2.dispatcher.ng.filter.StrutsPrepareFilter;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -21,6 +19,8 @@ import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import com.google.inject.struts2.Struts2GuicePluginModule;
 import com.opensymphony.sitemesh.webapp.SiteMeshFilter;
+import org.apache.struts2.dispatcher.ng.filter.StrutsExecuteFilter;
+import org.apache.struts2.dispatcher.ng.filter.StrutsPrepareFilter;
 
 /**
  * Setting up filter and servlets in addition to the ones in web.xml.
