@@ -8,8 +8,12 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.checklistbank.ws.client.ChecklistWsClient;
 import org.gbif.portal.action.BaseAction;
 
+import java.util.UUID;
+
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +25,10 @@ public class DetailAction extends BaseAction {
   private String id;
   private Object dataset;
 
+  @Inject
+  private ChecklistWsClient checklistClient;
+
+
   @Override
   public String execute() {
     LOG.debug("Fetching detail for dataset id [{}]", id);
@@ -29,19 +37,13 @@ public class DetailAction extends BaseAction {
     if (id == null) {
       return HTTP_NOT_FOUND;
     }
+    // TODO: the registry client needs to be invoked first to know which type of Resource we area dealing with. For now
+    // the checklist client will be the default one being called. The default view will be the detailed checklist.
+    // TODO: check to see if this is valid UUID first
+    dataset = checklistClient.get(UUID.fromString(id));
+    return "detail_checklist";
+    // other views --> "detail_external", "detail_occurrence"
 
-    if (id.equals("1")) {
-      dataset = "Checklist - GBIF Backbone Taxonomy";
-      return "detail_checklist";
-    }
-
-    if (id.equals("2")) {
-      dataset = "External dataset";
-      return "detail_external";
-    }
-
-    dataset = "Pontaurus";
-    return "detail_occurrence";
 
     // log.debug("executing action class: " + this.getClass().getName());
     // if (!StringUtils.isBlank(id)) {

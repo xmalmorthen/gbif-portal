@@ -3,6 +3,9 @@
   <title>Checklist detail - GBIF</title>
   <meta name="menu" content="datasets"/>
 </head>
+ <STYLE type="text/css">
+   .placeholder_temp { color:red }
+ </STYLE>
 <body class="typesmap">
 
 <content tag="infoband">
@@ -10,14 +13,15 @@
     <li class="last"><a href="<@s.url value='/datasets'/>" title="Datasets">Datasets</a></li>
   </ul>
 
-  <h1>Herpetology</h1>
+  <!-- TODO: use the Registry's dataset 'name' property -->
+  <h1>${dataset.name}</h1>
 
-  <h3 class="separator">Provided by <a href="<@s.url value='/member/1'/>">GBIF</a>
+  <h3 class="separator">Provided by <a href="<@s.url value='/member/1'/>" class="placeholder_temp">GBIF</a>
   </h3>
   <ul class="tags">
-    <li><a href="#" title="North America">North America</a></li>
-    <li><a href="#" title="terrestrial">terrestrial</a></li>
-    <li class="last"><a href="#" title="reptiles">reptiles</a></li>
+    <li><a href="#" title="North America" class="placeholder_temp">North America</a></li>
+    <li><a href="#" title="terrestrial" class="placeholder_temp">terrestrial</a></li>
+    <li class="last"><a href="#" title="reptiles" class="placeholder_temp">reptiles</a></li>
   </ul>
 
   <div class="box">
@@ -53,34 +57,36 @@
     <div class="left">
       <h3>Abstract</h3>
 
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+	  
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
         et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
         facilisi.</p>
+      
 
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui</p>
 
       <h3>Purpose</h3>
 
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi.</p>
 
       <h3>Additional information</h3>
 
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi.</p>
 
       <h3>Temporal context</h3>
 
-      <p>Jan 1st, 2001 → Jan 1st, 2009</p>
+      <p class="placeholder_temp">Jan 1st, 2001 → Jan 1st, 2009</p>
 
       <h3>Languages</h3>
 
-      <p>English</p>
+      <p class="placeholder_temp">English</p>
     </div>
     <div class="right">
       <div class="logo_holder">
@@ -88,7 +94,7 @@
       </div>
       <h3>Checklist type</h3>
 
-      <p>Taxonomic</p>
+      <p>${dataset.type}</p>
 
       <h3>Provided by</h3>
 
