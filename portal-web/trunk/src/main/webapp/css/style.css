@@ -7309,3 +7309,9 @@ body.singlemap a.zoom_out {
 body.singlemap a.zoom_out:hover {
   background-position: -28px -32px;
 }
+ /* Temporary CSS for signaling placeholders. Remove this styles when not needed anymore */
+ /* On every FTL, search for the literal "placeholder_temp" and replace it when real values are available */
+.placeholder_temp {
+  color: red !important;
+}
+

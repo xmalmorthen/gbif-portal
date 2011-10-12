@@ -98,37 +98,37 @@
 
       <h3>Provided by</h3>
 
-      <p><a href="<@s.url value='/member/123'/>" title="Botanic Garden and Botanical Museum Berlin-Dahlem">Botanic
+      <p><a href="<@s.url value='/member/123'/>" title="Botanic Garden and Botanical Museum Berlin-Dahlem" class="placeholder_temp">Botanic
         Garden and
         Botanical Museum Berlin-Dahlem</a></p>
 
       <h3>Hosted by</h3>
 
-      <p><a href="<@s.url value='/member/123'/>" title="DanBIF Data Hosting Center">DanBIF Data Hosting Center</a></p>
+      <p><a href="<@s.url value='/member/123'/>" title="DanBIF Data Hosting Center" class="placeholder_temp">DanBIF Data Hosting Center</a></p>
 
       <h3>Endorsed by</h3>
 
-      <p><a href="<@s.url value='/member/123'/>" title="GBIF Germany Participant Node">GBIF Germany Participant Node</a>
+      <p><a href="<@s.url value='/member/123'/>" title="GBIF Germany Participant Node" class="placeholder_temp">GBIF Germany Participant Node</a>
       </p>
 
       <h3>Alternative Identifiers</h3>
 
-      <p>UC-10029192, REF-ejedei</p>
+      <p class="placeholder_temp">UC-10029192, REF-ejedei</p>
 
       <h3>External Links</h3>
       <ul>
-        <li><a href="#" title="Original source">Original dataset source</a></li>
-        <li><a href="#" title="Author's blog">Author's blog</a></li>
-        <li><a href="#" title="Methodology">A discussion board over the methodology</a></li>
+        <li><a href="#" title="Original source" class="placeholder_temp">Original dataset source</a></li>
+        <li><a href="#" title="Author's blog" class="placeholder_temp">Author's blog</a></li>
+        <li><a href="#" title="Methodology" class="placeholder_temp">A discussion board over the methodology</a></li>
       </ul>
       <h3>Metadata</h3>
       <ul>
-        <li class="download">EML file &nbsp;<a class="small download" href="#" title="EML file (english)">ENG</a> · <a
-                class="small download" href="#" title="EML file (spanish)">SPA</a> · <a class="small download" href="#"
+        <li class="download">EML file &nbsp;<a class="small download placeholder_temp" href="#" title="EML file (english)">ENG</a> · <a
+                class="small download placeholder_temp" href="#" title="EML file (spanish)">SPA</a> · <a class="small download placeholder_temp" href="#"
                                                                                         title="EML file (german)">GER</a>
         </li>
-        <li class="download">ISO 1939 file &nbsp;<a class="small download" href="#"
-                                                    title="ISO 1939 file (english)">ENG</a> · <a class="small download"
+        <li class="download">ISO 1939 file &nbsp;<a class="small download placeholder_temp" href="#"
+                                                    title="ISO 1939 file (english)">ENG</a> · <a class="small download placeholder_temp"
                                                                                                  href="#"
                                                                                                  title="ISO 1939 file (spanish)">SPA</a>
         </li>
@@ -148,43 +148,43 @@
 
     <div class="left">
       <ul class="three_cols">
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Araneae<a/></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Opiliones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Parasitiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Trombidiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Araneae<a/></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Opiliones</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Parasitiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Trombidiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
       </ul>
       <ul class="three_cols">
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Araneae<a/></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Opiliones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Parasitiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Trombidiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Araneae<a/></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Opiliones</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Parasitiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Trombidiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
       </ul>
       <ul class="three_cols">
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Araneae<a/></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Opiliones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Parasitiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Trombidiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Araneae<a/></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Opiliones</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Parasitiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Trombidiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
+        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
       </ul>
 
-      <p>The complete list has 123.002 more elements. You can <a href="#" class="download"
+      <p>The complete list has ${dataset.numNames} more elements. You can <a href="#" class="download"
                                                                  title="Download all the elments">download them all</a>.
       </p>
     </div>
@@ -192,16 +192,15 @@
     <div class="right">
       <h3>Taxonomic coverage</h3>
 
-      <p>Animalia</p>
+      <p class="placeholder_temp">Animalia</p>
 
       <h3>Second level data elements</h3>
       <ul>
-        <li>References <span class="number">200</span></li>
-        <li>Common names <span class="number">32</span></li>
-        <li>Specimens <span class="number">152</span></li>
+        <li>References <span class="number">${dataset.numReferences}</span></li>
+        <li>Common names <span class="number">${dataset.numVernacularNames}</span></li>
+        <li>Specimens <span class="number placeholder_temp">152</span></li>
       </ul>
     </div>
-
   </div>
   <footer></footer>
 </article>
@@ -221,11 +220,11 @@
     <div class="right">
       <h3>Geographic coverage</h3>
 
-      <p>North America</p>
+      <p class="placeholder_temp">North America</p>
 
-      <p class="maptype"><a href="#" title="points">points</a> | <a href="#" title="grid">grid</a> | <a href="#"
+      <p class="maptype"><a href="#" title="points" class="placeholder_temp">points</a> | <a href="#" title="grid" class="placeholder_temp">grid</a> | <a href="#"
                                                                                                         title="polygons"
-                                                                                                        class="selected">polygons</a>
+                                                                                                        class="selected placeholder_temp">polygons</a>
       </p>
 
       <h3>Download</h3>
@@ -249,14 +248,14 @@
 
       <h3>Study area description</h3>
 
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
           feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
           delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et
           accumsan et iusto odio dignissim qui blandit.</p>
 
       <h3>Design description</h3>
 
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
         et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
@@ -264,31 +263,31 @@
 
       <h3>Funding</h3>
 
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi.</p>
 
       <h3>Team</h3>
 
       <ul class="team">
-        <li>
-          <h4>Paul J. Morris</h4>
-          <h4 class="position">Resource Contact</h4>
-          <a href="#" title="Paul J. Morris' email">mole@morris.net</a>
+        <li class="placeholder_temp">
+          <h4 class="placeholder_temp">Paul J. Morris</h4>
+          <h4 class="position placeholder_temp">Resource Contact</h4>
+          <a href="#" title="Paul J. Morris' email" class="placeholder_temp">mole@morris.net</a>
           1-215-299-1161
         </li>
 
-        <li>
-          <h4>Markus Doring</h4>
-          <h4 class="position">Taxonomy</h4>
-          <a href="#" title="Markus doring's email">mdoring@morris.net</a>
+        <li class="placeholder_temp">
+          <h4 class="placeholder_temp">Markus Doring</h4>
+          <h4 class="position placeholder_temp">Taxonomy</h4>
+          <a href="#" title="Markus doring's email" class="placeholder_temp">mdoring@morris.net</a>
           1-215-299-1161
         </li>
 
-        <li>
-          <h4>Javier Álvarez</h4>
-          <h4 class="position">Resource Contact</h4>
-          <a href="#" title="Javier Álvarez email">javieralvarez@morris.net</a>
+        <li class="placeholder_temp">
+          <h4 class="placeholder_temp">Javier Álvarez</h4>
+          <h4 class="position placeholder_temp">Resource Contact</h4>
+          <a href="#" title="Javier Álvarez email" class="placeholder_temp">javieralvarez@morris.net</a>
           <span class="phone">1-215-299-1161</span>
         </li>
 
@@ -299,19 +298,19 @@
       <h3>ASSOCIATED PARTIES</h3>
 
       <ul class="team vertical">
-        <li>
-          <h4>David Remsen</h4>
-          <h4 class="position">GBIF Secretariat</h4>
+        <li class="placeholder_temp">
+          <h4 class="placeholder_temp">David Remsen</h4>
+          <h4 class="position placeholder_temp">GBIF Secretariat</h4>
 
           Universitetsparken 15, Copenhagen, Ø, Denmark
-          <a href="#" title="David Remsen' email">dremsen@gbif.org</a>
+          <a href="#" title="David Remsen' email" class="placeholder_temp">dremsen@gbif.org</a>
           004535321472
         </li>
 
-        <li>
-          <h4>Javier de la Torre</h4>
-          <h4 class="position">GBIF Spain Node</h4>
-          <a href="#" title="Javier de la Torre's email">jatorre@gbif.org</a>
+        <li class="placeholder_temp">
+          <h4 class="placeholder_temp">Javier de la Torre</h4>
+          <h4 class="position placeholder_temp">GBIF Spain Node</h4>
+          <a href="#" title="Javier de la Torre's email" class="placeholder_temp">jatorre@gbif.org</a>
           659888888
         </li>
 
@@ -330,14 +329,14 @@
 
       <h3>Study extent</h3>
 
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
           feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
           delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et
           accumsan et iusto odio dignissim qui blandit.</p>
 
       <h3>Sampling description</h3>
 
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
         et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
@@ -345,7 +344,7 @@
 
       <h3>Quality control</h3>
 
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi.</p>
 
@@ -354,21 +353,21 @@
     <div class="right">
       <h3>Collection name</h3>
 
-      <p>Ave specimens (AVES123)</p>
+      <p class="placeholder_temp">Ave specimens (AVES123)</p>
 
       <h3>Parent identifier</h3>
 
-      <p>AVES</p>
+      <p class="placeholder_temp">AVES</p>
 
       <h3>Preservation method</h3>
 
-      <p>Glycerin</p>
+      <p class="placeholder_temp">Glycerin</p>
 
       <h3>Curational units</h3>
       <ul>
-        <li>100/500 Specimens</li>
-        <li>1000 (+/- 100) jars</li>
-        <li>100/500 Boxes</li>
+        <li class="placeholder_temp">100/500 Specimens</li>
+        <li class="placeholder_temp">1000 (+/- 100) jars</li>
+        <li class="placeholder_temp">100/500 Boxes</li>
       </ul>
     </div>
 
@@ -388,11 +387,11 @@
     <div class="left">
       <h3>Usage rights</h3>
 
-      <p>This dataset is released under an Open Data licence, so it can be used to anyone who cites it. </p>
+      <p class="placeholder_temp">This dataset is released under an Open Data licence, so it can be used to anyone who cites it. </p>
 
       <h3>How to cite it</h3>
 
-      <p>Alaska Ocean Observing System, Arctic Ocean Diversity (accessed through GBIF data portal, <a href="#"
+      <p class="placeholder_temp">Alaska Ocean Observing System, Arctic Ocean Diversity (accessed through GBIF data portal, <a href="#"
                                                                                                       title="Alaska Ocean Observing System, Arctic Ocean Diversity">http://data.gbif.org/datasets/resource/654</a>,
         2011-05-05)</p>
     </div>
