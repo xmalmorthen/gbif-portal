@@ -8,7 +8,7 @@
  */
 package org.gbif.portal.config;
 
-import org.gbif.checklistbank.ws.client.guice.ChecklistbankWsClientModule;
+import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
 import org.gbif.occurrencestore.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
 
@@ -29,7 +29,7 @@ public class PortalListener extends GuiceServletContextListener {
 
   @Override
   public Injector getInjector() {
-    return Guice.createInjector(new PortalModule(), new ChecklistbankWsClientModule(), new RegistryWsClientModule(),
+    return Guice.createInjector(new PortalModule(), new ChecklistBankWsClientModule(), new RegistryWsClientModule(),
       new OccurrenceWsClientModule(), new Struts2GuicePluginModule(), new ServletModule() {
 
       @Override
