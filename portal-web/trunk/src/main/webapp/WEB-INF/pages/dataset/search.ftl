@@ -42,8 +42,7 @@
         </div>
 
         <div class="result">
-          <h2><a href="<@s.url value='/dataset/1'/>" title="Herpetology"><strong>MOCK CHECKLIST:
-            Herpetology</strong></a></h2>
+          <h2><a href="<@s.url value='/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c'/>" title="Herpetology"><strong>GBIF Taxonomic Backbone</strong></a></h2>
 
           <p>A checklist published by <a href="<@s.url value='/member/123'/>" title="Academy of Natural Sciences">Academy
             of
