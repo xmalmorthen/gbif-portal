@@ -91,11 +91,17 @@
     <div class="right">
       <div class="logo_holder">
         <!-- TODO: posibly use the Registry's dataset 'logoUrl' property -->
-        <img src="${dataset.logoUrl}"/>
+        <#if dataset.logoUrl?has_content>
+          <img src="${dataset.logoUrl}"/>
+        </#if>        
       </div>
+      
       <h3>Checklist type</h3>
-
+      <#if dataset.type?has_content>
       <p>${dataset.type}</p>
+      <#else>
+      <p>UNKNOWN</p>
+      </#if>
 
       <h3>Provided by</h3>
 
