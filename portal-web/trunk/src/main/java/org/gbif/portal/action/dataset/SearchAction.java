@@ -8,12 +8,14 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.paging.PagingRequest;
+import org.gbif.checklistbank.api.model.Checklist;
+import org.gbif.checklistbank.ws.client.ChecklistWsClient;
 import org.gbif.portal.action.BaseAction;
-import org.gbif.registry.api.model.CollectionResult;
-import org.gbif.registry.ws.client.ResourceWsClient;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -23,29 +25,43 @@ public class SearchAction extends BaseAction {
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
+  // paging
+  private long offset = 0;
+  private int page_size = 20;
+
   // search
   private String q;
-  private CollectionResult<?> datasets;
+  private List<?> datasets;
 
   @Inject
-  private ResourceWsClient resourceClient;
+  private ChecklistWsClient checklistClient;
 
   @Override
   public String execute() {
     LOG.debug("Searching for datasets matching [{}]", q);
-    // TODO: this call is wrong - API method not available yet
-    datasets = resourceClient.list(0);
-    LOG.debug("Found [{}] matching datasets", datasets == null ? 0 : datasets.getResults().size());
+    datasets = checklistClient.list(new PagingRequest(offset, page_size));
+    LOG.debug("Found [{}] matching datasets", datasets == null ? 0 : datasets.size());
+
+    // TODO: This sort is temporary to just show the list in an ordered fashion
+    Collections.sort(datasets, new Comparator<Object>() {
+
+      public int compare(Object o1, Object o2) {
+        Checklist c1 = (Checklist) o1;
+        Checklist c2 = (Checklist) o2;
+        return c1.getName().compareToIgnoreCase(c2.getName());
+      }
+    });
 
     // using static just to make sure all layout is working properly
-    q = "Pontaurus";
-    datasets = new CollectionResult<Map>();
+    if (q == null || q.isEmpty()) {
+      q = "NoSearchTerm";
+    }
 
     return SUCCESS;
   }
 
   public List<?> getDatasets() {
-    return datasets == null ? null : datasets.getResults();
+    return datasets == null ? null : datasets;
   }
 
   public String getQ() {
@@ -54,5 +70,19 @@ public class SearchAction extends BaseAction {
 
   public void setQ(String q) {
     this.q = q;
+  }
+
+  /**
+   * @param page_size the page_size to set.
+   */
+  public void setPage_size(int page_size) {
+    this.page_size = page_size;
+  }
+
+  /**
+   * @param offset the offset to set.
+   */
+  public void setOffset(long offset) {
+    this.offset = offset;
   }
 }

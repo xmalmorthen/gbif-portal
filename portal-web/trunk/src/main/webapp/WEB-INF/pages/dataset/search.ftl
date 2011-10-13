@@ -28,41 +28,22 @@
 
       <div class="left">
 
-        <!-- full examples -->
+	
+
+
+        <!-- real data -->
+        <#list datasets as dataset>
         <div class="result">
-          <h2><a href="<@s.url value='/dataset/42'/>" title="World Mangroves Fauna"><strong>MOCK OCCURRENCES: World
-            Mangroves Fauna</strong></a>
+          <h2><a href="<@s.url value='/dataset/${dataset.key}'/>" title="${dataset.name}"><strong>${dataset.name}</strong></a>
           </h2>
 
-          <p>An occurrences dataset published by <a href="<@s.url value='/member/123'/>">Academy of Natural Sciences</a>
-            at 1978.
+          <p class="placeholder_temp">A checklist published by XXX at 1950.</a>
           </p>
 
-          <div class="footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p></div>
+          <div class="footer"><p>${dataset.numUsages} name usages | Checklist type: ${dataset.type}</p></div>
         </div>
+        </#list>
 
-        <div class="result">
-          <h2><a href="<@s.url value='/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c'/>" title="Herpetology"><strong>GBIF Taxonomic Backbone</strong></a></h2>
-
-          <p>A checklist published by <a href="<@s.url value='/member/123'/>" title="Academy of Natural Sciences">Academy
-            of
-            Natural Sciences</a> at 1978.</p>
-
-          <div class="footer"><p>201.456 name usages | covering Europe, Asia, Africa and Oceania</p></div>
-        </div>
-
-        <div class="result">
-          <h2><a href="<@s.url value='/dataset/2'/>"
-                 title="Absolute abundance of particles and planktic foraminifera in..".><strong>MOCK EXTERNAL DATASET:
-            Absolute abundance of
-            particles and planktic foraminifera in...</strong></a></h2>
-
-          <p>An external dataset published by <a href="<@s.url value='/member/123'/>">Academy of Natural Sciences</a> at
-            1978.
-          </p>
-
-          <div class="footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p></div>
-        </div>
 
         <!-- dynamic -->
       <#--
