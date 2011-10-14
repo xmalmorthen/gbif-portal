@@ -27,7 +27,7 @@ public class SearchAction extends BaseAction {
 
   // paging
   private long offset = 0;
-  private int page_size = 20;
+  private int limit = 20;
 
   // search
   private String q;
@@ -39,7 +39,7 @@ public class SearchAction extends BaseAction {
   @Override
   public String execute() {
     LOG.debug("Searching for datasets matching [{}]", q);
-    datasets = checklistClient.list(new PagingRequest(offset, page_size));
+    datasets = checklistClient.list(new PagingRequest(offset, limit));
     LOG.debug("Found [{}] matching datasets", datasets == null ? 0 : datasets.size());
 
     // TODO: This sort is temporary to just show the list in an ordered fashion
@@ -60,23 +60,25 @@ public class SearchAction extends BaseAction {
     return SUCCESS;
   }
 
+  /**
+   * @return the datasets
+   */
   public List<?> getDatasets() {
     return datasets == null ? null : datasets;
   }
 
+  /**
+   * @return the q.
+   */
   public String getQ() {
     return q;
   }
 
+  /**
+   * @param q the q to set.
+   */
   public void setQ(String q) {
     this.q = q;
-  }
-
-  /**
-   * @param page_size the page_size to set.
-   */
-  public void setPage_size(int page_size) {
-    this.page_size = page_size;
   }
 
   /**
@@ -84,5 +86,12 @@ public class SearchAction extends BaseAction {
    */
   public void setOffset(long offset) {
     this.offset = offset;
+  }
+
+  /**
+   * @param limit the limit to set.
+   */
+  public void setLimit(int limit) {
+    this.limit = limit;
   }
 }
