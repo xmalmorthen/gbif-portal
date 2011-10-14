@@ -10,11 +10,11 @@ package org.gbif.portal.action.species;
 
 //import org.gbif.checklistbank.api.model.UsageName;
 
+import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.ws.client.NubUsageWsClient;
 import org.gbif.portal.action.BaseAction;
 
 import java.util.List;
-import java.util.Map;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class SearchAction extends BaseAction {
 
   // search
   private String q;
-  private List<Map> usages;
+  private List<NameUsage> usages;
 
   @Inject
   private NubUsageWsClient nameClient;
@@ -55,7 +55,10 @@ public class SearchAction extends BaseAction {
     this.q = q;
   }
 
-  public List<Map> getUsages() {
-    return usages;
+  /**
+   * @return the usages.
+   */
+  public List<NameUsage> getUsages() {
+    return usages == null ? null : usages;
   }
 }
