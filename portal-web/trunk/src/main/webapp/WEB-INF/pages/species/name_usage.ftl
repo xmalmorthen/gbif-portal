@@ -103,14 +103,6 @@
   <p>Pre-cordilleran steppe.</p>
 </div>
   <div class="right">
-    <h3>Synonyms</h3>
-    <ul class="no_bottom">
-      <li>Felix Linnaeus</li>
-      <li>Felix Mexicalis</li>
-      <li>Puma Mexicalies</li>
-    </ul>
-    <p><a class="more_link" href="<@s.url value='/species/${id!}/synonyms'/>">and 42 more</a></p>
-
     <h3>Common names</h3>
     <ul>
       <li>Mountain lion, Puma <span class="small">ENG</span></li>
@@ -140,132 +132,148 @@
 <article class="taxonomies">
   <header></header>
 <div class="content">
-<h2>Taxonomic classification <span class="subtitle">according to <a href="<@s.url value='/dataset/1'/>">GBIF Backbone
-  Taxonomy</a></span></h2>
+<h2>Taxonomic classification
+  <!-- <span class="subtitle">according to <a href="<@s.url value='/dataset/1'/>">GBIF Backbone Taxonomy</a></span> -->
+</h2>
 
   <div class="left">
+    <p><a href="<@s.url value='/species/123'/>">Puma concolor</a></p>
+
+    <h3>Taxonomic classification</h3>
+
+    <!-- TODO: merge the classification here with the trail below into one! -->
+    <div class="taxonomic_class">
+      <ul class="taxonomy">
+        <li><a href="<@s.url value='/species/123'/>">Animalia</a></li>
+        <li><a href="<@s.url value='/species/123'/>">Chordata</a></li>
+        <li><a href="<@s.url value='/species/123'/>">Mammalia</a></li>
+        <li><a href="<@s.url value='/species/123'/>">Carnivora</a></li>
+        <li><a href="<@s.url value='/species/123'/>">Felidae</a></li>
+        <li class="last"><a href="">Puma</a></li>
+      </ul>
+      <div class="extended">(<a href="/species/${id!}/extended_taxonomy">extended</a>)</div>
+    </div>
+
+    <h3>Lower taxa</h3>
+
     <div id="taxonomy">
       <div class="inner">
         <div class="sp">
           <ul>
-            <li data="40"><span>Animalia</span> <a href="<@s.url value='/species/42'/>">see details</a>
+            <li data="40"><span>Animalia</span> <a href="<@s.url value='/species/123'/>">see details</a>
               <ul>
-                <li data="10"><span>Acantocephala</span> <a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="90"><span>Annelida</span> <a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="180"><span>Arthropoda</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Brachipoda</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Cephalorhyncha</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="20"><span>Chaetognatha</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="50"><span>Chordata</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="10"><span>Cnidaria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="60"><span>Ctenophora</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="10"><span>Acantocephala</span> <a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="90"><span>Annelida</span> <a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="180"><span>Arthropoda</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Brachipoda</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Cephalorhyncha</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="20"><span>Chaetognatha</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="50"><span>Chordata</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="10"><span>Cnidaria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="60"><span>Ctenophora</span><a href="<@s.url value='/species/123'/>">see details</a></li>
               </ul>
             </li>
-            <li data="20"><span>Archaea</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-            <li data="10"><span>Bacteria</span><a href="<@s.url value='/species/42'/>">see details</a>
+            <li data="20"><span>Archaea</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+            <li data="10"><span>Bacteria</span><a href="<@s.url value='/species/123'/>">see details</a>
               <ul>
-                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="10"><span>Acidobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="90"><span>Actinobacteria</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Aquificae</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Bacteroidetes</span><a href="<@s.url value='/species/123'/>">see details</a></li>
               </ul>
             </li>
-            <li data="90"><span>Chromista</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-            <li data="30"><span>Fungi</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-            <li data="50"><span>Plantae</span><a href="<@s.url value='/species/42'/>">see details</a>
+            <li data="90"><span>Chromista</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+            <li data="30"><span>Fungi</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+            <li data="50"><span>Plantae</span><a href="<@s.url value='/species/123'/>">see details</a>
               <ul>
-                <li data="10"><span>Anthocerotophyta</span><a href="<@s.url value='/species/42'/>">see details</a>
+                <li data="10"><span>Anthocerotophyta</span><a href="<@s.url value='/species/123'/>">see details</a>
                   <ul>
-                    <li data="80"><span>Anthocerotopsida</span><a href="<@s.url value='/species/42'/>">see details</a>
+                    <li data="80"><span>Anthocerotopsida</span><a href="<@s.url value='/species/123'/>">see
+                      details</a>
                       <ul>
-                        <li data="10"><span>Anthocerotales</span><a href="<@s.url value='/species/42'/>">see details</a>
+                        <li data="10"><span>Anthocerotales</span><a href="<@s.url value='/species/123'/>">see
+                          details</a>
                           <ul>
-                            <li data="10"><span>Anthocerotaceae</span><a href="<@s.url value='/species/42'/>">see
+                            <li data="10"><span>Anthocerotaceae</span><a href="<@s.url value='/species/123'/>">see
                               details</a>
                               <ul>
-                                <li data="10"><span>Anthoceros</span><a href="<@s.url value='/species/42'/>">see
+                                <li data="10"><span>Anthoceros</span><a href="<@s.url value='/species/123'/>">see
                                   details</a>
                                 </li>
-                                <li data="90"><span>Phaeoceros</span><a href="<@s.url value='/species/42'/>">see
+                                <li data="90"><span>Phaeoceros</span><a href="<@s.url value='/species/123'/>">see
                                   details</a>
                                 </li>
                               </ul>
                             </li>
                           </ul>
                         </li>
-                        <li data="20"><span>Codoniaceae</span><a href="<@s.url value='/species/42'/>">see details</a>
+                        <li data="20"><span>Codoniaceae</span><a href="<@s.url value='/species/123'/>">see details</a>
                         </li>
-                        <li data="30"><span>Dendrocerotaceae</span><a href="<@s.url value='/species/42'/>">see
+                        <li data="30"><span>Dendrocerotaceae</span><a href="<@s.url value='/species/123'/>">see
                           details</a></li>
-                        <li data="60"><span>Notothyladaceae</span><a href="<@s.url value='/species/42'/>">see
+                        <li data="60"><span>Notothyladaceae</span><a href="<@s.url value='/species/123'/>">see
                           details</a></li>
                       </ul>
                     </li>
                   </ul>
                 </li>
-                <li data="80"><span>Bacillariophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="90"><span>Bryophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Chlorophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="20"><span>Cyanidiophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="30"><span>Cycadophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="80"><span>Bacillariophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="90"><span>Bryophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="40"><span>Chlorophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="20"><span>Cyanidiophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-                <li data="30"><span>Cycadophyta</span><a href="<@s.url value='/species/42'/>">see details</a></li>
+                <li data="80"><span>Bacillariophyta</span><a href="<@s.url value='/species/123'/>">see details</a>
+                </li>
+                <li data="90"><span>Bryophyta</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Chlorophyta</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="20"><span>Cyanidiophyta</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="30"><span>Cycadophyta</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="80"><span>Bacillariophyta</span><a href="<@s.url value='/species/123'/>">see details</a>
+                </li>
+                <li data="90"><span>Bryophyta</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="40"><span>Chlorophyta</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="20"><span>Cyanidiophyta</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+                <li data="30"><span>Cycadophyta</span><a href="<@s.url value='/species/123'/>">see details</a></li>
               </ul>
             </li>
-            <li data="100"><span>Protozoa</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-            <li data="60"><span>Viruses</span><a href="<@s.url value='/species/42'/>">see details</a></li>
-
+            <li data="100"><span>Protozoa</span><a href="<@s.url value='/species/123'/>">see details</a></li>
+            <li data="60"><span>Viruses</span><a href="<@s.url value='/species/123'/>">see details</a></li>
             </li>
           </ul>
         </div>
       </div>
     </div>
+
   </div>
 
-<div class="right">
-  <h3>Related usages</h3>
-<ul class="notes">
-<li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
-</li>
-<li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
-</li>
-<li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma Concolor</a> <span class="note">in Fauna Europea checklist</span>
-</li>
-</ul>
-<p><a class="more_link" href="<@s.url value='/species/${id!}/name_usage_list'/>">and 35 more</a></p>
 
-  <h3>Appears on</h3>
-<ul>
-<li><a href="<@s.url value='/dataset/search?q=fake'/>">13 nomenclator</a></li>
-<li><a href="<@s.url value='/dataset/search?q=fake'/>">2 reconciled</a></li>
-</ul>
+<div class="right">
+  <h3>Synonyms</h3>
+  <ul class="no_bottom">
+    <li><a href="<@s.url value='/species/${id!}/name_usage'/>">Felix Linnaeus</a></li>
+    <li><a href="<@s.url value='/species/${id!}/name_usage'/>">Felix Mexicalis</a></li>
+    <li><a href="<@s.url value='/species/${id!}/name_usage'/>">Puma Mexicalies</a></li>
+  </ul>
+  <p><a class="more_link" href="<@s.url value='/species/${id!}/synonyms'/>">and 42 more</a></p>
 </div>
 
 </div>
@@ -309,6 +317,145 @@
   </div>
   <footer></footer>
 </article>
+
+
+<article>
+  <header></header>
+  <div class="content">
+    <h2>Appears in</h2>
+
+    <div class="left">
+      <div class="col">
+        <h3>Occurrences datasets</h3>
+        <ul class="notes">
+          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
+          </li>
+          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
+          </li>
+          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
+          </li>
+          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
+          </li>
+          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
+          </li>
+          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
+          </li>
+        </ul>
+        <p><a class="more_link" href="<@s.url value='/dataset/search?q=fake'/>">and 23 more</a></p>
+      </div>
+
+      <div class="col">
+        <h3>Checklists</h3>
+        <ul class="notes">
+          <li><a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> <span
+                  class="note">from University of Alaska Museum</span></li>
+          <li><a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> <span
+                  class="note">from University of Alaska Museum</span></li>
+          <li><a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> <span
+                  class="note">from University of Alaska Museum</span></li>
+          <li><a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> <span
+                  class="note">from University of Alaska Museum</span></li>
+          <li><a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> <span
+                  class="note">from University of Alaska Museum</span></li>
+          <li><a href="<@s.url value='/dataset/1'/>">Fauna Europea</a> <span
+                  class="note">from University of Alaska Museum</span></li>
+        </ul>
+        <p><a class="more_link" href="<@s.url value='/dataset/search?q=fake'/>">and 2 more</a></p>
+      </div>
+    </div>
+
+    <div class="right">
+      <h3>By occurrences hosting</h3>
+      <ul>
+        <li><a href="<@s.url value='/dataset/search?q=fake'/>">13 occurrence datasets</a></li>
+        <li><a href="<@s.url value='/dataset/search?q=fake'/>">2 external datasets</a></li>
+      </ul>
+      <h3>By checklist type</h3>
+      <ul>
+        <li><a href="<@s.url value='/dataset/search?q=fake'/>">13 nomenclator</a></li>
+        <li><a href="<@s.url value='/dataset/search?q=fake'/>">2 reconciled</a></li>
+      </ul>
+
+    </div>
+
+  </div>
+  <footer></footer>
+</article>
+
+
+<article>
+  <header></header>
+  <div class="content">
+    <h2>Type specimens</h2>
+
+    <div class="left">
+      <div class="col">
+        <div>
+          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
+                                                                                                               title="Help"
+                                                                                                               id="help2"><img
+                  src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
+
+          <p class="note semi_bottom">Syntype by original designation</p>
+
+          <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
+            Rech. 12083 (W!).</p>
+        </div>
+
+        <div>
+          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
+                                                                                                               title="Help"
+                                                                                                               id="help"><img
+                  src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
+
+          <p class="note semi_bottom">Syntype by original designation</p>
+
+          <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
+            Rech. 12083 (W!).</p>
+        </div>
+
+        <p><a class="more_link" href="<@s.url value='/occurrences/search?q=holotype'/>">and 23 more</a></p>
+      </div>
+
+      <div class="col">
+        <div>
+          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
+                                                                                                               title="Help"
+                                                                                                               id="help4"><img
+                  src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
+
+          <p class="note semi_bottom">Syntype by original designation</p>
+
+          <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
+            Rech. 12083 (W!).</p>
+        </div>
+
+        <div>
+          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
+                                                                                                               title="Help"
+                                                                                                               id="help3"><img
+                  src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
+
+          <p class="note semi_bottom">Syntype by original designation</p>
+
+          <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
+            Rech. 12083 (W!).</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="right">
+      <h3>Specimens by type</h3>
+      <ul>
+        <li><a href="<@s.url value='/occurrences/search?q=syntype'/>">13 syntypes</a></li>
+      </ul>
+    </div>
+
+  </div>
+  <footer></footer>
+</article>
+
 
 <article>
   <header></header>
