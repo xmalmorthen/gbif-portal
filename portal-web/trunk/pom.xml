@@ -33,6 +33,7 @@
     <registry-ws-client.version>0.1-SNAPSHOT</registry-ws-client.version>
     <occurrencestore-api.version>0.1-SNAPSHOT</occurrencestore-api.version>
     <occurrencestore-ws-client.version>0.1-SNAPSHOT</occurrencestore-ws-client.version>
+    <gbif-common-api.version>0.1-SNAPSHOT</gbif-common-api.version>
 
     <freemarker.version>2.3.18</freemarker.version>
     <guice.version>3.0</guice.version>
@@ -113,6 +114,11 @@
 
   <dependencies>
     <!-- GBIF -->
+    <dependency>
+      <groupId>org.gbif.common</groupId>
+      <artifactId>gbif-common-api</artifactId>
+      <version>${gbif-common-api.version}</version>
+    </dependency>    
     <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>checklistbank-api</artifactId>

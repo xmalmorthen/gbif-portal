@@ -55,18 +55,11 @@
     </div>
 
     <div class="left">
-      <h3>Abstract</h3>
-
-	  
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-        delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
-        et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
-        facilisi.</p>
-      
-
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui</p>
+      <!-- TODO: posibly use the Registry's dataset 'description' property -->
+      <#if dataset.description?has_content>
+        <h3>Abstract</h3>
+      	<p>${dataset.description}</p>
+      </#if>
 
       <h3>Purpose</h3>
 
@@ -124,9 +117,12 @@
 
       <h3>External Links</h3>
       <ul>
-        <li><a href="#" title="Original source" class="placeholder_temp">Original dataset source</a></li>
-        <li><a href="#" title="Author's blog" class="placeholder_temp">Author's blog</a></li>
-        <li><a href="#" title="Methodology" class="placeholder_temp">A discussion board over the methodology</a></li>
+        <!-- TODO: posibly use the Registry's dataset 'homepage' property -->
+        <#if dataset.homepage?has_content>
+       	  <li><a href="${dataset.homepage}" title="Original source" target="_blank">Original dataset source</a></li>
+        </#if>
+          <li><a href="#" title="Author's blog" class="placeholder_temp">Author's blog</a></li>
+          <li><a href="#" title="Methodology" class="placeholder_temp">A discussion board over the methodology</a></li>
       </ul>
       <h3>Metadata</h3>
       <ul>

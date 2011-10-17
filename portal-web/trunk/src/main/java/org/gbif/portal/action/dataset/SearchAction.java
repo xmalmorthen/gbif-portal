@@ -8,6 +8,7 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.paging.PagingConstants;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.ws.client.ChecklistWsClient;
@@ -26,8 +27,8 @@ public class SearchAction extends BaseAction {
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
   // paging
-  private long offset = 0;
-  private int limit = 20;
+  private long offset = PagingConstants.DEFAULT_PARAM_OFFSET;
+  private int limit = PagingConstants.DEFAULT_PARAM_LIMIT;
 
   // search
   private String q;
