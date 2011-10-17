@@ -21,7 +21,8 @@ public class NameUsageAction extends BaseAction {
   private ChecklistUsageService usageService;
   @Inject
   private ChecklistService checklistService;
-  @Inject
+  //TODO: remove comments once ws client exist and is wired up
+  //@Inject
   private VernacularNameService vernacularNameService;
 
   private Integer id;
@@ -48,7 +49,7 @@ public class NameUsageAction extends BaseAction {
     // load subresources with small page size = 10
     Pageable page10 = new PagingRequest(0,10);
     usage.setSynonyms(usageService.listSynonyms(id, getLocale(), page10));
-    usage.setVernacularNames(vernacularNameService.listByChecklistUsage(id, page10));
+    //usage.setVernacularNames(vernacularNameService.listByChecklistUsage(id, page10));
     return SUCCESS;
   }
 
