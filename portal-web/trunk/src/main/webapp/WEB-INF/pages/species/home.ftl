@@ -8,7 +8,7 @@
   <article class="dataset">
     <header></header>
     <div class="content">
-      <h1>Search through 121,201 species</h1>
+      <h1>Search through 2,183,212 species</h1>
 
       <form action="<@s.url value='/species/search'/>">
         <span class="input_text">
