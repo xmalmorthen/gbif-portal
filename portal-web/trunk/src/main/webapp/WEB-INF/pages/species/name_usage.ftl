@@ -34,15 +34,16 @@
 <article class="notice">
   <header></header>
   <div class="content">
-    <h3>This is a particular view of Puma Concolor</h3>
+    <h3>This is a particular view of ${usage.canonicalName!scientificName}</h3>
 
-    <p>This is the <em>${usage.canonicalName!scientificName}</em> view, as seen by <a
+    <p>This is the <em>${usage.scientificName}</em> view, as seen by <a
             href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a> checklist.
     <#if usage.nubKey?exists>
       Remember that you can also check the <a href="<@s.url value='/species/${usage.nubKey}'/>">GBIF view
       on ${usage.canonicalName!scientificName}</a>.
     </#if>
-      You can also see the <a href="<@s.url value='/species/${id!}/name_usage_raw'/>">verbatim version</a> submitted by
+      <br/>You can also see the <a href="<@s.url value='/species/${id!}/name_usage_raw'/>">verbatim version</a>
+      submitted by
       the data publisher.</p>
     <img id="notice_icon" src="<@s.url value='/img/icons/notice_icon.png'/>"/>
   </div>
@@ -130,24 +131,21 @@
 <article class="taxonomies">
   <header></header>
   <div class="content">
-    <h2>Taxonomic classification
-      <!-- <span class="subtitle">according to <a href="<@s.url value='/dataset/1'/>">GBIF Backbone Taxonomy</a></span> -->
-    </h2>
+    <h2>Taxonomy <span class="subtitle">of ${usage.scientificName}</span></h2>
 
     <div class="left">
-      <p><a href="<@s.url value='/species/123'/>">Puma concolor</a></p>
-
       <h3>Taxonomic classification</h3>
 
       <!-- TODO: merge the classification here with the trail below into one! -->
       <div class="taxonomic_class">
         <ul class="taxonomy">
-          <li><a href="<@s.url value='/species/123'/>">Animalia</a></li>
-          <li><a href="<@s.url value='/species/123'/>">Chordata</a></li>
-          <li><a href="<@s.url value='/species/123'/>">Mammalia</a></li>
-          <li><a href="<@s.url value='/species/123'/>">Carnivora</a></li>
-          <li><a href="<@s.url value='/species/123'/>">Felidae</a></li>
-          <li class="last"><a href="">Puma</a></li>
+
+          <li><a href="#">All</a></li>
+        <#assign classification=usage.higherClassificationMap />
+        <#list classification?keys as key>
+          <li <#if !key_has_next>class="last"</#if>><a
+                  href="<@s.url value='/species/${key}/name_usage'/>">${classification.get(key)}</a></li>
+        </#list>
         </ul>
         <div class="extended">(<a href="/species/${id!}/extended_taxonomy">extended</a>)</div>
       </div>
@@ -265,16 +263,27 @@
 
 
     <div class="right">
+    <#if (usage.synonyms?size>0)>
       <h3>Synonyms</h3>
       <ul class="no_bottom">
-      <#list usage.synonyms as s>
-        <li><a href="<@s.url value='/species/${s.key}/name_usage'/>">${s.scientificName}</a></li>
-      <#-- only show 9 synonyms at max. If we have 10 (index=9) we know there are more to show -->
-        <#if !s_has_next && s_index==9>
-          <p><a class="more_link" href="<@s.url value='/species/${id}/synonyms'/>">see all</a></p>
-        </#if>
+        <#list usage.synonyms as syn>
+          <li><a href="<@s.url value='/species/${syn.key}/name_usage'/>">${syn.scientificName}</a></li>
+        <#-- only show 9 synonyms at max. If we have 10 (index=9) we know there are more to show -->
+          <#if !syn_has_next && syn_index==9>
+            <p><a class="more_link" href="<@s.url value='/species/${id}/synonyms'/>">see all</a></p>
+          </#if>
+        </#list>
+      </ul>
+    </#if>
+
+      <h3>Children</h3>
+      <ul class="no_bottom">
+        <li>Temporary until browser works</li>
+      <#list children as syn>
+        <li><a href="<@s.url value='/species/${syn.key}/name_usage'/>">${syn.scientificName}</a></li>
       </#list>
       </ul>
+
     </div>
 
   </div>
