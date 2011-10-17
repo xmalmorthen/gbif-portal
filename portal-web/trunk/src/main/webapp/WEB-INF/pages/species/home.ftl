@@ -29,7 +29,7 @@
         <ul>
           <li><a href="<@s.url value='/species/search?q=fake'/>" title="">2,183,212</a>total species</li>
           <li><a href="<@s.url value='/species/search?q=fake'/>" title="">1,291,282</a>total infraspecific</li>
-          <li class="last"><a href=="#">13,121,251</a>common names in 41 languages</li>
+          <li class="last"><a href="#">13,121,251</a>common names in 41 languages</li>
         </ul>
       </div>
     </div>
