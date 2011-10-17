@@ -118,7 +118,7 @@
       <groupId>org.gbif.common</groupId>
       <artifactId>gbif-common-api</artifactId>
       <version>${gbif-common-api.version}</version>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>checklistbank-api</artifactId>
@@ -128,6 +128,11 @@
       <groupId>org.gbif</groupId>
       <artifactId>checklistbank-ws-client</artifactId>
       <version>${checklistbank-ws-client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>checklistbank-mybatis-service</artifactId>
+      <version>0.1-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.gbif</groupId>

@@ -211,10 +211,6 @@
       <result>/WEB-INF/pages/species/activity.ftl</result>
     </action>
 
-    <action name="{id}/occurrences" class="org.gbif.portal.action.species.OccurrencesAction">
-      <result>/WEB-INF/pages/species/occurrences.ftl</result>
-    </action>
-
     <action name="{id}/synonyms" class="org.gbif.portal.action.species.SynonymsAction">
       <result>/WEB-INF/pages/species/synonyms.ftl</result>
     </action>
@@ -227,15 +223,15 @@
       <result>/WEB-INF/pages/species/distribution.ftl</result>
     </action>
 
-    <action name="{id}/name_usage" class="org.gbif.portal.action.species.NameUsageAction" method="nameUsage">
+    <action name="{id}/name_usage" class="org.gbif.portal.action.species.NameUsageAction">
       <result>/WEB-INF/pages/species/name_usage.ftl</result>
     </action>
 
-    <action name="{id}/name_usage_raw" class="org.gbif.portal.action.species.NameUsageAction" method="nameUsageRaw">
+    <action name="{id}/name_usage_raw" class="org.gbif.portal.action.species.NameUsageVerbatimAction">
       <result>/WEB-INF/pages/species/name_usage_raw.ftl</result>
     </action>
 
-    <action name="{id}/name_usage_list" class="org.gbif.portal.action.species.NameUsageAction" method="nameUsageList">
+    <action name="{id}/name_usage_list" class="org.gbif.portal.action.species.NameUsageListAction">
       <result>/WEB-INF/pages/species/name_usage_list.ftl</result>
     </action>
 

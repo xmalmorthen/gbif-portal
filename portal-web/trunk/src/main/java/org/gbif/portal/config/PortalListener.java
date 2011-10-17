@@ -8,12 +8,15 @@
  */
 package org.gbif.portal.config;
 
-import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
+import org.gbif.checklistbank.service.mybatis.guice.ChecklistBankServiceMyBatisModule;
 import org.gbif.occurrencestore.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
 
+import java.io.IOException;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
@@ -29,18 +32,26 @@ public class PortalListener extends GuiceServletContextListener {
 
   @Override
   public Injector getInjector() {
-    return Guice.createInjector(new PortalModule(), new ChecklistBankWsClientModule(), new RegistryWsClientModule(),
-      new OccurrenceWsClientModule(), new Struts2GuicePluginModule(), new ServletModule() {
+    // new ChecklistBankWsClientModule()
+    Module clbApi = null;
+    try {
+      clbApi = new ChecklistBankServiceMyBatisModule("clbmybatis.properties");
+    } catch (IOException e) {
+      throw new IllegalStateException("Checklist bank api guice module could not be loaded");
+    }
+    return Guice
+      .createInjector(new PortalModule(), clbApi, new RegistryWsClientModule(), new OccurrenceWsClientModule(),
+        new Struts2GuicePluginModule(), new ServletModule() {
 
-      @Override
-      protected void configureServlets() {
-        bind(StrutsPrepareFilter.class).in(Singleton.class);
-        filter("/*").through(StrutsPrepareFilter.class);
-        bind(SiteMeshFilter.class).in(Singleton.class);
-        filter("/*").through(SiteMeshFilter.class);
-        bind(StrutsExecuteFilter.class).in(Singleton.class);
-        filter("/*").through(StrutsExecuteFilter.class);
-      }
-    });
+        @Override
+        protected void configureServlets() {
+          bind(StrutsPrepareFilter.class).in(Singleton.class);
+          filter("/*").through(StrutsPrepareFilter.class);
+          bind(SiteMeshFilter.class).in(Singleton.class);
+          filter("/*").through(SiteMeshFilter.class);
+          bind(StrutsExecuteFilter.class).in(Singleton.class);
+          filter("/*").through(StrutsExecuteFilter.class);
+        }
+      });
   }
 }
