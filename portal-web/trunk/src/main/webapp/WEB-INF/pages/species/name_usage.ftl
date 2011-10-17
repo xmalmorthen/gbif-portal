@@ -37,12 +37,10 @@
 <div class="content">
   <h3>This is a particular view of Puma Concolor</h3>
 
-<p>This is an unofficial Puma Concolor view, as seen by <a href="<@s.url value='/dataset/1'/>">Mexican Felines</a>
-  checklist. Remember that you can also check the <a href="<@s.url value='/species/${id!}'/>">official Puma Concolor
-  species
-  page</a>. You can also see the <a href="<@s.url value='/species/${id!}/name_usage_raw'/>">raw version</a> submitted by
-  the data
-  publisher.</p>
+<p>This is the <i>Puma concolor<i> view, as seen by <a href="<@s.url value='/dataset/1'/>">Mexican Felines</a>
+  checklist. Remember that you can also check the <a href="<@s.url value='/species/${id!}'/>">GBIF view on Puma concolor</a>.
+  You can also see the <a href="<@s.url value='/species/${id!}/name_usage_raw'/>">verbatim version</a> submitted by
+  the data publisher.</p>
         <img id="notice_icon" src="<@s.url value='/img/icons/notice_icon.png'/>"/>
 </div>
   <footer></footer>
