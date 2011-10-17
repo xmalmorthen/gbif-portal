@@ -6,6 +6,10 @@
 <body class="species big">
 
 <content tag="infoband">
+  <ul class="breadcrumb">
+    <li class="last">${usage.rank!"Unranked"}</li>
+  </ul>
+
   <h1>${usage.scientificName}</h1>
 
   <h3>according to <a href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a></h3>

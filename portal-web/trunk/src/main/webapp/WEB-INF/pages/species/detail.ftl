@@ -46,7 +46,7 @@
   <div class="content">
 
     <div class="header">
-      <div class="left"><h2>Species Overview</h2></div>
+      <div class="left"><h2>Overview</h2></div>
     </div>
 
     <div class="left">
