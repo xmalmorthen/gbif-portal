@@ -8,41 +8,44 @@
  */
 package org.gbif.portal.action.species;
 
-//import org.gbif.checklistbank.api.model.UsageName;
-
+import org.gbif.api.search.model.SearchRequest;
+import org.gbif.api.search.model.SearchResponse;
+import org.gbif.api.search.service.SearchService;
 import org.gbif.checklistbank.api.model.NameUsage;
-import org.gbif.checklistbank.ws.client.NubUsageWsClient;
+import org.gbif.checklistbank.search.model.NameUsageSearch;
 import org.gbif.portal.action.BaseAction;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The action for all species search operations.
+ */
 public class SearchAction extends BaseAction {
-
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
-  // search
   private String q;
   private List<NameUsage> usages;
 
   @Inject
-  private NubUsageWsClient nameClient;
+  private SearchService<NameUsageSearch> nameUsageSearchService;
 
   @Override
   public String execute() {
-    // testing new ws lookup
-    //LOG.debug("Testing species lookup of [{}]", q);
-    //Name name = nameClient.getName(q);
-    //LOG.debug("Got result name with nubid [{}]", name == null ? null : name.getNubId());
+    LOG.info("Species search of [{}]", q);
 
-    // using static just to make sure all layout is working properly
-    //q = "Puma concolor";
-    //usages = new ArrayList<Map>();
-    //usages.add(new HashMap<String, String>());
-    //usages.add(new HashMap<String, String>());
+    SearchRequest req = new SearchRequest();
+    Map<String, String> params = new HashMap<String, String>();
+    params.put("q", q);
+    req.setParameters(params);
+    SearchResponse<NameUsageSearch> results = nameUsageSearchService.search(req);
+    Long count = results.getCount();
+    LOG.info("Species search of [{}] returned {} results", q, count);
 
     return SUCCESS;
   }
@@ -51,14 +54,14 @@ public class SearchAction extends BaseAction {
     return q;
   }
 
-  public void setQ(String q) {
-    this.q = q;
-  }
-
   /**
    * @return the usages.
    */
   public List<NameUsage> getUsages() {
     return usages == null ? null : usages;
+  }
+
+  public void setQ(String q) {
+    this.q = q;
   }
 }

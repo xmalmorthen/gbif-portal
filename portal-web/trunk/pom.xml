@@ -20,6 +20,7 @@
 
   <properties>
     <checklistbank.ws.url>http://staging.gbif.org:8080/checklistbank-ws/</checklistbank.ws.url>
+    <checklistbank.search.solr.server>http://jawa.gbif.org:8080/solr</checklistbank.search.solr.server>
     <registry.ws.url>http://staging.gbif.org:8080/registry-ws-api-compatible/</registry.ws.url>
     <occurrencestore.ws.url>http://staging.gbif.org:8080/occurrencestore-ws/</occurrencestore.ws.url>
 
@@ -34,6 +35,7 @@
     <occurrencestore-api.version>0.1-SNAPSHOT</occurrencestore-api.version>
     <occurrencestore-ws-client.version>0.1-SNAPSHOT</occurrencestore-ws-client.version>
     <gbif-common-api.version>0.1-SNAPSHOT</gbif-common-api.version>
+    <checklistbank-search.version>0.1-SNAPSHOT</checklistbank-search.version>
 
     <freemarker.version>2.3.18</freemarker.version>
     <guice.version>3.0</guice.version>
@@ -118,7 +120,7 @@
       <groupId>org.gbif.common</groupId>
       <artifactId>gbif-common-api</artifactId>
       <version>${gbif-common-api.version}</version>
-    </dependency>
+    </dependency>    
     <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>checklistbank-api</artifactId>
@@ -153,6 +155,11 @@
       <groupId>org.gbif</groupId>
       <artifactId>occurrencestore-ws-client</artifactId>
       <version>${occurrencestore-ws-client.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>checklistbank-search</artifactId>
+      <version>${checklistbank-search.version}</version>
     </dependency>
 
     <!-- Google -->
