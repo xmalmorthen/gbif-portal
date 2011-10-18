@@ -2,8 +2,10 @@ package org.gbif.portal.action.species;
 
 import org.gbif.api.paging.Pageable;
 import org.gbif.api.paging.PagingRequest;
+import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.api.model.ChecklistUsage;
+import org.gbif.checklistbank.api.model.VernacularName;
 import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.ChecklistUsageService;
 import org.gbif.checklistbank.api.service.VernacularNameService;
@@ -51,10 +53,20 @@ public class NameUsageAction extends BaseAction {
     }
     // load subresources with small page size = 10
     Pageable page10 = new PagingRequest(0, 10);
-    usage.setSynonyms(usageService.listSynonyms(id, getLocale(), page10));
-    usage.setVernacularNames(vernacularNameService.listByChecklistUsage(id, page10));
+    PagingResponse<ChecklistUsage> synonymResponse = usageService.listSynonyms(id, getLocale(), page10);
+    if (synonymResponse.getResults() != null) {
+      usage.setSynonyms(synonymResponse.getResults());
+    }
+    // get vernacular names
+    PagingResponse<VernacularName> vernacularResponse = vernacularNameService.listByChecklistUsage(id, page10);
+    if (vernacularResponse.getResults() != null) {
+      usage.setVernacularNames(vernacularResponse.getResults());
+    }
     // get children
-    children = usageService.listChildren(id, getLocale(), null);
+    PagingResponse<ChecklistUsage> childrenResponse = usageService.listChildren(id, getLocale(), null);
+    if (childrenResponse.getResults() != null) {
+      children = childrenResponse.getResults();
+    }
 
     return SUCCESS;
   }
