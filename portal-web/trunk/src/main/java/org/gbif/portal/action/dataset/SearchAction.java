@@ -12,7 +12,7 @@ import org.gbif.api.paging.PagingConstants;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.Checklist;
-import org.gbif.checklistbank.ws.client.ChecklistWsClient;
+import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.portal.action.BaseAction;
 
 import java.util.Collections;
@@ -35,27 +35,30 @@ public class SearchAction extends BaseAction {
   private String q;
   private List<?> datasets;
 
+  // TODO: use the checklist-client when its readily injectable
   @Inject
-  private ChecklistWsClient checklistClient;
+  private ChecklistService checklistService;
 
   @Override
   public String execute() {
     LOG.debug("Searching for datasets matching [{}]", q);
-    PagingResponse<Checklist> checklistResponse = checklistClient.list(new PagingRequest(offset, limit));
+    PagingResponse<Checklist> checklistResponse = checklistService.list(new PagingRequest(offset, limit));
     if (checklistResponse != null) {
       datasets = checklistResponse.getResults();
     }
     LOG.debug("Found [{}] matching datasets", datasets == null ? 0 : datasets.size());
 
     // TODO: This sort is temporary to just show the list in an ordered fashion
-    Collections.sort(datasets, new Comparator<Object>() {
+    if (datasets != null) {
+      Collections.sort(datasets, new Comparator<Object>() {
 
-      public int compare(Object o1, Object o2) {
-        Checklist c1 = (Checklist) o1;
-        Checklist c2 = (Checklist) o2;
-        return c1.getName().compareToIgnoreCase(c2.getName());
-      }
-    });
+        public int compare(Object o1, Object o2) {
+          Checklist c1 = (Checklist) o1;
+          Checklist c2 = (Checklist) o2;
+          return c1.getName().compareToIgnoreCase(c2.getName());
+        }
+      });
+    }
 
     // using static just to make sure all layout is working properly
     if (q == null || q.isEmpty()) {
