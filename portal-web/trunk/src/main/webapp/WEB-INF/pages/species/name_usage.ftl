@@ -534,11 +534,21 @@
     </div>
 
     <div class="right">
+    <#if (usage.references?size>0)>
       <h3>Bibliography</h3>
-      <ul class="placeholder_temp">
-        <li>Pearson O. P., and M. I. Christie. 1985. “Historia Natural, 5(37):388”.</li>
-        <li>Pearson O. P., and M. I. Christie. 1985. “Historia Natural, 5(37):388”.</li>
+      <ul>
+      <#list usage.references as ref>
+        <li>
+          <#if ref.link?has_content><a href="${ref.link}">${ref.citation}</a><#else>${ref.citation}</#if>
+          <#if ref.doi?has_content>DOI:<a href="http://dx.doi.org/${ref.doi}">${ref.doi}</a></#if>
+        </li>
+      <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
+        <#if !ref_has_next && ref_index==9>
+          <p><a class="more_link" href="<@s.url value='/usage/${id}/references'/>">see all</a></p>
+        </#if>
+      </#list>
       </ul>
+    </#if>
     </div>
 
   </div>
