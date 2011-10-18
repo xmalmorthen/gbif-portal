@@ -10,6 +10,7 @@ package org.gbif.portal.action.dataset;
 
 import org.gbif.api.paging.PagingConstants;
 import org.gbif.api.paging.PagingRequest;
+import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.ws.client.ChecklistWsClient;
 import org.gbif.portal.action.BaseAction;
@@ -40,7 +41,10 @@ public class SearchAction extends BaseAction {
   @Override
   public String execute() {
     LOG.debug("Searching for datasets matching [{}]", q);
-    datasets = checklistClient.list(new PagingRequest(offset, limit));
+    PagingResponse<Checklist> checklistResponse = checklistClient.list(new PagingRequest(offset, limit));
+    if (checklistResponse != null) {
+      datasets = checklistResponse.getResults();
+    }
     LOG.debug("Found [{}] matching datasets", datasets == null ? 0 : datasets.size());
 
     // TODO: This sort is temporary to just show the list in an ordered fashion
