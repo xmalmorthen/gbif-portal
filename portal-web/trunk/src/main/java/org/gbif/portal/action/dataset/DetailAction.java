@@ -8,7 +8,7 @@
  */
 package org.gbif.portal.action.dataset;
 
-import org.gbif.checklistbank.ws.client.ChecklistWsClient;
+import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.portal.action.BaseAction;
 
 import java.util.UUID;
@@ -25,8 +25,9 @@ public class DetailAction extends BaseAction {
   private String id;
   private Object dataset;
 
+  // TODO: use the checklist-client when its readily injectable
   @Inject
-  private ChecklistWsClient checklistClient;
+  private ChecklistService checklistService;
 
 
   @Override
@@ -40,7 +41,7 @@ public class DetailAction extends BaseAction {
     // TODO: the registry client needs to be invoked first to know which type of Resource we area dealing with. For now
     // the checklist client will be the default one being called. The default view will be the detailed checklist.
     // TODO: check to see if this is valid UUID first
-    dataset = checklistClient.get(UUID.fromString(id));
+    dataset = checklistService.get(UUID.fromString(id));
     return "detail_checklist";
     // other views --> "detail_external", "detail_occurrence"
 
