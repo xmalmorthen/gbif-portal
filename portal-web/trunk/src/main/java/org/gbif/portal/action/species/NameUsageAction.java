@@ -54,17 +54,17 @@ public class NameUsageAction extends BaseAction {
     // load subresources with small page size = 10
     Pageable page10 = new PagingRequest(0, 10);
     PagingResponse<ChecklistUsage> synonymResponse = usageService.listSynonyms(id, getLocale(), page10);
-    if (synonymResponse.getResults() != null) {
+    if (synonymResponse != null) {
       usage.setSynonyms(synonymResponse.getResults());
     }
     // get vernacular names
     PagingResponse<VernacularName> vernacularResponse = vernacularNameService.listByChecklistUsage(id, page10);
-    if (vernacularResponse.getResults() != null) {
+    if (vernacularResponse != null) {
       usage.setVernacularNames(vernacularResponse.getResults());
     }
     // get children
     PagingResponse<ChecklistUsage> childrenResponse = usageService.listChildren(id, getLocale(), null);
-    if (childrenResponse.getResults() != null) {
+    if (childrenResponse != null) {
       children = childrenResponse.getResults();
     }
 
