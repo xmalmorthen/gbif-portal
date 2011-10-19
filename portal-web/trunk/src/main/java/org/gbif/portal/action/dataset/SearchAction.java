@@ -35,7 +35,6 @@ public class SearchAction extends BaseAction {
   private String q;
   private List<?> datasets;
 
-  // TODO: use the checklist-client when its readily injectable
   @Inject
   private ChecklistService checklistService;
 

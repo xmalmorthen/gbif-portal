@@ -25,10 +25,8 @@ public class DetailAction extends BaseAction {
   private String id;
   private Object dataset;
 
-  // TODO: use the checklist-client when its readily injectable
   @Inject
   private ChecklistService checklistService;
-
 
   @Override
   public String execute() {
