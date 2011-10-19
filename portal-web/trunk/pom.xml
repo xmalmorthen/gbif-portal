@@ -46,7 +46,6 @@
     <logback.version>0.9.30</logback.version>
     <mockito.version>1.8.5</mockito.version>
     <servletapi.version>2.5</servletapi.version>
-    <sitemesh.version>2.4.2</sitemesh.version>
     <slf4j.version>1.6.2</slf4j.version>
     <struts.version>2.2.3.1</struts.version>
   </properties>
@@ -83,22 +82,6 @@
         </configuration>
       </plugin>
     </plugins>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <excludes>
-          <exclude>struts.xml</exclude>
-        </excludes>
-        <filtering>true</filtering>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <includes>
-          <include>struts.xml</include>
-        </includes>
-        <filtering>false</filtering>
-      </resource>
-    </resources>
     <testResources>
       <testResource>
         <directory>src/test/resources</directory>
@@ -185,11 +168,7 @@
       <artifactId>struts2-core</artifactId>
       <version>${struts.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.apache.struts.xwork</groupId>
-      <artifactId>xwork-core</artifactId>
-      <version>${struts.version}</version>
-    </dependency>
+
     <!--
      This plugin provides a faster Java implementation of tags in the "simple" theme then the default one
      http://struts.apache.org/2.x/docs/javatemplates-plugin.html
@@ -206,12 +185,6 @@
       <groupId>org.apache.struts</groupId>
       <artifactId>struts2-sitemesh-plugin</artifactId>
       <version>${struts.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>opensymphony</groupId>
-      <artifactId>sitemesh</artifactId>
-      <version>${sitemesh.version}</version>
     </dependency>
     <dependency>
       <groupId>org.freemarker</groupId>

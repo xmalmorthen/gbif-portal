@@ -14,28 +14,30 @@ import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import com.google.inject.struts2.Struts2GuicePluginModule;
-import com.opensymphony.sitemesh.webapp.SiteMeshFilter;
 import org.apache.struts2.dispatcher.ng.filter.StrutsExecuteFilter;
 import org.apache.struts2.dispatcher.ng.filter.StrutsPrepareFilter;
+import org.apache.struts2.sitemesh.FreemarkerPageFilter;
 
 /**
  * Setting up filter and servlets in addition to the ones in web.xml.
  */
 public class PortalListener extends GuiceServletContextListener {
 
+  private final ServletModule sm = new ServletModule() {
+    @Override
+    protected void configureServlets() {
+      bind(StrutsPrepareFilter.class).in(Singleton.class);
+      bind(FreemarkerPageFilter.class).in(Singleton.class);
+      bind(StrutsExecuteFilter.class).in(Singleton.class);
+      filter("/*").through(StrutsPrepareFilter.class);
+      filter("/*").through(FreemarkerPageFilter.class);
+      filter("/*").through(StrutsExecuteFilter.class);
+    }
+  };
+
+
   @Override
   public Injector getInjector() {
-    return Guice.createInjector(new PortalModule(), new Struts2GuicePluginModule(), new ServletModule() {
-
-      @Override
-      protected void configureServlets() {
-        bind(StrutsPrepareFilter.class).in(Singleton.class);
-        filter("/*").through(StrutsPrepareFilter.class);
-        bind(SiteMeshFilter.class).in(Singleton.class);
-        filter("/*").through(SiteMeshFilter.class);
-        bind(StrutsExecuteFilter.class).in(Singleton.class);
-        filter("/*").through(StrutsExecuteFilter.class);
-      }
-    });
+    return Guice.createInjector(new Struts2GuicePluginModule(), sm, new PortalModule());
   }
 }
