@@ -185,11 +185,11 @@
       <artifactId>struts2-core</artifactId>
       <version>${struts.version}</version>
     </dependency>
-		<dependency>
-			<groupId>org.apache.struts.xwork</groupId>
-			<artifactId>xwork-core</artifactId>
-			<version>${struts.version}</version>
-		</dependency>    
+    <dependency>
+      <groupId>org.apache.struts.xwork</groupId>
+      <artifactId>xwork-core</artifactId>
+      <version>${struts.version}</version>
+    </dependency>    
 
     <!--
      This plugin provides a faster Java implementation of tags in the "simple" theme then the default one
