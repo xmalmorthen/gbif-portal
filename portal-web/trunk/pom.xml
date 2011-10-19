@@ -82,10 +82,6 @@
         </configuration>
       </plugin>
     </plugins>
-    <!-- TODO: 
-      This BREAKS the freemarker surfacing errors to the user, but IS NEEDED as resources
-      need system properties filtered in  
-    -->
     <resources>
       <resource>
         <directory>src/main/resources</directory>
