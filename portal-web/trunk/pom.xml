@@ -82,8 +82,11 @@
         </configuration>
       </plugin>
     </plugins>
-    <!-- TODO: including this makes Sitemesh swallow freemarker errors -->
-    <!--  resources>
+    <!-- TODO: 
+      This BREAKS the freemarker surfacing errors to the user, but IS NEEDED as resources
+      need system properties filtered in  
+    -->
+    <resources>
       <resource>
         <directory>src/main/resources</directory>
         <excludes>
@@ -98,7 +101,7 @@
         </includes>
         <filtering>false</filtering>
       </resource>
-    </resources -->
+    </resources>
     <testResources>
       <testResource>
         <directory>src/test/resources</directory>
