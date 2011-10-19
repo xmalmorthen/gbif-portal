@@ -520,7 +520,7 @@
     <h2>Academic references</h2>
 
     <div class="left">
-      <h3>Publication</h3>
+      <h3>Published In</h3>
 
       <p>${usage.publishedIn!"?"}</p>
 
