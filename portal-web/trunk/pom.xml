@@ -82,6 +82,23 @@
         </configuration>
       </plugin>
     </plugins>
+    <!-- TODO: including this makes Sitemesh swallow freemarker errors -->
+    <!--  resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <excludes>
+          <exclude>struts.xml</exclude>
+        </excludes>
+        <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>struts.xml</include>
+        </includes>
+        <filtering>false</filtering>
+      </resource>
+    </resources -->
     <testResources>
       <testResource>
         <directory>src/test/resources</directory>
@@ -168,6 +185,11 @@
       <artifactId>struts2-core</artifactId>
       <version>${struts.version}</version>
     </dependency>
+		<dependency>
+			<groupId>org.apache.struts.xwork</groupId>
+			<artifactId>xwork-core</artifactId>
+			<version>${struts.version}</version>
+		</dependency>    
 
     <!--
      This plugin provides a faster Java implementation of tags in the "simple" theme then the default one
