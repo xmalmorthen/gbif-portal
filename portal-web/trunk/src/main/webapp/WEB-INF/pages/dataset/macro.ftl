@@ -5,7 +5,7 @@
 		${currentPage(offset,limit,(start+limit), current+1)}
 	</#if>
 </#function>
-<#macro pagination offset limit showState baseUrl totalResults=-1>
+<#macro pagination offset limit baseUrl totalResults=-1>
   <#if (limit > 0)>
     <a href="#" class="candy_white_button previous"><span>Previous page</span></a>
   </#if>
