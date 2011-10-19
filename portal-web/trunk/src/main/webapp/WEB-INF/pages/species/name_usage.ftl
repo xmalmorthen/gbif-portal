@@ -531,24 +531,23 @@
       <h3>Review date</h3>
 
       <p class="placeholder_temp">Oct 28, 2003</p>
-    </div>
 
-    <div class="right">
-    <#if (usage.references?size>0)>
+     <#if (usage.references?size>0)>
       <h3>Bibliography</h3>
-      <ul>
       <#list usage.references as ref>
-        <li>
+        <p>
           <#if ref.link?has_content><a href="${ref.link}">${ref.citation}</a><#else>${ref.citation}</#if>
-          <#if ref.doi?has_content>DOI:<a href="http://dx.doi.org/${ref.doi}">${ref.doi}</a></#if>
-        </li>
+          <#if ref.doi?has_content><br/>DOI:<a href="http://dx.doi.org/${ref.doi}">${ref.doi}</a></#if>
+        </p>
       <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
         <#if !ref_has_next && ref_index==9>
           <p><a class="more_link" href="<@s.url value='/usage/${id}/references'/>">see all</a></p>
         </#if>
       </#list>
-      </ul>
     </#if>
+    </div>
+
+    <div class="right">
     </div>
 
   </div>
