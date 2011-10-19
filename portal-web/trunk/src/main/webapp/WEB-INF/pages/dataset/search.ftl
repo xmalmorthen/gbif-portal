@@ -3,6 +3,9 @@
   <title>Dataset Search Results - GBIF</title>
   <meta name="menu" content="dataset"/>
 </head>
+
+<#import "macro.ftl" as macro>
+
 <body class="search">
 
   <content tag="infoband">
@@ -57,10 +60,7 @@
       -->
 
         <div class="footer">
-          <a href="#" class="candy_white_button previous"><span>Previous page</span></a>
-          <a href="#" class="candy_white_button next"><span>Next page</span></a>
-
-          <div class="pagination">viewing page 2 of 31</div>
+        <@macro.pagination offset=51 limit=2 showState=true baseUrl="http://url.com"/>
         </div>
       </div>
 

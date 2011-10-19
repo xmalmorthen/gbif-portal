@@ -44,6 +44,8 @@ public class SearchAction extends BaseAction {
     PagingResponse<Checklist> checklistResponse = checklistService.list(new PagingRequest(offset, limit));
     if (checklistResponse != null) {
       datasets = checklistResponse.getResults();
+      offset = checklistResponse.getOffset();
+      limit = checklistResponse.getLimit();
     }
     LOG.debug("Found [{}] matching datasets", datasets == null ? 0 : datasets.size());
 
@@ -100,5 +102,19 @@ public class SearchAction extends BaseAction {
    */
   public void setLimit(int limit) {
     this.limit = limit;
+  }
+
+  /**
+   * @return the offset.
+   */
+  public long getOffset() {
+    return offset;
+  }
+
+  /**
+   * @return the limit.
+   */
+  public int getLimit() {
+    return limit;
   }
 }
