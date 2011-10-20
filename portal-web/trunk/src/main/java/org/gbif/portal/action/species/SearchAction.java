@@ -10,10 +10,10 @@ package org.gbif.portal.action.species;
 
 import org.gbif.api.search.model.SearchRequest;
 import org.gbif.api.search.model.SearchResponse;
-import org.gbif.api.search.service.SearchService;
 import org.gbif.checklistbank.api.model.NameUsage;
-import org.gbif.checklistbank.search.model.NameUsageSearch;
+import org.gbif.checklistbank.api.service.NameUsageSearchService;
 import org.gbif.portal.action.BaseAction;
+import static org.gbif.api.paging.PagingConstants.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,20 +33,19 @@ public class SearchAction extends BaseAction {
   private List<NameUsage> usages;
 
   @Inject
-  private SearchService<NameUsageSearch> nameUsageSearchService;
+  private NameUsageSearchService nameUsageSearchService;
 
   @Override
   public String execute() {
     LOG.info("Species search of [{}]", q);
-
-    SearchRequest req = new SearchRequest();
+    SearchRequest req = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
     Map<String, String> params = new HashMap<String, String>();
-    params.put("q", q);
+    params.put("q", q);//deafult query parameter
     req.setParameters(params);
-    SearchResponse<NameUsageSearch> results = nameUsageSearchService.search(req);
+    SearchResponse<NameUsage> results = nameUsageSearchService.search(req);
     Long count = results.getCount();
+    this.usages = results.getResults(); //sets the results
     LOG.info("Species search of [{}] returned {} results", q, count);
-
     return SUCCESS;
   }
 

@@ -19,7 +19,7 @@
 
       <div class="header">
         <div class="left">
-          <h2>${(usages.size)!} results for "${q!}"</h2>
+          <h2>${(usages.size())!} results for "${q!}"</h2>
           <a href="#" class="sort" title="Sort by relevance">Sort by relevance <span class="more"></span></a>
         </div>
         <div class="right"><h3>Refine your search</h3></div>
@@ -27,11 +27,9 @@
 
       <div class="left">
 
-        <!-- dynamic -->
-      <#--
       <#list usages as u>
         <div class="result">
-          <h2><a href="/species/${u.taxonID?c}" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}
+          <h2><a href="/species/${u.key?c}" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}
           </a></h2>
 
           <div class="footer">
@@ -46,60 +44,6 @@
           </div>
         </div>
       </#list>
-      -->
-
-        <!-- canned -->
-        <div class="result">
-          <h2><a href="<@s.url value='/species/2480599'/>" title="Accipiter bicolor"><strong>Accipiter bicolor</strong></a>
-          </h2>
-
-          <div class="footer">
-            <ul class="taxonomy">
-              <li>Animalia</li>
-              <li>Chordata</li>
-              <li>Aves</li>
-              <li>Ciconiiformes</li>
-              <li>Accipitridae</li>
-              <li class="last">Accipiter</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="result">
-          <h2><a href="<@s.url value='/species/103342522/name_usage'/>"
-                 title="Chorthippus (Glyptobothrus) Chopard, 1951"><strong>Chorthippus (Glyptobothrus) Chopard,
-            1951</strong>
-            according to Orthoptera Species File</a></h2>
-
-          <div class="footer">
-            <ul class="taxonomy">
-              <li>Animalia</li>
-              <li>Orthoptera</li>
-              <li>Acrididae</li>
-              <li class="last">Chorthippus</li>
-            </ul>
-          </div>
-        </div>
-
-      <#list 1..10 as i>
-        <div class="result">
-          <h2><a href="<@s.url value='/species/110247130/name_usage'/>" title="Accipiter bicolor"><strong>Accipiter
-            bicolor</strong>
-            according to IUCN Red List of Threatened Species</a></h2>
-
-          <div class="footer">
-            <ul class="taxonomy">
-              <li>Animalia</li>
-              <li>Chordata</li>
-              <li>Aves</li>
-              <li>Ciconiiformes</li>
-              <li>Accipitridae</li>
-              <li class="last">Accipiter</li>
-            </ul>
-          </div>
-        </div>
-      </#list>
-
 
         <div class="footer">
           <a href="#" class="candy_white_button previous"><span>Previous page</span></a>
@@ -154,7 +98,6 @@
           </div>
 
         </div>
-
       </div>
     </div>
     <footer></footer>
