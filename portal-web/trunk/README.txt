@@ -1,5 +1,6 @@
 *** Vizzuality code notes ***
 
+
 == original Ruby code
 code at GitHub:
 https://github.com/Vizzuality/Data.GBIF
