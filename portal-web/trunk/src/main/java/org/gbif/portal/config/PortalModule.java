@@ -29,10 +29,8 @@ public class PortalModule extends AbstractModule {
       // install modules
       install(new RegistryWsClientModule());
       install(new OccurrenceWsClientModule());
-      // select either the mybatis or the ws-client api implementation:
-      //install(new ChecklistBankServiceMyBatisModule(properties));
-      //setting the ws client as the implementation
       install(new ChecklistBankWsClientModule());
+      install(new ChecklistBankServiceMyBatisModule(properties));
     } catch (IOException e) {
       throw new ConfigurationException(
         "Unable to read the application.properties (perhaps missing in WEB-INF/classes?)", e);
