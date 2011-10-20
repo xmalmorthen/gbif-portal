@@ -58,7 +58,10 @@ public class SearchAction extends BaseAction {
         public int compare(Object o1, Object o2) {
           Checklist c1 = (Checklist) o1;
           Checklist c2 = (Checklist) o2;
-          return c1.getName().compareToIgnoreCase(c2.getName());
+          if (c1.getName() != null && c2.getName() != null) {
+            return c1.getName().compareToIgnoreCase(c2.getName());
+          }
+          return 0;
         }
       });
     }

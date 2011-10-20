@@ -37,7 +37,7 @@
         <!-- real data -->
         <#list datasets as dataset>
         <div class="result">
-          <h2><a href="<@s.url value='/dataset/${dataset.key}'/>" title="${dataset.name}"><strong>${dataset.name}</strong></a>
+          <h2><a href="<@s.url value='/dataset/${dataset.key}'/>" title="${dataset.name!}"><strong>${dataset.name!}</strong></a>
           </h2>
 
           <p class="placeholder_temp">A checklist published by XXX at 1950.</a>

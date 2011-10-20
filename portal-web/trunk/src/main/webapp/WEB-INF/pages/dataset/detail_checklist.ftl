@@ -14,7 +14,7 @@
   </ul>
 
   <!-- TODO: posibly use the Registry's dataset 'name' property -->
-  <h1>${dataset.name}</h1>
+  <h1>${dataset.name!}</h1>
 
   <h3 class="separator">Provided by <a href="<@s.url value='/member/1'/>" class="placeholder_temp">GBIF</a>
   </h3>
