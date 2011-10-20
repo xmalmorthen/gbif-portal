@@ -2,7 +2,7 @@ package org.gbif.portal.action.species;
 
 import org.gbif.portal.action.BaseAction;
 
-public class NameUsageListAction extends BaseAction {
+public class DistributionAction extends BaseAction {
 
   private Integer id;
 

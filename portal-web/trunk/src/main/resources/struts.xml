@@ -11,23 +11,29 @@
 
     <interceptors>
       <interceptor name="requireLogin" class="org.gbif.portal.struts.RequireLoginInterceptor"/>
+
+      <interceptor-stack name="portalStack">
+        <interceptor-ref name="staticParams"/>
+        <interceptor-ref name="i18nStack"/>
+      </interceptor-stack>
+
       <!-- see http://struts.apache.org/2.1.6/docs/interceptors.html -->
       <interceptor-stack name="loginStack">
         <interceptor-ref name="requireLogin"/>
-        <interceptor-ref name="i18nStack"/>
+        <interceptor-ref name="portalStack"/>
       </interceptor-stack>
+
       <interceptor-stack name="uploadStack">
         <interceptor-ref name="fileUpload">
           <!-- the same setting also has to be applied in struts.properties !!! -->
           <param name="maximumSize">2097152</param>
         </interceptor-ref>
-        <interceptor-ref name="i18nStack"/>
+        <interceptor-ref name="portalStack"/>
       </interceptor-stack>
 
     </interceptors>
-    <!--
-      <default-interceptor-ref name="i18nStack"/>
-    -->
+
+    <default-interceptor-ref name="portalStack"/>
 
     <global-results>
       <result name="404">
@@ -42,82 +48,42 @@
       <result name="error">
         <param name="location">/WEB-INF/error/error.ftl</param>
       </result>
-      <result name="notImplemented">
-        <param name="location">/WEB-INF/error/notImplemented.ftl</param>
-      </result>
-
     </global-results>
+
+    <global-exception-mappings>
+       <!-- catching not existing action mappings -->
+       <exception-mapping exception="com.opensymphony.xwork2.config.ConfigurationException" result="404" />
+    </global-exception-mappings>
+
   </package>
 
 
   <package name="root" namespace="/" extends="default">
-    <default-action-ref name=""/>
-
     <action name="" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/home.ftl</result>
     </action>
 
-    <action name="datasets">
-      <result type="redirect">datasets/</result>
+    <action name="{url}" class="org.gbif.portal.action.RedirectAction">
+      <result type="redirect">
+        <param name="parse">true</param>
+        <param name="location">${url}/</param>
+      </result>
     </action>
 
-    <action name="occurrences">
-      <result type="redirect">occurrences/</result>
-    </action>
-
-    <action name="species">
-      <result type="redirect">species/</result>
-    </action>
-
-    <action name="themes">
-      <result type="redirect">themes/</result>
-    </action>
-
-    <action name="countries">
-      <result type="redirect">countries/</result>
-    </action>
-
-    <action name="stats">
-      <result type="redirect">stats/</result>
-    </action>
-
-    <action name="session">
-      <result type="redirect">session/</result>
-    </action>
-
-    <action name="user">
-      <result type="redirect">user/</result>
-    </action>
-
-    <action name="members">
-      <result type="redirect">members/</result>
-    </action>
-
-    <action name="about">
-      <result type="redirect">about/</result>
-    </action>
   </package>
 
   <!-- DATASETS -->
-  <package name="datasets" namespace="/datasets" extends="default">
+  <package name="dataset" namespace="/dataset" extends="default">
     <!-- catches everything that doesn't match below! -->
+    <!--
     <default-action-ref name=""/>
-
+    -->
     <action name="" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/dataset/home.ftl</result>
     </action>
 
     <action name="search" class="org.gbif.portal.action.dataset.SearchAction">
       <result>/WEB-INF/pages/dataset/search.ftl</result>
-    </action>
-  </package>
-
-  <package name="dataset" namespace="/dataset" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="">
-      <result type="redirect">/datasets</result>
     </action>
 
     <action name="register-step-1" class="org.gbif.portal.action.dataset.RegisterAction" method="step1">
@@ -154,7 +120,7 @@
 
 
   <!-- OCCURRENCES -->
-  <package name="occurrences" namespace="/occurrences" extends="default">
+  <package name="occurrence" namespace="/occurrence" extends="default">
     <!-- catches everything that doesn't match below! -->
     <default-action-ref name=""/>
 
@@ -164,15 +130,6 @@
 
     <action name="search" class="org.gbif.portal.action.occurrence.SearchAction">
       <result>/WEB-INF/pages/occurrence/search.ftl</result>
-    </action>
-  </package>
-
-  <package name="occurrence" namespace="/occurrence" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="">
-      <result type="redirectAction">/occurrences</result>
     </action>
 
     <!-- {id} matches anything but "/" -->
@@ -219,29 +176,37 @@
       <result>/WEB-INF/pages/species/extended_taxonomy.ftl</result>
     </action>
 
+    <action name="{id}/verbatim" class="org.gbif.portal.action.species.NameUsageVerbatimAction">
+      <result>/WEB-INF/pages/species/verbatim.ftl</result>
+    </action>
+
+    <!-- name usage subresources -->
     <action name="{id}/distribution" class="org.gbif.portal.action.species.DistributionAction">
       <result>/WEB-INF/pages/species/distribution.ftl</result>
     </action>
 
-    <action name="{id}/name_usage" class="org.gbif.portal.action.species.NameUsageAction">
-      <result>/WEB-INF/pages/species/name_usage.ftl</result>
+    <action name="{id}/reference" class="org.gbif.portal.action.species.ReferenceAction">
+      <result>/WEB-INF/pages/species/reference.ftl</result>
     </action>
 
-    <action name="{id}/name_usage_raw" class="org.gbif.portal.action.species.NameUsageVerbatimAction">
-      <result>/WEB-INF/pages/species/name_usage_raw.ftl</result>
+    <action name="{id}/typespecimen" class="org.gbif.portal.action.species.TypeSpecimenAction">
+      <result>/WEB-INF/pages/species/typespecimen.ftl</result>
     </action>
 
-    <action name="{id}/name_usage_list" class="org.gbif.portal.action.species.NameUsageListAction">
-      <result>/WEB-INF/pages/species/name_usage_list.ftl</result>
+    <action name="{id}/vernacular" class="org.gbif.portal.action.species.VernacularNameAction">
+      <result>/WEB-INF/pages/species/vernacular.ftl</result>
     </action>
 
-    <action name="{id}" class="org.gbif.portal.action.species.DetailAction">
-      <result>/WEB-INF/pages/species/detail.ftl</result>
+    <!-- nub or checklist usage -->
+    <action name="{id}" class="org.gbif.portal.action.species.NameUsageAction">
+      <result name="nub">/WEB-INF/pages/species/nub_usage.ftl</result>
+      <result>/WEB-INF/pages/species/checklist_usage.ftl</result>
     </action>
+
   </package>
 
   <!-- COUNTRIES -->
-  <package name="countries" namespace="/countries" extends="default">
+  <package name="country" namespace="/country" extends="default">
     <!-- catches everything that doesn't match below! -->
     <default-action-ref name=""/>
 
@@ -252,15 +217,6 @@
     <action name="search" class="org.gbif.portal.action.country.SearchAction">
       <result>/WEB-INF/pages/country/search.ftl</result>
     </action>
-  </package>
-
-  <package name="country" namespace="/country" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="">
-      <result type="redirectAction">/countries</result>
-    </action>
 
     <action name="{id}" class="org.gbif.portal.action.country.DetailAction">
       <result>/WEB-INF/pages/country/detail.ftl</result>
@@ -268,21 +224,12 @@
   </package>
 
   <!-- THEMES -->
-  <package name="themes" namespace="/themes" extends="default">
+  <package name="theme" namespace="/theme" extends="default">
     <!-- catches everything that doesn't match below! -->
     <default-action-ref name=""/>
 
     <action name="" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/theme/home.ftl</result>
-    </action>
-  </package>
-
-  <package name="theme" namespace="/theme" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="">
-      <result type="redirectAction">/themes</result>
     </action>
 
     <action name="{id}" class="org.gbif.portal.action.theme.DetailAction">
@@ -310,7 +257,7 @@
   </package>
 
   <!-- MEMBERS -->
-  <package name="members" namespace="/members" extends="default">
+  <package name="member" namespace="/member" extends="default">
     <!-- catches everything that doesn't match below! -->
     <default-action-ref name=""/>
 
@@ -320,15 +267,6 @@
 
     <action name="search" class="org.gbif.portal.action.member.SearchAction">
       <result>/WEB-INF/pages/member/search.ftl</result>
-    </action>
-  </package>
-
-  <package name="member" namespace="/member" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="">
-      <result type="redirectAction">/members</result>
     </action>
 
     <!-- {id} matches anything but "/" -->
@@ -349,23 +287,13 @@
     </action>
   </package>
 
-
   <!-- SESSIONS -->
-  <package name="sessions" namespace="/sessions" extends="default">
+  <package name="session" namespace="/session" extends="default">
     <!-- catches everything that doesn't match below! -->
     <default-action-ref name=""/>
 
     <action name="" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/session/home.ftl</result>
-    </action>
-  </package>
-
-  <package name="session" namespace="/session" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="">
-      <result type="redirectAction">/sessions</result>
     </action>
 
     <action name="login" class="org.gbif.portal.action.session.SessionAction" method="logIn">
@@ -378,21 +306,12 @@
   </package>
 
   <!-- USER -->
-  <package name="users" namespace="/users" extends="default">
+  <package name="user" namespace="/user" extends="default">
     <!-- catches everything that doesn't match below! -->
     <default-action-ref name=""/>
 
     <action name="" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/user/home.ftl</result>
-    </action>
-  </package>
-
-  <package name="user" namespace="/user" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="">
-      <result type="redirectAction">/users</result>
     </action>
 
     <action name="register/step1" class="org.gbif.portal.action.user.RegistrationAction" method="step1">
@@ -440,6 +359,5 @@
     <action name="use" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/about/use.ftl</result>
     </action>
-
   </package>
 </struts>

@@ -3,6 +3,7 @@ package org.gbif.portal.action.species;
 import org.gbif.api.paging.Pageable;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
+import org.gbif.checklistbank.api.Constants;
 import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.api.model.ChecklistUsage;
 import org.gbif.checklistbank.api.model.Description;
@@ -60,6 +61,23 @@ public class NameUsageAction extends BaseAction {
 
     // checklist
     checklist = checklistService.get(usage.getChecklistKey());
+
+    // is this a nub or simple checklist usage?
+    if (Constants.NUB_TAXONOMY_KEY.equals(usage.getChecklistKey())){
+      loadNubUsage();
+      return "nub";
+    }else{
+      loadChecklistUsage();
+      return SUCCESS;
+    }
+  }
+
+  private void loadNubUsage(){
+    //TODO: load real nub usage data
+    loadChecklistUsage();
+  }
+
+  private void loadChecklistUsage(){
     // basionym
     if (usage.getBasionymKey() != null) {
       basionym = usageService.get(usage.getBasionymKey(), getLocale());
@@ -96,11 +114,8 @@ public class NameUsageAction extends BaseAction {
     if (identifierResponse != null) {
       usage.setIdentifiers(identifierResponse.getResults());
     }
-
-
-
-    return SUCCESS;
   }
+
 
   public void setId(Integer id) {
     this.id = id;
