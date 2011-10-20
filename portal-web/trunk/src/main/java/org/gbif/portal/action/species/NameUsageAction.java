@@ -88,12 +88,12 @@ public class NameUsageAction extends BaseAction {
     }
     // get descriptions
     PagingResponse<Description> descriptionResponse = descriptionService.listByChecklistUsage(id, page10);
-    if (referenceResponse != null) {
+    if (descriptionResponse != null) {
       usage.setDescriptions(descriptionResponse.getResults());
     }
     // get identifier
     PagingResponse<Identifier> identifierResponse = identifierService.listByChecklistUsage(id, page10);
-    if (referenceResponse != null) {
+    if (identifierResponse != null) {
       usage.setIdentifiers(identifierResponse.getResults());
     }
 
