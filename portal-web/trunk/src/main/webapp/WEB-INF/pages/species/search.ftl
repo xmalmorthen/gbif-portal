@@ -36,7 +36,7 @@
             <ul class="taxonomy">
               <li>${u.kingdom!"-"}</li>
               <li>${u.phylum!"-"}</li>
-              <li>${u.get("class")!"-"}</li>
+              <li>${u.clazz!"-"}</li>
               <li>${u.order!"-"}</li>
               <li>${u.family!"-"}</li>
               <li class="last">${u.genus!}</li>
