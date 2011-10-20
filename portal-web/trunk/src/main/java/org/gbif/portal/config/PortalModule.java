@@ -1,7 +1,7 @@
 package org.gbif.portal.config;
 
-import org.gbif.checklistbank.search.inject.SearchModule;
 import org.gbif.checklistbank.service.mybatis.guice.ChecklistBankServiceMyBatisModule;
+import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
 import org.gbif.occurrencestore.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
 
@@ -26,15 +26,13 @@ public class PortalModule extends AbstractModule {
       Properties properties = new Properties();
       properties.load(this.getClass().getResourceAsStream("/application.properties"));
       Names.bindProperties(binder(), properties);
-
       // install modules
-      install(new SearchModule(properties));
       install(new RegistryWsClientModule());
       install(new OccurrenceWsClientModule());
       // select either the mybatis or the ws-client api implementation:
-      install(new ChecklistBankServiceMyBatisModule(properties));
-      //install(new ChecklistBankWsClientModule());
-
+      //install(new ChecklistBankServiceMyBatisModule(properties));
+      //setting the ws client as the implementation
+      install(new ChecklistBankWsClientModule());
     } catch (IOException e) {
       throw new ConfigurationException(
         "Unable to read the application.properties (perhaps missing in WEB-INF/classes?)", e);
