@@ -4,7 +4,6 @@
   <meta name="menu" content="species"/>
 </head>
 <body class="search">
-
   <content tag="infoband">
     <h2>Search species</h2>
 
@@ -65,7 +64,9 @@
 
         <div class="refine">
           <h4>Checklist</h4>
-          <a href="#" title="GBIF Backbone taxonomy">GBIF Backbone taxonomy<span class="more"></span></a>
+          <#list checkListsFacetCounts as count>
+            <a href="#" title="${count.name}">${count.name}-(${count.count}) <span class="more"></span></a>
+          </#list>
         </div>
 
         <div class="refine">
@@ -83,11 +84,9 @@
           <a href="#" title="Any">Any<span class="more"></span></a>
         </div>
 
-
         <a href="#" title="Add another criterion" class="add_criteria">Add another criterion <span class="more"></span></a>
 
         <div class="download">
-
           <div class="dropdown">
             <a href="#" class="title" title="Download list"><span>Download list</span></a>
             <ul>
@@ -96,12 +95,11 @@
               <li class="last"><a href="#b"><span>Download metadata</span></a></li>
             </ul>
           </div>
-
         </div>
+
       </div>
     </div>
     <footer></footer>
   </article>
-
 </body>
 </html>
