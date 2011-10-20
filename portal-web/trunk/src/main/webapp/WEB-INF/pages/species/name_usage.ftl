@@ -114,13 +114,24 @@
       <p>${basionym.scientificName}</p>
     </#if>
 
+
+      <h3>External Links</h3>
+      <ul>
+      <#list usage.identifiers as i>
+        <#if i.identifierLink??>
+          <li><a href="${i.identifierLink}" title="${i.title!i.type!i.identifier}">${i.title!i.type!i.identifier}</a></li>
+        </#if>
+      </#list>
+      </ul>
+
+      <#--
     <#if usage.link?has_content>
       <h3>External Links</h3>
       <ul>
         <li><a href="${usage.link}" title="Original source">Original source</a></li>
       </ul>
     </#if>
-
+    -->
       <h3>Metadata</h3>
       <ul class="placeholder_temp">
         <li class="download">EML file &nbsp;<a class="small" href="#" title="EML file (english)">ENG</a> · <a
