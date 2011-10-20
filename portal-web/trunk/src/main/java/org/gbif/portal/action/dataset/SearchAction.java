@@ -8,7 +8,6 @@
  */
 package org.gbif.portal.action.dataset;
 
-import org.gbif.api.paging.PagingConstants;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.Checklist;
@@ -23,13 +22,16 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
+import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
+
 public class SearchAction extends BaseAction {
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
   // paging
-  private long offset = PagingConstants.DEFAULT_PARAM_OFFSET;
-  private int limit = PagingConstants.DEFAULT_PARAM_LIMIT;
+  private long offset = DEFAULT_PARAM_OFFSET;
+  private int limit = DEFAULT_PARAM_LIMIT;
 
   // search
   private String q;
