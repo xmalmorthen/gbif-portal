@@ -34,12 +34,10 @@
 
           <div class="footer">
             <ul class="taxonomy">
-              <li>${u.kingdom!"-"}</li>
-              <li>${u.phylum!"-"}</li>
-              <li>${u.clazz!"-"}</li>
-              <li>${u.order!"-"}</li>
-              <li>${u.family!"-"}</li>
-              <li class="last">${u.genus!}</li>
+            <#assign classification=u.higherClassificationMap />
+            <#list classification?keys as usageKey>
+              <li <#if !usageKey_has_next>class="last"</#if>><a href="<@s.url value='/species/${usageKey}'/>">${classification[usageKey]}</a></li>
+            </#list>
             </ul>
           </div>
         </div>
