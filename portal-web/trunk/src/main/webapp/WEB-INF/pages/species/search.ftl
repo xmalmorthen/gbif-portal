@@ -109,7 +109,7 @@
   <content tag="extra_scripts">
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.multiselect.min.js'/>"></script>
     <script type="text/javascript">
-     $("#checkListFacet").multiselect();
+     $("#checkListFacet").multiselect({minWidth: 180});
      $("#checkListFacet").multiselect("checkAll");
     </script>
   </content>
