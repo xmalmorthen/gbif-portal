@@ -29,9 +29,9 @@
 
       <#list usages as u>
         <div class="result">
-          <h2><a href="/species/${u.key?c}" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}
+          <h2><a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}
           </a></h2>
-
+          <p>according to <a href="<@s.url value='/dataset/${u.checklistKey}'/>"${u.checklistKey}</a></p>
           <div class="footer">
             <ul class="taxonomy">
             <#assign classification=u.higherClassificationMap />
