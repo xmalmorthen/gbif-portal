@@ -2,39 +2,62 @@
 <head>
   <title>${usage.scientificName} - Checklist View</title>
   <meta name="menu" content="species"/>
+  <script src="<@s.url value='/js/full_map.js'/>"></script>
 </head>
-<body class="species big">
+<body class="species typesmap">
 
 <content tag="infoband">
   <ul class="breadcrumb">
-    <li class="last">${usage.rank!"Unranked"}</li>
+    <li class="last">${(usage.rank!"Unranked")?capitalize}</li>
   </ul>
 
   <h1>${usage.scientificName}</h1>
 
   <h3>according to <a href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a></h3>
 
-  <h3 class="separator">${usage.higherClassifcation!}</h3>
+  <h3>${usage.higherClassifcation!}</h3>
 
   <!--
+  <h3 class="separator">${usage.higherClassifcation!}</h3>
   <ul class="tags">
     <li><a href="#" title="Turkey">Turkey</a></li>
     <li><a href="#" title="coastal">coastal</a></li>
     <li class="last"><a href="#" title="herbal">herbal</a></li>
   </ul>
   -->
+
+<#if nub>
+  <div class="box">
+    <div class="content">
+      <ul>
+        <li><h4>${usage.numOccurrences}</h4>Occurrences</li>
+        <#if usage.rank.isSpeciesOrBelow()>
+          <li class="last"><h4>${usage.numDescendants}</h4>Infraspecies</li>
+        <#else>
+          <li class="last"><h4>${usage.numSpecies}</h4>Species</li>
+        </#if>
+      </ul>
+      <a href="#" title="Download Occurrences" class="download candy_blue_button"><span>Download occurrences</span></a>
+    </div>
+  </div>
+</#if>
+
 </content>
 
 <content tag="tabs">
   <ul>
-    <li class='selected'><a href="<@s.url value='/species/${id!}/name_usage'/>"><span>Information</span></a></li>
-    <li><a href="<@s.url value='/species/${id!}/activity'/>" title="Activity"
-           id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
-    </li>
-    <li><a href="<@s.url value='/species/${id!}/name_usage_raw'/>"><span>Details</span></a></li>
+    <li class='selected'><a href="<@s.url value='/species/${id?c}'/>"><span>Information</span></a></li>
+    <li><a href="<@s.url value='/species/${id?c}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a></li>
+    <#if nub>
+      <li><a href="<@s.url value='/species/${id?c}/stats'/>" title="Stats"><span>Stats <sup>(2)</sup></span></a></li>
+    <#else>
+      <li><a href="<@s.url value='/species/${id?c}/verbatim'/>" title="Details"><span>Details</span></a></li>
+    </#if>
   </ul>
 </content>
 
+<#if !nub>
+<#-- ONLY FOR CHECKLIST PAGES -->
 <article class="notice">
   <header></header>
   <div class="content">
@@ -46,15 +69,16 @@
       Remember that you can also check the <a href="<@s.url value='/species/${usage.nubKey}'/>">GBIF view
       on ${usage.canonicalName!scientificName}</a>.
     </#if>
-      <br/>You can also see the <a href="<@s.url value='/species/${id!}/name_usage_raw'/>">verbatim version</a>
+      <br/>You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
       submitted by
       the data publisher.</p>
     <img id="notice_icon" src="<@s.url value='/img/icons/notice_icon.png'/>"/>
   </div>
   <footer></footer>
 </article>
+</#if>
 
-<article>
+<article id="overview">
   <header></header>
   <div class="content">
 
@@ -64,10 +88,10 @@
 
     <div class="left">
       <ul class="thumbs_list">
-        <li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></li>
-        <li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></li>
-        <li><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></li>
-        <li class="last"><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></li>
+        <li><a href="#" class="images"><span><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></span></a></li>
+        <li><a href="#" class="images"><span><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></span></a></li>
+        <li><a href="#" class="images"><span><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></span></a></li>
+        <li class="last"><a href="#" class="images"><span><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></span></a></li>
       </ul>
 
       <h3>Full name</h3>
@@ -159,10 +183,10 @@
         <#assign classification=usage.higherClassificationMap />
         <#list classification?keys as key>
           <li <#if !key_has_next>class="last"</#if>><a
-                  href="<@s.url value='/species/${key}/name_usage'/>">${classification.get(key)}</a></li>
+                  href="<@s.url value='/species/${key?c}'/>">${classification.get(key)}</a></li>
         </#list>
         </ul>
-        <div class="extended">(<a href="/species/${id!}/extended_taxonomy">extended</a>)</div>
+        <div class="extended">(<a href="/species/${id?c}/extended_taxonomy">extended</a>)</div>
       </div>
 
       <h3>Lower taxa</h3>
@@ -282,7 +306,7 @@
       <h3>Synonyms</h3>
       <ul class="no_bottom">
         <#list usage.synonyms as syn>
-          <li><a href="<@s.url value='/species/${syn.key}/name_usage'/>">${syn.scientificName}</a></li>
+          <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
         <#-- only show 9 synonyms at max. If we have 10 (index=9) we know there are more to show -->
           <#if !syn_has_next && syn_index==9>
             <p><a class="more_link" href="<@s.url value='/species/${id}/synonyms'/>">see all</a></p>
@@ -295,7 +319,7 @@
       <ul class="no_bottom">
         <li>Temporary until browser works</li>
       <#list children as syn>
-        <li><a href="<@s.url value='/species/${syn.key}/name_usage'/>">${syn.scientificName}</a></li>
+        <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
       </#list>
       </ul>
 
@@ -304,6 +328,62 @@
   </div>
   <footer></footer>
 </article>
+
+<#if nub>
+<#-- ONLY FOR NUB PAGES -->
+<article class="map">
+  <header></header>
+  <div id="map"></div>
+  <!-- map controls -->
+  <a href="#zoom_in" class="zoom_in"></a>
+  <a href="#zoom_out" class="zoom_out"></a>
+
+  <div class="projection">
+    <a class="projection" href="#projection">projection</a>
+  <span>
+    <p>PROJECTION</p>
+    <ul>
+      <li><a class="selected" href="#mercator">Mercator</a></li>
+      <li class="disabled"><a href="#robinson">Robinson</a></li>
+    </ul>
+  </span>
+  </div>
+  <!-- end map controls -->
+  <div class="content">
+
+    <div class="header">
+      <div class="right">
+        <div class="big_number">
+          <span>98,453</span>
+          <a href="<@s.url value='/occurrence/search?q=holotype'/>">occurrences</a>
+        </div>
+        <div class="big_number">
+          <span class="big_number">8,453</span>
+          <a href="<@s.url value='/occurrence/search?q=holotype'/>">in the selected area</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="right">
+      <h3>Visualize</h3>
+
+      <p class="maptype"><a href="#" title="points" class="selected">occurrence</a> | <a href="#"
+                                                                                         title="grid">density</a> | <a
+              href="#" title="polygons">distribution</a></p>
+
+      <h3>Download</h3>
+      <ul>
+        <li class="download"><a href="#" title="One Degree cell density">One Degree cell density <abbr
+                title="Keyhole Markup Language">(KML)</abbr></a></li>
+        <li class="download"><a href="#" title="Placemarks">Placemarks <abbr
+                title="Keyhole Markup Language">(KML)</abbr></a></li>
+      </ul>
+    </div>
+
+  </div>
+  <footer></footer>
+</article>
+</#if>
 
 <article id="slideshow-1" class="photo_gallery">
   <div class="content placeholder_temp">
@@ -343,8 +423,7 @@
   <footer></footer>
 </article>
 
-
-<article>
+<article id="appearsin">
   <header></header>
   <div class="content placeholder_temp">
     <h2>Appears in</h2>
@@ -407,8 +486,9 @@
   <footer></footer>
 </article>
 
-
-<article>
+<#if !nub>
+<#-- ONLY FOR CHECKLIST PAGES -->
+<article id="typespecimen">
   <header></header>
   <div class="content placeholder_temp">
     <h2>Type specimens</h2>
@@ -480,9 +560,9 @@
   </div>
   <footer></footer>
 </article>
+</#if>
 
-
-<article>
+<article id="distribution">
   <header></header>
   <div class="content placeholder_temp">
     <h2>Puma Concolor distribution</h2>
@@ -497,7 +577,7 @@
           <li><a href="">Connecticut, United States of America</a> <span class="note">Native</span></li>
           <li><a href="">Ukraine</a> <span class="note">Introduced | Endangered</span></li>
         </ul>
-        <p><a class="more_link" href="<@s.url value='/species/${id!}/distribution'/>">and 23 more</a></p>
+        <p><a class="more_link" href="<@s.url value='/species/${id?c}/distribution'/>">and 23 more</a></p>
       </div>
 
       <div class="col">
@@ -525,7 +605,7 @@
   <footer></footer>
 </article>
 
-<article>
+<article id="references">
   <header></header>
   <div class="content">
     <h2>Academic references</h2>

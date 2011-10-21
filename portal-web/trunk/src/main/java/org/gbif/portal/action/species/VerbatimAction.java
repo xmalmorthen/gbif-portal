@@ -2,7 +2,7 @@ package org.gbif.portal.action.species;
 
 import org.gbif.portal.action.BaseAction;
 
-public class NameUsageVerbatimAction extends BaseAction {
+public class VerbatimAction extends BaseAction {
 
   private Integer id;
 

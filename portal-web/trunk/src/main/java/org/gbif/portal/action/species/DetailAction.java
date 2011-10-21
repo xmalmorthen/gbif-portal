@@ -1,36 +1,120 @@
-/*
- * Copyright 2011 Global Biodiversity Information Facility (GBIF) Licensed under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
- * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
- * either express or implied. See the License for the specific language governing permissions and limitations under the
- * License.
- */
 package org.gbif.portal.action.species;
 
+import org.gbif.api.paging.Pageable;
+import org.gbif.api.paging.PagingRequest;
+import org.gbif.api.paging.PagingResponse;
+import org.gbif.checklistbank.api.Constants;
+import org.gbif.checklistbank.api.model.Checklist;
+import org.gbif.checklistbank.api.model.ChecklistUsage;
+import org.gbif.checklistbank.api.model.Description;
+import org.gbif.checklistbank.api.model.Identifier;
+import org.gbif.checklistbank.api.model.Reference;
+import org.gbif.checklistbank.api.model.VernacularName;
+import org.gbif.checklistbank.api.service.ChecklistService;
+import org.gbif.checklistbank.api.service.ChecklistUsageService;
+import org.gbif.checklistbank.api.service.DescriptionService;
+import org.gbif.checklistbank.api.service.IdentifierService;
+import org.gbif.checklistbank.api.service.ReferenceService;
+import org.gbif.checklistbank.api.service.VernacularNameService;
 import org.gbif.portal.action.BaseAction;
 
-import java.util.Map;
+import java.util.List;
+
+import com.google.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DetailAction extends BaseAction {
 
-  // detail
+  private static final Logger LOG = LoggerFactory.getLogger(DetailAction.class);
+
+  @Inject
+  private ChecklistUsageService usageService;
+  @Inject
+  private ChecklistService checklistService;
+  @Inject
+  private VernacularNameService vernacularNameService;
+  @Inject
+  private ReferenceService referenceService;
+  @Inject
+  private DescriptionService descriptionService;
+  @Inject
+  private IdentifierService identifierService;
+
   private Integer id;
-  private Map usage;
+  private Checklist checklist;
+  private ChecklistUsage usage;
+  private ChecklistUsage basionym;
+  // TODO: remove the children property once the taxonomic browser is working via ajax
+  private List<ChecklistUsage> children;
 
   @Override
   public String execute() {
-    // static until layout is solid
+    if (id == null) {
+      LOG.error("No checklist usage id given");
+      return ERROR;
+    }
+    usage = usageService.get(id, getLocale());
+    if (usage == null) {
+      return HTTP_NOT_FOUND;
+    }
+
+    // checklist
+    checklist = checklistService.get(usage.getChecklistKey());
+
+    // is this a nub or simple checklist usage?
+    if (Constants.NUB_TAXONOMY_KEY.equals(usage.getChecklistKey())){
+      loadNubUsage();
+    }else{
+      loadChecklistUsage();
+    }
     return SUCCESS;
-    /** TODO: re-enable dynamic lookup */
-    // if (id!=null) {
-    // usage = clb.getUsage(id);
-    // if (usage != null) {
-    // return SUCCESS;
-    // }
-    // }
-    // return NOT_FOUND;
   }
+
+  private void loadNubUsage(){
+    //TODO: load real nub usage data
+    loadChecklistUsage();
+  }
+
+  private void loadChecklistUsage(){
+    // basionym
+    if (usage.getBasionymKey() != null) {
+      basionym = usageService.get(usage.getBasionymKey(), getLocale());
+    }
+    // get children
+    PagingResponse<ChecklistUsage> childrenResponse = usageService.listChildren(id, getLocale(), null);
+    if (childrenResponse != null) {
+      children = childrenResponse.getResults();
+    }
+    // load subresources with small page size = 10
+    Pageable page10 = new PagingRequest(0, 10);
+    // get synonyms
+    PagingResponse<ChecklistUsage> synonymResponse = usageService.listSynonyms(id, getLocale(), page10);
+    if (synonymResponse != null) {
+      usage.setSynonyms(synonymResponse.getResults());
+    }
+    // get vernacular names
+    PagingResponse<VernacularName> vernacularResponse = vernacularNameService.listByChecklistUsage(id, page10);
+    if (vernacularResponse != null) {
+      usage.setVernacularNames(vernacularResponse.getResults());
+    }
+    // get references
+    PagingResponse<Reference> referenceResponse = referenceService.listByChecklistUsage(id, page10);
+    if (referenceResponse != null) {
+      usage.setReferences(referenceResponse.getResults());
+    }
+    // get descriptions
+    PagingResponse<Description> descriptionResponse = descriptionService.listByChecklistUsage(id, page10);
+    if (descriptionResponse != null) {
+      usage.setDescriptions(descriptionResponse.getResults());
+    }
+    // get identifier
+    PagingResponse<Identifier> identifierResponse = identifierService.listByChecklistUsage(id, page10);
+    if (identifierResponse != null) {
+      usage.setIdentifiers(identifierResponse.getResults());
+    }
+  }
+
 
   public void setId(Integer id) {
     this.id = id;
@@ -40,7 +124,26 @@ public class DetailAction extends BaseAction {
     return id;
   }
 
-  public Map getUsage() {
+  public Checklist getChecklist() {
+    return checklist;
+  }
+
+  public ChecklistUsage getUsage() {
     return usage;
+  }
+
+  public ChecklistUsage getBasionym() {
+    return basionym;
+  }
+
+  public List<ChecklistUsage> getChildren() {
+    return children;
+  }
+
+  public boolean isNub(){
+    if (checklist != null && Constants.NUB_TAXONOMY_KEY.equals(checklist.getKey())){
+      return true;
+    }
+    return false;
   }
 }

@@ -4250,13 +4250,17 @@ a.next_slide:hover {
   /* FF2*/
   vertical-align: top;
   display: inline-block;
-  margin: 0 5px 0 0;
+  margin: 0 3px 0 0;
   padding: 0;
   background: none;
   zoom: 1;
   /* IE7 (hasLayout)*/
   *display: inline;
   /* IE */
+}
+
+#content article .content ul.thumbs_list li.last {
+  margin: 0 0px 0 0;
 }
 
 #content article .content ul.thumbs_list li a {

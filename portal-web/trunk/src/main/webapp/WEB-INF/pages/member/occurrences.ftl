@@ -26,7 +26,7 @@
     <li><a href="<@s.url value='/member/${id!}'/>" title="Information"><span>Information</span></a>
     </li>
     <li><a href="<@s.url value='/member/${id!}/datasets'/>" title="Datasets"><span>Datasets</span></a></li>
-    <li class='selected'><a href="<@s.url value='/member/${id!}/occurrences'/>"
+    <li class='selected'><a href="<@s.url value='/member/${id!}/occurrence'/>"
                             title="Occurrences"><span>Occurrences</span></a></li>
     <li><a href="<@s.url value='/member/${id!}/activity'/>" title="Activity"><span>Activity </span></a>
     </li>

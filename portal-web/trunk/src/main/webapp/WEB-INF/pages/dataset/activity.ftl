@@ -39,7 +39,7 @@
       <ul>
         <li><a href="<@s.url value='/dataset/${id}'/>"><span>Information</span></a></li>
         <!-- TODO: dynamically display occurrences entry only for occurrence datasets -->
-        <li><a href="<@s.url value='/dataset/${id}/occurrences'/>"><span>Occurrences</span></a></li>
+        <li><a href="<@s.url value='/dataset/${id}/occurrence'/>"><span>Occurrences</span></a></li>
         <li class="selected"><a href="<@s.url value='/dataset/${id}/activity'/>"><span>Activity <sup>(2)</sup></span></a></li>
         <li><a href="<@s.url value='/dataset/${id}/discussion'/>"><span>Discussion <sup>(5)</sup></span></a></li>
       </ul>

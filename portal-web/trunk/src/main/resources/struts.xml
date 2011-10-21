@@ -103,8 +103,8 @@
       <result>/WEB-INF/pages/dataset/activity.ftl</result>
     </action>
 
-    <action name="{id}/occurrences" class="org.gbif.portal.action.dataset.OccurrencesAction">
-      <result>/WEB-INF/pages/dataset/occurrences.ftl</result>
+    <action name="{id}/occurrence" class="org.gbif.portal.action.dataset.OccurrencesAction">
+      <result>/WEB-INF/pages/dataset/occurrence.ftl</result>
     </action>
 
     <action name="{id}/discussion" class="org.gbif.portal.action.dataset.DiscussionAction">
@@ -176,7 +176,7 @@
       <result>/WEB-INF/pages/species/extended_taxonomy.ftl</result>
     </action>
 
-    <action name="{id}/verbatim" class="org.gbif.portal.action.species.NameUsageVerbatimAction">
+    <action name="{id}/verbatim" class="org.gbif.portal.action.species.VerbatimAction">
       <result>/WEB-INF/pages/species/verbatim.ftl</result>
     </action>
 
@@ -198,10 +198,8 @@
     </action>
 
     <!-- nub or checklist usage -->
-    <action name="{id}" class="org.gbif.portal.action.species.NameUsageAction">
-      <!-- the templates are nearly identical, so we should probably only have a single one -->
-      <result name="nub">/WEB-INF/pages/species/checklist_usage.ftl</result>
-      <result>/WEB-INF/pages/species/checklist_usage.ftl</result>
+    <action name="{id}" class="org.gbif.portal.action.species.DetailAction">
+      <result>/WEB-INF/pages/species/detail.ftl</result>
     </action>
 
   </package>
@@ -275,8 +273,8 @@
       <result>/WEB-INF/pages/member/activity.ftl</result>
     </action>
 
-    <action name="{id}/occurrences" class="org.gbif.portal.action.member.OccurrencesAction">
-      <result>/WEB-INF/pages/member/occurrences.ftl</result>
+    <action name="{id}/occurrence" class="org.gbif.portal.action.member.OccurrencesAction">
+      <result>/WEB-INF/pages/member/occurrence.ftl</result>
     </action>
 
     <action name="{id}/datasets" class="org.gbif.portal.action.member.DatasetsAction">
