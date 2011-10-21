@@ -21,10 +21,10 @@
 <content tag="tabs">
   <div id="tabs">
     <ul>
-      <li><a href="<@s.url value='/occurrences/${id}'/>" title="Information"><span>Information</span></a></li>
-      <li class='selected'><a id="activity_tab" href="<@s.url value='/occurrences/${id}/activity'/>"
+      <li><a href="<@s.url value='/occurrence/${id}'/>" title="Information"><span>Information</span></a></li>
+      <li class='selected'><a id="activity_tab" href="<@s.url value='/occurrence/${id}/activity'/>"
                               title="Activity"><span>Activity <sup>(3)</sup></span></a></li>
-      <li><a href="<@s.url value='/occurrences/${id}/detail_raw'/>" title="Details"><span>Details</span></a></li>
+      <li><a href="<@s.url value='/occurrence/${id}/detail_raw'/>" title="Details"><span>Details</span></a></li>
     </ul>
   </div>
 </content>

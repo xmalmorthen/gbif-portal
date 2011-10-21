@@ -175,11 +175,11 @@
       <div class="right">
         <div class="big_number">
           <span>98,453</span>
-          <a href="/occurrences/search.html">occurrences</a>
+          <a href="/occurrence/search.html">occurrences</a>
         </div>
         <div class="big_number">
           <span class="big_number">8,453</span>
-          <a href="/occurrences/search.html">in the selected area</a>
+          <a href="/occurrence/search.html">in the selected area</a>
         </div>
       </div>
     </div>
@@ -257,20 +257,20 @@
       <div class="col">
         <h3>Type specimens</h3>
         <ul class="notes">
-          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
+          <li><a href="/occurrence/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
-          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
+          <li><a href="/occurrence/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
-          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
+          <li><a href="/occurrence/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
-          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
+          <li><a href="/occurrence/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
-          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
+          <li><a href="/occurrence/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
-          <li><a href="/occurrences/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
+          <li><a href="/occurrence/detail.html">Syntype at Mamal Collection</a> <span class="note">from Mammalian Knowledge Network</span>
           </li>
         </ul>
-        <p><a class="more_link" href="/occurrences/search.html">and 2 more</a></p>
+        <p><a class="more_link" href="/occurrence/search.html">and 2 more</a></p>
       </div>
     </div>
 

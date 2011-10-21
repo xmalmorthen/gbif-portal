@@ -150,7 +150,7 @@
         <li><a href="<@s.url value='/species/123'/>">Felidae</a></li>
         <li class="last"><a href="">Puma</a></li>
       </ul>
-      <div class="extended">(<a href="/occurrences/extended_taxonomy.html">extended</a>)</div>
+      <div class="extended">(<a href="/occurrence/extended_taxonomy.html">extended</a>)</div>
     </div>
     <div class="right">
       <h3>Identification date </h3>

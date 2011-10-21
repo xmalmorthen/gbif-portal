@@ -96,7 +96,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
           ANSP HARP
           10</a></h2>
 
@@ -106,7 +106,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
           ANSP HARP
           10</a></h2>
 
@@ -116,7 +116,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
           ANSP HARP
           10</a></h2>
 
@@ -126,7 +126,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
           ANSP HARP
           10</a></h2>
 
@@ -136,7 +136,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
           ANSP HARP
           10</a></h2>
 
@@ -146,7 +146,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
           ANSP HARP
           10</a></h2>
 
@@ -156,7 +156,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
           ANSP HARP
           10</a></h2>
 
@@ -166,7 +166,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
           ANSP HARP
           10</a></h2>
 
@@ -176,7 +176,7 @@
       </div>
 
       <div class="result">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
           ANSP HARP
           10</a></h2>
 
@@ -186,7 +186,7 @@
       </div>
 
       <div class="result last">
-        <h2><a href="<@s.url value='/occurrences/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
+        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma Concolor </strong>-
           ANSP HARP
           10</a></h2>
 

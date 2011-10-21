@@ -416,7 +416,7 @@
     <div class="left">
       <div class="col">
         <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
+          <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
                                                                                                                title="Help"
                                                                                                                id="help2"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
@@ -428,7 +428,7 @@
         </div>
 
         <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
+          <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
                                                                                                                title="Help"
                                                                                                                id="help"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
@@ -439,12 +439,12 @@
             Rech. 12083 (W!).</p>
         </div>
 
-        <p><a class="more_link" href="<@s.url value='/occurrences/search?q=holotype'/>">and 23 more</a></p>
+        <p><a class="more_link" href="<@s.url value='/occurrence/search?q=holotype'/>">and 23 more</a></p>
       </div>
 
       <div class="col">
         <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
+          <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
                                                                                                                title="Help"
                                                                                                                id="help4"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
@@ -456,7 +456,7 @@
         </div>
 
         <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrences/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
+          <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
                                                                                                                title="Help"
                                                                                                                id="help3"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
@@ -473,7 +473,7 @@
     <div class="right">
       <h3>Specimens by type</h3>
       <ul>
-        <li><a href="<@s.url value='/occurrences/search?q=syntype'/>">13 syntypes</a></li>
+        <li><a href="<@s.url value='/occurrence/search?q=syntype'/>">13 syntypes</a></li>
       </ul>
     </div>
 
