@@ -7,7 +7,7 @@
 
 <content tag="infoband">
   <ul class="breadcrumb">
-    <li class="last"><a href="<@s.url value='/datasets'/>" title="Datasets">Datasets</a></li>
+    <li class="last"><a href="<@s.url value='/dataset'/>" title="Datasets">Datasets</a></li>
   </ul>
 
   <h1>World Mangroves Fauna</h1>

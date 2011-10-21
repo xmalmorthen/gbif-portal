@@ -64,8 +64,8 @@ we want to expose restful, pretty urls like the following.
 The examples are mainly for datasets, but would be similar for species, occurrences, etc
 
 / (portal home)
-/datasets (datasets home)
-/datasets/search?q=puma (search datasets for the word puma)
+/dataset (datasets home)
+/dataset/search?q=puma (search datasets for the word puma)
 /dataset/{UUID} (detail page for specific dataset)
 /dataset/{UUID}/stats (stats page for specific dataset X)
 /dataset/{UUID}/activity (activity page for specific dataset X)
