@@ -199,7 +199,8 @@
 
     <!-- nub or checklist usage -->
     <action name="{id}" class="org.gbif.portal.action.species.NameUsageAction">
-      <result name="nub">/WEB-INF/pages/species/nub_usage.ftl</result>
+      <!-- the templates are nearly identical, so we should probably only have a single one -->
+      <result name="nub">/WEB-INF/pages/species/checklist_usage.ftl</result>
       <result>/WEB-INF/pages/species/checklist_usage.ftl</result>
     </action>
 

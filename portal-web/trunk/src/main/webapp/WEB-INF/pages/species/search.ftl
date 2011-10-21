@@ -28,7 +28,7 @@
 
       <#list usages as u>
         <div class="result">
-          <h2><a href="/species/${u.key?c}" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}
+          <h2><a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}
           </a></h2>
 
           <div class="footer">
