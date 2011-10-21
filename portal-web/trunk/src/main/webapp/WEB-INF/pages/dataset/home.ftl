@@ -11,7 +11,7 @@
     <div class="content">
       <h1>Search through 21.392 datasets</h1>
 
-      <form action="<@s.url value='/datasets/search'/>">
+      <form action="<@s.url value='/dataset/search'/>">
         <span class="input_text">
           <input type="text" name="q"/>
         </span>
