@@ -2,6 +2,7 @@
 <head>
   <title>Species Search Results for ${q!}</title>
   <meta name="menu" content="species"/>
+  <link rel="stylesheet" href="<@s.url value='/css/jquery.multiselect.css'/>"/>
 </head>
 <body class="search">
   <content tag="infoband">
@@ -28,7 +29,7 @@
 
       <#list usages as u>
         <div class="result">
-          <h2><a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}
+          <h2><a href="/species/${u.key?c}" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}
           </a></h2>
 
           <div class="footer">
@@ -64,9 +65,13 @@
 
         <div class="refine">
           <h4>Checklist</h4>
+          <div class="facet">
+            <select id="checkListFacet" style="width:190px;" multiple>
           <#list checkListsFacetCounts as count>
-            <a href="#" title="${count.name}">${count.name}-(${count.count}) <span class="more"></span></a>
+              <option value="${count.name}">${count.name}-(${count.count})</option>
           </#list>
+            </select>
+        </div>
         </div>
 
         <div class="refine">
@@ -101,5 +106,12 @@
     </div>
     <footer></footer>
   </article>
+  <content tag="extra_scripts">
+    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.multiselect.min.js'/>"></script>
+    <script type="text/javascript">
+     $("#checkListFacet").multiselect();
+     $("#checkListFacet").multiselect("checkAll");
+    </script>
+  </content>
 </body>
 </html>
