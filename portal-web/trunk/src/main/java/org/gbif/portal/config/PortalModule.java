@@ -2,7 +2,6 @@ package org.gbif.portal.config;
 
 import org.gbif.checklistbank.service.mybatis.guice.ChecklistBankServiceMyBatisModule;
 import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
-import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsSearchClientModule;
 import org.gbif.occurrencestore.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
 
@@ -51,7 +50,7 @@ public class PortalModule extends AbstractModule {
    */
   private void installClbMyBatis(Properties properties){
     install(new ChecklistBankServiceMyBatisModule(properties));
-    install(new ChecklistBankWsSearchClientModule(properties));
+    install(new ChecklistBankWsClientModule(true, false));
   }
 
   /**
@@ -59,7 +58,7 @@ public class PortalModule extends AbstractModule {
    * @param properties
    */
   private void installClbWsClient(Properties properties){
-    install(new ChecklistBankWsClientModule(properties));
+    install(new ChecklistBankWsClientModule());
   }
 
   @Override
