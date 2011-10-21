@@ -12,7 +12,11 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 public class SeleniumIT {
 
   private WebDriver driver;
-  private final String baseUrl = "http://localhost:8080/";
+  private final String baseUrl;
+
+  public SeleniumIT() {
+    baseUrl = "http://localhost:" + System.getProperty("jetty.port", "8080");
+  }
 
   @Before
   public void setUp() throws Exception {
