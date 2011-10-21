@@ -58,7 +58,7 @@ ${head}
         </div>
 
       <#assign menu=(page.properties["meta.menu"])!"home" />
-      <#assign menuItems=["occurrences","datasets","species"] />
+      <#assign menuItems=["occurrence","dataset","species"] />
         <nav>
           <ul>
           <#list menuItems as m>
@@ -110,12 +110,12 @@ ${head}
     <div class="content">
       <ul>
         <li><h3>EXPLORE THE DATA</h3></li>
-        <li><a href="<@s.url value='/occurrences'/>"><@s.text name="menu.occurrences"/></a></li>
-        <li><a href="<@s.url value='/datasets'/>"><@s.text name="menu.datasets"/></a></li>
+        <li><a href="<@s.url value='/occurrence'/>"><@s.text name="menu.occurrence"/></a></li>
+        <li><a href="<@s.url value='/dataset'/>"><@s.text name="menu.dataset"/></a></li>
         <li><a href="<@s.url value='/species'/>"><@s.text name="menu.species"/></a></li>
-        <li><a href="<@s.url value='/countries'/>"><@s.text name="menu.countries"/></a></li>
-        <li><a href="<@s.url value='/members'/>"><@s.text name="menu.members"/></a></li>
-        <li><a href="<@s.url value='/themes'/>"><@s.text name="menu.themes"/></a></li>
+        <li><a href="<@s.url value='/country'/>"><@s.text name="menu.country"/></a></li>
+        <li><a href="<@s.url value='/member'/>"><@s.text name="menu.member"/></a></li>
+        <li><a href="<@s.url value='/theme'/>"><@s.text name="menu.theme"/></a></li>
       </ul>
 
       <ul>
@@ -136,28 +136,30 @@ ${head}
 
       <!--
       <ul class="first">
-        <li><h3>LATEST FROM THE GBIF DEVELOPER BLOG (not implemented)</h3></li>
+      </ul>
+      <ul class="first">
+        <li><h3>LATEST FROM THE GBIF DEVELOPER BLOG</h3></li>
         <li>
-          <p><a href="#">A Fake Blog Post</a>
-            <span class="date">11th, April of 2011</span></p>
-          <p>The GBIF development team has made a fake blog post for testing purposes...</p>
+          <p><a id="blog1title" href="#"></a>
+            <span id="blog1data" class="date"></span></p>
+          <p id="blog1body"></p>
         </li>
       </ul>
 
       <ul>
         <li class="no_title">
-          <p><a href="#">Another Blog Post</a>
-            <span class="date">11th, April of 2011</span></p>
-          <p>Another fake blog post for testing purposes...</p>
+          <p><a id="blog2title" href="#"></a>
+            <span id="blog2date" class="date"></span></p>
+          <p id="blog2body"></p>
         </li>
       </ul>
 
       <ul>
-        <li><h3>LATEST FROM THE GBIF NEWS (not implemented)</h3></li>
+        <li><h3>LATEST FROM THE GBIF NEWS</h3></li>
         <li>
-          <p><a href="#">An Event at GBIF...</a>
-            <span class="date">11th, April of 2011</span></p>
-          <p>The GBIF Secretariat is pleased to announce a new unimplemented event for testing purposes</p>
+          <p><a id="blog3title" href="#">An Event at GBIF...</a>
+            <span id="blog3date" class="date">11th, April of 2011</span></p>
+          <p id="blog3body">The GBIF Secretariat is pleased to announce a new unimplemented event for testing purposes</p>
         </li>
       </ul>
       -->
@@ -168,28 +170,12 @@ ${head}
     <p>2011 &copy; GBIF. Data publishers retain all rights to data.</p>
   </div>
 
-<#--<div style="text-align:left">-->
-<#--<p>Sitemesh debugging, page properties in decorator</p>-->
-<#--<br/>-->
-<#--<pre>-->
-<#--<#list page.properties?keys as k>-->
-<#--${k} = ${page.properties[k]!""}-->
-<#--</#list>-->
-<#--</pre>-->
-<#--</div>-->
-
   <!-- JavaScript at the bottom for fast page loading -->
-  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
-
-  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
-<script>window.jQuery || document.write("<script src='/js/jquery-1.6.1.min.js'>\x3C/script>"); document.write("<script src='/js/jquery-ui.min.js'>\x3C/script>");</script>
--->
-
   <!-- scripts concatenated and minified via ant build script  -->
   <script src="<@s.url value='/js/vendor/jquery-1.6.1.min.js'/>"></script>
   <script src="<@s.url value='/js/vendor/jquery-ui.min.js'/>"></script>
   <script src="<@s.url value='/js/vendor/autocomplete.js'/>"></script>
+  <script src="<@s.url value='/js/jquery.jfeed.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/mousewheel.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jscrollpane.min.js'/>"></script>
   <script src="<@s.url value='/js/vendor/jquery-scrollTo-1.4.2-min.js'/>"></script>
@@ -206,6 +192,19 @@ ${head}
   <script src="<@s.url value='/js/openlayers_addons.js'/>"></script>
   <script src="<@s.url value='/js/Infowindow.js'/>"></script>
   <script src="<@s.url value='/js/vendor/raphael-min.js'/>"></script>
+  <!--
+  <script>
+$(document).ready(function() {
+  // read news
+  $.getFeed({
+   url: 'http://gbif.blogspot.com/feeds/posts/default',
+   success: function(feed) {
+      alert(feed.title);
+   }
+  });
+});
+  </script>
+  -->
   <!-- end scripts-->
 
   <!--[if lt IE 7 ]>
@@ -218,9 +217,9 @@ ${head}
     $(function() {
       $('nav ul li a.more').bindLinkPopover({
         links:{
-          "<@s.text name="menu.countries"/>":"<@s.url value='/countries'/>",
-          "<@s.text name="menu.members"/>":"<@s.url value='/members'/>",
-          "<@s.text name="menu.themes"/>":"<@s.url value='/themes'/>",
+          "<@s.text name="menu.country"/>":"<@s.url value='/country'/>",
+          "<@s.text name="menu.member"/>":"<@s.url value='/member'/>",
+          "<@s.text name="menu.theme"/>":"<@s.url value='/theme'/>",
           "<@s.text name="menu.stats"/>":"<@s.url value='/stats'/>",
           "<@s.text name="menu.about"/>":"<@s.url value='/about'/>"
         }
