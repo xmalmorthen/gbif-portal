@@ -7317,3 +7317,12 @@ body.singlemap a.zoom_out:hover {
   opacity: 0.32;
 }
 
+/*Styles for facets: clears any existing background settings and font sizes*/
+.facet, .facet ul li, .facet span {
+  font-size: x-small !important;
+}
+
+.facet ul li {
+  background: none !important;
+}
+
