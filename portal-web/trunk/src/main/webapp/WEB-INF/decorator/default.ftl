@@ -134,13 +134,12 @@ ${head}
         <li><a href="<@s.url value='/about'/>"><@s.text name="menu.about"/></a></li>
       </ul>
 
-      <!--
       <ul class="first">
       </ul>
+
       <ul class="first">
-        <li><h3>LATEST FROM THE GBIF DEVELOPER BLOG</h3></li>
-        <li>
-          <p><a id="blog1title" href="#"></a>
+        <li class="no_title">
+          <p id="blog1title"></a>
             <span id="blog1data" class="date"></span></p>
           <p id="blog1body"></p>
         </li>
@@ -148,21 +147,20 @@ ${head}
 
       <ul>
         <li class="no_title">
-          <p><a id="blog2title" href="#"></a>
+          <p id="blog2title">
             <span id="blog2date" class="date"></span></p>
           <p id="blog2body"></p>
         </li>
       </ul>
 
       <ul>
-        <li><h3>LATEST FROM THE GBIF NEWS</h3></li>
-        <li>
-          <p><a id="blog3title" href="#">An Event at GBIF...</a>
-            <span id="blog3date" class="date">11th, April of 2011</span></p>
-          <p id="blog3body">The GBIF Secretariat is pleased to announce a new unimplemented event for testing purposes</p>
+        <li class="no_title">
+          <p id="blog3title">
+            <span id="blog3date" class="date"></span></p>
+          <p id="blog3body"></p>
         </li>
       </ul>
-      -->
+
     </div>
   </footer>
 
@@ -175,7 +173,7 @@ ${head}
   <script src="<@s.url value='/js/vendor/jquery-1.6.1.min.js'/>"></script>
   <script src="<@s.url value='/js/vendor/jquery-ui.min.js'/>"></script>
   <script src="<@s.url value='/js/vendor/autocomplete.js'/>"></script>
-  <script src="<@s.url value='/js/jquery.jfeed.js'/>"></script>
+  <script src="<@s.url value='/js/rss.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/mousewheel.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jscrollpane.min.js'/>"></script>
   <script src="<@s.url value='/js/vendor/jquery-scrollTo-1.4.2-min.js'/>"></script>
@@ -186,26 +184,36 @@ ${head}
   <script src="<@s.url value='/js/graphs.js'/>"></script>
   <script src="<@s.url value='/js/vendor/jquery.uniform.min.js" type="text/javascript' />"></script>
   <script src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
+  <!--
+   TODO: this script gives a ReferenceError in line 4: Can't find variable: map
   <script src="<@s.url value='/js/full_map.js'/>"></script>
+  -->
   <script src="<@s.url value='/js/types_map.js'/>"></script>
   <script src="<@s.url value='/js/single_map.js'/>"></script>
   <script src="<@s.url value='/js/openlayers_addons.js'/>"></script>
   <script src="<@s.url value='/js/Infowindow.js'/>"></script>
   <script src="<@s.url value='/js/vendor/raphael-min.js'/>"></script>
-  <!--
+  <!-- end scripts-->
+
   <script>
 $(document).ready(function() {
   // read news
-  $.getFeed({
-   url: 'http://gbif.blogspot.com/feeds/posts/default',
-   success: function(feed) {
-      alert(feed.title);
-   }
+  parseDevNews(function(feed){
+    console.log(feed);
+    $("#blog1title").html("<a target='_blank' href='"+feed.entries[0].link+"'>"+feed.entries[0].title+"</a>");
+    $("#blog1date").text(feed.entries[0].publishedDate);
+    $("#blog1body").text(feed.entries[0].contentSnippet);
+    $("#blog2title").html("<a target='_blank' href='"+feed.entries[1].link+"'>"+feed.entries[1].title+"</a>");
+    $("#blog2date").text(feed.entries[1].publishedDate);
+    $("#blog2body").text(feed.entries[1].contentSnippet);
+  });
+  parseGbifNews(function(feed){
+    $("#blog3title").html("<a target='_blank' href='"+feed.entries[0].link+"'>"+feed.entries[0].title+"</a>");
+    $("#blog3date").text(feed.entries[0].publishedDate);
+    $("#blog3body").text(feed.entries[0].contentSnippet);
   });
 });
   </script>
-  -->
-  <!-- end scripts-->
 
   <!--[if lt IE 7 ]>
   <script src="<@s.url value='/js/libs/dd_belatedpng.js'/>"></script>
