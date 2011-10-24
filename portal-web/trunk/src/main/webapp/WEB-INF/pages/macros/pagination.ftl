@@ -5,7 +5,7 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
  - totalResults: optional, total number of records. If this parameter is not set,
                  then the NEXT button will always be displayed and the 
                  "viewing page X of Y (total)" message will not be displayed.
- - baseUrl: mandatory, current url
+ - url: mandatory, current url
  
  Please feel free to improve the code in any way.
 -->
