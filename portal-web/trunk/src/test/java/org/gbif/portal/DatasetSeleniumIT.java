@@ -22,7 +22,7 @@ public class DatasetSeleniumIT {
   }
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     driver = new HtmlUnitDriver();
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
@@ -32,7 +32,7 @@ public class DatasetSeleniumIT {
    * the details page for the selected dataset is shown.
    */
   @Test
-  public void testSearchForAnyDataset() throws Exception {
+  public void testSearchForAnyDataset() {
     driver.get(baseUrl);
     driver.findElement(By.linkText("Datasets")).click();
     driver.findElement(By.cssSelector("button.search_button")).click();
@@ -44,7 +44,7 @@ public class DatasetSeleniumIT {
   }
 
   @After
-  public void tearDown() throws Exception {
+  public void tearDown() {
     if (driver != null) {
       driver.quit();
     }
