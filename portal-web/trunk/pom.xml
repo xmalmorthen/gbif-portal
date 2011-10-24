@@ -92,9 +92,8 @@
           <webAppConfig>
             <contextPath>/</contextPath>
           </webAppConfig>
-          <!-- IntelliJ forces me to provide this - do we really need to? -->
           <stopKey>stop</stopKey>
-          <stopPort>9966</stopPort>
+          <stopPort>9362</stopPort>
         </configuration>
         <executions>
           <execution>
@@ -104,6 +103,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
+              <scanIntervalSeconds>0</scanIntervalSeconds>
               <daemon>true</daemon>
             </configuration>
           </execution>
