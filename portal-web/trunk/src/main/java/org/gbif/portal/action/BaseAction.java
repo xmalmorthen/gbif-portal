@@ -20,9 +20,8 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
   public static final String HTTP_NOT_FOUND = "404";
   public static final String HTTP_NOT_ALLOWED = "401";
 
-  private Map<String, Object> session;
-  private HttpServletRequest request;
-  private String currentUrl;
+  protected Map<String, Object> session;
+  protected HttpServletRequest request;
 
   /*
    * (non-Javadoc)
