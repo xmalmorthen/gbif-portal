@@ -60,7 +60,7 @@
       -->
 
         <div class="footer">
-        <@macro.pagination offset=51 limit=2 totalResults=100 url="http://localhost:8080/dataset/search?q=blabla&limit=50&offset=100&bla=1"/>
+        <@macro.pagination offset=offset limit=limit totalResults=100 url=currentUrl/>
         </div>
       </div>
 
