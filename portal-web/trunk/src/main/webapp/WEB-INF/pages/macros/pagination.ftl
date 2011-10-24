@@ -27,6 +27,10 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
     <a href="${nextUrl}" class="candy_white_button next"><span>Next page</span></a>
   </#if>
 </#macro>
+
+<#-- 
+	Returns the current page number a user is navigating.
+-->
 <#function getCurrentPage offset limit start=1 current=1>
     <#if (offset<start)>
   		<#return current>
@@ -34,6 +38,11 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
 		${getCurrentPage(offset,limit,(start+limit), current+1)}
 	</#if>
 </#function>
+
+<#-- 
+	Takes an URL and strips off any "limit" or "offset" query parameter (along with its value). 
+	Any other query parameters are left untouched.
+-->
 <#function getStripUrl baseUrl>
 	<#assign stripUrl = "">
 	<#list baseUrl?split("&") as queryParam>
@@ -47,6 +56,12 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
 		<#return stripUrl>
 	</#if>
 </#function>
+
+<#-- 
+	Appends the "limit" and "offset" query parameters to an existing URL.
+	If there existing query parameters, the append is done using an ampersand (&).
+	If there are no existing query parameters, the append is done using the (?).
+-->
 <#function getFullUrl stripUrl offset limit>
 	<#assign fullUrl = "">
 		<#if stripUrl?contains("?")>
