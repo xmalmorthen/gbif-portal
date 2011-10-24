@@ -4,7 +4,7 @@
   <meta name="menu" content="dataset"/>
 </head>
 
-<#import "macro.ftl" as macro>
+<#import "../macros/pagination.ftl" as macro>
 
 <body class="search">
 
@@ -60,7 +60,7 @@
       -->
 
         <div class="footer">
-        <@macro.pagination offset=51 limit=2 totalResults=100 baseUrl="http://url.com"/>
+        <@macro.pagination offset=51 limit=2 totalResults=100 url="http://localhost:8080/dataset/search?q=blabla&limit=50&offset=100&bla=1"/>
         </div>
       </div>
 
