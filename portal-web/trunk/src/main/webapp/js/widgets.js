@@ -2001,6 +2001,33 @@ $.fn.bindSlideshow = function(opt) {
           addBars($(this));
         });
       }
+	  
+      // CUSTOM FUNCTION
+      function addBarsCustom($ul) {
+
+        $ul.find("> li").each(function() {
+          var value = parseInt($(this).attr("data"));
+          var clase = " clickable";
+
+          $(this).find("span:first").addClass('clickable');
+          clase = " clickable";
+
+          $(this).find("span:first").after('<div class="bar'+clase+'" style="width:'+(value+10)+'px"><div class="count">'+value+'</div></div>');
+
+          $(this).find("span:first").parent().hover(function() {
+            $(this).find(".count:first").show();
+            $(this).find("a:first").show();
+          }, function() {
+            $(this).find(".count:first").hide();
+            $(this).find("a:first").hide();
+          });
+
+        });
+
+        $ul.children().each(function() {
+          addBars($(this));
+        });
+      }	  
 
       addBars($ps.find("ul:first"));
 
@@ -2025,6 +2052,20 @@ $.fn.bindSlideshow = function(opt) {
           // fix the z-index of the list we're about to show
           var $ul = $(this).siblings("ul");
           $ul.css("z-index", zIndex++);
+          $.getJSON("http://gbrds.gbif.org/registry/organisation.json?callback=?",
+            function(data) {
+              $htmlContent="";
+              var $count = 1;
+              $(data).each(function() {
+              $htmlContent=$htmlContent+"<li data=\"" + $count  + "\"><span>";
+              $htmlContent=$htmlContent+this.name
+              $htmlContent=$htmlContent+"</span>";
+              $htmlContent=$htmlContent+"<a href=\"http://www.google.com\">see details</a></li>";
+              $count++;
+            })
+		    $ul.html($htmlContent);
+            addBarsCustom($ul);
+          });		  
           $ul.show();
 
           // move to the list and resize it
