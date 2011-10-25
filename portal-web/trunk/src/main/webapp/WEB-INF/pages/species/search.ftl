@@ -7,16 +7,16 @@
 <body class="search">
   <content tag="infoband">
     <h2>Search species</h2>
-
     <form action="<@s.url value='/species/search'/>">
       <input type="text" name="q"/>
     </form>
   </content>
 
+  <form action="<@s.url value='/species/search'/>">
   <article class="results light_pane">
+    <input type="hidden" name="q" value="${q!}"/>
     <header></header>
     <div class="content">
-
       <div class="header">
         <div class="left">
           <h2>${(usages.size())!} results for "${q!}"</h2>
@@ -64,10 +64,10 @@
         <div class="refine">
           <h4>Checklist</h4>
           <div class="facet">
-            <select id="checkListFacet" style="width:190px;" multiple>
-          <#list checkListsFacetCounts as count>
+            <select id="checkListFacetValue" name="chk_tile" style="width:190px;" multiple>
+            <#list checkListsFacetCounts as count>
               <option value="${count.name}">${count.name}-(${count.count})</option>
-          </#list>
+            </#list>
             </select>
         </div>
         </div>
@@ -87,6 +87,9 @@
           <a href="#" title="Any">Any<span class="more"></span></a>
         </div>
 
+        <div class="refine">
+          <button>Search</button>
+        </div>
         <a href="#" title="Add another criterion" class="add_criteria">Add another criterion <span class="more"></span></a>
 
         <div class="download">
@@ -104,11 +107,11 @@
     </div>
     <footer></footer>
   </article>
+  </form>
   <content tag="extra_scripts">
-    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.multiselect.min.js'/>"></script>
-    <script type="text/javascript">
-     $("#checkListFacet").multiselect({minWidth: 180});
-     $("#checkListFacet").multiselect("checkAll");
+    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.multiselect.min.js'/>">
+    </script>
+    <script type="text/javascript" src="<@s.url value='/js/facets.js'/>">
     </script>
   </content>
 </body>

@@ -16,6 +16,7 @@ import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
 import org.gbif.portal.action.BaseAction;
 import static org.gbif.api.paging.PagingConstants.*;
+import static org.gbif.api.search.model.SearchConstants.HTTP_DEFAULT_SEARCH_PARAM;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,14 +45,15 @@ public class SearchAction extends BaseAction {
   @Override
   public String execute() {
     LOG.info("Species search of [{}]", q);
-    SearchRequest req = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
-    req.addFacets(ChecklistBankFacetParameter.CHECKLIST.getFieldName());
+    SearchRequest req = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);     
+    //req.addFacets(ChecklistBankFacetParameter.CHECKLIST);
     Map<String, String> params = new HashMap<String, String>();
-    params.put("q", q);//default query parameter
+    params.put(HTTP_DEFAULT_SEARCH_PARAM, q);//default query parameter
     if (chk_tile != null) {
       LOG.info("Checklist facet: {}", chk_tile.length);
       for (String chkFacet : chk_tile) {
-        params.put("chk_tile", chkFacet);
+    	  
+        params.put(ChecklistBankFacetParameter.CHECKLIST.getFieldName(), chkFacet);
       }
     }
     req.setParameters(params);
