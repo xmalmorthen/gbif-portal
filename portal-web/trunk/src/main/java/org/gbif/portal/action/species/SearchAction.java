@@ -12,6 +12,7 @@ import org.gbif.api.search.facets.Facet;
 import org.gbif.api.search.model.SearchRequest;
 import org.gbif.api.search.model.SearchResponse;
 import org.gbif.checklistbank.api.model.NameUsage;
+import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
 import org.gbif.portal.action.BaseAction;
 import static org.gbif.api.paging.PagingConstants.*;
@@ -33,6 +34,8 @@ public class SearchAction extends BaseAction {
   private String q;
   private List<NameUsage> usages;
 
+  private String[] chk_tile;
+
   private List<Facet.Count> checkListsFacetCounts;
 
   @Inject
@@ -42,15 +45,20 @@ public class SearchAction extends BaseAction {
   public String execute() {
     LOG.info("Species search of [{}]", q);
     SearchRequest req = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
-    req.addFacets("chk_tile");
+    req.addFacets(ChecklistBankFacetParameter.CHECKLIST.getFieldName());
     Map<String, String> params = new HashMap<String, String>();
-    params.put("q", q);//deafult query parameter
+    params.put("q", q);//default query parameter
+    if (chk_tile != null) {
+      LOG.info("Checklist facet: {}", chk_tile.length);
+      for (String chkFacet : chk_tile) {
+        params.put("chk_tile", chkFacet);
+      }
+    }
     req.setParameters(params);
     SearchResponse<NameUsage> results = nameUsageSearchService.search(req);
     Long count = results.getCount();
     this.initializeFacets(results);
     this.usages = results.getResults(); //sets the results
-
     LOG.info("Species search of [{}] returned {} results", q, count);
     return SUCCESS;
   }
@@ -85,5 +93,13 @@ public class SearchAction extends BaseAction {
 
   public void setQ(String q) {
     this.q = q;
+  }
+
+  public String[] getChk_tile() {
+    return chk_tile;
+  }
+
+  public void setChk_tile(String[] chk_tile) {
+    this.chk_tile = chk_tile;
   }
 }
