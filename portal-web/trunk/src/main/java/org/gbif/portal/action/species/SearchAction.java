@@ -52,16 +52,15 @@ public class SearchAction extends BaseAction {
     SearchRequest req = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
     req.setLimit(this.limit);
     req.setOffset(this.offset);    
-    req.addFacets(ChecklistBankFacetParameter.CHECKLIST);
-    Map<String, String> params = new HashMap<String, String>();
-    params.put(HTTP_DEFAULT_SEARCH_PARAM, q);//default query parameter
+    req.addFacets(ChecklistBankFacetParameter.CHECKLIST);    
     if (chk_tile != null) {
       LOG.info("Checklist facet: {}", chk_tile.length);
       for (String chkFacet : chk_tile) {
     	  req.addFacetedParameter(ChecklistBankFacetParameter.CHECKLIST, chkFacet);        
       }
     }
-    req.setParameters(params);
+    //default query parameter
+    req.addParameter(HTTP_DEFAULT_SEARCH_PARAM, q);
     SearchResponse<NameUsage> results = nameUsageSearchService.search(req);
     this.count = results.getCount();
     this.limit = results.getLimit();
