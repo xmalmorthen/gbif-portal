@@ -46,14 +46,13 @@ public class SearchAction extends BaseAction {
   public String execute() {
     LOG.info("Species search of [{}]", q);
     SearchRequest req = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);     
-    //req.addFacets(ChecklistBankFacetParameter.CHECKLIST);
+    req.addFacets(ChecklistBankFacetParameter.CHECKLIST);
     Map<String, String> params = new HashMap<String, String>();
     params.put(HTTP_DEFAULT_SEARCH_PARAM, q);//default query parameter
     if (chk_tile != null) {
       LOG.info("Checklist facet: {}", chk_tile.length);
       for (String chkFacet : chk_tile) {
-    	  
-        params.put(ChecklistBankFacetParameter.CHECKLIST.getFieldName(), chkFacet);
+    	  req.addFacetedParameter(ChecklistBankFacetParameter.CHECKLIST, chkFacet);        
       }
     }
     req.setParameters(params);

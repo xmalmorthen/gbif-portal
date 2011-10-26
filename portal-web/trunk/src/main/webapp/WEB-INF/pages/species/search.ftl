@@ -64,12 +64,14 @@
         <div class="refine">
           <h4>Checklist</h4>
           <div class="facet">
-            <select id="checkListFacetValue" name="chk_tile" style="width:190px;" multiple>
-            <#list checkListsFacetCounts as count>
-              <option value="${count.name}">${count.name}-(${count.count})</option>
-            </#list>
-            </select>
-        </div>
+            <#if checkListsFacetCounts?has_content>
+	            <select id="checkListFacetValue" name="chk_tile" style="width:190px;" multiple>
+	            <#list checkListsFacetCounts as count>
+	              <option value="${count.name}">${count.name}-(${count.count})</option>
+	            </#list>
+	            </select>
+	        </#if>            
+          </div>
         </div>
 
         <div class="refine">
