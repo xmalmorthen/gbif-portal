@@ -31,7 +31,11 @@ import org.slf4j.LoggerFactory;
  */
 public class SearchAction extends BaseAction {
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
-
+  
+  //paging
+  private long offset = DEFAULT_PARAM_OFFSET;
+  private int limit = DEFAULT_PARAM_LIMIT;
+  private long count;
   private String q;
   private List<NameUsage> usages;
 
@@ -45,7 +49,9 @@ public class SearchAction extends BaseAction {
   @Override
   public String execute() {
     LOG.info("Species search of [{}]", q);
-    SearchRequest req = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);     
+    SearchRequest req = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
+    req.setLimit(this.limit);
+    req.setOffset(this.offset);    
     req.addFacets(ChecklistBankFacetParameter.CHECKLIST);
     Map<String, String> params = new HashMap<String, String>();
     params.put(HTTP_DEFAULT_SEARCH_PARAM, q);//default query parameter
@@ -57,10 +63,12 @@ public class SearchAction extends BaseAction {
     }
     req.setParameters(params);
     SearchResponse<NameUsage> results = nameUsageSearchService.search(req);
-    Long count = results.getCount();
+    this.count = results.getCount();
+    this.limit = results.getLimit();
+    this.offset = results.getOffset();
     this.initializeFacets(results);
     this.usages = results.getResults(); //sets the results
-    LOG.info("Species search of [{}] returned {} results", q, count);
+    LOG.info("Species search of [{}] returned {} results", q, this.count);
     return SUCCESS;
   }
 
@@ -103,4 +111,28 @@ public class SearchAction extends BaseAction {
   public void setChk_tile(String[] chk_tile) {
     this.chk_tile = chk_tile;
   }
+
+  public long getOffset() {
+	return offset;
+  }
+
+  public void setOffset(long offset) {
+	this.offset = offset;
+  }
+
+  public int getLimit() {
+	return limit;
+  }
+
+  public void setLimit(int limit) {
+	this.limit = limit;
+  }
+
+  public long getCount() {
+	return count;
+  }
+
+  public void setCount(long count) {
+	this.count = count;
+  }  
 }

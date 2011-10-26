@@ -4,6 +4,7 @@
   <meta name="menu" content="species"/>
   <link rel="stylesheet" href="<@s.url value='/css/jquery.multiselect.css'/>"/>
 </head>
+<#import "../macros/pagination.ftl" as macro>
 <body class="search">
   <content tag="infoband">
     <h2>Search species</h2>
@@ -19,7 +20,7 @@
     <div class="content">
       <div class="header">
         <div class="left">
-          <h2>${(usages.size())!} results for "${q!}"</h2>
+          <h2>${count!} results for "${q!}"</h2>
           <a href="#" class="sort" title="Sort by relevance">Sort by relevance <span class="more"></span></a>
         </div>
         <div class="right"><h3>Refine your search</h3></div>
@@ -44,10 +45,7 @@
       </#list>
 
         <div class="footer">
-          <a href="#" class="candy_white_button previous"><span>Previous page</span></a>
-          <a href="#" class="candy_white_button next"><span>Next page</span></a>
-
-          <div class="pagination">viewing page 2 of 31</div>
+          <@macro.pagination offset=offset limit=limit totalResults=count url=currentUrl/>
         </div>
       </div>
       <div class="right">
