@@ -21,7 +21,7 @@ public class SpeciesSeleniumIT extends SeleniumTestBase {
 
   @Test
   public void testSpeciesSearch() {
-    assertHasSearchResults("albies");
+    assertHasSearchResults("abies");
     assertHasSearchResults("puma");
     assertHasSearchResults("puma concolor");
     assertHasNoSearchResults("fooooobaetrniedtruinatedi2lc3c^e/eiu");
