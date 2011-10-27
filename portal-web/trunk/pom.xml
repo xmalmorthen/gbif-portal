@@ -174,7 +174,7 @@
       <version>${checklistbank-api.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.gbif.common</groupId>
+      <groupId>org.gbif</groupId>
       <artifactId>gbif-common-api</artifactId>
       <version>${gbif-common-api.version}</version>
     </dependency>
