@@ -3,6 +3,7 @@ package org.gbif.portal.action;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class RedirectAction extends ActionSupport {
+
   private String url;
 
   @Override

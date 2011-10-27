@@ -63,20 +63,20 @@ public class DetailAction extends BaseAction {
     checklist = checklistService.get(usage.getChecklistKey());
 
     // is this a nub or simple checklist usage?
-    if (Constants.NUB_TAXONOMY_KEY.equals(usage.getChecklistKey())){
+    if (Constants.NUB_TAXONOMY_KEY.equals(usage.getChecklistKey())) {
       loadNubUsage();
-    }else{
+    } else {
       loadChecklistUsage();
     }
     return SUCCESS;
   }
 
-  private void loadNubUsage(){
+  private void loadNubUsage() {
     //TODO: load real nub usage data
     loadChecklistUsage();
   }
 
-  private void loadChecklistUsage(){
+  private void loadChecklistUsage() {
     // basionym
     if (usage.getBasionymKey() != null) {
       basionym = usageService.get(usage.getBasionymKey(), getLocale());
@@ -140,8 +140,8 @@ public class DetailAction extends BaseAction {
     return children;
   }
 
-  public boolean isNub(){
-    if (checklist != null && Constants.NUB_TAXONOMY_KEY.equals(checklist.getKey())){
+  public boolean isNub() {
+    if (checklist != null && Constants.NUB_TAXONOMY_KEY.equals(checklist.getKey())) {
       return true;
     }
     return false;

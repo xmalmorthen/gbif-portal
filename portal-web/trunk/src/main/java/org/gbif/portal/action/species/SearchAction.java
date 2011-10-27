@@ -15,23 +15,24 @@ import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
 import org.gbif.portal.action.BaseAction;
-import static org.gbif.api.paging.PagingConstants.*;
-import static org.gbif.api.search.model.SearchConstants.HTTP_DEFAULT_SEARCH_PARAM;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
+import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
+import static org.gbif.api.search.model.SearchConstants.HTTP_DEFAULT_SEARCH_PARAM;
+
 /**
  * The action for all species search operations.
  */
 public class SearchAction extends BaseAction {
+
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
-  
+
   //paging
   private long offset = DEFAULT_PARAM_OFFSET;
   private int limit = DEFAULT_PARAM_LIMIT;
@@ -51,12 +52,12 @@ public class SearchAction extends BaseAction {
     LOG.info("Species search of [{}]", q);
     SearchRequest req = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
     req.setLimit(this.limit);
-    req.setOffset(this.offset);    
-    req.addFacets(ChecklistBankFacetParameter.CHECKLIST);    
+    req.setOffset(this.offset);
+    req.addFacets(ChecklistBankFacetParameter.CHECKLIST);
     if (chk_tile != null) {
       LOG.info("Checklist facet: {}", chk_tile.length);
       for (String chkFacet : chk_tile) {
-    	  req.addFacetedParameter(ChecklistBankFacetParameter.CHECKLIST, chkFacet);        
+        req.addFacetedParameter(ChecklistBankFacetParameter.CHECKLIST, chkFacet);
       }
     }
     //default query parameter
@@ -71,10 +72,10 @@ public class SearchAction extends BaseAction {
     return SUCCESS;
   }
 
-  private void initializeFacets(SearchResponse<NameUsage> results){
-    if(results.getFacets() != null && !results.getFacets().isEmpty()){
-      for(Facet facet : results.getFacets()){
-        if(facet.getField().equals("chk_tile")){
+  private void initializeFacets(SearchResponse<NameUsage> results) {
+    if (results.getFacets() != null && !results.getFacets().isEmpty()) {
+      for (Facet facet : results.getFacets()) {
+        if (facet.getField().equals("chk_tile")) {
           this.checkListsFacetCounts = facet.getCounts();
         }
       }
@@ -112,26 +113,26 @@ public class SearchAction extends BaseAction {
   }
 
   public long getOffset() {
-	return offset;
+    return offset;
   }
 
   public void setOffset(long offset) {
-	this.offset = offset;
+    this.offset = offset;
   }
 
   public int getLimit() {
-	return limit;
+    return limit;
   }
 
   public void setLimit(int limit) {
-	this.limit = limit;
+    this.limit = limit;
   }
 
   public long getCount() {
-	return count;
+    return count;
   }
 
   public void setCount(long count) {
-	this.count = count;
-  }  
+    this.count = count;
+  }
 }

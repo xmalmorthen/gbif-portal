@@ -1,7 +1,6 @@
 package org.gbif.portal.action;
 
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -45,7 +44,7 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
 
   /**
    * Returns the absolute url to the current page.
-   * 
+   *
    * @return the absolute url
    */
   public String getCurrentUrl() {

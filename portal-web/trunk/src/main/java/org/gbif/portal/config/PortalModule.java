@@ -46,18 +46,16 @@ public class PortalModule extends AbstractModule {
 
   /**
    * Installs the CLB API using the direct MyBatis module and the solr search ws client.
-   * @param properties
    */
-  private void installClbMyBatis(Properties properties){
+  private void installClbMyBatis(Properties properties) {
     install(new ChecklistBankServiceMyBatisModule(properties));
     install(new ChecklistBankWsClientModule(true, false));
   }
 
   /**
    * Installs the CLB API using only the ws clients.
-   * @param properties
    */
-  private void installClbWsClient(Properties properties){
+  private void installClbWsClient(Properties properties) {
     install(new ChecklistBankWsClientModule());
   }
 
