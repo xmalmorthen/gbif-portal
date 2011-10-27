@@ -1,7 +1,9 @@
 var strategy,
   clusters,
-  infowindow
-map,features = [],features2 = [];
+  infowindow,
+  map,
+  features = [],
+  features2 = [];
 
 // Openlayers functions and addons in
 // js/openlayers_addons.js

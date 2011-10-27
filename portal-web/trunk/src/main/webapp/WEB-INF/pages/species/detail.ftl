@@ -111,14 +111,12 @@
       <p class="placeholder_temp">Pre-cordilleran steppe.</p>
 
     <#list usage.descriptions as d>
-      <h3>${d.type!"Description"} <a href="#" title="Source"><img src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
+      <h3>${d.type!"Description"}
+        <#if d.source?has_content>
+          <a class="sourcePopup" id="source${d.id?c}" source="${d.source}" remarks="${d.remarks!}"></a>
+        </#if>
       </h3>
-
       <p>${d.description!}</p>
-    <#-- TODO: add this source to the image link popup above -->
-      <#if d.source?has_content>
-        <p>SOURCE:${d.source!}</p>
-      </#if>
     </#list>
 
     </div>
@@ -309,7 +307,7 @@
           <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
         <#-- only show 9 synonyms at max. If we have 10 (index=9) we know there are more to show -->
           <#if !syn_has_next && syn_index==9>
-            <p><a class="more_link" href="<@s.url value='/species/${id}/synonyms'/>">see all</a></p>
+            <p><a class="more_link" href="<@s.url value='/species/${id?c}/synonyms'/>">see all</a></p>
           </#if>
         </#list>
       </ul>
@@ -564,37 +562,56 @@
 
 <article id="distribution">
   <header></header>
-  <div class="content placeholder_temp">
-    <h2>Puma Concolor distribution</h2>
+  <div class="content">
+    <h2>${usage.canonicalName!usage.scientificName} distribution</h2>
 
     <div class="left">
       <div class="col">
         <ul class="notes">
-          <li><a href="">Missouri, United States of America</a> <span class="note">Native | Endangered</span></li>
-          <li><a href="">Connecticut, United States of America</a> <span class="note">Native</span></li>
-          <li><a href="">Ukraine</a><span class="note">Introduced | Endangered</span></li>
-          <li><a href="">Missouri, United States of America</a> <span class="note">Native | Endangered</span></li>
-          <li><a href="">Connecticut, United States of America</a> <span class="note">Native</span></li>
-          <li><a href="">Ukraine</a> <span class="note">Introduced | Endangered</span></li>
-        </ul>
-        <p><a class="more_link" href="<@s.url value='/species/${id?c}/distribution'/>">and 23 more</a></p>
+        <#list usage.distributions as d>
+          <#if (d_index % 2) == 0>
+            <div>
+              <p class="no_bottom">
+                <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
+                <#if d.source?has_content>
+                  <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
+                </#if>
+              </p>
+              <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
+            </div>
+          </#if>
+          <#-- only show 10 distributions at max. If we have 10 (index=9) we know there are more to show -->
+          <#if !d_has_next>
+            </ul>
+            <#if d_index==9>
+              <p><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></p>
+            </#if>
+          </#if>
+        </#list>
       </div>
 
       <div class="col">
         <ul class="notes">
-          <li><a href="">Missouri, United States of America</a> <span class="note">Native | Endangered</span></li>
-          <li><a href="">Connecticut, United States of America</a> <span class="note">Native</span></li>
-          <li><a href="">Ukraine</a> <span class="note">Introduced | Endangered</span></li>
-          <li><a href="">Missouri, United States of America</a> <span class="note">Native | Endangered</span></li>
-          <li><a href="">Connecticut, United States of America</a> <span class="note">Native</span></li>
-          <li><a href="">Ukraine</a> <span class="note">Introduced | Endangered</span></li>
+        <#list usage.distributions as d>
+          <#if (d_index % 2) == 1>
+            <div>
+              <p class="no_bottom">
+                <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
+                <#if d.source?has_content>
+                  <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
+                </#if>
+              </p>
+              <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
+            </div>
+          </#if>
+        </#list>
         </ul>
       </div>
     </div>
 
     <div class="right">
       <h3>References by continent</h3>
-      <ul>
+      <ul class="placeholder_temp">
         <li>Europe <a class="number">200</a></li>
         <li>America <a class="number">32</a></li>
         <li>Asia <a class="number">152</a></li>
@@ -632,7 +649,7 @@
         </p>
       <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
         <#if !ref_has_next && ref_index==9>
-          <p><a class="more_link" href="<@s.url value='/usage/${id}/references'/>">see all</a></p>
+          <p><a class="more_link" href="<@s.url value='/usage/${id?c}/references'/>">see all</a></p>
         </#if>
       </#list>
     </#if>
@@ -651,7 +668,7 @@
     <h3>Further information</h3>
 
     <p>There may be more details available about this name usage in the
-      <a href="<@s.url value='/species/${id}/name_usage_raw'/>">verbatim version</a> of the record</p>
+      <a href="<@s.url value='/species/${id?c}/name_usage_raw'/>">verbatim version</a> of the record</p>
   </div>
   <footer></footer>
 </article>

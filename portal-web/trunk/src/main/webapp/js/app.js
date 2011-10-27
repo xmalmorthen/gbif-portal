@@ -34,17 +34,24 @@ $(function() {
   $(".selectbox").selectBox();
   $("#taxonomy").taxonomicExplorer({transitionSpeed:300});
 
-  // Some help messages
-  $("a#puma_help_1")
-    .helpPopover({title:"Help in images", message:"Remember to give <strong>display:block</strong> or <strong>display:inline-block</strong> to the link that opens this message so it can set the alignment right."});
-  $("a#help")
-    .helpPopover({title:"Hi, I'm a yellow popover", message:"This is a <strong>message</strong> with a <a href='http://www.gbif.org/'>link</a>."});
-  $("a#help2")
-    .helpPopover({title:"Hi, I'm a yellow popover", message:"This is a <strong>message</strong> with a <a href='http://www.gbif.org/'>link</a>."});
-  $("a#help3")
-    .helpPopover({title:"Hi, I'm a yellow popover", message:"This is a <strong>message</strong> with a <a href='http://www.gbif.org/'>link</a>."});
-  $("a#help4")
-    .helpPopover({title:"Hi, I'm a yellow popover", message:"This is a <strong>message</strong> with a <a href='http://www.gbif.org/'>link</a>."});
+  // read news
+  parseDevNews(function(feed){
+    $("#blog1title").html("<a target='_blank' href='"+feed.entries[0].link+"'>"+feed.entries[0].title+"</a>");
+    $("#blog1date").text(feed.entries[0].publishedDate);
+    $("#blog1body").text(feed.entries[0].contentSnippet);
+    $("#blog2title").html("<a target='_blank' href='"+feed.entries[1].link+"'>"+feed.entries[1].title+"</a>");
+    $("#blog2date").text(feed.entries[1].publishedDate);
+    $("#blog2body").text(feed.entries[1].contentSnippet);
+  });
+  parseGbifNews(function(feed){
+    $("#blog3title").html("<a target='_blank' href='"+feed.entries[0].link+"'>"+feed.entries[0].title+"</a>");
+    $("#blog3date").text(feed.entries[0].publishedDate);
+    $("#blog3body").text(feed.entries[0].contentSnippet);
+  });
+
+  // Activate source popovers
+  $("a.sourcePopup").attr("title","Source").append('<img src="/img/icons/questionmark.png"/>')
+  .sourcePopover({"message":"my source","remarks":"TEST remark"});
 
   $("a.download")
     .bindDownloadPopover({explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
@@ -140,4 +147,5 @@ $(function() {
     dataHistory.initialize(generateRandomValues(365), {height: 180, processes: processes});
     dataHistory.show();
   }
+
 })

@@ -7,13 +7,17 @@ import org.gbif.checklistbank.api.Constants;
 import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.api.model.ChecklistUsage;
 import org.gbif.checklistbank.api.model.Description;
+import org.gbif.checklistbank.api.model.Distribution;
 import org.gbif.checklistbank.api.model.Identifier;
+import org.gbif.checklistbank.api.model.Image;
 import org.gbif.checklistbank.api.model.Reference;
 import org.gbif.checklistbank.api.model.VernacularName;
 import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.ChecklistUsageService;
 import org.gbif.checklistbank.api.service.DescriptionService;
+import org.gbif.checklistbank.api.service.DistributionService;
 import org.gbif.checklistbank.api.service.IdentifierService;
+import org.gbif.checklistbank.api.service.ImageService;
 import org.gbif.checklistbank.api.service.ReferenceService;
 import org.gbif.checklistbank.api.service.VernacularNameService;
 import org.gbif.portal.action.BaseAction;
@@ -40,6 +44,10 @@ public class DetailAction extends BaseAction {
   private DescriptionService descriptionService;
   @Inject
   private IdentifierService identifierService;
+  @Inject
+  private ImageService imageService;
+  @Inject
+  private DistributionService distributionService;
 
   private Integer id;
   private Checklist checklist;
@@ -112,6 +120,16 @@ public class DetailAction extends BaseAction {
     PagingResponse<Identifier> identifierResponse = identifierService.listByChecklistUsage(id, page10);
     if (identifierResponse != null) {
       usage.setIdentifiers(identifierResponse.getResults());
+    }
+    // get distributions
+    PagingResponse<Distribution> distributionResponse = distributionService.listByChecklistUsage(id, page10);
+    if (distributionResponse != null) {
+      usage.setDistributions(distributionResponse.getResults());
+    }
+    // get images
+    PagingResponse<Image> imageResponse = imageService.listByChecklistUsage(id, page10);
+    if (imageResponse != null) {
+      usage.setImages(imageResponse.getResults());
     }
   }
 

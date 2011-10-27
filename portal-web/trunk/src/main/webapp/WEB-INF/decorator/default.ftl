@@ -170,50 +170,27 @@ ${head}
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->
-  <script src="<@s.url value='/js/vendor/jquery-1.6.1.min.js'/>"></script>
-  <script src="<@s.url value='/js/vendor/jquery-ui.min.js'/>"></script>
-  <script src="<@s.url value='/js/vendor/autocomplete.js'/>"></script>
-  <script src="<@s.url value='/js/rss.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.6.1.min.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui.min.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/autocomplete.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.uniform.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/mousewheel.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jscrollpane.min.js'/>"></script>
-  <script src="<@s.url value='/js/vendor/jquery-scrollTo-1.4.2-min.js'/>"></script>
-  <script src="<@s.url value='/js/vendor/underscore-min.js'/>"></script>
-  <script src="<@s.url value='/js/helpers.js'/>"></script>
-  <script src="<@s.url value='/js/widgets.js'/>"></script>
-  <script src="<@s.url value='/js/app.js'/>"></script>
-  <script src="<@s.url value='/js/graphs.js'/>"></script>
-  <script src="<@s.url value='/js/vendor/jquery.uniform.min.js" type="text/javascript' />"></script>
-  <script src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
-  <!--
-   TODO: this script gives a ReferenceError in line 4: Can't find variable: map
-  <script src="<@s.url value='/js/full_map.js'/>"></script>
-  -->
-  <script src="<@s.url value='/js/types_map.js'/>"></script>
-  <script src="<@s.url value='/js/single_map.js'/>"></script>
-  <script src="<@s.url value='/js/openlayers_addons.js'/>"></script>
-  <script src="<@s.url value='/js/Infowindow.js'/>"></script>
-  <script src="<@s.url value='/js/vendor/raphael-min.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-scrollTo-1.4.2-min.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/underscore-min.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/helpers.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/widgets.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/graphs.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/rss.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/app.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/full_map.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/single_map.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/raphael-min.js'/>"></script>
   <!-- end scripts-->
-
-  <script>
-$(document).ready(function() {
-  // read news
-  parseDevNews(function(feed){
-    console.log(feed);
-    $("#blog1title").html("<a target='_blank' href='"+feed.entries[0].link+"'>"+feed.entries[0].title+"</a>");
-    $("#blog1date").text(feed.entries[0].publishedDate);
-    $("#blog1body").text(feed.entries[0].contentSnippet);
-    $("#blog2title").html("<a target='_blank' href='"+feed.entries[1].link+"'>"+feed.entries[1].title+"</a>");
-    $("#blog2date").text(feed.entries[1].publishedDate);
-    $("#blog2body").text(feed.entries[1].contentSnippet);
-  });
-  parseGbifNews(function(feed){
-    $("#blog3title").html("<a target='_blank' href='"+feed.entries[0].link+"'>"+feed.entries[0].title+"</a>");
-    $("#blog3date").text(feed.entries[0].publishedDate);
-    $("#blog3body").text(feed.entries[0].contentSnippet);
-  });
-});
-  </script>
 
   <!--[if lt IE 7 ]>
   <script src="<@s.url value='/js/libs/dd_belatedpng.js'/>"></script>
@@ -221,6 +198,7 @@ $(document).ready(function() {
           .fix("img, .png_bg"); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
   <![endif]-->
 
+  <!#-- keep this javascript here so we can use the s.url tag -->
   <script type="text/javascript">
     $(function() {
       $('nav ul li a.more').bindLinkPopover({

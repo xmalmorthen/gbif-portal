@@ -54,7 +54,7 @@ var GOD = (function() {
 
 /*
 * ============
-* HELP POPOVER
+* SOURCE POPOVER
 * ============
 */
 
@@ -70,20 +70,21 @@ var GOD = (function() {
   }
 
   var
-  // Public methods exposed to $.fn.helpPopover()
+  // Public methods exposed to $.fn.sourcePopover()
   methods = {},
 
   // HTML template for the dropdowns
   templates = {
-    main: ['<div id="<%= name %>_<%= id %>" class="yellow_popover"><div class="t"></div><div class="c"><h3><%= title %></h3><%= message %></div><div class="b"></div></div>'].join('')
+    main: ['<div id="<%= name %>_<%= id %>" class="yellow_popover"><div class="t"></div><div class="c"><h3><%= title %></h3><%= message %><BR/><%= remarks %></div><div class="b"></div></div>'].join('')
   },
-  store = "helppopover",
+  store = "sourcepopover",
 
   // Some nice default values
   defaults = {
+    title: "Source"
   };
 
-  // Called by using $('foo').helpPopover();
+  // Called by using $('foo').sourcePopover();
   methods.init = function(settings) {
     settings = $.extend({}, defaults, settings);
 
@@ -104,7 +105,7 @@ var GOD = (function() {
       // The completed ps_container element
       $ps = false;
 
-      // Dont do anything if we've already setup helpPopover on this element
+      // Dont do anything if we've already setup sourcePopover on this element
       if (data.id) {
         return $this;
       } else {
@@ -114,6 +115,7 @@ var GOD = (function() {
         data.templates = templates;
         data.title     = settings.title;
         data.message   = settings.message;
+        data.remarks   = settings.remarks;
         data.settings  = settings;
       }
 
@@ -123,7 +125,7 @@ var GOD = (function() {
       // Save the updated $ps reference into our data object
       data.$ps = $ps;
 
-      // Save the helpPopover data onto the <this> element
+      // Save the sourcePopover data onto the <this> element
       $this.data(store, data);
 
       $(this).click(_toggle);
@@ -142,7 +144,7 @@ var GOD = (function() {
 
   // Build popover
   function _build(data) {
-    var $ps = $(_.template(data.templates.main, {name:data.name, id:data.id, title: data.title, message:data.message}));
+    var $ps = $(_.template(data.templates.main, {name:data.name, id:data.id, title: data.title, message:data.message, remarks:data.remarks}));
 
     $ps.bind('click', function(e) {
       e.stopPropagation();
@@ -239,7 +241,7 @@ var GOD = (function() {
   }
 
   // Expose the plugin
-  $.fn.helpPopover = function(method) {
+  $.fn.sourcePopover = function(method) {
     if (!ie6) {
       if (methods[method]) {
         return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
@@ -276,7 +278,7 @@ var GOD = (function() {
   templates = {
     main: ['<div id="<%= name %>_<%= id %>" class="yellow_popover"><div class="t"></div><div class="c"><h3><%= title %></h3><%= message %></div><div class="b"></div></div>'].join('')
   },
-  store = "helppopover",
+  store = "processpopover",
 
   // Some nice default values
   defaults = {
