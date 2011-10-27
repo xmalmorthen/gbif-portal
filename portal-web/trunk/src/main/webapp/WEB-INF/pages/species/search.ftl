@@ -9,7 +9,7 @@
   <content tag="infoband">
     <h2>Search species</h2>
     <form action="<@s.url value='/species/search'/>">
-      <input type="text" name="q"/>
+      <input type="text" name="q"/>      
     </form>
   </content>
 
@@ -28,7 +28,7 @@
 
       <div class="left">
 
-      <#list usages as u>
+      <#list searchResponse.results as u>
         <div class="result">
           <h2><a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}
           </a></h2>
@@ -45,7 +45,7 @@
       </#list>
 
         <div class="footer">
-          <@macro.pagination offset=offset limit=limit totalResults=count url=currentUrl/>
+          <@macro.pagination offset=searchResponse.offset limit=searchResponse.limit totalResults=searchResponse.count url=currentUrl/>
         </div>
       </div>
       <div class="right">
@@ -63,7 +63,7 @@
           <h4>Checklist</h4>
           <div class="facet">
             <#if checkListsFacetCounts?has_content>
-	            <select id="checkListFacetValue" name="chk_tile" style="width:190px;" multiple>
+	            <select id="checkListFacetValue" name="facets[CHECKLIST]" style="width:190px;" multiple>
 	            <#list checkListsFacetCounts as count>
 	              <option value="${count.name}">${count.name}-(${count.count})</option>
 	            </#list>

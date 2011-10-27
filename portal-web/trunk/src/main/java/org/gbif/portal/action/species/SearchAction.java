@@ -14,32 +14,26 @@ import org.gbif.api.search.model.SearchResponse;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
-import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.action.BaseSearchAction;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
-import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
 import static org.gbif.api.search.model.SearchConstants.HTTP_DEFAULT_SEARCH_PARAM;
 
 /**
  * The action for all species search operations.
  */
-public class SearchAction extends BaseAction {
+public class SearchAction extends BaseSearchAction<NameUsage> {
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
-  //paging
-  private long offset = DEFAULT_PARAM_OFFSET;
-  private int limit = DEFAULT_PARAM_LIMIT;
-  private long count;
-  private String q;
-  private List<NameUsage> usages;
-
+  private Map<String, String[]> facets = new HashMap<String, String[]>();
   private String[] chk_tile;
 
   private List<Facet.Count> checkListsFacetCounts;
@@ -49,10 +43,8 @@ public class SearchAction extends BaseAction {
 
   @Override
   public String execute() {
-    LOG.info("Species search of [{}]", q);
-    SearchRequest req = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
-    req.setLimit(this.limit);
-    req.setOffset(this.offset);
+    LOG.info("Species search of [{}]", this.getQ());
+    SearchRequest req = new SearchRequest(this.getSearchRequest().getOffset(), this.getSearchRequest().getLimit());
     req.addFacets(ChecklistBankFacetParameter.CHECKLIST);
     if (chk_tile != null) {
       LOG.info("Checklist facet: {}", chk_tile.length);
@@ -60,16 +52,31 @@ public class SearchAction extends BaseAction {
         req.addFacetedParameter(ChecklistBankFacetParameter.CHECKLIST, chkFacet);
       }
     }
-    //default query parameter
-    req.addParameter(HTTP_DEFAULT_SEARCH_PARAM, q);
+    // default query parameter
+    req.addParameter(HTTP_DEFAULT_SEARCH_PARAM, this.getQ());
     SearchResponse<NameUsage> results = nameUsageSearchService.search(req);
-    this.count = results.getCount();
-    this.limit = results.getLimit();
-    this.offset = results.getOffset();
+    this.setSearchResponse(results);
     this.initializeFacets(results);
-    this.usages = results.getResults(); //sets the results
-    LOG.info("Species search of [{}] returned {} results", q, this.count);
+    LOG.info("Species search of [{}] returned {} results", this.getQ(), this.getSearchResponse().getCount());
     return SUCCESS;
+  }
+
+  /**
+   * Return the counts for facet chk_tile
+   */
+  public List<Facet.Count> getCheckListsFacetCounts() {
+    return checkListsFacetCounts;
+  }
+
+  public String[] getChk_tile() {
+    return chk_tile;
+  }
+
+  /**
+   * @return the facets
+   */
+  public Map<String, String[]> getFacets() {
+    return facets;
   }
 
   private void initializeFacets(SearchResponse<NameUsage> results) {
@@ -82,57 +89,16 @@ public class SearchAction extends BaseAction {
     }
   }
 
-  public String getQ() {
-    return q;
-  }
-
-  /**
-   * @return the usages.
-   */
-  public List<NameUsage> getUsages() {
-    return usages;
-  }
-
-  /**
-   * Return the counts for facet chk_tile
-   */
-  public List<Facet.Count> getCheckListsFacetCounts() {
-    return checkListsFacetCounts;
-  }
-
-  public void setQ(String q) {
-    this.q = q;
-  }
-
-  public String[] getChk_tile() {
-    return chk_tile;
-  }
 
   public void setChk_tile(String[] chk_tile) {
     this.chk_tile = chk_tile;
   }
 
-  public long getOffset() {
-    return offset;
-  }
 
-  public void setOffset(long offset) {
-    this.offset = offset;
-  }
-
-  public int getLimit() {
-    return limit;
-  }
-
-  public void setLimit(int limit) {
-    this.limit = limit;
-  }
-
-  public long getCount() {
-    return count;
-  }
-
-  public void setCount(long count) {
-    this.count = count;
+  /**
+   * @param facets the facets to set
+   */
+  public void setFacets(Map<String, String[]> facets) {
+    this.facets = facets;
   }
 }
