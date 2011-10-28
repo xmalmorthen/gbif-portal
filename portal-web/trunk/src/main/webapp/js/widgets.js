@@ -2008,13 +2008,16 @@ $.fn.bindSlideshow = function(opt) {
       function addBarsCustom($ul) {
 
         $ul.find("> li").each(function() {
-          var value = parseInt($(this).attr("data"));
-          var clase = " clickable";
+          var species = parseInt($(this).attr("species"));
+		  var children = parseInt($(this).attr("children"));
+          var clase = "";
 
-          $(this).find("span:first").addClass('clickable');
-          clase = " clickable";
+          if (children > 0) {
+            $(this).find("span:first").addClass('clickable');
+            clase = " clickable";
+          }
 
-          $(this).find("span:first").after('<div class="bar'+clase+'" style="width:'+(value+10)+'px"><div class="count">'+value+'</div></div>');
+          $(this).find("span:first").after('<div class="bar'+clase+'" style="width:'+(species+10)+'px"><div class="count">'+species+'</div></div>');
 
           $(this).find("span:first").parent().hover(function() {
             $(this).find(".count:first").show();
@@ -2027,14 +2030,14 @@ $.fn.bindSlideshow = function(opt) {
         });
 
         $ul.children().each(function() {
-          addBars($(this));
+          addBarsCustom($(this));
         });
       }	  
 
-      addBars($ps.find("ul:first"));
+      addBarsCustom($ps.find("ul:first"));
 
       // If the user clicks on a bar with more level insides…
-      $ps.find(".sp .clickable").click(function(e) {
+      $ps.find(".sp .clickable").live('click', function(e) {
         e.preventDefault();
 
         if (!stop && !stopBack) { // this prevents prolbems when clicking very fast on the items
@@ -2054,16 +2057,16 @@ $.fn.bindSlideshow = function(opt) {
           // fix the z-index of the list we're about to show
           var $ul = $(this).siblings("ul");
           $ul.css("z-index", zIndex++);
-          $.getJSON("http://gbrds.gbif.org/registry/organisation.json?callback=?",
+		  $.getJSON("http://ecat-dev.gbif.org/ws/nav/" + $(this).parent().find("span:first").attr("spid") + "?callback=?",
             function(data) {
               $htmlContent="";
               var $count = 1;
-              $(data).each(function() {
-              $htmlContent=$htmlContent+"<li data=\"" + $count  + "\"><span>";
-              $htmlContent=$htmlContent+this.name
-              $htmlContent=$htmlContent+"</span>";
-              $htmlContent=$htmlContent+"<a href=\"http://www.google.com\">see details</a></li>";
-              $count++;
+              $(data.data).each(function() { 
+				$htmlContent=$htmlContent+"<li species=\"" + this.numDescendants  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.taxonID + "\" >";
+				$htmlContent=$htmlContent+this.scientificName
+				$htmlContent=$htmlContent+"</span>";
+				$htmlContent=$htmlContent+"<a href=\"http://staging.gbif.org:8080/portal-web-dynamic/species/" + this.taxonID + "\">see details</a><ul><li></li></ul></li>";
+				$count++;
             })
 		    $ul.html($htmlContent);
             addBarsCustom($ul);
