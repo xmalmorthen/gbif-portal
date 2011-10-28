@@ -33,43 +33,52 @@ public class SearchAction extends BaseSearchAction<NameUsage> {
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
-  private Map<String, String[]> facets = new HashMap<String, String[]>();
-  private String[] chk_tile;
+  private Map<String, String[]> facets;
 
-  private List<Facet.Count> checkListsFacetCounts;
+  private Map<String, List<Facet.Count>> facetCounts;
 
   @Inject
   private NameUsageSearchService nameUsageSearchService;
 
+  public SearchAction() {
+    super();
+    this.facetCounts = new HashMap<String, List<Facet.Count>>();
+  }
+
+  private void addFacetParameters(ChecklistBankFacetParameter facetEnum, SearchRequest request) {
+    if (this.facets != null) {
+      String[] values = facets.get(facetEnum.name());
+      if (values != null) {
+        for (String facetValue : values) {
+          request.addFacetedParameter(facetEnum, facetValue);
+        }
+      }
+    }
+  }
+
   @Override
   public String execute() {
     LOG.info("Species search of [{}]", this.getQ());
-    SearchRequest req = new SearchRequest(this.getSearchRequest().getOffset(), this.getSearchRequest().getLimit());
-    req.addFacets(ChecklistBankFacetParameter.CHECKLIST);
-    if (chk_tile != null) {
-      LOG.info("Checklist facet: {}", chk_tile.length);
-      for (String chkFacet : chk_tile) {
-        req.addFacetedParameter(ChecklistBankFacetParameter.CHECKLIST, chkFacet);
-      }
-    }
+    SearchRequest request = new SearchRequest(this.getSearchRequest().getOffset(), this.getSearchRequest().getLimit());
+    request.addFacets(ChecklistBankFacetParameter.CHECKLIST);
+    this.addFacetParameters(ChecklistBankFacetParameter.CHECKLIST, request);
+    request.addFacets(ChecklistBankFacetParameter.RANK);
+    this.addFacetParameters(ChecklistBankFacetParameter.RANK, request);
     // default query parameter
-    req.addParameter(HTTP_DEFAULT_SEARCH_PARAM, this.getQ());
-    SearchResponse<NameUsage> results = nameUsageSearchService.search(req);
+    request.addParameter(HTTP_DEFAULT_SEARCH_PARAM, this.getQ());
+    SearchResponse<NameUsage> results = nameUsageSearchService.search(request);
     this.setSearchResponse(results);
     this.initializeFacets(results);
     LOG.info("Species search of [{}] returned {} results", this.getQ(), this.getSearchResponse().getCount());
     return SUCCESS;
   }
 
-  /**
-   * Return the counts for facet chk_tile
-   */
-  public List<Facet.Count> getCheckListsFacetCounts() {
-    return checkListsFacetCounts;
-  }
 
-  public String[] getChk_tile() {
-    return chk_tile;
+  /**
+   * @return the facetCounts
+   */
+  public Map<String, List<Facet.Count>> getFacetCounts() {
+    return facetCounts;
   }
 
   /**
@@ -79,19 +88,22 @@ public class SearchAction extends BaseSearchAction<NameUsage> {
     return facets;
   }
 
+
   private void initializeFacets(SearchResponse<NameUsage> results) {
     if (results.getFacets() != null && !results.getFacets().isEmpty()) {
       for (Facet facet : results.getFacets()) {
-        if (facet.getField().equals("chk_tile")) {
-          this.checkListsFacetCounts = facet.getCounts();
+        if (facet.getCounts() != null) {
+          this.facetCounts.put(facet.getField(), facet.getCounts());
         }
       }
     }
   }
 
-
-  public void setChk_tile(String[] chk_tile) {
-    this.chk_tile = chk_tile;
+  /**
+   * @param facetCounts the facetCounts to set
+   */
+  public void setFacetCounts(Map<String, List<Facet.Count>> facetCounts) {
+    this.facetCounts = facetCounts;
   }
 
 
@@ -101,4 +113,6 @@ public class SearchAction extends BaseSearchAction<NameUsage> {
   public void setFacets(Map<String, String[]> facets) {
     this.facets = facets;
   }
+
+
 }

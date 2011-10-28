@@ -56,15 +56,23 @@
         </div>
         <div class="refine">
           <h4>Taxonomic rank</h4>
-          <a href="#" title="Any">Any<span class="more"></span></a>
+          <div class="facet">
+            <#if facetCounts['RANK']?has_content>
+	            <select id="RANK_FACET" name="facets['RANK']" style="width:190px;" multiple>
+	            <#list facetCounts['RANK'] as count>
+	              <option value="${count.name}">${count.name}-(${count.count})</option>
+	            </#list>
+	            </select>
+	        </#if>            
+          </div>
         </div>
 
         <div class="refine">
           <h4>Checklist</h4>
           <div class="facet">
-            <#if checkListsFacetCounts?has_content>
-	            <select id="checkListFacetValue" name="facets[CHECKLIST]" style="width:190px;" multiple>
-	            <#list checkListsFacetCounts as count>
+            <#if facetCounts['CHECKLIST']?has_content>
+	            <select id="CHECKLIST_FACET" name="facets['CHECKLIST']" style="width:190px;" multiple>
+	            <#list facetCounts['CHECKLIST'] as count>
 	              <option value="${count.name}">${count.name}-(${count.count})</option>
 	            </#list>
 	            </select>
