@@ -12,7 +12,7 @@ public class SearchActionTest {
 
   /**
    * The checklistbanksearch module does many things at startup, including for example
-   * pinging SOLR.  This test simply ensures that this process works
+   * pinging SOLR. This test simply ensures that this process works
    */
   @Test
   public void test() {
