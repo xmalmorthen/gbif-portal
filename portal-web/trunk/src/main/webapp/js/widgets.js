@@ -2057,7 +2057,7 @@ $.fn.bindSlideshow = function(opt) {
           // fix the z-index of the list we're about to show
           var $ul = $(this).siblings("ul");
           $ul.css("z-index", zIndex++);
-		  $.getJSON("http://ecat-dev.gbif.org/ws/nav/" + $(this).parent().find("span:first").attr("spid") + "?callback=?",
+		  $.getJSON("http://staging.gbif.org:8080/checklistbank-ws/checklist_usage/" + $(this).parent().find("span:first").attr("spid") + "/children?callback=?",
             function(data) {
               $htmlContent="";
               var $count = 1;
