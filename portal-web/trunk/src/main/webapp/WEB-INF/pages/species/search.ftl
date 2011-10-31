@@ -9,7 +9,7 @@
   <content tag="infoband">
     <h2>Search species</h2>
     <form action="<@s.url value='/species/search'/>">
-      <input type="text" name="q"/>      
+      <input type="text" name="q"/>
     </form>
   </content>
 
@@ -57,26 +57,27 @@
         <div class="refine">
           <h4>Taxonomic rank</h4>
           <div class="facet">
-            <#if facetCounts['RANK']?has_content>
-	            <select id="RANK_FACET" name="facets['RANK']" style="width:190px;" multiple>
-	            <#list facetCounts['RANK'] as count>
-	              <option value="${count.name}">${count.name}-(${count.count})</option>
-	            </#list>
-	            </select>
-	        </#if>            
+          <#if facetCounts['RANK']?has_content>
+            <select id="RANK_FACET" name="facets['RANK']" style="width:190px;" multiple>
+              <#list facetCounts['RANK'] as count>
+                <option value="${count.name}">${count.name}-(${count.count})</option>
+              </#list>
+            </select>
+          </#if>
           </div>
         </div>
 
         <div class="refine">
           <h4>Checklist</h4>
+
           <div class="facet">
-            <#if facetCounts['CHECKLIST']?has_content>
-	            <select id="CHECKLIST_FACET" name="facets['CHECKLIST']" style="width:190px;" multiple>
-	            <#list facetCounts['CHECKLIST'] as count>
-	              <option value="${count.name}">${count.name}-(${count.count})</option>
-	            </#list>
-	            </select>
-	        </#if>            
+          <#if facetCounts['CHECKLIST']?has_content>
+            <select id="CHECKLIST_FACET" name="facets['CHECKLIST']" style="width:190px;" multiple>
+              <#list facetCounts['CHECKLIST'] as count>
+                <option value="${count.name}">${count.name}-(${count.count})</option>
+              </#list>
+            </select>
+          </#if>
           </div>
         </div>
 

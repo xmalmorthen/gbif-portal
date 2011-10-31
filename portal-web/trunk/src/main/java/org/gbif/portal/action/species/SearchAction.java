@@ -41,7 +41,6 @@ public class SearchAction extends BaseSearchAction<NameUsage> {
   private NameUsageSearchService nameUsageSearchService;
 
   public SearchAction() {
-    super();
     this.facetCounts = new HashMap<String, List<Facet.Count>>();
   }
 
