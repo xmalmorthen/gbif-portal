@@ -51,8 +51,8 @@
       <div class="right">
 
         <div class="refine">
-          <h4>Parent taxa</h4>
-          <a href="#" title="Any taxa">Any</a>
+          <h4>Higher taxon</h4>
+          <a href="#" title="Any taxon">Any</a>
         </div>
         <div class="refine">
           <h4>Taxonomic rank</h4>
