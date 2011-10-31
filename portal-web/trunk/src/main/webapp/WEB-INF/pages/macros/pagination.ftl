@@ -16,7 +16,7 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
   <#if (limit > 0) && (offset > 0) >
     <a href="${previousUrl}" class="candy_white_button previous"><span>Previous page</span></a>
   </#if>
-  <#if (totalResults>-1)>
+  <#if (totalResults>0)>
     <#if (offset+limit<totalResults)>
       <a href="${nextUrl}" class="candy_white_button next"><span>Next page</span></a>
     </#if>
