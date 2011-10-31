@@ -33,7 +33,7 @@ Remove this if you use the .htaccess -->
   <!-- Uncomment if you are specifically targeting less enabled mobile browsers
 <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
 
-  <script src="<@s.url value='/js/modernizr-1.7.min.js'/>"></script>
+  <script src="<@s.url value='/js/vendor/modernizr-1.7.min.js'/>"></script>
 
 ${head}
 
