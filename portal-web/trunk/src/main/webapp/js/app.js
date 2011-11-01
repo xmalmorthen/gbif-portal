@@ -50,7 +50,7 @@ $(function() {
   });
 
   // Activate source popovers
-  $("a.sourcePopup").attr("title","Source").append('<img src="/img/icons/questionmark.png"/>')
+  $("a.sourcePopup").attr("title","Source").append('<img src="'+cfg.context+'/img/icons/questionmark.png"/>')
   .sourcePopover({"message":"my source","remarks":"TEST remark"});
 
   $("a.download")

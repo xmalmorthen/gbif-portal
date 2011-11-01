@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
 import com.google.inject.name.Names;
 
 public class PortalModule extends AbstractModule {
@@ -62,5 +63,8 @@ public class PortalModule extends AbstractModule {
   @Override
   protected void configure() {
     bindApplicationProperties();
+
+    bind(Config.class).in(Scopes.SINGLETON);
+
   }
 }

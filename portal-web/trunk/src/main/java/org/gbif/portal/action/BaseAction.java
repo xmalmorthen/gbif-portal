@@ -1,8 +1,11 @@
 package org.gbif.portal.action;
 
+import org.gbif.portal.config.Config;
+
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
@@ -21,6 +24,10 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
 
   protected Map<String, Object> session;
   protected HttpServletRequest request;
+
+  @Inject
+  private Config cfg;
+
 
   /*
    * (non-Javadoc)
@@ -61,5 +68,9 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
    */
   protected Map<String, Object> getSession() {
     return session;
+  }
+
+  public Config getCfg() {
+    return cfg;
   }
 }
