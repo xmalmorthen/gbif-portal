@@ -139,16 +139,6 @@ the default decorator is aware of the following content fragments and variables 
 If the underlying action results in an uncaught error, the sitemesh filter fails with a NPE and you cannot see the original struts stacktrace.
 Only way I found to change that is disabling the SiteMeshFilter in the PortalListener and restart the server to try the same query again.
 
-
-== Paging
-discuss how we implement result paging in general
-Options:
- * simple paging class (PageableAction) and freemarker template (pager.ftl) exists in this project
- * DisplayTag for jsp? http://www.displaytag.org/1.2/ requires the jsp support servlet so freemarker can use this custom tag library and hasnt been updated since 1.5 years, but we used it before
- * ajax clientside
-
-not done at all yet, but an interceptor to protect pages requiring logins exist. This interceptor along with the base action keep the current user in the session, but treat it as an unspecific Object right now
-
 == Authentication/login
 A RequireLoginInterceptor exists to protect actions or entire packages to only allow logged in users.
 It looks for a user object in the session, which needs to be created by the actual login method and the authentication framework of your choice.
