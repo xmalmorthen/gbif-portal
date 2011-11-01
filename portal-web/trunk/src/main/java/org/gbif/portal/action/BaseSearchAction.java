@@ -15,6 +15,10 @@ import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
  */
 public class BaseSearchAction<T> extends BaseAction {
 
+  /**
+   * Generated serialVersionUID
+   */
+  private static final long serialVersionUID = -3731894129684841108L;
   private PagingResponse<T> searchResponse;
   private PagingRequest searchRequest;
   private String q;
@@ -28,11 +32,27 @@ public class BaseSearchAction<T> extends BaseAction {
   }
 
   /**
+   * @return the limit
+   */
+  public int getLimit() {
+    return this.searchRequest.getLimit();
+  }
+
+  /**
+   * @return the offset
+   */
+  public long getOffset() {
+    return this.searchRequest.getOffset();
+  }
+
+
+  /**
    * @return the q
    */
   public String getQ() {
     return q;
   }
+
 
   /**
    * @return the searchRequest
@@ -47,6 +67,22 @@ public class BaseSearchAction<T> extends BaseAction {
    */
   public PagingResponse<T> getSearchResponse() {
     return searchResponse;
+  }
+
+
+  /**
+   * @param limit the limit to set
+   */
+  public void setLimit(int limit) {
+    this.searchRequest.setLimit(limit);
+  }
+
+
+  /**
+   * @param offset the offset to set
+   */
+  public void setOffset(long offset) {
+    this.searchRequest.setOffset(offset);
   }
 
 
