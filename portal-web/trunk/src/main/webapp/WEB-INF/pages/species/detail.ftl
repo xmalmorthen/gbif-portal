@@ -126,7 +126,7 @@
     <#list usage.descriptions as d>
       <h3>${d.type!"Description"}
         <#if d.source?has_content>
-          <a class="sourcePopup" id="source${d.id?c}" source="${d.source}" remarks="${d.remarks!}"></a>
+          <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
         </#if>
       </h3>
       <p>${d.description!}</p>
