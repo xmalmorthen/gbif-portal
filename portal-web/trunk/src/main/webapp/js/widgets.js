@@ -2061,11 +2061,11 @@ $.fn.bindSlideshow = function(opt) {
             function(data) {
               $htmlContent="";
               var $count = 1;
-              $(data.data).each(function() { 
-				$htmlContent=$htmlContent+"<li species=\"" + this.numDescendants  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.taxonID + "\" >";
+              $(data.results).each(function() { 
+				$htmlContent=$htmlContent+"<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
 				$htmlContent=$htmlContent+this.scientificName
 				$htmlContent=$htmlContent+"</span>";
-				$htmlContent=$htmlContent+"<a href=\"http://staging.gbif.org:8080/portal-web-dynamic/species/" + this.taxonID + "\">see details</a><ul><li></li></ul></li>";
+				$htmlContent=$htmlContent+"<a href=\"http://staging.gbif.org:8080/portal-web-dynamic/species/" + this.numChildren + "\">see details</a><ul><li></li></ul></li>";
 				$count++;
             })
 		    $ul.html($htmlContent);

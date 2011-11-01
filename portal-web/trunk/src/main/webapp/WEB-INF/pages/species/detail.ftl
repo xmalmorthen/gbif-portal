@@ -194,7 +194,7 @@
           <div class="sp">
             <ul>
 			  <#list children as usage>
-			    <li species="${usage.numSpecies?c}" children="${usage.numChildren?c}"><span spid="${usage.key?c}" taxonID="${usage.key?c}">${usage.canonicalName}</span><a href="<@s.url value='http://staging.gbif.org:8080/portal-web-dynamic/species/${usage.key}'/>">see details</a>
+			    <li species="${usage.numSpecies?c}" children="${usage.numChildren?c}"><span spid="${usage.key?c}" taxonID="${usage.key?c}">${usage.canonicalName}</span><a href="<@s.url value='http://staging.gbif.org:8080/portal-web-dynamic/species/${usage.key?c}'/>">see details</a>
 			  		<ul><li></li></ul>
 			  	</li>			  	
 			  </#list>  
