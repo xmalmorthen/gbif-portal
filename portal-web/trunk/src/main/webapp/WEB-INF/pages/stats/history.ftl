@@ -1,6 +1,36 @@
 <html>
 <head>
   <title>Historical Activity - GBIF</title>
+  <content tag="extra_scripts">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        if ($("#map").length) {
+          var latlng = new google.maps.LatLng(-34.397, 150.644);
+          var myOptions = { zoom: 5, center: latlng, disableDefaultUI: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
+          var map = new google.maps.Map(document.getElementById("map"), myOptions);
+        }
+
+        $("#dataset-graph1").addGraph(generateRandomValues(50), {width:275, height:200});
+        $("#dataset-graph2").addGraph(generateRandomValues(50), {width:275, height:200});
+        $("#dataset-graph3").addGraph(generateRandomValues(50), {width:275, height:200});
+
+        $("#pie1").bindPie(36.5, Math.floor(Math.random() * 100));
+        $("#pie2").bindPie(36.5, Math.floor(Math.random() * 100));
+        $("#pie3").bindPie(36.5, 100);
+
+        $("#pie4").bindMultiPie(36.5, [12,50]);
+        $("#pie5").bindMultiPie(36.5, [32,45,77]);
+        $("#pie6").bindMultiPie(36.5, [12,18,45,62]);
+
+        $("#pie4legend").addMultiLegend(3);
+        $("#pie5legend").addMultiLegend(4);
+        $("#pie6legend").addMultiLegend(5);
+
+        $(".horizontal_graph").bindGreyBars(400);
+
+      });
+    </script>
+  </content>
 </head>
 <body class="species typesmap">
 
@@ -224,36 +254,5 @@
   <footer></footer>
 </article>
 
-<content tag="extra_scripts">
-  <script type="text/javascript" charset="utf-8">
-    $(function() {
-      if ($("#map").length) {
-        var latlng = new google.maps.LatLng(-34.397, 150.644);
-        var myOptions = { zoom: 5, center: latlng, disableDefaultUI: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
-        var map = new google.maps.Map(document.getElementById("map"), myOptions);
-      }
-
-      $("#dataset-graph1").addGraph(generateRandomValues(50), {width:275, height:200});
-      $("#dataset-graph2").addGraph(generateRandomValues(50), {width:275, height:200});
-      $("#dataset-graph3").addGraph(generateRandomValues(50), {width:275, height:200});
-
-      $("#pie1").bindPie(36.5, Math.floor(Math.random() * 100));
-      $("#pie2").bindPie(36.5, Math.floor(Math.random() * 100));
-      $("#pie3").bindPie(36.5, 100);
-
-      $("#pie4").bindMultiPie(36.5, [12,50]);
-      $("#pie5").bindMultiPie(36.5, [32,45,77]);
-      $("#pie6").bindMultiPie(36.5, [12,18,45,62]);
-
-      $("#pie4legend").addMultiLegend(3);
-      $("#pie5legend").addMultiLegend(4);
-      $("#pie6legend").addMultiLegend(5);
-
-      $(".horizontal_graph").bindGreyBars(400);
-
-    });
-  </script>
-
-</content>
 </body>
 </html>

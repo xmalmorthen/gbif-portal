@@ -2,6 +2,13 @@
 <head>
   <title>Statistics - GBIF</title>
   <meta name="gmap" content="true"/>
+  <content tag="extra_scripts">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $("#dataset-graph1").addGraph(generateRandomValues(50), {height:200});
+      });
+    </script>
+  </content>
 </head>
 <body class="species typesmap">
 
@@ -482,12 +489,5 @@
   <footer></footer>
 </article>
 
-<content tag="extra_scripts">
-  <script type="text/javascript" charset="utf-8">
-    $(function() {
-      $("#dataset-graph1").addGraph(generateRandomValues(50), {height:200});
-    });
-  </script>
-</content>
 </body>
 </html>

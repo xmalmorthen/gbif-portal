@@ -1,10 +1,9 @@
+<#import "/WEB-INF/macros/pagination.ftl" as macro>
 <html>
 <head>
   <title>Dataset Search Results - GBIF</title>
   <meta name="menu" content="dataset"/>
 </head>
-
-<#import "../macros/pagination.ftl" as macro>
 
 <body class="search">
 

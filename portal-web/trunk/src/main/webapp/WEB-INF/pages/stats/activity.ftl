@@ -1,6 +1,22 @@
 <html>
 <head>
   <title>Activity - GBIF</title>
+  <content tag="extra_scripts">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+
+        if ($("#map").length) {
+          var latlng = new google.maps.LatLng(-34.397, 150.644);
+          var myOptions = { zoom: 5, center: latlng, disableDefaultUI: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
+          var map = new google.maps.Map(document.getElementById("map"), myOptions);
+        }
+
+        $("#dataset-graph1").addGraph(generateRandomValues(50), {width:275, height:200});
+        $("#dataset-graph2").addGraph(generateRandomValues(50), {width:275, height:200});
+        $("#dataset-graph3").addGraph(generateRandomValues(50), {width:275, height:200});
+      });
+    </script>
+  </content>
 </head>
 <body class="species typesmap">
 
@@ -131,23 +147,6 @@
     </div>
     <footer></footer>
   </article>
-
-  <content tag="extra_scripts">
-    <script type="text/javascript" charset="utf-8">
-      $(function() {
-
-        if ($("#map").length) {
-          var latlng = new google.maps.LatLng(-34.397, 150.644);
-          var myOptions = { zoom: 5, center: latlng, disableDefaultUI: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
-          var map = new google.maps.Map(document.getElementById("map"), myOptions);
-        }
-
-        $("#dataset-graph1").addGraph(generateRandomValues(50), {width:275, height:200});
-        $("#dataset-graph2").addGraph(generateRandomValues(50), {width:275, height:200});
-        $("#dataset-graph3").addGraph(generateRandomValues(50), {width:275, height:200});
-      });
-    </script>
-  </content>
 
 </body>
 </html>

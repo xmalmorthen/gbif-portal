@@ -2,6 +2,16 @@
 <head>
   <title>Member detail - GBIF</title>
   <meta name="gmap" content="true"/>
+  <content tag="extra_scripts">
+    <script type="text/javascript" charset="utf-8">
+      $(function() {
+        $("#dataset-graph1").addGraph(generateRandomValues(50));
+        $("#dataset-graph2").addGraph(generateRandomValues(50));
+        $("#dataset-graph3").addGraph(generateRandomValues(50));
+        $("#dataset-graph4").addGraph(generateRandomValues(50));
+      });
+    </script>
+  </content>
 
 </head>
 <body class="species typesmap">
@@ -341,17 +351,6 @@
   </div>
   <footer></footer>
 </article>
-
-<content tag="extra_scripts">
-  <script type="text/javascript" charset="utf-8">
-    $(function() {
-      $("#dataset-graph1").addGraph(generateRandomValues(50));
-      $("#dataset-graph2").addGraph(generateRandomValues(50));
-      $("#dataset-graph3").addGraph(generateRandomValues(50));
-      $("#dataset-graph4").addGraph(generateRandomValues(50));
-    });
-  </script>
-</content>
 
 </body>
 </html>

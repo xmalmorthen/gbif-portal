@@ -1,10 +1,16 @@
+<#import "/WEB-INF/macros/pagination.ftl" as macro>
 <html>
 <head>
   <title>Species Search Results for ${q!}</title>
   <meta name="menu" content="species"/>
   <link rel="stylesheet" href="<@s.url value='/css/jquery.multiselect.css'/>"/>
+  <content tag="extra_scripts">
+    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.multiselect.min.js'/>">
+    </script>
+    <script type="text/javascript" src="<@s.url value='/js/facets.js'/>">
+    </script>
+  </content>
 </head>
-<#import "../macros/pagination.ftl" as macro>
 <body class="search">
   <content tag="infoband">
     <h2>Search species</h2>
@@ -117,11 +123,6 @@
     <footer></footer>
   </article>
   </form>
-  <content tag="extra_scripts">
-    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.multiselect.min.js'/>">
-    </script>
-    <script type="text/javascript" src="<@s.url value='/js/facets.js'/>">
-    </script>
-  </content>
+
 </body>
 </html>

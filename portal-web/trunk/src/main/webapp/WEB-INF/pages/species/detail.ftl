@@ -1,8 +1,16 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
   <title>${usage.scientificName} - Checklist View</title>
   <meta name="menu" content="species"/>
-  <script src="<@s.url value='/js/full_map.js'/>"></script>
+  <content tag="extra_scripts">
+    <script src="<@s.url value='/js/full_map.js'/>"></script>
+    <script type="text/javascript">
+      $(function() {
+        $("article#images").bindSlideshow();
+      });
+    </script>
+  </content>
 </head>
 <body class="species typesmap">
 
@@ -88,10 +96,15 @@
 
     <div class="left">
       <ul class="thumbs_list">
-        <li><a href="#" class="images"><span><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></span></a></li>
-        <li><a href="#" class="images"><span><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></span></a></li>
-        <li><a href="#" class="images"><span><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></span></a></li>
-        <li class="last"><a href="#" class="images"><span><img src="<@s.url value='/external/photos/puma_thumbnail.jpg'/>"/></span></a></li>
+        <#list usage.images as img>
+          <#if img_index==3 || !img_has_next>
+            <#assign lastClass="last"/>
+          </#if>
+          <li class="${lastClass!""}"><a href="#" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a></li>
+          <#if img_index==3>
+            <#break>
+          </#if>
+        </#list>
       </ul>
 
       <h3>Full name</h3>
@@ -144,6 +157,7 @@
           <li><a href="${i.identifierLink}" title="${i.title!i.type!i.identifier}">${i.title!i.type!i.identifier}</a></li>
         </#if>
       </#list>
+        <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
       </ul>
 
       <#--
@@ -290,39 +304,57 @@
 </article>
 </#if>
 
-<article id="slideshow-1" class="photo_gallery">
-  <div class="content placeholder_temp">
+<article id="images" class="photo_gallery">
+  <div class="content">
 
     <div class="slideshow">
-      <div class="photos"><img src="<@s.url value='/external/slideshow/001.jpg'/>"/><img
-              src="<@s.url value='/external/slideshow/002.jpg'/>"/><img
-              src="<@s.url value='/external/slideshow/003.jpg'/>"/><img
-              src="<@s.url value='/external/slideshow/004.jpg'/>"/></div>
+      <div class="photos">
+        <img src="<@s.url value='/external/slideshow/001.jpg'/>"/>
+        <#list usage.images as img>
+          <#if img.image??>
+            <#if !img1?exists><#assign img1=img/></#if>
+            <img src="${img.image!}"/>
+          </#if>
+        </#list>
+      </div>
     </div>
 
+    <#-- <a href="${img1.image}"><img src="${img.image!}"/></a> -->
+
     <div class="right">
+      <#if img1?exists>
       <div class="controllers">
-        <h2>Puma Concolor in his natural habitat</h2>
+        <h2>${common.limit(img1.title!img1.description!usage.canonicalName!"",38)}</h2>
         <a class="previous_slide" href="#" title="Previous image"></a>
         <a class="next_slide" href="#" title="Next image"></a>
       </div>
 
+      <#if img1.description?has_content>
+      <h3>Description</h3>
+      <p>${common.limit(img1.description!img1.title!"",250)}</p>
+      </#if>
+
+      <#if img1.publisher?has_content>
       <h3>Image publisher</h3>
+      <p>${img1.publisher!"???"}</p>
+      </#if>
 
-      <p><a href="#" title="Wildscreen">Wildscreen</a></p>
-
+      <#if img1.checklistName?has_content>
       <h3>Dataset</h3>
+      <p>${img1.checklistName!"???"}</p>
+      </#if>
 
-      <p><a href="#" title="Arkive">Arkive</a></p>
-
+      <#if (img1.creator!img1.created)?has_content>
       <h3>Photographer</h3>
+      <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?short}</#if></p>
+      </#if>
 
-      <p><a href="#" title="Kevin Huizenga">Kevin Huizenga</a></p>
-
+      <#if img1.license?has_content>
       <h3>Copyright</h3>
+      <p>${img1.license}</p>
+      </#if>
 
-      <p>All rights reserved</p>
-
+      </#if>
     </div>
   </div>
   <footer></footer>
