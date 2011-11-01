@@ -1628,7 +1628,7 @@ $.fn.bindSlideshow = function(opt) {
   var transitionSpeed = 500;
   var easingMethod    = "easeOutQuart";
 
-  var num_of_photos   = $this.find("div.photos > img").length - 1;
+  var num_of_photos   = $this.find("div.photos > img").length;
   var downloads       = $this.find("div.download a");
 
   var $previous_button = $this.find(".previous_slide");

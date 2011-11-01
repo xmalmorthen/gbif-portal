@@ -236,7 +236,6 @@
 
       <h3>Children</h3>
       <ul class="no_bottom">
-        <li>Temporary until browser works</li>
       <#list children as syn>
         <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
       </#list>
@@ -309,7 +308,6 @@
 
     <div class="slideshow">
       <div class="photos">
-        <img src="<@s.url value='/external/slideshow/001.jpg'/>"/>
         <#list usage.images as img>
           <#if img.image??>
             <#if !img1?exists><#assign img1=img/></#if>
