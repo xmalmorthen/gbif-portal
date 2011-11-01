@@ -198,7 +198,7 @@
                   href="<@s.url value='/species/${key?c}'/>">${classification.get(key)}</a></li>
         </#list>
         </ul>
-        <div class="extended">(<a href="/species/${id?c}/extended_taxonomy">extended</a>)</div>
+        <div class="extended">(<a href="<@s.url value='/species/${id?c}/extended_taxonomy'/>">extended</a>)</div>
       </div>
 
       <h3>Lower taxa</h3>
