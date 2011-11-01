@@ -130,8 +130,6 @@ $(function() {
     $(this).parent().removeClass("focus");
   });
 
-  $("article#slideshow-1").bindSlideshow();
-
   var processes = {
     dates:[
       {start:"2011-1-1", end: "2011-2-11", title: "123 - HARVESTING ", message:"<a href='/members/process_detail.html'>235 issues</a>"},

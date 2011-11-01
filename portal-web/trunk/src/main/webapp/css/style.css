@@ -4271,6 +4271,9 @@ a.next_slide:hover {
   margin: 0px;
   padding: 3px;
   border: 1px solid #cccccc;
+  max-width:136px;
+  max-height:93px;
+  width: 136px;
 }
 
 #content article .content ul.thumbs_list li.last img {
@@ -4670,6 +4673,8 @@ a.next_slide:hover {
 
 #content article.photo_gallery .content .slideshow .photos img {
   display: inline-block;
+  max-width:627px;
+  max-height:423px
 }
 
 #content article.photo_gallery .content .right {
