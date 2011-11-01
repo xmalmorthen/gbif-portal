@@ -15,7 +15,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.gbif.api.search.model.SearchConstants.HTTP_DEFAULT_SEARCH_PARAM;
+import static org.gbif.api.search.model.SearchConstants.DEFAULT_SEARCH_PARAM;
 
 
 /**
@@ -70,7 +70,7 @@ public class BaseFacetedSearchAction<T, F extends Enum<F>> extends BaseSearchAct
     SearchRequest request = new SearchRequest(this.getSearchRequest().getOffset(), this.getSearchRequest().getLimit());
     this.addFacetParameters(request);
     // default query parameter
-    request.addParameter(HTTP_DEFAULT_SEARCH_PARAM, this.getQ());
+    request.addParameter(DEFAULT_SEARCH_PARAM, this.getQ());
     SearchResponse<T> results = searchService.search(request);
     this.setSearchResponse(results);
     this.initializeFacets(results);
