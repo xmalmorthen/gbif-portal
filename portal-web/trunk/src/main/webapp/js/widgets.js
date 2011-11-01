@@ -2065,7 +2065,7 @@ $.fn.bindSlideshow = function(opt) {
 				$htmlContent=$htmlContent+"<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
 				$htmlContent=$htmlContent+this.scientificName
 				$htmlContent=$htmlContent+"</span>";
-				$htmlContent=$htmlContent+"<a href=\"http://staging.gbif.org:8080/portal-web-dynamic/species/" + this.numChildren + "\">see details</a><ul><li></li></ul></li>";
+				$htmlContent=$htmlContent+"<a href=\"http://staging.gbif.org:8080/portal-web-dynamic/species/" + this.key + "\">see details</a><ul><li></li></ul></li>";
 				$count++;
             })
 		    $ul.html($htmlContent);
