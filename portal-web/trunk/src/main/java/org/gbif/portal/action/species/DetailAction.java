@@ -10,6 +10,7 @@ import org.gbif.checklistbank.api.model.Description;
 import org.gbif.checklistbank.api.model.Distribution;
 import org.gbif.checklistbank.api.model.Identifier;
 import org.gbif.checklistbank.api.model.Image;
+import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.Reference;
 import org.gbif.checklistbank.api.model.VernacularName;
 import org.gbif.checklistbank.api.service.ChecklistService;
@@ -22,7 +23,13 @@ import org.gbif.checklistbank.api.service.ReferenceService;
 import org.gbif.checklistbank.api.service.VernacularNameService;
 import org.gbif.portal.action.BaseAction;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -53,6 +60,8 @@ public class DetailAction extends BaseAction {
   private Checklist checklist;
   private ChecklistUsage usage;
   private ChecklistUsage basionym;
+  private List<NameUsage> related = new ArrayList<NameUsage>();
+  private Map<UUID, Checklist> checklists = new HashMap<UUID, Checklist>();
   // TODO: remove the children property once the taxonomic browser is working via ajax
   private List<ChecklistUsage> children;
 
@@ -76,6 +85,16 @@ public class DetailAction extends BaseAction {
     } else {
       loadChecklistUsage();
     }
+
+    // load checklist lookup map
+    Set<UUID> cids = new HashSet<UUID>();
+    for (NameUsage u : related){
+      cids.add(u.getChecklistKey());
+    }
+    for (UUID u : cids){
+      checklists.put(u, checklistService.get(u));
+    }
+
     return SUCCESS;
   }
 
@@ -85,52 +104,53 @@ public class DetailAction extends BaseAction {
   }
 
   private void loadChecklistUsage() {
+    // various pagesizes used
+    Pageable page20 = new PagingRequest(0, 20);
+    Pageable page10 = new PagingRequest(0, 10);
+    Pageable page7 = new PagingRequest(0, 7);
+
     // basionym
     if (usage.getBasionymKey() != null) {
       basionym = usageService.get(usage.getBasionymKey(), getLocale());
     }
+
     // get children
-    PagingResponse<ChecklistUsage> childrenResponse = usageService.listChildren(id, getLocale(), null);
-    if (childrenResponse != null) {
-      children = childrenResponse.getResults();
+    PagingResponse<ChecklistUsage> childrenResponse = usageService.listChildren(id, getLocale(), page20);
+    children = childrenResponse.getResults();
+    // get related if linked to nub
+    if (usage.getNubKey() != null){
+      // add nub first
+      related.add(usageService.get(usage.getNubKey(), getLocale()));
+      // then others
+      PagingResponse<ChecklistUsage> relatedResponse = usageService.listByNubUsage(usage.getNubKey(), getLocale(), page7);
+      for (ChecklistUsage u : relatedResponse.getResults()){
+        // ignore this usage
+        if (!u.getKey().equals(usage.getKey())){
+          related.add(u);
+        }
+      }
     }
-    // load subresources with small page size = 10
-    Pageable page10 = new PagingRequest(0, 10);
     // get synonyms
     PagingResponse<ChecklistUsage> synonymResponse = usageService.listSynonyms(id, getLocale(), page10);
-    if (synonymResponse != null) {
-      usage.setSynonyms(synonymResponse.getResults());
-    }
+    usage.setSynonyms(synonymResponse.getResults());
     // get vernacular names
     PagingResponse<VernacularName> vernacularResponse = vernacularNameService.listByChecklistUsage(id, page10);
-    if (vernacularResponse != null) {
-      usage.setVernacularNames(vernacularResponse.getResults());
-    }
+    usage.setVernacularNames(vernacularResponse.getResults());
     // get references
     PagingResponse<Reference> referenceResponse = referenceService.listByChecklistUsage(id, page10);
-    if (referenceResponse != null) {
-      usage.setReferences(referenceResponse.getResults());
-    }
+    usage.setReferences(referenceResponse.getResults());
     // get descriptions
     PagingResponse<Description> descriptionResponse = descriptionService.listByChecklistUsage(id, page10);
-    if (descriptionResponse != null) {
-      usage.setDescriptions(descriptionResponse.getResults());
-    }
+    usage.setDescriptions(descriptionResponse.getResults());
     // get identifier
     PagingResponse<Identifier> identifierResponse = identifierService.listByChecklistUsage(id, page10);
-    if (identifierResponse != null) {
-      usage.setIdentifiers(identifierResponse.getResults());
-    }
+    usage.setIdentifiers(identifierResponse.getResults());
     // get distributions
     PagingResponse<Distribution> distributionResponse = distributionService.listByChecklistUsage(id, page10);
-    if (distributionResponse != null) {
-      usage.setDistributions(distributionResponse.getResults());
-    }
+    usage.setDistributions(distributionResponse.getResults());
     // get images
     PagingResponse<Image> imageResponse = imageService.listByChecklistUsage(id, page10);
-    if (imageResponse != null) {
-      usage.setImages(imageResponse.getResults());
-    }
+    usage.setImages(imageResponse.getResults());
   }
 
 
@@ -156,6 +176,14 @@ public class DetailAction extends BaseAction {
 
   public List<ChecklistUsage> getChildren() {
     return children;
+  }
+
+  public List<NameUsage> getRelated() {
+    return related;
+  }
+
+  public Map<UUID, Checklist> getChecklists() {
+    return checklists;
   }
 
   public boolean isNub() {

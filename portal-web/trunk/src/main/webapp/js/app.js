@@ -51,7 +51,7 @@ $(function() {
 
   // Activate source popovers
   $("a.sourcePopup").attr("title","Source").append('<img src="'+cfg.context+'/img/icons/questionmark.png"/>')
-  .sourcePopover({"message":"my source","remarks":"TEST remark"});
+    .sourcePopover({"message":$(this).attr("source"),"remarks":$(this).attr("remarks")});
 
   $("a.download")
     .bindDownloadPopover({explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
