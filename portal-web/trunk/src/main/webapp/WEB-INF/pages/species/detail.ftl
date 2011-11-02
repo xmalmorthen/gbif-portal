@@ -41,8 +41,8 @@
         <li><h4>${usage.numOccurrences}</h4>Occurrences</li>
         <#if usage.rank.isSpeciesOrBelow()>
           <li class="last"><h4>${usage.numDescendants}</h4>Infraspecies</li>
-        <#else>
-          <li class="last"><h4>${usage.numSpecies}</h4>Species</li>
+          <#else>
+            <li class="last"><h4>${usage.numSpecies}</h4>Species</li>
         </#if>
       </ul>
       <a href="#" title="Download Occurrences" class="download candy_blue_button"><span>Download occurrences</span></a>
@@ -55,12 +55,13 @@
 <content tag="tabs">
   <ul>
     <li class='selected'><a href="<@s.url value='/species/${id?c}'/>"><span>Information</span></a></li>
-    <li><a href="<@s.url value='/species/${id?c}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a></li>
-    <#if nub>
-      <li><a href="<@s.url value='/species/${id?c}/stats'/>" title="Stats"><span>Stats <sup>(2)</sup></span></a></li>
+    <li><a href="<@s.url value='/species/${id?c}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a>
+    </li>
+  <#if nub>
+    <li><a href="<@s.url value='/species/${id?c}/stats'/>" title="Stats"><span>Stats <sup>(2)</sup></span></a></li>
     <#else>
       <li><a href="<@s.url value='/species/${id?c}/verbatim'/>" title="Details"><span>Details</span></a></li>
-    </#if>
+  </#if>
   </ul>
 </content>
 
@@ -73,10 +74,10 @@
 
     <p>This is the <em>${usage.scientificName}</em> view, as seen by <a
             href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a> checklist.
-    <#if usage.nubKey?exists>
-      Remember that you can also check the <a href="<@s.url value='/species/${usage.nubKey}'/>">GBIF view
-      on ${usage.canonicalName!scientificName}</a>.
-    </#if>
+      <#if usage.nubKey?exists>
+        Remember that you can also check the <a href="<@s.url value='/species/${usage.nubKey}'/>">GBIF view
+        on ${usage.canonicalName!scientificName}</a>.
+      </#if>
       <br/>You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
       submitted by
       the data publisher.</p>
@@ -96,15 +97,16 @@
 
     <div class="left">
       <ul class="thumbs_list">
-        <#list usage.images as img>
-          <#if img_index==3 || !img_has_next>
-            <#assign lastClass="last"/>
-          </#if>
-          <li class="${lastClass!""}"><a href="#" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a></li>
-          <#if img_index==3>
-            <#break>
-          </#if>
-        </#list>
+      <#list usage.images as img>
+        <#if img_index==3 || !img_has_next>
+          <#assign lastClass="last"/>
+        </#if>
+        <li class="${lastClass!""}"><a href="#" class="images"><span><img
+                src="${img.thumbnail!img.image!"image missing url"}"/></span></a></li>
+        <#if img_index==3>
+          <#break>
+        </#if>
+      </#list>
       </ul>
 
       <h3>Full name</h3>
@@ -129,6 +131,7 @@
           <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
         </#if>
       </h3>
+
       <p>${d.description!}</p>
     </#list>
 
@@ -154,13 +157,14 @@
       <ul>
       <#list usage.identifiers as i>
         <#if i.identifierLink??>
-          <li><a href="${i.identifierLink}" title="${i.title!i.type!i.identifier}">${i.title!i.type!i.identifier}</a></li>
+          <li><a href="${i.identifierLink}" title="${i.title!i.type!i.identifier}">${i.title!i.type!i.identifier}</a>
+          </li>
         </#if>
       </#list>
         <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
       </ul>
 
-      <#--
+    <#--
     <#if usage.link?has_content>
       <h3>External Links</h3>
       <ul>
@@ -207,11 +211,16 @@
         <div class="inner">
           <div class="sp">
             <ul>
-			  <#list children as usage>
-			    <li species="${usage.numSpecies?c}" children="${usage.numChildren?c}"><span spid="${usage.key?c}" taxonID="${usage.key?c}">${usage.canonicalName}</span><a href="<@s.url value='http://staging.gbif.org:8080/portal-web-dynamic/species/${usage.key?c}'/>">see details</a>
-			  		<ul><li></li></ul>
-			  	</li>			  	
-			  </#list>  
+            <#list children as usage>
+              <li species="${usage.numSpecies?c}" children="${usage.numChildren?c}"><span spid="${usage.key?c}"
+                                                                                          taxonID="${usage.key?c}">${usage.canonicalName}</span><a
+                      href="<@s.url value='http://staging.gbif.org:8080/portal-web-dynamic/species/${usage.key?c}'/>">see
+                details</a>
+                <ul>
+                  <li></li>
+                </ul>
+              </li>
+            </#list>
             </ul>
           </div>
         </div>
@@ -308,19 +317,19 @@
 
     <div class="slideshow">
       <div class="photos">
-        <#list usage.images as img>
-          <#if img.image??>
-            <#if !img1?exists><#assign img1=img/></#if>
-            <img src="${img.image!}"/>
-          </#if>
-        </#list>
+      <#list usage.images as img>
+        <#if img.image??>
+          <#if !img1?exists><#assign img1=img/></#if>
+          <img src="${img.image!}"/>
+        </#if>
+      </#list>
       </div>
     </div>
 
-    <#-- <a href="${img1.image}"><img src="${img.image!}"/></a> -->
+  <#-- <a href="${img1.image}"><img src="${img.image!}"/></a> -->
 
     <div class="right">
-      <#if img1?exists>
+    <#if img1?exists>
       <div class="controllers">
         <h2>${common.limit(img1.title!img1.description!usage.canonicalName!"",38)}</h2>
         <a class="previous_slide" href="#" title="Previous image"></a>
@@ -328,31 +337,36 @@
       </div>
 
       <#if img1.description?has_content>
-      <h3>Description</h3>
-      <p>${common.limit(img1.description!img1.title!"",250)}</p>
+        <h3>Description</h3>
+
+        <p>${common.limit(img1.description!img1.title!"",250)}</p>
       </#if>
 
       <#if img1.publisher?has_content>
-      <h3>Image publisher</h3>
-      <p>${img1.publisher!"???"}</p>
+        <h3>Image publisher</h3>
+
+        <p>${img1.publisher!"???"}</p>
       </#if>
 
       <#if img1.checklistName?has_content>
-      <h3>Dataset</h3>
-      <p>${img1.checklistName!"???"}</p>
+        <h3>Dataset</h3>
+
+        <p>${img1.checklistName!"???"}</p>
       </#if>
 
       <#if (img1.creator!img1.created)?has_content>
-      <h3>Photographer</h3>
-      <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?short}</#if></p>
+        <h3>Photographer</h3>
+
+        <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
       </#if>
 
       <#if img1.license?has_content>
-      <h3>Copyright</h3>
-      <p>${img1.license}</p>
+        <h3>Copyright</h3>
+
+        <p>${img1.license}</p>
       </#if>
 
-      </#if>
+    </#if>
     </div>
   </div>
   <footer></footer>
@@ -432,8 +446,8 @@
       <div class="col">
         <div>
           <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                               title="Help"
-                                                                                                               id="help2"><img
+                                                                                                              title="Help"
+                                                                                                              id="help2"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
 
           <p class="note semi_bottom">Syntype by original designation</p>
@@ -444,8 +458,8 @@
 
         <div>
           <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                               title="Help"
-                                                                                                               id="help"><img
+                                                                                                              title="Help"
+                                                                                                              id="help"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
 
           <p class="note semi_bottom">Syntype by original designation</p>
@@ -460,8 +474,8 @@
       <div class="col">
         <div>
           <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                               title="Help"
-                                                                                                               id="help4"><img
+                                                                                                              title="Help"
+                                                                                                              id="help4"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
 
           <p class="note semi_bottom">Syntype by original designation</p>
@@ -472,8 +486,8 @@
 
         <div>
           <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                               title="Help"
-                                                                                                               id="help3"><img
+                                                                                                              title="Help"
+                                                                                                              id="help3"><img
                   src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
 
           <p class="note semi_bottom">Syntype by original designation</p>
@@ -504,27 +518,28 @@
 
     <div class="left">
       <div class="col">
-        <ul class="notes">
-        <#list usage.distributions as d>
-          <#if (d_index % 2) == 0>
-            <div>
-              <p class="no_bottom">
-                <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
-                <#if d.source?has_content>
-                  <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
-                </#if>
-              </p>
-              <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
-            </div>
+      <ul class="notes">
+      <#list usage.distributions as d>
+        <#if (d_index % 2) == 0>
+          <div>
+            <p class="no_bottom">
+              <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
+              <#if d.source?has_content>
+                <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
+              </#if>
+            </p>
+
+            <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
+          </div>
+        </#if>
+      <#-- only show 10 distributions at max. If we have 10 (index=9) we know there are more to show -->
+        <#if !d_has_next>
+        </ul>
+          <#if d_index==9>
+            <p><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></p>
           </#if>
-          <#-- only show 10 distributions at max. If we have 10 (index=9) we know there are more to show -->
-          <#if !d_has_next>
-            </ul>
-            <#if d_index==9>
-              <p><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></p>
-            </#if>
-          </#if>
-        </#list>
+        </#if>
+      </#list>
       </div>
 
       <div class="col">
@@ -538,6 +553,7 @@
                   <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
                 </#if>
               </p>
+
               <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
             </div>
           </#if>
@@ -577,7 +593,7 @@
 
       <p class="placeholder_temp">Oct 28, 2003</p>
 
-     <#if (usage.references?size>0)>
+    <#if (usage.references?size>0)>
       <h3>Bibliography</h3>
       <#list usage.references as ref>
         <p>
