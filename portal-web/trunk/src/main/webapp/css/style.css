@@ -3986,8 +3986,8 @@ a.next_slide:hover {
 }
 
 #content article .content .left .extended {
-  display: block;
-  float: left;
+  display: inline;
+  float: none;
   font-size: 13px;
   line-height: 18px;
 }

@@ -194,7 +194,8 @@
     <h2>Taxonomy <span class="subtitle">of ${usage.scientificName}</span></h2>
 
     <div class="left">
-      <h3>Taxonomic classification</h3>
+      <h3>Taxonomic classification  <div class="extended">[<a href="<@s.url value='/species/${id?c}/extended_taxonomy'/>">extended</a>]</div></h3> 
+
 
       <!-- TODO: merge the classification here with the trail below into one! -->
       <div class="taxonomic_class">
@@ -207,25 +208,29 @@
                   href="<@s.url value='/species/${key?c}'/>">${classification.get(key)}</a></li>
         </#list>
         </ul>
-        <div class="extended">(<a href="<@s.url value='/species/${id?c}/extended_taxonomy'/>">extended</a>)</div>
       </div>
 
-      <h3>Lower taxa</h3>
+      <h3>Taxonomic Classification1</h3>
 
       <div id="taxonomy">
+      	<div class="breadcrumb">
+			<li><a href="#">All</a></li>
+			<#assign classification=usage.higherClassificationMap />
+	        <#list classification?keys as key>
+				<li spid="${key?c}"><a href="#">${classification.get(key)}</a></li>
+	        </#list>
+      	</div>
         <div class="inner">
           <div class="sp">
             <ul>
 			  <#list children as usage>
 			    <li species="${usage.numSpecies?c}" children="${usage.numChildren?c}"><span spid="${usage.key?c}" taxonID="${usage.key?c}">${usage.canonicalName}</span><a href="<@s.url value='http://staging.gbif.org:8080/portal-web-dynamic/species/${usage.key?c}'/>">see details</a>
-			  		<ul><li></li></ul>
 			  	</li>			  	
 			  </#list>  
             </ul>
           </div>
         </div>
       </div>
-
     </div>
 
 
