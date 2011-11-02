@@ -62,7 +62,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * @param classEnum the type of the {@link Enum} used for facets
    */
   public BaseFacetedSearchAction(SearchService<T> searchService, Class<? extends Enum<F>> classEnum) {
-    super();
     this.searchService = searchService;
     this.facetCounts = new HashMap<String, List<Facet.Count>>();
     this.classEnum = classEnum;
