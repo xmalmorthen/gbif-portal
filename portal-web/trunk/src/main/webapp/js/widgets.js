@@ -1962,7 +1962,7 @@ $.fn.bindSlideshow = function(opt) {
 
       // Update the reference to $ps
       $ps = $("#"+id);
-      $ps.prepend('<div class="breadcrumb"><li class="last">All</li></div>');
+      //$ps.prepend('<div class="breadcrumb"><li class="last">All</li></div>');
       $breadcrumb = $ps.find(".breadcrumb");
 
       // Save the updated $ps reference into our data object
@@ -2046,17 +2046,17 @@ $.fn.bindSlideshow = function(opt) {
           // transform the last element of the breadcrumb in a link
           var $last_li = $breadcrumb.find("li:last");
           $last_li.removeClass("last");
-          $last_li.wrapInner('<a href="#" data-level="'+ level +'"></a>');
+          $last_li.wrapInner('<a href="#"></a>');
 
           // get the name of the taxonomy and add it to the breadcrumb
           var name = $(this).parent().find("span:first").html();
-          var item = '<li class="last" style="opacity:0;">' + name + '</li>';
+          var item = '<li spid="' + $(this).parent().find("span:first").attr("spid") + '" class="last" style="opacity:0;">' + name + '</li>';
           $breadcrumb.append(item);
           $breadcrumb.find("li:last").animate({opacity:1}, data.settings.transitionSpeed);
 
           // fix the z-index of the list we're about to show
-          var $ul = $(this).siblings("ul");
-          $ul.css("z-index", zIndex++);
+		  var $ul = $(this).parent().parent();		   
+          //$ul.css("z-index", zIndex++);
 		  $.getJSON("http://staging.gbif.org:8080/checklistbank-ws/checklist_usage/" + $(this).parent().find("span:first").attr("spid") + "/children?callback=?",
             function(data) {
               $htmlContent="";
@@ -2065,7 +2065,7 @@ $.fn.bindSlideshow = function(opt) {
 				$htmlContent=$htmlContent+"<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
 				$htmlContent=$htmlContent+this.scientificName
 				$htmlContent=$htmlContent+"</span>";
-				$htmlContent=$htmlContent+"<a href=\"http://staging.gbif.org:8080/portal-web-dynamic/species/" + this.key + "\">see details</a><ul><li></li></ul></li>";
+				$htmlContent=$htmlContent+"<a href=\"http://staging.gbif.org:8080/portal-web-dynamic/species/" + this.key + "\">see details</a></li>";
 				$count++;
             })
 		    $ul.html($htmlContent);
