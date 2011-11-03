@@ -2049,24 +2049,21 @@ $.fn.bindSlideshow = function(opt) {
           $last_li.wrapInner('<a href="#"></a>');
 
           // get the name of the taxonomy and add it to the breadcrumb
-          var name = $(this).parent().find("span:first").html();
-          var item = '<li spid="' + $(this).parent().find("span:first").attr("spid") + '" class="last" style="opacity:0;">' + name + '</li>';
-          $breadcrumb.append(item);
+          var $name = $(this).parent().find("span:first").html();
+		  var $spid = $(this).parent().find("span:first").attr("spid");
+          var $item = '<li spid="' + $spid + '" class="last" style="opacity:0;">' + $name + '</li>';
+          $breadcrumb.append($item);
           $breadcrumb.find("li:last").animate({opacity:1}, data.settings.transitionSpeed);
-
-          // fix the z-index of the list we're about to show
+		  var $wsURL = cfg.wsClb + "checklist_usage/" + $spid + "/children?callback=?";
 		  var $ul = $(this).parent().parent();		   
-          //$ul.css("z-index", zIndex++);
-		  $.getJSON("http://staging.gbif.org:8080/checklistbank-ws/checklist_usage/" + $(this).parent().find("span:first").attr("spid") + "/children?callback=?",
+		  $.getJSON($wsURL,
             function(data) {
               $htmlContent="";
-              var $count = 1;
               $(data.results).each(function() { 
-				$htmlContent=$htmlContent+"<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
-				$htmlContent=$htmlContent+this.canonicalName
-				$htmlContent=$htmlContent+"</span>";
-				$htmlContent=$htmlContent+"<a href=\"http://staging.gbif.org:8080/portal-web-dynamic/species/" + this.key + "\">see details</a></li>";
-				$count++;
+				$htmlContent+="<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
+				$htmlContent+=this.canonicalName
+				$htmlContent+="</span>";
+				$htmlContent+="<a href=\"" + cfg.context + "/species/" + this.key + "\">see details</a></li>";
             })
 		    $ul.html($htmlContent);
             addBarsCustom($ul);
@@ -2088,33 +2085,48 @@ $.fn.bindSlideshow = function(opt) {
 		var $BC = ($this).find(".breadcrumb");
 		var $ulBC = ($this).find(".sp ul");
 		var $spidBC = $(this).attr("spid");
-
-		  //displaying the children of the clicked species
-		  $.getJSON("http://staging.gbif.org:8080/checklistbank-ws/checklist_usage/" + $spidBC + "/children?callback=?",
+		var $cid = $(this).attr("cid");
+		var $wsURL = "";
+		if($spidBC<0) {
+			$wsURL = cfg.wsClb + "checklist/" + $cid + "/usages?callback=?"
+		}
+		else {
+			$wsURL = cfg.wsClb + "checklist_usage/" + $spidBC + "/children?callback=?"
+		}
+		//show the tax tree
+		  $.getJSON($wsURL,
             function(data) {
               $htmlContent="";
               $(data.results).each(function() { 
 				$htmlContent+="<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
 				$htmlContent+=this.canonicalName
 				$htmlContent+="</span>";
-				$htmlContent+="<a href=\"http://staging.gbif.org:8080/portal-web-dynamic/species/" + this.key + "\">see details</a></li>";
+				$htmlContent+="<a href=\"" + cfg.context + "/species/" + this.key + "\">see details</a></li>";
             })
 		    $ulBC.html($htmlContent);
             addBarsCustom($ulBC);
           });	
+		  		  
 		  $ulBC.show();			
 		  
-		  //recreating the breadcrumb
-		  $.getJSON("http://staging.gbif.org:8080/checklistbank-ws/checklist_usage/" + $spidBC + "?callback=?",
-            function(data) {
-              $htmlContent="<li spid=\"0\"><a href=\"#\">All</a></li>";
-			  $.each(data.higherClassificationMap, function(speciesId,speciesName) {
-				$htmlContent+="<li spid=\"" + speciesId + "\"><a href=\"#\">";
-				$htmlContent+=speciesName;
-				$htmlContent+="</a></li>";
-			  });
-			  $BC.html($htmlContent);
-          });
+		  // user click on "ALL" element in the breadcrumb, just display "ALL" on the breadcrumb
+          if($spidBC<0) {
+			$htmlContent="<li spid=\"-1\" cid=\"" + $cid +  "\"><a href=\"#\">All</a></li>";
+			$BC.html($htmlContent);
+		  }
+		  // show the normal classification breadcrumb
+		  else {
+		    $.getJSON(cfg.wsClb + "checklist_usage/" + $spidBC + "?callback=?",
+              function(data) {
+                $htmlContent="<li spid=\"-1\" cid=\"" + data.checklistKey +  "\"><a href=\"#\">All</a></li>";
+			    $.each(data.higherClassificationMap, function(speciesId,speciesName) {
+		  		  $htmlContent+="<li spid=\"" + speciesId + "\"><a href=\"#\">";
+	  			  $htmlContent+=speciesName;
+				  $htmlContent+="</a></li>";
+			    });
+			    $BC.html($htmlContent);
+             });
+		   }
 		  
           // move to the list and resize it
           $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {

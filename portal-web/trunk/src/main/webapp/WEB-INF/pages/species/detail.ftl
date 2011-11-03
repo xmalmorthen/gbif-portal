@@ -232,7 +232,7 @@
 
       <div id="taxonomy">
         <div class="breadcrumb">
-          <li><a href="#" spid="0">All</a></li>
+          <li spid="-1" cid="${usage.checklistKey}"><a href="#">All</a></li>
         <#assign classification=usage.higherClassificationMap />
         <#list classification?keys as key>
           <li spid="${key?c}"><a href="#">${classification.get(key)}</a></li>
