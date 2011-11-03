@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class BaseAction extends ActionSupport implements SessionAware, ServletRequestAware {
 
-  private static final Logger LOG = LoggerFactory.getLogger(BaseAction.class);
+  protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
   public static final String HTTP_NOT_FOUND = "404";
   public static final String HTTP_NOT_ALLOWED = "401";
