@@ -199,24 +199,9 @@
       <h3>Taxonomic classification  <div class="extended">[<a href="<@s.url value='/species/${id?c}/extended_taxonomy'/>">extended</a>]</div></h3> 
 
 
-      <!-- TODO: merge the classification here with the trail below into one! -->
-      <div class="taxonomic_class">
-        <ul class="taxonomy">
-
-          <li><a href="#">All</a></li>
-        <#assign classification=usage.higherClassificationMap />
-        <#list classification?keys as key>
-          <li <#if !key_has_next>class="last"</#if>><a
-                  href="<@s.url value='/species/${key?c}'/>">${classification.get(key)}</a></li>
-        </#list>
-        </ul>
-      </div>
-
-      <h3>Taxonomic Classification1</h3>
-
       <div id="taxonomy">
       	<div class="breadcrumb">
-			<li><a href="#">All</a></li>
+			<li><a href="#" spid="0">All</a></li>
 			<#assign classification=usage.higherClassificationMap />
 	        <#list classification?keys as key>
 				<li spid="${key?c}"><a href="#">${classification.get(key)}</a></li>

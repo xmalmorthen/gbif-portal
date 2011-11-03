@@ -2063,7 +2063,7 @@ $.fn.bindSlideshow = function(opt) {
               var $count = 1;
               $(data.results).each(function() { 
 				$htmlContent=$htmlContent+"<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
-				$htmlContent=$htmlContent+this.scientificName
+				$htmlContent=$htmlContent+this.canonicalName
 				$htmlContent=$htmlContent+"</span>";
 				$htmlContent=$htmlContent+"<a href=\"http://staging.gbif.org:8080/portal-web-dynamic/species/" + this.key + "\">see details</a></li>";
 				$count++;
@@ -2083,19 +2083,47 @@ $.fn.bindSlideshow = function(opt) {
       });
 
       // The user clicks on the breadcrumb…
-      $breadcrumb.find("a").live("click", function(e) {
+      $breadcrumb.find("li").live("click", function(e) {
         e.preventDefault();
+		var $BC = ($this).find(".breadcrumb");
+		var $ulBC = ($this).find(".sp ul");
+		var $spidBC = $(this).attr("spid");
 
+		  //displaying the children of the clicked species
+		  $.getJSON("http://staging.gbif.org:8080/checklistbank-ws/checklist_usage/" + $spidBC + "/children?callback=?",
+            function(data) {
+              $htmlContent="";
+              $(data.results).each(function() { 
+				$htmlContent+="<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
+				$htmlContent+=this.canonicalName
+				$htmlContent+="</span>";
+				$htmlContent+="<a href=\"http://staging.gbif.org:8080/portal-web-dynamic/species/" + this.key + "\">see details</a></li>";
+            })
+		    $ulBC.html($htmlContent);
+            addBarsCustom($ulBC);
+          });	
+		  $ulBC.show();			
+		  
+		  //recreating the breadcrumb
+		  $.getJSON("http://staging.gbif.org:8080/checklistbank-ws/checklist_usage/" + $spidBC + "?callback=?",
+            function(data) {
+              $htmlContent="<li spid=\"0\"><a href=\"#\">All</a></li>";
+			  $.each(data.higherClassificationMap, function(speciesId,speciesName) {
+				$htmlContent+="<li spid=\"" + speciesId + "\"><a href=\"#\">";
+				$htmlContent+=speciesName;
+				$htmlContent+="</a></li>";
+			  });
+			  $BC.html($htmlContent);
+          });
+		  
+          // move to the list and resize it
+          $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {
+            stop = false;
+            level++;
+            _resize($ps, $ulBC.find("> li").length, data.$this);
+          }});													
+		
         if (!stopBack && !stop) {
-
-          stopBack = true;
-
-          var gotoLevel = $(this).attr("data-level"); // get the level of destination
-          var $ul = $(this).siblings("ul").hide();
-
-          _goto($this, gotoLevel);
-          level = gotoLevel;
-
           // scroll to the top of the list
           $ps.find(".inner").data('jsp').scrollTo(0, 0, true);
         }
