@@ -163,10 +163,11 @@
       <#list usage.identifiers as i>
         <#if i.identifierLink??>
           <li><a href="${i.identifierLink}" title="${i.title!i.type!i.identifier}"><#if i.title?has_content>${i.title}<#else><@s.text name="enum.identifier.${i.type!'URL'}" /></#if></a></li>
-
         </#if>
       </#list>
-        <li><a href="#" title="EOL">EOL</a></li>
+      <#if usage.nubKey??>
+        <li><a href=" http://eol.org/gbif/${usage.nubKey?c}" title="EOL">EOL</a></li>
+      </#if>
         <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
       </ul>
 
