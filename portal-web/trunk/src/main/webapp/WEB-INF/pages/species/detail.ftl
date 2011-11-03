@@ -265,7 +265,7 @@
 
 <#if nub>
 <#-- ONLY FOR NUB PAGES -->
-<article class="map">
+<article class="map placeholder_temp">
   <header></header>
   <div id="map"></div>
   <!-- map controls -->
