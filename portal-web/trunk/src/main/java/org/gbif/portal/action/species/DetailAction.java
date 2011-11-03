@@ -205,11 +205,11 @@ public class DetailAction extends BaseAction {
 
         // use terrestrial and marine to make the habitat string more useful
         String terrString = null;
-        if (agg.isTerrestrial() && agg.isMarine()) {
+        if (agg.isTerrestrial() != null && agg.isTerrestrial() && agg.isMarine() != null && agg.isMarine()) {
           terrString = "Terrestrial and Marine";
-        } else if (agg.isTerrestrial()) {
+        } else if (agg.isTerrestrial() != null && agg.isTerrestrial()) {
           terrString = "Terrestrial";
-        } else if (agg.isMarine()) {
+        } else if (agg.isMarine() != null && agg.isMarine()) {
           terrString = "Marine";
         }
         if (terrString != null) {
