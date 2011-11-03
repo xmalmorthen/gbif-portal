@@ -2054,7 +2054,7 @@ $.fn.bindSlideshow = function(opt) {
           var $item = '<li spid="' + $spid + '" class="last" style="opacity:0;">' + $name + '</li>';
           $breadcrumb.append($item);
           $breadcrumb.find("li:last").animate({opacity:1}, data.settings.transitionSpeed);
-		  var $wsURL = cfg.wsClb + "checklist_usage/" + $spid + "/children?callback=?";
+		  var $wsURL = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?";
 		  var $ul = $(this).parent().parent();		   
 		  $.getJSON($wsURL,
             function(data) {
@@ -2091,7 +2091,7 @@ $.fn.bindSlideshow = function(opt) {
 			$wsURL = cfg.wsClb + "checklist/" + $cid + "/usages?callback=?"
 		}
 		else {
-			$wsURL = cfg.wsClb + "checklist_usage/" + $spidBC + "/children?callback=?"
+			$wsURL = cfg.wsClb + "name_usage/" + $spidBC + "/children?callback=?"
 		}
 		//show the tax tree
 		  $.getJSON($wsURL,
@@ -2116,7 +2116,7 @@ $.fn.bindSlideshow = function(opt) {
 		  }
 		  // show the normal classification breadcrumb
 		  else {
-		    $.getJSON(cfg.wsClb + "checklist_usage/" + $spidBC + "?callback=?",
+		    $.getJSON(cfg.wsClb + "name_usage/" + $spidBC + "?callback=?",
               function(data) {
                 $htmlContent="<li spid=\"-1\" cid=\"" + data.checklistKey +  "\"><a href=\"#\">All</a></li>";
 			    $.each(data.higherClassificationMap, function(speciesId,speciesName) {
