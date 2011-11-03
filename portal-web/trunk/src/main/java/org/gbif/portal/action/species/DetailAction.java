@@ -8,6 +8,7 @@ import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.api.model.ChecklistUsage;
 import org.gbif.checklistbank.api.model.Identifier;
 import org.gbif.checklistbank.api.model.NameUsage;
+import org.gbif.checklistbank.api.model.SpeciesProfile;
 import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.ChecklistUsageService;
 import org.gbif.checklistbank.api.service.DescriptionService;
@@ -15,18 +16,23 @@ import org.gbif.checklistbank.api.service.DistributionService;
 import org.gbif.checklistbank.api.service.IdentifierService;
 import org.gbif.checklistbank.api.service.ImageService;
 import org.gbif.checklistbank.api.service.ReferenceService;
+import org.gbif.checklistbank.api.service.SpeciesProfileService;
 import org.gbif.checklistbank.api.service.VernacularNameService;
 import org.gbif.portal.action.BaseAction;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.UUID;
 
 import com.google.inject.Inject;
+import freemarker.template.utility.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +56,8 @@ public class DetailAction extends BaseAction {
   private ImageService imageService;
   @Inject
   private DistributionService distributionService;
+  @Inject
+  private SpeciesProfileService speciesProfileService;
 
   private Integer id;
   private Checklist checklist;
@@ -89,10 +97,10 @@ public class DetailAction extends BaseAction {
 
     // load checklist lookup map
     Set<UUID> cids = new HashSet<UUID>();
-    for (NameUsage u : related){
+    for (NameUsage u : related) {
       cids.add(u.getChecklistKey());
     }
-    for (UUID u : cids){
+    for (UUID u : cids) {
       checklists.put(u, checklistService.get(u));
     }
 
@@ -113,11 +121,12 @@ public class DetailAction extends BaseAction {
     children = childrenResponse.getResults();
 
     // get non nub related usages
-    if (usage.getNubKey() != null){
-      PagingResponse<ChecklistUsage> relatedResponse = usageService.listByNubUsage(usage.getNubKey(), getLocale(), page7);
-      for (ChecklistUsage u : relatedResponse.getResults()){
+    if (usage.getNubKey() != null) {
+      PagingResponse<ChecklistUsage> relatedResponse =
+        usageService.listByNubUsage(usage.getNubKey(), getLocale(), page7);
+      for (ChecklistUsage u : relatedResponse.getResults()) {
         // ignore this usage
-        if (!u.getKey().equals(usage.getKey())){
+        if (!u.getKey().equals(usage.getKey())) {
           related.add(u);
         }
       }
@@ -147,7 +156,7 @@ public class DetailAction extends BaseAction {
 
   private void loadChecklistUsageSpecifics() {
     // add nub as first related usage
-    if (usage.getNubKey() != null){
+    if (usage.getNubKey() != null) {
       related.addFirst(usageService.get(usage.getNubKey(), getLocale()));
     }
     // get vernacular names
@@ -160,6 +169,61 @@ public class DetailAction extends BaseAction {
     usage.setDistributions(distributionService.listByChecklistUsage(id, page10).getResults());
     // get images
     usage.setImages(imageService.listByChecklistUsage(id, page10).getResults());
+    // get species profiles
+    PagingResponse<SpeciesProfile> speciesProfileResponse = speciesProfileService.listByChecklistUsage(id, page10);
+    if (speciesProfileResponse != null) {
+      List<SpeciesProfile> rawResults = speciesProfileResponse.getResults();
+      if (rawResults.size() == 1) {
+        usage.setSpeciesProfiles(rawResults);
+      } else {
+        // build one representative species profile to show to the view
+        SpeciesProfile agg = new SpeciesProfile();
+        SortedSet<String> habitats = new TreeSet<String>();
+        SortedSet<String> lifeForms = new TreeSet<String>();
+        SortedSet<String> livingPeriods = new TreeSet<String>();
+        for (SpeciesProfile sp : rawResults) {
+          agg.setAgeInDays(nullSafeMax(agg.getAgeInDays(), sp.getAgeInDays()));
+          agg.setMassInGram(nullSafeMax(agg.getMassInGram(), sp.getMassInGram()));
+          agg.setSizeInMillimeter(nullSafeMax(agg.getSizeInMillimeter(), sp.getSizeInMillimeter()));
+          agg.setHybrid(nullSafeOr(agg.isHybrid(), sp.isHybrid()));
+          agg.setMarine(nullSafeOr(agg.isMarine(), sp.isMarine()));
+          agg.setTerrestrial(nullSafeOr(agg.isTerrestrial(), sp.isTerrestrial()));
+          agg.setExtinct(nullSafeOr(agg.isExtinct(), sp.isExtinct()));
+
+          if (sp.getHabitat() != null) habitats.add(StringUtil.capitalize(sp.getHabitat()));
+          if (sp.getLifeForm() != null) lifeForms.add(StringUtil.capitalize(sp.getLifeForm()));
+          if (sp.getLivingPeriod() != null) livingPeriods.add(StringUtil.capitalize(sp.getLivingPeriod()));
+        }
+        String habitatString = habitats.toString();
+        if (habitatString.length() > 0) agg.setHabitat(habitatString.substring(1, habitatString.length() - 1));
+        String lifeFormString = lifeForms.toString();
+        if (lifeFormString.length() > 0) agg.setLifeForm(lifeFormString.substring(1, lifeFormString.length() - 1));
+        String livingPeriodString = livingPeriods.toString();
+        if (livingPeriodString.length() > 0) {
+          agg.setLivingPeriod(livingPeriodString.substring(1, livingPeriodString.length() - 1));
+        }
+
+        // use terrestrial and marine to make the habitat string more useful
+        String terrString = null;
+        if (agg.isTerrestrial() && agg.isMarine()) {
+          terrString = "Terrestrial and Marine";
+        } else if (agg.isTerrestrial()) {
+          terrString = "Terrestrial";
+        } else if (agg.isMarine()) {
+          terrString = "Marine";
+        }
+        if (terrString != null) {
+          if (agg.getHabitat() == null) {
+            agg.setHabitat(terrString);
+          } else {
+            agg.setHabitat(terrString + ": " + agg.getHabitat());
+          }
+        }
+        List<SpeciesProfile> output = new ArrayList<SpeciesProfile>();
+        output.add(agg);
+        usage.setSpeciesProfiles(output);
+      }
+    }
   }
 
 
@@ -200,5 +264,23 @@ public class DetailAction extends BaseAction {
       return true;
     }
     return false;
+  }
+
+  private Integer nullSafeMax(Integer a, Integer b) {
+    if (a == null) return b;
+    if (b == null) return a;
+    return Math.max(a, b);
+  }
+
+  private Boolean nullSafeOr(Boolean a, Boolean b) {
+    if (a == null) return b;
+    if (b == null) return a;
+    return (a || b);
+  }
+
+  private String nullSafeConcat(String a, String b) {
+    if (a == null) return b;
+    if (b == null) return a;
+    return a + ", " + b;
   }
 }
