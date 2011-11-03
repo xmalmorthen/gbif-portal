@@ -108,15 +108,14 @@
       </ul>
 
       <h3>Full name</h3>
-
       <p>${usage.scientificName}</p>
 
-      <h3>Status</h3>
-
-      <p>${usage.taxonomicStatus!"?"}</p>
+      <#if usage.taxonomicStatus??>
+        <h3>Status</h3>
+        <p>${usage.taxonomicStatus}</p>
+      </#if>
 
       <h3>Living period</h3>
-
       <p class="placeholder_temp">Quaternary.</p>
 
       <h3>Habitat</h3>
@@ -134,23 +133,24 @@
 
     </div>
     <div class="right">
-      <h3>Common names</h3>
-      <ul>
-      <#assign more=false/>
-      <#list usage.vernacularNames as v>
-        <#if v.vernacularName?has_content>
-          <li>${v.vernacularName} <span class="small">${v.language!}</span></li>
+      <#if (usage.vernacularNames?size>0)>
+        <h3>Common names</h3>
+        <ul>
+        <#assign more=false/>
+        <#list usage.vernacularNames as v>
+          <#if v.vernacularName?has_content>
+            <li>${v.vernacularName} <span class="small">${v.language!}</span></li>
+          </#if>
+          <#if v_index==8>
+            <#assign more=true/>
+            <#break />
+          </#if>
+        </#list>
+        </ul>
+        <#if more>
+          <p><a class="more_link" href="<@s.url value='/species/${id?c}/vernacularnames'/>">see all</a></p>
         </#if>
-        <#if v_index==8>
-          <#assign more=true/>
-          <#break />
-        </#if>
-      </#list>
-      </ul>
-      <#if more>
-        <p><a class="more_link" href="<@s.url value='/species/${id?c}/verncularnames'/>">see all</a></p>
       </#if>
-
     <#if basionym?has_content>
       <h3>Original Name</h3>
 
@@ -162,7 +162,8 @@
       <ul>
       <#list usage.identifiers as i>
         <#if i.identifierLink??>
-          <li><a href="${i.identifierLink}" title="${i.title!i.type!i.identifier}">${i.title!i.type!i.identifier}</a></li>
+          <li><a href="${i.identifierLink}" title="${i.title!i.type!i.identifier}"><#if i.title?has_content>${i.title}<#else><@s.text name="enum.identifier.${i.type!'URL'}" /></#if></a></li>
+
         </#if>
       </#list>
         <li><a href="#" title="EOL">EOL</a></li>
@@ -317,6 +318,7 @@
 </article>
 </#if>
 
+<#if (usage.images?size>0)>
 <article id="images" class="photo_gallery">
   <div class="content">
 
@@ -371,6 +373,7 @@
   </div>
   <footer></footer>
 </article>
+</#if>
 
 <article id="appearsin">
   <header></header>
@@ -511,6 +514,7 @@
 </article>
 </#if>
 
+<#if (usage.distributions?size>0)>
 <article id="distribution">
   <header></header>
   <div class="content">
@@ -572,23 +576,26 @@
   </div>
   <footer></footer>
 </article>
+</#if>
 
+<#if usage.publishedIn?has_content || usage.accordingTo?has_content || (usage.references?size>0)>
 <article id="references">
   <header></header>
   <div class="content">
     <h2>Academic references</h2>
 
     <div class="left">
-      <h3>Published In</h3>
+      <#if usage.publishedIn?has_content>
+        <h3>Published In</h3>
+        <p>${usage.publishedIn}</p>
+      </#if>
 
-      <p>${usage.publishedIn!"?"}</p>
-
-      <h3>According to</h3>
-
-      <p>${usage.accordingTo!"?"}</p>
+      <#if usage.accordingTo?has_content>
+        <h3>According to</h3>
+        <p>${usage.accordingTo}</p>
+      </#if>
 
       <h3>Review date</h3>
-
       <p class="placeholder_temp">Oct 28, 2003</p>
 
      <#if (usage.references?size>0)>
@@ -612,6 +619,7 @@
   </div>
   <footer></footer>
 </article>
+</#if>
 
 <article class="notice">
   <header></header>
