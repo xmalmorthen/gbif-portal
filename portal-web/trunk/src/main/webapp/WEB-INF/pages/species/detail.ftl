@@ -119,7 +119,9 @@
       <p>${usage.taxonomicStatus}</p>
     </#if>
 
-    <#assign sp = usage.speciesProfiles[0]/>
+    <#if usage.speciesProfiles?? && usage.speciesProfiles[0]??>
+      <#assign sp = usage.speciesProfiles[0]/>
+    </#if>
     <#if sp??>
       <#if sp.livingPeriod??>
         <h3>Living period</h3>
