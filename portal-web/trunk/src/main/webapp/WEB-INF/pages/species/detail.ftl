@@ -572,9 +572,9 @@
           <#if ref.doi?has_content><br/>DOI:<a href="http://dx.doi.org/${ref.doi}">${ref.doi}</a></#if>
         </p>
       <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
-        <#if ref_index==4>
+        <#if ref_index==7>
           <p><a class="more_link" href="<@s.url value='/species/${id?c}/references'/>">see all</a></p>
-        <#break />
+          <#break />
         </#if>
       </#list>
     </#if>
