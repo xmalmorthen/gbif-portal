@@ -2124,10 +2124,11 @@ $.fn.bindSlideshow = function(opt) {
 	  			  $htmlContent+=speciesName;
 				  $htmlContent+="</a></li>";
 			    });
-			    $BC.html($htmlContent);
+				$htmlContent+="<li class=\"last\" style=\"opacity:1;\" spid=\"" + data.key + "\">" + data.canonicalName + "</li>";
+				$BC.html($htmlContent);
              });
 		   }
-		  
+
           // move to the list and resize it
           $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {
             stop = false;

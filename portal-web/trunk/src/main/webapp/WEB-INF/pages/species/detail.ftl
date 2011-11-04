@@ -183,6 +183,7 @@
         <#list classification?keys as key>
           <li spid="${key?c}"><a href="#">${classification.get(key)}</a></li>
         </#list>
+        <li class="last">${usage.canonicalName}</li>
         </div>
         <div class="inner">
           <div class="sp">
@@ -190,7 +191,7 @@
             <#list children as usage>
               <li species="${usage.numSpecies?c}" children="${usage.numChildren?c}"><span spid="${usage.key?c}"
                                                                                           taxonID="${usage.key?c}">${usage.canonicalOrScientificName!}</span><a
-                      href="<@s.url value='http://staging.gbif.org:8080/portal-web-dynamic/species/${usage.key?c}'/>">see
+                      href="<@s.url value='/species/${usage.key?c}'/>">see
                 details</a>
               </li>
             </#list>
