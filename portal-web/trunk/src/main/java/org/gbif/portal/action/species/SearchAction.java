@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 /**
  * The action for all species search operations.
  */
-public class SearchAction extends BaseFacetedSearchAction<NameUsage<?>, ChecklistBankFacetParameter> {
+public class SearchAction extends BaseFacetedSearchAction<NameUsage, ChecklistBankFacetParameter> {
 
   /**
    * 
