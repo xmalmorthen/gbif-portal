@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
 <html>
 <head>
-  <title>Synonyms of ${usage.canonicalOrScientificName!}</title>
+  <title>Vernacular Names for ${usage.canonicalOrScientificName!}</title>
   <meta name="menu" content="species"/>
 </head>
 <body class="species">
@@ -20,7 +20,7 @@
 
       <div class="header">
         <div class="left">
-          <h2>${page.count!} Synonyms for "${usage.canonicalOrScientificName!}"</h2>
+          <h2>${page.count!""} References for "${usage.canonicalOrScientificName!}"</h2>
         </div>
         <div class="right"><h3>Refine your search</h3></div>
       </div>
@@ -29,11 +29,23 @@
 
         <#list page.results as item>
         <div class="result">
-          <h2><strong>${item.scientificName}</strong><span class="note"></span></h2>
+          <h2><strong>${item.title!item.citation!}</strong>
+            <span class="note">${item.type!}<#if item.link?has_content> <a href="" target="_blank">link</a></#if></span>
+          </h2>
           <#if usage.nub>
             <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" remarks="${checklists.get(item.checklistKey).title}"></a>
           </#if>
-          <div class="footer">${item.taxonomicStatus!} ${item.rank!}</div>
+          <div class="footer">
+            <#if item.citation?has_content>
+              ${item.citation}
+            <#else>
+              ${item.author!} ${item.title!} ${(item.date?date?string)!}
+            </#if>
+            <br/>
+            <#if item.doi?has_content>
+              <a href="http://dx.doi.org/${item.doi}" target="_blank">DOI ${item.doi}</a>
+            </#if>
+        </div>
         </div>
         </#list>
 
@@ -45,10 +57,11 @@
 
       <div class="right">
         <div class="refine placeholder_temp">
-          <h4>Type of synonym</h4>
+          <h4>Author</h4>
           <a href="#" title="Any">Any</a>
         </div>
       </div>
+
 
     </div>
     <footer></footer>

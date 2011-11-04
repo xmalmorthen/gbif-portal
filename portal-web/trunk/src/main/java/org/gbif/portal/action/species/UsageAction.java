@@ -6,6 +6,11 @@ import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.NameUsageService;
 import org.gbif.portal.action.BaseAction;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import com.google.inject.Inject;
 
 public class UsageAction extends BaseAction{
@@ -17,6 +22,7 @@ public class UsageAction extends BaseAction{
   protected Integer id;
   protected NameUsage usage;
   protected Checklist checklist;
+  protected Map<UUID, Checklist> checklists = new HashMap<UUID, Checklist>();
 
   public boolean loadUsage() {
     if (id == null) {
@@ -33,6 +39,17 @@ public class UsageAction extends BaseAction{
     return true;
   }
 
+  /**
+   * Populates the checklists map with the checklists for the given keys.
+   * The method does not remove existing entries and can be called many times to add additional, new checklists.
+   * @param checklistKeys
+   */
+  public void loadChecklists(Collection<UUID> checklistKeys) {
+    for (UUID u : checklistKeys) {
+      checklists.put(u, checklistService.get(u));
+    }
+  }
+
   public void setId(Integer id) {
     this.id = id;
   }
@@ -47,5 +64,9 @@ public class UsageAction extends BaseAction{
 
   public Checklist getChecklist() {
     return checklist;
+  }
+
+  public Map<UUID, Checklist> getChecklists() {
+    return checklists;
   }
 }

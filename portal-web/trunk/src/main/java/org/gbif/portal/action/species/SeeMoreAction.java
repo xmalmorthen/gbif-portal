@@ -5,6 +5,10 @@ import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.NameUsageComponent;
 import org.gbif.checklistbank.api.service.NameUsageComponentService;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 public class SeeMoreAction<T extends NameUsageComponent> extends UsageAction{
   private PagingResponse<T> page;
   private long offset = 0;
@@ -22,6 +26,16 @@ public class SeeMoreAction<T extends NameUsageComponent> extends UsageAction{
 
     PagingRequest p = new PagingRequest(offset, 5);
     page = service.listByUsage(id, p);
+
+    // load checklist lookup map if its a nub usage
+    if (usage.isNub()){
+      Set<UUID> cids = new HashSet<UUID>();
+      for (T comp: page.getResults()) {
+        cids.add(comp.getChecklistKey());
+      }
+      loadChecklists(cids);
+    }
+
     return SUCCESS;
   }
 

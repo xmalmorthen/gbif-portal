@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
 <html>
 <head>
-  <title>Vernacular Names for ${usage.canonicalName!usage.scientificName!}</title>
+  <title>Vernacular Names for ${usage.canonicalOrScientificName!}</title>
   <meta name="menu" content="species"/>
 </head>
 <body class="species">
@@ -10,7 +10,7 @@
 
   <div class="back">
     <div class="content">
-      <a href="<@s.url value='/species/${id!}'/>" title="Back to species overview">Back to species overview</a>
+      <a href="<@s.url value='/species/${id?c}'/>" title="Back to species overview">Back to species overview</a>
     </div>
   </div>
 
@@ -20,7 +20,7 @@
 
       <div class="header">
         <div class="left">
-          <h2>23 names for "${usage.canonicalName!usage.scientificName!}"</h2>
+          <h2>${page.count!} Vernacular Names for "${usage.canonicalOrScientificName!}"</h2>
         </div>
         <div class="right"><h3>Refine your search</h3></div>
       </div>
@@ -30,8 +30,10 @@
         <#list page.results as item>
         <div class="result">
           <h2><strong>${item.vernacularName}</strong><span class="note">${item.language!}</span></h2>
-          <#if item.source?has_content>
-            <a class="sourcePopup" id="source${item.key?c}" source="${item.source}"></a>
+          <#if usage.nub || item.source?has_content>
+            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}"
+            <#if usage.nub>remarks="<a href='<@s.url value='/dataset/${item.checklistKey}'/>'>${checklists.get(item.checklistKey).title}</a>"</#if>
+            ></a>
           </#if>
           <div class="footer">${item.lifeStage!} ${item.sex!} ${item.country!} ${item.area!}</div>
         </div>
@@ -44,7 +46,10 @@
       </div>
 
       <div class="right">
-
+        <div class="refine placeholder_temp">
+          <h4>Language</h4>
+          <a href="#" title="Any">Any</a>
+        </div>
       </div>
 
     </div>

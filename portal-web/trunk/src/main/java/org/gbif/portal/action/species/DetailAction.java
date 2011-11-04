@@ -3,7 +3,6 @@ package org.gbif.portal.action.species;
 import org.gbif.api.paging.Pageable;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
-import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.api.model.Identifier;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.SpeciesProfile;
@@ -16,11 +15,9 @@ import org.gbif.checklistbank.api.service.SpeciesProfileService;
 import org.gbif.checklistbank.api.service.VernacularNameService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -48,7 +45,6 @@ public class DetailAction extends UsageAction {
 
   private NameUsage basionym;
   private LinkedList<NameUsage> related = new LinkedList<NameUsage>();
-  private Map<UUID, Checklist> checklists = new HashMap<UUID, Checklist>();
   // TODO: remove the children property once the taxonomic browser is working via ajax
   private List<NameUsage> children;
 
@@ -72,9 +68,7 @@ public class DetailAction extends UsageAction {
     for (NameUsage u : related) {
       cids.add(u.getChecklistKey());
     }
-    for (UUID u : cids) {
-      checklists.put(u, checklistService.get(u));
-    }
+    loadChecklists(cids);
 
     return SUCCESS;
   }
@@ -187,10 +181,6 @@ public class DetailAction extends UsageAction {
 
   public List<NameUsage> getRelated() {
     return related;
-  }
-
-  public Map<UUID, Checklist> getChecklists() {
-    return checklists;
   }
 
   public boolean isNub() {

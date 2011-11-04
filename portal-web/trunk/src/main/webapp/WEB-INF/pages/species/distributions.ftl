@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
 <html>
 <head>
-  <title>Synonyms of ${usage.canonicalOrScientificName!}</title>
+  <title>Vernacular Names for ${usage.canonicalOrScientificName!}</title>
   <meta name="menu" content="species"/>
 </head>
 <body class="species">
@@ -20,32 +20,37 @@
 
       <div class="header">
         <div class="left">
-          <h2>${page.count!} Synonyms for "${usage.canonicalOrScientificName!}"</h2>
+          <h2>${page.count!} Distributions for "${usage.canonicalOrScientificName!}"</h2>
         </div>
         <div class="right"><h3>Refine your search</h3></div>
       </div>
 
       <div class="left">
-
         <#list page.results as item>
         <div class="result">
-          <h2><strong>${item.scientificName}</strong><span class="note"></span></h2>
-          <#if usage.nub>
-            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" remarks="${checklists.get(item.checklistKey).title}"></a>
+          <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong><span class="note">${item.status!"Present"}</span></h2>
+          <#if usage.nub || item.source?has_content>
+            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" <#if usage.nub>remarks="${checklists.get(item.checklistKey).title}"</#if>></a>
           </#if>
-          <div class="footer">${item.taxonomicStatus!} ${item.rank!}</div>
+          <div class="footer">
+            ${item.locationId!} ${item.country!} ${item.locality!}
+          </div>
+          <div class="footer">
+            ${item.lifeStage!} ${item.temporal!} <#if item.startDayOfYear?? || item.endDayOfYear??>Days of the year: ${item.startDayOfYear!}-${item.endDayOfYear!}</#if>
+          </div>
+          <div class="footer">
+            ${item.threatStatus!} ${item.establishmentMeans!} ${item.appendixCites!}
+          </div>
         </div>
         </#list>
-
         <div class="footer">
           <@paging.pagination page=page url=currentUrl/>
         </div>
-
       </div>
 
       <div class="right">
         <div class="refine placeholder_temp">
-          <h4>Type of synonym</h4>
+          <h4>Continent</h4>
           <a href="#" title="Any">Any</a>
         </div>
       </div>
