@@ -31,7 +31,7 @@
         <div class="result">
           <h2><strong>${item.scientificName}</strong><span class="note"></span></h2>
           <#if usage.nub>
-            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" remarks="${checklists.get(item.checklistKey).title}"></a>
+            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" remarks="${checklists.get(item.checklistKey).name}"></a>
           </#if>
           <div class="footer">${item.taxonomicStatus!} ${item.rank!}</div>
         </div>

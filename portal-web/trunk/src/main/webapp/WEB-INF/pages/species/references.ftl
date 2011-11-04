@@ -33,7 +33,7 @@
             <span class="note">${item.type!}<#if item.link?has_content> <a href="" target="_blank">link</a></#if></span>
           </h2>
           <#if usage.nub>
-            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" remarks="${checklists.get(item.checklistKey).title}"></a>
+            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" remarks="${checklists.get(item.checklistKey).name}"></a>
           </#if>
           <div class="footer">
             <#if item.citation?has_content>

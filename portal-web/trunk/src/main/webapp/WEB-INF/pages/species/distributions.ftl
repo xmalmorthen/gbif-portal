@@ -30,7 +30,7 @@
         <div class="result">
           <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong><span class="note">${item.status!"Present"}</span></h2>
           <#if usage.nub || item.source?has_content>
-            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" <#if usage.nub>remarks="${checklists.get(item.checklistKey).title}"</#if>></a>
+            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" <#if usage.nub>remarks="${checklists.get(item.checklistKey).name}"</#if>></a>
           </#if>
           <div class="footer">
             ${item.locationId!} ${item.country!} ${item.locality!}

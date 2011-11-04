@@ -24,7 +24,7 @@ public class SeeMoreAction<T extends NameUsageComponent> extends UsageAction{
       return HTTP_NOT_FOUND;
     }
 
-    PagingRequest p = new PagingRequest(offset, 5);
+    PagingRequest p = new PagingRequest(offset, 25);
     page = service.listByUsage(id, p);
 
     // load checklist lookup map if its a nub usage
