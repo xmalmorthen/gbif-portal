@@ -30,7 +30,8 @@
         <div class="result">
           <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong><span class="note">${item.status!"Present"}</span>
           <#if usage.nub || item.source?has_content>
-            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" <#if usage.nub>remarks="${checklists.get(item.checklistKey).name}"</#if>></a>
+            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}"
+               title="<#if usage.nub><a href='<@s.url value='/species/${item.usageKey?c}'/>'>${checklists.get(item.checklistKey).name}</a><#else>Source</#if>"></a>
           </#if>
           </h2>
           <div class="footer">

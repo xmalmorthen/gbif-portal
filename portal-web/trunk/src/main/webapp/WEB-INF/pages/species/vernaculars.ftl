@@ -32,7 +32,7 @@
           <h2><strong>${item.vernacularName}</strong><span class="note">${item.language!}</span>
           <#if usage.nub || item.source?has_content>
             <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}"
-            <#if usage.nub>remarks="<a href='<@s.url value='/dataset/${item.checklistKey}'/>'>${checklists.get(item.checklistKey).name}</a>"</#if>
+            <#if usage.nub>title="<a href='<@s.url value='/species/${item.usageKey?c}'/>'>${checklists.get(item.checklistKey).name}</a>"</#if>
             ></a>
           </#if>
           </h2>

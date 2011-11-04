@@ -32,7 +32,7 @@
           <h2><strong>${item.title!item.citation!}</strong>
             <span class="note">${item.type!}<#if item.link?has_content> <a href="" target="_blank">link</a></#if></span>
             <#if usage.nub>
-              <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" remarks="${checklists.get(item.checklistKey).name}"></a>
+              <a class="sourcePopup" id="source${item.key?c}" title="Source" source="<a href='<@s.url value='/species/${item.usageKey?c}'/>'>${checklists.get(item.checklistKey).name}</a>"></a>
             </#if>
           </h2>
           <div class="footer">

@@ -50,8 +50,9 @@ $(function() {
   });
 
   // Activate source popovers
-  $("a.sourcePopup").attr("title","Source").append('<img src="'+cfg.context+'/img/icons/questionmark.png"/>')
-    .sourcePopover({"message":$(this).attr("source"),"remarks":$(this).attr("remarks")});
+  $("a.sourcePopup").append('<img src="'+cfg.context+'/img/icons/questionmark.png"/>').each(function(idx, obj){
+      $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("source"),"remarks":$(obj).attr("remarks")});
+  });
 
   $("a.download")
     .bindDownloadPopover({explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
