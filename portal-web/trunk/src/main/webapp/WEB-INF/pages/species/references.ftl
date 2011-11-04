@@ -31,10 +31,10 @@
         <div class="result">
           <h2><strong>${item.title!item.citation!}</strong>
             <span class="note">${item.type!}<#if item.link?has_content> <a href="" target="_blank">link</a></#if></span>
+            <#if usage.nub>
+              <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" remarks="${checklists.get(item.checklistKey).name}"></a>
+            </#if>
           </h2>
-          <#if usage.nub>
-            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" remarks="${checklists.get(item.checklistKey).name}"></a>
-          </#if>
           <div class="footer">
             <#if item.citation?has_content>
               ${item.citation}

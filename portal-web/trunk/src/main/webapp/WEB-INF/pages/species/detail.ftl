@@ -437,7 +437,7 @@
             Rech. 12083 (W!).</p>
         </div>
 
-        <p><a class="more_link" href="<@s.url value='/usage/${id?c}/typespecimens'/>">see all</a></p>
+        <p><a class="more_link" href="<@s.url value='/species/${id?c}/typespecimens'/>">see all</a></p>
       </div>
 
       <div class="col">
@@ -572,8 +572,9 @@
           <#if ref.doi?has_content><br/>DOI:<a href="http://dx.doi.org/${ref.doi}">${ref.doi}</a></#if>
         </p>
       <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
-        <#if !ref_has_next && ref_index==9>
-          <p><a class="more_link" href="<@s.url value='/usage/${id?c}/references'/>">see all</a></p>
+        <#if ref_index==4>
+          <p><a class="more_link" href="<@s.url value='/species/${id?c}/references'/>">see all</a></p>
+        <#break />
         </#if>
       </#list>
     </#if>

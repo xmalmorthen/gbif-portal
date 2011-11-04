@@ -28,10 +28,11 @@
       <div class="left">
         <#list page.results as item>
         <div class="result">
-          <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong><span class="note">${item.status!"Present"}</span></h2>
+          <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong><span class="note">${item.status!"Present"}</span>
           <#if usage.nub || item.source?has_content>
             <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" <#if usage.nub>remarks="${checklists.get(item.checklistKey).name}"</#if>></a>
           </#if>
+          </h2>
           <div class="footer">
             ${item.locationId!} ${item.country!} ${item.locality!}
           </div>

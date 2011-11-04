@@ -29,12 +29,13 @@
 
         <#list page.results as item>
         <div class="result">
-          <h2><strong>${item.vernacularName}</strong><span class="note">${item.language!}</span></h2>
+          <h2><strong>${item.vernacularName}</strong><span class="note">${item.language!}</span>
           <#if usage.nub || item.source?has_content>
             <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}"
             <#if usage.nub>remarks="<a href='<@s.url value='/dataset/${item.checklistKey}'/>'>${checklists.get(item.checklistKey).name}</a>"</#if>
             ></a>
           </#if>
+          </h2>
           <div class="footer">${item.lifeStage!} ${item.sex!} ${item.country!} ${item.area!}</div>
         </div>
         </#list>
