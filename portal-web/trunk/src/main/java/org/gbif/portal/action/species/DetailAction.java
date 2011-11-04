@@ -7,7 +7,6 @@ import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.api.model.Identifier;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.SpeciesProfile;
-import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.DescriptionService;
 import org.gbif.checklistbank.api.service.DistributionService;
 import org.gbif.checklistbank.api.service.IdentifierService;
@@ -33,8 +32,6 @@ import freemarker.template.utility.StringUtil;
 public class DetailAction extends UsageAction {
 
   @Inject
-  private ChecklistService checklistService;
-  @Inject
   private VernacularNameService vernacularNameService;
   @Inject
   private ReferenceService referenceService;
@@ -49,7 +46,6 @@ public class DetailAction extends UsageAction {
   @Inject
   private SpeciesProfileService speciesProfileService;
 
-  private Checklist checklist;
   private NameUsage basionym;
   private LinkedList<NameUsage> related = new LinkedList<NameUsage>();
   private Map<UUID, Checklist> checklists = new HashMap<UUID, Checklist>();
@@ -64,12 +60,7 @@ public class DetailAction extends UsageAction {
 
   @Override
   public String execute() {
-    if (id == null) {
-      LOG.error("No checklist usage id given");
-      return ERROR;
-    }
-    usage = usageService.get(id, getLocale());
-    if (usage == null) {
+    if (!loadUsage()){
       return HTTP_NOT_FOUND;
     }
 
@@ -89,9 +80,6 @@ public class DetailAction extends UsageAction {
   }
 
   private void loadUsageDetails() {
-    // checklist
-    checklist = checklistService.get(usage.getChecklistKey());
-
     // basionym
     if (usage.getBasionymKey() != null) {
       basionym = usageService.get(usage.getBasionymKey(), getLocale());
@@ -183,10 +171,6 @@ public class DetailAction extends UsageAction {
       output.add(agg);
       usage.setSpeciesProfiles(output);
     }
-  }
-
-  public Checklist getChecklist() {
-    return checklist;
   }
 
   public NameUsage getUsage() {

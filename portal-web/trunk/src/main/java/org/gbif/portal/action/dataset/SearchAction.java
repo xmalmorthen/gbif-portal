@@ -22,16 +22,13 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
-import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
-
 public class SearchAction extends BaseAction {
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
   // paging
-  private long offset = DEFAULT_PARAM_OFFSET;
-  private int limit = DEFAULT_PARAM_LIMIT;
+  private long offset = 0;
+  private PagingResponse<Checklist> page;
 
   // search
   private String q;
@@ -43,11 +40,9 @@ public class SearchAction extends BaseAction {
   @Override
   public String execute() {
     LOG.debug("Searching for datasets matching [{}]", q);
-    PagingResponse<Checklist> checklistResponse = checklistService.list(new PagingRequest(offset, limit));
-    if (checklistResponse != null) {
-      datasets = checklistResponse.getResults();
-      offset = checklistResponse.getOffset();
-      limit = checklistResponse.getLimit();
+    page = checklistService.list(new PagingRequest(offset, 50));
+    if (page!= null) {
+      datasets = page.getResults();
     }
     LOG.debug("Found [{}] matching datasets", datasets == null ? 0 : datasets.size());
 
@@ -102,24 +97,7 @@ public class SearchAction extends BaseAction {
     this.offset = offset;
   }
 
-  /**
-   * @param limit the limit to set.
-   */
-  public void setLimit(int limit) {
-    this.limit = limit;
-  }
-
-  /**
-   * @return the offset.
-   */
-  public long getOffset() {
-    return offset;
-  }
-
-  /**
-   * @return the limit.
-   */
-  public int getLimit() {
-    return limit;
+  public PagingResponse<Checklist> getPage() {
+    return page;
   }
 }

@@ -51,7 +51,7 @@
       </#list>
 
         <div class="footer">
-          <@macro.pagination offset=searchResponse.offset limit=searchResponse.limit totalResults=searchResponse.count url=currentUrl/>
+          <@macro.pagination page=searchResponse url=currentUrl/>
         </div>
       </div>
       <div class="right">

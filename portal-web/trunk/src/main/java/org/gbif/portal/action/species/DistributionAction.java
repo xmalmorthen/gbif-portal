@@ -1,21 +1,14 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.portal.action.BaseAction;
+import org.gbif.checklistbank.api.model.Distribution;
+import org.gbif.checklistbank.api.service.DistributionService;
 
-public class DistributionAction extends BaseAction {
+import com.google.inject.Inject;
 
-  private Integer id;
+public class DistributionAction extends SeeMoreAction<Distribution> {
 
-  @Override
-  public String execute() {
-    return SUCCESS;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Integer getId() {
-    return id;
+  @Inject
+  public DistributionAction(DistributionService service) {
+    super(service);
   }
 }

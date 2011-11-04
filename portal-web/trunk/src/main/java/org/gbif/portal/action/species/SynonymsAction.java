@@ -7,18 +7,28 @@ import java.util.List;
 
 public class SynonymsAction extends UsageAction {
   private List<NameUsage> synonyms;
-  private PagingRequest page = new PagingRequest(0, 100);
+  private PagingRequest page;
+  private long offset = 0;
 
   @Override
   public String execute() {
     if (!loadUsage()){
       return HTTP_NOT_FOUND;
     }
+    page = new PagingRequest(offset, 50);
     synonyms = usageService.listSynonyms(id, getLocale(), page).getResults();
     return SUCCESS;
   }
 
   public List<NameUsage> getSynonyms() {
     return synonyms;
+  }
+
+  public void setOffset(int offset) {
+    this.offset = offset;
+  }
+
+  public PagingRequest getPage() {
+    return page;
   }
 }

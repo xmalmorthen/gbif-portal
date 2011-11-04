@@ -1,21 +1,15 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.portal.action.BaseAction;
+import org.gbif.checklistbank.api.model.TypeSpecimen;
+import org.gbif.checklistbank.api.service.TypeSpecimenService;
 
-public class TypeSpecimenAction extends BaseAction {
+import com.google.inject.Inject;
 
-  private Integer id;
 
-  @Override
-  public String execute() {
-    return SUCCESS;
-  }
+public class TypeSpecimenAction extends SeeMoreAction<TypeSpecimen> {
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Integer getId() {
-    return id;
+  @Inject
+  public TypeSpecimenAction(TypeSpecimenService service) {
+    super(service);
   }
 }

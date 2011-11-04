@@ -59,7 +59,7 @@
       -->
 
         <div class="footer">
-        <@macro.pagination offset=offset limit=limit totalResults=100 url=currentUrl/>
+        <@macro.pagination page=page url=currentUrl/>
         </div>
       </div>
 

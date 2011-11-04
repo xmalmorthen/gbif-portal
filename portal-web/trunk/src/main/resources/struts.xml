@@ -181,20 +181,20 @@
     </action>
 
     <!-- name usage subresources -->
-    <action name="{id}/distribution" class="org.gbif.portal.action.species.DistributionAction">
-      <result>/WEB-INF/pages/species/distribution.ftl</result>
+    <action name="{id}/distributions" class="org.gbif.portal.action.species.DistributionAction">
+      <result>/WEB-INF/pages/species/distributions.ftl</result>
     </action>
 
-    <action name="{id}/reference" class="org.gbif.portal.action.species.ReferenceAction">
-      <result>/WEB-INF/pages/species/reference.ftl</result>
+    <action name="{id}/references" class="org.gbif.portal.action.species.ReferenceAction">
+      <result>/WEB-INF/pages/species/references.ftl</result>
     </action>
 
-    <action name="{id}/typespecimen" class="org.gbif.portal.action.species.TypeSpecimenAction">
-      <result>/WEB-INF/pages/species/typespecimen.ftl</result>
+    <action name="{id}/typespecimens" class="org.gbif.portal.action.species.TypeSpecimenAction">
+      <result>/WEB-INF/pages/species/typespecimens.ftl</result>
     </action>
 
-    <action name="{id}/vernacular" class="org.gbif.portal.action.species.VernacularNameAction">
-      <result>/WEB-INF/pages/species/vernacular.ftl</result>
+    <action name="{id}/vernaculars" class="org.gbif.portal.action.species.VernacularNameAction">
+      <result>/WEB-INF/pages/species/vernaculars.ftl</result>
     </action>
 
     <!-- nub or checklist usage -->

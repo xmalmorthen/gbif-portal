@@ -14,55 +14,8 @@
 </head>
 <body class="species typesmap">
 
-<content tag="infoband">
-  <ul class="breadcrumb">
-    <li class="last">${(usage.rank!"Unranked")?capitalize}</li>
-  </ul>
-
-  <h1>${usage.scientificName}</h1>
-
-  <h3>according to <a href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a></h3>
-
-  <h3>${usage.higherClassifcation!}</h3>
-
-  <!--
-  <h3 class="separator">${usage.higherClassifcation!}</h3>
-  <ul class="tags">
-    <li><a href="#" title="Turkey">Turkey</a></li>
-    <li><a href="#" title="coastal">coastal</a></li>
-    <li class="last"><a href="#" title="herbal">herbal</a></li>
-  </ul>
-  -->
-
-<#if nub>
-  <div class="box">
-    <div class="content">
-      <ul>
-        <li><h4>${usage.numOccurrences}</h4>Occurrences</li>
-        <#if usage.rank.isSpeciesOrBelow()>
-          <li class="last"><h4>${usage.numDescendants}</h4>Infraspecies</li>
-        <#else>
-          <li class="last"><h4>${usage.numSpecies}</h4>Species</li>
-        </#if>
-      </ul>
-      <a href="#" title="Download Occurrences" class="download candy_blue_button"><span>Download occurrences</span></a>
-    </div>
-  </div>
-</#if>
-
-</content>
-
-<content tag="tabs">
-  <ul>
-    <li class='selected'><a href="<@s.url value='/species/${id?c}'/>"><span>Information</span></a></li>
-    <li><a href="<@s.url value='/species/${id?c}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a></li>
-    <#if nub>
-      <li><a href="<@s.url value='/species/${id?c}/stats'/>" title="Stats"><span>Stats <sup>(2)</sup></span></a></li>
-    <#else>
-      <li><a href="<@s.url value='/species/${id?c}/verbatim'/>" title="Details"><span>Details</span></a></li>
-    </#if>
-  </ul>
-</content>
+<#assign tab="info"/>
+<#include "/WEB-INF/pages/species/infoband.ftl">
 
 <#if !nub>
 <#-- ONLY FOR CHECKLIST PAGES -->
@@ -170,7 +123,7 @@
         </#list>
         </ul>
         <#if more>
-          <p><a class="more_link" href="<@s.url value='/species/${id?c}/vernacularnames'/>">see all</a></p>
+          <p><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></p>
         </#if>
       </#if>
     <#if basionym?has_content>
@@ -410,7 +363,7 @@
           <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
           </li>
         </ul>
-        <p><a class="more_link" href="<@s.url value='/dataset/search?q=fake'/>">and 23 more</a></p>
+        <p><a class="more_link" href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=occurrence'/>">see all</a></p>
       </div>
 
       <div class="col">
@@ -484,7 +437,7 @@
             Rech. 12083 (W!).</p>
         </div>
 
-        <p><a class="more_link" href="<@s.url value='/occurrence/search?q=holotype'/>">and 23 more</a></p>
+        <p><a class="more_link" href="<@s.url value='/usage/${id?c}/typespecimens'/>">see all</a></p>
       </div>
 
       <div class="col">
@@ -518,7 +471,7 @@
     <div class="right">
       <h3>Specimens by type</h3>
       <ul>
-        <li><a href="<@s.url value='/occurrence/search?q=syntype'/>">13 syntypes</a></li>
+        <li><a href="<@s.url value='/occurrence/typespecimens'/>">13 syntypes</a></li>
       </ul>
     </div>
 
@@ -640,7 +593,7 @@
     <h3>Further information</h3>
 
     <p>There may be more details available about this name usage in the
-      <a href="<@s.url value='/species/${id?c}/name_usage_raw'/>">verbatim version</a> of the record</p>
+      <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a> of the record</p>
   </div>
   <footer></footer>
 </article>

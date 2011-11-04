@@ -5,27 +5,27 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
  - totalResults: optional, total number of records. If this parameter is not set,
                  then the NEXT button will always be displayed and the 
                  "viewing page X of Y (total)" message will not be displayed.
+ - page: a mandatory PagingResponse instance
  - url: mandatory, current url
  
  Please feel free to improve the code in any way.
 -->
-<#macro pagination offset limit url totalResults=-1>
+<#macro pagination page url>
+  <#assign offset = page.offset>
+  <#assign limit = page.limit>
   <#assign stripUrl = getStripUrl(url) >
-  <#assign nextUrl = getFullUrl(stripUrl, (offset+limit), limit) >
-  <#assign previousUrl = getFullUrl(stripUrl, (offset-limit), limit) >
   <#if (limit > 0) && (offset > 0) >
-    <a href="${previousUrl}" class="candy_white_button previous"><span>Previous page</span></a>
+    <a href="${getFullUrl(stripUrl, (offset-limit), limit)}" class="candy_white_button previous"><span>Previous page</span></a>
   </#if>
-  <#if (totalResults>0)>
-    <#if (offset+limit<totalResults)>
-      <a href="${nextUrl}" class="candy_white_button next"><span>Next page</span></a>
-    </#if>
-    <#assign totalPages = totalResults / limit>
-    <#assign currentPage = getCurrentPage(offset, limit) >
-    <div class="pagination">viewing page ${currentPage} of ${totalPages?ceiling}</div>
-  <#else>
-    <a href="${nextUrl}" class="candy_white_button next"><span>Next page</span></a>
+  <#if !page.isEndOfRecords()>
+    <a href="${getFullUrl(stripUrl, (offset+limit), limit)}" class="candy_white_button next"><span>Next page</span></a>
   </#if>
+  <div class="pagination">viewing page ${getCurrentPage(offset, limit)}
+    <#if ((page.count!0)>0)> of ${(page.count / limit)?ceiling}</#if>
+  </div>
+<#--
+-->
+<div class="pagination">limit=${page.limit!}, offset=${page.offset!}, count=${page.count!}, isEndOfRecords()=${page.isEndOfRecords()?string}</div>
 </#macro>
 
 <#-- 

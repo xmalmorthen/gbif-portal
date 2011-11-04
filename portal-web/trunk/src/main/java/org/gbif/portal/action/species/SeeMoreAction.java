@@ -1,0 +1,35 @@
+package org.gbif.portal.action.species;
+
+import org.gbif.api.paging.PagingRequest;
+import org.gbif.api.paging.PagingResponse;
+import org.gbif.checklistbank.api.model.NameUsageComponent;
+import org.gbif.checklistbank.api.service.NameUsageComponentService;
+
+public class SeeMoreAction<T extends NameUsageComponent> extends UsageAction{
+  private PagingResponse<T> page;
+  private long offset = 0;
+  private NameUsageComponentService<T, T> service;
+
+  public SeeMoreAction(NameUsageComponentService<T, T> service) {
+    this.service = service;
+  }
+
+  @Override
+  public String execute() {
+    if (!loadUsage()){
+      return HTTP_NOT_FOUND;
+    }
+
+    PagingRequest p = new PagingRequest(offset, 5);
+    page = service.listByUsage(id, p);
+    return SUCCESS;
+  }
+
+  public void setOffset(long offset) {
+    this.offset = offset;
+  }
+
+  public PagingResponse<T> getPage() {
+    return page;
+  }
+}

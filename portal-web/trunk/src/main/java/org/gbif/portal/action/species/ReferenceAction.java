@@ -1,21 +1,15 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.portal.action.BaseAction;
+import org.gbif.checklistbank.api.model.Reference;
+import org.gbif.checklistbank.api.service.ReferenceService;
 
-public class ReferenceAction extends BaseAction {
+import com.google.inject.Inject;
 
-  private Integer id;
+public class ReferenceAction extends SeeMoreAction<Reference> {
 
-  @Override
-  public String execute() {
-    return SUCCESS;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Integer getId() {
-    return id;
+  @Inject
+  public ReferenceAction(ReferenceService service) {
+    super(service);
   }
 }
+
