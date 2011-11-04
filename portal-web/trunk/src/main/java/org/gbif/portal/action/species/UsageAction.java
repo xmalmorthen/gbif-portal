@@ -44,9 +44,15 @@ public class UsageAction extends BaseAction{
    * The method does not remove existing entries and can be called many times to add additional, new checklists.
    * @param checklistKeys
    */
-  public void loadChecklists(Collection<UUID> checklistKeys) {
+  protected void loadChecklists(Collection<UUID> checklistKeys) {
     for (UUID u : checklistKeys) {
-      checklists.put(u, checklistService.get(u));
+      loadChecklist(u);
+    }
+  }
+
+  protected void loadChecklist(UUID checklistKey) {
+    if (!checklists.containsKey(checklistKey)){
+      checklists.put(checklistKey, checklistService.get(checklistKey));
     }
   }
 
