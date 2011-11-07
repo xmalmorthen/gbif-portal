@@ -31,9 +31,7 @@
         <div class="result">
           <h2><strong>${item.vernacularName}</strong><span class="note">${item.language!}</span>
           <#if usage.nub || item.source?has_content>
-            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}"
-            <#if usage.nub>title="<a href='<@s.url value='/species/${item.usageKey?c}'/>'>${checklists.get(item.checklistKey).name}</a>"</#if>
-            ></a>
+            <a class="sourcePopup" id="source${item.key?c}" source="<#if usage.nub><a href='<@s.url value='/species/${item.usageKey?c}'/>'>${checklists.get(item.checklistKey).name}</a><br/>"</#if>${item.source!}></a>
           </#if>
           </h2>
           <div class="footer">${item.lifeStage!} ${item.sex!} ${item.country!} ${item.area!}</div>

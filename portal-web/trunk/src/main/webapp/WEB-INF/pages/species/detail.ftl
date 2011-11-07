@@ -146,14 +146,6 @@
         <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
       </ul>
 
-    <#--
-    <#if usage.link?has_content>
-      <h3>External Links</h3>
-      <ul>
-        <li><a href="${usage.link}" title="Original source">Original source</a></li>
-      </ul>
-    </#if>
-    -->
       <h3>Metadata</h3>
       <ul class="placeholder_temp">
         <li class="download">EML file &nbsp;<a class="small" href="#" title="EML file (english)">ENG</a> · <a
@@ -496,7 +488,7 @@
               <p class="no_bottom">
                 <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
                 <#if d.source?has_content>
-                  <a class="sourcePopup" id="source${d.key?c}" source="source${d.key?c} - ${d.source}" remarks="remark - ${d.remarks!}"></a>
+                  <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
                 </#if>
               </p>
               <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
