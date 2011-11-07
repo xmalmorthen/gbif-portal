@@ -342,6 +342,7 @@
 </article>
 </#if>
 
+<#if usage.nubKey??>
 <article id="appearsin">
   <header></header>
   <div class="content">
@@ -369,7 +370,6 @@
 
       <div class="col">
         <h3>Checklists</h3>
-        <#if usage.nubKey??>
           <ul class="notes">
             <#assign more=false/>
             <#list related as rel>
@@ -383,7 +383,6 @@
           <#if more>
             <p><a class="more_link" href="<@s.url value='/species/search?nubKey=${usage.nubKey?c}&checklistKey=all'/>">see all</a></p>
           </#if>
-        </#if>
       </div>
     </div>
 
@@ -404,6 +403,7 @@
   </div>
   <footer></footer>
 </article>
+</#if>
 
 <#if !nub>
 <#-- ONLY FOR CHECKLIST PAGES -->
