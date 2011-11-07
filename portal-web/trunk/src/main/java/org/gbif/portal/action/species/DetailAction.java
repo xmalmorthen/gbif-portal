@@ -142,12 +142,11 @@ public class DetailAction extends UsageAction {
       // use terrestrial and marine to make the habitat string more useful
       String terrString = null;
       if (agg.isTerrestrial() != null && agg.isTerrestrial() && agg.isMarine() != null && agg.isMarine()) {
-        //TODO: use resource bundle lookups to get strings to show
-        terrString = "Terrestrial and Marine";
+        terrString = getText("species.terrestrial_and_marine");
       } else if (agg.isTerrestrial() != null && agg.isTerrestrial()) {
-        terrString = "Terrestrial";
+        terrString = getText("species.terrestrial");
       } else if (agg.isMarine() != null && agg.isMarine()) {
-        terrString = "Marine";
+        terrString = getText("species.marine");
       }
       if (terrString != null) {
         if (agg.getHabitat() == null) {
