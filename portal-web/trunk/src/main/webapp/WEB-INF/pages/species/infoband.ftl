@@ -15,10 +15,10 @@
 
   <h3>according to <a href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a></h3>
 
-  <h3>${usage.higherClassifcation!}</h3>
+  <h3>${usage.higherClassification!}</h3>
 
   <!--
-  <h3 class="separator">${usage.higherClassifcation!}</h3>
+  <h3 class="separator">${usage.higherClassification!}</h3>
   <ul class="tags">
     <li><a href="#" title="Turkey">Turkey</a></li>
     <li><a href="#" title="coastal">coastal</a></li>
@@ -33,8 +33,8 @@
         <li><h4>${usage.numOccurrences}</h4>Occurrences</li>
         <#if usage.rank.isSpeciesOrBelow()>
           <li class="last"><h4>${usage.numDescendants}</h4>Infraspecies</li>
-        <#else>
-          <li class="last"><h4>${usage.numSpecies}</h4>Species</li>
+          <#else>
+            <li class="last"><h4>${usage.numSpecies}</h4>Species</li>
         </#if>
       </ul>
       <a href="#" title="Download Occurrences" class="download candy_blue_button"><span>Download occurrences</span></a>
@@ -46,8 +46,14 @@
 
 <content tag="tabs">
   <ul>
-    <li<#if (tab!"")=="info"> class='selected highlighted'</#if>><a href="<@s.url value='/species/${id!}'/>" title="Information"><span>Information</span></a></li>
-    <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>><a href="<@s.url value='/species/${id!}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a></li>
-    <li<#if (tab!"")=="stats"> class='selected highlighted'</#if>><a href="<@s.url value='/species/${id!}/stats'/>" title="Stats"><span>Stats <sup>(2)</sup></span></a></li>
+    <li<#if (tab!"")=="info"> class='selected highlighted'</#if>><a href="<@s.url value='/species/${id!}'/>"
+                                                                    title="Information"><span>Information</span></a>
+    </li>
+    <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>><a
+            href="<@s.url value='/species/${id!}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a>
+    </li>
+    <li<#if (tab!"")=="stats"> class='selected highlighted'</#if>><a href="<@s.url value='/species/${id!}/stats'/>"
+                                                                     title="Stats"><span>Stats <sup>(2)</sup></span></a>
+    </li>
   </ul>
 </content>
