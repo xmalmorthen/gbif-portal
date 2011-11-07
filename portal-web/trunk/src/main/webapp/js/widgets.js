@@ -2010,10 +2010,11 @@ $.fn.bindSlideshow = function(opt) {
 	  // Function for recreating the taxonomic tree
       function recreateTree($wsUrl) { 
         //remove all children from tax browser
-        $ps.find(".sp ul").empty();
+        $ps.find(".sp ul").html("<img src=\"../img/taxbrowser-loader.gif\">");
         //get the new list of children
         $.getJSON($wsUrl,
           function(data) {
+            $ps.find(".sp ul").empty();
             $(data.results).each(function() { 
               $htmlContent="<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
               $htmlContent+=this.canonicalName
