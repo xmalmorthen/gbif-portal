@@ -1974,8 +1974,8 @@ $.fn.bindSlideshow = function(opt) {
       $ps.data(store, data);
 
       $this.find('.inner').jScrollPane({ verticalDragMinHeight: 20});
-
-      // ADD THE BARS NEXT TO EACH TAXON NAME
+	  
+      // Add the adjacent bars next to each taxonomic element
       function addBars($ul) {
 
         $ul.find("> li").each(function() {
@@ -2006,8 +2006,34 @@ $.fn.bindSlideshow = function(opt) {
       }	  
 
       addBars($ps.find("ul:first"));
+	  
+	  // Function for recreating the taxonomic tree
+      function recreateTree($wsUrl) { 
+        //remove all children from tax browser
+        $ps.find(".sp ul").empty();
+        //get the new list of children
+        $.getJSON($wsUrl,
+          function(data) {
+            $(data.results).each(function() { 
+              $htmlContent="<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
+              $htmlContent+=this.canonicalName
+              $htmlContent+="</span>";
+              $htmlContent+="<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>";
+              $ps.find(".sp ul").append($htmlContent);
+            })
+            //add the adjacent bars
+            addBars($ps.find(".sp ul"));
+          });
+          // move to the list and resize it (resizing disabled, was not working correctly)
+          $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {
+            stop = false;
+            //_resize($ps, $ul.find("> li").length, data.$this);
+          }});
+          // scroll to the top of the list
+          $ps.find(".inner").data('jsp').scrollTo(0, 0, true);	  
+      }
 
-      // If the user clicks on a bar with more level insides…
+      // If the user clicks on a bar
       $ps.find(".sp .clickable").live('click', function(e) {
         e.preventDefault();
 
@@ -2019,98 +2045,61 @@ $.fn.bindSlideshow = function(opt) {
           $last_li.removeClass("last");
           $last_li.wrapInner('<a href="#"></a>');
 
-          // get the name of the taxonomy and add it to the breadcrumb
+          // get the name of the taxonomic element clicked and add it to the breadcrumb
           var $name = $(this).parent().find("span:first").html();
-		  var $spid = $(this).parent().find("span:first").attr("spid");
+		  // get the id of the taxonomic element clicked and add it to the breadcrumb
+          var $spid = $(this).parent().find("span:first").attr("spid");
+		  // format HTML that will be appended to the breadcrumb
           var $item = '<li spid="' + $spid + '" class="last" style="opacity:0;">' + $name + '</li>';
           $breadcrumb.append($item);
+		  // make the new breadcrumb element appear with a slow transition
           $breadcrumb.find("li:last").animate({opacity:1}, data.settings.transitionSpeed);
-		  var $wsURL = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?";
-		  var $ul = $(this).parent().parent();		   
-		  $.getJSON($wsURL,
-            function(data) {
-              $htmlContent="";
-              $(data.results).each(function() { 
-				$htmlContent+="<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
-				$htmlContent+=this.canonicalName
-				$htmlContent+="</span>";
-				$htmlContent+="<a href=\"" + cfg.context + "/species/" + this.key + "\">see details</a></li>";
-            })
-		    $ul.html($htmlContent);
-            addBars($ul);
-          });		  
-          $ul.show();
-
-          // move to the list and resize it
-          $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {
-            stop = false;
-            level++;
-            _resize($ps, $ul.find("> li").length, data.$this);
-          }});
+		  // url to call to recreate the taxonomic tree
+          var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?";
+          //recreate the taxonomic tree
+          recreateTree($wsUrl);	  
         }
       });
 
       // The user clicks on the breadcrumb…
       $breadcrumb.find("li").live("click", function(e) {
         e.preventDefault();
-		var $BC = ($this).find(".breadcrumb");
-		var $ulBC = ($this).find(".sp ul");
+        var $BC = ($this).find(".breadcrumb");
+        var $ulBC = ($this).find(".sp ul");
 		var $spidBC = $(this).attr("spid");
 		var $cid = $(this).attr("cid");
-		var $wsURL = "";
-		if($spidBC<0) {
-			$wsURL = cfg.wsClb + "checklist/" + $cid + "/usages?callback=?"
-		}
-		else {
-			$wsURL = cfg.wsClb + "name_usage/" + $spidBC + "/children?callback=?"
-		}
-		//show the tax tree
-		  $.getJSON($wsURL,
-            function(data) {
-              $htmlContent="";
-              $(data.results).each(function() { 
-				$htmlContent+="<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
-				$htmlContent+=this.canonicalName
-				$htmlContent+="</span>";
-				$htmlContent+="<a href=\"" + cfg.context + "/species/" + this.key + "\">see details</a></li>";
-            })
-		    $ulBC.html($htmlContent);
-            addBars($ulBC);
-          });	
-		  		  
-		  $ulBC.show();			
-		  
-		  // user click on "ALL" element in the breadcrumb, just display "ALL" on the breadcrumb
-          if($spidBC<0) {
-			$htmlContent="<li spid=\"-1\" cid=\"" + $cid +  "\"><a href=\"#\">All</a></li>";
-			$BC.html($htmlContent);
-		  }
-		  // show the normal classification breadcrumb
-		  else {
-		    $.getJSON(cfg.wsClb + "name_usage/" + $spidBC + "?callback=?",
-              function(data) {
-                $htmlContent="<li spid=\"-1\" cid=\"" + data.checklistKey +  "\"><a href=\"#\">All</a></li>";
-			    $.each(data.higherClassificationMap, function(speciesId,speciesName) {
-		  		  $htmlContent+="<li spid=\"" + speciesId + "\"><a href=\"#\">";
-	  			  $htmlContent+=speciesName;
-				  $htmlContent+="</a></li>";
-			    });
-				$htmlContent+="<li class=\"last\" style=\"opacity:1;\" spid=\"" + data.key + "\">" + data.canonicalName + "</li>";
-				$BC.html($htmlContent);
-             });
-		   }
-
-          // move to the list and resize it
-          $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {
-            stop = false;
-            level++;
-            _resize($ps, $ulBC.find("> li").length, data.$this);
-          }});													
-		
-        if (!stopBack && !stop) {
-          // scroll to the top of the list
-          $ps.find(".inner").data('jsp').scrollTo(0, 0, true);
+		var $wsUrl = "";
+		// url to call to recreate the taxonomic tree
+		// if a user clicks ALL, the root tree of the checklist should be displayed
+        if($spidBC<0) {
+          $wsUrl = cfg.wsClb + "checklist/" + $cid + "/usages?callback=?"
         }
+        else {
+          $wsUrl = cfg.wsClb + "name_usage/" + $spidBC + "/children?callback=?"
+        }
+
+        //recreate the taxonomic tree
+        recreateTree($wsUrl);	
+
+        // user click on "ALL" element in the breadcrumb, just display "ALL" on the breadcrumb
+        if($spidBC<0) {
+          $htmlContent="<li spid=\"-1\" cid=\"" + $cid +  "\"><a href=\"#\">All</a></li>";
+          $BC.html($htmlContent);
+        }
+        // show the normal classification breadcrumb
+        else {
+          $.getJSON(cfg.wsClb + "name_usage/" + $spidBC + "?callback=?",
+            function(data) {
+              $htmlContent="<li spid=\"-1\" cid=\"" + data.checklistKey +  "\"><a href=\"#\">All</a></li>";
+              $.each(data.higherClassificationMap, function(speciesId,speciesName) {
+                $htmlContent+="<li spid=\"" + speciesId + "\"><a href=\"#\">";
+                $htmlContent+=speciesName;
+                $htmlContent+="</a></li>";
+              });
+              $htmlContent+="<li class=\"last\" style=\"opacity:1;\" spid=\"" + data.key + "\">" + data.canonicalName + "</li>";
+              $BC.html($htmlContent);
+            });
+          }
       });
     });
   };
