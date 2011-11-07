@@ -12,6 +12,7 @@ import org.gbif.checklistbank.api.service.IdentifierService;
 import org.gbif.checklistbank.api.service.ImageService;
 import org.gbif.checklistbank.api.service.ReferenceService;
 import org.gbif.checklistbank.api.service.SpeciesProfileService;
+import org.gbif.checklistbank.api.service.TypeSpecimenService;
 import org.gbif.checklistbank.api.service.VernacularNameService;
 
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class DetailAction extends UsageAction {
   private DistributionService distributionService;
   @Inject
   private SpeciesProfileService speciesProfileService;
+  @Inject
+  private TypeSpecimenService typeSpecimenService;
 
   private NameUsage basionym;
   private LinkedList<NameUsage> related = new LinkedList<NameUsage>();
@@ -53,7 +56,7 @@ public class DetailAction extends UsageAction {
 
   @Override
   public String execute() {
-    if (!loadUsage()){
+    if (!loadUsage()) {
       return HTTP_NOT_FOUND;
     }
 
@@ -107,6 +110,8 @@ public class DetailAction extends UsageAction {
     usage.setDistributions(distributionService.listByUsage(id, page10).getResults());
     // get images
     usage.setImages(imageService.listByUsage(id, page10).getResults());
+    // get typeSpecimens
+    usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
     // get species profiles
     List<SpeciesProfile> rawResults = speciesProfileService.listByUsage(id, page10).getResults();
     if (rawResults.size() == 1) {

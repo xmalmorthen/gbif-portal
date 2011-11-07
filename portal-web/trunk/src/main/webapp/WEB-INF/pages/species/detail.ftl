@@ -26,10 +26,10 @@
 
     <p>This is the <em>${usage.scientificName}</em> view, as seen by <a
             href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a> checklist.
-    <#if usage.nubKey?exists>
-      Remember that you can also check the <a href="<@s.url value='/species/${usage.nubKey}'/>">GBIF view
-      on ${usage.canonicalName!scientificName}</a>.
-    </#if>
+      <#if usage.nubKey?exists>
+        Remember that you can also check the <a href="<@s.url value='/species/${usage.nubKey}'/>">GBIF view
+        on ${usage.canonicalName!scientificName}</a>.
+      </#if>
       <br/>You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
       submitted by
       the data publisher.</p>
@@ -49,24 +49,27 @@
 
     <div class="left">
       <ul class="thumbs_list">
-        <#list usage.images as img>
-          <#if img_index==3 || !img_has_next>
-            <#assign lastClass="last"/>
-          </#if>
-          <li class="${lastClass!""}"><a href="#" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a></li>
-          <#if img_index==3>
-            <#break>
-          </#if>
-        </#list>
+      <#list usage.images as img>
+        <#if img_index==3 || !img_has_next>
+          <#assign lastClass="last"/>
+        </#if>
+        <li class="${lastClass!""}"><a href="#" class="images"><span><img
+                src="${img.thumbnail!img.image!"image missing url"}"/></span></a></li>
+        <#if img_index==3>
+          <#break>
+        </#if>
+      </#list>
       </ul>
 
       <h3>Full name</h3>
+
       <p>${usage.scientificName}</p>
 
-      <#if usage.taxonomicStatus??>
-        <h3>Status</h3>
-        <p>${usage.taxonomicStatus}</p>
-      </#if>
+    <#if usage.taxonomicStatus??>
+      <h3>Status</h3>
+
+      <p>${usage.taxonomicStatus}</p>
+    </#if>
 
     <#if usage.speciesProfiles?? && usage.speciesProfiles[0]??>
       <#assign sp = usage.speciesProfiles[0]/>
@@ -103,14 +106,15 @@
           <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
         </#if>
       </h3>
+
       <p>${d.description!}</p>
     </#list>
 
     </div>
     <div class="right">
-      <#if (usage.vernacularNames?size>0)>
-        <h3>Common names</h3>
-        <ul>
+    <#if (usage.vernacularNames?size>0)>
+      <h3>Common names</h3>
+      <ul>
         <#assign more=false/>
         <#list usage.vernacularNames as v>
           <#if v.vernacularName?has_content>
@@ -121,11 +125,11 @@
             <#break />
           </#if>
         </#list>
-        </ul>
-        <#if more>
-          <p><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></p>
-        </#if>
+      </ul>
+      <#if more>
+        <p><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></p>
       </#if>
+    </#if>
     <#if basionym?has_content>
       <h3>Original Name</h3>
 
@@ -137,7 +141,9 @@
       <ul>
       <#list usage.identifiers as i>
         <#if i.identifierLink??>
-          <li><a href="${i.identifierLink}" title="${i.title!i.type!i.identifier}"><#if i.title?has_content>${i.title}<#else><@s.text name="enum.identifier.${i.type!'URL'}" /></#if></a></li>
+          <li><a href="${i.identifierLink}"
+                 title="${i.title!i.type!i.identifier}"><#if i.title?has_content>${i.title}<#else><@s.text name="enum.identifier.${i.type!'URL'}" /></#if></a>
+          </li>
         </#if>
       </#list>
       <#if usage.nubKey??>
@@ -175,7 +181,7 @@
         <#list classification?keys as key>
           <li spid="${key?c}"><a href="#">${classification.get(key)}</a></li>
         </#list>
-        <li class="last">${usage.canonicalName}</li>
+          <li class="last">${usage.canonicalName}</li>
         </div>
         <div class="inner">
           <div class="sp">
@@ -292,40 +298,45 @@
       </div>
     </div>
 
-    <#-- <a href="${img1.image}"><img src="${img.image!}"/></a> -->
+  <#-- <a href="${img1.image}"><img src="${img.image!}"/></a> -->
 
     <div class="right">
       <#if img1?exists>
-      <div class="controllers">
-        <h2>${common.limit(img1.title!img1.description!usage.canonicalName!"",38)}</h2>
-        <a class="previous_slide" href="#" title="Previous image"></a>
-        <a class="next_slide" href="#" title="Next image"></a>
-      </div>
+        <div class="controllers">
+          <h2>${common.limit(img1.title!img1.description!usage.canonicalName!"",38)}</h2>
+          <a class="previous_slide" href="#" title="Previous image"></a>
+          <a class="next_slide" href="#" title="Next image"></a>
+        </div>
 
-      <#if img1.description?has_content>
-      <h3>Description</h3>
-      <p>${common.limit(img1.description!img1.title!"",250)}</p>
-      </#if>
+        <#if img1.description?has_content>
+          <h3>Description</h3>
 
-      <#if img1.publisher?has_content>
-      <h3>Image publisher</h3>
-      <p>${img1.publisher!"???"}</p>
-      </#if>
+          <p>${common.limit(img1.description!img1.title!"",250)}</p>
+        </#if>
 
-      <#if img1.checklistName?has_content>
-      <h3>Dataset</h3>
-      <p>${img1.checklistName!"???"}</p>
-      </#if>
+        <#if img1.publisher?has_content>
+          <h3>Image publisher</h3>
 
-      <#if (img1.creator!img1.created)?has_content>
-      <h3>Photographer</h3>
-        <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
-      </#if>
+          <p>${img1.publisher!"???"}</p>
+        </#if>
 
-      <#if img1.license?has_content>
-      <h3>Copyright</h3>
-      <p>${img1.license}</p>
-      </#if>
+        <#if img1.checklistName?has_content>
+          <h3>Dataset</h3>
+
+          <p>${img1.checklistName!"???"}</p>
+        </#if>
+
+        <#if (img1.creator!img1.created)?has_content>
+          <h3>Photographer</h3>
+
+          <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
+        </#if>
+
+        <#if img1.license?has_content>
+          <h3>Copyright</h3>
+
+          <p>${img1.license}</p>
+        </#if>
 
       </#if>
     </div>
@@ -357,24 +368,27 @@
           <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
           </li>
         </ul>
-        <p><a class="more_link" href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=occurrence'/>">see all</a></p>
+        <p><a class="more_link" href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=occurrence'/>">see
+          all</a></p>
       </div>
 
       <div class="col">
         <h3>Checklists</h3>
-          <ul class="notes">
-            <#assign more=false/>
-            <#list related as rel>
-              <#if rel_index==6>
-                <#assign more=true/>
-                <#break />
-              </#if>
-              <li><a href="<@s.url value='/species/${rel.key?c}'/>">${checklists.get(rel.checklistKey).name}</a> <span class="note">${rel.scientificName}</span></li>
-            </#list>
-          </ul>
-          <#if more>
-            <p><a class="more_link" href="<@s.url value='/species/search?nubKey=${usage.nubKey?c}&checklistKey=all'/>">see all</a></p>
-          </#if>
+        <ul class="notes">
+          <#assign more=false/>
+          <#list related as rel>
+            <#if rel_index==6>
+              <#assign more=true/>
+              <#break />
+            </#if>
+            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${checklists.get(rel.checklistKey).name}</a> <span
+                    class="note">${rel.scientificName}</span></li>
+          </#list>
+        </ul>
+        <#if more>
+          <p><a class="more_link" href="<@s.url value='/species/search?nubKey=${usage.nubKey?c}&checklistKey=all'/>">see
+            all</a></p>
+        </#if>
       </div>
     </div>
 
@@ -397,77 +411,54 @@
 </article>
 </#if>
 
-<#if !nub>
-<#-- ONLY FOR CHECKLIST PAGES -->
+<#if (usage.typeSpecimens?size>0)>
 <article id="typespecimen">
   <header></header>
-  <div class="content placeholder_temp">
+  <div class="content">
     <h2>Type specimens</h2>
 
     <div class="left">
-      <div class="col">
+      <#list usage.typeSpecimens as ts>
         <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                               title="Help"
-                                                                                                               id="help2"><img
-                  src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
-
-          <p class="note semi_bottom">Syntype by original designation</p>
-
-          <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
-            Rech. 12083 (W!).</p>
+        <p class="no_bottom">
+        <#-- the scientific name must be present, or nothing gets shown -->
+          <#if ts.scientificName?has_content>
+          <#-- link to the occurrence record if possible (derived from occurrence record) -->
+            <#if ts.occurrenceId?has_content>
+              <a class="placeholder_temp" href="<@s.url value='/occurrence/${ts.occurrenceId}'/>">${ts.scientificName} -
+                ANSP HRP 10</a>
+            <#-- link to the checklist if possible -->
+              <#else>
+              ${ts.scientificName} <#if checklist.key?has_content && checklist.name?has_content>- <a
+                      href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a></#if>
+            </#if>
+            <a href="#" title="Help" id="help2">
+              <img src="<@s.url value='/img/icons/questionmark.png'/>"/>
+            </a>
+            <#if ts.typeStatus?has_content>
+              <p class="note semi_bottom">${ts.typeStatus}</p>
+            </#if>
+            <#if ts.locality?has_content>
+              <p class="light_note">${ts.locality}</p>
+            </#if>
+          </#if>
+          </p>
         </div>
-
-        <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                               title="Help"
-                                                                                                               id="help"><img
-                  src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
-
-          <p class="note semi_bottom">Syntype by original designation</p>
-
-          <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
-            Rech. 12083 (W!).</p>
-        </div>
-
-        <p><a class="more_link" href="<@s.url value='/species/${id?c}/typespecimens'/>">see all</a></p>
-      </div>
-
-      <div class="col">
-        <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                               title="Help"
-                                                                                                               id="help4"><img
-                  src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
-
-          <p class="note semi_bottom">Syntype by original designation</p>
-
-          <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
-            Rech. 12083 (W!).</p>
-        </div>
-
-        <div>
-          <p class="no_bottom"><a href="<@s.url value='/occurrence/789'/>">Puma concolor - ANSP HRP 10</a> <a href="#"
-                                                                                                               title="Help"
-                                                                                                               id="help3"><img
-                  src="<@s.url value='/img/icons/questionmark.png'/>"/></a></p>
-
-          <p class="note semi_bottom">Syntype by original designation</p>
-
-          <p class="light_note">Iraq: Mosul: Jabal Khantur prope Sharanish N. Zakho, in fissures rupium calc., 1200 m,
-            Rech. 12083 (W!).</p>
-        </div>
-
-      </div>
+      <#-- only show 10 type specimens at max. If we have 10 (index=9) we know there are more to show -->
+        <#if ts_index==9>
+          <p>
+            <a class="more_link placeholder_temp" href="<@s.url value='/species/${id?c}/typespecimens'/>">see all</a>
+          </p>
+          <#break/>
+        </#if>
+      </#list>
     </div>
-
-    <div class="right">
+    <div class="right placeholder_temp">
       <h3>Specimens by type</h3>
       <ul>
         <li><a href="<@s.url value='/occurrence/typespecimens'/>">13 syntypes</a></li>
       </ul>
     </div>
-
   </div>
   <footer></footer>
 </article>
@@ -481,7 +472,7 @@
 
     <div class="left">
       <div class="col">
-        <ul class="notes">
+      <ul class="notes">
         <#list usage.distributions as d>
           <#if (d_index % 2) == 0>
             <div>
@@ -491,12 +482,13 @@
                   <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
                 </#if>
               </p>
+
               <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
             </div>
           </#if>
-          <#-- only show 10 distributions at max. If we have 10 (index=9) we know there are more to show -->
+        <#-- only show 10 distributions at max. If we have 10 (index=9) we know there are more to show -->
           <#if !d_has_next>
-            </ul>
+          </ul>
             <#if d_index==9>
               <p><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></p>
             </#if>
@@ -506,19 +498,20 @@
 
       <div class="col">
         <ul class="notes">
-        <#list usage.distributions as d>
-          <#if (d_index % 2) == 1>
-            <div>
-              <p class="no_bottom">
-                <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
-                <#if d.source?has_content>
-                  <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
-                </#if>
-              </p>
-              <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
-            </div>
-          </#if>
-        </#list>
+          <#list usage.distributions as d>
+            <#if (d_index % 2) == 1>
+              <div>
+                <p class="no_bottom">
+                  <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
+                  <#if d.source?has_content>
+                    <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
+                  </#if>
+                </p>
+
+                <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
+              </div>
+            </#if>
+          </#list>
         </ul>
       </div>
     </div>
@@ -546,31 +539,34 @@
     <div class="left">
       <#if usage.publishedIn?has_content>
         <h3>Published In</h3>
+
         <p>${usage.publishedIn}</p>
       </#if>
 
       <#if usage.accordingTo?has_content>
         <h3>According to</h3>
+
         <p>${usage.accordingTo}</p>
       </#if>
 
       <h3>Review date</h3>
+
       <p class="placeholder_temp">Oct 28, 2003</p>
 
-     <#if (usage.references?size>0)>
-      <h3>Bibliography</h3>
-      <#list usage.references as ref>
-        <p>
-          <#if ref.link?has_content><a href="${ref.link}">${ref.citation}</a><#else>${ref.citation}</#if>
-          <#if ref.doi?has_content><br/>DOI:<a href="http://dx.doi.org/${ref.doi}">${ref.doi}</a></#if>
-        </p>
-      <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
-        <#if ref_index==7>
-          <p><a class="more_link" href="<@s.url value='/species/${id?c}/references'/>">see all</a></p>
-          <#break />
-        </#if>
-      </#list>
-    </#if>
+      <#if (usage.references?size>0)>
+        <h3>Bibliography</h3>
+        <#list usage.references as ref>
+          <p>
+            <#if ref.link?has_content><a href="${ref.link}">${ref.citation}</a><#else>${ref.citation}</#if>
+            <#if ref.doi?has_content><br/>DOI:<a href="http://dx.doi.org/${ref.doi}">${ref.doi}</a></#if>
+          </p>
+        <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
+          <#if ref_index==7>
+            <p><a class="more_link" href="<@s.url value='/species/${id?c}/references'/>">see all</a></p>
+            <#break />
+          </#if>
+        </#list>
+      </#if>
     </div>
 
     <div class="right">
