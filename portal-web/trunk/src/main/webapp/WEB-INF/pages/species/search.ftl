@@ -37,14 +37,17 @@
       <#list searchResponse.results as u>
         <div class="result">
           <h2><a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}
+          <#if u.vernacularName?has_content>
+           - <strong>${u.vernacularName!c}</strong>
+          </#if>
           </a></h2>
-          <p>according to ${u.checklistKey!"???"}</p>
+          <p>according to ${u.checklistTitle}</p>
           <div class="footer">
             <ul class="taxonomy">
-            <#assign classification=u.higherClassificationMap />
-            <#list classification?keys as usageKey>
-              <li <#if !usageKey_has_next>class="last"</#if>><a href="<@s.url value='/species/${usageKey}'/>">${classification.get(usageKey)}</a></li>
-            </#list>
+            <#assign classification=u.higherClassificationMap />            
+            <#list classification?keys as usageKey>                 	
+              <li <#if !usageKey_has_next>class="last"</#if>><a href="<@s.url value='/species/${usageKey}'/>">${classification.get(usageKey)}</a></li>              
+            </#list>             
             </ul>
           </div>
         </div>

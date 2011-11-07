@@ -15,5 +15,5 @@
  */
 $(function() {
    $("div.facet > select").multiselect({minWidth: 180});
-   $("div.facet > select").multiselect("checkAll");
+   //$("div.facet > select").multiselect("checkAll");
 });

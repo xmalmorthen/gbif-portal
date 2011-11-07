@@ -8,8 +8,8 @@
  */
 package org.gbif.portal.action.species;
 
-import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
+import org.gbif.checklistbank.api.model.search.NameUsageSearchResult;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 
@@ -18,7 +18,7 @@ import com.google.inject.Inject;
 /**
  * The action for all species search operations.
  */
-public class SearchAction extends BaseFacetedSearchAction<NameUsage, ChecklistBankFacetParameter> {
+public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult, ChecklistBankFacetParameter> {
 
   /**
    * 
