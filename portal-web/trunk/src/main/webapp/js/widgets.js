@@ -1975,37 +1975,8 @@ $.fn.bindSlideshow = function(opt) {
 
       $this.find('.inner').jScrollPane({ verticalDragMinHeight: 20});
 
-      // Calculate the width of the bars and add them to the DOM
+      // ADD THE BARS NEXT TO EACH TAXON NAME
       function addBars($ul) {
-
-        $ul.find("> li").each(function() {
-          var value = parseInt($(this).attr("data"));
-          var clase = "";
-
-          if ($(this).find("> ul").length > 0) {
-            $(this).find("span:first").addClass('clickable');
-            clase = " clickable";
-          }
-
-          $(this).find("span:first").after('<div class="bar'+clase+'" style="width:'+(value+10)+'px"><div class="count">'+value+'</div></div>');
-
-          $(this).find("span:first").parent().hover(function() {
-            $(this).find(".count:first").show();
-            $(this).find("a:first").show();
-          }, function() {
-            $(this).find(".count:first").hide();
-            $(this).find("a:first").hide();
-          });
-
-        });
-
-        $ul.children().each(function() {
-          addBars($(this));
-        });
-      }
-	  
-      // CUSTOM FUNCTION
-      function addBarsCustom($ul) {
 
         $ul.find("> li").each(function() {
           var species = parseInt($(this).attr("species"));
@@ -2030,11 +2001,11 @@ $.fn.bindSlideshow = function(opt) {
         });
 
         $ul.children().each(function() {
-          addBarsCustom($(this));
+          addBars($(this));
         });
       }	  
 
-      addBarsCustom($ps.find("ul:first"));
+      addBars($ps.find("ul:first"));
 
       // If the user clicks on a bar with more level insides…
       $ps.find(".sp .clickable").live('click', function(e) {
@@ -2066,7 +2037,7 @@ $.fn.bindSlideshow = function(opt) {
 				$htmlContent+="<a href=\"" + cfg.context + "/species/" + this.key + "\">see details</a></li>";
             })
 		    $ul.html($htmlContent);
-            addBarsCustom($ul);
+            addBars($ul);
           });		  
           $ul.show();
 
@@ -2104,7 +2075,7 @@ $.fn.bindSlideshow = function(opt) {
 				$htmlContent+="<a href=\"" + cfg.context + "/species/" + this.key + "\">see details</a></li>";
             })
 		    $ulBC.html($htmlContent);
-            addBarsCustom($ulBC);
+            addBars($ulBC);
           });	
 		  		  
 		  $ulBC.show();			
