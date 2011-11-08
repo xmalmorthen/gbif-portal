@@ -36,11 +36,17 @@
 
       <#list searchResponse.results as u>
         <div class="result">
-          <h2><a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}
-          <#if u.vernacularName?has_content>
-           - <strong>${u.vernacularName!c}</strong>
-          </#if>
+          <h2><a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}          
           </a></h2>
+          <p>
+          <#if u.vernacularStringNames?has_content>
+           Common name(s):
+           <#list u.vernacularStringNames as vn>
+            <strong>${vn!c}</strong>
+            <#if vn_has_next> - </#if>
+           </#list>
+          </#if>
+          </p>
           <p>according to ${u.checklistTitle}</p>
           <div class="footer">
             <ul class="taxonomy">
