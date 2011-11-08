@@ -1939,6 +1939,10 @@ $.fn.bindSlideshow = function(opt) {
       $this = $(this),
       $breadcrumb = false,
 
+      // for paging
+	  $limit = 7,
+	  $offset = 20,
+
       // We store lots of great stuff using jQuery data
       data = $this.data(store) || {},
 
@@ -1974,36 +1978,62 @@ $.fn.bindSlideshow = function(opt) {
       $ps.data(store, data);
 
       $this.find('.inner').jScrollPane({ verticalDragMinHeight: 20});
+	  		
 	  
+      $(".inner").scroll(function(){
+        if( ($(".jspTrack").height() <= ( parseInt($(".jspDrag").css("top")) + $(".jspDrag").height() + 15))) {
+          //set next paging values
+		  $spid=$ps.find(".breadcrumb li:last").attr("spid");
+		  var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?&offset="+$offset+"&limit="+$limit;
+		  $triggered=true;
+		  var $wrapper = $("<ul></ul>");
+        $.getJSON($wsUrl,
+          function(data) {
+            $(data.results).each(function() { 
+              $htmlContent=$("<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >" + this.canonicalName + "</span>" + "<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>");
+			  //add the bar for this appended element
+			  addBar($htmlContent);
+              $ps.find(".sp ul").append($htmlContent);
+            })
+			_resize($ps, $ps.find(".sp ul").find("> li").length, $this);
+          });
+          $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {
+            stop = false;
+          }});
+		  //increment offset
+		  $offset+=$limit;
+		}
+		
+	});		
+ 	  
       // Add the adjacent bars next to each taxonomic element
-      function addBars($ul) {
-
-        $ul.find("> li").each(function() {
-          var species = parseInt($(this).attr("species"));
-		  var children = parseInt($(this).attr("children"));
+      function addBar($li) {
+          var species = parseInt($li.attr("species"));
+		  var children = parseInt($li.attr("children"));
           var clase = "";
 
           if (children > 0) {
-            $(this).find("span:first").addClass('clickable');
+            $li.find("span:first").addClass('clickable');
             clase = " clickable";
           }
 
-          $(this).find("span:first").after('<div class="bar'+clase+'" style="width:'+(species+10)+'px"><div class="count">'+species+'</div></div>');
+          $li.find("span:first").after('<div class="bar'+clase+'" style="width:'+(species+10)+'px"><div class="count">'+species+'</div></div>');
 
-          $(this).find("span:first").parent().hover(function() {
-            $(this).find(".count:first").show();
-            $(this).find("a:first").show();
+          $li.find("span:first").parent().hover(function() {
+            $li.find(".count:first").show();
+            $li.find("a:first").show();
           }, function() {
-            $(this).find(".count:first").hide();
-            $(this).find("a:first").hide();
+            $li.find(".count:first").hide();
+            $li.find("a:first").hide();
           });
-
-        });
-
-        $ul.children().each(function() {
-          addBars($(this));
-        });
-      }	  
+      }	  	  
+	  
+      // Add the adjacent bars next to each taxonomic element
+      function addBars($ul) {
+        $ul.find("> li").each(function() {
+          addBar($(this));
+        })
+      };	  
 
       addBars($ps.find("ul:first"));
 	  
@@ -2024,19 +2054,23 @@ $.fn.bindSlideshow = function(opt) {
             })
             //add the adjacent bars
             addBars($ps.find(".sp ul"));
+			_resize($ps, $ps.find(".sp ul > li").length, $this);
           });
           // move to the list and resize it (resizing disabled, was not working correctly)
           $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {
-            stop = false;
-            //_resize($ps, $ul.find("> li").length, data.$this);
+            stop = false; 	
           }});
+		              
           // scroll to the top of the list
-          $ps.find(".inner").data('jsp').scrollTo(0, 0, true);	  
+          $ps.find(".inner").data('jsp').scrollTo(0, 0, true);	
+		  $offset+=$limit;  
       }
 
       // If the user clicks on a bar
       $ps.find(".sp .clickable").live('click', function(e) {
         e.preventDefault();
+	    //reset paging values
+	    $offset=0;
 
         if (!stop && !stopBack) { // this prevents prolbems when clicking very fast on the items
           stop = true;
@@ -2056,7 +2090,7 @@ $.fn.bindSlideshow = function(opt) {
 		  // make the new breadcrumb element appear with a slow transition
           $breadcrumb.find("li:last").animate({opacity:1}, data.settings.transitionSpeed);
 		  // url to call to recreate the taxonomic tree
-          var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?";
+          var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?&offset="+$offset+"&limit="+$limit;
           //recreate the taxonomic tree
           recreateTree($wsUrl);	  
         }
@@ -2065,6 +2099,9 @@ $.fn.bindSlideshow = function(opt) {
       // The user clicks on the breadcrumb…
       $breadcrumb.find("li").live("click", function(e) {
         e.preventDefault();
+	    //reset paging values
+	    $offset=0;
+				
         var $BC = ($this).find(".breadcrumb");
         var $ulBC = ($this).find(".sp ul");
 		var $spidBC = $(this).attr("spid");
@@ -2073,10 +2110,10 @@ $.fn.bindSlideshow = function(opt) {
 		// url to call to recreate the taxonomic tree
 		// if a user clicks ALL, the root tree of the checklist should be displayed
         if($spidBC<0) {
-          $wsUrl = cfg.wsClb + "checklist/" + $cid + "/usages?callback=?"
+          $wsUrl = cfg.wsClb + "checklist/" + $cid + "/usages?callback=?&offset="+$offset+"&limit="+$limit;
         }
         else {
-          $wsUrl = cfg.wsClb + "name_usage/" + $spidBC + "/children?callback=?"
+          $wsUrl = cfg.wsClb + "name_usage/" + $spidBC + "/children?callback=?&offset="+$offset+"&limit="+$limit;
         }
 
         //recreate the taxonomic tree
