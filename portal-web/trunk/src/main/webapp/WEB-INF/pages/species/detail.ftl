@@ -27,7 +27,7 @@
     <p>This is the <em>${usage.scientificName}</em> view, as seen by <a
             href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a> checklist.
       <#if usage.nubKey?exists>
-        Remember that you can also check the <a href="<@s.url value='/species/${usage.nubKey}'/>">GBIF view
+        Remember that you can also check the <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view
         on ${usage.canonicalName!scientificName}</a>.
       </#if>
       <br/>You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
@@ -193,7 +193,7 @@
 	                      href="<@s.url value='/species/${usage.key?c}'/>">see
 	                details</a>
 	              </li>
-	            </#list>				
+	            </#list>
 			<#else>
 				No children to display.
 			</#if>
