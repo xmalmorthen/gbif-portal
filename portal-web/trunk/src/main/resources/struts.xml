@@ -172,8 +172,8 @@
       <result>/WEB-INF/pages/species/synonyms.ftl</result>
     </action>
 
-    <action name="{id}/extended_taxonomy" class="org.gbif.portal.action.species.ExtendedTaxonomyAction">
-      <result>/WEB-INF/pages/species/extended_taxonomy.ftl</result>
+    <action name="{id}/classification" class="org.gbif.portal.action.species.ClassificationAction">
+      <result>/WEB-INF/pages/species/classification.ftl</result>
     </action>
 
     <action name="{id}/verbatim" class="org.gbif.portal.action.species.VerbatimAction">

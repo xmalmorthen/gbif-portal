@@ -4284,25 +4284,25 @@ a.next_slide:hover {
   margin-right: 0px;
 }
 
-#content article .content ul.extended_taxonomy {
+#content article .content ul.classification {
   margin: 0;
   padding: 0;
 }
 
-#content article .content ul.extended_taxonomy li {
+#content article .content ul.classification li {
   padding: 0;
   background: none;
   margin: 0 0 15px 0;
 }
 
-#content article .content ul.extended_taxonomy li .taxon_level {
+#content article .content ul.classification li .taxon_level {
   width: 50px;
   display: inline-block;
   font-size: 13px;
   color: #666666;
 }
 
-#content article .content ul.extended_taxonomy li .separator {
+#content article .content ul.classification li .separator {
   display: inline-block;
   width: 100px;
   height: 15px;
@@ -4310,7 +4310,7 @@ a.next_slide:hover {
   background: url("../img/dotted_line_bck.png") repeat-x left bottom;
 }
 
-#content article .content ul.extended_taxonomy li a {
+#content article .content ul.classification li a {
   font-size: 19px;
   font-weight: bold;
 }
@@ -5855,7 +5855,7 @@ a.next_slide:hover {
   color: #333333;
 }
 
-#content article.extended_taxonomy .taxon {
+#content article.classification .taxon {
   font-size: 15px;
   margin-bottom: 25px;
 }

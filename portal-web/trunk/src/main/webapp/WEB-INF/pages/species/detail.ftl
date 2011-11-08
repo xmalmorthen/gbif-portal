@@ -170,7 +170,7 @@
 
     <div class="left">
       <h3>Taxonomic classification
-        <div class="extended">[<a href="<@s.url value='/species/${id?c}/extended_taxonomy'/>">extended</a>]</div>
+        <div class="extended">[<a href="<@s.url value='/species/${id?c}/classification'/>">extended</a>]</div>
       </h3>
 
 
