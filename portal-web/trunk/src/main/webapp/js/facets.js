@@ -15,5 +15,29 @@
  */
 $(function() {
    $("div.facet > select").multiselect({minWidth: 180});
-   //$("div.facet > select").multiselect("checkAll");
+   //$("div.facet > select").multiselect("checkAll");   
 });
+
+  function removeFacet(facetName,facetFilter) {	   
+    var paramList = removeQueryParam(escape('facets[\'' + facetName + '\']'),escape(facetFilter));	   	  
+    window.location.replace(window.location.pathname + '?' + paramList.join('&'));
+  };
+	   
+  function removeQueryParam(paramName, paramValue) {
+	// get the pairs of params fist
+	var pairs = location.search.substring(1).split('&');
+	var values = [];
+	// now iterate each pair
+	for (var i = 0; i < pairs.length; i++) {
+	  var params = pairs[i].split('=');
+	  if (params[0] != paramName && params[1] != paramValue) {	    
+	    values.push(pairs[i]);
+	  }
+	}
+	if (values.length > 0) {
+	  return values;
+	} else {
+	  
+	  return undefined;
+	}
+  }; 

@@ -37,22 +37,22 @@
       <#list searchResponse.results as u>
         <div class="result">
           <h2><a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}          
-          </a></h2>
-          <p>
-          <#if u.vernacularStringNames?has_content>
-           Common name(s):
-           <#list u.vernacularStringNames as vn>
-            <strong>${vn!c}</strong>
-            <#if vn_has_next> - </#if>
-           </#list>
-          </#if>
-          </p>
-          <p>according to ${u.checklistTitle}</p>
+          </a></h2>          
+          <p>according to ${u.checklistTitle}</p>          
           <div class="footer">
+          <p>
+            <#if u.vernacularStringNames?has_content>
+             <h3>Common name(s)</h3>
+             <#list u.vernacularStringNames as vn>
+                <strong>${vn!c}</strong>
+                <#if vn_has_next> - </#if>
+              </#list>
+             </#if>
+            </p>
             <ul class="taxonomy">
             <#assign classification=u.higherClassificationMap />            
             <#list classification?keys as usageKey>                 	
-              <li <#if !usageKey_has_next>class="last"</#if>><a href="<@s.url value='/species/${usageKey}'/>">${classification.get(usageKey)}</a></li>              
+              <li <#if !usageKey_has_next>class="last"</#if>><a href="<@s.url value='/species/${usageKey?c}'/>">${classification.get(usageKey)}</a></li>              
             </#list>             
             </ul>
           </div>
@@ -64,34 +64,48 @@
         </div>
       </div>
       <div class="right">
-
+		
+		<div class="refine">
+          <h4>Selected filters: </h4>
+          <div>
+          <#if facets?has_content>                      
+              <#list facets?keys as facetFilter>
+                <#list facets[facetFilter] as filterValue>
+	              	<p>
+	              	 ${facetFilter} : ${filterValue} <a href="#" onclick="javascript:removeFacet('${facetFilter}','${filterValue}');return true;" title="${facetFilter}:${filterValue}">[X]</a>
+	                </p>
+                </#list>
+              </#list>         
+          </#if>
+          </div>
+        </div>
+        
         <div class="refine">
           <h4>Higher taxon</h4>
           <a href="#" title="Any taxon">Any</a>
         </div>
         <div class="refine">
           <h4>Taxonomic rank</h4>
-          <div class="facet">
-          <#if facetCounts['RANK']?has_content>
-            <select id="RANK_FACET" name="facets['RANK']" style="width:190px;" multiple>
-              <#list facetCounts['RANK'] as count>
-                <option value="${count.name}">${count.name}-(${count.count})</option>
-              </#list>
-            </select>
+          <div>
+          <#if facetCounts['RANK']?has_content>           
+	          <#list facetCounts['RANK'] as count>
+	            <p>
+	             <a href="${currentUrl}&facets['RANK']=${count.name}" title="${count.name}">${count.name}-(${count.count})</a>
+	            <p>
+	          </#list>
           </#if>
           </div>
         </div>
 
         <div class="refine">
           <h4>Checklist</h4>
-
-          <div class="facet">
-          <#if facetCounts['CHECKLIST']?has_content>
-            <select id="CHECKLIST_FACET" name="facets['CHECKLIST']" style="width:190px;" multiple>
+          <div>
+          <#if facetCounts['CHECKLIST']?has_content>                      
               <#list facetCounts['CHECKLIST'] as count>
-                <option value="${count.name}">${count.name}-(${count.count})</option>
-              </#list>
-            </select>
+              	<p>
+                 <a href="${currentUrl}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}-(${count.count})</a>
+                </p>
+              </#list>         
           </#if>
           </div>
         </div>
@@ -110,10 +124,7 @@
           <h4>Habitat</h4>
           <a href="#" title="Any">Any<span class="more"></span></a>
         </div>
-
-        <div class="refine">
-          <button>Search</button>
-        </div>
+        
         <a href="#" title="Add another criterion" class="add_criteria">Add another criterion <span class="more"></span></a>
 
         <div class="download">
@@ -132,6 +143,5 @@
     <footer></footer>
   </article>
   </form>
-
 </body>
 </html>
