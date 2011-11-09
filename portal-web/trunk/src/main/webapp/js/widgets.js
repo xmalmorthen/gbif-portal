@@ -1938,6 +1938,9 @@ $.fn.bindSlideshow = function(opt) {
       // The current <select> element
       $this = $(this),
       $breadcrumb = false,
+      
+	  // resource bundle
+	  $resources = $.getResourceBundle("resources");      
 
       // for paging
 	  $limit = 45,
