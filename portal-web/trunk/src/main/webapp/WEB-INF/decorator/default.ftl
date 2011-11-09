@@ -201,6 +201,7 @@ ${head}
   <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/raphael-min.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/resourcebundle.js'/>"></script>
   <!-- end scripts-->
 
   <!--[if lt IE 7 ]>

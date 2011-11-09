@@ -18,7 +18,10 @@ import org.gbif.checklistbank.api.service.VernacularNameService;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import com.google.inject.Inject;
@@ -202,5 +205,14 @@ public class DetailAction extends UsageAction {
     if (a == null) return b;
     if (b == null) return a;
     return a + ", " + b;
+  }
+  
+  public Map<String,String> getBundle() {
+    Map<String,String> bundleProps = new TreeMap<String,String>();
+    ResourceBundle bundle = ResourceBundle.getBundle("resources");
+    for(String key: bundle.keySet()) {
+      bundleProps.put(key, bundle.getString(key));
+    }
+    return bundleProps;
   }
 }

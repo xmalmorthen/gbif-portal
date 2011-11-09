@@ -1940,7 +1940,7 @@ $.fn.bindSlideshow = function(opt) {
       $breadcrumb = false,
 
       // for paging
-	  $limit = 7,
+	  $limit = 45,
 	  $offset = 20,
 
       // We store lots of great stuff using jQuery data
@@ -1990,7 +1990,7 @@ $.fn.bindSlideshow = function(opt) {
         $.getJSON($wsUrl,
           function(data) {
             $(data.results).each(function() { 
-              $htmlContent=$("<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >" + this.canonicalName + "</span>" + "<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>");
+              $htmlContent=$("<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >" + "[" + $resources.getString("rank." + this.rank) + "] " + this.canonicalName + "</span>" + "<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>");
 			  //add the bar for this appended element
 			  addBar($htmlContent);
               $ps.find(".sp ul").append($htmlContent);
@@ -2047,7 +2047,7 @@ $.fn.bindSlideshow = function(opt) {
             $ps.find(".sp ul").empty();
             $(data.results).each(function() { 
               $htmlContent="<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
-              $htmlContent+=this.canonicalName
+              $htmlContent+="[" + $resources.getString("rank." + this.rank) + "] " + this.canonicalName;
               $htmlContent+="</span>";
               $htmlContent+="<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>";
               $ps.find(".sp ul").append($htmlContent);
