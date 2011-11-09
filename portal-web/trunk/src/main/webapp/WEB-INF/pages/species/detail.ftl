@@ -75,7 +75,7 @@
       <#assign sp = usage.speciesProfiles[0]/>
     </#if>
     <#if sp??>
-      <#if sp.livingPeriod??>
+      <#if sp.livingPeriod?? && sp.livingPeriod != ''>
         <h3>Living period</h3>
 
         <p>${sp.livingPeriod}</p>
@@ -86,14 +86,14 @@
 
         <p>
           <#if sp.isExtinct()>
-            Is Extinct
+              Is Extinct
             <#else>
               Is Not Extinct
           </#if>
         </p>
       </#if>
 
-      <#if sp.habitat??>
+      <#if sp.habitat?? && sp.habitat != ''>
         <h3>Habitat</h3>
 
         <p>${sp.habitat}</p>
