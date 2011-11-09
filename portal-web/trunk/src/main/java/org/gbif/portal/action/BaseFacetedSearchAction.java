@@ -48,6 +48,11 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   private Map<String, List<Facet.Count>> facetCounts;
 
   /**
+   * This constant restricts the maximum number of facet results to be displayed
+   */
+  public static final int MAX_FACETS = 5;
+
+  /**
    * This field is used to hold the class of the enum used for faceting.
    * This instance is used to iterate over the possible literal values of the enumerated type.
    */
@@ -116,6 +121,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     this.addFacetParameters(request);
     // default query parameter
     request.addParameter(DEFAULT_SEARCH_PARAM, this.getQ());
+    // Set constants
+    this.request.setAttribute("MAX_FACETS", MAX_FACETS);
     // issues the search operation
     SearchResponse<T> response = searchService.search(request);
     // store the response
