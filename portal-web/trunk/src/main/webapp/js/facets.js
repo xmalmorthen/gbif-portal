@@ -34,10 +34,6 @@ $(function() {
 	    values.push(pairs[i]);
 	  }
 	}
-	if (values.length > 0) {
-	  return values;
-	} else {
-	  
-	  return undefined;
-	}
+	values.push("initDefault=false");
+	return values;	
   }; 

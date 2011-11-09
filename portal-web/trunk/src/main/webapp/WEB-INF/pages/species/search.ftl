@@ -76,6 +76,15 @@
 	                </p>
                 </#list>
               </#list>         
+          </#if>          
+          <#if initDefault>
+          	<#list defaultFacetsFilters?keys as defaultFacetFilter>
+                <#list defaultFacetsFilters[defaultFacetFilter] as defaultFilterValue>
+	              	<p>
+	              	 ${defaultFacetFilter} : ${defaultFilterValue} <a href="#" onclick="javascript:removeFacet('${defaultFacetFilter}','${defaultFilterValue}');return true;" title="${defaultFacetFilter}:${defaultFilterValue}">[X]</a>
+	                </p>
+                </#list>
+              </#list>         
           </#if>
           </div>
         </div>

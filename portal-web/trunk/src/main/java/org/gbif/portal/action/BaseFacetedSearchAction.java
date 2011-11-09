@@ -47,6 +47,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
 
   private Map<String, List<Facet.Count>> facetCounts;
 
+  private boolean initDefault = true;
+
   /**
    * This constant restricts the maximum number of facet results to be displayed
    */
@@ -70,6 +72,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     this.searchService = searchService;
     this.facetCounts = new HashMap<String, List<Facet.Count>>();
     this.classEnum = classEnum;
+    this.facets = new HashMap<String, String[]>();
   }
 
   /**
@@ -119,7 +122,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     // Request creation
     SearchRequest request = new SearchRequest(this.getSearchRequest().getOffset(), this.getSearchRequest().getLimit());
     this.addFacetParameters(request);
-    // default query parameter
+    // default query parameters
     request.addParameter(DEFAULT_SEARCH_PARAM, this.getQ());
     // Set constants
     this.request.setAttribute("MAX_FACETS", MAX_FACETS);
@@ -132,6 +135,13 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     LOG.info("Action search of [{}] returned {} results", this.getQ(), response.getCount());
     return SUCCESS;
   }
+
+  /**
+   * This method should return a map containing the default filter parameters for the first time that the page is loaded
+   * 
+   * @return a map containing default values for facets filters
+   */
+  public abstract Map<String, String[]> getDefaultFacetsFilters();
 
   /**
    * Holds the facet count information retrieved after each search operation.
@@ -182,6 +192,13 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   }
 
   /**
+   * @return the initDefault
+   */
+  public boolean isInitDefault() {
+    return initDefault;
+  }
+
+  /**
    * @param facetCounts the facetCounts to set
    */
   public void setFacetCounts(Map<String, List<Facet.Count>> facetCounts) {
@@ -194,5 +211,15 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    */
   public void setFacets(Map<String, String[]> facets) {
     this.facets = facets;
+  }
+
+
+  /**
+   * Flag that indicates if the default filter parameters should be initialized
+   * 
+   * @param initDefault the initDefault to set
+   */
+  public void setInitDefault(boolean initDefault) {
+    this.initDefault = initDefault;
   }
 }

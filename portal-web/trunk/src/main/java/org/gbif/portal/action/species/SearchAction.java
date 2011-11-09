@@ -13,6 +13,9 @@ import org.gbif.checklistbank.api.model.search.NameUsageSearchResult;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.inject.Inject;
 
 /**
@@ -30,4 +33,17 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   public SearchAction(NameUsageSearchService nameUsageSearchService) {
     super(nameUsageSearchService, ChecklistBankFacetParameter.class);
   }
+
+  /*
+   * (non-Javadoc)
+   * @see org.gbif.portal.action.BaseFacetedSearchAction#getDefaultFacetsFilters()
+   */
+  @Override
+  public Map<String, String[]> getDefaultFacetsFilters() {
+    Map<String, String[]> map = new HashMap<String, String[]>();
+    map.put(ChecklistBankFacetParameter.CHECKLIST.name(), new String[] {"GBIF Taxonomic Backbone"});
+    return map;
+  }
+
+
 }
