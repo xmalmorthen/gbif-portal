@@ -1981,11 +1981,11 @@ $.fn.bindSlideshow = function(opt) {
 	  		
 	  
       $(".inner").scroll(function(){
-        if( ($(".jspTrack").height() <= ( parseInt($(".jspDrag").css("top")) + $(".jspDrag").height() + 15))) {
+        if( ($(".jspTrack").height() <= ( parseInt($(".jspDrag").css("top")) + $(".jspDrag").height() + 35)) && stop==false) {
           //set next paging values
 		  $spid=$ps.find(".breadcrumb li:last").attr("spid");
 		  var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?&offset="+$offset+"&limit="+$limit;
-		  $triggered=true;
+		  stop=true;
 		  var $wrapper = $("<ul></ul>");
         $.getJSON($wsUrl,
           function(data) {
