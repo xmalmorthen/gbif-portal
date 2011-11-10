@@ -330,8 +330,8 @@
             <#assign more=true/>
             <#break />
           </#if>
+          <li><a href="<@s.url value='/dataset/${uuid!}'/>">${uuid!}</a> <span class="note placeholder_temp">from Avian Knowledge Network</span></li>
         </#list>
-          <li><a href="<@s.url value='/dataset/${uuid}'/>">${uuid}</a> <span class="note placeholder_temp">from Avian Knowledge Network</span></li>
         </ul>
         <#if more>
           <p><a class="more_link" href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=occurrence'/>">see all</a></p>
