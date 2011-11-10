@@ -113,6 +113,25 @@ To make any property available, this process should be followed:
 			$i18nresources.getString("myi18nKey"); //where "myi18nKey" represents the key of a property loaded on step 1)
 		from any javascript file.
 
+Note on this: the plugin can't handle ResourceBundle parameters (${0}, etc)
+If in the future we decide to change to another i18n jquery plugin, these things should be removed:
+	- app.js: 
+		  $i18nresources = $.getResourceBundle("resources");
+	- default.ftl:
+		  upper part of file
+		  	  <#-- Load bundle properties. The action class can filter out which properties
+       			to show according to their key's prefixes -->
+  				<#if resourceBundleProperties?has_content>
+  					<script id="resources" type="text/plain">
+   						<#list resourceBundleProperties?keys as property>
+    						${property}=${resourceBundleProperties.get(property)}
+    					</#list>       
+  					</script>	  
+  				</#if>  
+	- BaseAction.java:
+		getResourceBundleProperties(String... prefix) method 
+	- any other Action class that implemented this method. (although, this method might be useful in other cases)
+		
 
 == Freemarker vs struts tags
 Freemarker has support for iterating lists, displaying properties, including other templates, macro's, and so on. There is a small performance cost when using the struts tags instead of the Freemarker equivalent (eg. <s:property value="foo"/> should be replaced by ${foo}), so use as much of native freemarker as you can!
