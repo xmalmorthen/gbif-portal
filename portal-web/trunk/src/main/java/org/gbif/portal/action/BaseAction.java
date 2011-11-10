@@ -3,6 +3,9 @@ package org.gbif.portal.action;
 import org.gbif.portal.config.Config;
 
 import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.TreeMap;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.inject.Inject;
@@ -68,6 +71,43 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
    */
   protected Map<String, Object> getSession() {
     return session;
+  }
+
+  /**
+   * Returns a map representing properties from the resource bundle but just those
+   * properties whose keys match one or more of the given prefixes.
+   * 
+   * @param prefix
+   * @return a map which the matched properties
+   */
+  public Map<String, String> getResourceBundleProperties(String... prefix) {
+    Map<String, String> bundleProps = new TreeMap<String, String>();
+    ResourceBundle bundle = ResourceBundle.getBundle("resources", getLocale());
+    for (String key : bundle.keySet()) {
+      // only add those properties whose key starts with one of the prefixes given
+      if (containsPrefix(key, prefix)) {
+        bundleProps.put(key, bundle.getString(key));
+      }
+    }
+    return bundleProps;
+  }
+
+  /**
+   * Checks whether a string starts with any of the prefixes specified
+   * 
+   * @param propertyKey
+   * @param prefixes
+   * @return true if string matches against any prefix. false otherwise.
+   */
+  private boolean containsPrefix(String propertyKey, String[] prefixes) {
+    if (propertyKey != null) {
+      for (String prefix : prefixes) {
+        if (propertyKey.startsWith(prefix)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   public Config getCfg() {

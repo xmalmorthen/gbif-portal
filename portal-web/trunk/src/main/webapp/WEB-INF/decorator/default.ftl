@@ -19,6 +19,15 @@
     cfg.wsOcc="${cfg.wsOcc!}";
     cfg.wsOccSearch="${cfg.wsOccSearch!}";
   </script>
+  <#-- Load bundle properties. The action class can filter out which properties
+       to show according to their key's prefixes -->
+  <#if resourceBundleProperties?has_content>
+  <script id="resources" type="text/plain">
+    <#list resourceBundleProperties?keys as property>
+    ${property}=${resourceBundleProperties.get(property)}
+    </#list>       
+  </script>	  
+  </#if>  
 <#if useGooglemaps!false>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </#if>

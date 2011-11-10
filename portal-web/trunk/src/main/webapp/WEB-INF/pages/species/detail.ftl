@@ -11,12 +11,6 @@
       });
     </script>
   </content>
-  <#-- Load bundle properties. -->
-  <script id="resources" type="text/plain">
-    <#list bundle?keys as property>
-      ${property}=${bundle.get(property)}
-    </#list>       
-  </script>	  
 </head>
 <body class="species typesmap">
 
