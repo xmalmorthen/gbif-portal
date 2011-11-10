@@ -2085,10 +2085,11 @@ $.fn.bindSlideshow = function(opt) {
 
           // get the name of the taxonomic element clicked and add it to the breadcrumb
           var $name = $(this).parent().find("span:first").html();
+		  var trimmedName = $name.substr($name.indexOf(']') + 1);
 		  // get the id of the taxonomic element clicked and add it to the breadcrumb
           var $spid = $(this).parent().find("span:first").attr("spid");
 		  // format HTML that will be appended to the breadcrumb
-          var $item = '<li spid="' + $spid + '" class="last" style="opacity:0;">' + $name + '</li>';
+          var $item = '<li spid="' + $spid + '" class="last" style="opacity:0;">' + trimmedName + '</li>';
           $breadcrumb.append($item);
 		  // make the new breadcrumb element appear with a slow transition
           $breadcrumb.find("li:last").animate({opacity:1}, data.settings.transitionSpeed);
