@@ -330,7 +330,7 @@
             <#assign more=true/>
             <#break />
           </#if>
-          <li><a href="<@s.url value='/dataset/${uuid}'/>">${uuid}</a> <span class="note placeholder_temp">from Avian Knowledge Network <a href="gbrds.gbif.org/browse/agent?uuid=${uuid}">GBRDS</a></span></li>
+          <li><a href="<@s.url value='/dataset/${uuid}'/>">${uuid}</a> <span class="note placeholder_temp">from Avian Knowledge Network <a href="http://gbrds.gbif.org/browse/agent?uuid=${uuid}">GBRDS</a></span></li>
         </#list>
         </ul>
         <#if more>
