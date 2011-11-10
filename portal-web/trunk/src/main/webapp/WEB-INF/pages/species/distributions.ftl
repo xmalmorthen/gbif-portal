@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
 <html>
 <head>
-  <title>Vernacular Names for ${usage.canonicalOrScientificName!}</title>
+  <title>Distributions for ${usage.canonicalOrScientificName!}</title>
   <meta name="menu" content="species"/>
 </head>
 <body class="species">
@@ -26,26 +26,30 @@
       </div>
 
       <div class="left">
-        <#list page.results as item>
+      <#list page.results as item>
         <div class="result">
-          <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong><span class="note">${item.status!"Present"}</span>
-          <#if usage.nub || item.source?has_content>
-            <a class="sourcePopup" id="source${item.key?c}" source="<#if usage.nub><a href='<@s.url value='/species/${item.usageKey?c}'/>'>${checklists.get(item.checklistKey).name}</a><br/></#if>${item.source!}"></a>
-          </#if>
+          <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong><span
+                  class="note">${item.status!"Present"}</span>
+            <#if usage.nub || item.source?has_content>
+              <a class="sourcePopup" id="source${item.key?c}"
+                 source="<#if usage.nub><a href='<@s.url value='/species/${item.usageKey?c}'/>'>${checklists.get(item.checklistKey).name}</a><br/></#if>${item.source!}"></a>
+            </#if>
           </h2>
+
           <div class="footer">
-            ${item.locationId!} ${item.country!} ${item.locality!}
+          ${item.locationId!} ${item.country!} ${item.locality!}
           </div>
           <div class="footer">
-            ${item.lifeStage!} ${item.temporal!} <#if item.startDayOfYear?? || item.endDayOfYear??>Days of the year: ${item.startDayOfYear!}-${item.endDayOfYear!}</#if>
+          ${item.lifeStage!} ${item.temporal!} <#if item.startDayOfYear?? || item.endDayOfYear??>Days of the
+            year: ${item.startDayOfYear!}-${item.endDayOfYear!}</#if>
           </div>
           <div class="footer">
-            ${item.threatStatus!} ${item.establishmentMeans!} ${item.appendixCites!}
+          ${item.threatStatus!} ${item.establishmentMeans!} ${item.appendixCites!}
           </div>
         </div>
-        </#list>
+      </#list>
         <div class="footer">
-          <@paging.pagination page=page url=currentUrl/>
+        <@paging.pagination page=page url=currentUrl/>
         </div>
       </div>
 
