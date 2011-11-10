@@ -321,24 +321,21 @@
     <h2>Appears in</h2>
 
     <div class="left">
-      <div class="col placeholder_temp">
+      <div class="col">
         <h3>Occurrences datasets</h3>
         <ul class="notes">
-          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
-          </li>
-          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
-          </li>
-          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
-          </li>
-          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
-          </li>
-          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
-          </li>
-          <li><a href="<@s.url value='/dataset/456'/>">Macaulay Library</a> <span class="note">from Avian Knowledge Network</span>
-          </li>
+        <#assign more=false/>
+        <#list relatedDatasets as uuid>
+          <#if rel_index==6>
+            <#assign more=true/>
+            <#break />
+          </#if>
+        </#list>
+          <li><a href="<@s.url value='/dataset/${uuid}'/>">${uuid}</a> <span class="note placeholder_temp">from Avian Knowledge Network</span></li>
         </ul>
-        <p><a class="more_link" href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=occurrence'/>">see
-          all</a></p>
+        <#if more>
+          <p><a class="more_link" href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=occurrence'/>">see all</a></p>
+        </#if>
       </div>
 
       <div class="col">
@@ -361,14 +358,14 @@
       </div>
     </div>
 
-    <div class="right placeholder_temp">
+    <div class="right">
       <h3>By occurrences hosting</h3>
       <ul>
-        <li><a href="<@s.url value='/dataset/search?q=fake'/>">13 occurrence datasets</a></li>
-        <li><a href="<@s.url value='/dataset/search?q=fake'/>">2 external datasets</a></li>
+        <li><a href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=occurrence'/>">${relatedDatasets?size} occurrence datasets</a></li>
+        <li class="placeholder_temp"><a href="<@s.url value='/dataset/search?q=fake'/>">2 external datasets</a></li>
       </ul>
       <h3>By checklist type</h3>
-      <ul>
+      <ul class="placeholder_temp">
         <li><a href="<@s.url value='/dataset/search?q=fake'/>">13 nomenclator</a></li>
         <li><a href="<@s.url value='/dataset/search?q=fake'/>">2 reconciled</a></li>
       </ul>

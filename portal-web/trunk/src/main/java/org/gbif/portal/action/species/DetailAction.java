@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.UUID;
 
 import com.google.inject.Inject;
 import freemarker.template.utility.StringUtil;
@@ -46,6 +47,7 @@ public class DetailAction extends UsageAction {
 
   private NameUsage basionym;
   private LinkedList<NameUsage> related = new LinkedList<NameUsage>();
+  private List<UUID> relatedDatasets = new ArrayList<UUID>();
   // TODO: remove the children property once the taxonomic browser is working via ajax
   private List<NameUsage> children;
 
@@ -82,7 +84,7 @@ public class DetailAction extends UsageAction {
     PagingResponse<NameUsage> childrenResponse = usageService.listChildren(id, getLocale(), page20);
     children = childrenResponse.getResults();
 
-    // get non nub related usages
+    // get non nub related usages & occ datasets
     if (usage.getNubKey() != null) {
       PagingResponse<NameUsage> relatedResponse = usageService.listRelated(usage.getNubKey(), getLocale(), page7);
       for (NameUsage u : relatedResponse.getResults()) {
@@ -91,7 +93,9 @@ public class DetailAction extends UsageAction {
           related.add(u);
         }
       }
+      relatedDatasets = usageService.listRelatedOccurrenceDatasets(usage.getNubKey());
     }
+
 
     // get synonyms
     PagingResponse<NameUsage> synonymResponse = usageService.listSynonyms(id, getLocale(), page10);
@@ -207,5 +211,9 @@ public class DetailAction extends UsageAction {
   
   public Map<String, String> getResourceBundleProperties() {
     return super.getResourceBundleProperties("rank.");
-  } 
+  }
+
+  public List<UUID> getRelatedDatasets() {
+    return relatedDatasets;
+  }
 }
