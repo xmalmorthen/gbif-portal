@@ -10,9 +10,8 @@ public class ClassificationAction extends UsageAction {
 
   @Override
   public String execute() {
-    if (!loadUsage()) {
-      return HTTP_NOT_FOUND;
-    }
+    loadUsage();
+
     parents = usageService.listParents(id, getLocale());
     return SUCCESS;
   }

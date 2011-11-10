@@ -1,6 +1,7 @@
 package org.gbif.portal.action.member;
 
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.action.NotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public class DatasetsAction extends BaseAction {
       /** TODO: implement member lookup */
       return SUCCESS;
     }
-    return HTTP_NOT_FOUND;
+    throw new NotFoundException();
   }
 
   public void setId(Integer id) {

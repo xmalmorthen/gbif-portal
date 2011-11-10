@@ -5,6 +5,7 @@ import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.NameUsageService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.action.NotFoundException;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -24,19 +25,23 @@ public class UsageAction extends BaseAction{
   protected Checklist checklist;
   protected Map<UUID, Checklist> checklists = new HashMap<UUID, Checklist>();
 
-  public boolean loadUsage() {
+  /**
+   * Loads a name usage and its checklist by the id parameter.
+   *
+   * @throws NotFoundException if no usage for the given id can be found
+   */
+  public void loadUsage() {
     if (id == null) {
       LOG.error("No checklist usage id given");
-      return false;
+      throw new NotFoundException();
     }
     usage = usageService.get(id, getLocale());
     if (usage == null) {
       LOG.error("No usage found with id {}", id);
-      return false;
+      throw new NotFoundException();
     }
     // load checklist
     checklist = checklistService.get(usage.getChecklistKey());
-    return true;
   }
 
   /**

@@ -53,6 +53,8 @@
     <global-exception-mappings>
        <!-- catching not existing action mappings -->
        <exception-mapping exception="com.opensymphony.xwork2.config.ConfigurationException" result="404" />
+       <exception-mapping exception="org.gbif.portal.action.NotFoundException" result="404" />
+      <exception-mapping exception="org.gbif.portal.action.NotAllowedException" result="401" />
     </global-exception-mappings>
 
   </package>

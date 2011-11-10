@@ -5,7 +5,6 @@ import org.gbif.portal.config.Config;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.inject.Inject;
@@ -22,7 +21,6 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
 
   protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
-  public static final String HTTP_NOT_FOUND = "404";
   public static final String HTTP_NOT_ALLOWED = "401";
 
   protected Map<String, Object> session;

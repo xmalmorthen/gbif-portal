@@ -10,6 +10,7 @@ package org.gbif.portal.action.dataset;
 
 import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.action.NotFoundException;
 
 import java.util.UUID;
 
@@ -34,7 +35,7 @@ public class DetailAction extends BaseAction {
     /** TODO: re-enable real lookup, render based on dataset type */
     // just for testing each of the 3 dataset type views
     if (id == null) {
-      return HTTP_NOT_FOUND;
+      throw new NotFoundException();
     }
     // TODO: the registry client needs to be invoked first to know which type of Resource we area dealing with. For now
     // the checklist client will be the default one being called. The default view will be the detailed checklist.

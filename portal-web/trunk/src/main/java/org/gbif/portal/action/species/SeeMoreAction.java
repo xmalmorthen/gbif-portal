@@ -20,9 +20,7 @@ public class SeeMoreAction<T extends NameUsageComponent> extends UsageAction{
 
   @Override
   public String execute() {
-    if (!loadUsage()){
-      return HTTP_NOT_FOUND;
-    }
+    loadUsage();
 
     PagingRequest p = new PagingRequest(offset, 25);
     page = service.listByUsage(id, p);

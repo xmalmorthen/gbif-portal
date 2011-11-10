@@ -12,9 +12,8 @@ public class SynonymsAction extends UsageAction {
 
   @Override
   public String execute() {
-    if (!loadUsage()){
-      return HTTP_NOT_FOUND;
-    }
+    loadUsage();
+
     page = new PagingRequest(offset, 50);
     synonyms = usageService.listSynonyms(id, getLocale(), page).getResults();
     return SUCCESS;

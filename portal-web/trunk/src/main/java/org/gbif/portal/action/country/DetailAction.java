@@ -1,6 +1,7 @@
 package org.gbif.portal.action.country;
 
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.action.NotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public class DetailAction extends BaseAction {
       /** TODO: implement country lookup */
       return SUCCESS;
     }
-    return HTTP_NOT_FOUND;
+    throw new NotFoundException();
   }
 
   public void setId(Integer id) {

@@ -59,9 +59,7 @@ public class DetailAction extends UsageAction {
 
   @Override
   public String execute() {
-    if (!loadUsage()) {
-      return HTTP_NOT_FOUND;
-    }
+    loadUsage();
 
     // load usage details
     loadUsageDetails();
