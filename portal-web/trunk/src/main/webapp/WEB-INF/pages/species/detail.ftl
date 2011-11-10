@@ -326,7 +326,7 @@
         <ul class="notes">
         <#assign more=false/>
         <#list relatedDatasets as uuid>
-          <#if rel_index==6>
+          <#if uuid_index==6>
             <#assign more=true/>
             <#break />
           </#if>
