@@ -352,16 +352,16 @@
           </#list>
         </ul>
         <#if more>
-          <p><a class="more_link" href="<@s.url value='/species/search?nubKey=${usage.nubKey?c}&checklistKey=all'/>">see
-            all</a></p>
+          <p><a class="more_link" href="<@s.url value='/species/search?nubKey=${usage.nubKey?c}&checklistKey=all'/>">see all</a></p>
         </#if>
       </div>
     </div>
 
     <div class="right">
-      <h3>By occurrences hosting</h3>
+      <h3>By dataset type</h3>
       <ul>
         <li><a href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=occurrence'/>">${relatedDatasets?size} occurrence datasets</a></li>
+        <li><a href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=checklist'/>">${related?size} checklist datasets</a></li>
         <li class="placeholder_temp"><a href="<@s.url value='/dataset/search?q=fake'/>">2 external datasets</a></li>
       </ul>
       <h3>By checklist type</h3>
