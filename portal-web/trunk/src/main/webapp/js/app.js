@@ -146,5 +146,8 @@ $(function() {
     dataHistory.initialize(generateRandomValues(365), {height: 180, processes: processes});
     dataHistory.show();
   }
+  
+  // wrapper to use for i18n in JQuery. See README file for how to use it.
+  $i18nresources = $.getResourceBundle("resources");
 
 })

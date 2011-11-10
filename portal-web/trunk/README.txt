@@ -83,10 +83,36 @@ URLs should be case insensitive. Struts, like servlets, seems case sensitive by 
 We need to see if we can change a setting or use a rewrite to lower case filter?
 
 == internationalisation
+We are going to stick to a single resource file. Markus's point of replacing the native struts2 text provider makes sense now.
 not done yet as we expect mayor changes in the html still and its less work to replace the real strings once we reached a considerable stable state. Otherwise we also run into lots of orphaned entries.
 
 use the struts tags for i18n, for example <@s.text name="menu.species"/>
 Consider replacing the native struts2 text provider with a much simpler one we use in the IPT that increased page rendering with many getText lookups by more than 100% as the native one does an extensive resource bundle search across various classpaths and other places that we dont need if we stick to a single resource file.
+
+using i18n in JQuery:
+to make available the properties from Java's resource bundle to javascript, a jquery plugin is used: http://plugins.jquery.com/project/resourcebundle
+To make any property available, this process should be followed:
+	1) On the Action responsible for passing the values to the ftl, create a getResourceBundleProperties() method that calls the superclass's method: 
+	Example: 
+	      MyAction extends BaseAction
+	         //this will return ALL properties
+		     public Map<String, String> getResourceBundleProperties() {
+   		     	return getResourceBundleProperties();
+		     }
+	         //this will return just properties starting with "rank."
+		     public Map<String, String> getResourceBundleProperties() {
+   		  	    return getResourceBundleProperties("rank.");
+		     }		  
+	         //this will return just properties starting with "rank." and "species."
+	         //you can add as many prefixes as needed
+		     public Map<String, String> getResourceBundleProperties() {
+   		   	   return getResourceBundleProperties("rank.", "species.");
+		     }		  		  
+		  
+	2)  To make use of the JQuery plugin, you just need to call it like:
+			$i18nresources.getString("myi18nKey"); //where "myi18nKey" represents the key of a property loaded on step 1)
+		from any javascript file.
+
 
 == Freemarker vs struts tags
 Freemarker has support for iterating lists, displaying properties, including other templates, macro's, and so on. There is a small performance cost when using the struts tags instead of the Freemarker equivalent (eg. <s:property value="foo"/> should be replaced by ${foo}), so use as much of native freemarker as you can!

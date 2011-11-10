@@ -206,6 +206,6 @@ public class DetailAction extends UsageAction {
   }
   
   public Map<String, String> getResourceBundleProperties() {
-    return getResourceBundleProperties("rank.");
+    return super.getResourceBundleProperties("rank.");
   } 
 }

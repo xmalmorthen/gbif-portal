@@ -83,9 +83,16 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
   public Map<String, String> getResourceBundleProperties(String... prefix) {
     Map<String, String> bundleProps = new TreeMap<String, String>();
     ResourceBundle bundle = ResourceBundle.getBundle("resources", getLocale());
-    for (String key : bundle.keySet()) {
-      // only add those properties whose key starts with one of the prefixes given
-      if (containsPrefix(key, prefix)) {
+    // properties should be filtered out
+    if (prefix != null && prefix.length != 0) {
+      for (String key : bundle.keySet()) {
+        // only add those properties whose key starts with one of the prefixes given
+        if (containsPrefix(key, prefix)) {
+          bundleProps.put(key, bundle.getString(key));
+        }
+      }
+    } else { // just get all properties without any filtering at all
+      for (String key : bundle.keySet()) {
         bundleProps.put(key, bundle.getString(key));
       }
     }
