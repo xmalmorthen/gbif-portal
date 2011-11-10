@@ -190,13 +190,6 @@
       </ul>
     </#if>
 
-      <h3>Children</h3>
-      <ul class="no_bottom">
-      <#list children as syn>
-        <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
-      </#list>
-      </ul>
-
     </div>
 
   </div>
@@ -205,14 +198,14 @@
 
 <#if nub>
 <#-- ONLY FOR NUB PAGES -->
-<article class="map placeholder_temp">
+<article class="map">
   <header></header>
-  <div id="map"></div>
+  <div id="map" class="placeholder_temp"></div>
   <!-- map controls -->
   <a href="#zoom_in" class="zoom_in"></a>
   <a href="#zoom_out" class="zoom_out"></a>
 
-  <div class="projection">
+  <div class="projection placeholder_temp">
     <a class="projection" href="#projection">projection</a>
   <span>
     <p>PROJECTION</p>
@@ -228,17 +221,17 @@
     <div class="header">
       <div class="right">
         <div class="big_number">
-          <span>98,453</span>
+          <span>${usage.numOccurrences!0}</span>
           <a href="<@s.url value='/occurrence/search?q=holotype'/>">occurrences</a>
         </div>
-        <div class="big_number">
+        <div class="big_number placeholder_temp">
           <span class="big_number">8,453</span>
           <a href="<@s.url value='/occurrence/search?q=holotype'/>">in the selected area</a>
         </div>
       </div>
     </div>
 
-    <div class="right">
+    <div class="right placeholder_temp">
       <h3>Visualize</h3>
 
       <p class="maptype"><a href="#" title="points" class="selected">occurrence</a> | <a href="#"
