@@ -97,16 +97,16 @@ To make any property available, this process should be followed:
 	      MyAction extends BaseAction
 	         //this will return ALL properties
 		     public Map<String, String> getResourceBundleProperties() {
-   		     	return getResourceBundleProperties();
+   		     	return super.getResourceBundleProperties();
 		     }
 	         //this will return just properties starting with "rank."
 		     public Map<String, String> getResourceBundleProperties() {
-   		  	    return getResourceBundleProperties("rank.");
+   		  	    return super.getResourceBundleProperties("rank.");
 		     }		  
 	         //this will return just properties starting with "rank." and "species."
 	         //you can add as many prefixes as needed
 		     public Map<String, String> getResourceBundleProperties() {
-   		   	   return getResourceBundleProperties("rank.", "species.");
+   		   	   return super.getResourceBundleProperties("rank.", "species.");
 		     }		  		  
 		  
 	2)  To make use of the JQuery plugin, you just need to call it like:
