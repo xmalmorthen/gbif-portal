@@ -2,11 +2,8 @@
 <html>
 <head>
   <title>Species Search Results for ${q!}</title>
-  <meta name="menu" content="species"/>
-  <link rel="stylesheet" href="<@s.url value='/css/jquery.multiselect.css'/>"/>
-  <content tag="extra_scripts">
-    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.multiselect.min.js'/>">
-    </script>
+  <meta name="menu" content="species"/>  
+  <content tag="extra_scripts">    
     <script type="text/javascript" src="<@s.url value='/js/facets.js'/>">
     </script>
   </content>
@@ -67,12 +64,12 @@
 		
 		<div class="refine">
           <h4>Selected filters: </h4>
-          <div>
+          <div class="facet">
           <#if facets?has_content>                      
               <#list facets?keys as facetFilter>
                 <#list facets[facetFilter] as filterValue>
 	              	<p>
-	              	 ${facetFilter} : ${filterValue} <a href="#" onclick="javascript:removeFacet('${facetFilter}','${filterValue}');return true;" title="${facetFilter}:${filterValue}">[X]</a>
+	              	 <span class="flabel">${facetFilter}</span> : ${filterValue} <a href="#" onclick="javascript:removeFacet('${facetFilter}','${filterValue}');return true;" title="${facetFilter}:${filterValue}">[X]</a>
 	                </p>
                 </#list>
               </#list>         
@@ -95,7 +92,7 @@
         </div>
         <div class="refine">
           <h4>Taxonomic rank</h4>
-          <div>
+          <div class="facet">
           <#if facetCounts['RANK']?has_content>           
 	          <#list facetCounts['RANK'] as count>
 	            <#if count_index = MAX_FACETS>
@@ -111,7 +108,7 @@
 
         <div class="refine">
           <h4>Checklist</h4>
-          <div>
+          <div class="facet">
           <#if facetCounts['CHECKLIST']?has_content>                      
               <#list facetCounts['CHECKLIST'] as count>
                <#if count_index = MAX_FACETS>

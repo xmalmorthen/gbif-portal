@@ -13,11 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-$(function() {
-   $("div.facet > select").multiselect({minWidth: 180});
-   //$("div.facet > select").multiselect("checkAll");   
-});
-
   function removeFacet(facetName,facetFilter) {	   
     var paramList = removeQueryParam(escape('facets[\'' + facetName + '\']'),escape(facetFilter));	   	  
     window.location.replace(window.location.pathname + '?' + paramList.join('&'));

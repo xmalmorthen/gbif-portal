@@ -7327,11 +7327,20 @@ body.singlemap a.zoom_out:hover {
 }
 
 /*Styles for facets: clears any existing background settings and font sizes*/
-.facet, .facet ul li, .facet span {
-  font-size: x-small !important;
+.facet, .facet div, .facet ul li, .facet span, .facet p, .facet a {
+  font-size: 12px !important;
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+  font-weight: lighter !important;
 }
 
 .facet ul li {
   background: none !important;
 }
+
+/*Label for facets and filters*/
+.flabel {
+	font-weight: bold !important;
+}
+
 
