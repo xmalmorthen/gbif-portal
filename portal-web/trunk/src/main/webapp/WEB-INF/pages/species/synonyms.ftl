@@ -27,13 +27,16 @@
 
       <div class="left">
 
-        <#list page.results as item>
+        <#list page.results as u>
         <div class="result">
-          <h2><strong>${item.scientificName}</strong><span class="note"></span></h2>
+          <h2>
+            <a href="<@s.url value='/species/${u.key?c}'/>"><strong>${u.scientificName}</strong></a>
+            <span class="note"><@s.text name="enum.rank.${u.rank}"/></span>
+          </h2>
           <#if usage.nub>
-            <a class="sourcePopup" id="source${item.key?c}" source="${item.source!}" remarks="${checklists.get(item.checklistKey).name}"></a>
+            <p>according to ${u.accordingTo!u.origin}</p>
           </#if>
-          <div class="footer">${item.taxonomicStatus!} ${item.rank!}</div>
+          <div class="footer">${u.taxonomicStatus!} ${u.nomenclaturalStatus!}</div>
         </div>
         </#list>
 
