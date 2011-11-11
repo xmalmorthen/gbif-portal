@@ -14,9 +14,12 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
   <#assign offset = page.offset>
   <#assign limit = page.limit>
   <#assign stripUrl = getStripUrl(url) >
-  <#if (limit > 0) && (offset > 0) >
+  <#if (offset>1) && (offset < limit) >
+    <a href="${getFullUrl(stripUrl, 0, limit)}" class="candy_white_button previous"><span>Previous page</span></a>
+  <#elseif (limit > 0) && (offset > 0) >
     <a href="${getFullUrl(stripUrl, (offset-limit), limit)}" class="candy_white_button previous"><span>Previous page</span></a>
   </#if>
+
   <#if !page.isEndOfRecords()>
     <a href="${getFullUrl(stripUrl, (offset+limit), limit)}" class="candy_white_button next"><span>Next page</span></a>
   </#if>

@@ -8,11 +8,10 @@
  */
 package org.gbif.portal.action.dataset;
 
-import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.api.service.ChecklistService;
-import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.action.BaseSearchAction;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -22,27 +21,31 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SearchAction extends BaseAction {
+public class SearchAction extends BaseSearchAction<Checklist> {
+
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -5488762514856137948L;
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
-  // paging
-  private long offset = 0;
-  private PagingResponse<Checklist> page;
-
-  // search
-  private String q;
   private List<?> datasets;
 
-  @Inject
   private ChecklistService checklistService;
+
+  @Inject
+  public SearchAction(ChecklistService checklistService) {
+    this.checklistService = checklistService;
+  }
 
   @Override
   public String execute() {
-    LOG.debug("Searching for datasets matching [{}]", q);
-    page = checklistService.list(new PagingRequest(offset, 50));
-    if (page!= null) {
-      datasets = page.getResults();
+    LOG.debug("Searching for datasets matching [{}]", this.getQ());
+    PagingResponse<Checklist> searchResponse = checklistService.list(getSearchRequest());
+    this.setSearchResponse(searchResponse);
+    if (searchResponse != null) {
+      datasets = searchResponse.getResults();
     }
     LOG.debug("Found [{}] matching datasets", datasets == null ? 0 : datasets.size());
 
@@ -62,8 +65,8 @@ public class SearchAction extends BaseAction {
     }
 
     // using static just to make sure all layout is working properly
-    if (q == null || q.isEmpty()) {
-      q = "NoSearchTerm";
+    if (this.getQ() == null || this.getQ().isEmpty()) {
+      this.setQ("NoSearchTerm");
     }
 
     return SUCCESS;
@@ -74,30 +77,5 @@ public class SearchAction extends BaseAction {
    */
   public List<?> getDatasets() {
     return datasets == null ? null : datasets;
-  }
-
-  /**
-   * @return the q.
-   */
-  public String getQ() {
-    return q;
-  }
-
-  /**
-   * @param q the q to set.
-   */
-  public void setQ(String q) {
-    this.q = q;
-  }
-
-  /**
-   * @param offset the offset to set.
-   */
-  public void setOffset(long offset) {
-    this.offset = offset;
-  }
-
-  public PagingResponse<Checklist> getPage() {
-    return page;
   }
 }

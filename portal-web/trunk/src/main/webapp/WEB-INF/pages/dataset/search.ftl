@@ -59,7 +59,7 @@
       -->
 
         <div class="footer">
-        <@macro.pagination page=page url=currentUrl/>
+        <@macro.pagination page=searchResponse url=currentUrl/>
         </div>
       </div>
 

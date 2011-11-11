@@ -128,6 +128,7 @@ If in the future we decide to change to another i18n jquery plugin, these things
     					</#list>       
   					</script>	  
   				</#if>  
+  	- search for any reference to "$i18nresources" on the javascript files: these would need to change to the new plugin
 	- BaseAction.java:
 		getResourceBundleProperties(String... prefix) method 
 	- any other Action class that implemented this method. (although, this method might be useful in other cases)
