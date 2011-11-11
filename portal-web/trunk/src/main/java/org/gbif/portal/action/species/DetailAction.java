@@ -54,7 +54,6 @@ public class DetailAction extends UsageAction {
   // various pagesizes used
   private Pageable page20 = new PagingRequest(0, 20);
   private Pageable page10 = new PagingRequest(0, 10);
-  private Pageable page7 = new PagingRequest(0, 7);
 
 
   @Override
@@ -84,7 +83,7 @@ public class DetailAction extends UsageAction {
 
     // get non nub related usages & occ datasets
     if (usage.getNubKey() != null) {
-      PagingResponse<NameUsage> relatedResponse = usageService.listRelated(usage.getNubKey(), getLocale(), page7);
+      PagingResponse<NameUsage> relatedResponse = usageService.listRelated(usage.getNubKey(), getLocale(), page10);
       for (NameUsage u : relatedResponse.getResults()) {
         // ignore this usage
         if (!u.getKey().equals(usage.getKey())) {
