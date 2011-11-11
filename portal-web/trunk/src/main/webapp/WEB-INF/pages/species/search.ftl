@@ -33,13 +33,14 @@
 
       <#list searchResponse.results as u>
         <div class="result">
-          <h2><a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong> ${u.rank!}          
-          </a></h2>          
+          <h2>
+            <a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong></a>
+            <#if u.rank??><span class="note"><@s.text name="enum.rank.${u.rank}"/></span></#if>
+          </h2>
           <p>according to ${u.checklistTitle}</p>          
           <div class="footer">
           <p>
             <#if u.vernacularStringNames?has_content>
-             <h3>Common name(s)</h3>
              <#list u.vernacularStringNames as vn>
                 <strong>${vn!c}</strong>
                 <#if vn_has_next> - </#if>
@@ -93,15 +94,15 @@
         <div class="refine">
           <h4>Taxonomic rank</h4>
           <div class="facet">
-          <#if facetCounts['RANK']?has_content>           
+          <#if facetCounts['RANK']?has_content>
+            <ul>
 	          <#list facetCounts['RANK'] as count>
 	            <#if count_index = MAX_FACETS>
 	              <#break>
 	            </#if>
-	            <p>
-	             <a href="${currentUrl}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})
-	            <p>
+	            <li><a href="${currentUrl}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
 	          </#list>
+            </ul>
           </#if>
           </div>
         </div>
@@ -110,14 +111,15 @@
           <h4>Checklist</h4>
           <div class="facet">
           <#if facetCounts['CHECKLIST']?has_content>                      
+            <ul>
               <#list facetCounts['CHECKLIST'] as count>
                <#if count_index = MAX_FACETS>
 	              <#break>
 	            </#if>
-              	<p>
-                 <a href="${currentUrl}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})
-                </p>
-              </#list>         
+              	<li><a href="${currentUrl}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
+              </#list>
+            </ul>
+
           </#if>
           </div>
         </div>
