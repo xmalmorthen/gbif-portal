@@ -105,6 +105,9 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
       request.addFacets(enumConstant);
       this.addFacetParameters(enumConstant, request);
     }
+    if (this.initDefault) {
+      request.addFacetedParameter(this.getDefaultFacetsFilters());
+    }
   }
 
   /**
