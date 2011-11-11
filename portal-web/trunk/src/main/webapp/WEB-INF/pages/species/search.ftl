@@ -99,7 +99,7 @@
 	              <#break>
 	            </#if>
 	            <p>
-	             <a href="${currentUrl}&facets['RANK']=${count.name}" title="${count.name}">${count.name}-(${count.count})</a>
+	             <a href="${currentUrl}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})
 	            <p>
 	          </#list>
           </#if>
@@ -115,7 +115,7 @@
 	              <#break>
 	            </#if>
               	<p>
-                 <a href="${currentUrl}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}-(${count.count})</a>
+                 <a href="${currentUrl}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})
                 </p>
               </#list>         
           </#if>
