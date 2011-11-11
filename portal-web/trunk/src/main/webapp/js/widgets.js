@@ -1982,6 +1982,7 @@ $.fn.bindSlideshow = function(opt) {
 	  
       $(".inner").scroll(function(){
         if( ($(".jspTrack").height() <= ( parseInt($(".jspDrag").css("top")) + $(".jspDrag").height() + 35)) && stop==false) {
+		$ps.find(".loadingTaxa span").html("<img src=\"../img/taxbrowser-loader.gif\"> Loading more elements..." ).show();
           //set next paging values
 		  $spid=$ps.find(".breadcrumb li:last").attr("spid");
 		  var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?&offset="+$offset+"&limit="+$limit;
@@ -1996,6 +1997,7 @@ $.fn.bindSlideshow = function(opt) {
               $ps.find(".sp ul").append($htmlContent);
             })
 			_resize($ps, $ps.find(".sp ul").find("> li").length, $this);
+			$ps.find(".loadingTaxa span").fadeOut("slow");
           });
           $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {
             stop = false;

@@ -7342,5 +7342,12 @@ body.singlemap a.zoom_out:hover {
 .flabel {
 	font-weight: bold !important;
 }
+.loadingTaxa {
+  height: 28px;
+  margin-top: 15px;
+}
 
+.loadingTaxa img {
+  vertical-align:-8px;
+}
 

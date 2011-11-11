@@ -27,7 +27,6 @@
       </ul>
     </div>
   </div>
+      <div class="loadingTaxa"><span></span></div>
 </div>
-  
-  
   
