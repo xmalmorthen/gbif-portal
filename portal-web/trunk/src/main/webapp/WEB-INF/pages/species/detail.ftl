@@ -419,10 +419,12 @@
         </#if>
       </#list>
     </div>
-    <div class="right placeholder_temp">
+    <div class="right">
       <h3>Specimens by type</h3>
       <ul>
-        <li><a href="<@s.url value='/occurrence/typespecimens'/>">13 syntypes</a></li>
+      <#list typeStatusCounts?keys as prop>
+        <li><a href="<@s.url value='/species/${id?c}/typespecimens?type=${prop}'/>">${typeStatusCounts.get(prop)} ${prop}</a></li>
+      </#list>
       </ul>
     </div>
   </div>

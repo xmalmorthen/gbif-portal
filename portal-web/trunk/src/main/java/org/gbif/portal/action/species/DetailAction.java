@@ -6,6 +6,7 @@ import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.Identifier;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.SpeciesProfile;
+import org.gbif.checklistbank.api.model.TypeSpecimen;
 import org.gbif.checklistbank.api.service.DescriptionService;
 import org.gbif.checklistbank.api.service.DistributionService;
 import org.gbif.checklistbank.api.service.IdentifierService;
@@ -16,6 +17,7 @@ import org.gbif.checklistbank.api.service.TypeSpecimenService;
 import org.gbif.checklistbank.api.service.VernacularNameService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,7 @@ import java.util.UUID;
 
 import com.google.inject.Inject;
 import freemarker.template.utility.StringUtil;
+import org.apache.commons.lang.StringUtils;
 
 public class DetailAction extends UsageAction {
 
@@ -55,6 +58,7 @@ public class DetailAction extends UsageAction {
   private Pageable page20 = new PagingRequest(0, 20);
   private Pageable page10 = new PagingRequest(0, 10);
 
+  private Map<String, Integer> typeStatusCounts = new HashMap<String, Integer>();
 
   @Override
   public String execute() {
@@ -67,6 +71,9 @@ public class DetailAction extends UsageAction {
     for (NameUsage u : related) {
       loadChecklist(u.getChecklistKey());
     }
+
+    // load typeSpecimen typestatus counts
+    loadTypeStatusCounts();
 
     return SUCCESS;
   }
@@ -168,6 +175,28 @@ public class DetailAction extends UsageAction {
     }
   }
 
+  /**
+   * Retrieve all TypeSpecimen for this usage. Iterate through them. Count the number of times each different
+   * typeStatus appears. Store this information in a map, key=typeStatus and value=count. This map is used in the .ftl
+   * to filter the TypeSpecimen.
+   */
+  public void loadTypeStatusCounts() {
+    // get typeSpecimens type status counts
+    List<TypeSpecimen> allTypeSpecimen = typeSpecimenService.listByUsage(id, null).getResults();
+     for (TypeSpecimen ts: allTypeSpecimen) {
+      String typeStatus = StringUtils.trimToNull(ts.getTypeStatus());
+      if (typeStatus!=null) {
+        if (typeStatusCounts.containsKey(typeStatus)) {
+          int count = typeStatusCounts.get(typeStatus);
+          count++;
+          typeStatusCounts.put(typeStatus, count);
+        } else {
+          typeStatusCounts.put(typeStatus, 1);
+        }
+      }
+    }
+  }
+
   public NameUsage getUsage() {
     return usage;
   }
@@ -212,5 +241,9 @@ public class DetailAction extends UsageAction {
 
   public List<UUID> getRelatedDatasets() {
     return relatedDatasets;
+  }
+
+  public Map<String, Integer> getTypeStatusCounts() {
+    return typeStatusCounts;
   }
 }
