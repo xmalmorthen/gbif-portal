@@ -1989,23 +1989,25 @@ $.fn.bindSlideshow = function(opt) {
 		  stop=true;
 		  var $wrapper = $("<ul></ul>");
         $.getJSON($wsUrl,
-          function(data) {
-            $(data.results).each(function() { 
+          function(scrollData) {
+		    if(scrollData.results.length>0) {
+				stop=false;
+			}
+            $(scrollData.results).each(function() { 
               $htmlContent=$("<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >" + "[" + $i18nresources.getString("enum.rank." + this.rank) + "] " + this.canonicalName + "</span>" + "<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>");
 			  //add the bar for this appended element
 			  addBar($htmlContent);
               $ps.find(".sp ul").append($htmlContent);
             })
-			_resize($ps, $ps.find(".sp ul").find("> li").length, $this);
-			$ps.find(".loadingTaxa span").fadeOut("slow");
+			$ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {
+				_resize($ps, $ps.find(".sp ul").find("> li").length, $this);
+				$ps.find(".loadingTaxa span").fadeOut("slow");
+				//increment offset		
+				$offset+=$limit;				
+			}});	
+
           });
-          $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {
-            stop = false;
-          }});
-		  //increment offset
-		  $offset+=$limit;
 		}
-		
 	});		
  	  
       // Add the adjacent bars next to each taxonomic element
@@ -2073,8 +2075,6 @@ $.fn.bindSlideshow = function(opt) {
         e.preventDefault();
 	    //reset paging values
 	    $offset=0;
-
-        if (!stop && !stopBack) { // this prevents prolbems when clicking very fast on the items
           stop = true;
 
           // transform the last element of the breadcrumb in a link
@@ -2096,7 +2096,6 @@ $.fn.bindSlideshow = function(opt) {
           var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?&offset="+$offset+"&limit="+$limit;
           //recreate the taxonomic tree
           recreateTree($wsUrl);	  
-        }
       });
 
       // The user clicks on the breadcrumb…
