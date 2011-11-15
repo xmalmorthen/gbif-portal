@@ -149,7 +149,7 @@
 <article class="taxonomies">
   <header></header>
   <div class="content">
-    <h2>Taxonomy <span class="subtitle">of ${usage.scientificName}</span></h2>
+    <h2><a name="taxonomy">Taxonomy</a> <span class="subtitle">of ${usage.scientificName}</span></h2>
 
     <div class="left">
       <h3>Taxonomic classification
@@ -237,6 +237,7 @@
 
 <#if (usage.images?size>0)>
 <article id="images" class="photo_gallery">
+  <a name="images"></a>
   <div class="content">
 
     <div class="slideshow">
@@ -299,7 +300,7 @@
 <article id="appearsin">
   <header></header>
   <div class="content">
-    <h2>Appears in</h2>
+    <h2><a name="related">Appears in</a></h2>
 
     <div class="left">
       <div class="col">
@@ -362,7 +363,7 @@
 <article id="typespecimen">
   <header></header>
   <div class="content">
-    <h2>Type specimens</h2>
+    <h2><a name="typespecimen">Type specimens</a></h2>
 
     <div class="left">
       <#list usage.typeSpecimens as ts>
@@ -415,7 +416,7 @@
 <article id="distribution">
   <header></header>
   <div class="content">
-    <h2>${usage.canonicalName!usage.scientificName} distribution</h2>
+    <h2><a name="distribution">${usage.canonicalName!usage.scientificName} distribution</a></h2>
 
     <div class="left">
       <div class="col">
@@ -477,7 +478,7 @@
 <article id="references">
   <header></header>
   <div class="content">
-    <h2>Academic references</h2>
+    <h2><a name="typespecimen">Academic references</a></h2>
 
     <div class="left">
       <#if usage.publishedIn?has_content>
