@@ -285,7 +285,7 @@
 
         <#if nub>
           <h3>Dataset</h3>
-          <p><a href="<@s.url value='/dataset/${img1.checklistKey}'/>">${getChecklistName(img1.checklistKey)}</a></p>
+          <p><a href="<@s.url value='/dataset/${img1.checklistKey}'/>">${checklists.get(img1.checklistKey).name}</a></p>
         </#if>
 
         <#if img1.publisher?has_content>
@@ -346,7 +346,7 @@
               <#assign more=true/>
               <#break />
             </#if>
-            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${getChecklistName(rel.checklistKey)}</a> <span
+            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${checklists.get(rel.checklistKey).name}</a> <span
                     class="note">${rel.scientificName}</span></li>
           </#list>
         </ul>
