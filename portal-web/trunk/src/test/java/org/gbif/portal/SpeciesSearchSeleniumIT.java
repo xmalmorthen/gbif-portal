@@ -42,8 +42,8 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
     // Find input form and enter seach text
     WebElement input = driver.findElement(By.name("q"));
     input.sendKeys(name);
-    input.submit();
-    //driver.findElement(By.cssSelector("input.search_button")).click();
+    //input.submit();
+    driver.findElement(By.cssSelector("button.search_button")).click();
 
     // main content div on page
     WebElement content = driver.findElement(By.id("content"));
