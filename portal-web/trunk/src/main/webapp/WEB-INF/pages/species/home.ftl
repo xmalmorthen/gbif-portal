@@ -10,11 +10,11 @@
     <div class="content">
       <h1>Search through 2,183,212 species</h1>
 
-      <form action="<@s.url value='/species/search'/>">
+      <form action="<@s.url value='/species/search'/>" method="get">
         <span class="input_text">
-          <input type="text" name="q" placeholder="Search species by name, higher taxon, place..."/>
+          <input id="q" type="text" name="q" placeholder="Search species by name, higher taxon, place..."/>
         </span>
-        <button type="submit" class="search_button"><span>Search</span></button>
+        <button id="submitSearch" type="submit" class="search_button"><span>Search</span></button>
       </form>
       <ul class="species">
         <li><a href="<@s.url value='/species/search?q=fake'/>" title="Birds">Birds</a></li>

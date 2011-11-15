@@ -115,7 +115,7 @@ public abstract class BaseSearchAction<T> extends BaseAction {
    * @param q the input search pattern to set
    */
   public void setQ(String q) {
-    this.q = q;
+    this.q = com.google.common.base.Strings.nullToEmpty(q).trim();
   }
 
 

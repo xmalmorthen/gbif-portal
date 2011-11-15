@@ -2,7 +2,6 @@ package org.gbif.portal;
 
 import java.util.LinkedList;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -24,7 +23,6 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
    * the details page for the selected dataset is shown.
    */
   @Test
-  @Ignore
   public void testVernacularNameSearch() {
     assertNameSearch("Abies pinsapo ", true, 16, 2685464);
     assertNameSearch("Spanische TANNE", true, 1, 2685464);
@@ -40,10 +38,10 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
     LOG.debug("Asserting name search '{}'", name);
     driver.get(getPortalUrl("species"));
     // Find input form and enter seach text
-    WebElement input = driver.findElement(By.name("q"));
+    WebElement input = driver.findElement(By.id("q"));
     input.sendKeys(name);
-    //input.submit();
-    driver.findElement(By.cssSelector("button.search_button")).click();
+    LOG.debug("SEARCH FORM VALUE: {}", input.getAttribute("value"));
+    driver.findElement(By.id("submitSearch")).click();
 
     // main content div on page
     WebElement content = driver.findElement(By.id("content"));
@@ -54,7 +52,7 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
     }
 
     // assert exact results
-    LinkedList<WebElement> links = new LinkedList(content.findElements(By.cssSelector("div.result a")));
+    LinkedList<WebElement> links = new LinkedList(content.findElements(By.cssSelector("div.result h2 a")));
     LOG.debug("{} search results found", links.size());
     for (int uid : expectedUsageId){
       int speciesKey = parseIdLink(links.remove().getAttribute("href"));
