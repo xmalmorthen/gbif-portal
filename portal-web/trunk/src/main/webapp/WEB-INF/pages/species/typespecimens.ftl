@@ -1,4 +1,5 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
+<#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
   <title>Type Specimens for ${usage.canonicalOrScientificName!}</title>
@@ -48,9 +49,7 @@
             </#if>
             <div class="footer">
             ${item.typeStatus!}
-              <#if usage.nub || item.source?has_content> <a class="sourcePopup" id="source${item.key?c}"
-                                                            source="<#if usage.nub><a href='<@s.url value='/species/${item.usageKey?c}'/>'>${checklists.get(item.checklistKey).name}</a><br/></#if>${item.source!}"></a>
-              </#if>
+            <@common.usageSource component=item showChecklistSource=usage.nub />
             </div>
             <div class="footer">
             ${item.locality!}

@@ -121,7 +121,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    */
   @Override
   public String execute() {
-    LOG.info("Search of [{}]", this.getQ());
+    LOG.info("Search for [{}]", this.getQ());
     // Request creation
     SearchRequest request = new SearchRequest(this.getSearchRequest().getOffset(), this.getSearchRequest().getLimit());
     this.addFacetParameters(request);
@@ -135,7 +135,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     this.setSearchResponse(response);
     // initializes the elements required by the UI
     this.initializeFacetCounts(response);
-    LOG.info("Action search of [{}] returned {} results", this.getQ(), response.getCount());
+    LOG.info("Search for [{}] returned {} results", this.getQ(), response.getCount());
     return SUCCESS;
   }
 

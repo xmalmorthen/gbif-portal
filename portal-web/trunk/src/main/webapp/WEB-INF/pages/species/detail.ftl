@@ -44,7 +44,7 @@
   <div class="content">
 
     <div class="header">
-      <div class="left"><h2>Overview</h2></div>
+      <div class="left"><h2><a name="overview">Overview</a></h2></div>
     </div>
 
     <div class="left">
@@ -62,12 +62,10 @@
       </ul>
 
       <h3>Full name</h3>
-
       <p>${usage.scientificName}</p>
 
     <#if usage.taxonomicStatus??>
       <h3>Status</h3>
-
       <p>${usage.taxonomicStatus}</p>
     </#if>
 
@@ -75,38 +73,24 @@
       <#assign sp = usage.speciesProfiles[0]/>
     </#if>
     <#if sp??>
-      <#if sp.livingPeriod?? && sp.livingPeriod != ''>
+      <#if sp.livingPeriod?has_content>
         <h3>Living period</h3>
-
         <p>${sp.livingPeriod}</p>
       </#if>
 
       <#if sp.isExtinct()??>
         <h3>Extinction Status</h3>
-
-        <p>
-          <#if sp.isExtinct()>
-              Is Extinct
-            <#else>
-              Is Not Extinct
-          </#if>
-        </p>
+        <p>${sp.isExtinct()?string("Is Extinct","Is Not Extinct")}</p>
       </#if>
 
       <#if sp.habitat?? && sp.habitat != ''>
         <h3>Habitat</h3>
-
         <p>${sp.habitat}</p>
       </#if>
     </#if>
 
     <#list usage.descriptions as d>
-      <h3>${d.type!"Description"}
-        <#if d.source?has_content>
-          <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
-        </#if>
-      </h3>
-
+      <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
       <p>${d.description!}</p>
     </#list>
 
@@ -118,7 +102,7 @@
         <#assign more=false/>
         <#list usage.vernacularNames as v>
           <#if v.vernacularName?has_content>
-            <li>${v.vernacularName} <span class="small">${v.language!}</span></li>
+            <li>${v.vernacularName} <span class="small">${v.language!}</span> <@common.usageSource component=v showChecklistSource=nub /> </li>
           </#if>
           <#if v_index==8>
             <#assign more=true/>
@@ -278,7 +262,6 @@
 
         <#if img1.description?has_content>
           <h3>Description</h3>
-
           <p>${common.limit(img1.description!img1.title!"",200)}</p>
         </#if>
 
@@ -396,9 +379,7 @@
               ${ts.scientificName} <#if checklist.key?has_content && checklist.name?has_content>- <a
                       href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a></#if>
             </#if>
-            <a href="#" title="Help" id="help2">
-              <img src="<@s.url value='/img/icons/questionmark.png'/>"/>
-            </a>
+            <@common.usageSource component=ts showChecklistSource=nub />
             <#if ts.typeStatus?has_content>
               <p class="note semi_bottom">${ts.typeStatus}</p>
             </#if>
@@ -444,9 +425,7 @@
             <div>
               <p class="no_bottom">
                 <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
-                <#if d.source?has_content>
-                  <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
-                </#if>
+                <@common.usageSource component=d showChecklistSource=nub />
               </p>
 
               <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
@@ -469,9 +448,7 @@
               <div>
                 <p class="no_bottom">
                   <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
-                  <#if d.source?has_content>
-                    <a class="sourcePopup" id="source${d.key?c}" source="${d.source}" remarks="${d.remarks!}"></a>
-                  </#if>
+                  <@common.usageSource component=d showChecklistSource=nub />
                 </p>
 
                 <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>

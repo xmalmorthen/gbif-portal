@@ -1,4 +1,5 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
+<#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
   <title>Distributions for ${usage.canonicalOrScientificName!}</title>
@@ -28,12 +29,9 @@
       <div class="left">
       <#list page.results as item>
         <div class="result">
-          <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong><span
-                  class="note">${item.status!"Present"}</span>
-            <#if usage.nub || item.source?has_content>
-              <a class="sourcePopup" id="source${item.key?c}"
-                 source="<#if usage.nub><a href='<@s.url value='/species/${item.usageKey?c}'/>'>${checklists.get(item.checklistKey).name}</a><br/></#if>${item.source!}"></a>
-            </#if>
+          <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong>
+            <span class="note">${item.status!"Present"}</span>
+            <@common.usageSource component=item showChecklistSource=usage.nub />
           </h2>
 
           <div class="footer">

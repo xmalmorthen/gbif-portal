@@ -1,4 +1,5 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
+<#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
   <title>Vernacular Names for ${usage.canonicalOrScientificName!}</title>
@@ -30,9 +31,7 @@
         <#list page.results as item>
         <div class="result">
           <h2><strong>${item.vernacularName}</strong><span class="note">${item.language!}</span>
-          <#if usage.nub || item.source?has_content>
-            <a class="sourcePopup" id="source${item.key?c}" source="<#if usage.nub><a href='<@s.url value='/species/${item.usageKey?c}'/>'>${checklists.get(item.checklistKey).name}</a><br/>"</#if>${item.source!}></a>
-          </#if>
+            <@common.usageSource component=item showChecklistSource=usage.nub />
           </h2>
           <div class="footer">${item.lifeStage!} ${item.sex!} ${item.country!} ${item.area!}</div>
         </div>
