@@ -130,12 +130,11 @@
         <p><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></p>
       </#if>
     </#if>
+
     <#if basionym?has_content>
       <h3>Original Name</h3>
-
-      <p>${basionym.scientificName}</p>
+      <p><a href="<@s.url value='/species/${basionym.key?c}'/>">${basionym.scientificName}</a></p>
     </#if>
-
 
       <h3>External Links</h3>
       <ul>
