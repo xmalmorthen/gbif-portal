@@ -325,7 +325,7 @@
       <version>${logback.version}</version>
       <scope>runtime</scope>
     </dependency>
-    <!-- Commons logging bridge for Struts2 -->
+    <!-- Commons logging bridge for Struts2 & Selenium -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>

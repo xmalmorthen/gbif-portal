@@ -2,7 +2,6 @@ package org.gbif.portal;
 
 import java.util.LinkedList;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -24,7 +23,6 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
    * the details page for the selected dataset is shown.
    */
   @Test
-  @Ignore
   public void testVernacularNameSearch() {
     assertNameSearch("Abies pinsapo ", true, 16, 2685464);
     assertNameSearch("Spanische TANNE", true, 1, 2685464);
