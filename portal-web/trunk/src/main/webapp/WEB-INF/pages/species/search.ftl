@@ -35,7 +35,10 @@
         <div class="result">
           <h2>
             <a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong></a>
-            <#if u.rank??><span class="note"><@s.text name="enum.rank.${u.rank}"/></span></#if>
+            <span class="note">
+            <#if u.rank??><@s.text name="enum.rank.${u.rank}"/></#if>
+            <#if u.synonym>synonym</#if>
+            </span>
           </h2>
           <p>according to ${u.checklistTitle}</p>          
           <div class="footer">
