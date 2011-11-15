@@ -80,4 +80,11 @@ public class UsageAction extends BaseAction{
   public Map<UUID, Checklist> getChecklists() {
     return checklists;
   }
+
+  public String getChecklistName(UUID key) {
+    if (key != null && checklists.containsKey(key)){
+      return checklists.get(key).getName();
+    }
+    return "";
+  }
 }

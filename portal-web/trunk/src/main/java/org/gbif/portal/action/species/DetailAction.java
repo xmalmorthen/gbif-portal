@@ -5,6 +5,7 @@ import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.Identifier;
 import org.gbif.checklistbank.api.model.NameUsage;
+import org.gbif.checklistbank.api.model.NameUsageComponent;
 import org.gbif.checklistbank.api.model.SpeciesProfile;
 import org.gbif.checklistbank.api.model.TypeSpecimen;
 import org.gbif.checklistbank.api.service.DescriptionService;
@@ -70,6 +71,18 @@ public class DetailAction extends UsageAction {
     // load checklist lookup map
     for (NameUsage u : related) {
       loadChecklist(u.getChecklistKey());
+    }
+    for (NameUsageComponent c : usage.getImages()) {
+      loadChecklist(c.getChecklistKey());
+    }
+    for (NameUsageComponent c : usage.getDescriptions()) {
+      loadChecklist(c.getChecklistKey());
+    }
+    for (NameUsageComponent c : usage.getDistributions()) {
+      loadChecklist(c.getChecklistKey());
+    }
+    for (NameUsageComponent c : usage.getReferences()) {
+      loadChecklist(c.getChecklistKey());
     }
 
     // load typeSpecimen typestatus counts

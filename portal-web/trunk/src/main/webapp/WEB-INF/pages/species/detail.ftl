@@ -280,19 +280,18 @@
         <#if img1.description?has_content>
           <h3>Description</h3>
 
-          <p>${common.limit(img1.description!img1.title!"",250)}</p>
+          <p>${common.limit(img1.description!img1.title!"",200)}</p>
+        </#if>
+
+        <#if nub>
+          <h3>Dataset</h3>
+          <p><a href="<@s.url value='/dataset/${img1.checklistKey}'/>">${getChecklistName(img1.checklistKey)}</a></p>
         </#if>
 
         <#if img1.publisher?has_content>
           <h3>Image publisher</h3>
 
           <p>${img1.publisher!"???"}</p>
-        </#if>
-
-        <#if img1.checklistName?has_content>
-          <h3>Dataset</h3>
-
-          <p>${img1.checklistName!"???"}</p>
         </#if>
 
         <#if (img1.creator!img1.created)?has_content>
@@ -347,7 +346,7 @@
               <#assign more=true/>
               <#break />
             </#if>
-            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${checklists.get(rel.checklistKey).name}</a> <span
+            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${getChecklistName(rel.checklistKey)}</a> <span
                     class="note">${rel.scientificName}</span></li>
           </#list>
         </ul>
