@@ -52,7 +52,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   /**
    * This constant restricts the maximum number of facet results to be displayed
    */
-  public static final int MAX_FACETS = 5;
+  private static final int MAX_FACETS = 5;
 
   /**
    * This field is used to hold the class of the enum used for faceting.
@@ -123,19 +123,14 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   public String execute() {
     LOG.info("Search for [{}]", this.getQ());
     // Request creation
-    SearchRequest request = new SearchRequest(this.getSearchRequest().getOffset(), this.getSearchRequest().getLimit());
-    this.addFacetParameters(request);
+    this.addFacetParameters(searchRequest);
     // default query parameters
-    request.addParameter(DEFAULT_SEARCH_PARAM, this.getQ());
-    // Set constants
-    this.request.setAttribute("MAX_FACETS", MAX_FACETS);
+    searchRequest.addParameter(DEFAULT_SEARCH_PARAM, this.getQ());
     // issues the search operation
-    SearchResponse<T> response = searchService.search(request);
-    // store the response
-    this.setSearchResponse(response);
+    searchResponse = searchService.search(searchRequest);
     // initializes the elements required by the UI
-    this.initializeFacetCounts(response);
-    LOG.info("Search for [{}] returned {} results", this.getQ(), response.getCount());
+    this.initializeFacetCounts(searchResponse);
+    LOG.info("Search for [{}] returned {} results", this.getQ(), searchResponse.getCount());
     return SUCCESS;
   }
 
@@ -224,5 +219,9 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    */
   public void setInitDefault(boolean initDefault) {
     this.initDefault = initDefault;
+  }
+
+  public int getMaxFacets(){
+    return MAX_FACETS;
   }
 }

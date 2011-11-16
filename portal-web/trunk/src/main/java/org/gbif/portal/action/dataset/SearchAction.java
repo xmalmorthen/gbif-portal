@@ -8,74 +8,29 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.paging.Pageable;
 import org.gbif.api.paging.PagingResponse;
+import org.gbif.api.search.model.SearchResponse;
 import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.portal.action.BaseSearchAction;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import com.google.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class SearchAction extends BaseSearchAction<Checklist> {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = -5488762514856137948L;
-
-  private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
-
-  private List<?> datasets;
-
-  private ChecklistService checklistService;
-
   @Inject
-  public SearchAction(ChecklistService checklistService) {
-    this.checklistService = checklistService;
-  }
+  private ChecklistService checklistService;
 
   @Override
   public String execute() {
     LOG.debug("Searching for datasets matching [{}]", this.getQ());
-    PagingResponse<Checklist> searchResponse = checklistService.list(getSearchRequest());
-    this.setSearchResponse(searchResponse);
-    if (searchResponse != null) {
-      datasets = searchResponse.getResults();
-    }
-    LOG.debug("Found [{}] matching datasets", datasets == null ? 0 : datasets.size());
+    // wrap the PagingResponse into a SearchResponse and manually set counts until we use a real Solr Search!
+    searchResponse = new SearchResponse<Checklist>( (PagingResponse <Checklist>) checklistService.list((Pageable)searchRequest) );
+    //searchResponse.setCount((long)searchResponse.getResults().size());
 
-    // TODO: This sort is temporary to just show the list in an ordered fashion
-    if (datasets != null) {
-      Collections.sort(datasets, new Comparator<Object>() {
-
-        public int compare(Object o1, Object o2) {
-          Checklist c1 = (Checklist) o1;
-          Checklist c2 = (Checklist) o2;
-          if (c1.getName() != null && c2.getName() != null) {
-            return c1.getName().compareToIgnoreCase(c2.getName());
-          }
-          return 0;
-        }
-      });
-    }
-
-    // using static just to make sure all layout is working properly
-    if (this.getQ() == null || this.getQ().isEmpty()) {
-      this.setQ("NoSearchTerm");
-    }
-
+    LOG.debug("Found [{}] matching datasets", searchResponse.getCount());
     return SUCCESS;
   }
 
-  /**
-   * @return the datasets
-   */
-  public List<?> getDatasets() {
-    return datasets == null ? null : datasets;
-  }
 }

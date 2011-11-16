@@ -21,7 +21,7 @@
 
       <div class="header">
         <div class="left">
-          <h2>${datasets?size} results for "${q!}"</h2>
+          <h2>${searchResponse.count!searchResponse.results?size} results for "${q!}"</h2>
           <a href="#" class="sort" title="Sort by relevance">Sort by relevance <span class="more"></span></a>
         </div>
         <div class="right"><h3>Refine your search</h3></div>
@@ -29,12 +29,7 @@
 
 
       <div class="left">
-
-	
-
-
-        <!-- real data -->
-        <#list datasets as dataset>
+        <#list searchResponse.results as dataset>
         <div class="result">
           <h2><a href="<@s.url value='/dataset/${dataset.key}'/>" title="${dataset.name!}"><strong>${dataset.name!}</strong></a>
           </h2>

@@ -100,7 +100,7 @@
           <#if facetCounts['RANK']?has_content>
             <ul>
 	          <#list facetCounts['RANK'] as count>
-	            <#if count_index = MAX_FACETS>
+	            <#if count_index = MaxFacets>
 	              <#break>
 	            </#if>
 	            <li><a href="${currentUrl}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
@@ -116,7 +116,7 @@
           <#if facetCounts['CHECKLIST']?has_content>                      
             <ul>
               <#list facetCounts['CHECKLIST'] as count>
-               <#if count_index = MAX_FACETS>
+               <#if count_index = MaxFacets>
 	              <#break>
 	            </#if>
               	<li><a href="${currentUrl}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>

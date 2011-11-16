@@ -13,6 +13,10 @@ package org.gbif.portal.action;
 
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
+import org.gbif.api.search.model.SearchRequest;
+import org.gbif.api.search.model.SearchResponse;
+
+import com.google.common.base.Strings;
 
 import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
@@ -31,9 +35,9 @@ public abstract class BaseSearchAction<T> extends BaseAction {
    * Generated serialVersionUID
    */
   private static final long serialVersionUID = -3731894129684841108L;
-  private PagingResponse<T> searchResponse;
-  private PagingRequest searchRequest;
-  private String q;
+  protected SearchResponse<T> searchResponse;
+  protected SearchRequest searchRequest;
+  protected String q;
 
   /**
    * Default constructor
@@ -41,25 +45,8 @@ public abstract class BaseSearchAction<T> extends BaseAction {
   public BaseSearchAction() {
     super();
     // Initialize the request
-    this.searchRequest = new PagingRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
+    this.searchRequest = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
   }
-
-  /**
-   * @see PagingRequest#getLimit()
-   * @return the limit
-   */
-  public int getLimit() {
-    return this.searchRequest.getLimit();
-  }
-
-  /**
-   * @see PagingRequest#getOffset()
-   * @return the offset
-   */
-  public long getOffset() {
-    return this.searchRequest.getOffset();
-  }
-
 
   /**
    * The input search pattern used to issue a search operation.
@@ -70,37 +57,15 @@ public abstract class BaseSearchAction<T> extends BaseAction {
     return q;
   }
 
-
-  /**
-   * Information of the search request for the current list of results.
-   * 
-   * @see PagingRequest
-   * @return the searchRequest
-   */
-  public PagingRequest getSearchRequest() {
-    return searchRequest;
-  }
-
-
   /**
    * Response (containing the list of results) of the request issued.
    * 
    * @see PagingResponse
    * @return the searchResponse
    */
-  public PagingResponse<T> getSearchResponse() {
+  public SearchResponse<T> getSearchResponse() {
     return searchResponse;
   }
-
-
-  /**
-   * @see PagingRequest#setLimit(int)
-   * @param limit the limit to set
-   */
-  public void setLimit(int limit) {
-    this.searchRequest.setLimit(limit);
-  }
-
 
   /**
    * @see PagingRequest#setOffset(long)
@@ -115,25 +80,8 @@ public abstract class BaseSearchAction<T> extends BaseAction {
    * @param q the input search pattern to set
    */
   public void setQ(String q) {
-    this.q = com.google.common.base.Strings.nullToEmpty(q).trim();
+    this.q = Strings.nullToEmpty(q).trim();
   }
 
-
-  /**
-   * @see PagingRequest
-   * @param searchRequest the searchRequest to set
-   */
-  public void setSearchRequest(PagingRequest searchRequest) {
-    this.searchRequest = searchRequest;
-  }
-
-
-  /**
-   * @see PagingResponse
-   * @param searchResponse the searchResponse to set
-   */
-  public void setSearchResponse(PagingResponse<T> searchResponse) {
-    this.searchResponse = searchResponse;
-  }
 
 }
