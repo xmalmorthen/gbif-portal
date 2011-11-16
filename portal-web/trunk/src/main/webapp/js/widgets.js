@@ -1404,6 +1404,69 @@ var loginPopover = (function() {
   };
 })();
 
+
+var dialogPopover = (function() {
+	  var displayed = false;		  
+	  var el;
+	  var transitionSpeed = 50;
+	  
+
+	  function toggle(e, event, div) {
+	    event.stopPropagation();
+	    event.preventDefault();
+	    el = e;
+	    $popover = $(div);
+
+	    displayed ? hide(): show();
+	  }
+
+	  function getTopPosition() {
+	    return (( $(window).height() - $popover.height()) / 2) + $(window).scrollTop() - 50;
+	  }
+
+	  function setupBindings() {
+	    $popover.find(".about").click(function(event) {
+	      event.preventDefault();
+	      displayed && hide(function(){ window.location.href = $(this).attr("href"); });
+	    });
+
+	    $popover.find(".close").click(function(event) {
+	      event.preventDefault();
+	      displayed && hide();
+	    });
+
+	    $popover.click(function(event) {
+	      event.stopPropagation();
+	    });
+	  }		  
+
+	  function show() {	   
+	    setupBindings();	    	    
+	    $popover.css("top", getTopPosition() + "px");	    
+	    $popover.fadeIn("slow", function() { hidden = false; });
+	    //$("body").append("<div id='lock_screen'></div>");
+	    //$("#lock_screen").height($(document).height());
+	    //$("#lock_screen").fadeIn("slow");
+	    displayed = true;
+	  }
+
+	  function hide(callback) {
+	    $popover.find('a.close').unbind("click");
+
+	    $popover.fadeOut(transitionSpeed, function() { $popover.hide(); displayed = false; });
+
+	   /* $("#lock_screen").fadeOut(transitionSpeed, function() {
+	      $("#lock_screen").remove();
+	      callback && callback();
+	    });*/
+	  }
+
+	  return {
+	    toggle: toggle,
+	    hide: hide
+	  };
+	})();
+
 /*
 * ================
 * DOWNLOAD POPOVER
@@ -1619,6 +1682,12 @@ $.fn.bindDatePopover = function() {
     datePopover.toggle($(this), event);
   });
 };
+
+$.fn.bindDialogPopover = function(opt) {
+	  $(this).click(function(event) {
+		  dialogPopover.toggle($(this), event, opt);
+	  });
+	};	
 
 $.fn.bindSlideshow = function(opt) {
   var $this = $(this);

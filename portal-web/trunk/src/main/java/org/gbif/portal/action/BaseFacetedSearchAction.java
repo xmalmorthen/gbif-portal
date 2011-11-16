@@ -122,6 +122,12 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   @Override
   public String execute() {
     LOG.info("Search for [{}]", this.getQ());
+    if (this.initDefault) {
+      if (this.facets == null) {
+        this.facets = new HashMap<String, String[]>();
+      }
+      this.facets.putAll(this.getDefaultFacetsFilters());
+    }
     // Request creation
     this.addFacetParameters(searchRequest);
     // default query parameters

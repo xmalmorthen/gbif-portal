@@ -35,10 +35,7 @@
         <div class="result">
           <h2>
             <a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong></a>
-            <span class="note">
-            <#if u.rank??><@s.text name="enum.rank.${u.rank}"/></#if>
-            <#if u.synonym>synonym</#if>
-            </span>
+            <#if u.rank??><span class="note"><@s.text name="enum.rank.${u.rank}"/></span></#if>
           </h2>
           <p>according to ${u.checklistTitle}</p>          
           <div class="footer">
@@ -64,29 +61,23 @@
           <@macro.pagination page=searchResponse url=currentUrl/>
         </div>
       </div>
-      <div class="right">
-		
+      <div class="right">		
 		<div class="refine">
           <h4>Selected filters: </h4>
-          <div id="selectedFilters" class="facet">
+          <div class="facet">
           <#if facets?has_content>                      
               <#list facets?keys as facetFilter>
                 <#list facets[facetFilter] as filterValue>
-	              	<p>
-	              	 <span class="flabel">${facetFilter}</span> : ${filterValue} <a href="#" onclick="javascript:removeFacet('${facetFilter}','${filterValue}');return true;" title="${facetFilter}:${filterValue}">[X]</a>
-	                </p>
+                	<div class="facetFilter">
+		              	<p>
+		              	 <span class="flabel">${facetFilter}</span> : ${filterValue} <a href="#" title="${facetFilter}:${filterValue}">[X]</a>
+		                </p>
+		                <span style="display:none">${facetFilter}</span>
+		              	<span style="display:none">${filterValue}</span>
+	              	</div>
                 </#list>
               </#list>         
-          </#if>          
-          <#if initDefault>
-          	<#list defaultFacetsFilters?keys as defaultFacetFilter>
-                <#list defaultFacetsFilters[defaultFacetFilter] as defaultFilterValue>
-	              	<p>
-	              	 ${defaultFacetFilter} : ${defaultFilterValue} <a href="#" onclick="javascript:removeFacet('${defaultFacetFilter}','${defaultFilterValue}');return true;" title="${defaultFacetFilter}:${defaultFilterValue}">[X]</a>
-	                </p>
-                </#list>
-              </#list>         
-          </#if>
+          </#if>                    
           </div>
         </div>
         
@@ -100,13 +91,31 @@
           <#if facetCounts['RANK']?has_content>
             <ul>
 	          <#list facetCounts['RANK'] as count>
-	            <#if count_index = MaxFacets>
+	            <#if (count_index > MaxFacets)>
 	              <#break>
 	            </#if>
 	            <li><a href="${currentUrl}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
 	          </#list>
             </ul>
-          </#if>
+            <#if (facetCounts['RANK']?size > MaxFacets)>
+            	<div class="facetPanel">
+	                <a href="#">see all...</a>
+		           	<div class="infowindow dialogPopover" style="z-index:100000">
+		           	   <div class="lheader"></div>
+		           	   <span class="close"></span>
+		           	   <div class="content">
+		           	     <h2>Filter by rank</h2>
+						   <ul>
+				           	  <#list facetCounts['RANK'] as count>	            
+					            <li><a href="${currentUrl}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
+					          </#list>
+				          </ul>
+			          </div>
+			          <div class="lfooter"></div>
+		           	</div>
+	           	</div>
+            </#if>
+          </#if>           
           </div>
         </div>
 
@@ -116,14 +125,31 @@
           <#if facetCounts['CHECKLIST']?has_content>                      
             <ul>
               <#list facetCounts['CHECKLIST'] as count>
-               <#if count_index = MaxFacets>
+               <#if (count_index > MaxFacets)>
 	              <#break>
 	            </#if>
               	<li><a href="${currentUrl}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
               </#list>
-            </ul>
-
-          </#if>
+            </ul>			
+           <#if (facetCounts['CHECKLIST']?size > MaxFacets)>
+            	<div class="facetPanel">
+	                <a href="#">see all...</a>
+		           	<div class="infowindow dialogPopover" style="z-index:100000">
+		           	   <div class="lheader"></div>
+		           	   <span class="close"></span>
+		           	   <div class="content">
+		           	     <h2>Filter by checklist</h2>
+						   <ul>
+				           	  <#list facetCounts['CHECKLIST'] as count>	            
+					            <li><a href="${currentUrl}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
+					          </#list>
+				          </ul>
+			          </div>
+			          <div class="lfooter"></div>
+		           	</div>
+	           	</div>
+            </#if>
+          </#if>          
           </div>
         </div>
 
@@ -159,6 +185,6 @@
     </div>
     <footer></footer>
   </article>
-  </form>
+  </form>             
 </body>
 </html>
