@@ -19,14 +19,30 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
   }
 
   /**
-   * This test uses the dataset page to search for all datasets, clicks on the second one and verifies that
-   * the details page for the selected dataset is shown.
+   * This test tries a species search with various names for the nub usage Abies pinsapo.
    */
   @Test
   public void testVernacularNameSearch() {
     assertNameSearch("Abies pinsapo ", true, 16, 2685464);
     assertNameSearch("Spanische TANNE", true, 1, 2685464);
     assertNameSearch("španjolska jela", true, 1, 2685464);
+  }
+
+    /**
+   * This test uses the dataset page to search for all datasets, clicks on the second one and verifies that
+   * the details page for the selected dataset is shown.
+   */
+  @Test
+  public void testAvesSearch() {
+    assertNameSearch("Aves", true, 20, 212);
+    assertNameSearch("Aves", false, 20, 212);
+    // assert first 10 hits are all Aves
+    LinkedList<WebElement> titles = new LinkedList(driver.findElements(By.cssSelector("div.result h2 a strong")));
+    for (WebElement t : titles){
+      //TODO: enable this once the remove nub facet click is working in assertNameSearch
+      //LOG.info(t.getText());
+      //assertTrue(t.getText().startsWith("Aves"));
+    }
   }
 
   /**
@@ -42,6 +58,12 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
     input.sendKeys(name);
     LOG.debug("SEARCH FORM VALUE: {}", input.getAttribute("value"));
     driver.findElement(By.id("submitSearch")).click();
+
+    // do we want a search across all checklists?
+    if (searchNub) {
+      //TODO: doesnt seem to work. Maybe some javascript fix needed?
+      driver.findElement(By.id("selectedFilters")).findElement(By.cssSelector("a")).click();
+    }
 
     // main content div on page
     WebElement content = driver.findElement(By.id("content"));

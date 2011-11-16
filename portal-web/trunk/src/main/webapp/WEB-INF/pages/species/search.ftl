@@ -68,7 +68,7 @@
 		
 		<div class="refine">
           <h4>Selected filters: </h4>
-          <div class="facet">
+          <div id="selectedFilters" class="facet">
           <#if facets?has_content>                      
               <#list facets?keys as facetFilter>
                 <#list facets[facetFilter] as filterValue>
