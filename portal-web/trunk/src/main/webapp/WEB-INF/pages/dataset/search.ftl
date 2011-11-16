@@ -10,7 +10,7 @@
   <content tag="infoband">
     <h2>Search datasets</h2>
 
-    <form>
+    <form action="<@s.url value='/dataset/search'/>" method="post">
       <input type="text" name="q"/>
     </form>
   </content>

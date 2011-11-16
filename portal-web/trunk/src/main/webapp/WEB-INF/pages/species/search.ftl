@@ -11,7 +11,7 @@
 <body class="search">
   <content tag="infoband">
     <h2>Search species</h2>
-    <form action="<@s.url value='/species/search'/>">
+    <form action="<@s.url value='/species/search'/>" method="post">
       <input type="text" name="q"/>
     </form>
   </content>

@@ -8,7 +8,7 @@
   <content tag="infoband">
     <h2>Search countries</h2>
 
-    <form>
+    <form action="<@s.url value='/countries/search'/>" method="post">
       <input type="text" name="search"/>
     </form>
   </content>
