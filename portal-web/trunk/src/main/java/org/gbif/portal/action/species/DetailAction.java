@@ -87,6 +87,9 @@ public class DetailAction extends UsageAction {
     for (NameUsageComponent c : usage.getTypeSpecimens()) {
       loadChecklist(c.getChecklistKey());
     }
+    for (NameUsageComponent c : usage.getVernacularNames()) {
+      loadChecklist(c.getChecklistKey());
+    }
 
     // load typeSpecimen typestatus counts
     loadTypeStatusCounts();
