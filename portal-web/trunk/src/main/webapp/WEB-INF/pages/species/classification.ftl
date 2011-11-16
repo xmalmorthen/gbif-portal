@@ -35,7 +35,7 @@
             <li>
               <span class="taxon_level">${p.rank!}</span>
               <span class="separator" style="width:${indent}px"></span>
-              <a href="<@s.url value='/species/${p.key}'/>">${p.scientificName!}</a>
+              <a href="<@s.url value='/species/${p.key?c}'/>">${p.scientificName!}</a>
             </li>
             <#assign indent = indent + 10 />
           </#list>
