@@ -26,8 +26,8 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
   <div class="pagination">viewing page ${getCurrentPage(offset, limit)}
     <#if ((page.count!0)>0)> of ${(page.count / limit)?ceiling}</#if>
   </div>
-<#--
 <div class="pagination">limit=${page.limit!}, offset=${page.offset!}, count=${page.count!}, isEndOfRecords()=${page.isEndOfRecords()?string}</div>
+<#--
 -->
 </#macro>
 
@@ -61,16 +61,16 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
 </#function>
 
 <#-- 
-	Appends the "limit" and "offset" query parameters to an existing URL.
+	Appends the "offset" query parameters to an existing URL assuming the limit is static and defined by the action alone.
 	If there existing query parameters, the append is done using an ampersand (&).
 	If there are no existing query parameters, the append is done using the (?).
 -->
 <#function getFullUrl stripUrl offset limit>
 	<#assign fullUrl = "">
 		<#if stripUrl?contains("?")>
-			<#assign fullUrl = stripUrl+"&offset="+offset+"&limit="+limit>
+			<#assign fullUrl = stripUrl+"&offset="+offset>
 		<#else>
-			<#assign fullUrl = stripUrl+"?offset="+offset+"&limit="+limit>
+			<#assign fullUrl = stripUrl+"?offset="+offset>
 		</#if>
 	<#return fullUrl>	
 </#function>
