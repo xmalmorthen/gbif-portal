@@ -22,13 +22,13 @@
 <article class="notice">
   <header></header>
   <div class="content">
-    <h3>This is a particular view of ${usage.canonicalName!scientificName}</h3>
+    <h3>This is a particular view of ${usage.canonicalOrScientificName!}</h3>
 
     <p>This is the <em>${usage.scientificName}</em> view, as seen by <a
             href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a> checklist.
       <#if usage.nubKey?exists>
         Remember that you can also check the <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view
-        on ${usage.canonicalName!scientificName}</a>.
+        on ${usage.canonicalOrScientificName!}</a>.
       </#if>
       <br/>You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
       submitted by
@@ -256,7 +256,7 @@
     <div class="right">
       <#if img1?exists>
         <div class="controllers">
-          <h2>${common.limit(img1.title!img1.description!usage.canonicalName!"",38)}</h2>
+          <h2>${common.limit(img1.title!img1.description!usage.canonicalOrScientificName!"",38)}</h2>
           <a class="previous_slide" href="#" title="Previous image"></a>
           <a class="next_slide" href="#" title="Next image"></a>
         </div>
@@ -416,7 +416,7 @@
 <article id="distribution">
   <header></header>
   <div class="content">
-    <h2><a name="distribution">${usage.canonicalName!usage.scientificName} distribution</a></h2>
+    <h2><a name="distribution">${usage.canonicalOrScientificName!} distribution</a></h2>
 
     <div class="left">
       <div class="col">

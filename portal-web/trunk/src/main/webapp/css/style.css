@@ -2989,6 +2989,15 @@ span.small {
   color: #666666;
 }
 
+#content article.taxonomies .content .left .sp ul li span.rank{
+  display:inline;
+  float: right;
+  width: 50px;
+  font-size: 11px;
+  color: #bbb;
+}
+
+
 span.number {
   font-family: "DINOT-Regular", Sans-Serif;
   color: #cccccc;

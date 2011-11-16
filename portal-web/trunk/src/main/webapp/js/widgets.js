@@ -1994,7 +1994,8 @@ $.fn.bindSlideshow = function(opt) {
 				stop=false;
 			}
             $(scrollData.results).each(function() { 
-              $htmlContent=$("<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >" + "[" + $i18nresources.getString("enum.rank." + this.rank) + "] " + this.canonicalName + "</span>" + "<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>");
+              $htmlContent=$("<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >" + this.canonicalName + "<span class=\"rank\">"+$i18nresources.getString("enum.rank."+this.rank) + "</span></span>" + "<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>");
+
 			  //add the bar for this appended element
 			  addBar($htmlContent);
               $ps.find(".sp ul").append($htmlContent);
@@ -2051,7 +2052,8 @@ $.fn.bindSlideshow = function(opt) {
             $ps.find(".sp ul").empty();
             $(data.results).each(function() { 
               $htmlContent="<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
-              $htmlContent+="[" + $i18nresources.getString("enum.rank." + this.rank) + "] " + this.canonicalName;
+              $htmlContent+=this.canonicalName;
+              $htmlContent+="<span class=\"rank\">"+$i18nresources.getString("enum.rank." + this.rank)+"</span>";
               $htmlContent+="</span>";
               $htmlContent+="<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>";
               $ps.find(".sp ul").append($htmlContent);
