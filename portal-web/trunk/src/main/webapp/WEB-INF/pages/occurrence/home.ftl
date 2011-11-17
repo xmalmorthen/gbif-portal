@@ -10,7 +10,7 @@
     <div class="content">
       <h1>Search through +312M occurrences</h1>
 
-      <form action="<@s.url value='/occurrence/search'/>" method="post">
+      <form action="<@s.url value='/occurrence/search'/>" method="GET">
         <span class="input_text">
           <input type="text" name="q" placeholder="Search species, places, data publishers..."/>
         </span>

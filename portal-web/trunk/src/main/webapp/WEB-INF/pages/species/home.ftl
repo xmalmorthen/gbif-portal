@@ -10,7 +10,7 @@
     <div class="content">
       <h1>Search through 2,183,212 species</h1>
 
-      <form action="<@s.url value='/species/search'/>" method="post">
+      <form action="<@s.url value='/species/search'/>" method="GET">
         <span class="input_text">
           <input id="q" type="text" name="q" placeholder="Search species by name, higher taxon, place..."/>
         </span>

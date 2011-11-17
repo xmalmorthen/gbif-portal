@@ -8,7 +8,7 @@
 <content tag="infoband">
   <h2>Search occurrences</h2>
 
-  <form action="<@s.url value='/occurrence/search'/>" method="post">
+  <form action="<@s.url value='/occurrence/search'/>" method="GET">
     <input type="text" name="q"/>
   </form>
 </content>

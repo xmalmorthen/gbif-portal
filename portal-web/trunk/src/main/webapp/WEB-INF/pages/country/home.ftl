@@ -13,7 +13,7 @@
     <div class="content">
       <h1>Search for a country</h1>
 
-      <form action="<@s.url value='/countries/search'/>" method="post">
+      <form action="<@s.url value='/countries/search'/>" method="GET">
       <span class="input_text">
         <input type="text" name="q" placeholder="Search countries..."/>
       </span>

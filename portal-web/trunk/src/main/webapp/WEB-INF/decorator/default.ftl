@@ -90,7 +90,7 @@ ${head}
                     class="more"></span></a>
             </li>
             <li class="search">
-              <form href="<@s.url value='/dataset/search'/>" method="post">
+              <form href="<@s.url value='/dataset/search'/>" method="GET">
                 <span class="input_text">
                   <input type="text" name="q"/>
                 </span>
