@@ -16,6 +16,8 @@ import org.gbif.portal.action.BaseFacetedSearchAction;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 
 /**
@@ -28,11 +30,33 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    */
   private static final long serialVersionUID = -3736915206911951300L;
 
+  private static String ALL = "all";
+
+  private Integer nubKey;
+
+  private String checklistKey;
+
   @SuppressWarnings({"rawtypes", "unchecked"})
   @Inject
   public SearchAction(NameUsageSearchService nameUsageSearchService) {
     super(nameUsageSearchService, ChecklistBankFacetParameter.class);
   }
+
+  @Override
+  public String execute() {
+    if (this.nubKey != null) {
+      this.setInitDefault(false);
+    }
+    return super.execute();
+  }
+
+  /**
+   * @return the checklistKey
+   */
+  public String getChecklistKey() {
+    return checklistKey;
+  }
+
 
   /*
    * (non-Javadoc)
@@ -43,6 +67,58 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     Map<String, String[]> map = new HashMap<String, String[]>();
     map.put(ChecklistBankFacetParameter.CHECKLIST.name(), new String[] {"GBIF Taxonomic Backbone"});
     return map;
+  }
+
+
+  /**
+   * @return the nubKey
+   */
+  public Integer getNubKey() {
+    return nubKey;
+  }
+
+  /*
+   * (non-Javadoc)
+   * @see org.gbif.portal.action.BaseFacetedSearchAction#getRequestParameters()
+   */
+  @Override
+  public Multimap<String, String> getRequestParameters() {
+    Multimap<String, String> params = HashMultimap.create();
+    if (this.nubKey != null) {
+      params.put("nubKey", this.nubKey.toString());
+      this.setInitDefault(false);
+    }
+    if (this.checklistKey != null) {
+      if (this.checklistKey.equals(ALL)) {
+        if (this.getFacets() != null) {
+          this.getFacets().remove(ChecklistBankFacetParameter.CHECKLIST.name());
+        }
+      } else {
+        params.put("checklistKey", this.checklistKey);
+      }
+      this.setInitDefault(false);
+    }
+    return params;
+  }
+
+
+  /**
+   * Request parameter for filtering results by checklistKey.
+   * 
+   * @param checklistKey the checklistKey to set
+   */
+  public void setChecklistKey(String checklistKey) {
+    this.checklistKey = checklistKey;
+  }
+
+
+  /**
+   * Request parameter for filtering results by nubKey.
+   * 
+   * @param nubKey the nubKey to set
+   */
+  public void setNubKey(Integer nubKey) {
+    this.nubKey = nubKey;
   }
 
 

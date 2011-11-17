@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -132,6 +135,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     this.addFacetParameters(searchRequest);
     // default query parameters
     searchRequest.addParameter(DEFAULT_SEARCH_PARAM, this.getQ());
+    // adds parameters processed by subclasses
+    searchRequest.addParameter(this.getRequestParameters());
     // issues the search operation
     searchResponse = searchService.search(searchRequest);
     // initializes the elements required by the UI
@@ -163,7 +168,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     return facetCounts;
   }
 
-
   /**
    * Holds the list of values selected in the user interface.
    * For accessing this field the user interface should be able to referencing map data types.
@@ -177,6 +181,19 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   public Map<String, String[]> getFacets() {
     return facets;
   }
+
+
+  public int getMaxFacets() {
+    return MAX_FACETS;
+  }
+
+  /**
+   * Analyzed the request to determine if parameters should be added from the request parameters.
+   * 
+   * @param request the {@link HttpServletRequest} to be analyzed
+   * @return a {@link Multimap} containing the parameters
+   */
+  public abstract Multimap<String, String> getRequestParameters();
 
   /**
    * By using the response object, this method initializes the facetCounts field.
@@ -202,6 +219,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     return initDefault;
   }
 
+
   /**
    * @param facetCounts the facetCounts to set
    */
@@ -217,7 +235,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     this.facets = facets;
   }
 
-
   /**
    * Flag that indicates if the default filter parameters should be initialized
    * 
@@ -225,9 +242,5 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    */
   public void setInitDefault(boolean initDefault) {
     this.initDefault = initDefault;
-  }
-
-  public int getMaxFacets(){
-    return MAX_FACETS;
   }
 }
