@@ -30,8 +30,8 @@ public class PortalModule extends AbstractModule {
       Names.bindProperties(binder(), properties);
 
       // bind checklist bank api. Select either the mybatis or the ws-client api implementation:
-      installClbMyBatis(properties);
-      //installClbWsClient(properties);
+      // installClbMyBatis(properties);
+      installClbWsClient(properties);
 
       // bind registry API
       install(new RegistryWsClientModule());
