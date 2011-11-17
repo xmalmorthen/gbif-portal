@@ -256,38 +256,35 @@
     <div class="right">
       <#if img1?exists>
         <div class="controllers">
-          <h2>${common.limit(img1.title!img1.description!usage.canonicalOrScientificName!"",38)}</h2>
+          <h2>${common.limit(img1.title!usage.canonicalOrScientificName!"",38)}</h2>
           <a class="previous_slide" href="#" title="Previous image"></a>
           <a class="next_slide" href="#" title="Next image"></a>
         </div>
 
         <#if img1.description?has_content>
           <h3>Description</h3>
-          <p>${common.limit(img1.description!img1.title!"",200)}</p>
+          <p>${common.limit(img1.description!img1.title!"",100)}
+            <#if (img1.description?length>100) ><@common.popup message=img1.description title=img1.title!"Description"/></#if>
+          </p>
         </#if>
 
         <#if nub>
           <h3>Dataset</h3>
-          <p><a href="<@s.url value='/dataset/${img1.checklistKey}'/>">${checklists.get(img1.checklistKey).name}</a></p>
+          <p><a href="<@s.url value='/species/${img1.usageKey}'/>">${checklists.get(img1.checklistKey).name}</a></p>
         </#if>
 
         <#if img1.publisher?has_content>
           <h3>Image publisher</h3>
-
           <p>${img1.publisher!"???"}</p>
         </#if>
 
         <#if (img1.creator!img1.created)?has_content>
           <h3>Photographer</h3>
-
           <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
         </#if>
 
-        <#if img1.license?has_content>
           <h3>Copyright</h3>
-
-          <p>${img1.license}</p>
-        </#if>
+          <p>${img1.license!"No license"}</p>
 
       </#if>
     </div>

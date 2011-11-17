@@ -51,7 +51,7 @@ $(function() {
 
   // Activate source popovers
   $("a.sourcePopup").append('<img src="'+cfg.context+'/img/icons/questionmark.png"/>').each(function(idx, obj){
-      $(obj).sourcePopover({"message":$(obj).attr("source"),"remarks":$(obj).attr("remarks")});
+      $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});
   });
 
   $("a.download")

@@ -162,7 +162,7 @@ var GOD = (function() {
       $ps.hide();
       $ps.remove();
     } else {
-      $ps.animate({top:$ps.position().top - 10, opacity:0}, 150, function() {
+      $ps.animate({top:$ps.position().top - 10, opacity:0}, 100, function() {
         $ps.remove();
       });
     }
@@ -171,7 +171,7 @@ var GOD = (function() {
   // Refresh popover
   function _refresh($this, name, id) {
     var $ps = $("#" + name + "_" + id);
-    if ($("#" + data.name + "_" + data.id).length != 0) {
+    if ($("#" + name + "_" + id).length != 0) {
       var x = $this.offset().left;
       var y = $this.offset().top;
       var w = $ps.width();
@@ -213,7 +213,7 @@ var GOD = (function() {
       if (oldIE) {
         $ps.show();
       } else {
-        $ps.animate({top:$ps.position().top + 10, opacity:1}, 150);
+        $ps.animate({top:$ps.position().top + 10, opacity:1}, 100);
       }
     }
   }

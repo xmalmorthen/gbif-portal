@@ -12,21 +12,21 @@
 
 <#macro usageSource component showChecklistSource=false showChecklistSourceOnly=false>
   <#if showChecklistSourceOnly>
-    <#assign src=""/>
+    <#assign source=""/>
   <#else>
-    <#assign src=(component.source!"")?trim/>
+    <#assign source=(component.source!"")?trim/>
   </#if>
   <#if showChecklistSource>
-    <#assign src><a href='<@s.url value='/species/${component.usageKey?c}'/>'>${checklists.get(component.checklistKey).name}</a><br/>${src}</#assign>
+    <#assign source><a href='<@s.url value='/species/${component.usageKey?c}'/>'>${checklists.get(component.checklistKey).name}</a><br/>${source}</#assign>
   </#if>
-  <#if src?has_content || component.remarks?has_content>
-    <a class="sourcePopup" id="source${component.key?c}" source="${src!}" remarks="${component.remarks!}"></a>
+  <#if source?has_content || component.remarks?has_content>
+    <a class="sourcePopup" message="${source!}" remarks="${component.remarks!}"></a>
   </#if>
 
 </#macro>
 
-<#macro popup source remarks="" title="Source">
-  <#if source?has_content || d.remarks>
-    <a class="sourcePopup" title=${title!"Source"} source="${source}" remarks="${remarks!}"></a>
+<#macro popup message remarks="" title="Source">
+  <#if message?has_content>
+    <a class="sourcePopup" title=${title} message="${message}" remarks="${remarks!}"></a>
   </#if>
 </#macro>
