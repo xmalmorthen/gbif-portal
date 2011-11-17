@@ -1,4 +1,5 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
+<#import "/WEB-INF/macros/specimen/specimenRecord.ftl" as specimenRecord>
 <html>
 <head>
   <title>${usage.scientificName} - Checklist View</title>
@@ -366,7 +367,7 @@
     <div class="left">
       <#list usage.typeSpecimens as ts>
           <div class="col">
-            <#include "/WEB-INF/pages/species/typeSpecimenRecord.ftl">
+            <@specimenRecord.record ts=ts showAsSearchResult=false />
           </div>
           <#-- If we have 4 (index=3) we know there are more to show -->
           <#if (ts_index = maxRecords-1)>

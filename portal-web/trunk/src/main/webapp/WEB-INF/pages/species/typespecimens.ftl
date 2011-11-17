@@ -1,5 +1,6 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
 <#import "/WEB-INF/macros/common.ftl" as common>
+<#import "/WEB-INF/macros/specimen/specimenRecord.ftl" as specimenRecord>
 <html>
 <head>
   <title>Type Specimens for ${usage.canonicalOrScientificName!}</title>
@@ -25,38 +26,10 @@
         </div>
         <div class="right"><h3>Refine your search</h3></div>
       </div>
-
       <div class="left">
+
       <#list page.results as item>
-
-        <#if item.scientificName?has_content>
-          <div class="result">
-            <#if item.occurrenceId?has_content>
-              <h2>
-                <strong>
-                  <a class="placeholder_temp"
-                     href="<@s.url value='/occurrence/${item.occurrenceId}'/>">${item.scientificName} - ANSP HRP 10</a>
-                </strong>
-                <span class="note"></span>
-              </h2>
-              <#else>
-                <h2>
-                  <strong>
-                  ${item.scientificName}<#if checklist.key?has_content && checklist.name?has_content> - <a
-                          href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a></#if></strong>
-                  <span class="note"></span>
-                </h2>
-            </#if>
-            <div class="footer">
-            ${item.typeStatus!}
-            <@common.usageSource component=item showChecklistSource=usage.nub />
-            </div>
-            <div class="footer">
-            ${item.locality!}
-            </div>
-          </div>
-        </#if>
-
+        <@specimenRecord.record ts=item showAsSearchResult=true />
       </#list>
         <div class="footer">
         <@paging.pagination page=page url=currentUrl/>
