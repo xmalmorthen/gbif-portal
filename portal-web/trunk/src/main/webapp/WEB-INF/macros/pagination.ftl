@@ -26,8 +26,8 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
   <div class="pagination">viewing page ${getCurrentPage(offset, limit)}
     <#if ((page.count!0)>0)> of ${(page.count / limit)?ceiling}</#if>
   </div>
-<div class="pagination">limit=${page.limit!}, offset=${page.offset!}, count=${page.count!}, isEndOfRecords()=${page.isEndOfRecords()?string}</div>
 <#--
+<div class="pagination">limit=${page.limit!}, offset=${page.offset!}, count=${page.count!}, isEndOfRecords()=${page.isEndOfRecords()?string}</div>
 -->
 </#macro>
 
