@@ -58,6 +58,7 @@ public class DetailAction extends UsageAction {
   // various pagesizes used
   private Pageable page20 = new PagingRequest(0, 20);
   private Pageable page10 = new PagingRequest(0, 10);
+  private Pageable page4 = new PagingRequest(0, 4);
 
   private Map<String, Integer> typeStatusCounts = new HashMap<String, Integer>();
 
@@ -139,7 +140,7 @@ public class DetailAction extends UsageAction {
     // get images
     usage.setImages(imageService.listByUsage(id, page10).getResults());
     // get typeSpecimens
-    usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
+    usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page4).getResults());
     // get species profiles
     List<SpeciesProfile> rawResults = speciesProfileService.listByUsage(id, page10).getResults();
     if (rawResults.size() == 1) {
