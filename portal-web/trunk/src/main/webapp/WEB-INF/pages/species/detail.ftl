@@ -360,40 +360,21 @@
 <article id="typespecimen">
   <header></header>
   <div class="content">
-    <h2><a name="typespecimen">Type specimens</a></h2>
-
+    <h2><a name="typespecimenName">Type specimens</a></h2>
+    <#-- only show 4 type specimens at max -->
+    <#assign maxRecords=4>
     <div class="left">
       <#list usage.typeSpecimens as ts>
-        <div>
-        <p class="no_bottom">
-        <#-- the scientific name must be present, or nothing gets shown -->
-          <#if ts.scientificName?has_content>
-          <#-- link to the occurrence record if possible (derived from occurrence record) -->
-            <#if ts.occurrenceId?has_content>
-              <a class="placeholder_temp" href="<@s.url value='/occurrence/${ts.occurrenceId}'/>">${ts.scientificName} -
-                ANSP HRP 10</a>
-            <#-- link to the checklist if possible -->
-              <#else>
-              ${ts.scientificName} <#if checklist.key?has_content && checklist.name?has_content>- <a
-                      href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a></#if>
-            </#if>
-            <@common.usageSource component=ts showChecklistSource=nub />
-            <#if ts.typeStatus?has_content>
-              <p class="note semi_bottom">${ts.typeStatus}</p>
-            </#if>
-            <#if ts.locality?has_content>
-              <p class="light_note">${ts.locality}</p>
-            </#if>
+          <div class="col">
+            <#include "/WEB-INF/pages/species/typeSpecimenRecord.ftl">
+          </div>
+          <#-- If we have 4 (index=3) we know there are more to show -->
+          <#if (ts_index = maxRecords-1)>
+            <p>
+              <a class="more_link" href="<@s.url value='/species/${id?c}/typespecimens'/>">see all</a>
+            </p>
+            <#break>
           </#if>
-          </p>
-        </div>
-      <#-- only show 10 type specimens at max. If we have 10 (index=9) we know there are more to show -->
-        <#if ts_index==9>
-          <p>
-            <a class="more_link placeholder_temp" href="<@s.url value='/species/${id?c}/typespecimens'/>">see all</a>
-          </p>
-          <#break/>
-        </#if>
       </#list>
     </div>
     <div class="right">
