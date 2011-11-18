@@ -96,8 +96,8 @@
 	          <#list facetCounts['RANK'] as count>
 	            <#if (count_index > MaxFacets)>
 	              <#break>
-	            </#if>
-	            <li><a href="${currentUrl}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
+	            </#if>	            
+	            <li><a href="${macro.getStripUrl(currentUrl)}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
 	          </#list>
             </ul>
             <#if (facetCounts['RANK']?size > MaxFacets)>
@@ -110,7 +110,7 @@
 		           	     <h2>Filter by rank</h2>
 						   <ul>
 				           	  <#list facetCounts['RANK'] as count>	            
-					            <li><a href="${currentUrl}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
+					            <li><a href="${macro.getStripUrl(currentUrl)}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
 					          </#list>
 				          </ul>
 			          </div>
@@ -131,7 +131,7 @@
                <#if (count_index > MaxFacets)>
 	              <#break>
 	            </#if>
-              	<li><a href="${currentUrl}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
+              	<li><a href="${macro.getStripUrl(currentUrl)}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
               </#list>
             </ul>			
            <#if (facetCounts['CHECKLIST']?size > MaxFacets)>
@@ -144,7 +144,7 @@
 		           	     <h2>Filter by checklist</h2>
 						   <ul>
 				           	  <#list facetCounts['CHECKLIST'] as count>	            
-					            <li><a href="${currentUrl}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
+					            <li><a href="${macro.getStripUrl(currentUrl)}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
 					          </#list>
 				          </ul>
 			          </div>

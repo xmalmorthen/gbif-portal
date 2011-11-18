@@ -57,7 +57,7 @@
 		// now iterate each pair
 		for (var i = 0; i < pairs.length; i++) {
 		  var params = pairs[i].split('=');
-		  if (params[0] != paramName && params[1] != paramValue) {	    
+		  if (params[0] != paramName && params[1] != paramValue && params[0] != "limit" && params[0] != "offset") {	    
 		    values.push(pairs[i]);		    
 		  }
 		}
