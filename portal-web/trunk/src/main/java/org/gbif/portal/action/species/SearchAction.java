@@ -31,9 +31,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   private static final String GBIF_NUB_CHK_TITLE = "GBIF Taxonomic Backbone";
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = -3736915206911951300L;
 
   private static String ALL = "all";
