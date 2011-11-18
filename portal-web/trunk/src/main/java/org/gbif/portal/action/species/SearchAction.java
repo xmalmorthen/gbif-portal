@@ -25,6 +25,12 @@ import com.google.inject.Inject;
  */
 public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult, ChecklistBankFacetParameter> {
 
+  private static final String CHECKLIST_KEY_PARAM = "checklistKey";
+
+  private static final String NUB_KEY_PARAM = "nubKey";
+
+  private static final String GBIF_NUB_CHK_TITLE = "GBIF Taxonomic Backbone";
+
   /**
    * 
    */
@@ -65,7 +71,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   @Override
   public Map<String, String[]> getDefaultFacetsFilters() {
     Map<String, String[]> map = new HashMap<String, String[]>();
-    map.put(ChecklistBankFacetParameter.CHECKLIST.name(), new String[] {"GBIF Taxonomic Backbone"});
+    map.put(ChecklistBankFacetParameter.CHECKLIST.name(), new String[] {GBIF_NUB_CHK_TITLE});
     return map;
   }
 
@@ -84,17 +90,19 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   @Override
   public Multimap<String, String> getRequestParameters() {
     Multimap<String, String> params = HashMultimap.create();
+    // if set nubKet or checklistKey parameters, the initDefault flag is set to false
     if (this.nubKey != null) {
-      params.put("nubKey", this.nubKey.toString());
+      params.put(NUB_KEY_PARAM, this.nubKey.toString());
       this.setInitDefault(false);
     }
     if (this.checklistKey != null) {
+      // If checklistKey = "ALL" the Checklist facet should be removed to avoid filtering
       if (this.checklistKey.equals(ALL)) {
         if (this.getFacets() != null) {
           this.getFacets().remove(ChecklistBankFacetParameter.CHECKLIST.name());
         }
       } else {
-        params.put("checklistKey", this.checklistKey);
+        params.put(CHECKLIST_KEY_PARAM, this.checklistKey);
       }
       this.setInitDefault(false);
     }
