@@ -22,7 +22,7 @@
       <div class="header">
         <div class="left">
           <hgroup>
-            <h2>${parents?size} taxonomy levels for "${usage.canonicalOrScientificName!}"</h2>
+            <h2>${parents?size} taxonomy levels for "${usage.canonicalOrScientificName!"???"}"</h2>
             <h3>According to <a href="<@s.url value='/dataset/${usage.checklistKey}'/>">${checklist.name!"???"}</a></h3>
           </hgroup>
         </div>
@@ -35,7 +35,7 @@
             <li>
               <span class="taxon_level">${p.rank!}</span>
               <span class="separator" style="width:${indent}px"></span>
-              <a href="<@s.url value='/species/${p.key?c}'/>">${p.scientificName!}</a>
+              <a href="<@s.url value='/species/${p.key?c}'/>">${p.scientificName!"???"}</a>
             </li>
             <#assign indent = indent + 10 />
           </#list>

@@ -9,7 +9,7 @@
     <#list classification?keys as key>
       <li spid="${key?c}"><a href="#">${classification.get(key)}</a></li>
     </#list>
-    <li class="last" spid="${usage.key}">${usage.canonicalName}</li>
+    <li class="last" spid="${usage.key}">${usage.canonicalOrScientificName!"???"}</li>
   </div>
   <div class="inner">
     <div class="sp">
@@ -17,7 +17,7 @@
         <#if (children?size > 0)>
           <#list children as usage>
             <li species="${usage.numSpecies?c}" children="${usage.numChildren?c}">
-              <span spid="${usage.key?c}" spname="${usage.canonicalOrScientificName!}">${usage.canonicalOrScientificName!}
+              <span spid="${usage.key?c}" spname="${usage.canonicalOrScientificName!"???"}">${usage.canonicalOrScientificName!"???"}
                 <span class="rank"><@s.text name="enum.rank.${usage.rank}" /></span>
               </span>
               <a href="<@s.url value='/species/${usage.key?c}'/>">see details</a>
