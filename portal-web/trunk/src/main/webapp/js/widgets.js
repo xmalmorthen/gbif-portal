@@ -2063,7 +2063,7 @@ $.fn.bindSlideshow = function(opt) {
 				stop=false;
 			}
             $(scrollData.results).each(function() { 
-              $htmlContent=$("<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >" + this.canonicalName + "<span class=\"rank\">"+$i18nresources.getString("enum.rank."+this.rank) + "</span></span>" + "<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>");
+              $htmlContent=$("<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" spname=\"" + this.canonicalName + "\"  >" + this.canonicalName + "<span class=\"rank\">"+$i18nresources.getString("enum.rank."+this.rank) + "</span></span>" + "<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>");
 
 			  //add the bar for this appended element
 			  addBar($htmlContent);
@@ -2120,7 +2120,7 @@ $.fn.bindSlideshow = function(opt) {
           function(data) {
             $ps.find(".sp ul").empty();
             $(data.results).each(function() { 
-              $htmlContent="<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" >";
+              $htmlContent="<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" spname=\"" + this.canonicalName + "\">";
               $htmlContent+=this.canonicalName;
               $htmlContent+="<span class=\"rank\">"+$i18nresources.getString("enum.rank." + this.rank)+"</span>";
               $htmlContent+="</span>";
@@ -2153,13 +2153,12 @@ $.fn.bindSlideshow = function(opt) {
           $last_li.removeClass("last");
           $last_li.wrapInner('<a href="#"></a>');
 
-          // get the name of the taxonomic element clicked and add it to the breadcrumb
-          var $name = $(this).parent().find("span:first").html();
-		  var trimmedName = $name.substr($name.indexOf(']') + 1);
 		  // get the id of the taxonomic element clicked and add it to the breadcrumb
           var $spid = $(this).parent().find("span:first").attr("spid");
+		  // get the name of the taxonomic element clicked and add it to the breadcrumb
+          var $spname = $(this).parent().find("span:first").attr("spname");    
 		  // format HTML that will be appended to the breadcrumb
-          var $item = '<li spid="' + $spid + '" class="last" style="opacity:0;">' + trimmedName + '</li>';
+          var $item = '<li spid="' + $spid + '" class="last" style="opacity:0;">' + $spname + '</li>';
           $breadcrumb.append($item);
 		  // make the new breadcrumb element appear with a slow transition
           $breadcrumb.find("li:last").animate({opacity:1}, data.settings.transitionSpeed);
