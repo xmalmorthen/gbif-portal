@@ -382,7 +382,7 @@
       <h3>Specimens by type</h3>
       <ul>
       <#list typeStatusCounts?keys as prop>
-        <li><a href="<@s.url value='/species/${id?c}/typespecimens?type=${prop}'/>">${typeStatusCounts.get(prop)} ${prop}</a></li>
+        <li><div>${typeStatusCounts.get(prop)} ${prop}</div></li>
       </#list>
       </ul>
     </div>
