@@ -37,7 +37,7 @@
             <a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong></a>
             <span class="note">
              <#if u.rank??><@s.text name="enum.rank.${u.rank}"/></#if>
-             <#if u.synonym>synonym</#if>
+             <#if u.synonym><#if u.proParte>pro parte </#if>synonym of <a href="<@s.url value='/species/${u.acceptedKey?c}'/>">${u.accepted!"???"}</a></#if>
             </span>
           </h2>
           <p>according to ${u.checklistTitle}</p>          

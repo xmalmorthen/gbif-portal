@@ -67,7 +67,9 @@
 
     <#if usage.taxonomicStatus??>
       <h3>Status</h3>
-      <p>${usage.taxonomicStatus}</p>
+      <p>${usage.taxonomicStatus}
+        <#if usage.synonym> of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a></#if>
+      </p>
     </#if>
 
     <#if usage.speciesProfiles?? && usage.speciesProfiles[0]??>
