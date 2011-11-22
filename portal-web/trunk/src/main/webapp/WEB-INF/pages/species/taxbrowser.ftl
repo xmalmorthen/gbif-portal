@@ -9,7 +9,7 @@
     <#list classification?keys as key>
       <li spid="${key?c}"><a href="#">${classification.get(key)}</a></li>
     </#list>
-    <li class="last" spid="${usage.key}">${usage.canonicalOrScientificName!"???"}</li>
+    <li class="last" spid="${usage.key?c}">${usage.canonicalOrScientificName!"???"}</li>
   </div>
   <div class="inner">
     <div class="sp">

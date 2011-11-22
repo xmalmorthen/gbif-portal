@@ -2063,7 +2063,7 @@ $.fn.bindSlideshow = function(opt) {
 				stop=false;
 			}
             $(scrollData.results).each(function() { 
-              $htmlContent=$("<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" spname=\"" + this.canonicalName + "\"  >" + this.canonicalName + "<span class=\"rank\">"+$i18nresources.getString("enum.rank."+this.rank) + "</span></span>" + "<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>");
+              $htmlContent=$("<li species=\"" + this.numSpecies  + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key + "\" spname=\"" + this.canonicalOrScientificName + "\"  >" + this.canonicalOrScientificName + "<span class=\"rank\">"+$i18nresources.getString("enum.rank."+this.rank) + "</span></span>" + "<a href=\"" + cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>");
 
 			  //add the bar for this appended element
 			  addBar($htmlContent);
@@ -2206,7 +2206,7 @@ $.fn.bindSlideshow = function(opt) {
                 $htmlContent+=speciesName;
                 $htmlContent+="</a></li>";
               });
-              $htmlContent+="<li class=\"last\" style=\"opacity:1;\" spid=\"" + data.key + "\">" + data.canonicalName + "</li>";
+              $htmlContent+="<li class=\"last\" style=\"opacity:1;\" spid=\"" + data.key + "\">" + data.canonicalOrScientificName + "</li>";
               $BC.html($htmlContent);
             });
           }
