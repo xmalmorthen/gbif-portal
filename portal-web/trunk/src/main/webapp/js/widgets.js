@@ -2113,6 +2113,7 @@ $.fn.bindSlideshow = function(opt) {
 	  
 	  // Function for recreating the taxonomic tree
       function recreateTree($wsUrl) { 
+        stop = true;
         //remove all children from tax browser
         $ps.find(".sp ul").html("<img src=\"../img/taxbrowser-loader.gif\">");
         //get the new list of children
@@ -2130,10 +2131,12 @@ $.fn.bindSlideshow = function(opt) {
             //add the adjacent bars
             addBars($ps.find(".sp ul"));
 			_resize($ps, $ps.find(".sp ul > li").length, $this);
+            stop = false; 			
+
           });
           // move to the list and resize it (resizing disabled, was not working correctly)
           $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed, {axis: "x", onAfter: function() {
-            stop = false; 	
+				//add anything here needed after loading the tax tree.
           }});
 		              
           // scroll to the top of the list
@@ -2144,9 +2147,8 @@ $.fn.bindSlideshow = function(opt) {
       // If the user clicks on a bar
       $ps.find(".sp .clickable").live('click', function(e) {
         e.preventDefault();
-	    //reset paging values
-	    $offset=0;
-          stop = true;
+	      //reset paging values
+	      $offset=0;
 
           // transform the last element of the breadcrumb in a link
           var $last_li = $breadcrumb.find("li:last");
@@ -2171,45 +2173,47 @@ $.fn.bindSlideshow = function(opt) {
       // The user clicks on the breadcrumb…
       $breadcrumb.find("li").live("click", function(e) {
         e.preventDefault();
-	    //reset paging values
-	    $offset=0;
+	    if(stop==false) {
+	      //reset paging values
+	      $offset=0;
 				
-        var $BC = ($this).find(".breadcrumb");
-        var $ulBC = ($this).find(".sp ul");
-		var $spidBC = $(this).attr("spid");
-		var $cid = $(this).attr("cid");
-		var $wsUrl = "";
-		// url to call to recreate the taxonomic tree
-		// if a user clicks ALL, the root tree of the checklist should be displayed
-        if($spidBC<0) {
-          $wsUrl = cfg.wsClb + "checklist/" + $cid + "/usages?callback=?&offset="+$offset+"&limit="+$limit;
-        }
-        else {
-          $wsUrl = cfg.wsClb + "name_usage/" + $spidBC + "/children?callback=?&offset="+$offset+"&limit="+$limit;
-        }
-
-        //recreate the taxonomic tree
-        recreateTree($wsUrl);	
-
-        // user click on "ALL" element in the breadcrumb, just display "ALL" on the breadcrumb
-        if($spidBC<0) {
-          $htmlContent="<li spid=\"-1\" cid=\"" + $cid +  "\"><a href=\"#\">All</a></li>";
-          $BC.html($htmlContent);
-        }
-        // show the normal classification breadcrumb
-        else {
-          $.getJSON(cfg.wsClb + "name_usage/" + $spidBC + "?callback=?",
-            function(data) {
-              $htmlContent="<li spid=\"-1\" cid=\"" + data.checklistKey +  "\"><a href=\"#\">All</a></li>";
-              $.each(data.higherClassificationMap, function(speciesId,speciesName) {
-                $htmlContent+="<li spid=\"" + speciesId + "\"><a href=\"#\">";
-                $htmlContent+=speciesName;
-                $htmlContent+="</a></li>";
-              });
-              $htmlContent+="<li class=\"last\" style=\"opacity:1;\" spid=\"" + data.key + "\">" + data.canonicalOrScientificName + "</li>";
-              $BC.html($htmlContent);
-            });
+          var $BC = ($this).find(".breadcrumb");
+          var $ulBC = ($this).find(".sp ul");
+		  var $spidBC = $(this).attr("spid");
+          var $cid = $(this).attr("cid");
+		  var $wsUrl = "";
+		  // url to call to recreate the taxonomic tree
+		  // if a user clicks ALL, the root tree of the checklist should be displayed
+          if($spidBC<0) {
+            $wsUrl = cfg.wsClb + "checklist/" + $cid + "/usages?callback=?&offset="+$offset+"&limit="+$limit;
           }
+          else {
+            $wsUrl = cfg.wsClb + "name_usage/" + $spidBC + "/children?callback=?&offset="+$offset+"&limit="+$limit;
+          }
+
+          //recreate the taxonomic tree
+          recreateTree($wsUrl);	
+
+          // user click on "ALL" element in the breadcrumb, just display "ALL" on the breadcrumb
+          if($spidBC<0) {
+            $htmlContent="<li spid=\"-1\" cid=\"" + $cid +  "\"><a href=\"#\">All</a></li>";
+            $BC.html($htmlContent);
+          }
+          // show the normal classification breadcrumb
+          else {
+            $.getJSON(cfg.wsClb + "name_usage/" + $spidBC + "?callback=?",
+              function(data) {
+                $htmlContent="<li spid=\"-1\" cid=\"" + data.checklistKey +  "\"><a href=\"#\">All</a></li>";
+                $.each(data.higherClassificationMap, function(speciesId,speciesName) {
+                  $htmlContent+="<li spid=\"" + speciesId + "\"><a href=\"#\">";
+                  $htmlContent+=speciesName;
+                  $htmlContent+="</a></li>";
+                });
+                $htmlContent+="<li class=\"last\" style=\"opacity:1;\" spid=\"" + data.key + "\">" + data.canonicalOrScientificName + "</li>";
+                $BC.html($htmlContent);
+              });
+           }
+		}
       });
     });
   };
