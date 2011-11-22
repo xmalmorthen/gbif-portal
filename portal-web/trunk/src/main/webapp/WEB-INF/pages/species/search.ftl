@@ -24,7 +24,7 @@
       <div class="header">
         <div class="left">
           <h2>${searchResponse.count!} results for "${q!}"</h2>
-          <a href="#" class="sort" title="Sort by relevance">Sort by relevance <span class="more"></span></a>
+          <#-- <a href="#" class="sort" title="Sort by relevance">Sort by relevance <span class="more"></span></a> -->
         </div>
         <div class="right"><h3>Refine your search</h3></div>
       </div>
@@ -53,7 +53,7 @@
             <ul class="taxonomy">
             <#assign classification=u.higherClassificationMap />            
             <#list classification?keys as usageKey>
-              <li <#if !usageKey_has_next>class="last"</#if>><a href="<@s.url value='/species/${usageKey}'/>">${classification.get(usageKey)!"???"}</a></li>
+              <li<#if !usageKey_has_next>class="last"</#if>><a class="higherTaxonLink" key="${usageKey}" href="#">${classification.get(usageKey)!"???"}</a></li>
             </#list>             
             </ul>
           </div>
@@ -83,94 +83,44 @@
           </#if>                    
           </div>
         </div>
-        
-        <div class="refine">
-          <h4>Higher taxon</h4>
-          <a href="#" title="Any taxon">Any</a>
-        </div>
-        <div class="refine">
-          <h4>Taxonomic rank</h4>
-          <div class="facet">
-          <#if facetCounts['RANK']?has_content>
-            <ul>
-	          <#list facetCounts['RANK'] as count>
-	            <#if (count_index > MaxFacets)>
-	              <#break>
-	            </#if>	            
-	            <li><a href="${macro.getStripUrl(currentUrl)}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
-	          </#list>
-            </ul>
-            <#if (facetCounts['RANK']?size > MaxFacets)>
-            	<div class="facetPanel">
-	                <a href="#">see all...</a>
-		           	<div class="infowindow dialogPopover" style="z-index:100000">
-		           	   <div class="lheader"></div>
-		           	   <span class="close"></span>
-		           	   <div class="content">
-		           	     <h2>Filter by rank</h2>
-						   <ul>
-				           	  <#list facetCounts['RANK'] as count>	            
-					            <li><a href="${macro.getStripUrl(currentUrl)}&facets['RANK']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
-					          </#list>
-				          </ul>
-			          </div>
-			          <div class="lfooter"></div>
-		           	</div>
-	           	</div>
-            </#if>
-          </#if>           
-          </div>
-        </div>
 
-        <div class="refine">
-          <h4>Checklist</h4>
-          <div class="facet">
-          <#if facetCounts['CHECKLIST']?has_content>                      
-            <ul>
-              <#list facetCounts['CHECKLIST'] as count>
-               <#if (count_index > MaxFacets)>
-	              <#break>
-	            </#if>
-              	<li><a href="${macro.getStripUrl(currentUrl)}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
+
+        <#list ["HIGHERTAXON","RANK","CHECKLIST","TAXSTATUS","EXTINCT","HABITAT"] as facetName>
+          <div class="refine">
+            <h4><@s.text name="search.facet.${facetName}" /></h4>
+            <div class="facet">
+            <#if facetCounts[facetName]?has_content>
+              <ul id="facetfilter${facetName}">
+              <#list facetCounts[facetName] as count>
+                <#if (count_index > MaxFacets)>
+                  <#break>
+                </#if>
+                <li><a href="${macro.getStripUrl(currentUrl)}&facets['${facetName}']=${count.name}" title="${count.title}">${count.title}</a> (${count.count})</li>
               </#list>
-            </ul>			
-           <#if (facetCounts['CHECKLIST']?size > MaxFacets)>
-            	<div class="facetPanel">
-	                <a href="#">see all...</a>
-		           	<div class="infowindow dialogPopover" style="z-index:100000">
-		           	   <div class="lheader"></div>
-		           	   <span class="close"></span>
-		           	   <div class="content">
-		           	     <h2>Filter by checklist</h2>
-						   <ul>
-				           	  <#list facetCounts['CHECKLIST'] as count>	            
-					            <li><a href="${macro.getStripUrl(currentUrl)}&facets['CHECKLIST']=${count.name}" title="${count.name}">${count.name}</a> (${count.count})</li>
-					          </#list>
-				          </ul>
-			          </div>
-			          <div class="lfooter"></div>
-		           	</div>
-	           	</div>
+              </ul>
+              <#if (facetCounts[facetName]?size > MaxFacets)>
+                <div class="facetPanel">
+                    <a href="#">see all...</a>
+                   <div class="infowindow dialogPopover" style="z-index:100000">
+                      <div class="lheader"></div>
+                      <span class="close"></span>
+                      <div class="content">
+                        <h2>Filter by <@s.text name="search.facet.${facetName}" /></h2>
+                       <ul>
+                         <#list facetCounts[facetName] as count>
+                        <li><a href="${macro.getStripUrl(currentUrl)}&facets['${facetName}']=${count.name}" title="${count.title}">${count.title}</a> (${count.count})</li>
+                        </#list>
+                       </ul>
+                     </div>
+                     <div class="lfooter"></div>
+                   </div>
+                 </div>
+              </#if>
             </#if>
-          </#if>          
+            </div>
           </div>
-        </div>
+        </#list>
 
-        <div class="refine">
-          <h4>Status</h4>
-          <a href="#" title="Any">Any<span class="more"></span></a>
-        </div>
-
-        <div class="refine">
-          <h4>Extinction status</h4>
-          <a href="#" title="Any">Any<span class="more"></span></a>
-        </div>
-
-        <div class="refine">
-          <h4>Habitat</h4>
-          <a href="#" title="Any">Any<span class="more"></span></a>
-        </div>
-        
         <a href="#" title="Add another criterion" class="add_criteria">Add another criterion <span class="more"></span></a>
 
         <div class="download">

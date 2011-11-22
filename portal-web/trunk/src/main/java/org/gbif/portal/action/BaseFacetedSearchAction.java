@@ -12,16 +12,14 @@ import org.gbif.api.search.facets.Facet;
 import org.gbif.api.search.model.SearchRequest;
 import org.gbif.api.search.model.SearchResponse;
 import org.gbif.api.search.service.SearchService;
+import org.gbif.portal.model.FacetInstance;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.gbif.api.search.model.SearchConstants.DEFAULT_SEARCH_PARAM;
 
@@ -43,13 +41,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Serial version
    */
   private static final long serialVersionUID = -1573017190241712345L;
-
-  private static final Logger LOG = LoggerFactory.getLogger(BaseFacetedSearchAction.class);
-
-  private Map<String, String[]> facets;
-
-  private Map<String, List<Facet.Count>> facetCounts;
-
+  private Map<String, String[]> facets = new HashMap<String, String[]>();
+  private HashMap<String, List<FacetInstance>> facetCounts;
   private boolean initDefault = true;
 
   /**
@@ -61,7 +54,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * This field is used to hold the class of the enum used for faceting.
    * This instance is used to iterate over the possible literal values of the enumerated type.
    */
-  private Class<? extends Enum<F>> classEnum;
+  private Class<? extends Enum<F>> facetEnum;
 
   private SearchService<T> searchService;
 
@@ -69,12 +62,12 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Default constructor for this class.
    * 
    * @param searchService an instance of search service
-   * @param classEnum the type of the {@link Enum} used for facets
+   * @param facetEnum the type of the {@link Enum} used for facets
    */
-  public BaseFacetedSearchAction(SearchService<T> searchService, Class<? extends Enum<F>> classEnum) {
+  public BaseFacetedSearchAction(SearchService<T> searchService, Class<? extends Enum<F>> facetEnum) {
     this.searchService = searchService;
-    this.facetCounts = new HashMap<String, List<Facet.Count>>();
-    this.classEnum = classEnum;
+    this.facetCounts = new HashMap<String, List<FacetInstance>>();
+    this.facetEnum = facetEnum;
     this.facets = new HashMap<String, String[]>();
   }
 
@@ -104,7 +97,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * @param request that will include the selected facets filter.
    */
   private void addFacetParameters(SearchRequest request) {
-    for (Enum<F> enumConstant : classEnum.getEnumConstants()) {
+    for (Enum<F> enumConstant : facetEnum.getEnumConstants()) {
       request.addFacets(enumConstant);
       this.addFacetParameters(enumConstant, request);
     }
@@ -126,9 +119,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   public String execute() {
     LOG.info("Search for [{}]", this.getQ());
     if (this.initDefault) {
-      if (this.facets == null) {
-        this.facets = new HashMap<String, String[]>();
-      }
       this.facets.putAll(this.getDefaultFacetsFilters());
     }
     // Request creation
@@ -164,7 +154,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * 
    * @return the facetCounts
    */
-  public Map<String, List<Facet.Count>> getFacetCounts() {
+  public Map<String, List<FacetInstance>> getFacetCounts() {
     return facetCounts;
   }
 
@@ -190,7 +180,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   /**
    * Analyzed the request to determine if parameters should be added from the request parameters.
    * 
-   * @param request the {@link HttpServletRequest} to be analyzed
    * @return a {@link Multimap} containing the parameters
    */
   public abstract Multimap<String, String> getRequestParameters();
@@ -206,33 +195,24 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     if (response.getFacets() != null && !response.getFacets().isEmpty()) {// there are facets in the response
       for (Facet facet : response.getFacets()) {
         if (facet.getCounts() != null) {// the facet.Count are stored in the facetCounts field
-          this.facetCounts.put(facet.getField(), facet.getCounts());
+          this.facetCounts.put(facet.getField(), toFacetInstance(facet.getCounts()));
         }
       }
     }
   }
 
+  private List<FacetInstance> toFacetInstance(List<Facet.Count> counts){
+    List<FacetInstance> instances = Lists.newArrayList();
+    for (Facet.Count c : counts){
+      instances.add(new FacetInstance(c));
+    }
+    return instances;
+  }
   /**
    * @return the initDefault
    */
   public boolean isInitDefault() {
     return initDefault;
-  }
-
-
-  /**
-   * @param facetCounts the facetCounts to set
-   */
-  public void setFacetCounts(Map<String, List<Facet.Count>> facetCounts) {
-    this.facetCounts = facetCounts;
-  }
-
-
-  /**
-   * @param facets the facets to set
-   */
-  public void setFacets(Map<String, String[]> facets) {
-    this.facets = facets;
   }
 
   /**

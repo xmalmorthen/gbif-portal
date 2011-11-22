@@ -11,7 +11,9 @@ package org.gbif.portal.action.species;
 import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
 import org.gbif.checklistbank.api.model.search.NameUsageSearchResult;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
+import org.gbif.checklistbank.api.service.NameUsageService;
 import org.gbif.portal.action.BaseFacetedSearchAction;
+import org.gbif.portal.model.FacetInstance;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,23 +28,20 @@ import com.google.inject.Inject;
 public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult, ChecklistBankFacetParameter> {
 
   private static final String CHECKLIST_KEY_PARAM = "checklistKey";
-
   private static final String NUB_KEY_PARAM = "nubKey";
-
   private static final String GBIF_NUB_CHK_TITLE = "GBIF Taxonomic Backbone";
-
   private static final long serialVersionUID = -3736915206911951300L;
-
   private static String ALL = "all";
-
   private Integer nubKey;
-
   private String checklistKey;
+  // injected
+  private NameUsageService usageService;
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   @Inject
-  public SearchAction(NameUsageSearchService nameUsageSearchService) {
+  public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService) {
     super(nameUsageSearchService, ChecklistBankFacetParameter.class);
+    this.usageService=usageService;
   }
 
   @Override
@@ -50,9 +49,31 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     if (this.nubKey != null) {
       this.setInitDefault(false);
     }
-    return super.execute();
+    super.execute();
+
+    // replace higher taxon ids in facets with real names
+    lookupHigherTaxaNames();
+
+    return SUCCESS;
   }
 
+  /**
+   * The higher taxon facet returns name usages ids only, but the UI should display the canonical names for these.
+   * This methods populates the facet instances with the name to be displayed by additional queries.
+   */
+  private void lookupHigherTaxaNames(){
+    if (getFacetCounts().containsKey(ChecklistBankFacetParameter.HIGHERTAXON.name())){
+      for (int idx=0; idx-1 < getMaxFacets() && idx < getFacetCounts().get(ChecklistBankFacetParameter.HIGHERTAXON.name()).size(); idx++){
+        FacetInstance c = getFacetCounts().get(ChecklistBankFacetParameter.HIGHERTAXON.name()).get(idx);
+        try {
+          c.setTitle(usageService.get(Integer.valueOf(c.getName()), null).getCanonicalOrScientificName());
+        } catch (Exception e) {
+          LOG.warn("Cannot lookup name for name usage {}", c.getName(), e);
+        }
+      }
+    }
+
+  }
   /**
    * @return the checklistKey
    */
@@ -87,12 +108,13 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   @Override
   public Multimap<String, String> getRequestParameters() {
     Multimap<String, String> params = HashMultimap.create();
-    // if set nubKet or checklistKey parameters, the initDefault flag is set to false
+    // if nubKey or checklistKey parameters exist, the initDefault flag is set to false
     if (this.nubKey != null) {
-      params.put(NUB_KEY_PARAM, this.nubKey.toString());
       this.setInitDefault(false);
+      params.put(NUB_KEY_PARAM, this.nubKey.toString());
     }
     if (this.checklistKey != null) {
+      this.setInitDefault(false);
       // If checklistKey = "ALL" the Checklist facet should be removed to avoid filtering
       if (this.checklistKey.equals(ALL)) {
         if (this.getFacets() != null) {
@@ -101,7 +123,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       } else {
         params.put(CHECKLIST_KEY_PARAM, this.checklistKey);
       }
-      this.setInitDefault(false);
     }
     return params;
   }
