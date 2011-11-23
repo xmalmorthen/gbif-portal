@@ -37,10 +37,13 @@
             <a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong></a>
             <span class="note">
              <#if u.rank??><@s.text name="enum.rank.${u.rank}"/></#if>
-             <#if u.synonym><#if u.proParte>pro parte </#if>synonym of <a href="<@s.url value='/species/${u.acceptedKey?c}'/>">${u.accepted!"???"}</a></#if>
+             <#if u.synonym><#if u.proParte>pro parte </#if>synonym</#if>
             </span>
           </h2>
-          <p>according to ${u.checklistTitle}</p>          
+          <p>according to ${u.checklistTitle}</p>
+          <#if u.synonym>
+            <p>Accepted name <a href="<@s.url value='/species/${u.acceptedKey?c}'/>">${u.accepted!"???"}</a></p>
+          </#if>
           <div class="footer">
           <p>
             <#if u.vernacularStringNames?has_content>
@@ -70,13 +73,11 @@
           <div id="selectedFilters" class="facet">
           <#if facets?has_content>                      
               <#list facets?keys as facetFilter>
-                <#list facets[facetFilter] as filterValue>
+                <#list facets.get(facetFilter) as filterValue>
                 	<div class="facetFilter">
 		              	<p>
-		              	 <span class="flabel">${facetFilter}</span> : ${filterValue} <a href="#" title="${facetFilter}:${filterValue}">[X]</a>
+		              	 <span class="flabel" val="${filterValue}">${facetFilter}</span> : ${filterValue} <a href="#" title="${facetFilter}:${filterValue}">[X]</a>
 		                </p>
-		                <span style="display:none">${facetFilter}</span>
-		              	<span style="display:none">${filterValue}</span>
 	              	</div>
                 </#list>
               </#list>         
@@ -95,7 +96,7 @@
                 <#if (count_index > MaxFacets)>
                   <#break>
                 </#if>
-                <li><a href="${macro.getStripUrl(currentUrl)}&facets['${facetName}']=${count.name}" title="${count.title}">${count.title}</a> (${count.count})</li>
+                <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name}" title="${count.title}">${count.title}</a> (${count.count})</li>
               </#list>
               </ul>
               <#if (facetCounts[facetName]?size > MaxFacets)>
@@ -108,7 +109,7 @@
                         <h2>Filter by <@s.text name="search.facet.${facetName}" /></h2>
                        <ul>
                          <#list facetCounts[facetName] as count>
-                        <li><a href="${macro.getStripUrl(currentUrl)}&facets['${facetName}']=${count.name}" title="${count.title}">${count.title}</a> (${count.count})</li>
+                        <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name}" title="${count.title}">${count.title}</a> (${count.count})</li>
                         </#list>
                        </ul>
                      </div>

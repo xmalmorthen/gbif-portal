@@ -87,9 +87,9 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    * @see org.gbif.portal.action.BaseFacetedSearchAction#getDefaultFacetsFilters()
    */
   @Override
-  public Map<String, String[]> getDefaultFacetsFilters() {
-    Map<String, String[]> map = new HashMap<String, String[]>();
-    map.put(ChecklistBankFacetParameter.CHECKLIST.name(), new String[] {GBIF_NUB_CHK_TITLE});
+  public Map<Enum<ChecklistBankFacetParameter>, String[]> getDefaultFacetsFilters() {
+    Map<Enum<ChecklistBankFacetParameter>, String[]> map = new HashMap<Enum<ChecklistBankFacetParameter>, String[]>();
+    map.put(ChecklistBankFacetParameter.CHECKLIST, new String[] {GBIF_NUB_CHK_TITLE});
     return map;
   }
 

@@ -8,6 +8,19 @@ String.prototype.toProperCase = function () {
   });
 };
 
+// Original function by Alien51
+Array.prototype.unique = function () {
+    var arrVal = this;
+    var uniqueArr = [];
+    for (var i = arrVal.length; i--; ) {
+        var val = arrVal[i];
+        if ($.inArray(val, uniqueArr) === -1) {
+            uniqueArr.unshift(val);
+        }
+    }
+    return uniqueArr;
+}
+
 function generateRandomValues(limit) {
   var last = Math.floor(Math.random() * 500);
   var random = 0;

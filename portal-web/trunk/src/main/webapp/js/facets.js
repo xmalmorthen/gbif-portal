@@ -21,27 +21,28 @@
 
     $('.higherTaxonLink').click( function(event){
       event.preventDefault();
-      addFacet('HIGHERTAXON', $(this).attr('key'));
+      addFacet('highertaxon', $(this).attr('key'));
 	  });
 
 	  $('.facetFilter').each( function(){
-      var $spans = $(this).children('span');
-      var $facetFilter = $($spans[0]).text();
-      var $facetValue = $($spans[1]).text();
-      $(this).children('p').first().children('a').first().click(function(event) {
+      var span = $("span.flabel", this);
+      var facetFilter = span.text().toLowerCase();
+      var facetValue  = span.attr("val");
+      $("a", this).click(function(event) {
         event.preventDefault();
-        removeFacet($facetFilter,$facetValue);
+        console.log(facetFilter, facetValue);
+        removeFacet(facetFilter, facetValue);
       });
 	  });
 	  
     function addFacet(facetName,facetFilter) {
       var queryParams = currentFilterParams();
-      queryParams.push('facets[\'' + facetName + '\']' + "=" + facetFilter);
+      queryParams.push(facetName + "=" + facetFilter);
       changeLocation(queryParams);
     }
     function removeFacet(facetName,facetFilter) {
       var queryParams = currentFilterParams();
-      var removeParam = 'facets[\'' + facetName + '\']' + "=" + facetFilter;
+      var removeParam = facetName + "=" + facetFilter;
       var idx = $.inArray(removeParam, queryParams);
       if (idx >= 0){
         queryParams.splice (idx,1);
@@ -54,13 +55,12 @@
 	  function currentFilterParams() {
       var facetFilterParams = new Array();
       $('.facetFilter').each(function(){
-        var $spans = $(this).children('span');
-        var keyV = $($spans[0]).text();
-        var valV = $($spans[1]).text();
-        facetFilterParams.push('facets[\'' + keyV + '\']' + "=" + valV);
+        var span = $("span.flabel", this);
+        facetFilterParams.push(span.text().toLowerCase() + "=" + span.attr("val"));
       });
 
-      return $.unique($.merge(facetFilterParams,currentQueryParam()));
+      $.merge(facetFilterParams,currentQueryParam());
+      return facetFilterParams.unique();
 	   };
 	
 

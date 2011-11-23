@@ -41,7 +41,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Serial version
    */
   private static final long serialVersionUID = -1573017190241712345L;
-  private Map<String, String[]> facets = new HashMap<String, String[]>();
+  private Map<Enum<F>, String[]> facets = new HashMap<Enum<F>, String[]>();
   private HashMap<String, List<FacetInstance>> facetCounts;
   private boolean initDefault = true;
 
@@ -68,45 +68,30 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     this.searchService = searchService;
     this.facetCounts = new HashMap<String, List<FacetInstance>>();
     this.facetEnum = facetEnum;
-    this.facets = new HashMap<String, String[]>();
   }
 
   /**
    * Adds the selected facets as faceted parameters to the SearchRequest input parameter.
-   * 
-   * @param facetEnum Enum literal used to get the selected values of a facet.
-   * @param request used to add the faceted parameters.
    */
-  private void addFacetParameters(final Enum<F> facetEnum, SearchRequest request) {
-    if (this.facets != null) { // there are facet values selected
-      String[] values = facets.get(facetEnum.name()); // gets the selected values of facet with name facetEnum.name()
+  private void addFacetParameters() {
+    // add all facets to request
+    for (Enum<F> fEnum : facetEnum.getEnumConstants()){
+      searchRequest.addFacets(fEnum);
+    }
+
+    // add facet filters
+    readFacetsFromRequest();
+    for (Enum<F> facet : facets.keySet()){
+      String[] values = facets.get(facet);
       if (values != null) {
         for (String facetValue : values) {
-          request.addFacetedParameter(facetEnum, facetValue);
+          searchRequest.addFacetedParameter(facet, facetValue);
         }
       }
     }
   }
 
-  /**
-   * Adds the requested facets and the selected facet values to the SearchRequest parameter.
-   * The class parameter F is used to iterate over all the constants it declares and for each one:
-   * - Adds the facet to the request
-   * - Adds the faceted filter if there are selected facets values.
-   * 
-   * @param request that will include the selected facets filter.
-   */
-  private void addFacetParameters(SearchRequest request) {
-    for (Enum<F> enumConstant : facetEnum.getEnumConstants()) {
-      request.addFacets(enumConstant);
-      this.addFacetParameters(enumConstant, request);
-    }
-    if (this.initDefault) {
-      request.addFacetedParameter(this.getDefaultFacetsFilters());
-    }
-  }
-
-  /**
+   /**
    * Executes the default action behavior.
    * The steps taken on this method are:
    * - Creates a {@link SearchRequest} using the current {@link SearchRequest} instance
@@ -118,11 +103,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   @Override
   public String execute() {
     LOG.info("Search for [{}]", this.getQ());
-    if (this.initDefault) {
-      this.facets.putAll(this.getDefaultFacetsFilters());
-    }
     // Request creation
-    this.addFacetParameters(searchRequest);
+    addFacetParameters();
     // default query parameters
     searchRequest.addParameter(DEFAULT_SEARCH_PARAM, this.getQ());
     // adds parameters processed by subclasses
@@ -130,9 +112,28 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     // issues the search operation
     searchResponse = searchService.search(searchRequest);
     // initializes the elements required by the UI
-    this.initializeFacetCounts(searchResponse);
+    initializeFacetCounts(searchResponse);
+
     LOG.info("Search for [{}] returned {} results", this.getQ(), searchResponse.getCount());
     return SUCCESS;
+  }
+
+  /**
+   * read facets from request to avoid fixed setter names
+   */
+  private void readFacetsFromRequest() {
+    Map<String, String[]> params = request.getParameterMap();
+    for (Enum<F> fEnum : facetEnum.getEnumConstants()){
+      // recognize facets by enum name
+      String pname = fEnum.name().toLowerCase();
+      if (params.containsKey(pname)){
+        // facet filter found
+        this.facets.put(fEnum, params.get(pname));
+      }
+    }
+    if (this.initDefault) {
+      this.facets.putAll(this.getDefaultFacetsFilters());
+    }
   }
 
   /**
@@ -140,7 +141,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * 
    * @return a map containing default values for facets filters
    */
-  public abstract Map<String, String[]> getDefaultFacetsFilters();
+  public abstract Map<Enum<F>, String[]> getDefaultFacetsFilters();
 
   /**
    * Holds the facet count information retrieved after each search operation.
@@ -168,7 +169,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * 
    * @return the facets selected values.
    */
-  public Map<String, String[]> getFacets() {
+  public Map<Enum<F>, String[]> getFacets() {
     return facets;
   }
 
