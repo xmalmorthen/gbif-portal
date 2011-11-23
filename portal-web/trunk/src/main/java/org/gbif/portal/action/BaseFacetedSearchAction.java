@@ -30,10 +30,9 @@ import static org.gbif.api.search.model.SearchConstants.DEFAULT_SEARCH_PARAM;
  * - Execution of the search request using an instance of {@link SearchService}.
  * - Holds the user selected values of a facet.
  * - Provides the required information for displaying the facet counts.
- *
+ * 
  * @param <T> type of the results content
  * @param <F> Enum that contains the valid facets
- *
  * @see BaseSearchAction
  */
 public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends BaseSearchAction<T> {
@@ -61,9 +60,9 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
 
   /**
    * Default constructor for this class.
-   *
+   * 
    * @param searchService an instance of search service
-   * @param facetEnum     the type of the {@link Enum} used for facets
+   * @param facetEnum the type of the {@link Enum} used for facets
    */
   public BaseFacetedSearchAction(SearchService<T> searchService, Class<? extends Enum<F>> facetEnum) {
     this.searchService = searchService;
@@ -110,6 +109,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     searchRequest.addParameter(DEFAULT_SEARCH_PARAM, this.getQ());
     // adds parameters processed by subclasses
     searchRequest.addParameter(this.getRequestParameters());
+    // adds the language
+    searchRequest.setLanguage(this.getLocale().getLanguage());
     // issues the search operation
     searchResponse = searchService.search(searchRequest);
     // initializes the elements required by the UI
@@ -117,6 +118,80 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
 
     LOG.info("Search for [{}] returned {} results", this.getQ(), searchResponse.getCount());
     return SUCCESS;
+  }
+
+  /**
+   * This method should return a map containing the default filter parameters for the first time that the page is
+   * loaded
+   * 
+   * @return a map containing default values for facets filters
+   */
+  public abstract Map<Enum<F>, List<FacetInstance>> getDefaultFacetsFilters();
+
+  /**
+   * Holds the facet count information retrieved after each search operation.
+   * For accessing this field the user interface should be able to referencing map data types.
+   * An example of usage of this field could be:
+   * <#list facetCounts['RANK'] as count>
+   * <option value="${count.name}">${count.name}-(${count.count})</option>
+   * </#list>
+   * In the previous example the selected elements of a "select" element will be populated by using the list of
+   * counts of the facet 'RANK'.
+   * 
+   * @return the facetCounts
+   */
+  public Map<String, List<FacetInstance>> getFacetCounts() {
+    return facetCounts;
+  }
+
+  /**
+   * Holds the list of values selected in the user interface.
+   * For accessing this field the user interface should be able to referencing map data types.
+   * An example of usage of this field could be:
+   * <select id="RANK_FACET" name="facets['RANK']" multiple>
+   * In the previous example the selected elements of a "select" element will be stored as an array of String
+   * accessible using the key 'RANK'.
+   * 
+   * @return the facets selected values.
+   */
+  public Map<Enum<F>, List<FacetInstance>> getFacets() {
+    return facets;
+  }
+
+  public int getMaxFacets() {
+    return MAX_FACETS;
+  }
+
+
+  /**
+   * Analyzed the request to determine if parameters should be added from the request parameters.
+   * 
+   * @return a {@link Multimap} containing the parameters
+   */
+  public abstract Multimap<String, String> getRequestParameters();
+
+  /**
+   * By using the response object, this method initializes the facetCounts field.
+   * If the response object contains facets, iterates over the facets for copying the count information into the
+   * facetCounts (see {@link Facet.Count}) field.
+   * 
+   * @param response the response gotten after executing the search operation.
+   */
+  private void initializeFacetCounts(final SearchResponse<T> response) {
+    if (response.getFacets() != null && !response.getFacets().isEmpty()) {// there are facets in the response
+      for (Facet facet : response.getFacets()) {
+        if (facet.getCounts() != null) {// the facet.Count are stored in the facetCounts field
+          this.facetCounts.put(facet.getField(), toFacetInstance(facet.getCounts()));
+        }
+      }
+    }
+  }
+
+  /**
+   * @return the initDefault
+   */
+  public boolean isInitDefault() {
+    return initDefault;
   }
 
   /**
@@ -142,70 +217,12 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   }
 
   /**
-   * This method should return a map containing the default filter parameters for the first time that the page is
-   * loaded
-   *
-   * @return a map containing default values for facets filters
+   * Flag that indicates if the default filter parameters should be initialized
+   * 
+   * @param initDefault the initDefault to set
    */
-  public abstract Map<Enum<F>, List<FacetInstance>> getDefaultFacetsFilters();
-
-  /**
-   * Holds the facet count information retrieved after each search operation.
-   * For accessing this field the user interface should be able to referencing map data types.
-   * An example of usage of this field could be:
-   * <#list facetCounts['RANK'] as count>
-   * <option value="${count.name}">${count.name}-(${count.count})</option>
-   * </#list>
-   * In the previous example the selected elements of a "select" element will be populated by using the list of
-   * counts of the facet 'RANK'.
-   *
-   * @return the facetCounts
-   */
-  public Map<String, List<FacetInstance>> getFacetCounts() {
-    return facetCounts;
-  }
-
-  /**
-   * Holds the list of values selected in the user interface.
-   * For accessing this field the user interface should be able to referencing map data types.
-   * An example of usage of this field could be:
-   * <select id="RANK_FACET" name="facets['RANK']" multiple>
-   * In the previous example the selected elements of a "select" element will be stored as an array of String
-   * accessible using the key 'RANK'.
-   *
-   * @return the facets selected values.
-   */
-  public Map<Enum<F>, List<FacetInstance>> getFacets() {
-    return facets;
-  }
-
-
-  public int getMaxFacets() {
-    return MAX_FACETS;
-  }
-
-  /**
-   * Analyzed the request to determine if parameters should be added from the request parameters.
-   *
-   * @return a {@link Multimap} containing the parameters
-   */
-  public abstract Multimap<String, String> getRequestParameters();
-
-  /**
-   * By using the response object, this method initializes the facetCounts field.
-   * If the response object contains facets, iterates over the facets for copying the count information into the
-   * facetCounts (see {@link Facet.Count}) field.
-   *
-   * @param response the response gotten after executing the search operation.
-   */
-  private void initializeFacetCounts(final SearchResponse<T> response) {
-    if (response.getFacets() != null && !response.getFacets().isEmpty()) {// there are facets in the response
-      for (Facet facet : response.getFacets()) {
-        if (facet.getCounts() != null) {// the facet.Count are stored in the facetCounts field
-          this.facetCounts.put(facet.getField(), toFacetInstance(facet.getCounts()));
-        }
-      }
-    }
+  public void setInitDefault(boolean initDefault) {
+    this.initDefault = initDefault;
   }
 
   private List<FacetInstance> toFacetInstance(List<Facet.Count> counts) {
@@ -214,21 +231,5 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
       instances.add(new FacetInstance(c));
     }
     return instances;
-  }
-
-  /**
-   * @return the initDefault
-   */
-  public boolean isInitDefault() {
-    return initDefault;
-  }
-
-  /**
-   * Flag that indicates if the default filter parameters should be initialized
-   *
-   * @param initDefault the initDefault to set
-   */
-  public void setInitDefault(boolean initDefault) {
-    this.initDefault = initDefault;
   }
 }

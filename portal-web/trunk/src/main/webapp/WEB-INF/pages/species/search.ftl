@@ -46,8 +46,8 @@
           </#if>
           <div class="footer">
           <p>
-            <#if u.vernacularStringNames?has_content>
-             <#list u.vernacularStringNames as vn>
+            <#if u.vernacularNamesLanguages?has_content>
+             <#list u.vernacularNamesLanguages as vn>
                 <strong>${vn!c}</strong>
                 <#if vn_has_next> - </#if>
               </#list>
