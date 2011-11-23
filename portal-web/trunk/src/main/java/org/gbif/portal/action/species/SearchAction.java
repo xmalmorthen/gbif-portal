@@ -16,9 +16,12 @@ import org.gbif.portal.action.BaseFacetedSearchAction;
 import org.gbif.portal.model.FacetInstance;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 
@@ -62,17 +65,41 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    * This methods populates the facet instances with the name to be displayed by additional queries.
    */
   private void lookupHigherTaxaNames(){
-    if (getFacetCounts().containsKey(ChecklistBankFacetParameter.HIGHERTAXON.name())){
-      for (int idx=0; idx-1 < getMaxFacets() && idx < getFacetCounts().get(ChecklistBankFacetParameter.HIGHERTAXON.name()).size(); idx++){
-        FacetInstance c = getFacetCounts().get(ChecklistBankFacetParameter.HIGHERTAXON.name()).get(idx);
-        try {
-          c.setTitle(usageService.get(Integer.valueOf(c.getName()), null).getCanonicalOrScientificName());
-        } catch (Exception e) {
-          LOG.warn("Cannot lookup name for name usage {}", c.getName(), e);
+    // "cache"
+    Map<String, String> names = Maps.newHashMap();
+
+    // filters
+    if (getFacets().containsKey(ChecklistBankFacetParameter.HIGHERTAXON)){
+      for (FacetInstance fi : getFacets().get(ChecklistBankFacetParameter.HIGHERTAXON)){
+        if (names.containsKey(fi.getName())){
+          fi.setTitle(names.get(fi.getName()));
+        } else {
+          try {
+            fi.setTitle(usageService.get(Integer.valueOf(fi.getName()), null).getCanonicalOrScientificName());
+            names.put(fi.getName(), fi.getTitle());
+          } catch (Exception e) {
+            LOG.warn("Cannot lookup name for name usage {}", fi.getName(), e);
+          }
         }
       }
     }
 
+    // facet counts
+    if (getFacetCounts().containsKey(ChecklistBankFacetParameter.HIGHERTAXON.name())){
+      for (int idx=0; idx < getMaxFacets()+1 && idx < getFacetCounts().get(ChecklistBankFacetParameter.HIGHERTAXON.name()).size(); idx++){
+        FacetInstance c = getFacetCounts().get(ChecklistBankFacetParameter.HIGHERTAXON.name()).get(idx);
+        if (names.containsKey(c.getName())){
+          c.setTitle(names.get(c.getName()));
+        } else {
+          try {
+            c.setTitle(usageService.get(Integer.valueOf(c.getName()), null).getCanonicalOrScientificName());
+            names.put(c.getName(), c.getTitle());
+          } catch (Exception e) {
+            LOG.warn("Cannot lookup name for name usage {}", c.getName(), e);
+          }
+        }
+      }
+    }
   }
   /**
    * @return the checklistKey
@@ -87,9 +114,11 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    * @see org.gbif.portal.action.BaseFacetedSearchAction#getDefaultFacetsFilters()
    */
   @Override
-  public Map<Enum<ChecklistBankFacetParameter>, String[]> getDefaultFacetsFilters() {
-    Map<Enum<ChecklistBankFacetParameter>, String[]> map = new HashMap<Enum<ChecklistBankFacetParameter>, String[]>();
-    map.put(ChecklistBankFacetParameter.CHECKLIST, new String[] {GBIF_NUB_CHK_TITLE});
+  public Map<Enum<ChecklistBankFacetParameter>, List<FacetInstance>> getDefaultFacetsFilters() {
+    Map<Enum<ChecklistBankFacetParameter>, List<FacetInstance>> map = new HashMap<Enum<ChecklistBankFacetParameter>, List<FacetInstance>>();
+    List<FacetInstance> values = Lists.newArrayList();
+    values.add(new FacetInstance(GBIF_NUB_CHK_TITLE));
+    map.put(ChecklistBankFacetParameter.CHECKLIST, values);
     return map;
   }
 

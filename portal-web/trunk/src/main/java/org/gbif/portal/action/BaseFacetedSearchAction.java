@@ -41,7 +41,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Serial version
    */
   private static final long serialVersionUID = -1573017190241712345L;
-  private Map<Enum<F>, String[]> facets = new HashMap<Enum<F>, String[]>();
+  private Map<Enum<F>, List<FacetInstance>> facets = new HashMap<Enum<F>, List<FacetInstance>>();
   private HashMap<String, List<FacetInstance>> facetCounts;
   private boolean initDefault = true;
 
@@ -82,10 +82,10 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     // add facet filters
     readFacetsFromRequest();
     for (Enum<F> facet : facets.keySet()){
-      String[] values = facets.get(facet);
+      List<FacetInstance> values = facets.get(facet);
       if (values != null) {
-        for (String facetValue : values) {
-          searchRequest.addFacetedParameter(facet, facetValue);
+        for (FacetInstance facetValue : values) {
+          searchRequest.addFacetedParameter(facet, facetValue.getName());
         }
       }
     }
@@ -128,7 +128,11 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
       String pname = fEnum.name().toLowerCase();
       if (params.containsKey(pname)){
         // facet filter found
-        this.facets.put(fEnum, params.get(pname));
+        List<FacetInstance> values = Lists.newArrayList();
+        for (String v : params.get(pname)){
+          values.add(new FacetInstance(v));
+        }
+        this.facets.put(fEnum, values);
       }
     }
     if (this.initDefault) {
@@ -141,7 +145,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * 
    * @return a map containing default values for facets filters
    */
-  public abstract Map<Enum<F>, String[]> getDefaultFacetsFilters();
+  public abstract Map<Enum<F>, List<FacetInstance>> getDefaultFacetsFilters();
 
   /**
    * Holds the facet count information retrieved after each search operation.
@@ -169,7 +173,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * 
    * @return the facets selected values.
    */
-  public Map<Enum<F>, String[]> getFacets() {
+  public Map<Enum<F>, List<FacetInstance>> getFacets() {
     return facets;
   }
 

@@ -76,7 +76,7 @@
                 <#list facets.get(facetFilter) as filterValue>
                 	<div class="facetFilter">
 		              	<p>
-		              	 <span class="flabel" val="${filterValue}">${facetFilter}</span> : ${filterValue} <a href="#" title="${facetFilter}:${filterValue}">[X]</a>
+		              	 <span class="flabel" val="${filterValue.name}">${facetFilter}</span> : ${filterValue.title} <a href="#">[X]</a>
 		                </p>
 	              	</div>
                 </#list>
