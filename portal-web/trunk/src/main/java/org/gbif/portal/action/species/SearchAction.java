@@ -44,7 +44,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   @Inject
   public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService) {
     super(nameUsageSearchService, ChecklistBankFacetParameter.class);
-    this.usageService=usageService;
+    this.usageService = usageService;
   }
 
   @Override
@@ -64,14 +64,14 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    * The higher taxon facet returns name usages ids only, but the UI should display the canonical names for these.
    * This methods populates the facet instances with the name to be displayed by additional queries.
    */
-  private void lookupHigherTaxaNames(){
+  private void lookupHigherTaxaNames() {
     // "cache"
     Map<String, String> names = Maps.newHashMap();
 
     // filters
-    if (getFacets().containsKey(ChecklistBankFacetParameter.HIGHERTAXON)){
-      for (FacetInstance fi : getFacets().get(ChecklistBankFacetParameter.HIGHERTAXON)){
-        if (names.containsKey(fi.getName())){
+    if (getFacets().containsKey(ChecklistBankFacetParameter.HIGHERTAXON)) {
+      for (FacetInstance fi : getFacets().get(ChecklistBankFacetParameter.HIGHERTAXON)) {
+        if (names.containsKey(fi.getName())) {
           fi.setTitle(names.get(fi.getName()));
         } else {
           try {
@@ -85,10 +85,12 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     }
 
     // facet counts
-    if (getFacetCounts().containsKey(ChecklistBankFacetParameter.HIGHERTAXON.name())){
-      for (int idx=0; idx < getMaxFacets()+1 && idx < getFacetCounts().get(ChecklistBankFacetParameter.HIGHERTAXON.name()).size(); idx++){
+    if (getFacetCounts().containsKey(ChecklistBankFacetParameter.HIGHERTAXON.name())) {
+      for (int idx = 0;
+        idx < getMaxFacets() + 1 && idx < getFacetCounts().get(ChecklistBankFacetParameter.HIGHERTAXON.name()).size();
+        idx++) {
         FacetInstance c = getFacetCounts().get(ChecklistBankFacetParameter.HIGHERTAXON.name()).get(idx);
-        if (names.containsKey(c.getName())){
+        if (names.containsKey(c.getName())) {
           c.setTitle(names.get(c.getName()));
         } else {
           try {
@@ -101,6 +103,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       }
     }
   }
+
   /**
    * @return the checklistKey
    */
@@ -115,7 +118,8 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    */
   @Override
   public Map<Enum<ChecklistBankFacetParameter>, List<FacetInstance>> getDefaultFacetsFilters() {
-    Map<Enum<ChecklistBankFacetParameter>, List<FacetInstance>> map = new HashMap<Enum<ChecklistBankFacetParameter>, List<FacetInstance>>();
+    Map<Enum<ChecklistBankFacetParameter>, List<FacetInstance>> map =
+      new HashMap<Enum<ChecklistBankFacetParameter>, List<FacetInstance>>();
     List<FacetInstance> values = Lists.newArrayList();
     values.add(new FacetInstance(GBIF_NUB_CHK_TITLE));
     map.put(ChecklistBankFacetParameter.CHECKLIST, values);
@@ -159,7 +163,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   /**
    * Request parameter for filtering results by checklistKey.
-   * 
+   *
    * @param checklistKey the checklistKey to set
    */
   public void setChecklistKey(String checklistKey) {
@@ -169,7 +173,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   /**
    * Request parameter for filtering results by nubKey.
-   * 
+   *
    * @param nubKey the nubKey to set
    */
   public void setNubKey(Integer nubKey) {
