@@ -87,10 +87,10 @@
 
 
         <#list ["HIGHERTAXON","RANK","CHECKLIST","TAXSTATUS","EXTINCT","MARINE"] as facetName>
+          <#if facetCounts[facetName]?has_content && (facetCounts[facetName]?size>1)>
           <div class="refine">
             <h4><@s.text name="search.facet.${facetName}" /></h4>
             <div class="facet">
-            <#if facetCounts[facetName]?has_content>
               <ul id="facetfilter${facetName}">
               <#list facetCounts[facetName] as count>
                 <#if (count_index > MaxFacets)>
@@ -117,9 +117,9 @@
                    </div>
                  </div>
               </#if>
-            </#if>
             </div>
           </div>
+          </#if>
         </#list>
 
         <a href="#" title="Add another criterion" class="add_criteria">Add another criterion <span class="more"></span></a>

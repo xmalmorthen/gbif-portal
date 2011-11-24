@@ -10,9 +10,11 @@ package org.gbif.portal.action.species;
 
 import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
 import org.gbif.checklistbank.api.model.search.NameUsageSearchResult;
+import org.gbif.checklistbank.api.model.vocabulary.TaxonomicStatus;
 import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
 import org.gbif.checklistbank.api.service.NameUsageService;
+import org.gbif.checklistbank.vocabulary.converter.TaxonomicStatusConverter;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 import org.gbif.portal.model.FacetInstance;
 
@@ -22,6 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.base.Function;
+import com.google.common.base.Strings;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -44,16 +47,19 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private ChecklistService checklistService;
 
   private Function<String, String> getChecklistTitle;
-
   private Function<String, String> getHigherTaxaTitle;
+  private Function<String, String> getBooleanTitle;
+  private Function<String, String> getTaxStatusTitle;
+  private TaxonomicStatusConverter taxonomicStatusConverter;
 
   @SuppressWarnings({"rawtypes", "unchecked"})
   @Inject
   public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService,
-    ChecklistService checklistService) {
+    ChecklistService checklistService, TaxonomicStatusConverter taxonomicStatusConverter) {
     super(nameUsageSearchService, ChecklistBankFacetParameter.class);
     this.usageService = usageService;
     this.checklistService = checklistService;
+    this.taxonomicStatusConverter = taxonomicStatusConverter;
     this.initGetTitleFunctions();
   }
 
@@ -65,9 +71,19 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     super.execute();
 
     // replace higher taxon ids in facets with real names
-    lookupHigherTaxaNames();
+    this.lookupFacetTitles(ChecklistBankFacetParameter.HIGHERTAXON, getHigherTaxaTitle);
+
     // replace checklist key with labels
-    lookupChecklistTitles();
+    this.lookupFacetTitles(ChecklistBankFacetParameter.CHECKLIST, getChecklistTitle);
+
+    // replace taxonomic status keys with labels
+    this.lookupFacetTitles(ChecklistBankFacetParameter.TAXSTATUS, getTaxStatusTitle);
+
+    // replace extinct boolean values
+    this.lookupFacetTitles(ChecklistBankFacetParameter.EXTINCT, getBooleanTitle);
+
+    // replace marine boolean values
+    this.lookupFacetTitles(ChecklistBankFacetParameter.MARINE, getBooleanTitle);
 
     return SUCCESS;
   }
@@ -130,35 +146,42 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   private void initGetTitleFunctions() {
     this.getChecklistTitle = new Function<String, String>() {
-
       @Override
       public String apply(String name) {
+        if (Strings.emptyToNull(name)==null) return null;
         return checklistService.get(UUID.fromString(name)).getName();
       }
     };
 
     this.getHigherTaxaTitle = new Function<String, String>() {
-
       @Override
       public String apply(String name) {
+        if (Strings.emptyToNull(name)==null) return null;
         return usageService.get(Integer.valueOf(name), null).getCanonicalOrScientificName();
       }
     };
-  }
 
-  /**
-   * Populates the checklist titles for facets and filters.
-   */
-  private void lookupChecklistTitles() {
-    this.lookupFacetTitles(ChecklistBankFacetParameter.CHECKLIST, getChecklistTitle);
-  }
+    this.getBooleanTitle = new Function<String, String>() {
+      @Override
+      public String apply(String name) {
+        if (Strings.emptyToNull(name)==null) return null;
+        return getText("enum.boolean." + name.toLowerCase());
+      }
+    };
 
-  /**
-   * The higher taxon facet returns name usages ids only, but the UI should display the canonical names for these.
-   * This methods populates the facet instances with the name to be displayed by additional queries.
-   */
-  private void lookupHigherTaxaNames() {
-    this.lookupFacetTitles(ChecklistBankFacetParameter.HIGHERTAXON, getHigherTaxaTitle);
+    this.getTaxStatusTitle = new Function<String, String>() {
+      @Override
+      public String apply(String taxid) {
+        if (Strings.emptyToNull(taxid)==null) return null;
+        // this is the id, replace with enum
+        TaxonomicStatus status = taxonomicStatusConverter.toEnum(Integer.parseInt(taxid));
+        if (status!=null){
+          return getText("enum.taxstatus." + status.name());
+        }
+        return null;
+      }
+    };
+
   }
 
   /**

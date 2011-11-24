@@ -201,7 +201,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * The function uses a function parameter to accomplish this task.
    * The getTitleFunction could provide the actual communication with the service later to provide the required title.
    * 
-   * @param facetName name of the facet
+   * @param facet the facet
    * @param getTitleFunction function that returns title using a facet name
    */
   protected void lookupFacetTitles(Enum<F> facet, Function<String, String> getTitleFunction) {
