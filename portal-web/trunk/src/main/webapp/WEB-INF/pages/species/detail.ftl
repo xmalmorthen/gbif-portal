@@ -65,12 +65,11 @@
       <h3>Full name</h3>
       <p>${usage.scientificName}</p>
 
-    <#if usage.taxonomicStatus??>
       <h3>Status</h3>
-      <p>${usage.taxonomicStatus}
+      <p>
+        ${usage.taxonomicStatus!"Unknown"}
         <#if usage.synonym> of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a></#if>
       </p>
-    </#if>
 
     <#if usage.speciesProfiles?? && usage.speciesProfiles[0]??>
       <#assign sp = usage.speciesProfiles[0]/>
