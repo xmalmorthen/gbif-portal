@@ -21,7 +21,7 @@
 
     $('.higherTaxonLink').click( function(event){
       event.preventDefault();
-      addFacet('highertaxon', $(this).attr('key'));
+      replaceFacet('highertaxon', $(this).attr('key'));
 	  });
 
 	  $('.facetFilter').each( function(){
@@ -37,6 +37,18 @@
 	  
     function addFacet(facetName,facetFilter) {
       var queryParams = currentFilterParams();
+      queryParams.push(facetName + "=" + facetFilter);
+      changeLocation(queryParams);
+    }
+    function replaceFacet(facetName,facetFilter) {
+      var queryParams = currentFilterParams();
+      $.each(queryParams, function(i, val) {
+        console.log(val);
+        if (val.substring(0, facetName.length+1) == facetName+"=") {
+          queryParams.splice (i,1);
+        }
+      });
+      console.log(queryParams);
       queryParams.push(facetName + "=" + facetFilter);
       changeLocation(queryParams);
     }

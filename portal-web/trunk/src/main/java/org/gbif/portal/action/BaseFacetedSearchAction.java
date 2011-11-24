@@ -76,13 +76,17 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Adds the selected facets as faceted parameters to the SearchRequest input parameter.
    */
   private void addFacetParameters() {
-    // add all facets to request
+    // parse plain http request to populate facets
+    readFacetsFromRequest();
+
+    // add all facets to request which are not in filters yet
     for (Enum<F> fEnum : facetEnum.getEnumConstants()) {
-      searchRequest.addFacets(fEnum);
+      if (!facets.containsKey(fEnum)){
+        searchRequest.addFacets(fEnum);
+      }
     }
 
     // add facet filters
-    readFacetsFromRequest();
     for (Enum<F> facet : facets.keySet()) {
       List<FacetInstance> values = facets.get(facet);
       if (values != null) {
