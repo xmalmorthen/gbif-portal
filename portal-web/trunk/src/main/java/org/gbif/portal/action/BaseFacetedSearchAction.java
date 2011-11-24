@@ -18,7 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
 import static org.gbif.api.search.model.SearchConstants.DEFAULT_SEARCH_PARAM;
@@ -195,6 +197,52 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   }
 
   /**
+   * Utility function that sets facet titles.
+   * The function uses a function parameter to accomplish this task.
+   * The getTitleFunction could provide the actual communication with the service later to provide the required title.
+   * 
+   * @param facetName name of the facet
+   * @param getTitleFunction function that returns title using a facet name
+   */
+  protected void lookupFacetTitles(Enum<F> facet, Function<String, String> getTitleFunction) {
+    // "cache"
+    Map<String, String> names = Maps.newHashMap();
+
+    // filters
+    if (getFacets().containsKey(facet)) {
+      for (FacetInstance fi : getFacets().get(facet)) {
+        if (names.containsKey(fi.getName())) {
+          fi.setTitle(names.get(fi.getName()));
+        } else {
+          try {
+            fi.setTitle(getTitleFunction.apply(fi.getName()));
+            names.put(fi.getName(), fi.getTitle());
+          } catch (Exception e) {
+            LOG.warn("Cannot lookup name for name usage {}", fi.getName(), e);
+          }
+        }
+      }
+    }
+
+    // facet counts
+    if (getFacetCounts().containsKey(facet.name())) {
+      for (int idx = 0; idx < getFacetCounts().get(facet.name()).size(); idx++) {
+        FacetInstance c = getFacetCounts().get(facet.name()).get(idx);
+        if (names.containsKey(c.getName())) {
+          c.setTitle(names.get(c.getName()));
+        } else {
+          try {
+            c.setTitle(getTitleFunction.apply(c.getName()));
+            names.put(c.getName(), c.getTitle());
+          } catch (Exception e) {
+            LOG.warn("Cannot lookup name for name usage {}", c.getName(), e);
+          }
+        }
+      }
+    }
+  }
+
+  /**
    * read facets from request to avoid fixed setter names
    */
   private void readFacetsFromRequest() {
@@ -224,6 +272,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   public void setInitDefault(boolean initDefault) {
     this.initDefault = initDefault;
   }
+
 
   private List<FacetInstance> toFacetInstance(List<Facet.Count> counts) {
     List<FacetInstance> instances = Lists.newArrayList();
