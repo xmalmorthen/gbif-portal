@@ -144,6 +144,9 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   }
 
 
+  /**
+   * Initializes the getTitle* functions: getChecklistTitle and getHigherTaxaTitle.
+   */
   private void initGetTitleFunctions() {
     this.getChecklistTitle = new Function<String, String>() {
       @Override

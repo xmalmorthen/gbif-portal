@@ -67,36 +67,36 @@
           <@macro.pagination page=searchResponse url=currentUrl/>
         </div>
       </div>
-      <div class="right">		
+      <div class="right">
+      <#if (facets?has_content)>      		
 		<div class="refine">
           <h4>Selected filters: </h4>
-          <div id="selectedFilters" class="facet">
-          <#if facets?has_content>                      
-              <#list facets?keys as facetFilter>
-                <#list facets.get(facetFilter) as filterValue>
-                	<div class="facetFilter">
-		              	<p>
-		              	 <span class="flabel" val="${filterValue.name!}">${facetFilter}</span> : ${filterValue.title!"Unknown"} <a href="#">[X]</a>
-		                </p>
-	              	</div>
-                </#list>
-              </#list>         
-          </#if>                    
+          <div id="selectedFilters" class="facet">                               
+          <#list facets?keys as facetFilter>
+            <#list facets.get(facetFilter) as filterValue>
+            	<div class="facetFilter">
+	              	<p>
+	              	 <span class="flabel" val="${filterValue.name}">${facetFilter}</span> : ${filterValue.title} <a href="#">[X]</a>
+	                </p>
+              	</div>
+            </#list>
+          </#list>                                      
           </div>
         </div>
+	   </#if>
 
-
-        <#list ["HIGHERTAXON","RANK","CHECKLIST","TAXSTATUS","EXTINCT","MARINE"] as facetName>
-          <#if facetCounts[facetName]?has_content && (facetCounts[facetName]?size>1)>
-          <div class="refine">
-            <h4><@s.text name="search.facet.${facetName}" /></h4>
-            <div class="facet">
+        <#list ["HIGHERTAXON","RANK","CHECKLIST","TAXSTATUS","EXTINCT","HABITAT"] as facetName>
+                      
+            <#if (facetCounts[facetName]?has_content && facetCounts[facetName]?size > 1)>
+             <div class="refine">
+              <h4><@s.text name="search.facet.${facetName}" /></h4>
+              <div class="facet">
               <ul id="facetfilter${facetName}">
               <#list facetCounts[facetName] as count>
                 <#if (count_index > MaxFacets)>
                   <#break>
-                </#if>
-                <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name!}" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})</li>
+                </#if>                
+                <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name}" title="${count.title}">${count.title}</a> (${count.count})</li>                
               </#list>
               </ul>
               <#if (facetCounts[facetName]?size > MaxFacets)>
@@ -109,7 +109,7 @@
                         <h2>Filter by <@s.text name="search.facet.${facetName}" /></h2>
                        <ul>
                          <#list facetCounts[facetName] as count>
-                         <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name!}" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})</li>
+                        <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name}" title="${count.title}">${count.title}</a> (${count.count})</li>
                         </#list>
                        </ul>
                      </div>
@@ -117,13 +117,13 @@
                    </div>
                  </div>
               </#if>
-            </div>
-          </div>
-          </#if>
+              </div>
+              </div>
+            </#if>                      
         </#list>
-
+	   
         <a href="#" title="Add another criterion" class="add_criteria">Add another criterion <span class="more"></span></a>
-
+	
         <div class="download">
           <div class="dropdown">
             <a href="#" class="title" title="Download list"><span>Download list</span></a>

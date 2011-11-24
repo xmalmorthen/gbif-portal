@@ -127,6 +127,16 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   }
 
   /**
+   * Gets the instance of the current object.
+   * This helps to expose public methods to the web templates.
+   * 
+   * @return
+   */
+  public BaseAction getAction() {
+    return this;
+  }
+
+  /**
    * This method should return a map containing the default filter parameters for the first time that the page is
    * loaded
    * 
@@ -151,6 +161,22 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   }
 
   /**
+   * Returns the Enum literal that has the name "facetName"
+   * 
+   * @param facetName the name of the facet.
+   * @return an Enum<F> instance, null if the facetName is not found.
+   */
+  private Enum<F> getFacetFromString(String facetName) {
+    Enum<F> facet = null;
+    for (Enum<F> fEnum : this.getFacets().keySet()) {
+      if (fEnum.name().equalsIgnoreCase(facetName)) {
+        facet = fEnum;
+      }
+    }
+    return facet;
+  }
+
+  /**
    * Holds the list of values selected in the user interface.
    * For accessing this field the user interface should be able to referencing map data types.
    * An example of usage of this field could be:
@@ -164,10 +190,10 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     return facets;
   }
 
+
   public int getMaxFacets() {
     return MAX_FACETS;
   }
-
 
   /**
    * Analyzed the request to determine if parameters should be added from the request parameters.
@@ -191,6 +217,25 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
         }
       }
     }
+  }
+
+  /**
+   * Checks if a facet value is already selected in the current selected filters.
+   * 
+   * @param facetName the facet name according to
+   * @param facetKey
+   * @return
+   */
+  public boolean isInFilter(String facetName, String facetKey) {
+    Enum<F> facet = this.getFacetFromString(facetName);
+    if (facet != null && this.getFacets().containsKey(facet)) {
+      for (FacetInstance facetInstance : this.getFacets().get(facet)) {
+        if (facetInstance.getName().equals(facetKey)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   /**
