@@ -76,7 +76,7 @@
             <#list facets.get(facetFilter) as filterValue>
             	<div class="facetFilter">
 	              	<p>
-	              	 <span class="flabel" val="${filterValue.name}">${facetFilter}</span> : ${filterValue.title} <a href="#">[X]</a>
+	              	 <span class="flabel" val="${filterValue.name!}">${facetFilter}</span> : ${filterValue.title!"Unknown"} <a href="#">[X]</a>
 	                </p>
               	</div>
             </#list>
@@ -96,7 +96,7 @@
                 <#if (count_index > MaxFacets)>
                   <#break>
                 </#if>                
-                <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name}" title="${count.title}">${count.title}</a> (${count.count})</li>                
+                <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name!}" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})</li>
               </#list>
               </ul>
               <#if (facetCounts[facetName]?size > MaxFacets)>
@@ -109,7 +109,7 @@
                         <h2>Filter by <@s.text name="search.facet.${facetName}" /></h2>
                        <ul>
                          <#list facetCounts[facetName] as count>
-                        <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name}" title="${count.title}">${count.title}</a> (${count.count})</li>
+                        <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name!}" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})</li>
                         </#list>
                        </ul>
                      </div>
