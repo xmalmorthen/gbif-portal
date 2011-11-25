@@ -8,6 +8,7 @@
  */
 package org.gbif.portal.action.species;
 
+import org.gbif.checklistbank.api.Constants;
 import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
 import org.gbif.checklistbank.api.model.search.NameUsageSearchResult;
 import org.gbif.checklistbank.api.model.vocabulary.TaxonomicStatus;
@@ -37,7 +38,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   private static final String CHECKLIST_KEY_PARAM = "checklistKey";
   private static final String NUB_KEY_PARAM = "nubKey";
-  private static final String GBIF_NUB_CHK_KEY = "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c";
   private static final long serialVersionUID = -3736915206911951300L;
   private static String ALL = "all";
   private Integer nubKey;
@@ -104,7 +104,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     Map<Enum<ChecklistBankFacetParameter>, List<FacetInstance>> map =
       new HashMap<Enum<ChecklistBankFacetParameter>, List<FacetInstance>>();
     List<FacetInstance> values = Lists.newArrayList();
-    values.add(new FacetInstance(GBIF_NUB_CHK_KEY));
+    values.add(new FacetInstance(Constants.NUB_TAXONOMY_KEY.toString()));
     map.put(ChecklistBankFacetParameter.CHECKLIST, values);
     return map;
   }
