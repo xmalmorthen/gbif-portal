@@ -18,7 +18,7 @@
   <script type="text/javascript">
     <#-- dynamic js configuration, so we can use java configs in js -->
     var cfg = new Object();
-    cfg.context="<@s.url value=""/>";
+    cfg.context="<@s.url value="/"/>";
     cfg.wsClb="${cfg.wsClb!}";
     cfg.wsClbSearch="${cfg.wsClbSearch!}";
     cfg.wsReg="${cfg.wsReg!}";
