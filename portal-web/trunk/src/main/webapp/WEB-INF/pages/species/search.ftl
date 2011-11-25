@@ -85,7 +85,7 @@
         </div>
 	   </#if>
 
-        <#list ["HIGHERTAXON","RANK","CHECKLIST","TAXSTATUS","EXTINCT","HABITAT"] as facetName>
+        <#list ["HIGHERTAXON","RANK","CHECKLIST","TAXSTATUS","EXTINCT","THREAT","HABITAT"] as facetName>
                       
             <#if (facetCounts[facetName]?has_content && facetCounts[facetName]?size > 1)>
              <div class="refine">
