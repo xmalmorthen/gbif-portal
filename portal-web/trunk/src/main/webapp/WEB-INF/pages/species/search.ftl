@@ -122,9 +122,9 @@
             </#if>                      
         </#list>
 	   
-        <a href="#" title="Add another criterion" class="add_criteria">Add another criterion <span class="more"></span></a>
+        <a href="#" title="Add another criterion" class="add_criteria placeholder_temp">Add another criterion <span class="more"></span></a>
 	
-        <div class="download">
+        <div class="download placeholder_temp">
           <div class="dropdown">
             <a href="#" class="title" title="Download list"><span>Download list</span></a>
             <ul>
