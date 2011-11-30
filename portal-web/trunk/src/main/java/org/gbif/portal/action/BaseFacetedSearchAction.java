@@ -292,7 +292,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   }
 
   /**
-   * read facets from request to avoid fixed setter names
+   * read facets from request to avoid fixed setter names.
+   * Make sure that empty parameters are set too to filter null values!
    */
   private void readFacetsFromRequest() {
     Map<String, String[]> params = request.getParameterMap();
