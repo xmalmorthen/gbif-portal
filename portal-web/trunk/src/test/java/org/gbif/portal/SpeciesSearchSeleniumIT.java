@@ -26,7 +26,7 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
     driver.findElement(By.id("submitSearch")).click();
 
     // do we want a search across all checklists?
-    if (searchNub) {
+    if (!searchNub) {
       // TODO: doesnt seem to work. Maybe some javascript fix needed?
       driver.findElement(By.id("selectedFilters")).findElement(By.cssSelector("a")).click();
     }
@@ -36,9 +36,8 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
 
     // assert number of hits
     if (expectedNumResults != null) {
-      // TODO: current search does always return all records due to the function query. Activate once solved
-      // assertEquals("Expected number of shown search results wrong", expectedNumResults, (Integer)
-// content.findElements(By.cssSelector("div.result")).size());
+      assertEquals("Expected number of shown search results wrong", expectedNumResults,
+        (Integer) content.findElements(By.cssSelector("div.result")).size());
     }
 
     // assert exact results
@@ -46,7 +45,7 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
     LOG.debug("{} search results found", links.size());
     for (int uid : expectedUsageId) {
       int speciesKey = parseIdLink(links.remove().getAttribute("href"));
-      assertEquals("Expected result usage id different", speciesKey, uid);
+      assertEquals("Expected result usage id different", uid, speciesKey);
     }
   }
 
@@ -70,6 +69,7 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
   @Test
   public void testIdPattern() {
     assertEquals((Integer) 2685464, parseIdLink("http://staging.gbif.org:8080/portal-web-dynamic/species/2685464"));
+    assertEquals((Integer) 212, parseIdLink("/portal-web-dynamic/species/212"));
     assertEquals((Integer) 1, parseIdLink("http://localhost:8080/species/1"));
     assertNull(parseIdLink("http://localhost:8080/species/search"));
   }
