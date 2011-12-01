@@ -23,8 +23,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
-import static org.gbif.api.search.model.SearchConstants.DEFAULT_SEARCH_PARAM;
-
 
 /**
  * Provides the basic structure and functionality for: free text search, paginated navigation and faceting navigation.
@@ -81,7 +79,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
 
     // add all facets to request which are not in filters yet
     for (Enum<F> fEnum : facetEnum.getEnumConstants()) {
-      if (!facets.containsKey(fEnum)){
+      if (!facets.containsKey(fEnum)) {
         searchRequest.addFacets(fEnum);
       }
     }
@@ -112,7 +110,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     // Request creation
     addFacetParameters();
     // default query parameters
-    searchRequest.addParameter(DEFAULT_SEARCH_PARAM, this.getQ());
+    searchRequest.setQ(this.getQ());
     // adds parameters processed by subclasses
     searchRequest.addParameter(this.getRequestParameters());
     // adds the language
@@ -296,6 +294,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Make sure that empty parameters are set too to filter null values!
    */
   private void readFacetsFromRequest() {
+    @SuppressWarnings("unchecked")
     Map<String, String[]> params = request.getParameterMap();
     for (Enum<F> fEnum : facetEnum.getEnumConstants()) {
       // recognize facets by enum name
