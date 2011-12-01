@@ -23,7 +23,7 @@
         <div class="left">
           <h2>${page.count!} Distributions for "${usage.canonicalOrScientificName!}"</h2>
         </div>
-        <div class="right"><h3>Refine your search</h3></div>
+        <div class="right"><h3>Statistics</h3></div>
       </div>
 
       <div class="left">
@@ -51,10 +51,13 @@
         </div>
       </div>
 
-      <div class="right">
-        <div class="refine placeholder_temp">
-          <h4>Continent</h4>
-          <a href="#" title="Any">Any</a>
+      <div class="right placeholder_temp">
+          <h3>References by continent</h3>
+          <ul>
+            <li>Europe <a class="number">200</a></li>
+            <li>America <a class="number">32</a></li>
+            <li>Asia <a class="number">152</a></li>
+          </ul>
         </div>
       </div>
 

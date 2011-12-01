@@ -384,7 +384,7 @@
       <h3>Specimens by type</h3>
       <ul>
       <#list typeStatusCounts?keys as prop>
-        <li><div>${typeStatusCounts.get(prop)} ${prop}</div></li>
+        <li>${prop} <a class="number">${typeStatusCounts.get(prop)}</a></li>
       </#list>
       </ul>
     </div>
@@ -495,6 +495,12 @@
     </div>
 
     <div class="right">
+      <h3>References by type</h3>
+      <ul class="placeholder_temp">
+        <li>Nomenclature <a class="number">3</a></li>
+        <li>Taxonomy <a class="number">6</a></li>
+        <li>Genetics <a class="number">2</a></li>
+      </ul>
     </div>
 
   </div>

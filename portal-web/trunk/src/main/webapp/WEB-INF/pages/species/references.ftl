@@ -23,7 +23,7 @@
         <div class="left">
           <h2>${page.count!""} References for "${usage.canonicalOrScientificName!}"</h2>
         </div>
-        <div class="right"><h3>Refine your search</h3></div>
+        <div class="right"><h3>Statistics</h3></div>
       </div>
 
       <div class="left">
@@ -54,13 +54,14 @@
 
       </div>
 
-      <div class="right">
-        <div class="refine placeholder_temp">
-          <h4>Author</h4>
-          <a href="#" title="Any">Any</a>
-        </div>
+      <div class="right placeholder_temp">
+        <h3>Reference Type</h3>
+        <ul>
+          <li>Nomenclature <a class="number">3</a></li>
+          <li>Taxonomy <a class="number">6</a></li>
+          <li>Genetics <a class="number">2</a></li>
+        </ul>
       </div>
-
 
     </div>
     <footer></footer>

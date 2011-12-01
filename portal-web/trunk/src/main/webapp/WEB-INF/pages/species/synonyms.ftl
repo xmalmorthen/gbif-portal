@@ -22,7 +22,7 @@
         <div class="left">
           <h2>${page.count!} Synonyms for "${usage.canonicalOrScientificName!}"</h2>
         </div>
-        <div class="right"><h3>Refine your search</h3></div>
+        <div class="right"><h3>Statistics</h3></div>
       </div>
 
       <div class="left">
@@ -46,11 +46,13 @@
 
       </div>
 
-      <div class="right">
-        <div class="refine placeholder_temp">
-          <h4>Type of synonym</h4>
-          <a href="#" title="Any">Any</a>
-        </div>
+      <div class="right placeholder_temp">
+        <h3>Type of synonym</h3>
+        <ul>
+          <li>Synonym <a class="number">10</a></li>
+          <li>Heterotypic <a class="number">4</a></li>
+          <li>Homotypic <a class="number">1</a></li>
+        </ul>
       </div>
 
     </div>
