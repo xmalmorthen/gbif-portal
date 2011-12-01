@@ -265,7 +265,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
             fi.setTitle(getTitleFunction.apply(fi.getName()));
             names.put(fi.getName(), fi.getTitle());
           } catch (Exception e) {
-            LOG.warn("Cannot lookup name for name usage {}", fi.getName(), e);
+            LOG.warn("Cannot lookup " + facet.name() + " title for {}", fi.getName(), e);
           }
         }
       }
@@ -282,7 +282,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
             c.setTitle(getTitleFunction.apply(c.getName()));
             names.put(c.getName(), c.getTitle());
           } catch (Exception e) {
-            LOG.warn("Cannot lookup name for name usage {}", c.getName(), e);
+            LOG.warn("Cannot lookup " + facet.name() + " title for {}", c.getName(), e);
           }
         }
       }
