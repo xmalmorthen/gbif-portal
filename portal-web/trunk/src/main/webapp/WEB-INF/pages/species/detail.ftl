@@ -347,8 +347,9 @@
       </ul>
       <h3>By checklist type</h3>
       <ul class="placeholder_temp">
-        <li><a href="<@s.url value='/dataset/search?q=fake'/>">13 nomenclator</a></li>
-        <li><a href="<@s.url value='/dataset/search?q=fake'/>">2 reconciled</a></li>
+        <li><a href="<@s.url value='/dataset/search?q=fake'/>">13 inventory</a></li>
+        <li><a href="<@s.url value='/dataset/search?q=fake'/>">3 taxonomic</a></li>
+        <li><a href="<@s.url value='/dataset/search?q=fake'/>">1 nomenclator</a></li>
       </ul>
 
     </div>
