@@ -29,29 +29,23 @@
 
 
       <div class="left">
-        <#list searchResponse.results as dataset>
+      <#list searchResponse.results as dataset>
         <div class="result">
-          <h2><a href="<@s.url value='/dataset/${dataset.key}'/>" title="${dataset.name!}"><strong>${dataset.name!}</strong></a>
+          <h2><a href="<@s.url value='/dataset/${dataset.key!}'/>"
+                 title="${dataset.title!}"><strong>${dataset.title!}</strong></a>
           </h2>
 
-          <p class="placeholder_temp">A checklist published by XXX at 1950.</a>
+          <p>A <span class="placeholder_temp">checklist</span> published by
+            <a href="<@s.url value='/members/${dataset.owningOrganizationKey!}'/>"
+               title="${dataset.owningOrganizationTitle!}">
+              <strong>${dataset.owningOrganizationTitle!"Unknown"}</strong></a> at <span
+                    class="placeholder_temp">???.</span>
           </p>
 
-          <div class="footer"><p>${dataset.numUsages} name usages | Checklist type: ${dataset.type}</p></div>
-        </div>
-        </#list>
-
-
-        <!-- dynamic -->
-      <#--
-      <#list datasets as d>
-        <div class="result">
-          <h2><a href="/dataset/${d.key!}" title="${d.name!"No Title"}"><strong>${d.name!"No Title"}</strong></a></h2>
-          <p>A ??? dataset published by <a href="/members/${d.organisationKey!}">Organisation ${d.organisationKey!}</a></p>
-          <div class="footer"><p>??? occurrences | covering ???</p></div>
+          <div class="placeholder_temp footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p>
+          </div>
         </div>
       </#list>
-      -->
 
         <div class="footer">
         <@macro.pagination page=searchResponse url=currentUrl/>
@@ -72,17 +66,24 @@
         </div>
 
         <div class="refine">
+          <h4>DATASET TYPE</h4>
+          <a href="#" title="Any">Any <span class="more"></span></a>
+        </div>
+
+        <div class="refine">
           <h4>TAXA</h4>
-          <a href="#" title="All species">All species <span class="more"></span></a>
+          <a href="#" title="All species">All species</a>
         </div>
 
         <div class="refine">
           <h4>GEOSPATIAL COVERAGE</h4>
-          <a href="#">World</a>
+          <a href="#">All</a>
         </div>
 
-        <a href="#" title="Add another criterion" class="add_criteria">Add another criterion <span
-                class="more"></span></a>
+        <div class="refine">
+          <h4>SERVICE TYPE</h4>
+          <a href="#" title="Any">Any <span class="more"></span></a>
+        </div>
       </div>
     </div>
     <footer></footer>

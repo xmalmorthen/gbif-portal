@@ -8,29 +8,49 @@
  */
 package org.gbif.portal.action.dataset;
 
-import org.gbif.api.paging.Pageable;
-import org.gbif.api.paging.PagingResponse;
-import org.gbif.api.search.model.SearchResponse;
-import org.gbif.checklistbank.api.model.Checklist;
-import org.gbif.checklistbank.api.service.ChecklistService;
-import org.gbif.portal.action.BaseSearchAction;
+import org.gbif.portal.action.BaseFacetedSearchAction;
+import org.gbif.portal.model.FacetInstance;
+import org.gbif.registry.api.model.search.DatasetSearchResult;
+import org.gbif.registry.api.model.search.RegistryFacetParameter;
+import org.gbif.registry.api.service.DatasetSearchService;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 
-public class SearchAction extends BaseSearchAction<Checklist> {
+public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, RegistryFacetParameter> {
 
   @Inject
-  private ChecklistService checklistService;
+  public SearchAction(DatasetSearchService datasetSearchService) {
+    super(datasetSearchService, RegistryFacetParameter.class);
+  }
 
   @Override
   public String execute() {
     LOG.debug("Searching for datasets matching [{}]", this.getQ());
-    // wrap the PagingResponse into a SearchResponse and manually set counts until we use a real Solr Search!
-    searchResponse = new SearchResponse<Checklist>( (PagingResponse <Checklist>) checklistService.list((Pageable)searchRequest) );
-    //searchResponse.setCount((long)searchResponse.getResults().size());
+
+    super.execute();
 
     LOG.debug("Found [{}] matching datasets", searchResponse.getCount());
     return SUCCESS;
   }
 
+  @Override
+  public Map<Enum<RegistryFacetParameter>, List<FacetInstance>> getDefaultFacetsFilters() {
+    Map<Enum<RegistryFacetParameter>, List<FacetInstance>> filters =
+      new HashMap<Enum<RegistryFacetParameter>, List<FacetInstance>>();
+
+    return filters;
+  }
+
+  @Override
+  public Multimap<String, String> getRequestParameters() {
+    Multimap<String, String> params = HashMultimap.create();
+
+    return params;
+  }
 }
