@@ -18,7 +18,7 @@
           <#list children as usage>
             <li species="${usage.numSpecies?c}" children="${usage.numChildren?c}">
               <span spid="${usage.key?c}" spname="${usage.canonicalOrScientificName!"???"}">${usage.canonicalOrScientificName!"???"}
-                <span class="rank"><@s.text name="enum.rank.${usage.rank}" /></span>
+                <span class="rank"><@s.text name="enum.rank.${usage.rank!"unknown"}" /></span>
               </span>
               <a href="<@s.url value='/species/${usage.key?c}'/>">see details</a>
             </li>
