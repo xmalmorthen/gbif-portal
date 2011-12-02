@@ -40,7 +40,7 @@
              <#if u.synonym><#if u.proParte>pro parte </#if>synonym</#if>
             </span>
           </h2>
-          <#if !checklistFilterUsed>
+          <#if showAccordingTo>
             <p>according to ${u.checklistTitle}</p>
           </#if>
           <#if u.synonym>

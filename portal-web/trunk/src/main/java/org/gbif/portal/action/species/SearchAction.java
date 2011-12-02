@@ -208,9 +208,11 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
 
   /**
-   * @return true if the checklist facet filter is being used.
+   * @return true if the checklist facet filter contains a single checklist only.
    */
-  public boolean getChecklistFilterUsed(){
-    return getFacets()!=null && getFacets().containsKey(ChecklistBankFacetParameter.CHECKLIST);
+  public boolean getShowAccordingTo(){
+    return getFacets()==null
+           || !getFacets().containsKey(ChecklistBankFacetParameter.CHECKLIST)
+           || getFacets().get(ChecklistBankFacetParameter.CHECKLIST).size() > 1;
   }
 }
