@@ -68,6 +68,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     if (this.nubKey != null) {
       this.setInitDefault(false);
     }
+    this.searchRequest.setMultiSelectFacets(true);
     super.execute();
 
     // replace higher taxon ids in facets with real names
@@ -149,36 +150,48 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    */
   private void initGetTitleFunctions() {
     getChecklistTitle = new Function<String, String>() {
+
       @Override
       public String apply(String name) {
-        if (Strings.emptyToNull(name)==null) return null;
+        if (Strings.emptyToNull(name) == null) {
+          return null;
+        }
         return checklistService.get(UUID.fromString(name)).getName();
       }
     };
 
     getHigherTaxaTitle = new Function<String, String>() {
+
       @Override
       public String apply(String name) {
-        if (Strings.emptyToNull(name)==null) return null;
+        if (Strings.emptyToNull(name) == null) {
+          return null;
+        }
         return usageService.get(Integer.valueOf(name), null).getCanonicalOrScientificName();
       }
     };
 
     getBooleanTitle = new Function<String, String>() {
+
       @Override
       public String apply(String name) {
-        if (Strings.emptyToNull(name)==null) return null;
+        if (Strings.emptyToNull(name) == null) {
+          return null;
+        }
         return getText("enum.boolean." + name.toLowerCase());
       }
     };
 
     getTaxStatusTitle = new Function<String, String>() {
+
       @Override
       public String apply(String taxid) {
-        if (Strings.emptyToNull(taxid)==null) return null;
+        if (Strings.emptyToNull(taxid) == null) {
+          return null;
+        }
         // this is the id, replace with enum
         TaxonomicStatus status = taxonomicStatusConverter.toEnum(Integer.parseInt(taxid));
-        if (status!=null){
+        if (status != null) {
           return getText("enum.taxstatus." + status.name());
         }
         return null;

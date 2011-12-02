@@ -23,6 +23,24 @@
       event.preventDefault();
       replaceFacet('highertaxon', $(this).attr('key'));
 	  });
+    $('.facet ul li').each( function(){
+    	var thisLi = this;
+    	$('a',thisLi).click( function(event){
+    		event.preventDefault();
+    		$('input',thisLi).attr('checked',!$('input',thisLi).checked);
+    		$('input',thisLi).click();
+    	});
+    	$('input',thisLi).click( function(event){
+    		if(this.checked){
+    			window.location = window.location.toString() + this.value;
+    		}else{
+    			var location = window.location.toString();
+    			location = location.replace(this.value,'');
+    			window.location= location;
+    		}
+    	})
+  	 });
+
 
 	  $('.facetFilter').each( function(){
       var span = $("span.flabel", this);
@@ -61,6 +79,7 @@
       }
       changeLocation(queryParams);
     }
+    
     function changeLocation(queryParams) {
       window.location.replace(window.location.pathname + '?' + queryParams.join('&'));
     }

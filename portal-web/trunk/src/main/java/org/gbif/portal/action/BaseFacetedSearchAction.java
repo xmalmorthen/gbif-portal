@@ -14,6 +14,7 @@ import org.gbif.api.search.model.SearchResponse;
 import org.gbif.api.search.service.SearchService;
 import org.gbif.portal.model.FacetInstance;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
+import static org.gbif.common.search.util.QueryUtils.httpParamsJoiner;
+import static org.gbif.common.search.util.SearchConstants.HTTP_AND_OP;
 
 /**
  * Provides the basic structure and functionality for: free text search, paginated navigation and faceting navigation.
@@ -56,6 +59,11 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    */
   private Class<? extends Enum<F>> facetEnum;
 
+  /**
+   * This string is used to keep a pre-built filter query and avoid re-build it every time is need it.
+   */
+  private String defaultFacetFilterQuery;
+
   private SearchService<T> searchService;
 
   /**
@@ -68,6 +76,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     this.searchService = searchService;
     this.facetCounts = new HashMap<String, List<FacetInstance>>();
     this.facetEnum = facetEnum;
+    this.defaultFacetFilterQuery = this.buildDefaultFacetsFiltersQuery();
   }
 
   /**
@@ -79,9 +88,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
 
     // add all facets to request which are not in filters yet
     for (Enum<F> fEnum : facetEnum.getEnumConstants()) {
-      if (!facets.containsKey(fEnum)) {
-        searchRequest.addFacets(fEnum);
-      }
+      searchRequest.addFacets(fEnum);
     }
 
     // add facet filters
@@ -93,6 +100,28 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
         }
       }
     }
+  }
+
+  /**
+   * Creates a query string that contains the default facet filter parameters.
+   * The resulting string will have the form: facetParam1=value1&facetParam2=value2.
+   * 
+   * @return a string containing the list of default facet filter parameters.
+   */
+  private String buildDefaultFacetsFiltersQuery() {
+    List<String> paramsList = new ArrayList<String>();
+    for (Enum<F> facet : this.getDefaultFacetsFilters().keySet()) {
+      for (FacetInstance facetInstance : this.getDefaultFacetsFilters().get(facet)) {
+        paramsList.add(facet.name().toLowerCase() + "=" + facetInstance.getName());
+      }
+    }
+    String queryString = "";
+    if (!paramsList.isEmpty()) {
+      paramsList.add("initDefault=false");
+      queryString = httpParamsJoiner.join(paramsList);
+      queryString = HTTP_AND_OP + queryString;
+    }
+    return queryString;
   }
 
   /**
@@ -141,6 +170,20 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * @return a map containing default values for facets filters
    */
   public abstract Map<Enum<F>, List<FacetInstance>> getDefaultFacetsFilters();
+
+  /**
+   * Returns the default facet filters query section.
+   * If initDefault==true returns the value of variable "defaultFacetFilterQuery".
+   * If initDefault==false returns an empty string.
+   * 
+   * @return the default facet filter query
+   */
+  public String getDefaultFacetsFiltersQuery() {
+    if (this.initDefault) {
+      return this.defaultFacetFilterQuery;
+    }
+    return "";
+  }
 
   /**
    * Holds the facet count information retrieved after each search operation.

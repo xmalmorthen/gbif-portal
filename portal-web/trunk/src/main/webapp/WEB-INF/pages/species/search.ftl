@@ -98,7 +98,10 @@
                 <#if (count_index > MaxFacets)>
                   <#break>
                 </#if>                
-                <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name!}" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})</li>
+                <li>
+                	<a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
+                	<input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>
+                </li>
               </#list>
               </ul>
               <#if (facetCounts[facetName]?size > MaxFacets)>
@@ -111,7 +114,10 @@
                         <h2>Filter by <@s.text name="search.facet.${facetName}" /></h2>
                        <ul>
                          <#list facetCounts[facetName] as count>
-                        <li><a href="${macro.getStripUrl(currentUrl)}&${facetName?lower_case}=${count.name!}" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})</li>
+                        <li>
+                        	<a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
+                			<input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>
+                        </li>
                         </#list>
                        </ul>
                      </div>
