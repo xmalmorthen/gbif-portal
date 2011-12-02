@@ -13,7 +13,7 @@ public class DatasetSeleniumIT extends SeleniumTestBase {
    * This test uses the dataset page to search for all datasets, clicks on the second one and verifies that
    * the details page for the selected dataset is shown.
    */
-  @Ignore
+  @Ignore("until dataset search and detail page are both based on the same service(s)")
   @Test
   public void testSearchForAnyDataset() {
     getDriver().get(getBaseUrl());
