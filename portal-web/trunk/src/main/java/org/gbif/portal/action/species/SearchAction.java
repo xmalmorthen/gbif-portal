@@ -213,6 +213,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   public boolean getShowAccordingTo(){
     return getFacets()==null
            || !getFacets().containsKey(ChecklistBankFacetParameter.CHECKLIST)
-           || getFacets().get(ChecklistBankFacetParameter.CHECKLIST).size() > 1;
+           || getFacets().get(ChecklistBankFacetParameter.CHECKLIST).size() != 1;
   }
 }
