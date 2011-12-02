@@ -39,12 +39,12 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private static final String CHECKLIST_KEY_PARAM = "checklistKey";
   private static final String NUB_KEY_PARAM = "nubKey";
   private static final long serialVersionUID = -3736915206911951300L;
-  private static String ALL = "all";
+  private static final String ALL = "all";
   private Integer nubKey;
   private String checklistKey;
   // injected
-  private NameUsageService usageService;
-  private ChecklistService checklistService;
+  private final NameUsageService usageService;
+  private final ChecklistService checklistService;
 
   private Function<String, String> getChecklistTitle;
   private Function<String, String> getHigherTaxaTitle;
@@ -52,7 +52,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private Function<String, String> getTaxStatusTitle;
   private TaxonomicStatusConverter taxonomicStatusConverter;
 
-  @SuppressWarnings({"rawtypes", "unchecked"})
   @Inject
   public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService,
     ChecklistService checklistService, TaxonomicStatusConverter taxonomicStatusConverter) {
@@ -202,7 +201,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   /**
    * Request parameter for filtering results by checklistKey.
-   * 
+   *
    * @param checklistKey the checklistKey to set
    */
   public void setChecklistKey(String checklistKey) {
@@ -212,7 +211,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   /**
    * Request parameter for filtering results by nubKey.
-   * 
+   *
    * @param nubKey the nubKey to set
    */
   public void setNubKey(Integer nubKey) {

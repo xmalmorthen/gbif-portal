@@ -13,7 +13,7 @@ public class SeeMoreAction<T extends NameUsageComponent> extends UsageAction {
 
   private PagingResponse<T> page;
   private long offset = 0;
-  private NameUsageComponentService<T, T> service;
+  private final NameUsageComponentService<T, T> service;
 
   public SeeMoreAction(NameUsageComponentService<T, T> service) {
     this.service = service;

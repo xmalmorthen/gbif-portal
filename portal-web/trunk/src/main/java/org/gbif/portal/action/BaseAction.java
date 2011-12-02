@@ -14,12 +14,9 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- *
- */
 public abstract class BaseAction extends ActionSupport implements SessionAware, ServletRequestAware {
 
-  protected final Logger LOG = LoggerFactory.getLogger(getClass());
+  private static final Logger LOG = LoggerFactory.getLogger(BaseAction.class);
 
   public static final String HTTP_NOT_ALLOWED = "401";
 
@@ -29,11 +26,6 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
   @Inject
   private Config cfg;
 
-
-  /*
-   * (non-Javadoc)
-   * @see org.apache.struts2.interceptor.ServletRequestAware#setServletRequest(javax.servlet.http.HttpServletRequest)
-   */
   @Override
   public void setServletRequest(HttpServletRequest request) {
     this.request = request;

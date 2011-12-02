@@ -13,8 +13,12 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.google.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UsageAction extends BaseAction {
+
+  private static final Logger LOG = LoggerFactory.getLogger(UsageAction.class);
 
   @Inject
   protected NameUsageService usageService;

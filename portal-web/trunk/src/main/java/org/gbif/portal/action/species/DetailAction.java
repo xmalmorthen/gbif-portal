@@ -256,7 +256,7 @@ public class DetailAction extends UsageAction {
   }
 
   public Map<String, String> getResourceBundleProperties() {
-    return super.getResourceBundleProperties("enum.rank.");
+    return getResourceBundleProperties("enum.rank.");
   }
 
   public List<UUID> getRelatedDatasets() {

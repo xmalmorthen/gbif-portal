@@ -14,15 +14,19 @@ import org.gbif.registry.api.model.search.DatasetSearchResult;
 import org.gbif.registry.api.model.search.RegistryFacetParameter;
 import org.gbif.registry.api.service.DatasetSearchService;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, RegistryFacetParameter> {
+
+  private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
 
   @Inject
   public SearchAction(DatasetSearchService datasetSearchService) {
@@ -41,16 +45,11 @@ public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, R
 
   @Override
   public Map<Enum<RegistryFacetParameter>, List<FacetInstance>> getDefaultFacetsFilters() {
-    Map<Enum<RegistryFacetParameter>, List<FacetInstance>> filters =
-      new HashMap<Enum<RegistryFacetParameter>, List<FacetInstance>>();
-
-    return filters;
+    return Maps.newHashMap();
   }
 
   @Override
   public Multimap<String, String> getRequestParameters() {
-    Multimap<String, String> params = HashMultimap.create();
-
-    return params;
+    return HashMultimap.create();
   }
 }
