@@ -1,6 +1,5 @@
 package org.gbif.portal;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -13,7 +12,6 @@ public class DatasetSeleniumIT extends SeleniumTestBase {
    * This test uses the dataset page to search for all datasets, clicks on the second one and verifies that
    * the details page for the selected dataset is shown.
    */
-  @Ignore("until portal properly loads bindings for mock datasetservice")
   @Test
   public void testSearchForAnyDataset() {
     getDriver().get(getBaseUrl());
