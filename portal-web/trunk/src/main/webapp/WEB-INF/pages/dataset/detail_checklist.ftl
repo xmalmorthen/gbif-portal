@@ -3,9 +3,6 @@
   <title>Checklist detail - GBIF</title>
   <meta name="menu" content="datasets"/>
 </head>
- <STYLE type="text/css">
-   .placeholder_temp { color:red }
- </STYLE>
 <body class="typesmap">
 
 <content tag="infoband">
@@ -13,10 +10,10 @@
     <li class="last"><a href="<@s.url value='/dataset'/>" title="Datasets">Datasets</a></li>
   </ul>
 
-  <!-- TODO: posibly use the Registry's dataset 'name' property -->
-  <h1>${dataset.name!}</h1>
+  <h1>${dataset.title!}</h1>
 
-  <h3 class="separator">Provided by <a href="<@s.url value='/member/1'/>" class="placeholder_temp">GBIF</a>
+  <h3 class="separator">Provided by
+    <a href="<@s.url value='/member/${dataset.owningOrganization.key!}'/>">${dataset.owningOrganization.title!}</a>
   </h3>
   <ul class="tags">
     <li><a href="#" title="North America" class="placeholder_temp">North America</a></li>
@@ -55,21 +52,23 @@
     </div>
 
     <div class="left">
-      <!-- TODO: posibly use the Registry's dataset 'description' property -->
-      <#if dataset.description?has_content>
-        <h3>Abstract</h3>
-      	<p>${dataset.description}</p>
-      </#if>
+    <#if dataset.description?has_content>
+      <h3>Abstract</h3>
+
+      <p>${dataset.description}</p>
+    </#if>
 
       <h3>Purpose</h3>
 
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+        consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi.</p>
 
       <h3>Additional information</h3>
 
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+        consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi.</p>
 
@@ -84,31 +83,34 @@
     <div class="right">
       <div class="logo_holder">
         <!-- TODO: posibly use the Registry's dataset 'logoUrl' property -->
-        <#if dataset.logoUrl?has_content>
-          <img src="${dataset.logoUrl}"/>
-        </#if>        
+      <#if dataset.logoUrl?has_content>
+        <img src="${dataset.logoUrl}"/>
+      </#if>
       </div>
-      
+
       <h3>Checklist type</h3>
-      <#if dataset.type?has_content>
+    <#if dataset.type?has_content>
       <p>${dataset.type}</p>
       <#else>
-      <p>UNKNOWN</p>
-      </#if>
+        <p>UNKNOWN</p>
+    </#if>
 
       <h3>Provided by</h3>
 
-      <p><a href="<@s.url value='/member/123'/>" title="Botanic Garden and Botanical Museum Berlin-Dahlem" class="placeholder_temp">Botanic
+      <p><a href="<@s.url value='/member/123'/>" title="Botanic Garden and Botanical Museum Berlin-Dahlem"
+            class="placeholder_temp">Botanic
         Garden and
         Botanical Museum Berlin-Dahlem</a></p>
 
       <h3>Hosted by</h3>
 
-      <p><a href="<@s.url value='/member/123'/>" title="DanBIF Data Hosting Center" class="placeholder_temp">DanBIF Data Hosting Center</a></p>
+      <p><a href="<@s.url value='/member/123'/>" title="DanBIF Data Hosting Center" class="placeholder_temp">DanBIF Data
+        Hosting Center</a></p>
 
       <h3>Endorsed by</h3>
 
-      <p><a href="<@s.url value='/member/123'/>" title="GBIF Germany Participant Node" class="placeholder_temp">GBIF Germany Participant Node</a>
+      <p><a href="<@s.url value='/member/123'/>" title="GBIF Germany Participant Node" class="placeholder_temp">GBIF
+        Germany Participant Node</a>
       </p>
 
       <h3>Alternative Identifiers</h3>
@@ -118,22 +120,25 @@
       <h3>External Links</h3>
       <ul>
         <!-- TODO: posibly use the Registry's dataset 'homepage' property -->
-        <#if dataset.homepage?has_content>
-       	  <li><a href="${dataset.homepage}" title="Original source" target="_blank">Original dataset source</a></li>
-        </#if>
-          <li><a href="#" title="Author's blog" class="placeholder_temp">Author's blog</a></li>
-          <li><a href="#" title="Methodology" class="placeholder_temp">A discussion board over the methodology</a></li>
+      <#if dataset.homepage?has_content>
+        <li><a href="${dataset.homepage}" title="Original source" target="_blank">Original dataset source</a></li>
+      </#if>
+        <li><a href="#" title="Author's blog" class="placeholder_temp">Author's blog</a></li>
+        <li><a href="#" title="Methodology" class="placeholder_temp">A discussion board over the methodology</a></li>
       </ul>
       <h3>Metadata</h3>
       <ul>
-        <li class="download">EML file &nbsp;<a class="small download placeholder_temp" href="#" title="EML file (english)">ENG</a> · <a
-                class="small download placeholder_temp" href="#" title="EML file (spanish)">SPA</a> · <a class="small download placeholder_temp" href="#"
-                                                                                        title="EML file (german)">GER</a>
+        <li class="download">EML file &nbsp;<a class="small download placeholder_temp" href="#"
+                                               title="EML file (english)">ENG</a> · <a
+                class="small download placeholder_temp" href="#" title="EML file (spanish)">SPA</a> · <a
+                class="small download placeholder_temp" href="#"
+                title="EML file (german)">GER</a>
         </li>
         <li class="download">ISO 1939 file &nbsp;<a class="small download placeholder_temp" href="#"
-                                                    title="ISO 1939 file (english)">ENG</a> · <a class="small download placeholder_temp"
-                                                                                                 href="#"
-                                                                                                 title="ISO 1939 file (spanish)">SPA</a>
+                                                    title="ISO 1939 file (english)">ENG</a> · <a
+                class="small download placeholder_temp"
+                href="#"
+                title="ISO 1939 file (spanish)">SPA</a>
         </li>
       </ul>
     </div>
@@ -187,8 +192,8 @@
         <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
       </ul>
 
-      <p>The complete list has ${dataset.numNames} more elements. You can <a href="#" class="download"
-                                                                 title="Download all the elments">download them all</a>.
+      <p>The complete list has XXX more elements. You can <a href="#" class="download"
+                                                             title="Download all the elments">download them all</a>.
       </p>
     </div>
 
@@ -199,8 +204,8 @@
 
       <h3>Second level data elements</h3>
       <ul>
-        <li>References <span class="number">${dataset.numReferences}</span></li>
-        <li>Common names <span class="number">${dataset.numVernacularNames}</span></li>
+        <li>References <span class="number placeholder_temp">123</span></li>
+        <li>Common names <span class="number placeholder_temp">456</span></li>
         <li>Specimens <span class="number placeholder_temp">152</span></li>
       </ul>
     </div>
@@ -225,9 +230,11 @@
 
       <p class="placeholder_temp">North America</p>
 
-      <p class="maptype"><a href="#" title="points" class="placeholder_temp">points</a> | <a href="#" title="grid" class="placeholder_temp">grid</a> | <a href="#"
-                                                                                                        title="polygons"
-                                                                                                        class="selected placeholder_temp">polygons</a>
+      <p class="maptype"><a href="#" title="points" class="placeholder_temp">points</a> | <a href="#" title="grid"
+                                                                                             class="placeholder_temp">grid</a>
+        | <a href="#"
+             title="polygons"
+             class="selected placeholder_temp">polygons</a>
       </p>
 
       <h3>Download</h3>
@@ -251,14 +258,16 @@
 
       <h3>Study area description</h3>
 
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
-          feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-          delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et
-          accumsan et iusto odio dignissim qui blandit.</p>
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+        consequat, vel illum dolore eu
+        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+        delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et
+        accumsan et iusto odio dignissim qui blandit.</p>
 
       <h3>Design description</h3>
 
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+        consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
         et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
@@ -266,7 +275,8 @@
 
       <h3>Funding</h3>
 
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+        consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi.</p>
 
@@ -332,14 +342,16 @@
 
       <h3>Study extent</h3>
 
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
-          feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-          delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et
-          accumsan et iusto odio dignissim qui blandit.</p>
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+        consequat, vel illum dolore eu
+        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
+        delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et
+        accumsan et iusto odio dignissim qui blandit.</p>
 
       <h3>Sampling description</h3>
 
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+        consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
         et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
@@ -347,7 +359,8 @@
 
       <h3>Quality control</h3>
 
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
+        consequat, vel illum dolore eu
         feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
         delenit augue duis dolore te feugait nulla facilisi.</p>
 
@@ -390,12 +403,14 @@
     <div class="left">
       <h3>Usage rights</h3>
 
-      <p class="placeholder_temp">This dataset is released under an Open Data licence, so it can be used to anyone who cites it. </p>
+      <p class="placeholder_temp">This dataset is released under an Open Data licence, so it can be used to anyone who
+        cites it. </p>
 
       <h3>How to cite it</h3>
 
-      <p class="placeholder_temp">Alaska Ocean Observing System, Arctic Ocean Diversity (accessed through GBIF data portal, <a href="#"
-                                                                                                      title="Alaska Ocean Observing System, Arctic Ocean Diversity">http://data.gbif.org/datasets/resource/654</a>,
+      <p class="placeholder_temp">Alaska Ocean Observing System, Arctic Ocean Diversity (accessed through GBIF data
+        portal, <a href="#"
+                   title="Alaska Ocean Observing System, Arctic Ocean Diversity">http://data.gbif.org/datasets/resource/654</a>,
         2011-05-05)</p>
     </div>
 

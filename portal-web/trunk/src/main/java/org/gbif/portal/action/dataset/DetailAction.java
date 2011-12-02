@@ -8,11 +8,9 @@
  */
 package org.gbif.portal.action.dataset;
 
-import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.NotFoundException;
-
-import java.util.UUID;
+import org.gbif.registry.api.service.DatasetService;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -27,38 +25,19 @@ public class DetailAction extends BaseAction {
   private Object dataset;
 
   @Inject
-  private ChecklistService checklistService;
+  private DatasetService datasetService;
 
   @Override
   public String execute() {
     LOG.debug("Fetching detail for dataset id [{}]", id);
-    /** TODO: re-enable real lookup, render based on dataset type */
-    // just for testing each of the 3 dataset type views
     if (id == null) {
       throw new NotFoundException();
     }
     // TODO: the registry client needs to be invoked first to know which type of Resource we area dealing with. For now
     // the checklist client will be the default one being called. The default view will be the detailed checklist.
-    // TODO: check to see if this is valid UUID first
-    dataset = checklistService.get(UUID.fromString(id));
+    dataset = datasetService.get(id);
     return "detail_checklist";
     // other views --> "detail_external", "detail_occurrence"
-
-
-    // log.debug("executing action class: " + this.getClass().getName());
-    // if (!StringUtils.isBlank(id)) {
-    // UUID uuid = null;
-    // try {
-    // uuid = UUID.fromString(id.trim());
-    // dataset = registry.getDataset(uuid);
-    // if (dataset != null) {
-    // return SUCCESS;
-    // }
-    // } catch (Exception e) {
-    // // swallow
-    // }
-    // }
-    // return NOT_FOUND;
   }
 
   public Object getDataset() {

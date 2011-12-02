@@ -36,7 +36,7 @@
           </h2>
 
           <p>A <span class="placeholder_temp">checklist</span> published by
-            <a href="<@s.url value='/members/${dataset.owningOrganizationKey!}'/>"
+            <a href="<@s.url value='/member/${dataset.owningOrganizationKey!}'/>"
                title="${dataset.owningOrganizationTitle!}">
               <strong>${dataset.owningOrganizationTitle!"Unknown"}</strong></a> at <span
                     class="placeholder_temp">???.</span>
