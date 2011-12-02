@@ -24,9 +24,9 @@ import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
 
 /**
  * Class that encapsulates the basic functionality of free text search and paginated navigation.
- * The class builds a {@link PagingRequest} at creation time, the {@link PagingResponse} not use directly by this class,
- * it should be used for specific instances.
- * 
+ * The class builds a {@link PagingRequest} at creation time, the {@link PagingResponse} not use directly by this
+ * class, it should be used for specific instances.
+ *
  * @param <T> the content type of the results
  */
 public abstract class BaseSearchAction<T> extends BaseAction {
@@ -43,14 +43,13 @@ public abstract class BaseSearchAction<T> extends BaseAction {
    * Default constructor
    */
   public BaseSearchAction() {
-    super();
     // Initialize the request
     this.searchRequest = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
   }
 
   /**
    * The input search pattern used to issue a search operation.
-   * 
+   *
    * @return the q, input search pattern
    */
   public String getQ() {
@@ -59,17 +58,19 @@ public abstract class BaseSearchAction<T> extends BaseAction {
 
   /**
    * Response (containing the list of results) of the request issued.
-   * 
-   * @see PagingResponse
+   *
    * @return the searchResponse
+   *
+   * @see PagingResponse
    */
   public SearchResponse<T> getSearchResponse() {
     return searchResponse;
   }
 
   /**
-   * @see PagingRequest#setOffset(long)
    * @param offset the offset to set
+   *
+   * @see PagingRequest#setOffset(long)
    */
   public void setOffset(long offset) {
     this.searchRequest.setOffset(offset);

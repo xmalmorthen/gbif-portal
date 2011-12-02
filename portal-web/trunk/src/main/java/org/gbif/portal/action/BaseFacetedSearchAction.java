@@ -38,6 +38,7 @@ import static org.gbif.common.search.util.SearchConstants.HTTP_AND_OP;
  *
  * @param <T> type of the results content
  * @param <F> Enum that contains the valid facets
+ *
  * @see BaseSearchAction
  */
 public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends BaseSearchAction<T> {
@@ -48,8 +49,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Serial version
    */
   private static final long serialVersionUID = -1573017190241712345L;
-  private Map<Enum<F>, List<FacetInstance>> facets = new HashMap<Enum<F>, List<FacetInstance>>();
-  private HashMap<String, List<FacetInstance>> facetCounts;
+  private final Map<Enum<F>, List<FacetInstance>> facets = new HashMap<Enum<F>, List<FacetInstance>>();
+  private final HashMap<String, List<FacetInstance>> facetCounts;
   private boolean initDefault = true;
 
   /**
@@ -61,22 +62,22 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * This field is used to hold the class of the enum used for faceting.
    * This instance is used to iterate over the possible literal values of the enumerated type.
    */
-  private Class<? extends Enum<F>> facetEnum;
+  private final Class<? extends Enum<F>> facetEnum;
 
   /**
    * This string is used to keep a pre-built filter query and avoid re-build it every time is need it.
    */
-  private String defaultFacetFilterQuery;
+  private final String defaultFacetFilterQuery;
 
-  private SearchService<T> searchService;
+  private final SearchService<T> searchService;
 
   /**
    * Default constructor for this class.
    *
    * @param searchService an instance of search service
-   * @param facetEnum the type of the {@link Enum} used for facets
+   * @param facetEnum     the type of the {@link Enum} used for facets
    */
-  public BaseFacetedSearchAction(SearchService<T> searchService, Class<? extends Enum<F>> facetEnum) {
+  protected BaseFacetedSearchAction(SearchService<T> searchService, Class<? extends Enum<F>> facetEnum) {
     this.searchService = searchService;
     this.facetCounts = new HashMap<String, List<FacetInstance>>();
     this.facetEnum = facetEnum;
@@ -96,11 +97,11 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     }
 
     // add facet filters
-    for (Enum<F> facet : facets.keySet()) {
-      List<FacetInstance> values = facets.get(facet);
+    for (Map.Entry<Enum<F>, List<FacetInstance>> enumListEntry : facets.entrySet()) {
+      List<FacetInstance> values = enumListEntry.getValue();
       if (values != null) {
         for (FacetInstance facetValue : values) {
-          searchRequest.addFacetedParameter(facet, facetValue.getName());
+          searchRequest.addFacetedParameter(enumListEntry.getKey(), facetValue.getName());
         }
       }
     }
@@ -160,8 +161,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   /**
    * Gets the instance of the current object.
    * This helps to expose public methods to the web templates.
-   *
-   * @return
    */
   public BaseAction getAction() {
     return this;
@@ -209,6 +208,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Returns the Enum literal that has the name "facetName"
    *
    * @param facetName the name of the facet.
+   *
    * @return an Enum<F> instance, null if the facetName is not found.
    */
   private Enum<F> getFacetFromString(String facetName) {
@@ -268,8 +268,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Checks if a facet value is already selected in the current selected filters.
    *
    * @param facetName the facet name according to
-   * @param facetKey
-   * @return
    */
   public boolean isInFilter(String facetName, String facetKey) {
     Enum<F> facet = this.getFacetFromString(facetName);
@@ -295,7 +293,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * The function uses a function parameter to accomplish this task.
    * The getTitleFunction could provide the actual communication with the service later to provide the required title.
    *
-   * @param facet the facet
+   * @param facet            the facet
    * @param getTitleFunction function that returns title using a facet name
    */
   protected void lookupFacetTitles(Enum<F> facet, Function<String, String> getTitleFunction) {

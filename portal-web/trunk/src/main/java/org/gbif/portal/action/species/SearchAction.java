@@ -50,7 +50,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private Function<String, String> getHigherTaxaTitle;
   private Function<String, String> getBooleanTitle;
   private Function<String, String> getTaxStatusTitle;
-  private TaxonomicStatusConverter taxonomicStatusConverter;
+  private final TaxonomicStatusConverter taxonomicStatusConverter;
 
   @Inject
   public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService,
@@ -116,11 +116,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     return nubKey;
   }
 
-
-  /*
-   * (non-Javadoc)
-   * @see org.gbif.portal.action.BaseFacetedSearchAction#getRequestParameters()
-   */
   @Override
   public Multimap<String, String> getRequestParameters() {
     Multimap<String, String> params = HashMultimap.create();

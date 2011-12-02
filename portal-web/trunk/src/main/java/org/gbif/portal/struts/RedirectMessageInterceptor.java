@@ -91,7 +91,7 @@ public class RedirectMessageInterceptor extends MethodFilterInterceptor {
   protected void after(final ActionInvocation invocation, final ValidationAware validationAware) throws Exception {
     final Result result = invocation.getResult();
 
-    if (result != null && (result instanceof ServletRedirectResult || result instanceof ServletActionRedirectResult)) {
+    if (result != null && result instanceof ServletRedirectResult) {
       final Map<String, Object> session = invocation.getInvocationContext().getSession();
 
       final Collection<String> actionErrors = validationAware.getActionErrors();

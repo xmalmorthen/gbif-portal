@@ -64,7 +64,7 @@ public class PortalModule extends AbstractModule {
   protected void configure() {
     bindApplicationProperties();
 
-    bind(Config.class).in(Scopes.SINGLETON);
+    bind(Config.class);
 
   }
 }

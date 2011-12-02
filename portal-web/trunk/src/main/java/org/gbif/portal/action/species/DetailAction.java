@@ -50,17 +50,17 @@ public class DetailAction extends UsageAction {
   private TypeSpecimenService typeSpecimenService;
 
   private NameUsage basionym;
-  private LinkedList<NameUsage> related = new LinkedList<NameUsage>();
+  private final List<NameUsage> related = new LinkedList<NameUsage>();
   private List<UUID> relatedDatasets = new ArrayList<UUID>();
   // TODO: remove the children property once the taxonomic browser is working via ajax
   private List<NameUsage> children;
 
   // various pagesizes used
-  private Pageable page20 = new PagingRequest(0, 20);
-  private Pageable page10 = new PagingRequest(0, 10);
-  private Pageable page4 = new PagingRequest(0, 4);
+  private final Pageable page20 = new PagingRequest(0, 20);
+  private final Pageable page10 = new PagingRequest(0, 10);
+  private final Pageable page4 = new PagingRequest(0, 4);
 
-  private Map<String, Integer> typeStatusCounts = new HashMap<String, Integer>();
+  private final Map<String, Integer> typeStatusCounts = new HashMap<String, Integer>();
 
   @Override
   public String execute() {
@@ -217,10 +217,6 @@ public class DetailAction extends UsageAction {
     }
   }
 
-  public NameUsage getUsage() {
-    return usage;
-  }
-
   public NameUsage getBasionym() {
     return basionym;
   }
@@ -237,19 +233,19 @@ public class DetailAction extends UsageAction {
     return usage.isNub();
   }
 
-  private Integer nullSafeMax(Integer a, Integer b) {
+  private static Integer nullSafeMax(Integer a, Integer b) {
     if (a == null) return b;
     if (b == null) return a;
     return Math.max(a, b);
   }
 
-  private Boolean nullSafeOr(Boolean a, Boolean b) {
+  private static Boolean nullSafeOr(Boolean a, Boolean b) {
     if (a == null) return b;
     if (b == null) return a;
-    return (a || b);
+    return a || b;
   }
 
-  private String nullSafeConcat(String a, String b) {
+  private static String nullSafeConcat(String a, String b) {
     if (a == null) return b;
     if (b == null) return a;
     return a + ", " + b;
