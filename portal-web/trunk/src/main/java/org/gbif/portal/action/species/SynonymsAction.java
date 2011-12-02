@@ -5,6 +5,7 @@ import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.NameUsage;
 
 public class SynonymsAction extends UsageAction {
+
   private PagingResponse<NameUsage> page;
   private long offset = 0;
 

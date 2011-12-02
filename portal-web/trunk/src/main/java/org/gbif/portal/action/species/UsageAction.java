@@ -14,7 +14,8 @@ import java.util.UUID;
 
 import com.google.inject.Inject;
 
-public class UsageAction extends BaseAction{
+public class UsageAction extends BaseAction {
+
   @Inject
   protected NameUsageService usageService;
   @Inject
@@ -47,7 +48,6 @@ public class UsageAction extends BaseAction{
   /**
    * Populates the checklists map with the checklists for the given keys.
    * The method does not remove existing entries and can be called many times to add additional, new checklists.
-   * @param checklistKeys
    */
   protected void loadChecklists(Collection<UUID> checklistKeys) {
     for (UUID u : checklistKeys) {
@@ -56,7 +56,7 @@ public class UsageAction extends BaseAction{
   }
 
   protected void loadChecklist(UUID checklistKey) {
-    if (!checklists.containsKey(checklistKey)){
+    if (!checklists.containsKey(checklistKey)) {
       checklists.put(checklistKey, checklistService.get(checklistKey));
     }
   }
@@ -82,7 +82,7 @@ public class UsageAction extends BaseAction{
   }
 
   public String getChecklistName(UUID key) {
-    if (key != null && checklists.containsKey(key)){
+    if (key != null && checklists.containsKey(key)) {
       return checklists.get(key).getName();
     }
     return "";

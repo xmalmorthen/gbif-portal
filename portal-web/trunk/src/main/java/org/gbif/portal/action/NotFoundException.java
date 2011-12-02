@@ -5,7 +5,7 @@ package org.gbif.portal.action;
  * This allows simple mapping of an exception to a 404 page and to throw those exceptions in any place of the code
  * - instead of returning a resultname string.
  */
-public class NotFoundException extends RuntimeException{
+public class NotFoundException extends RuntimeException {
 
   public NotFoundException() {
   }

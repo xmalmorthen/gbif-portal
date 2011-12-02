@@ -9,7 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class SeeMoreAction<T extends NameUsageComponent> extends UsageAction{
+public class SeeMoreAction<T extends NameUsageComponent> extends UsageAction {
+
   private PagingResponse<T> page;
   private long offset = 0;
   private NameUsageComponentService<T, T> service;
@@ -26,9 +27,9 @@ public class SeeMoreAction<T extends NameUsageComponent> extends UsageAction{
     page = service.listByUsage(id, p);
 
     // load checklist lookup map if its a nub usage
-    if (usage.isNub()){
+    if (usage.isNub()) {
       Set<UUID> cids = new HashSet<UUID>();
-      for (T comp: page.getResults()) {
+      for (T comp : page.getResults()) {
         cids.add(comp.getChecklistKey());
       }
       loadChecklists(cids);

@@ -371,7 +371,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     List<FacetInstance> instances = Lists.newArrayList();
     for (Facet.Count c : counts) {
       // only show counts with at least 1 matching record
-      if (c.getCount() > 0){
+      if (c.getCount() > 0) {
         instances.add(new FacetInstance(c));
       }
     }

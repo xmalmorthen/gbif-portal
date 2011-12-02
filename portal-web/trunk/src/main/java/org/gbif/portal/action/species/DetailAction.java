@@ -203,9 +203,9 @@ public class DetailAction extends UsageAction {
   public void loadTypeStatusCounts() {
     // get typeSpecimens type status counts
     List<TypeSpecimen> allTypeSpecimen = typeSpecimenService.listByUsage(id, null).getResults();
-     for (TypeSpecimen ts: allTypeSpecimen) {
+    for (TypeSpecimen ts : allTypeSpecimen) {
       String typeStatus = StringUtils.trimToNull(ts.getTypeStatus());
-      if (typeStatus!=null) {
+      if (typeStatus != null) {
         if (typeStatusCounts.containsKey(typeStatus)) {
           int count = typeStatusCounts.get(typeStatus);
           count++;
@@ -254,7 +254,7 @@ public class DetailAction extends UsageAction {
     if (b == null) return a;
     return a + ", " + b;
   }
-  
+
   public Map<String, String> getResourceBundleProperties() {
     return super.getResourceBundleProperties("enum.rank.");
   }

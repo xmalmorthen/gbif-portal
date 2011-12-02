@@ -40,9 +40,9 @@ public abstract class SeleniumTestBase {
     }
   }
 
-  protected Integer parseIdLink(String link){
+  protected Integer parseIdLink(String link) {
     Matcher m = idLinkPattern.matcher(link);
-    if (m.find()){
+    if (m.find()) {
       return Integer.parseInt(m.group(1));
     }
     return null;

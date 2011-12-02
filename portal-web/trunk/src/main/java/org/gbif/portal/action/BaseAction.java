@@ -74,8 +74,7 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
   /**
    * Returns a map representing properties from the resource bundle but just those
    * properties whose keys match one or more of the given prefixes.
-   * 
-   * @param prefix
+   *
    * @return a map which the matched properties
    */
   public Map<String, String> getResourceBundleProperties(String... prefix) {
@@ -99,9 +98,7 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
 
   /**
    * Checks whether a string starts with any of the prefixes specified
-   * 
-   * @param propertyKey
-   * @param prefixes
+   *
    * @return true if string matches against any prefix. false otherwise.
    */
   private boolean containsPrefix(String propertyKey, String[] prefixes) {

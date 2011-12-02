@@ -12,8 +12,8 @@ import static org.junit.Assert.assertNull;
 public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
 
   /**
-   * @param name the q name to search for
-   * @param searchNub true if only the nub is being searched, false to search all
+   * @param name            the q name to search for
+   * @param searchNub       true if only the nub is being searched, false to search all
    * @param expectedUsageId the list of expected name usage ids in the result, starting with first entry
    */
   private void assertNameSearch(String name, boolean searchNub, Integer expectedNumResults, int... expectedUsageId) {

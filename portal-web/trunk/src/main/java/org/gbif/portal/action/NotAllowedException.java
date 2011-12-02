@@ -3,7 +3,7 @@ package org.gbif.portal.action;
 /**
  * Exception to throw in struts actions when a url requires authorisation which the current user doesnt have.
  */
-public class NotAllowedException extends RuntimeException{
+public class NotAllowedException extends RuntimeException {
 
   public NotAllowedException() {
   }
