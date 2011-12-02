@@ -40,7 +40,9 @@
              <#if u.synonym><#if u.proParte>pro parte </#if>synonym</#if>
             </span>
           </h2>
-          <p>according to ${u.checklistTitle}</p>
+          <#if !checklistFilterUsed>
+            <p>according to ${u.checklistTitle}</p>
+          </#if>
           <#if u.synonym>
             <p>Accepted name <a href="<@s.url value='/species/${u.acceptedKey?c}'/>">${u.accepted!"???"}</a></p>
           </#if>

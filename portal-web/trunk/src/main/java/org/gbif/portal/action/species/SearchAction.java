@@ -125,19 +125,19 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   public Multimap<String, String> getRequestParameters() {
     Multimap<String, String> params = HashMultimap.create();
     // if nubKey or checklistKey parameters exist, the initDefault flag is set to false
-    if (this.nubKey != null) {
-      this.setInitDefault(false);
-      params.put(NUB_KEY_PARAM, this.nubKey.toString());
+    if (nubKey != null) {
+      setInitDefault(false);
+      params.put(NUB_KEY_PARAM, nubKey.toString());
     }
-    if (this.checklistKey != null) {
-      this.setInitDefault(false);
+    if (checklistKey != null) {
+      setInitDefault(false);
       // If checklistKey = "ALL" the Checklist facet should be removed to avoid filtering
-      if (this.checklistKey.equals(ALL)) {
-        if (this.getFacets() != null) {
-          this.getFacets().remove(ChecklistBankFacetParameter.CHECKLIST.name());
+      if (checklistKey.equals(ALL)) {
+        if (getFacets() != null) {
+          getFacets().remove(ChecklistBankFacetParameter.CHECKLIST);
         }
       } else {
-        params.put(CHECKLIST_KEY_PARAM, this.checklistKey);
+        params.put(CHECKLIST_KEY_PARAM, checklistKey);
       }
     }
     return params;
@@ -148,7 +148,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    * Initializes the getTitle* functions: getChecklistTitle and getHigherTaxaTitle.
    */
   private void initGetTitleFunctions() {
-    this.getChecklistTitle = new Function<String, String>() {
+    getChecklistTitle = new Function<String, String>() {
       @Override
       public String apply(String name) {
         if (Strings.emptyToNull(name)==null) return null;
@@ -156,7 +156,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       }
     };
 
-    this.getHigherTaxaTitle = new Function<String, String>() {
+    getHigherTaxaTitle = new Function<String, String>() {
       @Override
       public String apply(String name) {
         if (Strings.emptyToNull(name)==null) return null;
@@ -164,7 +164,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       }
     };
 
-    this.getBooleanTitle = new Function<String, String>() {
+    getBooleanTitle = new Function<String, String>() {
       @Override
       public String apply(String name) {
         if (Strings.emptyToNull(name)==null) return null;
@@ -172,7 +172,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       }
     };
 
-    this.getTaxStatusTitle = new Function<String, String>() {
+    getTaxStatusTitle = new Function<String, String>() {
       @Override
       public String apply(String taxid) {
         if (Strings.emptyToNull(taxid)==null) return null;
@@ -207,4 +207,10 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   }
 
 
+  /**
+   * @return true if the checklist facet filter is being used.
+   */
+  public boolean getChecklistFilterUsed(){
+    return getFacets()!=null && getFacets().containsKey(ChecklistBankFacetParameter.CHECKLIST);
+  }
 }
