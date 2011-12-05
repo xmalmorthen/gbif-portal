@@ -233,7 +233,7 @@
       </p>
 
       <h3>Download</h3>
-      <ul>
+      <ul class="placeholder_temp">
         <li class="download"><a href="#" title="One Degree cell density">One Degree cell density <abbr
                 title="Keyhole Markup Language">(KML)</abbr></a></li>
         <li class="download"><a href="#" title="Placemarks">Placemarks <abbr
