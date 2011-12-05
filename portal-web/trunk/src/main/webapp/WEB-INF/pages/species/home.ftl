@@ -17,19 +17,20 @@
         <button id="submitSearch" type="submit" class="search_button"><span>Search</span></button>
       </form>
       <ul class="species">
-        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Birds">Birds</a></li>
-        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Butterflies">Butterflies</a></li>
-        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Lizards">Lizards</a></li>
-        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Reptiles">Reptiles</a></li>
-        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Fishes">Fishes</a></li>
-        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Mammals">Mammals</a></li>
-        <li><a href="<@s.url value='/species/search?q=fake'/>" title="Insects">Insects</a></li>
+        <li><a href="<@s.url value='/species/search?q=Mammalia'/>" title="Mammals">Mammals</a></li>
+        <li><a href="<@s.url value='/species/search?q=Aves'/>" title="Birds">Birds</a></li>
+        <li><a href="<@s.url value='/species/search?q=Insecta'/>" title="Insects">Insects</a></li>
+        <li><a href="<@s.url value='/species/search?q=Reptilia'/>" title="Reptiles">Reptiles</a></li>
+        <li><a href="<@s.url value='/species/search?q=Pisces'/>" title="Fishes">Fishes</a></li>
+        <li><a href="<@s.url value='/species/search?q=Lepidoptera'/>" title="Butterflies">Butterflies</a></li>
+        <li><a href="<@s.url value='/species/search?q=Fungi'/>" title="Lizards">Fungi</a></li>
+        <li><a href="<@s.url value='/species/search?q=Magnoliophyta'/>" title="Lizards">Flowering Plants</a></li>
       </ul>
       <div class="results">
         <ul>
-          <li><a href="<@s.url value='/species/search?q=fake'/>" title="">2,183,212</a>total species</li>
-          <li><a href="<@s.url value='/species/search?q=fake'/>" title="">1,291,282</a>total infraspecific</li>
-          <li class="last"><a href="#">13,121,251</a>common names in 41 languages</li>
+          <li><a href="<@s.url value='/species/search?rank=species'/>" title="">2,183,212</a>total species</li>
+          <li><a href="<@s.url value='/species/search?&rank=infraspecific_name&rank=subspecies&rank=infrasubspecific_name&rank=variety&rank=subvariety&rank=form&rank=subform&rank=cultivar_group&rank=cultivar'/>" title="">1,291,282</a>total infraspecific</li>
+          <li class="last"><a href="<@s.url value='/species/search'/>">13,121,251</a>common names in 41 languages</li>
         </ul>
       </div>
     </div>
