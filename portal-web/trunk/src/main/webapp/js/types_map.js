@@ -1,22 +1,17 @@
+var map,nubId;
 
-	var map,
-      points_layer,
-      occurrence_layer,
-			diversity_layer,
-      distribution_layer,
-			features,
-			state;
-			
-			// Necessary things to run these kind of map
-			// - class typesmap to body
-			// - occurrence/diversity/distribution/points 'a' tags have to be -> <a href="#" title="occurrence">grid</a> -> respect the title, you can change the text
-			// - zooms html (example in /content/dataset/detail.html)
+    // Necessary things to run these kind of map
+    // - class typesmap to body
+    // - occurrence/diversity/distribution/points 'a' tags have to be -> <a href="#" title="occurrence">grid</a> -> respect the title, you can change the text
+    // - zooms html (example in /content/dataset/detail.html)
 
 
 	$(function(){
 		// If body has typesmap class - search #map and start rendering map
 		if ($('body').hasClass('typesmap')) {
 	
+      nubId = $("#map").attr("nubid");
+
 			// Create zoom controls
 			$('a.zoom_in').click(function(ev){
 				ev.stopPropagation();
@@ -53,10 +48,7 @@
 					$('body').unbind('click');					
 				}
 			});
-			
-			
-			
-		
+
 			// Change map type
 			$('p.maptype a').click(function(ev){
 				ev.stopPropagation();
@@ -70,11 +62,71 @@
 			});
 			
 			
-
 			// Initialize map
-			map = new OpenLayers.Map('map', {controls: [],numZoomLevels: 20});
+      map = new OpenLayers.Map("map", {
+          maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
+          numZoomLevels:18,
+          maxResolution:156543.0339,
+          units:'m',
+          projection: "EPSG:900913",
+          displayProjection: new OpenLayers.Projection("EPSG:4326"),
+          controls: []
+      });
+      //map.addControl(new OpenLayers.Control.LayerSwitcher());
+      var gphy = new OpenLayers.Layer.Google(
+          "Google Physical",
+          {type: google.maps.MapTypeId.TERRAIN}
+      );
+      var gsat = new OpenLayers.Layer.Google(
+          "Google Satellite",
+          {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
+      );
+      var gbifocc = new OpenLayers.Layer.TMS(
+          "GBIF Occurrences",
+          "http://140.247.231.188/php/map/getEolTile.php", {
+          layername: "occurrences",
+          type: "png",
+          isBaseLayer: false,
+          getURL: function(bounds) {
+              var res = this.map.getResolution();
+              var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+              var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+              var z = this.map.getZoom();
 
-			// Activate double click
+              var path = "?tile=" + x + "_" + y + "_" + z + "_"+nubId;
+              var url = this.url;
+              if (url instanceof Array) {
+                url = this.selectUrl(path, url);
+              }
+              return url + path;
+          },
+
+          getId: function(viewPortPx) {
+              var bounds = this.getTileBounds(viewPortPx);
+              var res = this.map.getResolution();
+              var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+              var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+              var z = this.map.getZoom();
+              return x + "_" + y + "_" + z;
+          }
+      });
+
+		// TODO: create diversity_layer & distribution_layer
+
+    map.addLayers([gphy, gbifocc]);
+
+    // Google.v3 uses EPSG:900913 as projection, so we have to
+    // transform our coordinates
+    map.setCenter(new OpenLayers.LonLat(0, 0).transform(
+        new OpenLayers.Projection("EPSG:4326"),
+        map.getProjectionObject()
+    ), 1);
+
+    // Select the correct map type with .selected class
+    var type_ = $('p.maptype').find('a.selected').attr('title');
+    chooseLayer(type_);
+
+      // Activate double click
 			var dblclick = new OpenLayers.Handler.Click(this, {dblclick: function() {map.zoomIn()}, click: null }, {single: true, 'double': true, stopSingle: false, stopDouble: true});
 	    dblclick.setMap(map);
 	    dblclick.activate();
@@ -83,71 +135,11 @@
 			map.addControl(new OpenLayers.Control.Navigation({zoomWheelEnabled : false}));
 			map.addControl(new OpenLayers.Control.MousePosition({element: $('#map')}));
 
-			// Tiles
-	    var ol_wms = new OpenLayers.Layer.WMS("OpenLayers WMS","http://vmap0.tiles.osgeo.org/wms/vmap0",{layers: 'basic'});
-			map.addLayers([ol_wms]);
-			map.setCenter(new OpenLayers.LonLat(0, 0), 3);
-		
-			// First of all, we need all the data: points, polygons paths and grid layer.
-			setUpLayers($("#map").attr("nubid"));
 		}
 	});
 
-
-	function setUpLayers(nubId) {
-
-		// Create occurrence tiles layer
- 		occurrence_layer = new OpenLayers.Layer.XYZ("EOL","http://140.247.231.188/php/map/getEolTile.php?tile=${x}_${y}_${z}_"+nubId);
-
-		// TODO: create distribution_layer, random polygons for now
-		var polygon1 = new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(10,20), new OpenLayers.Geometry.Point(40,20), new OpenLayers.Geometry.Point(40,40), new OpenLayers.Geometry.Point(10,40)]);
-		var polygon2 = new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(-20,0), new OpenLayers.Geometry.Point(-20,5), new OpenLayers.Geometry.Point(0,5), new OpenLayers.Geometry.Point(0,0)]);
-		var polygon3 = new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(20,0), new OpenLayers.Geometry.Point(20,5), new OpenLayers.Geometry.Point(25,5), new OpenLayers.Geometry.Point(25,0)]);
-
-		var polygonFeature1 = new OpenLayers.Feature.Vector(polygon1, null, polygon_style);
-		var polygonFeature2 = new OpenLayers.Feature.Vector(polygon2, null, polygon_style);
-		var polygonFeature3 = new OpenLayers.Feature.Vector(polygon3, null, polygon_style);
-
-		distribution_layer = new OpenLayers.Layer.Vector("Polygons Layer");
-		distribution_layer.addFeatures([polygonFeature1, polygonFeature2, polygonFeature3]);
-
-		// TODO: create points_layer
-		// several random points for the markers
-		var dx = 9;
-	  var dy = 9;
-	  var px, py;
-	  features = [];
-	  for(var x=-45; x<=45; x+=dx) {
-	    for(var y=-22.5; y<=22.5; y+=dy) {
-	      px = x + (2 * dx * (Math.random() - 0.5));
-	      py = y + (2 * dy * (Math.random() - 0.5));
-				features.push(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(px, py)));
-	    }
-	  }
-
-		// TODO: create diversity_layer
-    // use occurrence map for now
-    diversity_layer = new OpenLayers.Layer.XYZ("EOL","http://140.247.231.188/php/map/getEolTile.php?tile=${x}_${y}_${z}_"+nubId);
-
-		// Select the correct map type with .selected class
-		var type_ = $('p.maptype').find('a.selected').attr('title');
-		chooseLayer(type_);
-	}
-
-
-
 	function chooseLayer(layer) {
-		if (layer!=state) {
-      if (state=="occurrence") {map.removeLayer(occurrence_layer);}
-			if (state=="diversity") {map.removeLayer(diversity_layer);	}
-			if (state=="distribution") {map.removeLayer(distribution_layer);}
-      if (state=="points") {map.removeLayer(points_layer);}
-
-      if (layer=="occurrence") {map.addLayer(occurrence_layer);  state = 'occurrence'; 		return false;}
-			if (layer=="diversity") {map.addLayer(diversity_layer); state = 'diversity'; 	return false;}
-			if (layer=="distribution") {map.addLayer(distribution_layer);  state = 'distribution'; return false;}
-      if (layer=="points") {map.addLayer(points_layer);  state = 'points'; 		return false;}
-		}
+    // we only have one layer for now, dont do anything
 	}
 
 

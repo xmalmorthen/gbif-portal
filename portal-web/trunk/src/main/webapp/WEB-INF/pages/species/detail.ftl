@@ -6,15 +6,12 @@
   <meta name="menu" content="species"/>
   <content tag="extra_scripts">
     <#if nub>
-      <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-      <#--
-       dont use vizzuality openlayers map for now
+      <link rel="stylesheet" href="<@s.url value='/css/google.css'/>"/>
+      <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=true"></script>
       <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
       <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
       <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
       <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
-      -->
-      <script type="text/javascript" src="<@s.url value='/js/occurrence_map.js'/>"></script>
     </#if>
   </content>
 </head>
@@ -192,8 +189,6 @@
 <article class="map">
   <header></header>
   <div id="map" nubid="${usage.key?c}"></div>
-      <#--
-       dont use vizzuality openlayers map for now, so dont show mapa controls
   <a href="#zoom_in" class="zoom_in"></a>
   <a href="#zoom_out" class="zoom_out"></a>
 
@@ -207,6 +202,8 @@
     </ul>
   </span>
   </div>
+      <#--
+       dont use vizzuality openlayers map for now, so dont show mapa controls
   -->
   <div class="content">
 
