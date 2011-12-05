@@ -1,15 +1,15 @@
 
 	var map,
-			polygons_layer,
-			points_layer,
-			grid_layer,
+      points_layer,
+      occurrence_layer,
+			diversity_layer,
+      distribution_layer,
 			features,
-			mainLayer,
 			state;
 			
 			// Necessary things to run these kind of map
 			// - class typesmap to body
-			// - points/polygons/grid 'a' tags have to be -> <a href="#" title="grid">grid</a> -> respect the title, you can change the text
+			// - occurrence/diversity/distribution/points 'a' tags have to be -> <a href="#" title="occurrence">grid</a> -> respect the title, you can change the text
 			// - zooms html (example in /content/dataset/detail.html)
 
 
@@ -89,19 +89,17 @@
 			map.setCenter(new OpenLayers.LonLat(0, 0), 3);
 		
 			// First of all, we need all the data: points, polygons paths and grid layer.
-			// This function will generate random data.
-			generateRandomData();
+			setUpLayers($("#map").attr("nubid"));
 		}
 	});
 
 
-	function generateRandomData() {
+	function setUpLayers(nubId) {
 
-		// Create grid layer
-		//grid_layer = new OpenLayers.Layer.TMS("EOL","http://maps0.eol.org/php/map/getEolTile.php?tile=${x}_${y}_${z}_13140803",{layername: "basic", type: "png"});
-		grid_layer = new OpenLayers.Layer.XYZ("EOL","http://maps0.eol.org/php/map/getEolTile.php?tile=${x}_${y}_${z}_13140803");
-		//"http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Portland/ESRI_LandBase_WebMercator/MapServer/tile/${z}/${y}/${x}"
+		// Create occurrence tiles layer
+ 		occurrence_layer = new OpenLayers.Layer.XYZ("EOL","http://140.247.231.188/php/map/getEolTile.php?tile=${x}_${y}_${z}_"+nubId);
 
+		// TODO: create distribution_layer, random polygons for now
 		var polygon1 = new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(10,20), new OpenLayers.Geometry.Point(40,20), new OpenLayers.Geometry.Point(40,40), new OpenLayers.Geometry.Point(10,40)]);
 		var polygon2 = new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(-20,0), new OpenLayers.Geometry.Point(-20,5), new OpenLayers.Geometry.Point(0,5), new OpenLayers.Geometry.Point(0,0)]);
 		var polygon3 = new OpenLayers.Geometry.LinearRing([new OpenLayers.Geometry.Point(20,0), new OpenLayers.Geometry.Point(20,5), new OpenLayers.Geometry.Point(25,5), new OpenLayers.Geometry.Point(25,0)]);
@@ -110,10 +108,11 @@
 		var polygonFeature2 = new OpenLayers.Feature.Vector(polygon2, null, polygon_style);
 		var polygonFeature3 = new OpenLayers.Feature.Vector(polygon3, null, polygon_style);
 
-		polygons_layer = new OpenLayers.Layer.Vector("Polygons Layer");
-		polygons_layer.addFeatures([polygonFeature1, polygonFeature2, polygonFeature3]);
+		distribution_layer = new OpenLayers.Layer.Vector("Polygons Layer");
+		distribution_layer.addFeatures([polygonFeature1, polygonFeature2, polygonFeature3]);
 
-		// Generate randomly several points for the markers
+		// TODO: create points_layer
+		// several random points for the markers
 		var dx = 9;
 	  var dy = 9;
 	  var px, py;
@@ -125,22 +124,11 @@
 				features.push(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(px, py)));
 	    }
 	  }
-	
-		// Create points layer
-		var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
-	  renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
 
-	 	points_layer = new OpenLayers.Layer.Vector("Points", {
-	  	styleMap: new OpenLayers.StyleMap({
-	    	"default": points_style
-	    }),
-		renderers: renderer
-	  });
+		// TODO: create diversity_layer
+    // use occurrence map for now
+    diversity_layer = new OpenLayers.Layer.XYZ("EOL","http://140.247.231.188/php/map/getEolTile.php?tile=${x}_${y}_${z}_"+nubId);
 
-	  points_layer.addFeatures(features);
-		
-		
-		
 		// Select the correct map type with .selected class
 		var type_ = $('p.maptype').find('a.selected').attr('title');
 		chooseLayer(type_);
@@ -150,13 +138,15 @@
 
 	function chooseLayer(layer) {
 		if (layer!=state) {
-			if (state=="points") {map.removeLayer(points_layer);	}
-			if (state=="polygons") {map.removeLayer(polygons_layer);}
-			if (state=="grid") {map.removeLayer(grid_layer);}
-					
-			if (layer=="points") {map.addLayer(points_layer); state = 'points'; 	return false;}
-			if (layer=="polygons") {map.addLayer(polygons_layer);  state = 'polygons'; return false;}
-			if (layer=="grid") {map.addLayer(grid_layer);  state = 'grid'; 		return false;}
+      if (state=="occurrence") {map.removeLayer(occurrence_layer);}
+			if (state=="diversity") {map.removeLayer(diversity_layer);	}
+			if (state=="distribution") {map.removeLayer(distribution_layer);}
+      if (state=="points") {map.removeLayer(points_layer);}
+
+      if (layer=="occurrence") {map.addLayer(occurrence_layer);  state = 'occurrence'; 		return false;}
+			if (layer=="diversity") {map.addLayer(diversity_layer); state = 'diversity'; 	return false;}
+			if (layer=="distribution") {map.addLayer(distribution_layer);  state = 'distribution'; return false;}
+      if (layer=="points") {map.addLayer(points_layer);  state = 'points'; 		return false;}
 		}
 	}
 

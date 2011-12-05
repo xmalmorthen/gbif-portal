@@ -3,7 +3,7 @@
   <title>Dataset discussion - GBIF</title>
   <meta name="menu" content="datasets"/>
 </head>
-<body class="typesmap">
+<body>
 
   <content tag="infoband">
     <ul class="breadcrumb">

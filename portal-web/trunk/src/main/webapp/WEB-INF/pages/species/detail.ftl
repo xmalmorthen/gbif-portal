@@ -5,12 +5,17 @@
   <title>${usage.scientificName} - Checklist View</title>
   <meta name="menu" content="species"/>
   <content tag="extra_scripts">
-    <script src="<@s.url value='/js/full_map.js'/>"></script>
-    <script type="text/javascript">
-      $(function() {
-        $("article#images").bindSlideshow();
-      });
-    </script>
+    <#if nub>
+      <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+      <#--
+       dont use vizzuality openlayers map for now
+      <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
+      <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
+      <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
+      <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
+      -->
+      <script type="text/javascript" src="<@s.url value='/js/occurrence_map.js'/>"></script>
+    </#if>
   </content>
 </head>
 <body class="species typesmap">
@@ -186,8 +191,9 @@
 <#-- ONLY FOR NUB PAGES -->
 <article class="map">
   <header></header>
-  <div id="map" class="placeholder_temp"></div>
-  <!-- map controls -->
+  <div id="map" nubid="${usage.key?c}"></div>
+      <#--
+       dont use vizzuality openlayers map for now, so dont show mapa controls
   <a href="#zoom_in" class="zoom_in"></a>
   <a href="#zoom_out" class="zoom_out"></a>
 
@@ -201,7 +207,7 @@
     </ul>
   </span>
   </div>
-  <!-- end map controls -->
+  -->
   <div class="content">
 
     <div class="header">
@@ -217,12 +223,14 @@
       </div>
     </div>
 
-    <div class="right placeholder_temp">
+    <div class="right">
       <h3>Visualize</h3>
 
-      <p class="maptype"><a href="#" title="points" class="selected">occurrence</a> | <a href="#"
-                                                                                         title="grid">density</a> | <a
-              href="#" title="polygons">distribution</a></p>
+      <p class="maptype">
+          <a href="#" title="occurrence" class="selected">occurrence</a>
+        | <a class="placeholder_temp" href="#" title="diversity">diversity</a>
+        | <a class="placeholder_temp" href="#" title="distribution">distribution</a>
+      </p>
 
       <h3>Download</h3>
       <ul>

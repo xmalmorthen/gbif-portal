@@ -1,9 +1,8 @@
 <html>
 <head>
   <title>Species activity - GBIF</title>
-  <meta name="gmap" content="true"/>
 </head>
-<body class="species typesmap">
+<body class="species">
 
 <content tag="infoband">
   <ul class="breadcrumb">

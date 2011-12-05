@@ -50,7 +50,7 @@ $(function() {
   });
 
   // Activate source popovers
-  $("a.sourcePopup").append('<img src="'+cfg.context+'/img/icons/questionmark.png"/>').each(function(idx, obj){
+  $("a.sourcePopup").append('<img src="'+((cfg.context+"/img/icons/questionmark.png").replace("//", "/")) +'"/>').each(function(idx, obj){
       $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});
   });
 

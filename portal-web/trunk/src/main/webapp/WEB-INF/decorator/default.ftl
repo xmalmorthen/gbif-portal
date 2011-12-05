@@ -35,9 +35,6 @@
     </#list>       
   </script>	  
   </#if>  
-<#if useGooglemaps!false>
-  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-</#if>
 <#-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
 Remove this if you use the .htaccess -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -205,17 +202,11 @@ ${head}
   <script type="text/javascript" src="<@s.url value='/js/vendor/jscrollpane.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-scrollTo-1.4.2-min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/underscore-min.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/helpers.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/widgets.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/graphs.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/rss.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/app.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/full_map.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/single_map.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/raphael-min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/resourcebundle.js'/>"></script>
   <!-- end scripts-->

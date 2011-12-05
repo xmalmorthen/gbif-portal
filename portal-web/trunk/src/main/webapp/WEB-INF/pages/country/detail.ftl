@@ -1,8 +1,11 @@
 <html>
 <head>
   <title>Country detail - GBIF</title>
-  <meta name="gmap" content="true"/>
   <content tag="extra_scripts">
+    <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
     <script type="text/javascript" charset="utf-8">
       $(function() {
         $("#dataset-graph1").addGraph(generateRandomValues(50));

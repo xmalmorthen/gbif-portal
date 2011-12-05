@@ -1,6 +1,12 @@
 <html>
 <head>
   <title>Members - GBIF</title>
+  <content tag="extra_scripts">
+    <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/full_map.js'/>"></script>
+  </content>
 </head>
 <body class="dataset mapfull">
 

@@ -3,7 +3,7 @@
   <title>Species statistics - GBIF</title>
   <meta name="menu" content="species"/>
 </head>
-<body class="species typesmap">
+<body class="species">
 
 <content tag="infoband">
   <ul class="breadcrumb">
