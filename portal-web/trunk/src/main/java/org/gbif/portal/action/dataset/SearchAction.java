@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, RegistryFacetParameter> {
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
+  private static final long serialVersionUID = 1488419402277401976L;
 
   @Inject
   public SearchAction(DatasetSearchService datasetSearchService) {
