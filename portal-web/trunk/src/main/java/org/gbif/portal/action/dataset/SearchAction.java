@@ -30,7 +30,7 @@ public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, R
   private static final long serialVersionUID = 1488419402277401976L;
 
   @Inject
-  public SearchAction(DatasetSearchService datasetSearchService) {
+  public SearchAction(DatasetSearchService<DatasetSearchResult> datasetSearchService) {
     super(datasetSearchService, RegistryFacetParameter.class);
   }
 
