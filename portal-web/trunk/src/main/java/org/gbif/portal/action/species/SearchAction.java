@@ -68,6 +68,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       this.setInitDefault(false);
     }
     this.searchRequest.setMultiSelectFacets(true);
+    this.searchRequest.setHighlight(true);
     super.execute();
 
     // replace higher taxon ids in facets with real names
@@ -140,6 +141,14 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
 
   /**
+   * @return true if the checklist facet filter contains a single checklist only.
+   */
+  public boolean getShowAccordingTo() {
+    return getFacets() == null || !getFacets().containsKey(ChecklistBankFacetParameter.CHECKLIST)
+      || getFacets().get(ChecklistBankFacetParameter.CHECKLIST).size() != 1;
+  }
+
+  /**
    * Initializes the getTitle* functions: getChecklistTitle and getHigherTaxaTitle.
    */
   private void initGetTitleFunctions() {
@@ -194,9 +203,10 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   }
 
+
   /**
    * Request parameter for filtering results by checklistKey.
-   *
+   * 
    * @param checklistKey the checklistKey to set
    */
   public void setChecklistKey(String checklistKey) {
@@ -206,20 +216,10 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   /**
    * Request parameter for filtering results by nubKey.
-   *
+   * 
    * @param nubKey the nubKey to set
    */
   public void setNubKey(Integer nubKey) {
     this.nubKey = nubKey;
-  }
-
-
-  /**
-   * @return true if the checklist facet filter contains a single checklist only.
-   */
-  public boolean getShowAccordingTo(){
-    return getFacets()==null
-           || !getFacets().containsKey(ChecklistBankFacetParameter.CHECKLIST)
-           || getFacets().get(ChecklistBankFacetParameter.CHECKLIST).size() != 1;
   }
 }
