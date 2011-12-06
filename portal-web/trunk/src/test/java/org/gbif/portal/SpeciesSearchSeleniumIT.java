@@ -81,7 +81,7 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
   public void testVernacularNameSearch() {
     assertNameSearch("Abies pinsapo ", true, 16, 2685464);
     assertNameSearch("Spanische TANNE", true, 1, 2685464);
-    // TODO: fix encoding assertNameSearch("\u0161panjolska jela", true, 1, 2685464);
+    assertNameSearch("\u0161panjolska jela", true, 1, 2685464);
   }
 
 }
