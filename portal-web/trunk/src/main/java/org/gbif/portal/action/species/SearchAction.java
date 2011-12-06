@@ -53,8 +53,8 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private final TaxonomicStatusConverter taxonomicStatusConverter;
 
   @Inject
-  public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService,
-    ChecklistService checklistService, TaxonomicStatusConverter taxonomicStatusConverter) {
+  public SearchAction(NameUsageSearchService<NameUsageSearchResult> nameUsageSearchService,
+    NameUsageService usageService, ChecklistService checklistService, TaxonomicStatusConverter taxonomicStatusConverter) {
     super(nameUsageSearchService, ChecklistBankFacetParameter.class);
     this.usageService = usageService;
     this.checklistService = checklistService;
