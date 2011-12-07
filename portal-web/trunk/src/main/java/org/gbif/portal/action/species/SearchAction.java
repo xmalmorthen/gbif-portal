@@ -68,7 +68,8 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       this.setInitDefault(false);
     }
     this.searchRequest.setMultiSelectFacets(true);
-    this.searchRequest.setHighlight(true);
+    // Highlight is not enable for search all, this avoid get all the field highlighted
+    this.searchRequest.setHighlight(!this.getQ().isEmpty());
     super.execute();
 
     // replace higher taxon ids in facets with real names
