@@ -30,14 +30,17 @@
     		$('input',thisLi).attr('checked',!$('input',thisLi).checked);
     		$('input',thisLi).click();
     	});
-    	$('input',thisLi).click( function(event){
+    	$('input',thisLi).click( function(event){    		
+    		var location = window.location.toString();
     		if(this.checked){
-    			window.location = window.location.toString() + this.value;
-    		}else{
-    			var location = window.location.toString();
-    			location = location.replace(this.value,'');
-    			window.location= location;
+    			location =  location + this.value;
+    		}else{    			
+    			location = location.replace(this.value,'');    			
     		}
+    		if(location.indexOf("initDefault=false") < 0){
+    			location = location + "&initDefault=false";
+    		}
+    		window.location= location;
     	})
   	 });
 
