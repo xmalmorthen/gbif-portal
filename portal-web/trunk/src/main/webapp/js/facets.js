@@ -32,6 +32,7 @@
     	});
     	$('input',thisLi).click( function(event){    		
     		var location = window.location.toString();
+    		$('.facet input:checkbox').each(function(){$(this).attr('disabled','true');});
     		if(this.checked){
     			location =  location + this.value;
     		}else{    			
