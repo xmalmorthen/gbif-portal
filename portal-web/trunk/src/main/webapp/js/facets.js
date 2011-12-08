@@ -27,6 +27,7 @@
     	var thisLi = this;
     	$('a',thisLi).click( function(event){
     		event.preventDefault();
+    		//when a facet is selected, all facet checkboxes are disable to avoid multiple requests
     		$('input',thisLi).attr('checked',!$('input',thisLi).checked);
     		$('input',thisLi).click();
     	});
