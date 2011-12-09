@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */  	
-  $(function() {	  	  
+  $(function() {	  		  
 	  $('.facetPanel').each( function(){		
 		 var $facetDialog = $(this).children('.dialogPopover').first(); 
 		 $(this).children('a').bindDialogPopover($facetDialog); 
@@ -34,6 +34,7 @@
     	$('input',thisLi).click( function(event){    		
     		var location = window.location.toString();
     		$('.facet input:checkbox').each(function(){$(this).attr('disabled','true');});
+    		showWaitDialog();
     		if(this.checked){
     			location =  location + this.value;
     		}else{    			
@@ -75,6 +76,17 @@
       queryParams.push(facetName + "=" + facetFilter);
       changeLocation(queryParams);
     }
+    function showWaitDialog(){
+    	$('#waitDialog').css("top", getTopPosition($('#waitDialog')) + "px");
+		$('#waitDialog').fadeIn("medium", function() { hidden = false; });
+		$("body").append("<div id='lock_screen'></div>");
+	    $("#lock_screen").height($(document).height());
+	    $("#lock_screen").fadeIn("slow");
+    }
+    function getTopPosition(div) {
+        return (( $(window).height() - div.height()) / 2) + $(window).scrollTop() - 50;
+      }
+    
     function removeFacet(facetName,facetFilter) {
       var queryParams = currentFilterParams();
       var removeParam = facetName + "=" + facetFilter;

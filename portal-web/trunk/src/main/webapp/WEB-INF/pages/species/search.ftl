@@ -8,7 +8,7 @@
     </script>
   </content>
 </head>
-<body class="search">
+<body class="search">  
   <content tag="infoband">
     <h2>Search species</h2>
     <form action="<@s.url value='/species/search'/>" method="GET">
@@ -142,11 +142,21 @@
             </ul>
           </div>
         </div>
-
       </div>
     </div>
     <footer></footer>
-  </article>
-  </form>             
+    <div class="infowindow" id="waitDialog">
+	  
+	  <div class="light_box">
+	   <div class="content" >
+		    <h3>Processing request</h3>
+		    <p>Wait while your request is processed...</p>	
+		    <img src="/img/ajax-loader.gif"/>   
+		 </div>	  	  
+	 </div>
+	 
+   </div>                 
+  </article>  
+  </form>    
 </body>
 </html>
