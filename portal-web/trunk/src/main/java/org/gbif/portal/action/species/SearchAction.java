@@ -8,6 +8,7 @@
  */
 package org.gbif.portal.action.species;
 
+import org.gbif.api.model.vocabulary.ThreatStatus;
 import org.gbif.checklistbank.api.Constants;
 import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
 import org.gbif.checklistbank.api.model.search.NameUsageSearchResult;
@@ -16,6 +17,7 @@ import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
 import org.gbif.checklistbank.api.service.NameUsageService;
 import org.gbif.checklistbank.vocabulary.converter.TaxonomicStatusConverter;
+import org.gbif.checklistbank.vocabulary.converter.ThreatStatusConverter;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 import org.gbif.portal.model.FacetInstance;
 
@@ -50,15 +52,19 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private Function<String, String> getHigherTaxaTitle;
   private Function<String, String> getBooleanTitle;
   private Function<String, String> getTaxStatusTitle;
+  private Function<String, String> getThreatStatusTitle;
   private final TaxonomicStatusConverter taxonomicStatusConverter;
+  private final ThreatStatusConverter threatStatusConverter;
 
   @Inject
   public SearchAction(NameUsageSearchService<NameUsageSearchResult> nameUsageSearchService,
-    NameUsageService usageService, ChecklistService checklistService, TaxonomicStatusConverter taxonomicStatusConverter) {
+    NameUsageService usageService, ChecklistService checklistService,
+    TaxonomicStatusConverter taxonomicStatusConverter, ThreatStatusConverter threatStatusConverter) {
     super(nameUsageSearchService, ChecklistBankFacetParameter.class);
     this.usageService = usageService;
     this.checklistService = checklistService;
     this.taxonomicStatusConverter = taxonomicStatusConverter;
+    this.threatStatusConverter = threatStatusConverter;
     this.initGetTitleFunctions();
   }
 
@@ -86,6 +92,9 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
     // replace marine boolean values
     this.lookupFacetTitles(ChecklistBankFacetParameter.MARINE, getBooleanTitle);
+
+    // replace threat status keys values
+    this.lookupFacetTitles(ChecklistBankFacetParameter.THREAT, getThreatStatusTitle);
 
     return SUCCESS;
   }
@@ -197,6 +206,22 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
         TaxonomicStatus status = taxonomicStatusConverter.toEnum(Integer.parseInt(taxid));
         if (status != null) {
           return getText("enum.taxstatus." + status.name());
+        }
+        return null;
+      }
+    };
+
+    getThreatStatusTitle = new Function<String, String>() {
+
+      @Override
+      public String apply(String taxid) {
+        if (Strings.emptyToNull(taxid) == null) {
+          return null;
+        }
+        // this is the id, replace with enum
+        ThreatStatus status = threatStatusConverter.toEnum(Integer.parseInt(taxid));
+        if (status != null) {
+          return getText("enum.threatstatus." + status.name());
         }
         return null;
       }
