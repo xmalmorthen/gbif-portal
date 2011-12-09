@@ -32,7 +32,7 @@
       <div class="left">
 
       <#list searchResponse.results as u>
-        <div class="result">
+        <div class="result searchResult">
           <h2>
             <a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong></a>
             <span class="note">

@@ -7360,7 +7360,7 @@ body.singlemap a.zoom_out:hover {
   vertical-align:-8px;
 }
 
-em{
+.searchResult em{
 	background: none repeat scroll 0 0 #FFFF00 !important;
     font-weight: bold !important;
     font-style: italic !important;
