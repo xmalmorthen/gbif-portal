@@ -17,20 +17,20 @@
         <button id="submitSearch" type="submit" class="search_button"><span>Search</span></button>
       </form>
       <ul class="species">
-        <li><a href="<@s.url value='/species/search?q=Mammalia'/>" title="Mammals">Mammals</a></li>
-        <li><a href="<@s.url value='/species/search?q=Aves'/>" title="Birds">Birds</a></li>
-        <li><a href="<@s.url value='/species/search?q=Insecta'/>" title="Insects">Insects</a></li>
-        <li><a href="<@s.url value='/species/search?q=Reptilia'/>" title="Reptiles">Reptiles</a></li>
+        <li><a href="<@s.url value='/species/search?q=&highertaxon=359'/>" title="Mammals">Mammals</a></li>
+        <li><a href="<@s.url value='/species/search?q=&highertaxon=212'/>" title="Birds">Birds</a></li>
+        <li><a href="<@s.url value='/species/search?q=&highertaxon=216'/>" title="Insects">Insects</a></li>
+        <li><a href="<@s.url value='/species/search?q=&highertaxon=358'/>" title="Reptiles">Reptiles</a></li>
         <#--
          see http://en.wikipedia.org/wiki/Fish#Taxonomy
          MISSING FROM THESE FISH FILTERS ARE THE FOLLOWING, WHICH ARE NOT IN COL:
           - Placodermi
 
         -->
-        <li><a href="<@s.url value='/species/search?highertaxon=119&highertaxon=120&highertaxon=121&highertaxon=204&highertaxon=238&highertaxon=239&highertaxon=4853178&highertaxon=3238258&highertaxon=4836892&highertaxon=4815623'/>" title="Fishes">Fishes</a></li>
-        <li><a href="<@s.url value='/species/search?q=Lepidoptera'/>" title="Butterflies">Butterflies</a></li>
-        <li><a href="<@s.url value='/species/search?q=Fungi'/>" title="Lizards">Fungi</a></li>
-        <li><a href="<@s.url value='/species/search?q=Magnoliophyta'/>" title="Lizards">Flowering Plants</a></li>
+        <li><a href="<@s.url value='/species/search?q=&highertaxon=119&highertaxon=120&highertaxon=121&highertaxon=204&highertaxon=238&highertaxon=239&highertaxon=4853178&highertaxon=3238258&highertaxon=4836892&highertaxon=4815623'/>" title="Fishes">Fishes</a></li>
+        <li><a href="<@s.url value='/species/search?q=&highertaxon=797'/>" title="Butterflies">Butterflies</a></li>
+        <li><a href="<@s.url value='/species/search?q=&highertaxon=5'/>" title="Lizards">Fungi</a></li>
+        <li><a href="<@s.url value='/species/search?q=&highertaxon=49'/>" title="Lizards">Flowering Plants</a></li>
       </ul>
       <div class="results">
         <ul>
