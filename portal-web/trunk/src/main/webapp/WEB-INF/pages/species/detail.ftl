@@ -127,18 +127,30 @@
 
       <h3>External Links</h3>
       <ul>
-      <#list usage.identifiers as i>
-        <#if i.identifierLink??>
-          <li><a href="${i.identifierLink}"
-                 title="${i.title!i.type!i.identifier}"><#if i.title?has_content>${i.title}<#else><@s.text name="enum.identifier.${i.type!'URL'}" /></#if></a>
-          </li>
-        </#if>
+      <#list usage.externalLinks as i>
+        <li><a href="${i.identifierLink}" title="${i.title!i.type!}">
+          <#if i.title?has_content>${i.title}
+          <#else>
+            <#if usage.isNub()>${common.limit(i.identifierLink,30)}<#else><@s.text name="enum.identifier.${i.type!'URL'}" /></#if>
+          </#if>
+        </a></li>
       </#list>
-      <#if usage.nubKey??>
-        <li><a href=" http://eol.org/gbif/${usage.nubKey?c}" title="EOL">EOL</a></li>
-      </#if>
+       <#if usage.nubKey??>
+        <li><a href="http://eol.org/gbif/${usage.nubKey?c}" title="EOL">EOL</a></li>
+       </#if>
         <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
+
+      <#if (usage.lsids?size>0)>
+        <li>LSID
+        <@common.popup title="Life Science Identifier">
+          <#list usage.lsids as i>
+            <p><a href='${i.identifierLink}'>${i.identifier}</a></p><br/>
+          </#list>
+        </@common.popup>
+        </li>
+      </#if>
       </ul>
+
 
     </div>
   </div>
