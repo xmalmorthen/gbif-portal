@@ -140,12 +140,6 @@
         <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
       </ul>
 
-      <h3>Metadata</h3>
-      <ul class="placeholder_temp">
-        <li class="download">EML file &nbsp;<a class="small" href="#" title="EML file (english)">ENG</a> · <a
-                class="small" href="#" title="EML file (spanish)">SPA</a> · <a class="small" href="#"
-                                                                               title="EML file (german)">GER</a></li>
-      </ul>
     </div>
   </div>
   <footer></footer>
