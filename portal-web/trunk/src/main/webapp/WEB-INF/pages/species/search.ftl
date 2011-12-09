@@ -144,19 +144,17 @@
         </div>
       </div>
     </div>
-    <footer></footer>
-    <div class="infowindow" id="waitDialog">
-	  
-	  <div class="light_box">
-	   <div class="content" >
-		    <h3>Processing request</h3>
-		    <p>Wait while your request is processed...</p>	
-		    <img src="/img/ajax-loader.gif"/>   
-		 </div>	  	  
-	 </div>
-	 
-   </div>                 
+    <footer></footer>            
   </article>  
   </form>    
+  <div class="infowindow" id="waitDialog">	  
+	  <div class="light_box">	  
+		  <div class="content" >
+		    <h3>Processing request</h3>
+		    <p>Wait while your request is processed...	
+		    <img src="/img/ajax-loader.gif"/></p>
+		 </div>
+	 </div>	 
+   </div>         
 </body>
 </html>
