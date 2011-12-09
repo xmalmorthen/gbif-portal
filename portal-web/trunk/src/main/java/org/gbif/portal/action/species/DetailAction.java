@@ -73,6 +73,9 @@ public class DetailAction extends UsageAction {
     for (NameUsage u : related) {
       loadChecklist(u.getChecklistKey());
     }
+    for (NameUsageComponent c : usage.getExternalLinks()) {
+      loadChecklist(c.getChecklistKey());
+    }
     for (NameUsageComponent c : usage.getImages()) {
       loadChecklist(c.getChecklistKey());
     }

@@ -131,7 +131,7 @@
         <li><a href="${i.identifierLink}" title="${i.title!i.type!}">
           <#if i.title?has_content>${i.title}
           <#else>
-            <#if usage.isNub()>${common.limit(i.identifierLink,30)}<#else><@s.text name="enum.identifier.${i.type!'URL'}" /></#if>
+            ${common.limit( checklists.get(i.checklistKey).name ,30)}
           </#if>
         </a></li>
       </#list>
@@ -141,12 +141,10 @@
         <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
 
       <#if (usage.lsids?size>0)>
-        <li>LSID
-        <@common.popup title="Life Science Identifier">
+        <li><@common.popover linkTitle="LSID" popoverTitle="Life Science Identifier">
           <#list usage.lsids as i>
             <p><a href='${i.identifierLink}'>${i.identifier}</a></p><br/>
-          </#list>
-        </@common.popup>
+          </#list></@common.popover>
         </li>
       </#if>
       </ul>
@@ -520,6 +518,7 @@
 </article>
 </#if>
 
+<#if !usage.isNub()>
 <article class="notice">
   <header></header>
   <div class="content">
@@ -530,6 +529,7 @@
   </div>
   <footer></footer>
 </article>
+</#if>
 
 </body>
 </html>

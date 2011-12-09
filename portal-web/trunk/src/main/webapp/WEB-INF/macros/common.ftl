@@ -25,6 +25,12 @@
 
 </#macro>
 
-<#macro popup title="Source" remarks="">
-  <a class="sourcePopup" title="${title}" message="<#nested>" remarks="${remarks!}"></a>
+<#macro popup message remarks="" title="Source">
+  <#if message?has_content>
+    <a class="sourcePopup" title="${title}" message="${message}" remarks="${remarks!}"></a>
+  </#if>
+</#macro>
+
+<#macro popover linkTitle popoverTitle>
+  <a class="popover" title="${popoverTitle}" message="<#nested>">${linkTitle}</a>
 </#macro>
