@@ -6,7 +6,6 @@ import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.Identifier;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.NameUsageComponent;
-import org.gbif.checklistbank.api.model.SpeciesProfile;
 import org.gbif.checklistbank.api.model.TypeSpecimen;
 import org.gbif.checklistbank.api.model.VernacularName;
 import org.gbif.checklistbank.api.service.DescriptionService;
@@ -23,15 +22,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.UUID;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import freemarker.template.utility.StringUtil;
 import org.apache.commons.lang.StringUtils;
 
 public class DetailAction extends UsageAction {
@@ -154,57 +150,7 @@ public class DetailAction extends UsageAction {
     // get typeSpecimens
     usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page4).getResults());
     // get species profiles
-    List<SpeciesProfile> rawResults = speciesProfileService.listByUsage(id, page10).getResults();
-    if (rawResults.size() == 1) {
-      usage.setSpeciesProfiles(rawResults);
-    } else {
-      // build one representative species profile to show to the view
-      SpeciesProfile agg = new SpeciesProfile();
-      SortedSet<String> habitats = new TreeSet<String>();
-      SortedSet<String> lifeForms = new TreeSet<String>();
-      SortedSet<String> livingPeriods = new TreeSet<String>();
-      for (SpeciesProfile sp : rawResults) {
-        agg.setAgeInDays(nullSafeMax(agg.getAgeInDays(), sp.getAgeInDays()));
-        agg.setMassInGram(nullSafeMax(agg.getMassInGram(), sp.getMassInGram()));
-        agg.setSizeInMillimeter(nullSafeMax(agg.getSizeInMillimeter(), sp.getSizeInMillimeter()));
-        agg.setHybrid(nullSafeOr(agg.isHybrid(), sp.isHybrid()));
-        agg.setMarine(nullSafeOr(agg.isMarine(), sp.isMarine()));
-        agg.setTerrestrial(nullSafeOr(agg.isTerrestrial(), sp.isTerrestrial()));
-        agg.setExtinct(nullSafeOr(agg.isExtinct(), sp.isExtinct()));
-
-        if (sp.getHabitat() != null) habitats.add(StringUtil.capitalize(sp.getHabitat()));
-        if (sp.getLifeForm() != null) lifeForms.add(StringUtil.capitalize(sp.getLifeForm()));
-        if (sp.getLivingPeriod() != null) livingPeriods.add(StringUtil.capitalize(sp.getLivingPeriod()));
-      }
-      String habitatString = habitats.toString();
-      if (habitatString.length() > 0) agg.setHabitat(habitatString.substring(1, habitatString.length() - 1));
-      String lifeFormString = lifeForms.toString();
-      if (lifeFormString.length() > 0) agg.setLifeForm(lifeFormString.substring(1, lifeFormString.length() - 1));
-      String livingPeriodString = livingPeriods.toString();
-      if (livingPeriodString.length() > 0) {
-        agg.setLivingPeriod(livingPeriodString.substring(1, livingPeriodString.length() - 1));
-      }
-
-      // use terrestrial and marine to make the habitat string more useful
-      String terrString = null;
-      if (agg.isTerrestrial() != null && agg.isTerrestrial() && agg.isMarine() != null && agg.isMarine()) {
-        terrString = getText("species.terrestrial_and_marine");
-      } else if (agg.isTerrestrial() != null && agg.isTerrestrial()) {
-        terrString = getText("species.terrestrial");
-      } else if (agg.isMarine() != null && agg.isMarine()) {
-        terrString = getText("species.marine");
-      }
-      if (terrString != null) {
-        if (agg.getHabitat() == null) {
-          agg.setHabitat(terrString);
-        } else {
-          agg.setHabitat(terrString + ": " + agg.getHabitat());
-        }
-      }
-      List<SpeciesProfile> output = new ArrayList<SpeciesProfile>();
-      output.add(agg);
-      usage.setSpeciesProfiles(output);
-    }
+    usage.setSpeciesProfiles(speciesProfileService.listByUsage(id, page10).getResults());
   }
 
   /**

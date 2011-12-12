@@ -67,37 +67,45 @@
       <h3>Full name</h3>
       <p>${usage.scientificName}</p>
 
-      <h3>Status</h3>
+      <h3>Taxonomic Status</h3>
       <p>
         ${usage.taxonomicStatus!"Unknown"}
-        ${usage.nomenclaturalStatus!""}
         <#if usage.synonym> of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a></#if>
       </p>
 
-    <#if usage.speciesProfiles?? && usage.speciesProfiles[0]??>
-      <#assign sp = usage.speciesProfiles[0]/>
-    </#if>
-    <#if sp??>
-      <#if sp.livingPeriod?has_content>
-        <h3>Living period</h3>
-        <p>${sp.livingPeriod}</p>
+      <#if usage.nomenclaturalStatus?has_content>
+        <h3>Nomenclatural Status</h3>
+        <p>${usage.nomenclaturalStatus}</p>
       </#if>
 
-      <#if sp.isExtinct()??>
+      <#if usage.isExtinct()??>
         <h3>Extinction Status</h3>
-        <p>${sp.isExtinct()?string("Is Extinct","Is Not Extinct")}</p>
+        <p>${usage.isExtinct()?string("extinct","living")}</p>
       </#if>
 
-      <#if sp.habitat?? && sp.habitat != ''>
-        <h3>Habitat</h3>
-        <p>${sp.habitat}</p>
+      <#if (usage.livingPeriods?size>0)>
+        <h3>Living Period</h3>
+        <p><#list usage.livingPeriods as p>${p}<#if p_has_next>; </#if></#list></p>
       </#if>
-    </#if>
+
+      <#if usage.isMarine()?? || usage.isTerrestrial()?? || (usage.habitats?size>0)>
+        <h3>Habitat</h3>
+        <p>
+          <#if usage.isMarine()??><#if usage.isMarine()>Marine<#else>Non Marine</#if>;</#if>
+          <#if usage.isTerrestrial()??><#if usage.isTerrestrial()>Terrestrial<#else>Non Terrestrial</#if>;</#if>
+          <#list usage.habitats as h>${h}<#if t_has_next>; </#if></#list>
+        </p>
+      </#if>
+
+      <#if (usage.threatStatus?size>0)>
+        <h3>Threat Status</h3>
+        <p><#list usage.threatStatus as t>${t}<#if t_has_next>; </#if></#list></p>
+      </#if>
 
     <#list usage.descriptions as d>
-      <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
-      <p>${d.description!}</p>
-    </#list>
+        <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
+        <p>${d.description!}</p>
+      </#list>
 
     </div>
     <div class="right">
