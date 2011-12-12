@@ -8,6 +8,7 @@ import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.NameUsageComponent;
 import org.gbif.checklistbank.api.model.SpeciesProfile;
 import org.gbif.checklistbank.api.model.TypeSpecimen;
+import org.gbif.checklistbank.api.model.VernacularName;
 import org.gbif.checklistbank.api.service.DescriptionService;
 import org.gbif.checklistbank.api.service.DistributionService;
 import org.gbif.checklistbank.api.service.IdentifierService;
@@ -26,6 +27,9 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import freemarker.template.utility.StringUtil;
 import org.apache.commons.lang.StringUtils;
@@ -50,6 +54,8 @@ public class DetailAction extends UsageAction {
   private TypeSpecimenService typeSpecimenService;
 
   private NameUsage basionym;
+  // list of unique names listing all sources for each
+  private Map<String, List<VernacularName>> vernacularNames = Maps.newLinkedHashMap();
   private final List<NameUsage> related = new LinkedList<NameUsage>();
   private List<UUID> relatedDatasets = new ArrayList<UUID>();
   // TODO: remove the children property once the taxonomic browser is working via ajax
@@ -68,6 +74,9 @@ public class DetailAction extends UsageAction {
 
     // load usage details
     loadUsageDetails();
+
+    // remove duplicates
+    distinctVernNames();
 
     // load checklist lookup map
     for (NameUsage u : related) {
@@ -199,6 +208,22 @@ public class DetailAction extends UsageAction {
   }
 
   /**
+   * Filters duplicates from vernacular names.
+   */
+  private void distinctVernNames(){
+    for (VernacularName v : usage.getVernacularNames()){
+      if (Strings.isNullOrEmpty(v.getVernacularName())){
+        continue;
+      }
+      String id = (v.getVernacularName()+"||"+ Strings.nullToEmpty(v.getLanguage())).toLowerCase();
+      if (!vernacularNames.containsKey(id)){
+        vernacularNames.put(id, Lists.<VernacularName>newArrayList());
+      }
+      vernacularNames.get(id).add(v);
+    }
+  }
+
+  /**
    * Retrieve all TypeSpecimen for this usage. Iterate through them. Count the number of times each different
    * typeStatus appears. Store this information in a map, key=typeStatus and value=count. This map is used in the .ftl
    * to filter the TypeSpecimen.
@@ -264,5 +289,9 @@ public class DetailAction extends UsageAction {
 
   public Map<String, Integer> getTypeStatusCounts() {
     return typeStatusCounts;
+  }
+
+  public Map<String, List<VernacularName>> getVernacularNames() {
+    return vernacularNames;
   }
 }

@@ -101,20 +101,21 @@
 
     </div>
     <div class="right">
-    <#if (usage.vernacularNames?size>0)>
+    <#if (vernacularNames?size>0)>
       <h3>Common names</h3>
       <ul>
         <#assign more=false/>
-        <#list usage.vernacularNames as v>
-          <#if v.vernacularName?has_content>
-            <li>${v.vernacularName} <span class="small">${v.language!}</span> <@common.usageSource component=v showChecklistSource=nub /> </li>
-          </#if>
-          <#if v_index==8>
+        <#list vernacularNames?keys as vk>
+          <#assign names=vernacularNames.get(vk)/>
+          <#assign v=names[0]/>
+          <li>${v.vernacularName} <span class="small">${v.language!}</span> <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() /> </li>
+          <#if vk_index==8>
             <#assign more=true/>
             <#break />
           </#if>
         </#list>
       </ul>
+
       <#if more>
         <p><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></p>
       </#if>
