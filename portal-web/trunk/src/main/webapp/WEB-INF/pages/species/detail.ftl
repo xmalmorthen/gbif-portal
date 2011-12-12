@@ -80,7 +80,7 @@
 
       <#if usage.isExtinct()??>
         <h3>Extinction Status</h3>
-        <p>${usage.isExtinct()?string("extinct","living")}</p>
+        <p>${usage.isExtinct()?string("Extinct","Living")}</p>
       </#if>
 
       <#if (usage.livingPeriods?size>0)>
@@ -99,7 +99,7 @@
 
       <#if (usage.threatStatus?size>0)>
         <h3>Threat Status</h3>
-        <p><#list usage.threatStatus as t>${t}<#if t_has_next>; </#if></#list></p>
+        <p><#list usage.threatStatus as t><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#list></p>
       </#if>
 
     <#list usage.descriptions as d>
@@ -425,11 +425,13 @@
           <#if (d_index % 2) == 0>
             <div>
               <p class="no_bottom">
-                <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
+                <a href="#">${d.locationId!} ${d.country!} ${d.locality!}</a>
                 <@common.usageSource component=d showChecklistSource=nub />
               </p>
 
-              <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
+              <p class="note semi_bottom">${d.lifeStage!} ${d.temporal!} ${d.status!"Present"}
+              <#if d.threatStatus??><@s.text name="enum.threatstatus.${d.threatStatus}"/></#if>
+               ${d.establishmentMeans!} ${d.appendixCites!}</p>
             </div>
           </#if>
         <#-- only show 10 distributions at max. If we have 10 (index=9) we know there are more to show -->
