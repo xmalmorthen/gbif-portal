@@ -8,7 +8,8 @@
     <p class="note semi_bottom">${ts.locality}</p>
     </#if>
   <p class="light_note">
-    <#assign props2 = {'Type designated by:':'${ts.typeDesignatedBy!""}',
+    <#assign props2 = {'Type designation type:':'${ts.typeDesignationType!""}',
+    'Type designated by:':'${ts.typeDesignatedBy!""}',
     'Label:':'${ts.verbatimLabel!""}',
     'Event date:':'${ts.verbatimEventDate!""}',
     'Taxon rank:':'${ts.taxonRank!""}',
