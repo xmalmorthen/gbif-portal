@@ -1,5 +1,25 @@
-*** Vizzuality code notes ***
+GBIF-Portal
+--------------------------
 
+*** How to serve checklistbank data from local db ***
+
+If you want the Portal to serve checklistbank data coming from your local checklistbank database, you need to start the
+checklistbank-ws specifying the right profile in your ~/.m2/settings.xml file (see README in checklistbank-ws for more
+instructions). Also, be sure to use a different port for the WS then the one used for running the Portal. For example:
+
+# mvn clean -Pchecklistbank-local-development -Djetty.port=8081 jetty:run
+
+In the gbif-portal/pom.xml, you need to modify the following line specifying the right WS url:
+
+<checklistbank.ws.url>http://localhost:8081</checklistbank.ws.url>
+
+Finally, the Portal can be run:
+
+#  mvn clean jetty:run
+
+
+
+*** Vizzuality code notes ***
 
 == original Ruby code
 code at GitHub:
