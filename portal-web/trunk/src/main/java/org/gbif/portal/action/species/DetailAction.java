@@ -28,7 +28,6 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import org.apache.commons.lang.StringUtils;
 
 public class DetailAction extends UsageAction {
 
@@ -178,7 +177,7 @@ public class DetailAction extends UsageAction {
     // get typeSpecimens type status counts
     List<TypeSpecimen> allTypeSpecimen = typeSpecimenService.listByUsage(id, null).getResults();
     for (TypeSpecimen ts : allTypeSpecimen) {
-      String typeStatus = StringUtils.trimToNull(ts.getTypeStatus());
+      String typeStatus = Strings.emptyToNull(ts.getTypeStatus());
       if (typeStatus != null) {
         if (typeStatusCounts.containsKey(typeStatus)) {
           int count = typeStatusCounts.get(typeStatus);
