@@ -1,12 +1,9 @@
 <#if ts.citation?has_content>
-<p class="note semi_bottom">${ts.citation}</p>
+  <p class="note semi_bottom">${ts.citation}</p>
+<#else>
   <#if ts.locality?has_content>
-  <p class="note semi_bottom">${ts.locality}</p>
-  </#if>
-  <#else>
-    <#if ts.locality?has_content>
     <p class="note semi_bottom">${ts.locality}</p>
-    </#if>
+  </#if>
   <p class="light_note">
     <#assign props2 = {'Type designation type:':'${ts.typeDesignationType!""}',
     'Type designated by:':'${ts.typeDesignatedBy!""}',
