@@ -58,7 +58,7 @@
             <ul class="taxonomy">
             <#assign classification=u.higherClassificationMap />            
             <#list classification?keys as usageKey>
-              <li<#if !usageKey_has_next>class="last"</#if>><a class="higherTaxonLink" key="${usageKey}" href="#">${classification.get(usageKey)!"???"}</a></li>
+              <li<#if !usageKey_has_next>class="last"</#if>><a class="higherTaxonLink" title="Add as higher taxon filter" key="${usageKey}" href="#">${classification.get(usageKey)!"???"}</a></li>
             </#list>             
             </ul>
           </div>
