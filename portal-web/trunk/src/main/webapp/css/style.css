@@ -7365,3 +7365,7 @@ body.singlemap a.zoom_out:hover {
     font-weight: bold !important;
     font-style: italic !important;
 }
+
+.selectedSeparator{
+	border:1px dashed #EEEEEE;
+}

@@ -12,7 +12,12 @@
   <content tag="infoband">
     <h2>Search species</h2>
     <form action="<@s.url value='/species/search'/>" method="GET">
-      <input type="text" name="q"/>
+      <input type="text" name="q" value="${q!}"/>
+      <#list facets?keys as facetFilter>
+        <#list facets.get(facetFilter) as filterValue>
+       <input type="hidden" name="${facetFilter!?lower_case}" value="${filterValue.name!}"/>        	
+        </#list>
+      </#list>
     </form>
   </content>
 
@@ -94,14 +99,31 @@
               <h4><@s.text name="search.facet.${facetName}" /></h4>
               <div class="facet">
               <ul id="facetfilter${facetName}">
-              <#list facetCounts[facetName] as count>
-                <#if (count_index > MaxFacets)>
+              <#assign displayedFacets=0>
+              <#list selectedFacetCounts[facetName] as count>
+              	<#if (displayedFacets > MaxFacets)>
                   <#break>
-                </#if>                
+                </#if>
+              	<#assign displayedFacets = displayedFacets + 1>                             
                 <li>
                 	<a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-                	<input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>
+                	<input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}" checked/>
                 </li>
+              </#list>
+              <#if (displayedFacets > 0)>
+                  <hr class="selectedSeparator"/>
+                </#if>
+              <#list facetCounts[facetName] as count>
+                <#if (displayedFacets > MaxFacets)>
+                  <#break>
+                </#if>
+                <#if !(action.isInFilter(facetName,count.name))>
+	                <#assign displayedFacets = displayedFacets + 1>                
+	                <li>
+	                	<a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
+	                	<input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}"/>
+	                </li>
+                </#if>
               </#list>
               </ul>
               <#if (facetCounts[facetName]?size > MaxFacets)>

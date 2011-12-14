@@ -9,6 +9,7 @@
 package org.gbif.portal.action;
 
 import org.gbif.api.search.facets.Facet;
+import org.gbif.api.search.facets.Facet.Count;
 import org.gbif.api.search.model.SearchRequest;
 import org.gbif.api.search.model.SearchResponse;
 import org.gbif.api.search.service.SearchService;
@@ -35,10 +36,9 @@ import static org.gbif.common.search.util.SearchConstants.HTTP_AND_OP;
  * - Execution of the search request using an instance of {@link SearchService}.
  * - Holds the user selected values of a facet.
  * - Provides the required information for displaying the facet counts.
- *
+ * 
  * @param <T> type of the results content
  * @param <F> Enum that contains the valid facets
- *
  * @see BaseSearchAction
  */
 public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends BaseSearchAction<T> {
@@ -73,9 +73,9 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
 
   /**
    * Default constructor for this class.
-   *
+   * 
    * @param searchService an instance of search service
-   * @param facetEnum     the type of the {@link Enum} used for facets
+   * @param facetEnum the type of the {@link Enum} used for facets
    */
   protected BaseFacetedSearchAction(SearchService<T> searchService, Class<? extends Enum<F>> facetEnum) {
     this.searchService = searchService;
@@ -110,7 +110,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   /**
    * Creates a query string that contains the default facet filter parameters.
    * The resulting string will have the form: facetParam1=value1&facetParam2=value2.
-   *
+   * 
    * @return a string containing the list of default facet filter parameters.
    */
   private String buildDefaultFacetsFiltersQuery() {
@@ -153,7 +153,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     searchResponse = searchService.search(searchRequest);
     // initializes the elements required by the UI
     initializeFacetCounts(searchResponse);
-
+    // Remove selected facet filters that are not part of the response
+    removeNotShownFacetsFilters(searchResponse);
     LOG.info("Search for [{}] returned {} results", this.getQ(), searchResponse.getCount());
     return SUCCESS;
   }
@@ -169,7 +170,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   /**
    * This method should return a map containing the default filter parameters for the first time that the page is
    * loaded
-   *
+   * 
    * @return a map containing default values for facets filters
    */
   public abstract Map<Enum<F>, List<FacetInstance>> getDefaultFacetsFilters();
@@ -178,7 +179,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Returns the default facet filters query section.
    * If initDefault==true returns the value of variable "defaultFacetFilterQuery".
    * If initDefault==false returns an empty string.
-   *
+   * 
    * @return the default facet filter query
    */
   public String getDefaultFacetsFiltersQuery() {
@@ -197,7 +198,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * </#list>
    * In the previous example the selected elements of a "select" element will be populated by using the list of
    * counts of the facet 'RANK'.
-   *
+   * 
    * @return the facetCounts
    */
   public Map<String, List<FacetInstance>> getFacetCounts() {
@@ -206,9 +207,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
 
   /**
    * Returns the Enum literal that has the name "facetName"
-   *
+   * 
    * @param facetName the name of the facet.
-   *
    * @return an Enum<F> instance, null if the facetName is not found.
    */
   private Enum<F> getFacetFromString(String facetName) {
@@ -228,13 +228,12 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * <select id="RANK_FACET" name="facets['RANK']" multiple>
    * In the previous example the selected elements of a "select" element will be stored as an array of String
    * accessible using the key 'RANK'.
-   *
+   * 
    * @return the facets selected values.
    */
   public Map<Enum<F>, List<FacetInstance>> getFacets() {
     return facets;
   }
-
 
   public int getMaxFacets() {
     return MAX_FACETS;
@@ -242,16 +241,38 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
 
   /**
    * Analyzed the request to determine if parameters should be added from the request parameters.
-   *
+   * 
    * @return a {@link Multimap} containing the parameters
    */
   public abstract Multimap<String, String> getRequestParameters();
+
+
+  /**
+   * Gets (calculated field) the facet counts that were previously selected.
+   * 
+   * @return the selected facet counts if any
+   */
+  public Map<String, List<FacetInstance>> getSelectedFacetCounts() {
+    HashMap<String, List<FacetInstance>> selectedFacetCounts = new HashMap<String, List<FacetInstance>>();
+    if (facetCounts != null) {
+      for (String facet : facetCounts.keySet()) {
+        List<FacetInstance> selectedFacets = new ArrayList<FacetInstance>();
+        for (FacetInstance facetInstance : facetCounts.get(facet)) {
+          if (isInFilter(facet, facetInstance.getName())) {
+            selectedFacets.add(facetInstance);
+          }
+        }
+        selectedFacetCounts.put(facet, selectedFacets);
+      }
+    }
+    return selectedFacetCounts;
+  }
 
   /**
    * By using the response object, this method initializes the facetCounts field.
    * If the response object contains facets, iterates over the facets for copying the count information into the
    * facetCounts (see {@link Facet.Count}) field.
-   *
+   * 
    * @param response the response gotten after executing the search operation.
    */
   private void initializeFacetCounts(final SearchResponse<T> response) {
@@ -266,7 +287,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
 
   /**
    * Checks if a facet value is already selected in the current selected filters.
-   *
+   * 
    * @param facetName the facet name according to
    */
   public boolean isInFilter(String facetName, String facetKey) {
@@ -292,8 +313,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Utility function that sets facet titles.
    * The function uses a function parameter to accomplish this task.
    * The getTitleFunction could provide the actual communication with the service later to provide the required title.
-   *
-   * @param facet            the facet
+   * 
+   * @param facet the facet
    * @param getTitleFunction function that returns title using a facet name
    */
   protected void lookupFacetTitles(Enum<F> facet, Function<String, String> getTitleFunction) {
@@ -359,9 +380,39 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     }
   }
 
+
+  /**
+   * Removes the facet filters that are not part of the facets in the response object.
+   * 
+   * @param searchResponse to analyze facets results
+   */
+  private void removeNotShownFacetsFilters(SearchResponse<T> searchResponse) {
+    for (Enum<F> facetFilter : this.facets.keySet()) {
+      List<FacetInstance> values = this.facets.get(facetFilter);
+      List<FacetInstance> filteredValues = new ArrayList<FacetInstance>();
+      for (FacetInstance facetInstance : values) {
+        boolean filterFound = false;
+        for (Facet facet : searchResponse.getFacets()) {
+          if (facet.getField().equalsIgnoreCase(facetFilter.name())) {
+            for (Count count : facet.getCounts()) {
+              if (count.getName().equals(facetInstance.getName())) {
+                filterFound = true;
+                break;
+              }
+            }
+          }
+        }
+        if (filterFound) {
+          filteredValues.add(facetInstance);
+        }
+      }
+      this.facets.put(facetFilter, filteredValues);
+    }
+  }
+
   /**
    * Flag that indicates if the default filter parameters should be initialized
-   *
+   * 
    * @param initDefault the initDefault to set
    */
   public void setInitDefault(boolean initDefault) {
