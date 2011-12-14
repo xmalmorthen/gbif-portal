@@ -395,7 +395,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
         for (Facet facet : searchResponse.getFacets()) {
           if (facet.getField().equalsIgnoreCase(facetFilter.name())) {
             for (Count count : facet.getCounts()) {
-              if (count.getName().equals(facetInstance.getName())) {
+              if ((count.getName() != null) || count.getName().equals(facetInstance.getName())) {
                 filterFound = true;
                 break;
               }
