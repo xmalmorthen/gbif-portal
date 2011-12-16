@@ -34,8 +34,7 @@
   <url>http://sites.gbif.org/portal/portal-web</url>
 
   <properties>
-    <!--<checklistbank.ws.url>http://staging.gbif.org:8080/checklistbank-ws/</checklistbank.ws.url>-->
-    <checklistbank.ws.url>http://localhost:8081</checklistbank.ws.url>
+    <checklistbank.ws.url>http://staging.gbif.org:8080/checklistbank-ws/</checklistbank.ws.url>
     <checklistbank.search.ws.url>http://staging.gbif.org:8080/checklistbank-search-ws/</checklistbank.search.ws.url>
     <registry.ws.url>http://staging.gbif.org:8080/registry-ws-api-compatible/</registry.ws.url>
     <registry.search.ws.url>http://staging.gbif.org:8080/registry-search-ws/</registry.search.ws.url>
