@@ -11,7 +11,7 @@
 <body class="search">  
   <content tag="infoband">
     <h2>Search species</h2>
-    <form action="<@s.url value='/species/search'/>" method="GET">
+    <form action="<@s.url value='/species/search'/>" method="GET" id="formSearch">
       <input type="text" name="q" value="${q!}"/>
       <#list facets?keys as facetFilter>
         <#list facets.get(facetFilter) as filterValue>
@@ -91,7 +91,9 @@
           </div>
         </div>
 	   </#if>
-
+		<div class="refine">
+			<input id="removeAllFacets" value="reset" type="button"/>
+		</div>
         <#list ["HIGHERTAXON","RANK","CHECKLIST","TAXSTATUS","EXTINCT","THREAT","HABITAT","MARINE"] as facetName>
                       
             <#if (facetCounts[facetName]?has_content && facetCounts[facetName]?size > 1)>

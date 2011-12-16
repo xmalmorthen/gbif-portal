@@ -19,6 +19,14 @@
 		 $(this).children('a').bindDialogPopover($facetDialog); 
 	  });
 
+	$('#removeAllFacets').click( function(event){
+		$('.facet input:checkbox').each( function(){this.checked = false});
+		$('#formSearch input:hidden').remove();
+		$('#formSearch').append('<input type="hidden" name="initDefault" value="true"/>');
+		$('#formSearch').submit();
+		showWaitDialog();
+	});
+	
     $('.higherTaxonLink').click( function(event){
       event.preventDefault();
       addFacet('highertaxon', $(this).attr('key'));
