@@ -15,7 +15,7 @@
       <input type="text" name="q" value="${q!}"/>
       <#list facets?keys as facetFilter>
         <#list facets.get(facetFilter) as filterValue>
-       <input type="hidden" name="${facetFilter!?lower_case}" value="${filterValue.name!}"/>        	
+        <input type="hidden" name="${facetFilter!?lower_case}" value="${filterValue.name!}"/>        	
         </#list>
       </#list>
     </form>

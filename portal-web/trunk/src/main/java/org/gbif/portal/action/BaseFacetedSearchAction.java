@@ -9,7 +9,6 @@
 package org.gbif.portal.action;
 
 import org.gbif.api.search.facets.Facet;
-import org.gbif.api.search.facets.Facet.Count;
 import org.gbif.api.search.model.SearchRequest;
 import org.gbif.api.search.model.SearchResponse;
 import org.gbif.api.search.service.SearchService;
@@ -154,9 +153,26 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     // initializes the elements required by the UI
     initializeFacetCounts(searchResponse);
     // Remove selected facet filters that are not part of the response
-    removeNotShownFacetsFilters(searchResponse);
+    // removeNotShownFacetsFilters(searchResponse);
     LOG.info("Search for [{}] returned {} results", this.getQ(), searchResponse.getCount());
     return SUCCESS;
+  }
+
+  /**
+   * Searches for facetInstance.name in the list of FacetInstances.
+   * 
+   * @param facetInstance to find
+   * @param facetInstances list of items to search
+   * @return true/false if the facetInstance.name exists in the facetInstances
+   */
+  private boolean existFacetByName(FacetInstance facetInstance, List<FacetInstance> facetInstances) {
+    boolean facetFound = false;
+    for (FacetInstance faceInstanceSelected : facetInstances) {
+      if (faceInstanceSelected.getName() != null && faceInstanceSelected.getName().equals(facetInstance.getName())) {
+        return facetFound = true;
+      }
+    }
+    return facetFound;
   }
 
   /**
@@ -239,13 +255,13 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     return MAX_FACETS;
   }
 
+
   /**
    * Analyzed the request to determine if parameters should be added from the request parameters.
    * 
    * @return a {@link Multimap} containing the parameters
    */
   public abstract Multimap<String, String> getRequestParameters();
-
 
   /**
    * Gets (calculated field) the facet counts that were previously selected.
@@ -263,6 +279,15 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
           }
         }
         selectedFacetCounts.put(facet, selectedFacets);
+      }
+    }
+    for (Enum<F> facet : this.facets.keySet()) {
+      for (FacetInstance facetInstance : this.facets.get(facet)) {
+        boolean facetFound = existFacetByName(facetInstance, selectedFacetCounts.get(facet.name()));
+        if (!facetFound) {
+          facetInstance.setCount(0L);
+          selectedFacetCounts.get(facet.name()).add(0, facetInstance);
+        }
       }
     }
     return selectedFacetCounts;
@@ -377,36 +402,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     }
     if (this.initDefault) {
       this.facets.putAll(this.getDefaultFacetsFilters());
-    }
-  }
-
-
-  /**
-   * Removes the facet filters that are not part of the facets in the response object.
-   * 
-   * @param searchResponse to analyze facets results
-   */
-  private void removeNotShownFacetsFilters(SearchResponse<T> searchResponse) {
-    for (Enum<F> facetFilter : this.facets.keySet()) {
-      List<FacetInstance> values = this.facets.get(facetFilter);
-      List<FacetInstance> filteredValues = new ArrayList<FacetInstance>();
-      for (FacetInstance facetInstance : values) {
-        boolean filterFound = false;
-        for (Facet facet : searchResponse.getFacets()) {
-          if (facet.getField().equalsIgnoreCase(facetFilter.name())) {
-            for (Count count : facet.getCounts()) {
-              if ((count.getName() != null) && count.getName().equals(facetInstance.getName())) {
-                filterFound = true;
-                break;
-              }
-            }
-          }
-        }
-        if (filterFound) {
-          filteredValues.add(facetInstance);
-        }
-      }
-      this.facets.put(facetFilter, filteredValues);
     }
   }
 

@@ -36,7 +36,8 @@
     		var location = window.location.toString();
     		$('.facet input:checkbox').each(function(){$(this).attr('disabled','true');});
     		showWaitDialog();
-    		if(this.checked){
+    		$('input:hidden[value='+ this.value +']').remove();
+    		if(this.checked){    			
     			location =  location + this.value;
     		}else{    			
     			location = location.replace(this.value,'');    			
