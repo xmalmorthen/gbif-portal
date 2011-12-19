@@ -7,6 +7,13 @@
     <script type="text/javascript" src="<@s.url value='/js/facets.js'/>">
     </script>
   </content>
+  <style type="text/css">
+#removeAllFacets{
+  clear: both;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+  </style>
 </head>
 <body class="search">  
   <content tag="infoband">
@@ -95,32 +102,36 @@
         </div>
 	     </#if>
 	     -->
-		<div class="refine">
-			<input id="removeAllFacets" value="reset" type="button"/>
-		</div>
-        <#list ["HIGHERTAXON","RANK","CHECKLIST","TAXSTATUS","EXTINCT","THREAT","HABITAT","MARINE"] as facetName>
-                      
+
+			<div>
+        <input id="removeAllFacets" value="reset" type="button"/>
+			</div>
+
+        <#assign seeAllFacets = ["HIGHERTAXON","RANK","CHECKLIST"]>
+        <#list ["HIGHERTAXON","RANK","CHECKLIST","TAXSTATUS","EXTINCT","THREAT","MARINE"] as facetName>
+          <#assign displayedFacets=0>
+          <#assign seeAll=false>
+
             <#if (facetCounts[facetName]?has_content && facetCounts[facetName]?size > 1)>
              <div class="refine">
               <h4><@s.text name="search.facet.${facetName}" /></h4>
               <div class="facet">
                 <ul id="facetfilter${facetName}">
-                <#assign displayedFacets=0>
                 <#list selectedFacetCounts[facetName] as count>
-                  <#if (displayedFacets > MaxFacets)>
-                    <#break>
-                  </#if>
                   <#assign displayedFacets = displayedFacets + 1>
                   <li>
                     <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
                     <input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}" checked/>
                   </li>
                 </#list>
+                <#--
                 <#if (displayedFacets > 0)>
                     <hr class="selectedSeparator"/>
-                  </#if>
+                </#if>
+                -->
                 <#list facetCounts[facetName] as count>
-                  <#if (displayedFacets > MaxFacets)>
+                  <#if seeAllFacets?seq_contains(facetName) && (displayedFacets > MaxFacets)>
+                    <#assign seeAll=true>
                     <#break>
                   </#if>
                   <#if !(action.isInFilter(facetName,count.name))>
@@ -131,11 +142,10 @@
                     </li>
                   </#if>
                 </#list>
-                </ul>
-                <#if (facetCounts[facetName]?size > MaxFacets)>
-                  <div class="facetPanel">
-                      <a href="#">see all...</a>
-                     <div class="infowindow dialogPopover" style="z-index:100000">
+                <#if seeAll>
+                  <li class="seeAllFacet">
+                    <a class="seeAllLink" href="#">&nbsp;&nbsp;see all ...</a>
+                    <div class="infowindow dialogPopover" style="z-index:100000">
                         <div class="lheader"></div>
                         <span class="close"></span>
                         <div class="content">
@@ -151,15 +161,18 @@
                        </div>
                        <div class="lfooter"></div>
                      </div>
-                   </div>
+                  </li>
                 </#if>
+                </ul>
               </div>
              </div>
             </#if>                      
         </#list>
 	   
-        <a href="#" title="Add another criterion" class="add_criteria placeholder_temp">Add another criterion <span class="more"></span></a>
-	
+        <div class="last">
+          <a href="#" title="Add another criterion" class="add_criteria placeholder_temp">Add another criterion <span class="more"></span></a>
+	      </div>
+
         <div class="download placeholder_temp">
           <div class="dropdown">
             <a href="#" class="title" title="Download list"><span>Download list</span></a>

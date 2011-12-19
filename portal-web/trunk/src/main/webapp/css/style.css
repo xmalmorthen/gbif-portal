@@ -4967,6 +4967,10 @@ a.next_slide:hover {
   font-size: 13px;
 }
 
+#content .right div.last{
+  margin-bottom: 80px;
+}
+
 #content article.results .content .right .add_criteria {
   position: relative;
   font-size: 15px;
@@ -5008,7 +5012,7 @@ a.next_slide:hover {
   clear: both;
   overflow: hidden;
   margin-bottom: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 0px;
   border-bottom: 1px solid #eee;
 }
 

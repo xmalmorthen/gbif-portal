@@ -14,9 +14,8 @@
  * limitations under the License.
  */  	
   $(function() {	  		  
-	  $('.facetPanel').each( function(){		
-		 var $facetDialog = $(this).children('.dialogPopover').first(); 
-		 $(this).children('a').bindDialogPopover($facetDialog); 
+	  $('.seeAllFacet').each( function(){
+		 $("a.seeAllLink", this).bindDialogPopover($("div.dialogPopover", this));
 	  });
 
 	$('#removeAllFacets').click( function(event){
@@ -27,12 +26,14 @@
 		showWaitDialog();
 	});
 	
+    // activates higher taxon links
     $('.higherTaxonLink').click( function(event){
       event.preventDefault();
       addFacet('highertaxon', $(this).attr('key'));
 	  });
 
-    $('.facet ul li').each( function(){
+    // toggle facet box
+    $('.facet ul li:not([class])').each( function(){
     	var thisLi = this;
     	$('a',thisLi).click( function(event){
     		event.preventDefault();
