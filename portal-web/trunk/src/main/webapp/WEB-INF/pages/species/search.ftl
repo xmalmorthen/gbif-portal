@@ -74,9 +74,12 @@
           <@macro.pagination page=searchResponse url=currentUrl/>
         </div>
       </div>
+
+
       <div class="right">
-      <#if (facets?has_content)>      		
-		<div class="refine">
+        <#--
+       <#if (facets?has_content)>
+		    <div class="refine">
           <h4>Selected filters: </h4>
           <div id="selectedFilters" class="facet">                               
           <#list facets?keys as facetFilter>
@@ -90,7 +93,8 @@
           </#list>                                      
           </div>
         </div>
-	   </#if>
+	     </#if>
+	     -->
 		<div class="refine">
 			<input id="removeAllFacets" value="reset" type="button"/>
 		</div>
@@ -100,57 +104,57 @@
              <div class="refine">
               <h4><@s.text name="search.facet.${facetName}" /></h4>
               <div class="facet">
-              <ul id="facetfilter${facetName}">
-              <#assign displayedFacets=0>
-              <#list selectedFacetCounts[facetName] as count>
-              	<#if (displayedFacets > MaxFacets)>
-                  <#break>
-                </#if>
-              	<#assign displayedFacets = displayedFacets + 1>                             
-                <li>
-                	<a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-                	<input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}" checked/>
-                </li>
-              </#list>
-              <#if (displayedFacets > 0)>
-                  <hr class="selectedSeparator"/>
-                </#if>
-              <#list facetCounts[facetName] as count>
-                <#if (displayedFacets > MaxFacets)>
-                  <#break>
-                </#if>
-                <#if !(action.isInFilter(facetName,count.name))>
-	                <#assign displayedFacets = displayedFacets + 1>                
-	                <li>
-	                	<a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-	                	<input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}"/>
-	                </li>
-                </#if>
-              </#list>
-              </ul>
-              <#if (facetCounts[facetName]?size > MaxFacets)>
-                <div class="facetPanel">
-                    <a href="#">see all...</a>
-                   <div class="infowindow dialogPopover" style="z-index:100000">
-                      <div class="lheader"></div>
-                      <span class="close"></span>
-                      <div class="content">
-                        <h2>Filter by <@s.text name="search.facet.${facetName}" /></h2>
-                       <ul>
-                         <#list facetCounts[facetName] as count>
-                        <li>
-                        	<a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-                			<input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>
-                        </li>
-                        </#list>
-                       </ul>
+                <ul id="facetfilter${facetName}">
+                <#assign displayedFacets=0>
+                <#list selectedFacetCounts[facetName] as count>
+                  <#if (displayedFacets > MaxFacets)>
+                    <#break>
+                  </#if>
+                  <#assign displayedFacets = displayedFacets + 1>
+                  <li>
+                    <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
+                    <input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}" checked/>
+                  </li>
+                </#list>
+                <#if (displayedFacets > 0)>
+                    <hr class="selectedSeparator"/>
+                  </#if>
+                <#list facetCounts[facetName] as count>
+                  <#if (displayedFacets > MaxFacets)>
+                    <#break>
+                  </#if>
+                  <#if !(action.isInFilter(facetName,count.name))>
+                    <#assign displayedFacets = displayedFacets + 1>
+                    <li>
+                      <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
+                      <input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}"/>
+                    </li>
+                  </#if>
+                </#list>
+                </ul>
+                <#if (facetCounts[facetName]?size > MaxFacets)>
+                  <div class="facetPanel">
+                      <a href="#">see all...</a>
+                     <div class="infowindow dialogPopover" style="z-index:100000">
+                        <div class="lheader"></div>
+                        <span class="close"></span>
+                        <div class="content">
+                          <h2>Filter by <@s.text name="search.facet.${facetName}" /></h2>
+                         <ul>
+                           <#list facetCounts[facetName] as count>
+                          <li>
+                            <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
+                        <input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>
+                          </li>
+                          </#list>
+                         </ul>
+                       </div>
+                       <div class="lfooter"></div>
                      </div>
-                     <div class="lfooter"></div>
                    </div>
-                 </div>
-              </#if>
+                </#if>
               </div>
-              </div>
+             </div>
             </#if>                      
         </#list>
 	   
