@@ -28,7 +28,7 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
     // do we want a search across all checklists?
     if (!searchNub) {
       // TODO: doesnt seem to work. Maybe some javascript fix needed?
-      driver.findElement(By.id("selectedFilters")).findElement(By.cssSelector("a")).click();
+      driver.findElement(By.id("facetfilterCHECKLIST")).findElement(By.cssSelector("a")).click();
     }
 
     // main content div on page
