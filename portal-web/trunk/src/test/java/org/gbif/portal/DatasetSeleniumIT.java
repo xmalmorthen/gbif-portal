@@ -1,5 +1,6 @@
 package org.gbif.portal;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -13,6 +14,7 @@ public class DatasetSeleniumIT extends SeleniumTestBase {
    * the details page for the selected dataset is shown.
    */
   @Test
+  @Ignore
   public void testSearchForAnyDataset() {
     getDriver().get(getBaseUrl());
     getDriver().findElement(By.linkText("Datasets")).click();
