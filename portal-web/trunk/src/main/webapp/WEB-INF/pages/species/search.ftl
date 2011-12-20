@@ -193,7 +193,7 @@
 		  <div class="content" >
 		    <h3>Processing request</h3>
 		    <p>Wait while your request is processed...	
-		    <img src="/img/ajax-loader.gif"/></p>
+		    <img src="<@s.url value='/img/ajax-loader.gif'/>"/></p>
 		 </div>
 	 </div>	 
    </div>         
