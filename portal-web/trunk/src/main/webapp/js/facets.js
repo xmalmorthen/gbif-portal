@@ -18,10 +18,10 @@
 		 $("a.seeAllLink", this).bindDialogPopover($("div.dialogPopover", this));
 	  });
 
-	$('#removeAllFacets').click( function(event){
+	$('#resetFacetsButton').click( function(event){
 		$('.facet input:checkbox').each( function(){this.checked = false});
 		$('#formSearch input:hidden').remove();
-		$('#formSearch').append('<input type="hidden" name="initDefault" value="true"/>');
+    $('#resetFacets input.defaultFacet').appendTo($('#formSearch'));
 		$('#formSearch').submit();
 		showWaitDialog();
 	});
@@ -33,6 +33,7 @@
 	  });
 
     // toggle facet box
+    // requires global cfg variable to exist
     $('.facet ul li:not([class])').each( function(){
     	var thisLi = this;
     	$('a',thisLi).click( function(event){
@@ -42,17 +43,18 @@
     		$('input',thisLi).click();
     	});
     	$('input',thisLi).click( function(event){    		
-    		var location = window.location.toString();
-    		$('.facet input:checkbox').each(function(){$(this).attr('disabled','true');});
+    		var location = cfg.currentUrl;
+        console.log(location);
+        console.log(cfg);
+    		$('.facet input:checkbox').each(function(){
+          $(this).attr('disabled','true');
+        });
     		showWaitDialog();
     		$('input:hidden[value='+ this.value +']').remove();
     		if(this.checked){    			
     			location =  location + this.value;
     		}else{    			
     			location = location.replace(this.value,'');    			
-    		}
-    		if(location.indexOf("initDefault=false") < 0){
-    			location = location + "&initDefault=false";
     		}
     		window.location= location;
     	})
@@ -132,9 +134,6 @@
 		    values.push(pairs[i]);		    
 		  }
 		}
-		if($.inArray("initDefault=false",values) < 0 ){
-		 values.push("initDefault=false");
-		}
-		return values;	
+		return values;
 	  };
   })

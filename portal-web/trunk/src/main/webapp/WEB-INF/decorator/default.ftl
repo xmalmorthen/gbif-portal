@@ -19,6 +19,7 @@
     <#-- dynamic js configuration, so we can use java configs in js -->
     var cfg = new Object();
     cfg.context="<@s.url value="/"/>";
+    cfg.currentUrl="${currentUrl!}";
     cfg.baseUrl = "${baseUrl!}";
     cfg.wsClb="${cfg.wsClb!}";
     cfg.wsClbSearch="${cfg.wsClbSearch!}";

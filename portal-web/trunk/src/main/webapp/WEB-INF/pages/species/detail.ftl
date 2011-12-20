@@ -352,7 +352,7 @@
           </#list>
         </ul>
         <#if more>
-          <p><a class="more_link" href="<@s.url value='/species/search?nubKey=${usage.nubKey?c}&checklistKey=all'/>">see all</a></p>
+          <p><a class="more_link" href="<@s.url value='/species/search?nubKey=${usage.nubKey?c}'/>">see all</a></p>
         </#if>
       </div>
     </div>

@@ -19,17 +19,12 @@ import org.gbif.checklistbank.api.service.NameUsageService;
 import org.gbif.checklistbank.vocabulary.converter.TaxonomicStatusConverter;
 import org.gbif.checklistbank.vocabulary.converter.ThreatStatusConverter;
 import org.gbif.portal.action.BaseFacetedSearchAction;
-import org.gbif.portal.model.FacetInstance;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 
@@ -41,9 +36,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private static final String CHECKLIST_KEY_PARAM = "checklistKey";
   private static final String NUB_KEY_PARAM = "nubKey";
   private static final long serialVersionUID = -3736915206911951300L;
-  private static final String ALL = "all";
   private Integer nubKey;
-  private String checklistKey;
   // injected
   private final NameUsageService usageService;
   private final ChecklistService checklistService;
@@ -65,59 +58,36 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     this.checklistService = checklistService;
     this.taxonomicStatusConverter = taxonomicStatusConverter;
     this.threatStatusConverter = threatStatusConverter;
-    this.initGetTitleFunctions();
+    initGetTitleFunctions();
   }
 
   @Override
   public String execute() {
-    if (this.nubKey != null) {
-      this.setInitDefault(false);
-    }
-    this.searchRequest.setMultiSelectFacets(true);
-    // Highlight is not enable for search all, this avoid get all the field highlighted
-    this.searchRequest.setHighlight(!this.getQ().isEmpty());
+    searchRequest.setMultiSelectFacets(true);
+    // Turn off highlighting for empty query strings
+    searchRequest.setHighlight(!getQ().isEmpty());
+
     super.execute();
 
     // replace higher taxon ids in facets with real names
-    this.lookupFacetTitles(ChecklistBankFacetParameter.HIGHERTAXON, getHigherTaxaTitle);
+    lookupFacetTitles(ChecklistBankFacetParameter.HIGHERTAXON, getHigherTaxaTitle);
 
     // replace checklist key with labels
-    this.lookupFacetTitles(ChecklistBankFacetParameter.CHECKLIST, getChecklistTitle);
+    lookupFacetTitles(ChecklistBankFacetParameter.CHECKLIST, getChecklistTitle);
 
     // replace taxonomic status keys with labels
-    this.lookupFacetTitles(ChecklistBankFacetParameter.TAXSTATUS, getTaxStatusTitle);
+    lookupFacetTitles(ChecklistBankFacetParameter.TAXSTATUS, getTaxStatusTitle);
 
     // replace extinct boolean values
-    this.lookupFacetTitles(ChecklistBankFacetParameter.EXTINCT, getBooleanTitle);
+    lookupFacetTitles(ChecklistBankFacetParameter.EXTINCT, getBooleanTitle);
 
     // replace marine boolean values
-    this.lookupFacetTitles(ChecklistBankFacetParameter.MARINE, getBooleanTitle);
+    lookupFacetTitles(ChecklistBankFacetParameter.MARINE, getBooleanTitle);
 
     // replace threat status keys values
-    this.lookupFacetTitles(ChecklistBankFacetParameter.THREAT, getThreatStatusTitle);
+    lookupFacetTitles(ChecklistBankFacetParameter.THREAT, getThreatStatusTitle);
 
     return SUCCESS;
-  }
-
-  /**
-   * @return the checklistKey
-   */
-  public String getChecklistKey() {
-    return checklistKey;
-  }
-
-  /*
-   * (non-Javadoc)
-   * @see org.gbif.portal.action.BaseFacetedSearchAction#getDefaultFacetsFilters()
-   */
-  @Override
-  public Map<Enum<ChecklistBankFacetParameter>, List<FacetInstance>> getDefaultFacetsFilters() {
-    Map<Enum<ChecklistBankFacetParameter>, List<FacetInstance>> map =
-      new HashMap<Enum<ChecklistBankFacetParameter>, List<FacetInstance>>();
-    List<FacetInstance> values = Lists.newArrayList();
-    values.add(new FacetInstance(Constants.NUB_TAXONOMY_KEY.toString()));
-    map.put(ChecklistBankFacetParameter.CHECKLIST, values);
-    return map;
   }
 
   /**
@@ -130,25 +100,19 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   @Override
   public Multimap<String, String> getRequestParameters() {
     Multimap<String, String> params = HashMultimap.create();
-    // if nubKey or checklistKey parameters exist, the initDefault flag is set to false
     if (nubKey != null) {
-      setInitDefault(false);
       params.put(NUB_KEY_PARAM, nubKey.toString());
-    }
-    if (checklistKey != null) {
-      setInitDefault(false);
-      // If checklistKey = "ALL" the Checklist facet should be removed to avoid filtering
-      if (checklistKey.equals(ALL)) {
-        if (getFacets() != null) {
-          getFacets().remove(ChecklistBankFacetParameter.CHECKLIST);
-        }
-      } else {
-        params.put(CHECKLIST_KEY_PARAM, checklistKey);
-      }
     }
     return params;
   }
 
+  @Override
+  protected String translateFacetValue(Enum<ChecklistBankFacetParameter> facet, String value) {
+    if (ChecklistBankFacetParameter.CHECKLIST.equals(facet) && value != null){
+      return value.equalsIgnoreCase("nub") ? Constants.NUB_TAXONOMY_KEY.toString() : value;
+    }
+    return value;
+  }
 
   /**
    * @return true if the checklist facet filter contains a single checklist only.
@@ -227,16 +191,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       }
     };
 
-  }
-
-
-  /**
-   * Request parameter for filtering results by checklistKey.
-   * 
-   * @param checklistKey the checklistKey to set
-   */
-  public void setChecklistKey(String checklistKey) {
-    this.checklistKey = checklistKey;
   }
 
 

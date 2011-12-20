@@ -9,16 +9,11 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.portal.action.BaseFacetedSearchAction;
-import org.gbif.portal.model.FacetInstance;
 import org.gbif.registry.api.model.search.DatasetSearchResult;
 import org.gbif.registry.api.model.search.RegistryFacetParameter;
 import org.gbif.registry.api.service.DatasetSearchService;
 
-import java.util.List;
-import java.util.Map;
-
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -42,11 +37,6 @@ public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, R
 
     LOG.debug("Found [{}] matching datasets", searchResponse.getCount());
     return SUCCESS;
-  }
-
-  @Override
-  public Map<Enum<RegistryFacetParameter>, List<FacetInstance>> getDefaultFacetsFilters() {
-    return Maps.newHashMap();
   }
 
   @Override

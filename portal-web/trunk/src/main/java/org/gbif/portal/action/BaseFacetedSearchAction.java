@@ -16,18 +16,17 @@ import org.gbif.portal.model.FacetInstance;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Function;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.gbif.common.search.util.QueryUtils.httpParamsJoiner;
-import static org.gbif.common.search.util.SearchConstants.HTTP_AND_OP;
 
 /**
  * Provides the basic structure and functionality for: free text search, paginated navigation and faceting navigation.
@@ -43,6 +42,8 @@ import static org.gbif.common.search.util.SearchConstants.HTTP_AND_OP;
 public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends BaseSearchAction<T> {
 
   private static final Logger LOG = LoggerFactory.getLogger(BaseFacetedSearchAction.class);
+  private static final Splitter querySplitter = Splitter.on("&").omitEmptyStrings();
+  private static final Splitter paramSplitter = Splitter.on("=");
 
   /**
    * Serial version
@@ -50,7 +51,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   private static final long serialVersionUID = -1573017190241712345L;
   private final Map<Enum<F>, List<FacetInstance>> facets = new HashMap<Enum<F>, List<FacetInstance>>();
   private final HashMap<String, List<FacetInstance>> facetCounts;
-  private boolean initDefault = true;
 
   /**
    * This constant restricts the maximum number of facet results to be displayed
@@ -62,11 +62,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * This instance is used to iterate over the possible literal values of the enumerated type.
    */
   private final Class<? extends Enum<F>> facetEnum;
-
-  /**
-   * This string is used to keep a pre-built filter query and avoid re-build it every time is need it.
-   */
-  private final String defaultFacetFilterQuery;
 
   private final SearchService<T> searchService;
 
@@ -80,7 +75,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     this.searchService = searchService;
     this.facetCounts = new HashMap<String, List<FacetInstance>>();
     this.facetEnum = facetEnum;
-    this.defaultFacetFilterQuery = this.buildDefaultFacetsFiltersQuery();
   }
 
   /**
@@ -107,28 +101,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   }
 
   /**
-   * Creates a query string that contains the default facet filter parameters.
-   * The resulting string will have the form: facetParam1=value1&facetParam2=value2.
-   * 
-   * @return a string containing the list of default facet filter parameters.
-   */
-  private String buildDefaultFacetsFiltersQuery() {
-    List<String> paramsList = new ArrayList<String>();
-    for (Enum<F> facet : this.getDefaultFacetsFilters().keySet()) {
-      for (FacetInstance facetInstance : this.getDefaultFacetsFilters().get(facet)) {
-        paramsList.add(facet.name().toLowerCase() + "=" + facetInstance.getName());
-      }
-    }
-    String queryString = "";
-    if (!paramsList.isEmpty()) {
-      paramsList.add("initDefault=false");
-      queryString = httpParamsJoiner.join(paramsList);
-      queryString = HTTP_AND_OP + queryString;
-    }
-    return queryString;
-  }
-
-  /**
    * Executes the default action behavior.
    * The steps taken on this method are:
    * - Creates a {@link SearchRequest} using the current {@link SearchRequest} instance
@@ -139,22 +111,22 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    */
   @Override
   public String execute() {
-    LOG.info("Search for [{}]", this.getQ());
+    LOG.info("Search for [{}]", getQ());
     // Request creation
     addFacetParameters();
     // default query parameters
-    searchRequest.setQ(this.getQ());
+    searchRequest.setQ(getQ());
     // adds parameters processed by subclasses
-    searchRequest.addParameter(this.getRequestParameters());
+    searchRequest.addParameter(getRequestParameters());
     // adds the language
-    searchRequest.setLanguage(this.getLocale().getLanguage());
+    searchRequest.setLanguage(getLocale().getLanguage());
     // issues the search operation
     searchResponse = searchService.search(searchRequest);
     // initializes the elements required by the UI
     initializeFacetCounts(searchResponse);
     // Remove selected facet filters that are not part of the response
     // removeNotShownFacetsFilters(searchResponse);
-    LOG.info("Search for [{}] returned {} results", this.getQ(), searchResponse.getCount());
+    LOG.info("Search for [{}] returned {} results", getQ(), searchResponse.getCount());
     return SUCCESS;
   }
 
@@ -181,28 +153,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    */
   public BaseAction getAction() {
     return this;
-  }
-
-  /**
-   * This method should return a map containing the default filter parameters for the first time that the page is
-   * loaded
-   * 
-   * @return a map containing default values for facets filters
-   */
-  public abstract Map<Enum<F>, List<FacetInstance>> getDefaultFacetsFilters();
-
-  /**
-   * Returns the default facet filters query section.
-   * If initDefault==true returns the value of variable "defaultFacetFilterQuery".
-   * If initDefault==false returns an empty string.
-   * 
-   * @return the default facet filter query
-   */
-  public String getDefaultFacetsFiltersQuery() {
-    if (this.initDefault) {
-      return this.defaultFacetFilterQuery;
-    }
-    return "";
   }
 
   /**
@@ -257,7 +207,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
 
 
   /**
-   * Analyzed the request to determine if parameters should be added from the request parameters.
+   * Analyze the request to determine if parameters should be added from the request parameters.
    * 
    * @return a {@link Multimap} containing the parameters
    */
@@ -328,13 +278,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   }
 
   /**
-   * @return the initDefault
-   */
-  public boolean isInitDefault() {
-    return initDefault;
-  }
-
-  /**
    * Utility function that sets facet titles.
    * The function uses a function parameter to accomplish this task.
    * The getTitleFunction could provide the actual communication with the service later to provide the required title.
@@ -388,32 +331,35 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   private void readFacetsFromRequest() {
     @SuppressWarnings("unchecked")
     Map<String, String[]> params = request.getParameterMap();
-    for (Enum<F> fEnum : facetEnum.getEnumConstants()) {
+
+    for (String p : params.keySet()) {
       // recognize facets by enum name
-      String pname = fEnum.name().toLowerCase();
-      if (params.containsKey(pname)) {
+      Enum<F> facet = findFacetEnum(p);
+      if (facet != null) {
         // facet filter found
         List<FacetInstance> values = Lists.newArrayList();
-        for (String v : params.get(pname)) {
-          values.add(new FacetInstance(v));
+        for (String v : params.get(p)) {
+          values.add(new FacetInstance(translateFacetValue(facet, v)));
         }
-        this.facets.put(fEnum, values);
+        this.facets.put(facet, values);
       }
-    }
-    if (this.initDefault) {
-      this.facets.putAll(this.getDefaultFacetsFilters());
     }
   }
 
   /**
-   * Flag that indicates if the default filter parameters should be initialized
-   * 
-   * @param initDefault the initDefault to set
+   * Optional hook for concrete search actions to define custom translations of facet filter values
+   * before they are send to the search service.
+   * For example to enable a simple checklist=nub filter without the need to know the real nub UUID.
+   * The values will NOT be translated for the UI and request parameters, only for the search and title lookup service!
+   *
+   * This method can be overriden to modify the returned value, by default it keeps it as it is.
+   * @param facet the value belongs to
+   * @param value the value to translate or return as is
    */
-  public void setInitDefault(boolean initDefault) {
-    this.initDefault = initDefault;
+  protected String translateFacetValue(Enum<F> facet, String value) {
+    // dont do anything by default
+    return value;
   }
-
 
   private List<FacetInstance> toFacetInstance(List<Facet.Count> counts) {
     List<FacetInstance> instances = Lists.newArrayList();
@@ -424,5 +370,51 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
       }
     }
     return instances;
+  }
+
+  /**
+   * Translates current url query parameter values via the translateFacetValue method.
+   * @return current url with translated values
+   */
+  @Override
+  public String getCurrentUrl(){
+    StringBuffer currentUrl = request.getRequestURL();
+    if (request.getQueryString() != null) {
+      boolean first = true;
+      for (String p : querySplitter.split(request.getQueryString())){
+        Iterator<String> kvIter = paramSplitter.split(p).iterator();
+        String key = kvIter.next();
+        String val = kvIter.next();
+        // potentially translate facet values
+        Enum<F> facet = findFacetEnum(key);
+        if (facet != null){
+          val = translateFacetValue(facet, val);
+        }
+        if (first) {
+          currentUrl.append("?");
+        } else {
+          currentUrl.append("&");
+        }
+        currentUrl.append(key);
+        currentUrl.append("=");
+        currentUrl.append(val);
+        first = false;
+      }
+    }
+    return currentUrl.toString();
+  }
+
+  private Enum<F> findFacetEnum(String param){
+    if (com.google.common.base.Strings.isNullOrEmpty(param)){
+      return null;
+    }
+    for (Enum<F> fEnum : facetEnum.getEnumConstants()) {
+      // recognize facets by enum name
+      String pname = fEnum.name().toLowerCase();
+      if (param.equalsIgnoreCase(pname)) {
+        return fEnum;
+      }
+    }
+    return null;
   }
 }

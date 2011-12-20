@@ -8,7 +8,7 @@
     </script>
   </content>
   <style type="text/css">
-#removeAllFacets{
+#resetFacets{
   clear: both;
   overflow: hidden;
   margin-bottom: 20px;
@@ -103,12 +103,13 @@
 	     </#if>
 	     -->
 
-			<div>
-        <input id="removeAllFacets" value="reset" type="button"/>
+			<div id="resetFacets" currentUrl="">
+        <input id="resetFacetsButton" value="reset" type="button"/>
+        <input class="defaultFacet" type="hidden" name="checklist" value="nub"/>
 			</div>
 
         <#assign seeAllFacets = ["HIGHERTAXON","RANK","CHECKLIST"]>
-        <#list ["HIGHERTAXON","RANK","CHECKLIST","TAXSTATUS","EXTINCT","THREAT","MARINE"] as facetName>
+        <#list ["CHECKLIST","HIGHERTAXON","RANK","TAXSTATUS","EXTINCT","THREAT","MARINE"] as facetName>
           <#assign displayedFacets=0>
           <#assign seeAll=false>
 
@@ -121,14 +122,9 @@
                   <#assign displayedFacets = displayedFacets + 1>
                   <li>
                     <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-                    <input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}" checked/>
+                    <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" checked/>
                   </li>
                 </#list>
-                <#--
-                <#if (displayedFacets > 0)>
-                    <hr class="selectedSeparator"/>
-                </#if>
-                -->
                 <#list facetCounts[facetName] as count>
                   <#if seeAllFacets?seq_contains(facetName) && (displayedFacets > MaxFacets)>
                     <#assign seeAll=true>
@@ -138,7 +134,7 @@
                     <#assign displayedFacets = displayedFacets + 1>
                     <li>
                       <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-                      <input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}"/>
+                      <input type="checkbox" value="&${facetName?lower_case}=${count.name!}"/>
                     </li>
                   </#if>
                 </#list>
@@ -154,7 +150,7 @@
                            <#list facetCounts[facetName] as count>
                           <li>
                             <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-                        <input type="checkbox" value="&${facetName?lower_case}=${count.name!}${action.getDefaultFacetsFiltersQuery()}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>
+                        <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>
                           </li>
                           </#list>
                          </ul>
