@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests a single species page.
@@ -26,7 +25,7 @@ public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
       infoband.findElement(By.cssSelector("h3 a")).getText());
 
     assertEquals("Expected appears in entries",
-      content.findElements(By.cssSelector("#appearsin div.left li")).size(), 6);
+      content.findElements(By.cssSelector("#appearsin div.left li")).size(), 12);
 
     assertEquals("Expected distribution entries",
       content.findElements(By.cssSelector("#distribution div.left ul.notes div")).size(), 9);
