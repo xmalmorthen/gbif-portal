@@ -29,7 +29,7 @@ public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
       content.findElements(By.cssSelector("#appearsin div.left li")).size() > 10);
 
     assertTrue("Expected distribution entries",
-      content.findElements(By.cssSelector("#distribution div.left ul.notes div")).size() > 18);
+      content.findElements(By.cssSelector("#distribution div.left ul.notes div")).size() > 9);
 
   }
 
