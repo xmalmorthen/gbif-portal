@@ -25,11 +25,11 @@ public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
     assertEquals("Expected checklist name wrong", "GBIF Taxonomic Backbone",
       infoband.findElement(By.cssSelector("h3 a")).getText());
 
-    assertTrue("Expected appears in entries",
-      content.findElements(By.cssSelector("#appearsin div.left li")).size() > 10);
+    assertEquals("Expected appears in entries",
+      content.findElements(By.cssSelector("#appearsin div.left li")).size(), 6);
 
-    assertTrue("Expected distribution entries",
-      content.findElements(By.cssSelector("#distribution div.left ul.notes div")).size() > 9);
+    assertEquals("Expected distribution entries",
+      content.findElements(By.cssSelector("#distribution div.left ul.notes div")).size(), 9);
 
   }
 
