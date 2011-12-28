@@ -10,6 +10,8 @@ package org.gbif.portal.action.dataset;
 
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.NotFoundException;
+import org.gbif.registry.api.model.Dataset;
+import org.gbif.registry.api.model.vocabulary.DatasetType;
 import org.gbif.registry.api.service.DatasetService;
 
 import com.google.inject.Inject;
@@ -22,7 +24,7 @@ public class DetailAction extends BaseAction {
 
   // detail
   private String id;
-  private Object dataset;
+  private Dataset dataset;
 
   @Inject
   private DatasetService datasetService;
@@ -36,12 +38,20 @@ public class DetailAction extends BaseAction {
     // TODO: the registry client needs to be invoked first to know which type of Resource we area dealing with. For now
     // the checklist client will be the default one being called. The default view will be the detailed checklist.
     dataset = datasetService.get(id);
-    return "detail_checklist";
-    // other views --> "detail_external", "detail_occurrence"
+    DatasetType type = dataset.getType();
+
+    LOG.info("Title: {}", dataset.getTitle());
+
+    // The Dataset type is always null - how do we actually set this?
+    return (type==null) ? "detail_checklist" : selectResult(type);
   }
 
-  public Object getDataset() {
+  public Dataset getDataset() {
     return dataset;
+  }
+
+  public void setDataset(Dataset dataset) {
+    this.dataset = dataset;
   }
 
   public void setId(String id) {
@@ -51,4 +61,28 @@ public class DetailAction extends BaseAction {
   public String getId() {
     return id;
   }
+
+  /**
+   * Given the Dataset type, determine the appropriate page to redirect to.
+   * @param type Dataset type
+   * @return result
+   */
+  public String selectResult(DatasetType type) {
+    String result;
+    switch (type) {
+      case CHECKLIST:
+        result = "detail_checklist";
+        break;
+      case OCCURRENCE:
+        result = "detail_occurrence";
+        break;
+      case METADATA:
+        result = "detail_external";
+        break;
+      default:
+        result = "detail_checklist";
+    }
+    return result;
+  }
+
 }

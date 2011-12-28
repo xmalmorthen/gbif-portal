@@ -19,9 +19,12 @@
 
   <h1>${dataset.title!}</h1>
 
-  <h3 class="separator">Provided by
-    <a href="<@s.url value='/member/${dataset.owningOrganization.key!}'/>">${dataset.owningOrganization.title!}</a>
-  </h3>
+  <#if dataset.owningOrganization?has_content>
+    <h3 class="separator">Provided by
+      <a href="<@s.url value='/member/${dataset.owningOrganization.key!}'/>">${dataset.owningOrganization.title!}</a>
+    </h3>
+  </#if>
+
   <ul class="tags">
     <li><a href="#" title="North America" class="placeholder_temp">North America</a></li>
     <li><a href="#" title="terrestrial" class="placeholder_temp">terrestrial</a></li>
