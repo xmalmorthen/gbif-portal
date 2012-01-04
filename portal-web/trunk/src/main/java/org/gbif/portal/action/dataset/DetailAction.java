@@ -35,14 +35,15 @@ public class DetailAction extends BaseAction {
     if (id == null) {
       throw new NotFoundException();
     }
-    // TODO: the registry client needs to be invoked first to know which type of Resource we area dealing with. For now
-    // the checklist client will be the default one being called. The default view will be the detailed checklist.
+
     dataset = datasetService.get(id);
+    if (dataset == null) {
+      LOG.error("No dataset found with id {}", id);
+      throw new NotFoundException();
+    }
     DatasetType type = dataset.getType();
 
-    LOG.info("Title: {}", dataset.getTitle());
-
-    // The Dataset type is always null - how do we actually set this?
+    // The default view will be the detailed checklist.
     return (type==null) ? "detail_checklist" : selectResult(type);
   }
 
