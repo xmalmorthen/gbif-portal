@@ -20,45 +20,8 @@
   <header></header>
   <div class="content">
 
-    <div class="header">
-      <div class="left"><h2>Summary</h2></div>
-    </div>
+  <#include "/WEB-INF/pages/dataset/summary.ftl">
 
-    <div class="left">
-      <h3>Abstract</h3>
-
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-        delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
-        et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
-        facilisi.
-      </p>
-
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-        delenit. </p>
-
-      <h3>Purpose</h3>
-
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-        delenit augue duis dolore te feugait nulla facilisi.</p>
-
-      <h3>Additional information</h3>
-
-      <p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-        delenit augue duis dolore te feugait nulla facilisi.</p>
-
-      <h3>Temporal context</h3>
-
-      <p>Jan 1st, 2001 → Jan 1st, 2009</p>
-
-      <h3>Languages</h3>
-
-      <p>English</p>
-
-    </div>
     <div class="right">
       <div class="logo_holder">
         <img src="<@s.url value='/external/logos/logo1.jpg'/>"/>

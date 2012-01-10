@@ -20,39 +20,8 @@
   <header></header>
   <div class="content">
 
-    <div class="header">
-      <div class="left"><h2>Summary</h2></div>
-    </div>
+    <#include "/WEB-INF/pages/dataset/summary.ftl">
 
-    <div class="left">
-    <#if dataset.description?has_content>
-      <h3>Abstract</h3>
-
-      <p>${dataset.description}</p>
-    </#if>
-
-      <h3>Purpose</h3>
-
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-        consequat, vel illum dolore eu
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-        delenit augue duis dolore te feugait nulla facilisi.</p>
-
-      <h3>Additional information</h3>
-
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-        consequat, vel illum dolore eu
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-        delenit augue duis dolore te feugait nulla facilisi.</p>
-
-      <h3>Temporal context</h3>
-
-      <p class="placeholder_temp">Jan 1st, 2001 → Jan 1st, 2009</p>
-
-      <h3>Languages</h3>
-
-      <p class="placeholder_temp">English</p>
-    </div>
     <div class="right">
       <div class="logo_holder">
         <!-- TODO: posibly use the Registry's dataset 'logoUrl' property -->
