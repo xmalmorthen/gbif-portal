@@ -1,6 +1,7 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>External dataset detail - GBIF</title>
+  <title>${dataset.title} - External dataset detail</title>
   <content tag="extra_scripts">
     <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
@@ -12,44 +13,8 @@
 </head>
 <body class="typesmap">
 
-  <content tag="infoband">
-    <ul class="breadcrumb">
-      <li class="last"><a href="<@s.url value='/dataset'/>" title="Datasets">Datasets</a></li>
-    </ul>
-
-    <h1>External dataset detail</h1>
-
-    <h3 class="separator">Provided by <a href="<@s.url value='/member/123'/>">Botanic Garden and Botanical Museum
-      Berlin-Dahlem</a>
-    </h3>
-    <ul class="tags">
-      <li><a href="#" title="Turkey">Turkey</a></li>
-      <li><a href="#" title="coastal">coastal</a></li>
-      <li class="last"><a href="#" title="herbal">herbal</a></li>
-    </ul>
-
-    <div class="box">
-      <div class="content">
-        <ul>
-          <li><h4>1,356</h4>Occurrences</li>
-          <li><h4>349</h4>Species</li>
-          <li class="last"><h4>726</h4>Taxa</li>
-        </ul>
-        <a href="#" title="Download occurrences"
-           class="download candy_blue_button"><span>Download occurrences</span></a>
-      </div>
-    </div>
-  </content>
-
-  <content tag="tabs">
-    <div id="tabs">
-      <ul>
-        <li class="selected"><a href="<@s.url value='/dataset/${id}'/>"><span>Information</span></a></li>
-        <li><a href="<@s.url value='/dataset/${id}/activity'/>"><span>Activity <sup>(2)</sup></span></a></li>
-        <li><a href="<@s.url value='/dataset/${id}/discussion'/>"><span>Discussion <sup>(5)</sup></span></a></li>
-      </ul>
-    </div>
-  </content>
+<#assign tab="info"/>
+<#include "/WEB-INF/pages/dataset/infoband.ftl">
 
   <article>
     <header></header>

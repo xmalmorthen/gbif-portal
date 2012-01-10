@@ -35,11 +35,11 @@
                  title="${dataset.title!}"><strong>${dataset.title!}</strong></a>
           </h2>
 
-          <p>A <span class="placeholder_temp">checklist</span> published by
+          <p>Type <span>${dataset.type!"Unknown"}</span>, published by
             <a href="<@s.url value='/member/${dataset.owningOrganizationKey!}'/>"
                title="${dataset.owningOrganizationTitle!}">
-              <strong>${dataset.owningOrganizationTitle!"Unknown"}</strong></a> at <span
-                    class="placeholder_temp">???.</span>
+              <strong>${dataset.owningOrganizationTitle!"Unknown"}</strong></a> in <span
+                    class="placeholder_temp">1983</span>
           </p>
 
           <div class="placeholder_temp footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p>

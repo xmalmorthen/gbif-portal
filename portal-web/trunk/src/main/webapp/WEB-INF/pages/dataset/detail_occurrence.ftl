@@ -1,3 +1,4 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
   <title>Dataset detail - GBIF</title>
@@ -12,45 +13,8 @@
 </head>
 <body class="species typesmap">
 
-<content tag="infoband">
-  <ul class="breadcrumb">
-    <li class="last"><a href="<@s.url value='/dataset'/>" title="Datasets">Datasets</a></li>
-  </ul>
-
-  <h1>World Mangroves Fauna</h1>
-
-  <h3 class="separator">Provided by <a href="<@s.url value='/member/123'/>">Botanic Garden and Botanical Museum
-    Berlin-Dahlem</a>
-  </h3>
-  <ul class="tags">
-    <li><a href="#" title="World">World</a></li>
-    <li><a href="#" title="coastal">coastal</a></li>
-    <li class="last"><a href="#" title="animalia">animalia</a></li>
-  </ul>
-
-  <div class="box">
-    <div class="content">
-      <ul>
-        <li><h4>123,356</h4>occurrences</li>
-        <li><h4>349</h4>species</li>
-        <li class="last"><h4>23</h4>taxa</li>
-      </ul>
-      <a href="#" title="Download occurrences" class="candy_blue_button download"><span>Download occurrences</span></a>
-    </div>
-  </div>
-</content>
-
-<content tag="tabs">
-  <div id="tabs">
-    <ul>
-      <li class="selected"><a href="<@s.url value='/dataset/${id}'/>"><span>Information</span></a></li>
-      <!-- TODO: dynamically display occurrences entry only for occurrence datasets -->
-      <li><a href="<@s.url value='/dataset/${id}/occurrence'/>"><span>Occurrences</span></a></li>
-      <li><a href="<@s.url value='/dataset/${id}/activity'/>"><span>Activity <sup>(2)</sup></span></a></li>
-      <li><a href="<@s.url value='/dataset/${id}/discussion'/>"><span>Discussion <sup>(5)</sup></span></a></li>
-    </ul>
-  </div>
-</content>
+<#assign tab="info"/>
+<#include "/WEB-INF/pages/dataset/infoband.ftl">
 
 <article>
   <header></header>
