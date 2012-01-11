@@ -22,41 +22,8 @@
 
       <#include "/WEB-INF/pages/dataset/summary.ftl">
 
-        <div class="right">
-        <div class="logo_holder">
-          <img src="<@s.url value='/external/logos/logo1.jpg'/>"/>
-        </div>
-        <h3>Provided by</h3>
+      <#include "/WEB-INF/pages/dataset/right_sidebar.ftl">
 
-        <p><a href="<@s.url value='/member/123'/>" title="Botanic Garden and Botanical Museum Berlin-Dahlem">Botanic Garden and
-          Botanical Museum Berlin-Dahlem</a></p>
-
-        <h3>Hosted by</h3>
-
-        <p><a href="<@s.url value='/member/123'/>" title="DanBIF Data Hosting Center">DanBIF Data Hosting Center</a></p>
-
-        <h3>Endorsed by</h3>
-
-        <p><a href="<@s.url value='/member/123'/>" title="GBIF Germany Participant Node">GBIF Germany Participant Node</a></p>
-
-        <h3>Alternative Identifiers</h3>
-
-        <p>UC-10029192, REF-ejedei</p>
-
-        <h3>External Links</h3>
-        <ul>
-          <li><a href="#" title="Original source">Original dataset source</a></li>
-          <li><a href="#" title="Author's blog">Author's blog</a></li>
-          <li><a href="#" title="Methodology">A discussion board over the methodology</a></li>
-        </ul>
-        <h3>Metadata</h3>
-        <ul>
-          <li class="download">EML file <a href="#"><abbr>[ENG]</abbr></a> &middot; <a
-                  href="#"><abbr>[SPA]</abbr></a> &middot; <a href="#"><abbr>[GER]</abbr></a></li>
-          <li class="download">ISO 1939 file <a href="#"><abbr>[ENG]</abbr></a> &middot; <a href="#"><abbr>[SPA]</abbr></a> &middot;
-            <a href="#"><abbr>[GER]</abbr></a></li>
-        </ul>
-      </div>
     </div>
     <footer></footer>
   </article>

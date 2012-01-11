@@ -22,68 +22,8 @@
 
     <#include "/WEB-INF/pages/dataset/summary.ftl">
 
-    <div class="right">
-      <div class="logo_holder">
-        <!-- TODO: posibly use the Registry's dataset 'logoUrl' property -->
-      <#if dataset.logoUrl?has_content>
-        <img src="${dataset.logoUrl}"/>
-      </#if>
-      </div>
+    <#include "/WEB-INF/pages/dataset/right_sidebar.ftl">
 
-      <h3>Checklist type</h3>
-    <#if dataset.type?has_content>
-      <p>${dataset.type}</p>
-      <#else>
-        <p>UNKNOWN</p>
-    </#if>
-
-      <h3>Provided by</h3>
-
-      <p><a href="<@s.url value='/member/123'/>" title="Botanic Garden and Botanical Museum Berlin-Dahlem"
-            class="placeholder_temp">Botanic
-        Garden and
-        Botanical Museum Berlin-Dahlem</a></p>
-
-      <h3>Hosted by</h3>
-
-      <p><a href="<@s.url value='/member/123'/>" title="DanBIF Data Hosting Center" class="placeholder_temp">DanBIF Data
-        Hosting Center</a></p>
-
-      <h3>Endorsed by</h3>
-
-      <p><a href="<@s.url value='/member/123'/>" title="GBIF Germany Participant Node" class="placeholder_temp">GBIF
-        Germany Participant Node</a>
-      </p>
-
-      <h3>Alternative Identifiers</h3>
-
-      <p class="placeholder_temp">UC-10029192, REF-ejedei</p>
-
-      <h3>External Links</h3>
-      <ul>
-        <!-- TODO: posibly use the Registry's dataset 'homepage' property -->
-      <#if dataset.homepage?has_content>
-        <li><a href="${dataset.homepage}" title="Original source" target="_blank">Original dataset source</a></li>
-      </#if>
-        <li><a href="#" title="Author's blog" class="placeholder_temp">Author's blog</a></li>
-        <li><a href="#" title="Methodology" class="placeholder_temp">A discussion board over the methodology</a></li>
-      </ul>
-      <h3>Metadata</h3>
-      <ul>
-        <li class="download">EML file &nbsp;<a class="small download placeholder_temp" href="#"
-                                               title="EML file (english)">ENG</a> · <a
-                class="small download placeholder_temp" href="#" title="EML file (spanish)">SPA</a> · <a
-                class="small download placeholder_temp" href="#"
-                title="EML file (german)">GER</a>
-        </li>
-        <li class="download">ISO 1939 file &nbsp;<a class="small download placeholder_temp" href="#"
-                                                    title="ISO 1939 file (english)">ENG</a> · <a
-                class="small download placeholder_temp"
-                href="#"
-                title="ISO 1939 file (spanish)">SPA</a>
-        </li>
-      </ul>
-    </div>
   </div>
   <footer></footer>
 </article>
