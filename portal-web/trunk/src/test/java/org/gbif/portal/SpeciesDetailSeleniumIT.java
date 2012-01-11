@@ -13,7 +13,7 @@ public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
 
   @Test
   public void testSciurusVulgaris() {
-    driver.get(getPortalUrl("species/5219668"));
+    driver.get(getPortalUrl("species/10291613"));
     // assertions
     WebElement infoband = driver.findElement(By.id("infoband"));
     WebElement content = driver.findElement(By.id("content"));
