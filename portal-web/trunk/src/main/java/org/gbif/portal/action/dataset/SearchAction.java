@@ -12,7 +12,10 @@ import org.gbif.portal.action.BaseFacetedSearchAction;
 import org.gbif.registry.api.model.search.DatasetSearchResult;
 import org.gbif.registry.api.model.search.RegistryFacetParameter;
 import org.gbif.registry.api.service.DatasetSearchService;
+import org.gbif.registry.api.service.DatasetService;
 
+import com.google.common.base.Function;
+import com.google.common.base.Strings;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
@@ -24,18 +27,44 @@ public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, R
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
   private static final long serialVersionUID = 1488419402277401976L;
 
+  private DatasetService datasetService;
+  private Function<String, String> getOrgTitle;
+
   @Inject
-  public SearchAction(DatasetSearchService<DatasetSearchResult> datasetSearchService) {
+  public SearchAction(DatasetSearchService<DatasetSearchResult> datasetSearchService, DatasetService datasetService) {
     super(datasetSearchService, RegistryFacetParameter.class);
+    this.datasetService = datasetService;
+    initGetTitleFunctions();
+  }
+
+  /**
+   * Initializes the getTitle functions
+   */
+  private void initGetTitleFunctions() {
+    getOrgTitle = new Function<String, String>() {
+
+      @Override
+      public String apply(String key) {
+        if (Strings.emptyToNull(key) == null) {
+          return null;
+        }
+        return datasetService.get(key).getTitle();
+      }
+    };
   }
 
   @Override
   public String execute() {
-    LOG.debug("Searching for datasets matching [{}]", this.getQ());
+    searchRequest.setMultiSelectFacets(true);
+    // Turn off highlighting for empty query strings
+    searchRequest.setHighlight(!getQ().isEmpty());
 
     super.execute();
 
-    LOG.debug("Found [{}] matching datasets", searchResponse.getCount());
+    // replace organisation keys with real names
+    lookupFacetTitles(RegistryFacetParameter.HOSTING_ORG, getOrgTitle);
+    lookupFacetTitles(RegistryFacetParameter.OWNING_ORG, getOrgTitle);
+
     return SUCCESS;
   }
 

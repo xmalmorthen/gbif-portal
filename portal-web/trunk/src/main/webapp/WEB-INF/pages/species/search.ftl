@@ -84,24 +84,6 @@
 
 
       <div class="right">
-        <#--
-       <#if (facets?has_content)>
-		    <div class="refine">
-          <h4>Selected filters: </h4>
-          <div id="selectedFilters" class="facet">                               
-          <#list facets?keys as facetFilter>
-            <#list facets.get(facetFilter) as filterValue>
-            	<div class="facetFilter">
-	              	<p>
-	              	 <span class="flabel" val="${filterValue.name!}">${facetFilter}</span> : ${filterValue.title!"Unknown"} <a href="#">[X]</a>
-	                </p>
-              	</div>
-            </#list>
-          </#list>                                      
-          </div>
-        </div>
-	     </#if>
-	     -->
 
 			<div id="resetFacets" currentUrl="">
         <input id="resetFacetsButton" value="reset" type="button"/>
