@@ -40,7 +40,6 @@
 
       <p>${cov.start?date} - ${cov.end?date}</p>
     </#if>
-    <!-- still need SingleDate & DateRange -->
   </#list>
 </#if>
 
