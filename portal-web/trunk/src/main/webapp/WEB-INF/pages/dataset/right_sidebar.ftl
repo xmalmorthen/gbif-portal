@@ -22,15 +22,20 @@
     <p><a href="<@s.url value='/member/${dataset.hostingOrganizationKey}'/>" title="${dataset.hostingOrganization.title!"Unknown"}">${dataset.owningOrganization.title!"Unknown"}</a></p>
   </#if>
 
-  <h3>Endorsed by</h3>
-
-  <p class="placeholder_temp"><a href="<@s.url value='/member/123'/>" title="GBIF Germany Participant Node">GBIF Germany Participant Node</a></p>
+  <!-- Could be an external dataset, with an owning org, but no endorsing node since it's not in GBIF Network -->
+  <#if dataset.owningOrganization?has_content && dataset.owningOrganization.endorsingNode?has_content>
+    <h3>Endorsed by</h3>
+    <p><a href="<@s.url value='/member/${dataset.owningOrganization.endorsingNode.key}'/>" title="${dataset.owningOrganization.endorsingNode.title!"Unknown"}">${dataset.owningOrganization.endorsingNode.title!"Unknown"}</a></p>
+  <#elseif dataset.hostingOrganization?has_content && dataset.hostingOrganization.endorsingNode?has_content>
+    <h3>Endorsed by</h3>
+    <p><a href="<@s.url value='/member/${dataset.hostingOrganization.endorsingNode.key}'/>" title="${dataset.hostingOrganization.endorsingNode.title!"Unknown"}">${dataset.hostingOrganization.endorsingNode.title!"Unknown"}</a></p>
+  </#if>
 
   <#if (dataset.identifiers?size>0)>
     <h3>Alternative Identifiers</h3>
     <p><#list dataset.identifiers as idt>
       <a class="more_link" href="<@s.url value='${idt.identifier}'/>">${idt.type!"link"}</a><#if idt_has_next>, </#if>
-      </#list>
+    </#list>
     </p>
   </#if>
 
@@ -45,9 +50,9 @@
 
   <h3>Metadata</h3>
   <ul>
-    <li class="download">EML file <a class="placeholder_temp" href="#"><abbr>[ENG]</abbr></a> &middot; <a
+    <li class="download, placeholder_temp">EML file <a class="placeholder_temp" href="#"><abbr>[ENG]</abbr></a> &middot; <a
             href="#"><abbr>[SPA]</abbr></a> &middot; <a href="#"><abbr>[GER]</abbr></a></li>
-    <li class="download">ISO 1939 file <a class="placeholder_temp" href="#"><abbr>[ENG]</abbr></a> &middot; <a href="#"><abbr>[SPA]</abbr></a> &middot;
+    <li class="download, placeholder_temp">ISO 1939 file <a class="placeholder_temp" href="#"><abbr>[ENG]</abbr></a> &middot; <a href="#"><abbr>[SPA]</abbr></a> &middot;
       <a href="#"><abbr>[GER]</abbr></a></li>
   </ul>
 </div>
