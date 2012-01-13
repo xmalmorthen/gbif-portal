@@ -133,64 +133,7 @@
 
 <#include "/WEB-INF/pages/dataset/project.ftl">
 
-<article>
-  <header></header>
-  <div class="content">
-    <h2>Methodology</h2>
-
-    <div class="left">
-
-      <h3>Study extent</h3>
-
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-        consequat, vel illum dolore eu
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-        delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et
-        accumsan et iusto odio dignissim qui blandit.</p>
-
-      <h3>Sampling description</h3>
-
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-        consequat, vel illum dolore eu
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-        delenit augue duis dolore te feugait nulla facilisi. Dolore eu feugiat nulla facilisis at vero eros et accumsan
-        et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
-        facilisi.</p>
-
-      <h3>Quality control</h3>
-
-      <p class="placeholder_temp">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie
-        consequat, vel illum dolore eu
-        feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril
-        delenit augue duis dolore te feugait nulla facilisi.</p>
-
-    </div>
-
-    <div class="right">
-      <h3>Collection name</h3>
-
-      <p class="placeholder_temp">Ave specimens (AVES123)</p>
-
-      <h3>Parent identifier</h3>
-
-      <p class="placeholder_temp">AVES</p>
-
-      <h3>Preservation method</h3>
-
-      <p class="placeholder_temp">Glycerin</p>
-
-      <h3>Curational units</h3>
-      <ul>
-        <li class="placeholder_temp">100/500 Specimens</li>
-        <li class="placeholder_temp">1000 (+/- 100) jars</li>
-        <li class="placeholder_temp">100/500 Boxes</li>
-      </ul>
-    </div>
-
-  </div>
-  <footer></footer>
-</article>
-
+<#include "/WEB-INF/pages/dataset/methods.ftl">
 
 <article class="mono_line">
   <header></header>
