@@ -61,8 +61,12 @@
 
         <ul>
           <#list dataset.curatorialUnits as unit>
-            <#if unit.type?has_content>
-              <li>${unit.typeVerbatim!""} ${unit.type!}</li>
+            <#if unit.typeVerbatim?has_content && unit.lower!=0 && unit.upper!=0>
+              <h4>Count range</h4>
+              <li>${unit.typeVerbatim!""}: between ${unit.lower} and ${unit.upper}</li>
+            <#elseif unit.typeVerbatim?has_content && unit.count!=0>
+              <h4>Count with uncertainty</h4>
+              <li>${unit.typeVerbatim!""}: ${unit.count} ± ${unit.deviation!""}</li>
             </#if>
           </#list>
         </ul>
