@@ -9,9 +9,9 @@
     <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/single_map.js'/>"></script>
   </content>
-  <meta name="menu" content="datasets"/>
+  <meta name="menu" content="datasets" onunload="GUnload()"/>
 </head>
-<body class="typesmap">
+<body onload="initBB()" class="typesmap">
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/dataset/infoband.ftl">
@@ -30,39 +30,7 @@
 
 <#include "/WEB-INF/pages/dataset/taxonomic_coverages.ftl">
 
-  <article class="map">
-    <header></header>
-    <div id="map"></div>
-    <a href="#zoom_in" class="zoom_in"></a>
-    <a href="#zoom_out" class="zoom_out"></a>
-
-    <div class="content">
-
-      <div class="header">
-        <div class="right"><h2>Boundaries</h2></div>
-      </div>
-
-      <div class="right">
-        <h3>Geographic coverage</h3>
-
-        <p>North America</p>
-
-        <p class="maptype"><a href="#" title="points">points</a> | <a href="#" title="grid">grid</a> | <a href="#"
-                                                                                                          title="polygons"
-                                                                                                          class="selected">polygons</a>
-        </p>
-
-        <h3>Download</h3>
-        <ul>
-          <li class="download"><a href="#" title="One Degree cell density">One Degree cell density <abbr
-                  title="Keyhole Markup Language">(KML)</abbr></a></li>
-          <li class="download"><a href="#" title="Placemarks">Placemarks <abbr
-                  title="Keyhole Markup Language">(KML)</abbr></a></li>
-        </ul>
-      </div>
-    </div>
-    <footer></footer>
-  </article>
+<#include "/WEB-INF/pages/dataset/geo_coverages.ftl">
 
   <#include "/WEB-INF/pages/dataset/project.ftl">
 
