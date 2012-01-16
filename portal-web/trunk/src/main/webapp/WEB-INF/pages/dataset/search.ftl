@@ -81,8 +81,8 @@
         DECADE, DATA_AVAILABLE, DATA_INDEXABLE, COUNTRY_CODE, CONTINENT
         -->
 
-      <#assign seeAllFacets = ["OWNING_ORG", "HOSTING_ORG"]>
-      <#assign facets= ["REGISTERED", "NETWORK_ORIGIN", "TYPE", "SUBTYPE", "OWNING_ORG", "HOSTING_ORG"]>
+      <#assign seeAllFacets = ["OWNING_ORG", "HOSTING_ORG", "KEYWORD", "COUNTRY_CODE"]>
+      <#assign facets= ["REGISTERED", "NETWORK_ORIGIN", "TYPE", "SUBTYPE", "KEYWORD", "OWNING_ORG", "HOSTING_ORG", "DECADE", "DATA_AVAILABLE", "COUNTRY_CODE"]>
       <#include "/WEB-INF/inc/facets.ftl">
 
       </div>
