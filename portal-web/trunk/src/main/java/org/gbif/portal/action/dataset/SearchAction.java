@@ -12,7 +12,9 @@ import org.gbif.portal.action.BaseFacetedSearchAction;
 import org.gbif.registry.api.model.search.DatasetSearchResult;
 import org.gbif.registry.api.model.search.RegistryFacetParameter;
 import org.gbif.registry.api.service.DatasetSearchService;
-import org.gbif.registry.api.service.DatasetService;
+import org.gbif.registry.api.service.OrganizationService;
+
+import java.util.UUID;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
@@ -27,13 +29,13 @@ public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, R
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
   private static final long serialVersionUID = 1488419402277401976L;
 
-  private DatasetService datasetService;
+  private OrganizationService orgService;
   private Function<String, String> getOrgTitle;
 
   @Inject
-  public SearchAction(DatasetSearchService<DatasetSearchResult> datasetSearchService, DatasetService datasetService) {
+  public SearchAction(DatasetSearchService<DatasetSearchResult> datasetSearchService, OrganizationService orgService) {
     super(datasetSearchService, RegistryFacetParameter.class);
-    this.datasetService = datasetService;
+    this.orgService = orgService;
     initGetTitleFunctions();
   }
 
@@ -45,10 +47,13 @@ public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, R
 
       @Override
       public String apply(String key) {
-        if (Strings.emptyToNull(key) == null) {
-          return null;
+        if (Strings.emptyToNull(key) != null) {
+          try {
+            return orgService.get(UUID.fromString(key)).getTitle();
+          } catch (Exception e) {
+          }
         }
-        return datasetService.get(key).getTitle();
+        return null;
       }
     };
   }
