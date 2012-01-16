@@ -196,29 +196,7 @@
 
 <#include "/WEB-INF/pages/dataset/methods.ftl">
 
-<article class="mono_line">
-  <header></header>
-  <div class="content">
-
-    <div class="header">
-      <h2>Dataset usage & legal issues</h2>
-    </div>
-
-    <div class="left">
-      <h3>Usage rights</h3>
-
-      <p>This dataset is released under an Open Data licence, so it can be used to anyone who cites it. </p>
-
-      <h3>How to cite it</h3>
-
-      <p>Alaska Ocean Observing System, Arctic Ocean Diversity (accessed through GBIF data portal, <a href="#"
-                                                                                                      title="Alaska Ocean Observing System, Arctic Ocean Diversity">http://data.gbif.org/datasets/resource/654</a>,
-        2011-05-05)</p>
-    </div>
-
-  </div>
-  <footer></footer>
-</article>
+<#include "/WEB-INF/pages/dataset/legal.ftl">
 
 </body>
 </html>
