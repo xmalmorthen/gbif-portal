@@ -29,29 +29,26 @@
       mapTypeId: google.maps.MapTypeId.TERRAIN
     }
 
-    map = new google.maps.Map(document.getElementById('mapKyle'), mapOptions);
+    map = new google.maps.Map(document.getElementById('map'), mapOptions);
   }
 
 </script>
 
-<article>
+<article class="map">
   <header></header>
+  <div id="map"></div>
 
   <div class="content">
 
-    <div class="left">
-      <div id="mapKyle"></div>
+    <div class="header">
+      <div class="right"><h2>Boundaries</h2></div>
     </div>
 
     <div class="right">
       <h3>Geographic coverage</h3>
 
-      <p>North America</p>
-
-      <p class="maptype"><a href="#" title="points">points</a> | <a href="#" title="grid">grid</a> | <a href="#"
-                                                                                                        title="polygons"
-                                                                                                        class="selected">polygons</a>
-      </p>
+      <p class="maptype"><a class="selected" href="#" title="points">points</a> | <a href="#" title="grid">grid</a> | <a
+              href="#" title="polygons">polygons</a></p>
 
       <h3>Download</h3>
       <ul>
