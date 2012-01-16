@@ -28,72 +28,7 @@
   <footer></footer>
 </article>
 
-<article>
-  <header></header>
-  <div class="content">
-
-    <div class="header">
-      <div class="left"><h2>Checklist preview</h2></div>
-    </div>
-
-    <div class="left">
-      <ul class="three_cols">
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Araneae<a/></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Opiliones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Parasitiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Trombidiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
-      </ul>
-      <ul class="three_cols">
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Araneae<a/></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Opiliones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Parasitiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Trombidiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
-      </ul>
-      <ul class="three_cols">
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Araneae<a/></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Opiliones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Parasitiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Trombidiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Pseudoscorpionida</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Sarcoptiformes</a></li>
-        <li><a href="<@s.url value='/species/42/name_usage'/>" class="placeholder_temp">Scorpiones</a></li>
-      </ul>
-
-      <p>The complete list has XXX more elements. You can <a href="#" class="download"
-                                                             title="Download all the elments">download them all</a>.
-      </p>
-    </div>
-
-    <div class="right">
-      <h3>Taxonomic coverage</h3>
-
-      <p class="placeholder_temp">Animalia</p>
-
-      <h3>Second level data elements</h3>
-      <ul>
-        <li>References <span class="number placeholder_temp">123</span></li>
-        <li>Common names <span class="number placeholder_temp">456</span></li>
-        <li>Specimens <span class="number placeholder_temp">152</span></li>
-      </ul>
-    </div>
-  </div>
-  <footer></footer>
-</article>
+<#include "/WEB-INF/pages/dataset/taxonomic_coverages.ftl">
 
 <article class="map">
   <header></header>

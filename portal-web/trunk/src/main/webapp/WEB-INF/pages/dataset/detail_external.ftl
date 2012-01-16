@@ -28,63 +28,7 @@
     <footer></footer>
   </article>
 
-  <article>
-    <header></header>
-    <div class="content">
-
-      <div class="header">
-        <div class="left"><h2>Taxonomic coverage</h2></div>
-      </div>
-
-      <div class="left">
-        <ul class="three_cols">
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Araneae<a/></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Opiliones</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Parasitiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Trombidiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
-        </ul>
-        <ul class="three_cols">
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Araneae<a/></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Opiliones</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Parasitiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Trombidiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
-        </ul>
-        <ul class="three_cols">
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Araneae<a/></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Opiliones</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Parasitiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Trombidiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Pseudoscorpionida</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Sarcoptiformes</a></li>
-          <li><a href="<@s.url value='/species/42/name_usage'/>">Scorpiones</a></li>
-        </ul>
-
-        <p>The complete list has 123.002 more elements. You need to <a href="#" class="download"
-                                                                       title="visit the dataset"> visit the dataset</a>
-          to download it.</p>
-      </div>
-
-      <div class="right">
-      </div>
-
-    </div>
-    <footer></footer>
-  </article>
+<#include "/WEB-INF/pages/dataset/taxonomic_coverages.ftl">
 
   <article class="map">
     <header></header>

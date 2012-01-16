@@ -28,6 +28,8 @@
   <footer></footer>
 </article>
 
+<#include "/WEB-INF/pages/dataset/taxonomic_coverages.ftl">
+
 <article class="map">
   <header></header>
   <div id="map"></div>
