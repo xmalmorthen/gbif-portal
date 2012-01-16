@@ -90,63 +90,10 @@
         <input class="defaultFacet" type="hidden" name="checklist" value="nub"/>
 			</div>
 
-        <#assign seeAllFacets = ["HIGHERTAXON","RANK","CHECKLIST"]>
-        <#list ["CHECKLIST","HIGHERTAXON","RANK","TAXSTATUS","EXTINCT","THREAT","MARINE"] as facetName>
-          <#assign displayedFacets=0>
-          <#assign seeAll=false>
+<#assign seeAllFacets = ["HIGHERTAXON","RANK","CHECKLIST"]>
+<#assign facets= ["CHECKLIST","HIGHERTAXON","RANK","TAXSTATUS","EXTINCT","THREAT","MARINE"]>
+<#include "/WEB-INF/inc/facets.ftl">
 
-            <#if (facetCounts[facetName]?has_content && facetCounts[facetName]?size > 1)>
-             <div class="refine">
-              <h4><@s.text name="search.facet.${facetName}" /></h4>
-              <div class="facet">
-                <ul id="facetfilter${facetName}">
-                <#list selectedFacetCounts[facetName] as count>
-                  <#assign displayedFacets = displayedFacets + 1>
-                  <li>
-                    <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-                    <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" checked/>
-                  </li>
-                </#list>
-                <#list facetCounts[facetName] as count>
-                  <#if seeAllFacets?seq_contains(facetName) && (displayedFacets > MaxFacets)>
-                    <#assign seeAll=true>
-                    <#break>
-                  </#if>
-                  <#if !(action.isInFilter(facetName,count.name))>
-                    <#assign displayedFacets = displayedFacets + 1>
-                    <li>
-                      <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-                      <input type="checkbox" value="&${facetName?lower_case}=${count.name!}"/>
-                    </li>
-                  </#if>
-                </#list>
-                <#if seeAll>
-                  <li class="seeAllFacet">
-                    <a class="seeAllLink" href="#">&nbsp;&nbsp;see all ...</a>
-                    <div class="infowindow dialogPopover" style="z-index:100000">
-                        <div class="lheader"></div>
-                        <span class="close"></span>
-                        <div class="content">
-                          <h2>Filter by <@s.text name="search.facet.${facetName}" /></h2>
-                         <ul>
-                           <#list facetCounts[facetName] as count>
-                          <li>
-                            <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-                        <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>
-                          </li>
-                          </#list>
-                         </ul>
-                       </div>
-                       <div class="lfooter"></div>
-                     </div>
-                  </li>
-                </#if>
-                </ul>
-              </div>
-             </div>
-            </#if>                      
-        </#list>
-	   
         <div class="last">
           <a href="#" title="Add another criterion" class="add_criteria placeholder_temp">Add another criterion <span class="more"></span></a>
 	      </div>
