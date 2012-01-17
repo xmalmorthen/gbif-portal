@@ -114,9 +114,7 @@
     </action>
 
     <action name="{id}" class="org.gbif.portal.action.dataset.DetailAction">
-      <result name="detail_occurrence">/WEB-INF/pages/dataset/detail_occurrence.ftl</result>
-      <result name="detail_checklist">/WEB-INF/pages/dataset/detail_checklist.ftl</result>
-      <result name="detail_external">/WEB-INF/pages/dataset/detail_external.ftl</result>
+      <result name="detail">/WEB-INF/pages/dataset/detail.ftl</result>
     </action>
   </package>
 

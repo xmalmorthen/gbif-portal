@@ -11,7 +11,6 @@ package org.gbif.portal.action.dataset;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.NotFoundException;
 import org.gbif.registry.api.model.Dataset;
-import org.gbif.registry.api.model.vocabulary.DatasetType;
 import org.gbif.registry.api.service.DatasetService;
 
 import com.google.inject.Inject;
@@ -41,10 +40,8 @@ public class DetailAction extends BaseAction {
       LOG.error("No dataset found with id {}", id);
       throw new NotFoundException();
     }
-    DatasetType type = dataset.getType();
 
-    // The default view will be the detailed checklist.
-    return (type==null) ? "detail_checklist" : selectResult(type);
+    return "detail";
   }
 
   public Dataset getDataset() {
@@ -62,28 +59,4 @@ public class DetailAction extends BaseAction {
   public String getId() {
     return id;
   }
-
-  /**
-   * Given the Dataset type, determine the appropriate page to redirect to.
-   * @param type Dataset type
-   * @return result
-   */
-  public String selectResult(DatasetType type) {
-    String result;
-    switch (type) {
-      case CHECKLIST:
-        result = "detail_checklist";
-        break;
-      case OCCURRENCE:
-        result = "detail_occurrence";
-        break;
-      case METADATA:
-        result = "detail_external";
-        break;
-      default:
-        result = "detail_checklist";
-    }
-    return result;
-  }
-
 }

@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>${dataset.title} - External dataset detail</title>
+  <title>${dataset.title} - Dataset detail</title>
   <content tag="extra_scripts">
     <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
@@ -20,9 +20,9 @@
     <header></header>
     <div class="content">
 
-      <#include "/WEB-INF/pages/dataset/summary.ftl">
+    <#include "/WEB-INF/pages/dataset/summary.ftl">
 
-      <#include "/WEB-INF/pages/dataset/right_sidebar.ftl">
+    <#include "/WEB-INF/pages/dataset/right_sidebar.ftl">
 
     </div>
     <footer></footer>
@@ -30,13 +30,19 @@
 
 <#include "/WEB-INF/pages/dataset/taxonomic_coverages.ftl">
 
+<#include "/WEB-INF/pages/dataset/taxonomic_distribution.ftl">
+
+<#if dataset.type?has_content && dataset.type == "OCCURRENCE">
+  <#include "/WEB-INF/pages/dataset/occurrences_map.ftl">
+</#if>
+
 <#include "/WEB-INF/pages/dataset/geo_coverages.ftl">
 
-  <#include "/WEB-INF/pages/dataset/project.ftl">
+<#include "/WEB-INF/pages/dataset/project.ftl">
 
-  <#include "/WEB-INF/pages/dataset/methods.ftl">
+<#include "/WEB-INF/pages/dataset/methods.ftl">
 
-  <#include "/WEB-INF/pages/dataset/legal.ftl">
+<#include "/WEB-INF/pages/dataset/legal.ftl">
 
 </body>
 </html>
