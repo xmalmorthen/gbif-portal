@@ -215,9 +215,6 @@
     </ul>
   </span>
   </div>
-      <#--
-       dont use vizzuality openlayers map for now, so dont show mapa controls
-  -->
   <div class="content">
 
     <div class="header">

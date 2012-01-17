@@ -1,4 +1,4 @@
-var map,nubId;
+var map,nubId, datasetId;
 
     // Necessary things to run these kind of map
     // - class typesmap to body
@@ -11,7 +11,7 @@ var map,nubId;
 		if ($('body').hasClass('typesmap')) {
 	
       nubId = $("#map").attr("nubid");
-
+      datasetId = $("#map").attr("datasetid");
 			// Create zoom controls
 			$('a.zoom_in').click(function(ev){
 				ev.stopPropagation();
@@ -72,59 +72,120 @@ var map,nubId;
           displayProjection: new OpenLayers.Projection("EPSG:4326"),
           controls: []
       });
-      //map.addControl(new OpenLayers.Control.LayerSwitcher());
+
+      // Layers
       var gphy = new OpenLayers.Layer.Google(
           "Google Physical",
           {type: google.maps.MapTypeId.TERRAIN}
       );
+      map.addLayer(gphy);
+
       var gsat = new OpenLayers.Layer.Google(
           "Google Satellite",
           {type: google.maps.MapTypeId.SATELLITE, numZoomLevels: 22}
       );
-      var gbifocc = new OpenLayers.Layer.TMS(
-          "GBIF Occurrences",
-          "http://140.247.231.188/php/map/getEolTile.php", {
-          layername: "occurrences",
-          type: "png",
-          isBaseLayer: false,
-          getURL: function(bounds) {
-              var res = this.map.getResolution();
-              var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-              var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-              var z = this.map.getZoom();
 
-              var path = "?tile=" + x + "_" + y + "_" + z + "_"+nubId;
-              var url = this.url;
-              if (url instanceof Array) {
-                url = this.selectUrl(path, url);
+      if (nubId > 0){
+        var gbifocc = new OpenLayers.Layer.TMS(
+            "GBIF Occurrences",
+            "http://140.247.231.188/php/map/getEolTile.php", {
+              layername: "occurrences",
+              type: "png",
+              isBaseLayer: false,
+              getURL: function(bounds) {
+                  var res = this.map.getResolution();
+                  var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+                  var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+                  var z = this.map.getZoom();
+
+                  var path = "?tile=" + x + "_" + y + "_" + z + "_"+nubId;
+                  var url = this.url;
+                  if (url instanceof Array) {
+                    url = this.selectUrl(path, url);
+                  }
+                  return url + path;
+              },
+
+              getId: function(viewPortPx) {
+                  var bounds = this.getTileBounds(viewPortPx);
+                  var res = this.map.getResolution();
+                  var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+                  var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+                  var z = this.map.getZoom();
+                  return x + "_" + y + "_" + z;
               }
-              return url + path;
-          },
+            }
+        );
+        map.addLayer(gbifocc);
 
-          getId: function(viewPortPx) {
-              var bounds = this.getTileBounds(viewPortPx);
-              var res = this.map.getResolution();
-              var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
-              var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
-              var z = this.map.getZoom();
-              return x + "_" + y + "_" + z;
-          }
-      });
+    		// TODO: create diversity_layer & distribution_layer
 
-		// TODO: create diversity_layer & distribution_layer
+      }
 
-    map.addLayers([gphy, gbifocc]);
+      if (datasetId){
+    		// TODO: create real tiles layer for entire occurrence dataset!
+        map.addLayer(new OpenLayers.Layer.TMS(
+            "GBIF Occurrences",
+            "http://140.247.231.188/php/map/getEolTile.php", {
+              layername: "occurrences",
+              type: "png",
+              isBaseLayer: false,
+              getURL: function(bounds) {
+                  var res = this.map.getResolution();
+                  var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+                  var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+                  var z = this.map.getZoom();
 
-    // Google.v3 uses EPSG:900913 as projection, so we have to
-    // transform our coordinates
-    map.setCenter(new OpenLayers.LonLat(0, 0).transform(
-        new OpenLayers.Projection("EPSG:4326"),
-        map.getProjectionObject()
-    ), 1);
+                  var path = "?tile=" + x + "_" + y + "_" + z + "_"+nubId;
+                  var url = this.url;
+                  if (url instanceof Array) {
+                    url = this.selectUrl(path, url);
+                  }
+                  return url + path;
+              },
 
-    // Select the correct map type with .selected class
-    var type_ = $('p.maptype').find('a.selected').attr('title');
-    chooseLayer(type_);
+              getId: function(viewPortPx) {
+                  var bounds = this.getTileBounds(viewPortPx);
+                  var res = this.map.getResolution();
+                  var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
+                  var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
+                  var z = this.map.getZoom();
+                  return x + "_" + y + "_" + z;
+              }
+            }
+        ));
+      }
+
+      if (typeof(map_wkt) != "undefined"){
+        // http://dev.openlayers.org/apidocs/files/OpenLayers/Layer/Vector-js.html
+        // http://www.peterrobins.co.uk/it/olvectors.html
+
+        var pl = new OpenLayers.Layer.Vector(
+          "Boundaries", {
+            style: {
+                strokeColor: "blue",
+                strokeWidth: 3,
+                cursor: "pointer"
+            }
+        });
+        // parse well known text
+        var parser = new OpenLayers.Format.WKT();
+        var features = parser.read(map_wkt);
+        pl.addFeatures(features);
+
+        map.addLayer(pl);
+      }
+
+
+      //map.addControl(new OpenLayers.Control.LayerSwitcher());
+
+      // Google.v3 uses EPSG:900913 as projection, so we have to
+      // transform our coordinates
+      map.setCenter(new OpenLayers.LonLat(0, 0).transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject()), 1);
+
+      // Select the correct map type with .selected class
+      var type_ = $('p.maptype').find('a.selected').attr('title');
+      chooseLayer(type_);
 
       // Activate double click
 			var dblclick = new OpenLayers.Handler.Click(this, {dblclick: function() {map.zoomIn()}, click: null }, {single: true, 'double': true, stopSingle: false, stopDouble: true});

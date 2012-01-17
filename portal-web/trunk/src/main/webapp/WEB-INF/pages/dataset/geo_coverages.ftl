@@ -1,63 +1,73 @@
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript">
-  function initBB()
-  {
-    // Global variables
-    var map;
+<content tag="extra_scripts">
+  <link rel="stylesheet" href="<@s.url value='/css/google.css'/>"/>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=true"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
+  <!-- needs to be well known text: http://en.wikipedia.org/wiki/Well-known_text#Geometric_Objects -->
+  <script type="text/javascript">
+    var map_wkt = "POLYGON((103.359375 53.7890625, 157.5 52.3828125, 150.46875 20.0390625, 101.953125 24.9609375, 103.359375 53.7890625))"
+  </script>
+</content>
 
-    var maxy = parseFloat("${(dataset.geographicCoverages[0].boundingBox.minLongitude)!}");
-    var miny = parseFloat("${(dataset.geographicCoverages[0].boundingBox.minLatitude)!}");
-    var maxx = parseFloat("${(dataset.geographicCoverages[0].boundingBox.maxLongitude)!}");
-    var minx = parseFloat("${(dataset.geographicCoverages[0].boundingBox.maxLatitude)!}");
+<#list dataset.geographicCoverages as geo>
+  <#if geo.boundingBox?has_content>
+    <li>${geo.boundingBox.minLongitude} ${geo.boundingBox.minLatitude} ${geo.boundingBox.maxLongitude} ${geo.boundingBox.maxLatitude}</li>
+  </#if>
+</#list>
 
-    var mapOptions = {
-      zoom: 2,
-      center: new google.maps.LatLng((maxy+miny)/2, (maxx+minx)/2),
-      scaleControl: true,
-      scaleControlOptions: {
-        position: google.maps.ControlPosition.TOP_LEFT
-      },
-      mapTypeControl: true,
-      mapTypeControlOptions: {
-        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
-      },
-      navigationControl: true,
-      navigationControlOptions: {
-        style: google.maps.NavigationControlStyle.ANDROID,
-        position: google.maps.ControlPosition.BOTTOM_LEFT
-      },
-      mapTypeId: google.maps.MapTypeId.TERRAIN
-    }
-
-    map = new google.maps.Map(document.getElementById('map'), mapOptions);
-  }
-
-</script>
 
 <article class="map">
   <header></header>
-  <div id="map"></div>
+  <div id="map" datasetid="${dataset.key}"></div>
 
+  <a href="#zoom_in" class="zoom_in"></a>
+  <a href="#zoom_out" class="zoom_out"></a>
+
+  <div class="projection placeholder_temp">
+    <a class="projection" href="#projection">projection</a>
+  <span>
+    <p>PROJECTION</p>
+    <ul>
+      <li><a class="selected" href="#mercator">Mercator</a></li>
+      <li class="disabled"><a href="#robinson">Robinson</a></li>
+    </ul>
+  </span>
+  </div>
   <div class="content">
 
     <div class="header">
       <div class="right"><h2>Boundaries</h2></div>
     </div>
 
+  <#if (dataset.geographicCoverages?size)>0 >
     <div class="right">
       <h3>Geographic coverage</h3>
+      <#list dataset.geographicCoverages as geo>
+        <#if geo.description?has_content>
+          <p>${geo.description}</p>
+        </#if>
+      </#list>
+    </div>
+  </#if>
 
-      <p class="maptype"><a class="selected" href="#" title="points">points</a> | <a href="#" title="grid">grid</a> | <a
-              href="#" title="polygons">polygons</a></p>
+    <div class="right">
+      <h3>Visualize</h3>
+
+      <p class="maptype">
+          <a class="placeholder_temp" href="#" title="occurrence" >points</a>
+        | <a class="placeholder_temp" href="#" title="grid">grid</a>
+        | <a href="#" title="polygons" class="selected">polygons</a>
+      </p>
 
       <h3>Download</h3>
-      <ul>
-        <li class="download"><a href="#" title="One Degree cell density">One Degree cell density <abbr
-                title="Keyhole Markup Language">(KML)</abbr></a></li>
-        <li class="download"><a href="#" title="Placemarks">Placemarks <abbr
-                title="Keyhole Markup Language">(KML)</abbr></a></li>
+      <ul class="placeholder_temp">
+        <li class="download"><a href="#" title="One Degree cell density">One Degree cell density <abbr title="Keyhole Markup Language">(KML)</abbr></a></li>
+        <li class="download"><a href="#" title="Placemarks">Placemarks <abbr title="Keyhole Markup Language">(KML)</abbr></a></li>
       </ul>
     </div>
+
   </div>
   <footer></footer>
 </article>
