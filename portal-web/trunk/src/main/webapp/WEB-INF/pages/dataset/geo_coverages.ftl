@@ -7,15 +7,12 @@
   <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
   <!-- needs to be well known text: http://en.wikipedia.org/wiki/Well-known_text#Geometric_Objects -->
   <script type="text/javascript">
-    var map_wkt = "POLYGON((103.359375 53.7890625, 157.5 52.3828125, 150.46875 20.0390625, 101.953125 24.9609375, 103.359375 53.7890625))"
+    var map_features = new Array();
+    <#list dataset.geographicCoverages as geo>
+      <#if geo.boundingBox??>map_features.push("${geo.toWellKnownText()}");</#if>
+    </#list>
   </script>
 </content>
-
-<#list dataset.geographicCoverages as geo>
-  <#if geo.boundingBox?has_content>
-    <li>${geo.boundingBox.minLongitude} ${geo.boundingBox.minLatitude} ${geo.boundingBox.maxLongitude} ${geo.boundingBox.maxLatitude}</li>
-  </#if>
-</#list>
 
 
 <article class="map">

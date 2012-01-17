@@ -63,13 +63,16 @@ var map,nubId, datasetId;
 			
 			
 			// Initialize map
+      // WGS84
+      var wgs84 = new OpenLayers.Projection("EPSG:4326");
+      // map uses the SphericalMercator projection
       map = new OpenLayers.Map("map", {
           maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
           numZoomLevels:18,
           maxResolution:156543.0339,
           units:'m',
           projection: "EPSG:900913",
-          displayProjection: new OpenLayers.Projection("EPSG:4326"),
+          displayProjection: wgs84,
           controls: []
       });
 
@@ -124,7 +127,7 @@ var map,nubId, datasetId;
 
       if (datasetId){
     		// TODO: create real tiles layer for entire occurrence dataset!
-        map.addLayer(new OpenLayers.Layer.TMS(
+        var datasetLayer = new OpenLayers.Layer.TMS(
             "GBIF Occurrences",
             "http://140.247.231.188/php/map/getEolTile.php", {
               layername: "occurrences",
@@ -153,29 +156,37 @@ var map,nubId, datasetId;
                   return x + "_" + y + "_" + z;
               }
             }
-        ));
+        );
+        //map.addLayer(datasetLayer);
       }
 
-      if (typeof(map_wkt) != "undefined"){
+      if (typeof(map_features) != "undefined"){
         // http://dev.openlayers.org/apidocs/files/OpenLayers/Layer/Vector-js.html
         // http://www.peterrobins.co.uk/it/olvectors.html
 
         var pl = new OpenLayers.Layer.Vector(
           "Boundaries", {
+            projection: wgs84,
             style: {
-                strokeColor: "blue",
-                strokeWidth: 3,
+                strokeColor: "orange",
+                strokeWidth: 1.5,
+                fillColor: "grey",
+                fillOpacity: 0.4,
                 cursor: "pointer"
             }
         });
-        // parse well known text
-        var parser = new OpenLayers.Format.WKT();
-        var features = parser.read(map_wkt);
-        pl.addFeatures(features);
 
+        // parse well known text features
+        var parser = new OpenLayers.Format.WKT();
+        $.each(map_features, function(idx, val){
+            var feat = parser.read(val);
+            // transform into spherical mercator from wgs84
+            feat.geometry.transform(wgs84, map.getProjectionObject());
+            pl.addFeatures(feat);
+          }
+        );
         map.addLayer(pl);
       }
-
 
       //map.addControl(new OpenLayers.Control.LayerSwitcher());
 
