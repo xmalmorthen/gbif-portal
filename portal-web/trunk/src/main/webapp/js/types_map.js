@@ -157,6 +157,7 @@ var map,nubId, datasetId;
               }
             }
         );
+        //TODO: add layer to map once it is for real
         //map.addLayer(datasetLayer);
       }
 
