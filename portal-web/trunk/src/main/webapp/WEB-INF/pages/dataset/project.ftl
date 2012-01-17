@@ -46,6 +46,11 @@
       <li>
         <@contact.record con=ap />
       </li>
+      <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
+      <#if ap_index==2>
+        <p><a class="more_link, placeholder_temp" href="">see all</a></p>
+        <#break />
+      </#if>
     </#list>
     </ul>
     </#if>

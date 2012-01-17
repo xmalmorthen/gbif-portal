@@ -42,6 +42,8 @@
 
 <#include "/WEB-INF/pages/dataset/methods.ftl">
 
+<#include "/WEB-INF/pages/dataset/citations.ftl">
+
 <#include "/WEB-INF/pages/dataset/legal.ftl">
 
 </body>

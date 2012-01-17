@@ -41,7 +41,7 @@
       <div class="right"><h2>Boundaries</h2></div>
     </div>
 
-  <#if (dataset.geographicCoverages?size)>0 >
+  <#if (dataset.geographicCoverages?size>0) >
     <div class="right">
       <h3>Geographic coverage</h3>
       <#list dataset.geographicCoverages as geo>
