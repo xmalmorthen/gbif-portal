@@ -34,7 +34,7 @@
   <#if (dataset.identifiers?size>0)>
     <h3>Alternative Identifiers</h3>
     <p><#list dataset.identifiers as idt>
-      <a class="more_link" href="<@s.url value='${idt.identifier}'/>">${idt.type!"link"}</a><#if idt_has_next>, </#if>
+      <#if idt.type?has_content><a href="${idt.identifier}">${idt.type}</a><#else>${idt.identifier}</#if>
     </#list>
     </p>
   </#if>
