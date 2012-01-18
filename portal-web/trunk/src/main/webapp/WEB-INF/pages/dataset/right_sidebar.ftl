@@ -31,12 +31,23 @@
     <p><a href="<@s.url value='/member/${dataset.hostingOrganization.endorsingNode.key}'/>" title="${dataset.hostingOrganization.endorsingNode.title!"Unknown"}">${dataset.hostingOrganization.endorsingNode.title!"Unknown"}</a></p>
   </#if>
 
+  <!-- Ideally the alt. identifier has a type which is displayed as a link to the identifier. Otherwise, a trimmed version is displayed. In both cases, a popup appears to display the full identifier. -->
   <#if (dataset.identifiers?size>0)>
     <h3>Alternative Identifiers</h3>
-    <p><#list dataset.identifiers as idt>
-      <#if idt.type?has_content><a href="${idt.identifier}">${idt.type}</a><#else>${idt.identifier}</#if>
-    </#list>
-    </p>
+    <ul>
+      <#assign max_id_length = 30>
+      <#list dataset.identifiers as idt>
+        <#if idt.type?has_content>
+          <#if idt.type == "LSID" || idt.type == "URL">
+            <li><a href="${idt.identifier}">${common.limit(idt.identifier!"",max_id_length)}</a></li>
+          <#else>
+            <li><a href="${idt.identifier}">${idt.type}</a></li>
+          </#if>
+        <#else>
+          <li>${common.limit(idt.identifier!"",max_id_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
+        </#if>
+      </#list>
+    </ul>
   </#if>
 
   <h3>External Links</h3>
