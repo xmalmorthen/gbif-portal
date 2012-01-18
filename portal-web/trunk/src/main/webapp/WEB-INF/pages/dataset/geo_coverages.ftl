@@ -35,15 +35,17 @@
   <div class="content">
 
     <div class="header">
-      <div class="right"><h2>Boundaries</h2></div>
+      <div class="right"><h2>Geographic Coverage</h2></div>
     </div>
 
   <#if (dataset.geographicCoverages?size>0) >
     <div class="right">
-      <h3>Geographic coverage</h3>
       <#list dataset.geographicCoverages as geo>
         <#if geo.description?has_content>
-          <p>${geo.description}</p>
+          <h3>Description</h3>
+          <p>${common.limit(geo.description!"",100)}
+            <#if (geo.description?length>100) ><@common.popup message=geo.description title="Description"/></#if>
+          </p>
         </#if>
       </#list>
     </div>
