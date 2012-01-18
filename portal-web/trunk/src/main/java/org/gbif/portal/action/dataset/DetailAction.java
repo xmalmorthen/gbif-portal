@@ -41,7 +41,7 @@ public class DetailAction extends BaseAction {
       throw new NotFoundException();
     }
 
-    return "detail";
+    return SUCCESS;
   }
 
   public Dataset getDataset() {
