@@ -4325,9 +4325,14 @@ a.next_slide:hover {
 }
 
 #content article .content .logo_holder {
-  background: url("../img/logos/logo_frame.png") no-repeat left top;
-  padding: 10px;
-  margin: 0 0 10px -2px;
+   background: no-repeat left top;
+   padding: 10px;
+   margin: 0 0 10px -2px;
+ }
+
+#content article .content .logo_holder .logo{
+  height: 75px;
+  width: 75px;
 }
 
 #content article .content .multipie {

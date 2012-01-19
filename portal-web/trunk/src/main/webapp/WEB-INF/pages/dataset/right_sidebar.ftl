@@ -1,7 +1,7 @@
 <div class="right">
   <#if dataset.logoURL?has_content>
     <div class="logo_holder">
-      <img src="<@s.url value='${dataset.logoURL}'/>"/>
+      <img class="logo" src="<@s.url value='${dataset.logoURL}'/>"/>
     </div>
   </#if>
 
