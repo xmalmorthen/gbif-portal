@@ -40,6 +40,8 @@
         <#if idt.type?has_content>
           <#if idt.type == "LSID" || idt.type == "URL">
             <li><a href="${idt.identifier}">${common.limit(idt.identifier!"",max_id_length)}</a></li>
+          <#elseif idt.type == "UNKNOWN">
+            <li>${common.limit(idt.identifier!"",max_id_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
           <#else>
             <li><a href="${idt.identifier}">${idt.type}</a></li>
           </#if>
