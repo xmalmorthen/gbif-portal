@@ -1,6 +1,6 @@
 package org.gbif.portal.model;
 
-import org.gbif.api.search.facets.Facet;
+import org.gbif.api.search.Facet;
 
 /**
  * Extended facet count with an additional optional title field

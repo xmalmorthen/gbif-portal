@@ -8,10 +8,9 @@
  */
 package org.gbif.portal.action;
 
-import org.gbif.api.search.facets.Facet;
-import org.gbif.api.search.model.SearchRequest;
-import org.gbif.api.search.model.SearchResponse;
-import org.gbif.api.search.service.SearchService;
+import org.gbif.api.search.Facet;
+import org.gbif.api.search.SearchResponse;
+import org.gbif.api.search.SearchService;
 import org.gbif.portal.model.FacetInstance;
 
 import java.util.ArrayList;
@@ -103,7 +102,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   /**
    * Executes the default action behavior.
    * The steps taken on this method are:
-   * - Creates a {@link SearchRequest} using the current {@link SearchRequest} instance
+   * - Creates a {@link org.gbif.api.search.SearchRequest} using the current {@link org.gbif.api.search.SearchRequest} instance
    * - Adds the search pattern to the request by invoking this.getQ().
    * - Executes the search operation using the {@link SearchService}.
    * - Stores the response in the {@link SearchResponse} instance.

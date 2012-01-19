@@ -13,8 +13,8 @@ package org.gbif.portal.action;
 
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
-import org.gbif.api.search.model.SearchRequest;
-import org.gbif.api.search.model.SearchResponse;
+import org.gbif.api.search.SearchRequest;
+import org.gbif.api.search.SearchResponse;
 
 import com.google.common.base.Strings;
 
