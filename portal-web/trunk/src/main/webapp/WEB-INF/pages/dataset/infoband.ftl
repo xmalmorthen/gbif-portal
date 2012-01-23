@@ -13,7 +13,7 @@
 
   <h1>${dataset.title}</h1>
 
-  <h3>Provided by <a href="<@s.url value='/member/${dataset.owningOrganizationKey!}'/>">${dataset.owningOrganization.title!"Unknown"}</a></h3>
+  <h3>Published by <a href="<@s.url value='/member/${dataset.owningOrganizationKey!}'/>">${dataset.owningOrganization.title!"Unknown"}</a></h3>
 
   <!--
   <ul class="tags">
