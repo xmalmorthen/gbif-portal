@@ -9,16 +9,18 @@
   <p>${dataset.description}</p>
 </#if>
   <!-- purpose doesn't exist yet -->
-<#--<#if dataset.purpose?has_content>-->
-<#--<h3>Purpose</h3>-->
-<#--<p>${dataset.purpose}</p>-->
-<#--</#if>-->
+<#if dataset.purpose?has_content>
+  <h3>Purpose</h3>
+
+  <p>${dataset.purpose}</p>
+</#if>
 
   <!-- additionalInformation doesn't exist yet -->
-<#--<#if dataset.additionalInformation?has_content>-->
-<#--<h3>Additional Information</h3>-->
-<#--<p>${dataset.additionalInformation}</p>-->
-<#--</#if>-->
+<#if dataset.additionalInfo?has_content>
+  <h3>Additional Information</h3>
+
+  <p>${dataset.additionalInfo}</p>
+</#if>
 
 <#if dataset.temporalCoverages?has_content>
   <h3>Temporal coverages</h3>
@@ -43,8 +45,14 @@
   </#list>
 </#if>
 
+<#if dataset.metadataLanguage?has_content>
+  <h3>Language of Metadata</h3>
+
+  <p>${dataset.metadataLanguage.displayLanguage}</p>
+</#if>
+
 <#if dataset.language?has_content>
-  <h3>Language</h3>
+  <h3>Language of Data</h3>
 
   <p>${dataset.language.displayLanguage}</p>
 </#if>

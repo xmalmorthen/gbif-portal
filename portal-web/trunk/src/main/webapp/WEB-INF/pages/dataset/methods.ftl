@@ -44,33 +44,48 @@
     </div>
 
     <div class="right">
-      <h3>Collection name</h3>
+      <#list dataset.collections as col>
+        <#if col.collectionName?has_content>
+          <h3>Collection name</h3>
 
-      <p class="placeholder_temp">Ave specimens (AVES123)</p>
+          <p>${col.collectionName}</p>
+        </#if>
 
-      <h3>Parent identifier</h3>
+        <#if col.collectionIdentifier?has_content>
+          <h3>Collection Identifier</h3>
 
-      <p class="placeholder_temp">AVES</p>
+          <p>${col.collectionIdentifier}</p>
+        </#if>
 
-      <h3>Preservation method</h3>
+        <#if col.parentCollectionIdentifier?has_content>
+          <h3>Parent Collection Identifier</h3>
 
-      <p class="placeholder_temp">Glycerin</p>
+          <p>${col.parentCollectionIdentifier}</p>
+        </#if>
 
-      <#if dataset.curatorialUnits?has_content>
-        <h3>Curational units</h3>
+        <#if col.specimenPreservationMethod?has_content>
+          <h3>Specimen Preservation method</h3>
 
-        <ul>
-          <#list dataset.curatorialUnits as unit>
-            <#if unit.typeVerbatim?has_content && unit.lower!=0 && unit.upper!=0>
-              <h4>Count range</h4>
-              <li>${unit.typeVerbatim!""}: between ${unit.lower} and ${unit.upper}</li>
-            <#elseif unit.typeVerbatim?has_content && unit.count!=0>
-              <h4>Count with uncertainty</h4>
-              <li>${unit.typeVerbatim!""}: ${unit.count} ± ${unit.deviation!""}</li>
-            </#if>
-          </#list>
-        </ul>
-      </#if>
+          <p>${col.specimenPreservationMethod}</p>
+        </#if>
+
+        <#if col.curatorialUnits?has_content>
+          <h3>Curational units</h3>
+
+          <ul>
+            <#list col.curatorialUnits as unit>
+              <#if unit.typeVerbatim?has_content && unit.lower!=0 && unit.upper!=0>
+                <h4>Count range</h4>
+                <li>${unit.typeVerbatim!""}: between ${unit.lower} and ${unit.upper}</li>
+              <#elseif unit.typeVerbatim?has_content && unit.count!=0>
+                <h4>Count with uncertainty</h4>
+                <li>${unit.typeVerbatim!""}: ${unit.count} ± ${unit.deviation!""}</li>
+              </#if>
+            </#list>
+          </ul>
+        </#if>
+
+      </#list>
     </div>
 
   </div>
