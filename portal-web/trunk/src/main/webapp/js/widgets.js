@@ -1998,6 +1998,10 @@ $.fn.bindSlideshow = function(opt) {
     liHeight: 25
   };
 
+
+
+
+
   // Called by using $('foo').taxonomicExplorer();
   methods.init = function(settings) {
     settings = $.extend({}, defaults, settings);
@@ -2217,6 +2221,14 @@ $.fn.bindSlideshow = function(opt) {
       });
     });
   };
+
+
+  methods.loadRoot = function(settings) {
+    var $cid = $(this).attr("cid");
+    $limit = 45,
+    $offset = 20,
+    recreateTree(cfg.wsClb + "checklist/" + $cid + "/usages?callback=?&offset="+$offset+"&limit="+$limit);
+  }
 
   // Build popover
   function _goto($ps, gotoLevel) {

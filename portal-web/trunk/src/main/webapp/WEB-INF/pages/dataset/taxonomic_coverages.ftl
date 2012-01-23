@@ -6,77 +6,79 @@
       <div class="left"><h2>Taxonomic Coverage</h2></div>
     </div>
 
-  <#if (dataset.taxonomicCoverages?size>0)>
 
     <div class="left">
-
-      <#list dataset.taxonomicCoverages as cov>
-        <#if cov.description?has_content>
-          <h3>Description</h3>
-
-          <p>${cov.description}</p>
+<#if (dataset.taxonomicCoverages?size>0)>
+  <#-- descriptions -->
+  <#list dataset.taxonomicCoverages as cov>
+    <#if cov.description?has_content>
+      <p>${cov.description}</p>
+    </#if>
+  </#list>
+  <#-- keywords -->
+  <#assign more=false/>
+  <ul class="three_cols">
+  <#list dataset.taxonomicCoverages as cov>
+    <#if more>
+      <#break />
+    </#if>
+    <#if cov.coverages?has_content>
+      <#list cov.coverages as innerCov>
+        <#if (innerCov.scientificName?has_content || innerCov.commonName?has_content)>
+          <li>
+            <a href="<@s.url value='/species/search?q=${innerCov.scientificName!innerCov.commonName}'/>">
+              <#if innerCov.scientificName?has_content>
+                ${innerCov.scientificName} <#if innerCov.commonName?has_content>(${innerCov.commonName})</#if>
+              <#else>
+                ${innerCov.commonName}
+              </#if>
+            <a/>
+          </li>
         </#if>
-
-        <#assign more=false/>
-        <#if cov.coverages?has_content>
-
-          <ul class="three_cols">
-            <li>Scientific Name</li>
-            <#list cov.coverages as innerCov>
-              <li>
-                <a href="<@s.url value='/species/search?q=${innerCov.scientificName!""}'/>">${innerCov.scientificName!""}
-                  <a/></li>
-              <#if innerCov_index==8>
-                <#assign more=true/>
-                <#break />
-              </#if>
-            </#list>
-          </ul>
-          <ul class="three_cols">
-            <li>Common Name</li>
-            <#list cov.coverages as innerCov>
-              <li><a href="<@s.url value='/species/search?q=${innerCov.commonName!""}'/>">${innerCov.commonName!"N/A"}
-                <a/></li>
-              <#if innerCov_index==8>
-                <#break />
-              </#if>
-            </#list>
-          </ul>
-          <!-- Rank isn't being populated, but when it does it should be shown, and link out to the nub -->
-          <ul class="three_cols">
-            <li>Rank</li>
-            <#list cov.coverages as innerCov>
-              <li class="placeholder_temp"><a href="<@s.url value='/species/42/name_usage'/>">N/A<a/></li>
-              <#if innerCov_index==8>
-                <#break />
-              </#if>
-            </#list>
-          </ul>
-
-          <#if more>
-            <p><span>The complete list has ${cov.coverages?size} elements.</span><a href="#" class="download"
-                                                                                    title="Download all the elments">
-              &nbsp;Download them all</a>.</p>
-          </#if>
+        <#if innerCov_index==8>
+          <#assign more=true/>
+          <#break />
         </#if>
-
       </#list>
-
-    </div>
-
+    </#if>
+  </#list>
+  </ul>
+  <#if more>
+    <p><span>The complete list has ${cov.coverages?size} elements.</span><a href="#" class="download" title="Download all the elments">&nbsp;Download them all</a>.</p>
   </#if>
+</#if>
+
+  </div>
+
+
+
+
 
     <div class="right">
-      <h3>Coverage</h3>
-
-      <p class="placeholder_temp">Animalia</p>
-
-      <h3>Second level data elements</h3>
+      <h3>Statistics</h3>
       <ul>
-        <li class="number placeholder_temp">References <span>123</span></li>
-        <li class="number placeholder_temp">Common names <span>456</span></li>
-        <li class="number placeholder_temp">Specimens <span>152</span></li>
+        <li>Species <span class="number placeholder_temp">53.212</span></li>
+        <li>Genera <span class="number placeholder_temp">2.134</span></li>
+        <li>Families <span class="number placeholder_temp">45</span></li>
+        <li>Plants <span class="number placeholder_temp">33.111</span></li>
+        <li>Animals <span class="number placeholder_temp">0</span></li>
+        <li>Fungi <span class="number placeholder_temp">20.052</span></li>
+        <li>Bacteria <span class="number placeholder_temp">12</span></li>
+        <li>Other <span class="number placeholder_temp">115</span></li>
       </ul>
+      <!--
+      <h3>Associated Data</h3>
+      <ul>
+        <li>Common names <span class="number placeholder_temp">5</span></li>
+        <li>Descriptions <span class="number placeholder_temp">2</span></li>
+        <li>Distributions <span class="number placeholder_temp">456</span></li>
+        <li>Images <span class="number placeholder_temp">3</span></li>
+        <li>Identifier <span class="number placeholder_temp">2</span></li>
+        <li>References <span class="number placeholder_temp">12</span></li>
+        <li>Species Profiles <span class="number placeholder_temp">1</span></li>
+        <li>TypeSpecimen <span class="number placeholder_temp">15</span></li>
+      </ul>
+      -->
     </div>
   </div>
   <footer></footer>

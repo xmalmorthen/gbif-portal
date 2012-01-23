@@ -7,7 +7,9 @@
     <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/single_map.js'/>"></script>
+    <script type="text/javascript">
+      $("#taxonomy").taxonomicExplorer().loadRoot();
+    </script>
   </content>
   <meta name="menu" content="datasets" onunload="GUnload()"/>
 </head>
@@ -30,7 +32,25 @@
 
 <#include "/WEB-INF/pages/dataset/taxonomic_coverages.ftl">
 
-<#include "/WEB-INF/pages/dataset/taxonomic_distribution.ftl">
+<article class="taxonomies">
+  <header></header>
+  <div class="content">
+    <h2>Browse Taxon Names</h2>
+
+    <div class="left">
+	<#include "/WEB-INF/pages/species/taxbrowser.ftl">
+    </div>
+
+    <div class="right">
+      <!--
+      <h3>Synonyms</h3>
+      <h3>Associated Data</h3>
+      -->
+    </div>
+
+  </div>
+  <footer></footer>
+</article>
 
 <#if dataset.type?has_content && dataset.type == "OCCURRENCE">
   <#include "/WEB-INF/pages/dataset/occurrences_map.ftl">
