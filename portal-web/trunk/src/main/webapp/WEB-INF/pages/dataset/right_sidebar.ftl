@@ -12,11 +12,19 @@
     <p>UNKNOWN</p>
   </#if>
 
-  <h3>Provided by</h3>
+  <h3>Publication Date</h3>
+  <#if dataset.pubDate?has_content>
+    <p>${dataset.pubDate?date}</p>
+  <#else>
+    <p>UNKNOWN</p>
+  </#if>
+
+  <h3>Published by</h3>
 
   <p><a href="<@s.url value='/member/${dataset.owningOrganizationKey}'/>" title="${dataset.owningOrganization.title!"Unknown"}">${dataset.owningOrganization.title!"Unknown"}</a></p>
 
-  <#if dataset.hostingOrganization?has_content>
+  <!-- Only show hosting organization if it's different from owning / publishing org -->
+  <#if dataset.hostingOrganization?has_content && dataset.hostingOrganizationKey != dataset.owningOrganizationKey>
     <h3>Hosted by</h3>
 
     <p><a href="<@s.url value='/member/${dataset.hostingOrganizationKey}'/>" title="${dataset.hostingOrganization.title!"Unknown"}">${dataset.owningOrganization.title!"Unknown"}</a></p>
