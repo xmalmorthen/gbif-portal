@@ -40,12 +40,14 @@
           <#break />
         </#if>
       </#list>
+      <#if more>
+        <p><span>The complete list has ${cov.coverages?size} elements.</span></p>
+      </#if>
     </#if>
   </#list>
+  <p><a href="#" class="download" title="Download all the elments">&nbsp;Download them all</a>.</p>
   </ul>
-  <#if more>
-    <p><span>The complete list has ${cov.coverages?size} elements.</span><a href="#" class="download" title="Download all the elments">&nbsp;Download them all</a>.</p>
-  </#if>
+
 </#if>
 
   </div>
