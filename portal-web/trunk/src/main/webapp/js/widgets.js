@@ -2052,6 +2052,22 @@ $.fn.bindSlideshow = function(opt) {
 
       $this.find('.inner').jScrollPane({ verticalDragMinHeight: 20});
 	  		
+      // get the values from the breadcrumb. To check whether there are children available in the tax tree.
+      var $cid = $breadcrumb.find("li").attr("cid");	  
+      var $spid = $breadcrumb.find("li").last().attr("spid");
+
+      // there are no children to display. Display the root taxa.	
+      if($spid<0) {
+	    //get the elements from the start
+        $offset = 0;
+		//url to get the root taxa
+        $url = cfg.wsClb + "checklist/" + $cid + "/usages?callback=?&offset="+$offset+"&limit="+$limit;	  
+		//create the tree with the root taxa
+        recreateTree($url);
+		//return the offset to its original index
+		$offset = 20; 
+      }
+
 	  
       $(".inner").scroll(function(){
         if( ($(".jspTrack").height() <= ( parseInt($(".jspDrag").css("top")) + $(".jspDrag").height() + 35)) && stop==false) {
