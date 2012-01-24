@@ -28,7 +28,7 @@
         <h3>Method Steps</h3>
         <ul>
           <#list dataset.samplingDescription.methodSteps as step>
-            <h4>Method Step ${step_index}</h4>
+            <h4>Method Step ${step_index+1}</h4>
             <#if step.title?has_content>
               <li>Title: ${step.title!""}</li>
             </#if>
@@ -44,48 +44,49 @@
     </div>
 
     <div class="right">
-      <#list dataset.collections as col>
-        <#if col.collectionName?has_content>
-          <h3>Collection name</h3>
+      <#if dataset.collections?has_content>
+        <#list dataset.collections as col>
+          <#if col.collectionName?has_content>
+            <h3>Collection name</h3>
 
-          <p>${col.collectionName}</p>
-        </#if>
+            <p>${col.collectionName}</p>
+          </#if>
 
-        <#if col.collectionIdentifier?has_content>
-          <h3>Collection Identifier</h3>
+          <#if col.collectionIdentifier?has_content>
+            <h3>Collection Identifier</h3>
 
-          <p>${col.collectionIdentifier}</p>
-        </#if>
+            <p>${col.collectionIdentifier}</p>
+          </#if>
 
-        <#if col.parentCollectionIdentifier?has_content>
-          <h3>Parent Collection Identifier</h3>
+          <#if col.parentCollectionIdentifier?has_content>
+            <h3>Parent Collection Identifier</h3>
 
-          <p>${col.parentCollectionIdentifier}</p>
-        </#if>
+            <p>${col.parentCollectionIdentifier}</p>
+          </#if>
 
-        <#if col.specimenPreservationMethod?has_content>
-          <h3>Specimen Preservation method</h3>
+          <#if col.specimenPreservationMethod?has_content>
+            <h3>Specimen Preservation method</h3>
 
-          <p>${col.specimenPreservationMethod}</p>
-        </#if>
+            <p>${col.specimenPreservationMethod}</p>
+          </#if>
 
-        <#if col.curatorialUnits?has_content>
-          <h3>Curational units</h3>
+          <#if col.curatorialUnits?has_content>
+            <h3>Curational units</h3>
 
-          <ul>
-            <#list col.curatorialUnits as unit>
-              <#if unit.typeVerbatim?has_content && unit.lower!=0 && unit.upper!=0>
-                <h4>Count range</h4>
-                <li>${unit.typeVerbatim!""}: between ${unit.lower} and ${unit.upper}</li>
-              <#elseif unit.typeVerbatim?has_content && unit.count!=0>
-                <h4>Count with uncertainty</h4>
-                <li>${unit.typeVerbatim!""}: ${unit.count} ± ${unit.deviation!""}</li>
-              </#if>
-            </#list>
-          </ul>
-        </#if>
-
-      </#list>
+            <ul>
+              <#list col.curatorialUnits as unit>
+                <#if unit.typeVerbatim?has_content && unit.lower!=0 && unit.upper!=0>
+                  <h4>Count range</h4>
+                  <li>${unit.typeVerbatim!""}: between ${unit.lower} and ${unit.upper}</li>
+                <#elseif unit.typeVerbatim?has_content && unit.count!=0>
+                  <h4>Count with uncertainty</h4>
+                  <li>${unit.typeVerbatim!""}: ${unit.count} ± ${unit.deviation!""}</li>
+                </#if>
+              </#list>
+            </ul>
+          </#if>
+        </#list>
+      </#if>
     </div>
 
   </div>
