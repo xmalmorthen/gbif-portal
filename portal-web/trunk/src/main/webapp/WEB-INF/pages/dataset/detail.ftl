@@ -7,9 +7,6 @@
     <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
-    <script type="text/javascript">
-      $("#taxonomy").taxonomicExplorer().loadRoot();
-    </script>
   </content>
   <meta name="menu" content="datasets" onunload="GUnload()"/>
 </head>

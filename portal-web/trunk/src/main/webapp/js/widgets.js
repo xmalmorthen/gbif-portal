@@ -2238,14 +2238,6 @@ $.fn.bindSlideshow = function(opt) {
     });
   };
 
-
-  methods.loadRoot = function(settings) {
-    var $cid = $(this).attr("cid");
-    $limit = 45,
-    $offset = 20,
-    recreateTree(cfg.wsClb + "checklist/" + $cid + "/usages?callback=?&offset="+$offset+"&limit="+$limit);
-  }
-
   // Build popover
   function _goto($ps, gotoLevel) {
     var data = $ps.data(store);
