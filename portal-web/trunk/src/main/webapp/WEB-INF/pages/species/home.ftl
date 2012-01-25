@@ -12,7 +12,7 @@
 
       <form action="<@s.url value='/species/search'/>" method="GET">
         <span class="input_text">
-          <input id="q" type="text" name="q" placeholder="Search species by name, higher taxon, place..."/>
+          <input id="q" type="text" name="q" placeholder="Search species by name, higher taxon, place..." class="focus"/>
           <input id="checklist" name="checklist" type="hidden" value="nub"/>
         </span>
         <button id="submitSearch" type="submit" class="search_button"><span>Search</span></button>

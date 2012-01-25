@@ -13,7 +13,7 @@
 
       <form action="<@s.url value='/dataset/search'/>" method="GET">
         <span class="input_text">
-          <input type="text" name="q"/>
+          <input type="text" name="q" class="focus"/>
         </span>
         <button type="submit" class="search_button"><span>Search</span></button>
       </form>

@@ -19,7 +19,7 @@
   <content tag="infoband">
     <h2>Search datasets</h2>
     <form action="<@s.url value='/dataset/search'/>" method="GET" id="formSearch">
-      <input type="text" name="q" value="${q!}"/>
+      <input type="text" name="q" value="${q!}" class="focus"/>
       <#list facets?keys as facetFilter>
         <#list facets.get(facetFilter) as filterValue>
         <input type="hidden" name="${facetFilter!?lower_case}" value="${filterValue.name!}"/>

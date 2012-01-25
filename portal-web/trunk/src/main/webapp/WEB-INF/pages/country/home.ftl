@@ -21,7 +21,7 @@
 
       <form action="<@s.url value='/countries/search'/>" method="GET">
       <span class="input_text">
-        <input type="text" name="q" placeholder="Search countries..."/>
+        <input type="text" name="q" placeholder="Search countries..." class="focus"/>
       </span>
         <button type="submit" class="search_button"><span>Search</span></button>
       </form>

@@ -31,7 +31,12 @@ $(function() {
     e.preventDefault();
   });
 
+  // focus on form input element with class "focus"
+  $('input.focus').focus();
+
   $(".selectbox").selectBox();
+
+  // setup taxonomic browser
   $("#taxonomy").taxonomicExplorer({transitionSpeed:300});
 
   // read news

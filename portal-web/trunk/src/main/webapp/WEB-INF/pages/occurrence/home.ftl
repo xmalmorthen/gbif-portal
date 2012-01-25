@@ -12,7 +12,7 @@
 
       <form action="<@s.url value='/occurrence/search'/>" method="GET">
         <span class="input_text">
-          <input type="text" name="q" placeholder="Search species, places, data publishers..."/>
+          <input type="text" name="q" placeholder="Search species, places, data publishers..." class="focus"/>
         </span>
         <button type="submit" class="search_button"><span>Search</span></button>
       </form>
