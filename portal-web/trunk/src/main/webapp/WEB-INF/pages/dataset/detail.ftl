@@ -29,25 +29,24 @@
 
 <#include "/WEB-INF/pages/dataset/taxonomic_coverages.ftl">
 
-<article class="taxonomies">
-  <header></header>
-  <div class="content">
-    <h2>Browse Taxon Names</h2>
+<#if dataset.type?has_content && dataset.type == "CHECKLIST">
+  <article class="taxonomies">
+    <header></header>
+    <div class="content">
+      <h2>Browse Classification</h2>
 
-    <div class="left">
-	<#include "/WEB-INF/pages/species/taxbrowser.ftl">
+      <div class="left">
+    <#include "/WEB-INF/pages/species/taxbrowser.ftl">
+      </div>
+
+      <div class="right">
+
+      </div>
+
     </div>
-
-    <div class="right">
-      <!--
-      <h3>Synonyms</h3>
-      <h3>Associated Data</h3>
-      -->
-    </div>
-
-  </div>
-  <footer></footer>
-</article>
+    <footer></footer>
+  </article>
+</#if>
 
 <#if dataset.type?has_content && dataset.type == "OCCURRENCE">
   <#include "/WEB-INF/pages/dataset/occurrences_map.ftl">
