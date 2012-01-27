@@ -8,7 +8,11 @@
   </#if>
   <#-- TODO: change enum as this displays something like "POINT_OF_CONTACT" -->
   <#if con.type?has_content>
-  <h4 class="position">${con.type?string!}</h4>
+    <#if con.type.interpreted?has_content>
+      <h4 class="position">${con.type.interpreted.getName()}</h4>
+    <#else>
+      <h4 class="position">${con.type.verbatim?string!}</h4>
+    </#if>
   </#if>
 
   <#if con.position?has_content>

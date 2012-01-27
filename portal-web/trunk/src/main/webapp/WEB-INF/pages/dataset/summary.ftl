@@ -48,13 +48,23 @@
 <#if dataset.metadataLanguage?has_content>
   <h3>Language of Metadata</h3>
 
-  <p>${dataset.metadataLanguage.displayLanguage}</p>
+  <#if dataset.metadataLanguage.interpreted?has_content>
+    <p>${dataset.metadataLanguage.interpreted?string!}</p>
+  <#else>
+    <p>${dataset.metadataLanguage.verbatim?string!}</p>
+  </#if>
+
+
 </#if>
 
 <#if dataset.language?has_content>
   <h3>Language of Data</h3>
 
-  <p>${dataset.language.displayLanguage}</p>
+  <#if dataset.language.interpreted?has_content>
+    <p>${dataset.language.interpreted?string!}</p>
+  <#else>
+    <p>${dataset.language.verbatim?string!}</p>
+  </#if>
 </#if>
 
 </div>
