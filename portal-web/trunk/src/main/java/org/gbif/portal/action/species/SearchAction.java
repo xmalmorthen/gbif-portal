@@ -12,6 +12,7 @@ import org.gbif.api.model.vocabulary.ThreatStatus;
 import org.gbif.checklistbank.api.Constants;
 import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
 import org.gbif.checklistbank.api.model.search.NameUsageSearchResult;
+import org.gbif.checklistbank.api.model.search.NameUsageSearchSuggestResult;
 import org.gbif.checklistbank.api.model.vocabulary.TaxonomicStatus;
 import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
@@ -50,7 +51,8 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private final ThreatStatusConverter threatStatusConverter;
 
   @Inject
-  public SearchAction(NameUsageSearchService<NameUsageSearchResult> nameUsageSearchService,
+  public SearchAction(
+    NameUsageSearchService<NameUsageSearchResult, NameUsageSearchSuggestResult> nameUsageSearchService,
     NameUsageService usageService, ChecklistService checklistService,
     TaxonomicStatusConverter taxonomicStatusConverter, ThreatStatusConverter threatStatusConverter) {
     super(nameUsageSearchService, ChecklistBankFacetParameter.class);
@@ -104,14 +106,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       params.put(NUB_KEY_PARAM, nubKey.toString());
     }
     return params;
-  }
-
-  @Override
-  protected String translateFacetValue(Enum<ChecklistBankFacetParameter> facet, String value) {
-    if (ChecklistBankFacetParameter.CHECKLIST.equals(facet) && value != null){
-      return value.equalsIgnoreCase("nub") ? Constants.NUB_TAXONOMY_KEY.toString() : value;
-    }
-    return value;
   }
 
   /**
@@ -193,7 +187,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   }
 
-
   /**
    * Request parameter for filtering results by nubKey.
    * 
@@ -201,5 +194,14 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    */
   public void setNubKey(Integer nubKey) {
     this.nubKey = nubKey;
+  }
+
+
+  @Override
+  protected String translateFacetValue(Enum<ChecklistBankFacetParameter> facet, String value) {
+    if (ChecklistBankFacetParameter.CHECKLIST.equals(facet) && value != null) {
+      return value.equalsIgnoreCase("nub") ? Constants.NUB_TAXONOMY_KEY.toString() : value;
+    }
+    return value;
   }
 }
