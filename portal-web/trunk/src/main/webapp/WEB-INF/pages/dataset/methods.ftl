@@ -67,7 +67,7 @@
           <#if col.specimenPreservationMethod?has_content>
             <h3>Specimen Preservation method</h3>
 
-            <p>${col.specimenPreservationMethod}</p>
+            <p><@s.text name="enum.preservationmethodtype.${col.specimenPreservationMethod}"/></a></p>
           </#if>
 
           <#if col.curatorialUnits?has_content>
