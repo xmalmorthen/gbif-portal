@@ -6,20 +6,25 @@
   <content tag="extra_scripts">    
     <script type="text/javascript" src="<@s.url value='/js/facets.js'/>">
     </script>
+    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.custom.min.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script> 
+    <script>              	  
+      	$("#q").speciesAutosuggest(cfg.wsClbSuggest,4,"#facetfilterCHECKLIST .facetKey","#content","canonicalName","checklistTitle");	  
+	</script>
   </content>
   <style type="text/css">
-#resetFacets{
-  clear: both;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
+	#resetFacets{
+	  clear: both;
+	  overflow: hidden;
+	  margin-bottom: 20px;
+	}
   </style>
 </head>
 <body class="search">  
   <content tag="infoband">
     <h2>Search species</h2>
     <form action="<@s.url value='/species/search'/>" method="GET" id="formSearch">
-      <input type="text" name="q" value="${q!}"/>
+      <input id="q" type="text" name="q" value="${q!}"/>
       <#list facets?keys as facetFilter>
         <#list facets.get(facetFilter) as filterValue>
         <input type="hidden" name="${facetFilter!?lower_case}" value="${filterValue.name!}" class="focus"/>

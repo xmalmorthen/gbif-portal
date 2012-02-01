@@ -17,6 +17,7 @@ This include requires 2 arrays to be set:
           <li>
             <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
             <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" checked/>
+            <input type="hidden" value="${count.name!}" class="facetKey"/>
           </li>
         </#list>
         <#list facetCounts[facetName] as count>
@@ -28,7 +29,7 @@ This include requires 2 arrays to be set:
             <#assign displayedFacets = displayedFacets + 1>
             <li>
               <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-              <input type="checkbox" value="&${facetName?lower_case}=${count.name!}"/>
+              <input type="checkbox" value="&${facetName?lower_case}=${count.name!}"/>              
             </li>
           </#if>
         </#list>
@@ -44,7 +45,7 @@ This include requires 2 arrays to be set:
                    <#list facetCounts[facetName] as count>
                   <li>
                     <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-                <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>
+                    <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>                
                   </li>
                   </#list>
                  </ul>

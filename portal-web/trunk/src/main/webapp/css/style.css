@@ -1470,7 +1470,11 @@ span.remove {
   font-weight: bold;
 }
 
-.ac_results {
+/**
+ac_results and #content ui-complete (jquery ui): are styles for autocomplete/autosuggest widgets.
+The id #content is used for forcing precedence over other style definitions.
+**/
+.ac_results, #content ui-autocomplete {
   z-index: 1000;
   text-align: left;
   color: #cccccc;
@@ -1479,54 +1483,60 @@ span.remove {
   font-family: "DINOT-Medium", Sans-Serif;
 }
 
-.ac_results ul {
+.ac_results ul, #content ul.ui-autocomplete {
   margin-top: -5px;
   margin-left: -5px;
 }
 
-.ac_results ul li .row {
+.ac_results ul li .row, #content ul.ui-autocomplete li.ui-menu-item {
   padding: 7px 11px;
   width: 203px;
   height: 31px;
   background: url("../img/autocomplete_bkg.png") no-repeat -226px -12px;
   cursor: pointer;
+  text-align: left;  
 }
 
-.ac_results ul li .row:hover {
+.ac_results ul li .row:hover, #content ul.ui-autocomplete li.ui-menu-item:hover {
   height: 31px;
   background-position: -226px -92px;
+  border: none;
 }
 
-.ac_results ul li .row.unique {
+.ac_results ul li .row.unique, #content ul.ui-autocomplete li.ui-menu-item.unique {
   padding: 20px 11px 7px 11px;
   height: 37px;
   background: url("../img/autocomplete_bkg.png") no-repeat -678px top;
 }
 
-.ac_results ul li .row.unique:hover {
+.ac_results ul li .row.unique:hover, #content ul.ui-autocomplete li.ui-menu-item.unique:hover {
   background: url("../img/autocomplete_bkg.png") no-repeat -678px -80px;
+  border: none;
 }
 
-.ac_results ul li .row.first {
+.ac_results ul li .row.first, #content ul.ui-autocomplete li.ui-menu-item.first {
   padding-top: 20px;
   height: 30px;
   background: url("../img/autocomplete_bkg.png") no-repeat left top;
 }
 
-.ac_results ul li .row.first:hover {
+.ac_results ul li .row.first:hover, #content ul.ui-autocomplete li.ui-menu-item.first:hover {
   padding-top: 20px;
   height: 30px;
   background: url("../img/autocomplete_bkg.png") no-repeat left -80px;
+  border: none;
 }
 
-.ac_results ul li .row.last {
+.ac_results ul li .row.last, #content ul.ui-autocomplete li.ui-menu-item.last {
   height: 58px;
   background: url("../img/autocomplete_bkg.png") no-repeat -452px -8px;
+  border: none;
 }
 
-.ac_results ul li .row.last:hover {
+.ac_results ul li .row.last:hover, #content ul.ui-autocomplete li.ui-menu-item.last:hover {
   height: 58px;
   background: url("../img/autocomplete_bkg.png") no-repeat -452px -88px;
+  border: none;
 }
 
 .ac_results ul li .row.last_double {
@@ -1539,14 +1549,24 @@ span.remove {
   background: url("../img/autocomplete_bkg.png") no-repeat -904px -88px;
 }
 
-.ac_results ul li .row span.name {
+.ac_results ul li .row span.name, #content ul.ui-autocomplete li.ui-menu-item a.name {
   display: block;
   margin-bottom: 3px;
   text-transform: none;
-  font-size: 15px;
+  font-size: 11px;
   font-family: "Arial", "Helvetica", Sans-Serif;
   color: #0099cc;
+  border: none;
+  background: none;
+  padding-bottom: 2px;
+  padding-top: 1px;
 }
+
+.ac_results ul li .row span.name strong, #content ul.ui-autocomplete li.ui-menu-item a.name strong{
+  font-weight:bold;
+  font-size: 12px;
+}
+
 
 #content span.autocomplete {
   float: left;
@@ -7385,3 +7405,5 @@ body.singlemap a.zoom_out:hover {
 .selectedSeparator{
 	border:1px dashed #EEEEEE;
 }
+
+ 

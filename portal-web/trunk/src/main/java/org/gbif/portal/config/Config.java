@@ -34,6 +34,10 @@ public class Config {
   @Named("occurrencestore.search.ws.url")
   private String wsOccSearch;
 
+  @Inject
+  @Named("checklistbank.suggest.ws.url")
+  private String wsClbSuggest;
+
 
   public String getWsClb() {
     return wsClb;
@@ -43,12 +47,8 @@ public class Config {
     return wsClbSearch;
   }
 
-  public String getWsReg() {
-    return wsReg;
-  }
-
-  public String getWsRegSearch() {
-    return wsRegSearch;
+  public String getWsClbSuggest() {
+    return wsClbSuggest;
   }
 
   public String getWsOcc() {
@@ -57,5 +57,13 @@ public class Config {
 
   public String getWsOccSearch() {
     return wsOccSearch;
+  }
+
+  public String getWsReg() {
+    return wsReg;
+  }
+
+  public String getWsRegSearch() {
+    return wsRegSearch;
   }
 }

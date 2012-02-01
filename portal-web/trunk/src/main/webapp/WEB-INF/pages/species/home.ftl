@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>Species Search</title>
-  <meta name="menu" content="species"/>
+  <meta name="menu" content="species"/> 
 </head>
 <body class="dataset">
 
@@ -10,13 +10,15 @@
     <div class="content">
       <h1>Search through 2,183,212 species</h1>
 
-      <form action="<@s.url value='/species/search'/>" method="GET">
+      <form action="<@s.url value='/species/search'/>" method="GET">                    
         <span class="input_text">
-          <input id="q" type="text" name="q" placeholder="Search species by name, higher taxon, place..." class="focus"/>
-          <input id="checklist" name="checklist" type="hidden" value="nub"/>
-        </span>
+         <input id="q" type="text" value="" name="q"/>
+        </span>                             
         <button id="submitSearch" type="submit" class="search_button"><span>Search</span></button>
-      </form>
+        <input id="checklist" name="checklist" type="hidden" value="nub"/>            
+      </form>      
+      <div class="example">
+</div>
       <ul class="species">
         <li><a href="<@s.url value='/species/search?q=&checklist=nub&highertaxon=359'/>" title="Mammals">Mammals</a></li>
         <li><a href="<@s.url value='/species/search?q=&checklist=nub&highertaxon=212'/>" title="Birds">Birds</a></li>
@@ -45,7 +47,12 @@
   </article>
   <p class="advice">Looking for something more specific? Use our <a href="#" title="advance filtering">advanced
     filtering</a> or the <a href="#" title="taxonomic browser">taxonomic browser</a>.</p>
-
-
-</body>
+    <content tag="extra_scripts">      
+      <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.custom.min.js'/>"></script>
+      <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script> 
+      <script>        	  
+      	$("#q").speciesAutosuggest(cfg.wsClbSuggest,4,null,"#content","canonicalName","checklistTitle");	  
+	  </script>
+	</content>
+</body>  
 </html>
