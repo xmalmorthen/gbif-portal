@@ -10,9 +10,9 @@
 
   <h3>Checklist type</h3>
   <#if dataset.type?has_content>
-    <p>${dataset.type}</p>
+    <p><@s.text name="enum.datasettype.${dataset.type}"/></a></p>
   <#else>
-    <p>UNKNOWN</p>
+    <p>Unknown</p>
   </#if>
 
   <h3>Publication Date</h3>
