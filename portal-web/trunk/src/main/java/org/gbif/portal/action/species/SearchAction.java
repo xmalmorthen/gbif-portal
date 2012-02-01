@@ -12,7 +12,6 @@ import org.gbif.api.model.vocabulary.ThreatStatus;
 import org.gbif.checklistbank.api.Constants;
 import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
 import org.gbif.checklistbank.api.model.search.NameUsageSearchResult;
-import org.gbif.checklistbank.api.model.search.NameUsageSearchSuggestResult;
 import org.gbif.checklistbank.api.model.vocabulary.TaxonomicStatus;
 import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
@@ -51,8 +50,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private final ThreatStatusConverter threatStatusConverter;
 
   @Inject
-  public SearchAction(
-    NameUsageSearchService<NameUsageSearchResult, NameUsageSearchSuggestResult> nameUsageSearchService,
+  public SearchAction(NameUsageSearchService<NameUsageSearchResult> nameUsageSearchService,
     NameUsageService usageService, ChecklistService checklistService,
     TaxonomicStatusConverter taxonomicStatusConverter, ThreatStatusConverter threatStatusConverter) {
     super(nameUsageSearchService, ChecklistBankFacetParameter.class);
