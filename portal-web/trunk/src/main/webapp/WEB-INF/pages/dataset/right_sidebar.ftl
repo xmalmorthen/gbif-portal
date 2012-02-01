@@ -53,7 +53,7 @@
           <#elseif idt.type == "UNKNOWN">
             <li>${common.limit(idt.identifier!"",max_show_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
           <#else>
-            <li><a href="${idt.identifier}">${idt.type}</a></li>
+            <li><a href="${idt.identifier}"><@s.text name="enum.identifiertype.${idt.type}"/></a></li>
           </#if>
         <#else>
           <li>${common.limit(idt.identifier!"",max_show_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
