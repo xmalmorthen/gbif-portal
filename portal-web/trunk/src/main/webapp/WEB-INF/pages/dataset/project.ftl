@@ -1,5 +1,5 @@
 <#import "/WEB-INF/macros/dataset/contact.ftl" as contact>
-<#if dataset.project?has_content || dataset.contacts?has_content>
+<#if dataset.project?has_content || (otherContacts?size>0) >
 <article>
   <header></header>
   <div class="content">
@@ -47,14 +47,14 @@
 
     <div class="right">
 
-    <#if dataset.contacts?has_content>
+    <#if (otherContacts?size>0) >
     <h3>Associated parties</h3>
     <ul class="parties">
-    <#list dataset.contacts as ap>
+    <#list otherContacts as ap>
       <li>
         <@contact.record con=ap />
       </li>
-      <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
+      <#-- only show 3 references at max. If we have 3 (index=2) we know there are more to show -->
       <#if ap_index==2>
         <p><a class="more_link, placeholder_temp" href="">see all</a></p>
         <#break />

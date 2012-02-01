@@ -9,9 +9,9 @@
   <#-- TODO: change enum as this displays something like "POINT_OF_CONTACT" -->
   <#if con.type?has_content>
     <#if con.type.interpreted?has_content>
-      <h4 class="position">${con.type.interpreted.getName()}</h4>
+      <h4 class="position"><@s.text name="enum.contacttype.${con.type.interpreted}"/></h4>
     <#else>
-      <h4 class="position">${con.type.verbatim?string!}</h4>
+      <h4 class="position verbatim_temp">${con.type.verbatim?string!}</h4>
     </#if>
   </#if>
 

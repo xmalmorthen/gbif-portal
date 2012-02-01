@@ -1,4 +1,7 @@
 <div class="right">
+  <!-- variables local to this section -->
+  <#assign max_show_length = 30>
+
   <#if dataset.logoURL?has_content>
     <div class="logo_holder">
       <img class="logo" src="<@s.url value='${dataset.logoURL}'/>"/>
@@ -43,20 +46,37 @@
   <#if (dataset.identifiers?size>0)>
     <h3>Alternative Identifiers</h3>
     <ul>
-      <#assign max_id_length = 30>
       <#list dataset.identifiers as idt>
         <#if idt.type?has_content>
           <#if idt.type == "LSID" || idt.type == "URL">
-            <li><a href="${idt.identifier}">${common.limit(idt.identifier!"",max_id_length)}</a></li>
+            <li><a href="${idt.identifier}">${common.limit(idt.identifier!"",max_show_length)}</a></li>
           <#elseif idt.type == "UNKNOWN">
-            <li>${common.limit(idt.identifier!"",max_id_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
+            <li>${common.limit(idt.identifier!"",max_show_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
           <#else>
             <li><a href="${idt.identifier}">${idt.type}</a></li>
           </#if>
         <#else>
-          <li>${common.limit(idt.identifier!"",max_id_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
+          <li>${common.limit(idt.identifier!"",max_show_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
         </#if>
       </#list>
+    </ul>
+  </#if>
+
+  <#if dataset.endpoints?has_content>
+    <h3>Online Services</h3>
+    <ul>
+    <#list dataset.endpoints as point>
+      <#if point.type?has_content && point.url?has_content>
+        <li>
+          <a href="<@s.url value='${point.url}'/>" title="${point.type} endpoint">
+            ${common.limit(point.type!"",max_show_length)}
+            <#if point.type=="EML">
+              <@common.popup message="This is a link to the original metadata document. The metadata may be different from the version that is displayed if it has been updated since the time the dataset was last indexed." title="Warning"/>
+            </#if>
+          </a>
+        </li>
+      </#if>
+    </#list>
     </ul>
   </#if>
 

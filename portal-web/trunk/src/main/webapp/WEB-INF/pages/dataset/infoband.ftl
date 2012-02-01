@@ -13,15 +13,17 @@
 
   <h1>${dataset.title}</h1>
 
-  <h3>Published by <a href="<@s.url value='/member/${dataset.owningOrganizationKey!}'/>">${dataset.owningOrganization.title!"Unknown"}</a></h3>
+  <h3 class="separator">Published by <a href="<@s.url value='/member/${dataset.owningOrganizationKey!}'/>">${dataset.owningOrganization.title!"Unknown"}</a></h3>
 
-  <!--
+<#if (dataset.tags?size>0) >
   <ul class="tags">
-    <li><a href="#" title="Turkey">Turkey</a></li>
-    <li><a href="#" title="coastal">coastal</a></li>
-    <li class="last"><a href="#" title="herbal">herbal</a></li>
+    <#list dataset.tags as tag>
+      <#if tag.predicate?has_content && tag.value?has_content>
+        <li><a href="#" title="${tag.predicate}">${tag.predicate}=${tag.value}</a></li>
+      </#if>
+    </#list>
   </ul>
-  -->
+</#if>
 
 <#if dataset.type?has_content && dataset.type == "OCCURRENCE">
   <div class="box">

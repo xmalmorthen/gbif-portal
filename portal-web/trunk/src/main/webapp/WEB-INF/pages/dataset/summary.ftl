@@ -1,3 +1,4 @@
+<#import "/WEB-INF/macros/dataset/contact.ftl" as contact>
 <div class="header">
   <div class="left"><h2>Summary</h2></div>
 </div>
@@ -51,7 +52,7 @@
   <#if dataset.metadataLanguage.interpreted?has_content>
     <p>${dataset.metadataLanguage.interpreted?string!}</p>
   <#else>
-    <p>${dataset.metadataLanguage.verbatim?string!}</p>
+    <p class="verbatim_temp">${dataset.metadataLanguage.verbatim?string!}</p>
   </#if>
 
 
@@ -63,8 +64,25 @@
   <#if dataset.language.interpreted?has_content>
     <p>${dataset.language.interpreted?string!}</p>
   <#else>
-    <p>${dataset.language.verbatim?string!}</p>
+    <p class="verbatim_temp">${dataset.language.verbatim?string!}</p>
   </#if>
+</#if>
+
+<#if (preferredContacts?size>0) >
+  <h3>Primary Contacts</h3>
+  <ul class="parties">
+
+    <#list preferredContacts as cnt>
+        <li>
+          <@contact.record con=cnt />
+        </li>
+      <#-- only show 3 primary contacts at max. If we have 3 (index=2) we know there are more to show -->
+      <#if cnt_index==2>
+        <p><a class="more_link, placeholder_temp" href="">see all</a></p>
+        <#break />
+      </#if>
+    </#list>
+  </ul>
 </#if>
 
 </div>

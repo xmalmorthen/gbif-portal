@@ -7344,6 +7344,13 @@ body.singlemap a.zoom_out:hover {
   opacity: 0.32;
 }
 
+/* Temporary CSS for showing this is a verbatim value and the interpreted value could not be made. */
+/* Vizzuality might decided to style this a different way */
+.verbatim_temp {
+  color: #FF9900;
+  opacity: 0.90;
+}
+
 /*Styles for facets: clears any existing background settings and font sizes*/
 .facet, .facet div, .facet ul li, .facet span, .facet p, .facet a {
   font-size: 12px !important;

@@ -10,8 +10,12 @@ package org.gbif.portal.action.dataset;
 
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.NotFoundException;
+import org.gbif.registry.api.model.Contact;
 import org.gbif.registry.api.model.Dataset;
 import org.gbif.registry.api.service.DatasetService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -24,6 +28,8 @@ public class DetailAction extends BaseAction {
   // detail
   private String id;
   private Dataset dataset;
+  private List<Contact> preferredContacts;
+  private List<Contact> otherContacts;
 
   @Inject
   private DatasetService datasetService;
@@ -41,7 +47,32 @@ public class DetailAction extends BaseAction {
       throw new NotFoundException();
     }
 
+    // are there preferred (primary) contacts
+    separateContacts(dataset.getContacts());
+
     return SUCCESS;
+  }
+
+  /**
+   * Iterate over the list of dataset contacts. Divide them into two lists:
+   * those thare are preferred (primary), and those that are not.
+   *
+   * @param contacts list of contacts associated to the dataset
+   */
+  private void separateContacts(List<Contact> contacts) {
+    // instantiate lists
+    preferredContacts = new ArrayList<Contact>();
+    otherContacts = new ArrayList<Contact>();
+    // populate lists
+    if (contacts.size() > 0) {
+      for (Contact contact : contacts) {
+        if (contact.isPreferred()) {
+          preferredContacts.add(contact);
+        } else {
+          otherContacts.add(contact);
+        }
+      }
+    }
   }
 
   public Dataset getDataset() {
@@ -58,5 +89,13 @@ public class DetailAction extends BaseAction {
 
   public String getId() {
     return id;
+  }
+
+  public List<Contact> getPreferredContacts() {
+    return preferredContacts;
+  }
+
+  public List<Contact> getOtherContacts() {
+    return otherContacts;
   }
 }

@@ -27,8 +27,6 @@
     <footer></footer>
   </article>
 
-<#include "/WEB-INF/pages/dataset/endpoints.ftl">
-
 <#include "/WEB-INF/pages/dataset/taxonomic_coverages.ftl">
 
 <#if dataset.type?has_content && dataset.type == "CHECKLIST">
