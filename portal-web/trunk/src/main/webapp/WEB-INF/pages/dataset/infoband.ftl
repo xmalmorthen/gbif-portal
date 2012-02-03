@@ -13,16 +13,34 @@
 
   <h1>${dataset.title}</h1>
 
-  <h3 class="separator">Published by <a href="<@s.url value='/member/${dataset.owningOrganizationKey!}'/>">${dataset.owningOrganization.title!"Unknown"}</a></h3>
+  <h3 class="separator">Published by <a
+          href="<@s.url value='/member/${dataset.owningOrganizationKey!}'/>">${dataset.owningOrganization.title!"Unknown"}</a>
+  </h3>
 
-<#if (dataset.tags?size>0) >
-  <ul class="tags">
-    <#list dataset.tags as tag>
+
+<ul class="tags">
+<#if (dataset.tags?size>0)>
+  <#list dataset.tags as tag>
+    <#if (!tag.namespace?has_content) >
       <#if tag.predicate?has_content && tag.value?has_content>
         <li><a href="#" title="${tag.predicate}">${tag.predicate}=${tag.value}</a></li>
+      <#elseif tag.predicate?has_content>
+        <li><a href="#" title="${tag.predicate}">${tag.predicate}</a></li>
+      <#elseif tag.value?has_content>
+        <li><a href="#" title="${tag.value}">${tag.value}</a></li>
       </#if>
-    </#list>
-  </ul>
+    </#if>
+  </#list>
+</#if>
+<#if (dataset.keywordCollections?size>0)>
+  <#list dataset.keywordCollections as keyCol>
+    <#if keyCol.thesaurus?has_content && keyCol.keywords?has_content>
+      <#list keyCol.keywords as word>
+        <li><a href="#" title="${word}">${word}</a></li>
+      </#list>
+    </#if>
+  </#list>
+</ul>
 </#if>
 
 <#if dataset.type?has_content && dataset.type == "OCCURRENCE">
@@ -70,17 +88,18 @@
     <li<#if (tab!"")=="info"> class='selected highlighted'</#if>><a href="<@s.url value='/dataset/${id!}'/>"
                                                                     title="Information"><span>Information</span></a>
     </li>
-    <#if dataset.type?has_content && dataset.type == "OCCURRENCE">
-      <!-- TODO: dynamically display occurrences entry only for occurrence datasets -->
-      <li<#if (tab!"")=="occurrences"> class='selected highlighted'</#if>><a
-              href="<@s.url value='/dataset/${id!}/occurrences'/>" title="Occurrences"><span>Occurrences</span></a>
-      </li>
-    </#if>
+  <#if dataset.type?has_content && dataset.type == "OCCURRENCE">
+    <!-- TODO: dynamically display occurrences entry only for occurrence datasets -->
+    <li<#if (tab!"")=="occurrences"> class='selected highlighted'</#if>><a
+            href="<@s.url value='/dataset/${id!}/occurrences'/>" title="Occurrences"><span>Occurrences</span></a>
+    </li>
+  </#if>
     <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>><a
             href="<@s.url value='/dataset/${id!}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a>
     </li>
-    <li<#if (tab!"")=="discussion"> class='selected highlighted'</#if>><a href="<@s.url value='/dataset/${id!}/discussion'/>"
-                                                                     title="Discussion"><span>Discussion <sup>(5)</sup></span></a>
+    <li<#if (tab!"")=="discussion"> class='selected highlighted'</#if>><a
+            href="<@s.url value='/dataset/${id!}/discussion'/>"
+            title="Discussion"><span>Discussion <sup>(5)</sup></span></a>
     </li>
   </ul>
 </content>

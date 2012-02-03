@@ -10,7 +10,7 @@
   <#if con.type?has_content>
     <#if con.type.interpreted?has_content>
       <h4 class="position"><@s.text name="enum.contacttype.${con.type.interpreted}"/></h4>
-    <#else>
+    <#elseif con.type.verbatim?has_content>
       <h4 class="position verbatim_temp">${con.type.verbatim?string!}</h4>
     </#if>
   </#if>
