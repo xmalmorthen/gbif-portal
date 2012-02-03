@@ -36,7 +36,9 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private static final String CHECKLIST_KEY_PARAM = "checklistKey";
   private static final String NUB_KEY_PARAM = "nubKey";
   private static final long serialVersionUID = -3736915206911951300L;
+
   private Integer nubKey;
+
   // injected
   private final NameUsageService usageService;
   private final ChecklistService checklistService;
@@ -185,6 +187,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   }
 
+
   /**
    * Request parameter for filtering results by nubKey.
    * 
@@ -193,7 +196,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   public void setNubKey(Integer nubKey) {
     this.nubKey = nubKey;
   }
-
 
   @Override
   protected String translateFacetValue(Enum<ChecklistBankFacetParameter> facet, String value) {

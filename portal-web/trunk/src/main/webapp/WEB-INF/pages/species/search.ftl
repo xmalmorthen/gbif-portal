@@ -6,10 +6,13 @@
   <content tag="extra_scripts">    
     <script type="text/javascript" src="<@s.url value='/js/facets.js'/>">
     </script>
-    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.custom.min.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script> 
     <script>              	  
-      	$("#q").speciesAutosuggest(cfg.wsClbSuggest,4,"#facetfilterCHECKLIST .facetKey","#content","canonicalName","checklistTitle");	  
+      	$("#q").speciesAutosuggest(cfg.wsClbSuggest,4,"#facetfilterCHECKLIST .facetKey","#content","canonicalName","checklistTitle");
+      	$("a.moreDesc").each(function(){ 
+      					$(this).sourcePopover({"title":"Description", "message":$(this).parent().next("div").text()})
+      	});			
 	</script>
   </content>
   <style type="text/css">
@@ -79,6 +82,20 @@
             </#list>             
             </ul>
           </div>
+          <div>
+          <#list u.descriptions as desc>             	
+          	<#if desc?contains('<em class="gbifHl">')>          	  
+          	    <h3>Description</h3>
+          	     <#assign hlText=action.getHighlightedText(desc)/>               		
+          		<p>${hlText}          		
+          		<#if (hlText?length < desc?length)>
+          			<a class="moreDesc" id="${u.key?c}Desc${desc_index?c}" title="Description" href="#"><img src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
+          			<div style="display: none;">${desc}</div>
+          		</#if>      
+          		</p>    		
+          	</#if>
+          </#list> 
+          </div>         
         </div>
       </#list>
 

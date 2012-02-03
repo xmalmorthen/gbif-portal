@@ -198,7 +198,7 @@ ${head}
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.custom.min.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/autocomplete.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.uniform.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/mousewheel.js'/>"></script>
