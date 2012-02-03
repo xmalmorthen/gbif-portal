@@ -15,14 +15,11 @@ import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
 import org.gbif.api.search.SearchRequest;
 import org.gbif.api.search.SearchResponse;
-import org.gbif.common.search.util.SearchConstants;
 
 import com.google.common.base.Strings;
 
 import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
-import static org.gbif.common.search.util.SearchConstants.HL_POST;
-import static org.gbif.common.search.util.SearchConstants.HL_PRE;
 
 
 /**
@@ -49,9 +46,13 @@ public abstract class BaseSearchAction<T> extends BaseAction {
    */
   private static final String MORE_TEXT_MARKER = "...";
 
+  public static final String HL_PRE = "<em class=\"gbifHl\">";
+
+  public static final String HL_POST = "</em>";
+
   /**
    * Takes a highlighted text and trimmed it to show the first highlighted term.
-   * The text is found using the {@link SearchConstants#HL_PRE} and {@link SearchConstants#HL_POST} tags.
+   * The text is found using the HL_PRE and HL_POST tags.
    * Ensure that at least the whole term is shown or else MAX_LONG_HL_FIELD are displayed.
    * 
    * @param text highlighted text to be trimmed.
