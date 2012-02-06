@@ -36,6 +36,7 @@
   <properties>
     <checklistbank.ws.url>http://staging.gbif.org:8080/checklistbank-ws/</checklistbank.ws.url>
     <checklistbank.search.ws.url>http://staging.gbif.org:8080/checklistbank-search-ws/</checklistbank.search.ws.url>
+    <checklistbank.suggest.ws.url>http://staging.gbif.org:8080/checklistbank-search-ws/search/suggest</checklistbank.suggest.ws.url>
     <registry.ws.url>http://staging.gbif.org:8080/registry-ws/</registry.ws.url>
     <registry.search.ws.url>http://staging.gbif.org:8080/registry-search-ws/</registry.search.ws.url>
     <occurrencestore.ws.url>http://staging.gbif.org:8080/occurrencestore-ws/</occurrencestore.ws.url>
