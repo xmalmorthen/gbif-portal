@@ -54,7 +54,7 @@
       <#list searchResponse.results as u>
         <div class="result searchResult">
           <h2>
-            <a href="<@s.url value='/species/${u.key?c}'/>" title="${u.scientificName}"><strong>${u.scientificName}</strong></a>
+            <a href="<@s.url value='/species/${u.key?c}'/>"><strong>${u.scientificName}</strong></a>
             <span class="note">
              <#if u.rank??><@s.text name="enum.rank.${u.rank}"/></#if>
              <#if u.synonym><#if u.proParte>pro parte </#if>synonym</#if>
