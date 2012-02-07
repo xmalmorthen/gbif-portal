@@ -46,7 +46,7 @@
 <#if dataset.type?has_content && dataset.type == "OCCURRENCE">
   <div class="box">
     <div class="content">
-      <ul>
+      <ul class="placeholder_temp">
         <li><h4>1,356</h4>Occurrences</li>
         <li><h4>349</h4>Species</li>
         <li class="last"><h4>726</h4>Taxa</li>
@@ -60,8 +60,8 @@
   <div class="box">
     <div class="content">
       <ul>
-        <li><h4>349</h4>Species</li>
-        <li class="last"><h4>726</h4>Taxa</li>
+        <li><h4>${(checklist.numSpecies)!"?"}</h4>Species</li>
+        <li class="last"><h4>${(checklist.numUsages)!"?"}</h4>Taxa</li>
       </ul>
       <a href="#" title="Download occurrences"
          class="download candy_blue_button"><span>Download checklist</span></a>
@@ -71,9 +71,6 @@
 <#if dataset.type?has_content && dataset.type == "METADATA">
   <div class="box">
     <div class="content">
-      <ul>
-        <li><h4>349</h4>Species</li>
-      </ul>
       <a href="#" title="Download metadata"
          class="download candy_blue_button"><span>Download metadata</span></a>
     </div>

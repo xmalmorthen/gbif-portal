@@ -58,9 +58,9 @@
     <div class="right">
       <h3>Statistics</h3>
       <ul>
-        <li>Species <span class="number">${checklist.numSpecies!"?"}</span></li>
-        <li>Genera <span class="number">${checklist.numGenera!"?"}</span></li>
-        <li>Families <span class="number">${checklist.numFamilies!"?"}</span></li>
+        <li>Species <span class="number">${(checklist.numSpecies)!"?"}</span></li>
+        <li>Genera <span class="number">${(checklist.numGenera)!"?"}</span></li>
+        <li>Families <span class="number">${(checklist.numFamilies)!"?"}</span></li>
         <!--
           <li>Plants <span class="number">33.111</span></li>
           <li>Animals <span class="number">0</span></li>
