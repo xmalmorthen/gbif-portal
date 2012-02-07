@@ -55,32 +55,32 @@
 
 
 
-
     <div class="right">
       <h3>Statistics</h3>
       <ul>
-        <li>Species <span class="number placeholder_temp">53.212</span></li>
-        <li>Genera <span class="number placeholder_temp">2.134</span></li>
-        <li>Families <span class="number placeholder_temp">45</span></li>
-        <li>Plants <span class="number placeholder_temp">33.111</span></li>
-        <li>Animals <span class="number placeholder_temp">0</span></li>
-        <li>Fungi <span class="number placeholder_temp">20.052</span></li>
-        <li>Bacteria <span class="number placeholder_temp">12</span></li>
-        <li>Other <span class="number placeholder_temp">115</span></li>
+        <li>Species <span class="number">${checklist.numSpecies!"?"}</span></li>
+        <li>Genera <span class="number">${checklist.numGenera!"?"}</span></li>
+        <li>Families <span class="number">${checklist.numFamilies!"?"}</span></li>
+        <!--
+          <li>Plants <span class="number">33.111</span></li>
+          <li>Animals <span class="number">0</span></li>
+          <li>Fungi <span class="number">20.052</span></li>
+          <li>Bacteria <span class="number">12</span></li>
+          <li>Other <span class="number placeholder_temp">115</span></li>
+        -->
       </ul>
-      <!--
-      <h3>Associated Data</h3>
-      <ul>
-        <li>Common names <span class="number placeholder_temp">5</span></li>
-        <li>Descriptions <span class="number placeholder_temp">2</span></li>
-        <li>Distributions <span class="number placeholder_temp">456</span></li>
-        <li>Images <span class="number placeholder_temp">3</span></li>
-        <li>Identifier <span class="number placeholder_temp">2</span></li>
-        <li>References <span class="number placeholder_temp">12</span></li>
-        <li>Species Profiles <span class="number placeholder_temp">1</span></li>
-        <li>TypeSpecimen <span class="number placeholder_temp">15</span></li>
-      </ul>
-      -->
+      <#if checklist??>
+        <h3>Associated Data</h3>
+        <ul>
+          <li>Common names <span class="number">${checklist.numVernacularNames}</span></li>
+          <li>Descriptions <span class="number">${checklist.numDescriptions}</span></li>
+          <li>Distributions <span class="number">${checklist.numDistributions}</span></li>
+          <li>Images <span class="number">${checklist.numImages}</span></li>
+          <li>References <span class="number">${checklist.numReferences}</span></li>
+          <li>Species Profiles <span class="number">${checklist.numSpeciesProfiles}</span></li>
+          <li>TypeSpecimen <span class="number">${checklist.numTypes}</span></li>
+        </ul>
+      </#if>
     </div>
   </div>
   <footer></footer>

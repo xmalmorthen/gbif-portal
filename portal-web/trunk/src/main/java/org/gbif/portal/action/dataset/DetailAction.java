@@ -8,6 +8,8 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.checklistbank.api.model.Checklist;
+import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.NotFoundException;
 import org.gbif.registry.api.model.Contact;
@@ -16,6 +18,7 @@ import org.gbif.registry.api.service.DatasetService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -28,11 +31,14 @@ public class DetailAction extends BaseAction {
   // detail
   private String id;
   private Dataset dataset;
+  private Checklist checklist;
   private List<Contact> preferredContacts;
   private List<Contact> otherContacts;
 
   @Inject
   private DatasetService datasetService;
+  @Inject
+  private ChecklistService checklistService;
 
   @Override
   public String execute() {
@@ -45,6 +51,13 @@ public class DetailAction extends BaseAction {
     if (dataset == null) {
       LOG.error("No dataset found with id {}", id);
       throw new NotFoundException();
+    }
+
+    // try to load a checklist object if it exists
+    try {
+      checklist = checklistService.get(UUID.fromString(dataset.getKey()));
+    } catch (Exception e) {
+      // swallow
     }
 
     // are there preferred (primary) contacts
@@ -97,5 +110,9 @@ public class DetailAction extends BaseAction {
 
   public List<Contact> getOtherContacts() {
     return otherContacts;
+  }
+
+  public Checklist getChecklist() {
+    return checklist;
   }
 }
