@@ -8,7 +8,7 @@
     </div>
   </#if>
 
-  <h3>Checklist type</h3>
+  <h3>Dataset Type</h3>
   <#if dataset.type?has_content>
     <p><@s.text name="enum.datasettype.${dataset.type}"/></a></p>
   <#else>
@@ -19,7 +19,7 @@
   <#if dataset.pubDate?has_content>
     <p>${dataset.pubDate?date}</p>
   <#else>
-    <p>UNKNOWN</p>
+    <p>Unknown</p>
   </#if>
 
   <h3>Published by</h3>
