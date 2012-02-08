@@ -3,7 +3,7 @@
   <title>Dataset registration (1/3) - GBIF</title>
   <meta name="menu" content="datasets"/>
 </head>
-<body class="register">
+<body class="dataset">
 
   <article id="step-0" class="tunnel">
     <header></header>

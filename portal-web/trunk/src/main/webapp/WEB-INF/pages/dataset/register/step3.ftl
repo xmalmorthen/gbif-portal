@@ -3,7 +3,7 @@
   <title>Dataset registration (3/3) - GBIF</title>
   <meta name="menu" content="datasets"/>
 </head>
-<body class="register">
+<body class="dataset">
 
   <article id="step-2" class="tunnel">
     <header></header>
@@ -21,7 +21,7 @@
 
       <p class="extra">We will contact you as soon as we index the data from your server.</p>
 
-      <nav class="right"><a href="<@s.url value='/dataset/register/step1'/>" class="candy_white_button"><span>Register another dataset</span></a>
+      <nav class="right"><a href="<@s.url value='/dataset/register/step2'/>" class="candy_white_button"><span>Register another dataset</span></a>
 
         <p><a href="<@s.url value='/'/>" title="Go back to the homepage">Go back to the homepage</a></p></nav>
     </div>

@@ -2,7 +2,7 @@
 <head>
   <title>Register - GBIF</title>
 </head>
-<body class="register">
+<body class="dataset">
 
 <article id="step-2" class="register">
 <header></header>

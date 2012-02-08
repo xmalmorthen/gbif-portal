@@ -41,7 +41,7 @@
     </script>
   </content>
 </head>
-<body class="register">
+<body class="dataset">
 
   <article id="step-1" class="tunnel">
     <header></header>
