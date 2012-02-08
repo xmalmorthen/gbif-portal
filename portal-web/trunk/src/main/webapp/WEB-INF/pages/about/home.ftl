@@ -99,7 +99,7 @@
 
         <h3>Do you want to collaborate with GBIF Data?</h3>
 
-        <p><a href="<@s.url value='/dataset/register-step-1'/>">Share your data on GBIF</a>. We will contact you soon
+        <p><a href="<@s.url value='/dataset/register/step1'/>">Share your data on GBIF</a>. We will contact you soon
           with the details of the
           publication.</p>
 

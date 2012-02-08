@@ -217,7 +217,7 @@ ${head}
       <ul>
         <li><h3>JOIN THE COMMUNITY</h3></li>
         <li><a href="<@s.url value='/user/register/step1'/>"><@s.text name="menu.register"/></a></li>
-        <li><a href="<@s.url value='/dataset/register-step-1'/>"><@s.text name="menu.share"/></a></li>
+        <li><a href="<@s.url value='/dataset/register/step1'/>"><@s.text name="menu.share"/></a></li>
         <li><a href="<@s.url value='/terms'/>"><@s.text name="menu.terms"/></a></li>
         <li><a href="<@s.url value='/about'/>"><@s.text name="menu.about"/></a></li>
       </ul>

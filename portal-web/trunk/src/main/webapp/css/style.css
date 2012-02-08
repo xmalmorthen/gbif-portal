@@ -7406,4 +7406,6 @@ em.gbifHl {
 	border:1px dashed #EEEEEE;
 }
 
- 
+#templates div {
+  display: none;
+}

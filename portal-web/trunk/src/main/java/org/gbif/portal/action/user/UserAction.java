@@ -17,10 +17,34 @@ package org.gbif.portal.action.user;
 
 import org.gbif.portal.action.BaseAction;
 
-public class HomeAction extends BaseAction {
+public class UserAction extends BaseAction {
 
+  /**
+   * Show user details.
+   */
   @Override
   public String execute() {
+    return SUCCESS;
+  }
+
+  /**
+   * login to webapp.
+   */
+  public String login() {
+    return SUCCESS;
+  }
+
+  /**
+   * logout.
+   */
+  public String logout() {
+    return SUCCESS;
+  }
+
+  /**
+   * reset password
+   */
+  public String reset() {
     return SUCCESS;
   }
 

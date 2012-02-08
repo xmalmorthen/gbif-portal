@@ -88,16 +88,16 @@
       <result>/WEB-INF/pages/dataset/search.ftl</result>
     </action>
 
-    <action name="register-step-1" class="org.gbif.portal.action.dataset.RegisterAction" method="step1">
-      <result>/WEB-INF/pages/dataset/register_step_1.ftl</result>
+    <action name="register/step1" class="org.gbif.portal.action.dataset.RegisterAction" method="step1">
+      <result>/WEB-INF/pages/dataset/register/step1.ftl</result>
     </action>
 
-    <action name="register-step-2" class="org.gbif.portal.action.dataset.RegisterAction" method="step2">
-      <result>/WEB-INF/pages/dataset/register_step_2.ftl</result>
+    <action name="register/step2" class="org.gbif.portal.action.dataset.RegisterAction" method="step2">
+      <result>/WEB-INF/pages/dataset/register/step2.ftl</result>
     </action>
 
-    <action name="register-step-3" class="org.gbif.portal.action.dataset.RegisterAction" method="step3">
-      <result>/WEB-INF/pages/dataset/register_step_3.ftl</result>
+    <action name="register/step3" class="org.gbif.portal.action.dataset.RegisterAction" method="step3">
+      <result>/WEB-INF/pages/dataset/register/step3.ftl</result>
     </action>
 
     <!-- {id} matches anything but "/" -->
@@ -286,24 +286,6 @@
     </action>
   </package>
 
-  <!-- SESSIONS -->
-  <package name="session" namespace="/session" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/session/home.ftl</result>
-    </action>
-
-    <action name="login" class="org.gbif.portal.action.session.SessionAction" method="logIn">
-      <result>/WEB-INF/pages/session/login.ftl</result>
-    </action>
-
-    <action name="logout" class="org.gbif.portal.action.session.SessionAction" method="logOut">
-      <result>/WEB-INF/pages/session/logout.ftl</result>
-    </action>
-  </package>
-
   <!-- USER -->
   <package name="user" namespace="/user" extends="default">
     <!-- catches everything that doesn't match below! -->
@@ -311,6 +293,14 @@
 
     <action name="" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/user/home.ftl</result>
+    </action>
+
+    <action name="login" class="org.gbif.portal.action.user.UserAction" method="login">
+      <result>/WEB-INF/pages/user/login.ftl</result>
+    </action>
+
+    <action name="logout" class="org.gbif.portal.action.user.UserAction" method="logout">
+      <result>/WEB-INF/pages/user/logout.ftl</result>
     </action>
 
     <action name="register/step1" class="org.gbif.portal.action.user.RegistrationAction" method="step1">
@@ -325,7 +315,7 @@
       <result>/WEB-INF/pages/user/register/step3.ftl</result>
     </action>
 
-    <action name="reset-password" class="org.gbif.portal.action.user.PasswordResetAction">
+    <action name="reset-password" class="org.gbif.portal.action.user.UserAction" method="reset">
       <result>/WEB-INF/pages/user/reset-password.ftl</result>
     </action>
   </package>

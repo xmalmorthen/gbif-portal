@@ -1211,66 +1211,9 @@ var linkPopover = (function() {
 
 var loginPopover = (function() {
   var displayed = false;
-  var $login;
   var el;
-  var explanation = "";
-  var selected_template;
   var errorEmail, errorPassword;
   var transitionSpeed = 200;
-
-  var templates = {login: "<div id='login' class='infowindow'>\
-    <div class='lheader'></div>\
-      <span class='close'></span>\
-        <div class='content'>\
-          <h2>SIGN IN TO GBIF</h2>\
-            <p>You need to log in GBIF in order to download the data.</p>\
-              <form autocomplete='off' method='post' action='test'>\
-                <div class='light_box'>\
-                  <div class='field email'>\
-                    <h3>Email</h3>\
-                      <span class='input_text'>\
-                        <input id='email' name='email' type='text' />\
-                          </span>\
-                            </div>\
-                              <div class='field password'>\
-                                <h3>Password</h3>\
-                                  <span class='input_text'>\
-                                    <input id='password' name='password' type='password' />\
-                                      </span>\
-                                        </div>\
-                                          <div class='tl'></div><div class='tr'></div><div class='bl'></div><div class='br'></div>\
-                                            </div>\
-                                              <a href='#' class='recover_password' title='Recover your password'>Forgot your password?</a>\
-                                                <button type='submit' class='candy_blue_button'><span>Login</span></button>\
-                                                  </form>\
-                                                    <div class='footer'>Do yo need to Sign up? <a href='/user/register/step0.html' title='Create your account'>Create your account</a></div>\
-                                                      </div>\
-                                                        <div class='lfooter'></div>\
-                                                          </div>",
-  password: "<div id='recover_password' class='infowindow'>\
-    <div class='lheader'></div>\
-      <span class='close'></span>\
-        <div class='content'>\
-          <h2>RECOVER YOUR PASSWORD</h2>\
-            <form autocomplete='off' method='post'>\
-              <div class='light_box'>\
-                <div class='field'>\
-                  <h3>Your email</h3>\
-                    <span class='input_text'>\
-                      <input id='email' name='email' type='text' />\
-                        </span>\
-                          </div>\
-                            <div class='tl'></div><div class='tr'></div><div class='bl'></div><div class='br'></div>\
-                              </div>\
-                                <a href='#' class='back_to_login' title='Back to the sign in form'>Back to the sign in form</a>\
-                                  <button type='submit' class='candy_blue_button'><span>Send email</span></button>\
-                                    </form>\
-                                      <div class='footer'>Do yo need to Sign up? <a href='/user/register/step0.html' title='Create your account'>Create your account</a></div>\
-                                        </div>\
-                                          <div class='lfooter'></div>\
-                                            </div>"};
-
-
 
   function toggle(e, event, opt) {
     event.stopPropagation();
@@ -1280,7 +1223,7 @@ var loginPopover = (function() {
     displayed ? hide(): show();
   }
 
-  function changePopover(selected_template){
+  function changePopover(template_id){
 
     $popover.fadeOut(transitionSpeed, function() {
 
@@ -1288,12 +1231,10 @@ var loginPopover = (function() {
       $popover.find('a.download, a.close').unbind("click");
       $popover.remove();
 
-      // we can now open the new popover: "password"
-      rendered_template = _.template(selected_template);
-      $("#content").prepend(rendered_template);
+      // clone template, return new id
+      popover_id = copyTemplate(template_id);
 
-      // get the id of the popover
-      popover_id = $(selected_template).attr("id");
+      // we can now open the new popover
       $popover = $("#"+popover_id);
 
       $popover.find("p a").click(function(event) {
@@ -1348,12 +1289,12 @@ var loginPopover = (function() {
 
     $popover.find(".back_to_login").click(function(event) {
       event.preventDefault();
-      changePopover(templates.login);
+      changePopover("login");
     });
 
     $popover.find(".recover_password").click(function(event) {
       event.preventDefault();
-      changePopover(templates.password);
+      changePopover("recover_password");
     });
 
     $popover.find(".footer a, span.recover_password a").click(function(event) {
@@ -1371,19 +1312,25 @@ var loginPopover = (function() {
     });
   }
 
+  function copyTemplate(templ_id){
+    // clone template, all ids start with template_
+    $templ = $("#template_"+templ_id).clone();
+    $templ.attr("id", $templ.attr("id").substring(9));
+    $("#content").prepend($templ);
+    return $templ.attr("id");
+  }
+
   function show() {
-
-    var rendered_template = _.template(templates.login);
-    $("#content").prepend(rendered_template);
-    $popover = $("#login");
-
-    $("body").append("<div id='lock_screen'></div>");
-    $("#lock_screen").height($(document).height());
-    $("#lock_screen").fadeIn("slow");
+    popover_id = copyTemplate("login");
+    // we can now open the new popover
+    $popover = $("#"+popover_id);
 
     setupBindings();
     $popover.css("top", getTopPosition() + "px");
     $popover.fadeIn("slow", function() { hidden = false; });
+    $("body").append("<div id='lock_screen'></div>");
+    $("#lock_screen").height($(document).height());
+    $("#lock_screen").fadeIn("slow");
     displayed = true;
   }
 
