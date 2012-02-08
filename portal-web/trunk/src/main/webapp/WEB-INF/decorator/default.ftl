@@ -68,13 +68,74 @@ ${head}
 <body class="${page.properties["body.class"]!}">
   <header>
 
+
+  <div id="templates">
+    <#-- hidden html template for the javascript based login/reset popovers in widget.js -->
+    <div id='template_login' class='infowindow'>
+      <div class="lheader"></div>
+      <span class='close'></span>
+      <div class='content'>
+        <h2>SIGN IN TO GBIF</h2>
+        <p>You need to log in GBIF in order to download the data.</p>
+        <form autocomplete='off' method='post' action='test'>
+          <div class='light_box'>
+            <div class='field email'>
+              <h3>Email</h3>
+              <span class='input_text'><input id='email' name='email' type='text'/></span>
+            </div>
+            <div class='field password'>
+              <h3>Password</h3>
+              <span class='input_text'><input id='password' name='password' type='password'/></span>
+            </div>
+            <div class='tl'></div>
+            <div class='tr'></div>
+            <div class='bl'></div>
+            <div class='br'></div>
+          </div>
+          <a href='#' class='recover_password' title='Recover your password'>Forgot your password?</a>
+          <button type='submit' class='candy_blue_button'><span>Login</span></button>
+        </form>
+        <div class='footer'>Do yo need to Sign up?
+          <a href="<@s.url value='/user/register/step1'/>" title='<@s.text name="menu.register"/>'>Create your account</a>
+        </div>
+      </div>
+      <div class="lfooter"></div>
+    </div>
+
+    <#-- hidden html template for the javascript based login/reset popovers in widget.js -->
+    <div id='template_recover_password' class='infowindow'>
+      <div class="lheader"></div>
+      <span class='close'></span>
+      <div class='content'>
+        <h2>RECOVER YOUR PASSWORD</h2>
+        <form autocomplete='off' method='post'>
+          <div class='light_box'>
+            <div class='field'>
+              <h3>Your email</h3>
+              <span class='input_text'><input id='email' name='email' type='text'/></span>
+            </div>
+            <div class='tl'></div>
+            <div class='tr'></div>
+            <div class='bl'></div>
+            <div class='br'></div>
+          </div>
+          <a href='#' class='back_to_login' title='Back to the sign in form'>Back to the sign in form</a>
+          <button type='submit' class='candy_blue_button'><span>Send email</span></button>
+        </form>
+        <div class='footer'>Do yo need to Sign up?
+          <a href="<@s.url value='/user/register/step1'/>" title='<@s.text name="menu.register"/>'>Create your account</a>
+        </div>
+      </div>
+      <div class="lfooter"></div>
+    </div>
+  </div>
+
     <!-- top -->
     <div id="top">
       <div class="content">
         <div class="account">
           <a href="#" class="login" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
-          <a href="<@s.url value='/user/register/step1'/>"
-             title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
+          <a href="<@s.url value='/user/register/step1'/>" title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
         </div>
 
         <div id="logo">

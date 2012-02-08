@@ -2,6 +2,44 @@
 <head>
   <title>Dataset registration (2/3) - GBIF</title>
   <meta name="menu" content="datasets"/>
+  <content tag="extra_scripts">
+    <script type="text/javascript">
+    $(function() {
+      $(".data_policy").selectBox();
+      $(".select").selectBox();
+
+      // Autocomplete for the publisher name field
+      publishers = [
+        { name: "Publisher 1", desc: "Description"},
+        { name: "Publisher 2", desc: "Description"},
+        { name: "Publisher 3", desc: "Description"},
+        { name: "Publisher 4", desc: "Description"}
+      ],
+      $("#publisher_name").autocomplete(publishers, {
+        minChars: 0, scroll:false, width: 225, matchContains: "word", autoFill: false, max:3,
+        formatItem: function(row, i, max) {
+          var clase = "";
+
+          // Classes to choose the right background for the row
+          if (max == 1) {
+            clase = ' unique';
+          } else if (max == 2 && i == 2) {
+            clase = ' last_double';
+          } else if (i == 1) {
+            clase = ' first';
+          } else if (i == max) {
+            clase = ' last';
+          }
+          return '<div class="row' + clase + '"><span class="name">' + row.name + '</span>' + row.desc +
+                 '</div>';
+        },
+        formatResult: function(row) {
+          return row.name;
+        }
+      });
+    });
+    </script>
+  </content>
 </head>
 <body class="register">
 
