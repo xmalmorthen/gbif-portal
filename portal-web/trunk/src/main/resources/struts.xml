@@ -382,5 +382,13 @@
       <result>/WEB-INF/pages/admin/home.ftl</result>
     </action>
 
+    <action name="organisation" class="org.gbif.portal.action.admin.OrganisationAction">
+      <result>/WEB-INF/pages/admin/organisation.ftl</result>
+    </action>
+
+    <action name="dataset" class="org.gbif.portal.action.admin.DatasetAction">
+      <result>/WEB-INF/pages/admin/dataset.ftl</result>
+    </action>
+
   </package>
 </struts>
