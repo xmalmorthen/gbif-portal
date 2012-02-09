@@ -77,15 +77,21 @@ ${head}
       <div class='content'>
         <h2>SIGN IN TO GBIF</h2>
         <p>You need to log in GBIF in order to download the data.</p>
-        <form autocomplete='off' method='post' action='test'>
+        <form autocomplete='off' method='post' action='<@s.url value='/user/login'/>'>
           <div class='light_box'>
             <div class='field email'>
               <h3>Email</h3>
-              <span class='input_text'><input id='email' name='email' type='text'/></span>
+              <span class='input_text'>
+                <input id='email' name='email' type='text'/>
+                <span class='error' style='display:none'>Email not recognized</span>
+              </span>
             </div>
             <div class='field password'>
               <h3>Password</h3>
-              <span class='input_text'><input id='password' name='password' type='password'/></span>
+              <span class='input_text'>
+                <input id='password' name='password' type='password'/>
+                <span class='error' style='display:none'>Wrong password</span>
+              </span>
             </div>
             <div class='tl'></div>
             <div class='tr'></div>
@@ -134,8 +140,14 @@ ${head}
     <div id="top">
       <div class="content">
         <div class="account">
-          <a href="#" class="login" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
-          <a href="<@s.url value='/user/register/step1'/>" title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
+          <#if currentUser??>
+            <a href="<@s.url value='/user/'/>" title='Account'>View your account</a>
+            or
+            <a href="<@s.url value='/user/logout'/>" title='<@s.text name="menu.logout"/>'><@s.text name="menu.logout"/></a>
+          <#else>
+            <a href="#" class="login" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
+            <a href="<@s.url value='/user/register/step1'/>" title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
+          </#if>
         </div>
 
         <div id="logo">
@@ -290,6 +302,9 @@ ${head}
           "<@s.text name="menu.member"/>":"<@s.url value='/member'/>",
           "<@s.text name="menu.theme"/>":"<@s.url value='/theme'/>",
           "<@s.text name="menu.stats"/>":"<@s.url value='/stats'/>",
+      <#if admin>
+        "<@s.text name="menu.admin"/>":"<@s.url value='/admin'/>",
+      </#if>
           "<@s.text name="menu.about"/>":"<@s.url value='/about'/>"
         }
       });

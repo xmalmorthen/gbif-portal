@@ -15,15 +15,31 @@
  */
 package org.gbif.portal.action.user;
 
+import org.gbif.api.model.User;
+import org.gbif.api.service.UserService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.config.Constants;
+
+import com.google.inject.Inject;
+import com.opensymphony.xwork2.validator.annotations.EmailValidator;
 
 public class UserAction extends BaseAction {
+  private User user;
+  private String email;
+  private String password;
+
+  @Inject
+  private UserService userService;
 
   /**
    * Show user details.
    */
   @Override
   public String execute() {
+    user = getCurrentUser();
+    if (user == null){
+      return "login";
+    }
     return SUCCESS;
   }
 
@@ -31,6 +47,11 @@ public class UserAction extends BaseAction {
    * login to webapp.
    */
   public String login() {
+    user = userService.get(email);
+    // TODO: authenticate and get user from service
+    // we simply create a new user here for testing
+    session.put(Constants.SESSION_USER, user);
+    session.put(Constants.SESSION_password, password);
     return SUCCESS;
   }
 
@@ -38,6 +59,7 @@ public class UserAction extends BaseAction {
    * logout.
    */
   public String logout() {
+    session.clear();
     return SUCCESS;
   }
 
@@ -48,4 +70,24 @@ public class UserAction extends BaseAction {
     return SUCCESS;
   }
 
+  public String getEmail() {
+    return email;
+  }
+
+  @EmailValidator(message = "No valid email")
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public User getUser() {
+    return user;
+  }
 }

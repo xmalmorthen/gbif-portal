@@ -1258,23 +1258,6 @@ var loginPopover = (function() {
     errorEmail = false;
     errorPassword = false;
 
-    $popover.find("form").submit(function(event) {
-      event.preventDefault();
-
-      if (!errorEmail) {
-        $popover.find(".field.email").addClass("error");
-        $popover.find(".field.email h3").append("<span class='error' style='display:none'>Email not recognized</span>");
-        $popover.find(".field.email h3 span").fadeIn(transitionSpeed);
-        errorEmail = true;
-      }
-      if (!errorPassword) {
-        $popover.find(".field.password").addClass("error");
-        $popover.find(".field.password h3").append("<span class='error' style='display:none'>Wrong password</span>");
-        $popover.find(".field.password h3 span").fadeIn(transitionSpeed);
-        errorPassword = true;
-      }
-    });
-
     $popover.find("input").focus(function(event) {
       event.preventDefault();
       if ($(this).parents(".field.error").hasClass("email")) {
@@ -1347,6 +1330,7 @@ var loginPopover = (function() {
 
   return {
     toggle: toggle,
+    show: show,
     hide: hide
   };
 })();

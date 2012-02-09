@@ -9,18 +9,18 @@ import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 
 /**
- * An Interceptor that makes sure a user is currently logged in and returns a notLoggedIn otherwise.
+ * An Interceptor that makes sure an admin user is currently logged in and returns a notAllowed otherwise
  */
-public class RequireLoginInterceptor extends AbstractInterceptor {
+public class RequireAdminInterceptor extends AbstractInterceptor {
 
   @Override
   public String intercept(final ActionInvocation invocation) throws Exception {
     final Map session = invocation.getInvocationContext().getSession();
     final User user = (User) session.get(Constants.SESSION_USER);
-    if (user != null) {
+    if (user != null && user.isAdmin()) {
       return invocation.invoke();
     }
-    return Constants.RESULT_LOGIN_REQUIRED;
+    return Constants.RESULT_NOT_ALLOWED;
   }
 
 }

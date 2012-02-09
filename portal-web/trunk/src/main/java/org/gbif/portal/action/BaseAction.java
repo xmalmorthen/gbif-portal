@@ -1,6 +1,8 @@
 package org.gbif.portal.action;
 
+import org.gbif.api.model.User;
 import org.gbif.portal.config.Config;
+import org.gbif.portal.config.Constants;
 
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -15,11 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class BaseAction extends ActionSupport implements SessionAware, ServletRequestAware {
-
   private static final Logger LOG = LoggerFactory.getLogger(BaseAction.class);
-
-  public static final String HTTP_NOT_ALLOWED = "401";
-
   protected Map<String, Object> session;
   protected HttpServletRequest request;
 
@@ -40,6 +38,20 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
   @Override
   public void setSession(Map<String, Object> session) {
     this.session = session;
+  }
+
+  /**
+   * @return true if an admin user is logged in.
+   */
+  public boolean isAdmin(){
+    return getCurrentUser()!=null && getCurrentUser().isAdmin();
+  }
+
+  /**
+   * @return the currently logged in user.
+   */
+  public User getCurrentUser(){
+    return (User) session.get(Constants.SESSION_USER);
   }
 
   /**
@@ -81,6 +93,10 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
     return currentUrl.toString();
   }
 
+  public Config getCfg() {
+    return cfg;
+  }
+
   /**
    * @return The HTTP session which may be null
    */
@@ -118,7 +134,7 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
    *
    * @return true if string matches against any prefix. false otherwise.
    */
-  private boolean containsPrefix(String propertyKey, String[] prefixes) {
+  private static boolean containsPrefix(String propertyKey, String[] prefixes) {
     if (propertyKey != null) {
       for (String prefix : prefixes) {
         if (propertyKey.startsWith(prefix)) {
@@ -127,9 +143,5 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
       }
     }
     return false;
-  }
-
-  public Config getCfg() {
-    return cfg;
   }
 }

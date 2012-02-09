@@ -2,8 +2,9 @@
 <head>
   <title>Error</title>
 </head>
-<body>
-  <article class="error">
+<body class="dataset">
+
+    <article class="dataset">
     <header></header>
     <div class="content">
 

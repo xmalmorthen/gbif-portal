@@ -2,7 +2,15 @@
 <head>
   <title>Species Search</title>
   <meta name="menu" content="species"/> 
+  <content tag="extra_scripts">
+    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>
+    <script>
+      $("#q").speciesAutosuggest(cfg.wsClbSuggest,4,null,"#content","canonicalName","checklistTitle");
+  </script>
+</content>
 </head>
+
 <body class="dataset">
 
   <article class="dataset">
@@ -45,14 +53,10 @@
     </div>
     <footer></footer>
   </article>
+
   <p class="advice">Looking for something more specific? Use our <a href="#" title="advance filtering">advanced
-    filtering</a> or the <a href="#" title="taxonomic browser">taxonomic browser</a>.</p>
-    <content tag="extra_scripts">      
-      <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
-      <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script> 
-      <script>        	  
-      	$("#q").speciesAutosuggest(cfg.wsClbSuggest,4,null,"#content","canonicalName","checklistTitle");	  
-	  </script>
-	</content>
-</body>  
+    filtering</a> or the <a href="#" title="taxonomic browser">taxonomic browser</a>.
+  </p>
+
+</body>
 </html>
