@@ -11,7 +11,7 @@ public class DetailAction extends BaseAction {
   private static final Logger LOG = LoggerFactory.getLogger(DetailAction.class);
 
   // detail
-  private Integer id;
+  private String id;
 
   @Override
   public String execute() {
@@ -23,11 +23,11 @@ public class DetailAction extends BaseAction {
     throw new NotFoundException();
   }
 
-  public void setId(Integer id) {
+  public void setId(String id) {
     this.id = id;
   }
 
-  public Integer getId() {
+  public String getId() {
     return id;
   }
 }
