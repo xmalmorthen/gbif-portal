@@ -1,172 +1,96 @@
+<#import "/WEB-INF/macros/pagination.ftl" as macro>
 <html>
 <head>
-  <title>GBIF Member Search Results for ${q!}</title>
+  <title>Member Search Results for ${q!}</title>
+  <meta name="menu" content="dataset"/>
+  <content tag="extra_scripts">
+    <script type="text/javascript" src="<@s.url value='/js/facets.js'/>">
+    </script>
+  </content>
+  <style type="text/css">
+#resetFacets{
+  clear: both;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+  </style>
 </head>
 <body class="search">
-
   <content tag="infoband">
-    <h2>Search GBIF Network members</h2>
-
-    <form>
-      <input type="text" name="search"/>
+    <h2>Search members</h2>
+    <form action="<@s.url value='/member/search'/>" method="GET" id="formSearch">
+      <input type="text" name="q" value="${q!}" class="focus"/>
+      <#list facets?keys as facetFilter>
+        <#list facets.get(facetFilter) as filterValue>
+        <input type="hidden" name="${facetFilter!?lower_case}" value="${filterValue.name!}"/>
+        </#list>
+      </#list>
     </form>
   </content>
 
-  <article class="members results light_pane">
+  <form action="<@s.url value='/member/search'/>">
+  <article class="results light_pane">
+    <input type="hidden" name="q" value="${q!}"/>
     <header></header>
     <div class="content">
-
       <div class="header">
         <div class="left">
-          <h2>239 GBIF network members</h2>
-          <a href="#" class="sort" title="Sort by relevance">Sort by relevance <span class="more"></span></a>
+          <h2>${searchResponse.count!} results for "${q!}"</h2>
+          <#-- <a href="#" class="sort" title="Sort by relevance">Sort by relevance <span class="more"></span></a> -->
         </div>
         <div class="right"><h3>Refine your search</h3></div>
       </div>
 
       <div class="left">
-
+      <#list searchResponse.results as mb>
         <div class="result">
-          <h2><a href="<@s.url value='/member/123'/>" title="Denmark School of Biology"><strong>Denmark School of
-            Biology</strong></a>
-          </h2>
+            <h2><a href="<@s.url value='/member/${mb.key}'/>"><strong>${mb.title!"???"}</strong></a></h2>
 
-          <div class="footer">
-            <ul>
-              <li>Data publisher</li>
-              <li>Denmark</li>
-              <li class="last">210 datasets with 201.313 occurences</li>
-            </ul>
-          </div>
+            <div class="footer">
+              <ul>
+                <li>${mb.title!"???"}</li>
+                <li>${mb.country!}</li>
+                <li class="last placeholder_temp">11 datasets with 33.522 occurences</li>
+              </ul>
+            </div>
         </div>
-
-        <div class="result">
-          <h2><a href="<@s.url value='/member/123'/>" title="Academy of Natural Sciences of Mexico"><strong>Academy of
-            Natural
-            Sciences of Mexico</strong></a></h2>
-
-          <div class="footer">
-            <ul>
-              <li>Data publisher</li>
-              <li>Mexico</li>
-              <li class="last">175 datasets with 241.009 occurences</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="result">
-          <h2><a href="<@s.url value='/member/123'/>" title="GBIF France"><strong>GBIF France</strong></a></h2>
-
-          <div class="footer">
-            <ul>
-              <li>GBIF Participant Node</li>
-              <li>France</li>
-              <li class="last">11 datasets with 33.522 occurences</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="result">
-          <h2><a href="<@s.url value='/member/123'/>" title="Tecnilogica"><strong>Tecnilogica</strong></a></h2>
-
-          <div class="footer">
-            <ul>
-              <li>Technical partner</li>
-              <li>Spain</li>
-              <li class="last">33 datasets with 43.226 occurences</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="result">
-          <h2><a href="<@s.url value='/member/123'/>" title="Denmark School of Biology"><strong>Denmark School of
-            Biology</strong></a>
-          </h2>
-
-          <div class="footer">
-            <ul>
-              <li>Data publisher</li>
-              <li>Denmark</li>
-              <li class="last">210 datasets with 201.313 occurences</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="result">
-          <h2><a href="<@s.url value='/member/123'/>" title="Academy of Natural Sciences of Mexico"><strong>Academy of
-            Natural
-            Sciences of Mexico</strong></a></h2>
-
-          <div class="footer">
-            <ul>
-              <li>Data publisher</li>
-              <li>Mexico</li>
-              <li class="last">175 datasets with 241.009 occurences</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="result">
-          <h2><a href="<@s.url value='/member/123'/>" title="GBIF France"><strong>GBIF France</strong></a></h2>
-
-          <div class="footer">
-            <ul>
-              <li>GBIF Participant Node</li>
-              <li>France</li>
-              <li class="last">11 datasets with 33.522 occurences</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="result last">
-          <h2><a href="<@s.url value='/member/123'/>" title="Tecnilogica"><strong>Tecnilogica</strong></a></h2>
-
-          <div class="footer">
-            <ul>
-              <li>Technical partner</li>
-              <li>Spain</li>
-              <li class="last">33 datasets with 43.226 occurences</li>
-            </ul>
-          </div>
-        </div>
+      </#list>
 
         <div class="footer">
-          <a href="#" class="candy_white_button previous"><span>Previous page</span></a>
-          <a href="#" class="candy_white_button next"><span>Next page</span></a>
-
-          <div class="pagination">viewing page 2 of 31</div>
+        <@macro.pagination page=searchResponse url=currentUrl/>
         </div>
       </div>
+
+
+
       <div class="right">
 
-        <div class="refine">
-          <h4>Member type</h4>
-          <a href="#" title="Any">Any</a>
+        <div id="resetFacets" currentUrl="">
+          <input id="resetFacetsButton" value="reset" type="button"/>
         </div>
 
-        <div class="refine">
-          <h4>Joining date</h4>
-          <a href="#" title="Any">Any</a>
-        </div>
 
-        <div class="refine">
-          <h4>Based on country</h4>
-          <a href="#" title="Any">Any</a>
-        </div>
+        <#--
+        TODO: add more facets
+        -->
 
-        <div class="refine">
-          <h4>Contributing to country</h4>
-          <a href="#" title="Any">Any</a>
-        </div>
-
-        <div class="download">
-          <a href="#" class="candy_blue_button"><span>Download results</span></a>
-        </div>
+      <#assign seeAllFacets = []>
+      <#assign facets= []>
+      <#include "/WEB-INF/inc/facets.ftl">
 
       </div>
     </div>
     <footer></footer>
   </article>
-
+  </form>
+  <div class="infowindow" id="waitDialog">
+	  <div class="light_box">
+		  <div class="content" >
+		    <h3>Processing request</h3>
+		    <p>Wait while your request is processed...
+		    <img src="<@s.url value='/img/ajax-loader.gif'/>"/></p>
+		 </div>
+	 </div>
+   </div>
 </body>
 </html>

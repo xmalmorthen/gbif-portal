@@ -46,14 +46,14 @@
 
 <content tag="tabs">
   <ul>
-    <li<#if (tab!"")=="info"> class='selected highlighted'</#if>><a href="<@s.url value='/species/${id!}'/>"
-                                                                    title="Information"><span>Information</span></a>
+    <li<#if (tab!"")=="info"> class='selected highlighted'</#if>>
+      <a href="<@s.url value='/species/${id?c}'/>" title="Information"><span>Information</span></a>
     </li>
-    <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>><a
-            href="<@s.url value='/species/${id!}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a>
+    <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>>
+      <a href="<@s.url value='/species/${id?c}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a>
     </li>
-    <li<#if (tab!"")=="stats"> class='selected highlighted'</#if>><a href="<@s.url value='/species/${id!}/stats'/>"
-                                                                     title="Stats"><span>Stats <sup>(2)</sup></span></a>
+    <li<#if (tab!"")=="stats"> class='selected highlighted'</#if>>
+      <a href="<@s.url value='/species/${id?c}/stats'/>" title="Stats"><span>Stats <sup>(2)</sup></span></a>
     </li>
   </ul>
 </content>

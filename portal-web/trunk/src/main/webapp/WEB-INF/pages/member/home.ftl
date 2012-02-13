@@ -19,7 +19,7 @@
     <div class="content">
       <h1>Search GBIF Network members</h1>
 
-      <form action="<@s.url value='/members/search'/>">
+      <form action="<@s.url value='/member/search'/>">
         <span class="input_text">
           <input type="text" name="q" placeholder="Search names,countries..." class="focus"/>
         </span>
@@ -27,10 +27,10 @@
       </form>
       <div class="results">
         <ul>
-          <li><a href="<@s.url value='/members/search?q=fake'/>" title="">121</a>participant</li>
-          <li><a href="<@s.url value='/members/search?q=fake'/>" title="">654</a>publishers</li>
-          <li><a href="<@s.url value='/members/search?q=fake'/>" title="">129</a>technical</li>
-          <li class="last"><a href="<@s.url value='/members/search?q=fake'/>" title="">34</a>networks</li>
+          <li><a href="<@s.url value='/member/search?q=fake'/>" title="">121</a>participant</li>
+          <li><a href="<@s.url value='/member/search?q=fake'/>" title="">654</a>publishers</li>
+          <li><a href="<@s.url value='/member/search?q=fake'/>" title="">129</a>technical</li>
+          <li class="last"><a href="<@s.url value='/member/search?q=fake'/>" title="">34</a>networks</li>
         </ul>
       </div>
       <p class="explore">...or <a href="#explore">explore the map</a></p>

@@ -86,7 +86,7 @@
     <!--
     <default-action-ref name=""/>
     -->
-    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+    <action name="" class="org.gbif.portal.action.dataset.HomeAction">
       <result>/WEB-INF/pages/dataset/home.ftl</result>
     </action>
 
@@ -156,7 +156,7 @@
     <!-- catches everything that doesn't match below! -->
     <default-action-ref name=""/>
 
-    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+    <action name="" class="org.gbif.portal.action.species.HomeAction">
       <result>/WEB-INF/pages/species/home.ftl</result>
     </action>
 
@@ -263,7 +263,7 @@
     <!-- catches everything that doesn't match below! -->
     <default-action-ref name=""/>
 
-    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+    <action name="" class="org.gbif.portal.action.member.HomeAction">
       <result>/WEB-INF/pages/member/home.ftl</result>
     </action>
 
@@ -274,14 +274,6 @@
     <!-- {id} matches anything but "/" -->
     <action name="{id}/activity" class="org.gbif.portal.action.member.ActivityAction">
       <result>/WEB-INF/pages/member/activity.ftl</result>
-    </action>
-
-    <action name="{id}/occurrence" class="org.gbif.portal.action.member.OccurrencesAction">
-      <result>/WEB-INF/pages/member/occurrence.ftl</result>
-    </action>
-
-    <action name="{id}/datasets" class="org.gbif.portal.action.member.DatasetsAction">
-      <result>/WEB-INF/pages/member/datasets.ftl</result>
     </action>
 
     <action name="{id}" class="org.gbif.portal.action.member.DetailAction">

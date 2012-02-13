@@ -1,4 +1,4 @@
-<#import "/WEB-INF/macros/dataset/contact.ftl" as contact>
+<#import "/WEB-INF/macros/common.ftl" as common>
 <div class="header">
   <div class="left"><h2>Summary</h2></div>
 </div>
@@ -74,13 +74,14 @@
 
     <#list preferredContacts as cnt>
         <li>
-          <@contact.record con=cnt />
+          <@common.contact con=cnt />
         </li>
-      <#-- only show 3 primary contacts at max. If we have 3 (index=2) we know there are more to show -->
+      <#-- only show 3 primary contacts at max. If we have 3 (index=2) we know there are more to show
       <#if cnt_index==2>
         <p><a class="more_link, placeholder_temp" href="">see all</a></p>
         <#break />
       </#if>
+      -->
     </#list>
   </ul>
 </#if>
