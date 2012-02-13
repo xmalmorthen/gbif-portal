@@ -26,10 +26,9 @@ public abstract class MemberBaseAction<T extends NetworkEntity> extends org.gbif
       // check organisation
       member = loadMember(id);
 
-      if (member == null){
-        throw new NotFoundException();
+      if (member != null){
+        return SUCCESS;
       }
-      return SUCCESS;
     }
     throw new NotFoundException();
   }

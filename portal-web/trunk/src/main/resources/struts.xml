@@ -429,11 +429,19 @@
       <result>/WEB-INF/pages/admin/home.ftl</result>
     </action>
 
-    <action name="member" class="org.gbif.portal.action.admin.MemberAction">
-      <result>/WEB-INF/pages/admin/member.ftl</result>
+    <action name="node/{id}" class="org.gbif.portal.action.admin.NodeAction">
+      <result>/WEB-INF/pages/admin/node.ftl</result>
     </action>
 
-    <action name="dataset" class="org.gbif.portal.action.admin.DatasetAction">
+    <action name="network/{id}" class="org.gbif.portal.action.admin.NetworkAction">
+      <result>/WEB-INF/pages/admin/network.ftl</result>
+    </action>
+
+    <action name="organization/{id}" class="org.gbif.portal.action.admin.OrganizationAction">
+      <result>/WEB-INF/pages/admin/organization.ftl</result>
+    </action>
+
+    <action name="dataset/{id}" class="org.gbif.portal.action.admin.DatasetAction">
       <result>/WEB-INF/pages/admin/dataset.ftl</result>
     </action>
 
