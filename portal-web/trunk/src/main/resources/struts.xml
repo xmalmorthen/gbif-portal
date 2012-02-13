@@ -271,12 +271,67 @@
       <result>/WEB-INF/pages/member/search.ftl</result>
     </action>
 
+    <action name="{id}" class="org.gbif.portal.action.member.DetailAction">
+      <result>/WEB-INF/pages/member/detail.ftl</result>
+    </action>
+  </package>
+
+  <!-- NODE -->
+  <package name="node" namespace="/node" extends="default">
     <!-- {id} matches anything but "/" -->
-    <action name="{id}/activity" class="org.gbif.portal.action.member.ActivityAction">
+    <action name="{id}/activity" class="org.gbif.portal.action.node.ActivityAction">
       <result>/WEB-INF/pages/member/activity.ftl</result>
     </action>
 
-    <action name="{id}" class="org.gbif.portal.action.member.DetailAction">
+    <action name="{id}/stats" class="org.gbif.portal.action.node.StatsAction">
+      <result>/WEB-INF/pages/member/stats.ftl</result>
+    </action>
+
+    <action name="{id}/datasets" class="org.gbif.portal.action.node.DatasetAction">
+      <result>/WEB-INF/pages/member/datasets.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.node.DetailAction">
+      <result>/WEB-INF/pages/member/detail.ftl</result>
+    </action>
+  </package>
+
+  <!-- NETWORK -->
+  <package name="network" namespace="/network" extends="default">
+    <!-- {id} matches anything but "/" -->
+    <action name="{id}/activity" class="org.gbif.portal.action.network.ActivityAction">
+      <result>/WEB-INF/pages/member/activity.ftl</result>
+    </action>
+
+    <action name="{id}/stats" class="org.gbif.portal.action.network.StatsAction">
+      <result>/WEB-INF/pages/member/stats.ftl</result>
+    </action>
+
+    <action name="{id}/datasets" class="org.gbif.portal.action.network.DatasetAction">
+      <result>/WEB-INF/pages/member/datasets.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.network.DetailAction">
+      <result>/WEB-INF/pages/member/detail.ftl</result>
+    </action>
+  </package>
+
+  <!-- ORGANIZATION -->
+  <package name="organization" namespace="/organization" extends="default">
+    <!-- {id} matches anything but "/" -->
+    <action name="{id}/activity" class="org.gbif.portal.action.organization.ActivityAction">
+      <result>/WEB-INF/pages/member/activity.ftl</result>
+    </action>
+
+    <action name="{id}/stats" class="org.gbif.portal.action.organization.StatsAction">
+      <result>/WEB-INF/pages/member/stats.ftl</result>
+    </action>
+
+    <action name="{id}/datasets" class="org.gbif.portal.action.organization.DatasetAction">
+      <result>/WEB-INF/pages/member/datasets.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.organization.DetailAction">
       <result>/WEB-INF/pages/member/detail.ftl</result>
     </action>
   </package>

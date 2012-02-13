@@ -36,7 +36,6 @@
       <div class="header">
         <div class="left">
           <h2>${searchResponse.count!} results for "${q!}"</h2>
-          <#-- <a href="#" class="sort" title="Sort by relevance">Sort by relevance <span class="more"></span></a> -->
         </div>
         <div class="right"><h3>Refine your search</h3></div>
       </div>
@@ -44,12 +43,12 @@
       <div class="left">
       <#list searchResponse.results as mb>
         <div class="result">
-            <h2><a href="<@s.url value='/member/${mb.key}'/>"><strong>${mb.title!"???"}</strong></a></h2>
+            <h2><a href="<@s.url value='/organization/${mb.key}'/>"><strong>${mb.title!"???"}</strong></a></h2>
 
             <div class="footer">
               <ul>
-                <li>${mb.title!"???"}</li>
-                <li>${mb.country!}</li>
+                <li>${mb.getClass().getSimpleName()}</li>
+                <li>${mb.country!mb.isoCountryCode!}</li>
                 <li class="last placeholder_temp">11 datasets with 33.522 occurences</li>
               </ul>
             </div>

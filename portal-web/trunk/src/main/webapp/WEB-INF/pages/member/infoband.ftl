@@ -4,11 +4,12 @@
 
  <#assign tab="info"/>
  <#assign tab="activity"/>
+ <#assign tab="datasets"/>
  <#assign tab="stats"/>
 -->
 <content tag="infoband">
   <ul class="breadcrumb">
-    <li><a href="<@s.url value='/members'/>" title="GBIF Network Members">GBIF Network Members</a></li>
+    <li>${memberType}</li>
   </ul>
 
   <h1>${member.title!"???"}</h1>
@@ -27,13 +28,16 @@
 <content tag="tabs">
   <ul>
     <li<#if (tab!"")=="info"> class='selected highlighted'</#if>>
-      <a href="<@s.url value='/member/${id}'/>" title="Information"><span>Information</span></a>
+      <a href="<@s.url value='/${memberType?lower_case}/${id}'/>" title="Information"><span>Information</span></a>
     </li>
     <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>>
-      <a href="<@s.url value='/member/${id}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a>
+      <a href="<@s.url value='/${memberType?lower_case}/${id}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a>
+    </li>
+    <li<#if (tab!"")=="datasets"> class='selected highlighted'</#if>>
+      <a href="<@s.url value='/${memberType?lower_case}/${id}/datasets'/>" title="Datasets"><span>Datasets <sup>(12)</sup></span></a>
     </li>
     <li<#if (tab!"")=="stats"> class='selected highlighted'</#if>>
-      <a href="<@s.url value='/member/${id}/stats'/>" title="Stats"><span>Stats <sup>(2)</sup></span></a>
+      <a href="<@s.url value='/${memberType?lower_case}/${id}/stats'/>" title="Stats"><span>Stats <sup>(2)</sup></span></a>
     </li>
   </ul>
 </content>

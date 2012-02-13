@@ -5,31 +5,8 @@
 </head>
 <body class="species typesmap">
 
-<content tag="infoband">
-  <ul class="breadcrumb">
-    <li><a href="<@s.url value='/members'/>" title="GBIF Network Members">GBIF Network Members</a></li>
-  </ul>
-
-  <h1>Academy of Natural Sciences</h1>
-
-  <h3 class="separator">More info at: <a href="#" title="Academy of Natural Sciences">www.acnatsci.org</a></h3>
-
-  <ul class="tags">
-    <li><a href="#" title="Turkey">Turkey</a></li>
-    <li><a href="#" title="coastal">coastal</a></li>
-    <li class="last"><a href="#" title="herbal">herbal</a></li>
-  </ul>
-</content>
-
-<content tag="tabs">
-  <ul>
-    <li><a href="<@s.url value='/member/${id!}'/>" title="Information"><span>Information</span></a></li>
-    <li><a href="<@s.url value='/member/${id!}/datasets'/>" title="Datasets"><span>Datasets</span></a></li>
-    <li><a href="<@s.url value='/member/${id!}/occurrence'/>" title="Occurrences"><span>Occurrences</span></a></li>
-    <li class='selected'><a href="<@s.url value='/member/${id!}/activity'/>" title="Activity"><span>Activity </span></a>
-    </li>
-  </ul>
-</content>
+<#assign tab="activity"/>
+<#include "/WEB-INF/pages/member/infoband.ftl">
 
 <article class="graph">
 <header></header>
