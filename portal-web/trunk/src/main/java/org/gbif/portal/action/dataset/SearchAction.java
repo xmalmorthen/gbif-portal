@@ -9,8 +9,8 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.portal.action.BaseFacetedSearchAction;
+import org.gbif.registry.api.model.search.DatasetFacetParameter;
 import org.gbif.registry.api.model.search.DatasetSearchResult;
-import org.gbif.registry.api.model.search.RegistryFacetParameter;
 import org.gbif.registry.api.service.DatasetSearchService;
 import org.gbif.registry.api.service.OrganizationService;
 
@@ -24,7 +24,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, RegistryFacetParameter> {
+public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, DatasetFacetParameter> {
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
   private static final long serialVersionUID = 1488419402277401976L;
@@ -34,7 +34,7 @@ public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, R
 
   @Inject
   public SearchAction(DatasetSearchService<DatasetSearchResult> datasetSearchService, OrganizationService orgService) {
-    super(datasetSearchService, RegistryFacetParameter.class);
+    super(datasetSearchService, DatasetFacetParameter.class);
     this.orgService = orgService;
     initGetTitleFunctions();
   }
@@ -67,8 +67,8 @@ public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, R
     super.execute();
 
     // replace organisation keys with real names
-    lookupFacetTitles(RegistryFacetParameter.HOSTING_ORG, getOrgTitle);
-    lookupFacetTitles(RegistryFacetParameter.OWNING_ORG, getOrgTitle);
+    lookupFacetTitles(DatasetFacetParameter.HOSTING_ORG, getOrgTitle);
+    lookupFacetTitles(DatasetFacetParameter.OWNING_ORG, getOrgTitle);
 
     return SUCCESS;
   }

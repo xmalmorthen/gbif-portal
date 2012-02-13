@@ -10,7 +10,7 @@ package org.gbif.portal.action.species;
 
 import org.gbif.api.model.vocabulary.ThreatStatus;
 import org.gbif.checklistbank.api.Constants;
-import org.gbif.checklistbank.api.model.search.ChecklistBankFacetParameter;
+import org.gbif.checklistbank.api.model.search.NameUsageFacetParameter;
 import org.gbif.checklistbank.api.model.search.NameUsageSearchResult;
 import org.gbif.checklistbank.api.model.vocabulary.TaxonomicStatus;
 import org.gbif.checklistbank.api.service.ChecklistService;
@@ -31,7 +31,7 @@ import com.google.inject.Inject;
 /**
  * The action for all species search operations.
  */
-public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult, ChecklistBankFacetParameter> {
+public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult, NameUsageFacetParameter> {
 
   private static final String CHECKLIST_KEY_PARAM = "checklistKey";
   private static final String NUB_KEY_PARAM = "nubKey";
@@ -55,7 +55,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   public SearchAction(NameUsageSearchService<NameUsageSearchResult> nameUsageSearchService,
     NameUsageService usageService, ChecklistService checklistService,
     TaxonomicStatusConverter taxonomicStatusConverter, ThreatStatusConverter threatStatusConverter) {
-    super(nameUsageSearchService, ChecklistBankFacetParameter.class);
+    super(nameUsageSearchService, NameUsageFacetParameter.class);
     this.usageService = usageService;
     this.checklistService = checklistService;
     this.taxonomicStatusConverter = taxonomicStatusConverter;
@@ -72,22 +72,22 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     super.execute();
 
     // replace higher taxon ids in facets with real names
-    lookupFacetTitles(ChecklistBankFacetParameter.HIGHERTAXON, getHigherTaxaTitle);
+    lookupFacetTitles(NameUsageFacetParameter.HIGHERTAXON, getHigherTaxaTitle);
 
     // replace checklist key with labels
-    lookupFacetTitles(ChecklistBankFacetParameter.CHECKLIST, getChecklistTitle);
+    lookupFacetTitles(NameUsageFacetParameter.CHECKLIST, getChecklistTitle);
 
     // replace taxonomic status keys with labels
-    lookupFacetTitles(ChecklistBankFacetParameter.TAXSTATUS, getTaxStatusTitle);
+    lookupFacetTitles(NameUsageFacetParameter.TAXSTATUS, getTaxStatusTitle);
 
     // replace extinct boolean values
-    lookupFacetTitles(ChecklistBankFacetParameter.EXTINCT, getBooleanTitle);
+    lookupFacetTitles(NameUsageFacetParameter.EXTINCT, getBooleanTitle);
 
     // replace marine boolean values
-    lookupFacetTitles(ChecklistBankFacetParameter.MARINE, getBooleanTitle);
+    lookupFacetTitles(NameUsageFacetParameter.MARINE, getBooleanTitle);
 
     // replace threat status keys values
-    lookupFacetTitles(ChecklistBankFacetParameter.THREAT, getThreatStatusTitle);
+    lookupFacetTitles(NameUsageFacetParameter.THREAT, getThreatStatusTitle);
 
     return SUCCESS;
   }
@@ -112,8 +112,8 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    * @return true if the checklist facet filter contains a single checklist only.
    */
   public boolean getShowAccordingTo() {
-    return getFacets() == null || !getFacets().containsKey(ChecklistBankFacetParameter.CHECKLIST)
-      || getFacets().get(ChecklistBankFacetParameter.CHECKLIST).size() != 1;
+    return getFacets() == null || !getFacets().containsKey(NameUsageFacetParameter.CHECKLIST)
+      || getFacets().get(NameUsageFacetParameter.CHECKLIST).size() != 1;
   }
 
   /**
@@ -198,8 +198,8 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   }
 
   @Override
-  protected String translateFacetValue(Enum<ChecklistBankFacetParameter> facet, String value) {
-    if (ChecklistBankFacetParameter.CHECKLIST.equals(facet) && value != null) {
+  protected String translateFacetValue(Enum<NameUsageFacetParameter> facet, String value) {
+    if (NameUsageFacetParameter.CHECKLIST.equals(facet) && value != null) {
       return value.equalsIgnoreCase("nub") ? Constants.NUB_TAXONOMY_KEY.toString() : value;
     }
     return value;
