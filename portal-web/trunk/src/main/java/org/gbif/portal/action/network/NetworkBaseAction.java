@@ -2,7 +2,7 @@ package org.gbif.portal.action.network;
 
 import org.gbif.portal.action.member.MemberBaseAction;
 import org.gbif.registry.api.model.Network;
-import org.gbif.registry.api.service.NodeService;
+import org.gbif.registry.api.service.NetworkService;
 
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ public class NetworkBaseAction extends MemberBaseAction<Network> {
   protected static final Logger LOG = LoggerFactory.getLogger(NetworkBaseAction.class);
 
   @Inject
-  protected NodeService nodeService;
+  protected NetworkService networkService;
 
   public NetworkBaseAction() {
     super(Network.class);
@@ -22,6 +22,6 @@ public class NetworkBaseAction extends MemberBaseAction<Network> {
 
   @Override
   protected Network loadMember(UUID id) {
-    return null;
+    return networkService.get(id);
   }
 }
