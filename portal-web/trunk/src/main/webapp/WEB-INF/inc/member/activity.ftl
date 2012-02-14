@@ -6,7 +6,7 @@
 <body class="species typesmap">
 
 <#assign tab="activity"/>
-<#include "/WEB-INF/pages/member/infoband.ftl">
+<#include "/WEB-INF/inc/member/infoband.ftl">
 
 <article class="graph">
 <header></header>

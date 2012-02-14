@@ -20,6 +20,8 @@ import org.gbif.api.service.UserService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.config.Constants;
 
+import java.util.Date;
+
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.validator.annotations.EmailValidator;
 
@@ -27,6 +29,7 @@ public class UserAction extends BaseAction {
   private User user;
   private String email;
   private String password;
+  private String redirectUrl = "";
 
   @Inject
   private UserService userService;
@@ -38,7 +41,7 @@ public class UserAction extends BaseAction {
   public String execute() {
     user = getCurrentUser();
     if (user == null){
-      return "login";
+      return INPUT;
     }
     return SUCCESS;
   }
@@ -47,12 +50,30 @@ public class UserAction extends BaseAction {
    * login to webapp.
    */
   public String login() {
-    user = userService.get(email);
     // TODO: authenticate and get user from service
     // we simply create a new user here for testing
+    user = userService.get(email);
     session.put(Constants.SESSION_USER, user);
     session.put(Constants.SESSION_password, password);
+    if (user == null){
+      return INPUT;
+    }
+    user.setLastLogin(new Date());
+    //userService.update(user);
+
+    setRedirectUrlFromHeader();
+
     return SUCCESS;
+  }
+
+  private void setRedirectUrlFromHeader(){
+    redirectUrl = getCurrentUrl();
+    if (request != null) {
+      final String referer = request.getHeader("Referer");
+      if (referer != null && !(referer.endsWith("login") || referer.endsWith("register/step3"))) {
+        redirectUrl = referer;
+      }
+    }
   }
 
   /**
@@ -60,6 +81,7 @@ public class UserAction extends BaseAction {
    */
   public String logout() {
     session.clear();
+    setRedirectUrlFromHeader();
     return SUCCESS;
   }
 
@@ -89,5 +111,9 @@ public class UserAction extends BaseAction {
 
   public User getUser() {
     return user;
+  }
+
+  public String getRedirectUrl() {
+    return redirectUrl;
   }
 }

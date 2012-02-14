@@ -1314,6 +1314,7 @@ var loginPopover = (function() {
     $("body").append("<div id='lock_screen'></div>");
     $("#lock_screen").height($(document).height());
     $("#lock_screen").fadeIn("slow");
+    $("#login input:first").focus();
     displayed = true;
   }
 

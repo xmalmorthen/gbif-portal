@@ -7409,3 +7409,35 @@ em.gbifHl {
 #templates div {
   display: none;
 }
+
+
+#adminPanel {
+	top: -50px;
+	position: relative;
+	font: bold small "Courier New", Courier, mono;
+	height: 0;
+	float: right;
+}
+
+#adminPanel ul {
+	float: right;
+	background-color: #d8ff6f;
+	border: 1px solid black;
+	padding: 5px;
+}
+
+#adminPanel ul li {
+	float: left;
+	padding-right: 6px;
+	padding-left: 6px;
+}
+
+#adminPanel ul li:not(:last-child) {
+	border-right-style: dotted;
+	border-right-width: 1px;
+}
+
+#adminPanel ul li a{
+	color: #174919;
+	text-decoration: underline;
+}

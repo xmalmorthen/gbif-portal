@@ -202,6 +202,12 @@ ${head}
 
   <div id="content">
 
+  <#if page.properties["page.admin"]?has_content && admin>
+    <div id="adminPanel">
+      ${page.properties["page.admin"]}
+    </div>
+  </#if>
+
   ${body}
 
   </div>
