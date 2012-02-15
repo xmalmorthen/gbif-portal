@@ -22,6 +22,11 @@
         <div class="inner">
           <form>
 
+			<div class="field">
+              <p>TITLE</p>
+                <input id="title" name="title" type="text" value="${member.title!}"/>
+            </div>
+
             <div class="field">
               <p>DESCRIPTION</p>
               <textarea rows="2" cols="20">${member.description!}</textarea>
@@ -46,6 +51,11 @@
               <p>COUNTRY (will be changed soon to a country drop down list with proper country names)</p>
                 <input id="country" name="country" type="text" value="${member.isoCountryCode!}"/>
             </div>        
+            
+			<div class="field">
+              <p>HOMEPAGE</p>
+                <input id="homepage" name="homepage" type="text" value="${member.homepage!}"/>
+            </div>                
             
 			<div class="field">
               <p>LOGO URL</p>
@@ -102,9 +112,9 @@
         <div class="bottom"></div>
       </div>
 
-      <nav><a href="<@s.url value='#'/>" title="Edit" class="candy_white_button next"><span>Edit</span></a>
+      <nav><a href="<@s.url value='#'/>" title="Edit" class="candy_white_button next"><span>Save Changes</span></a>
 
-        <p>When you are sure about the changes, press Edit</p></nav>
+        <p>When you are sure about the changes, press 'Save Changes'</p></nav>
     </div>
     <footer></footer>
   </article>
