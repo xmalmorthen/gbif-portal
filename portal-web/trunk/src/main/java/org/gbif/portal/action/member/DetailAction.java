@@ -3,8 +3,10 @@ package org.gbif.portal.action.member;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.NotFoundException;
 import org.gbif.registry.api.model.NetworkEntity;
+import org.gbif.registry.api.service.NetworkService;
 import org.gbif.registry.api.service.NodeService;
 import org.gbif.registry.api.service.OrganizationService;
+import org.gbif.registry.api.service.TechnicalInstallationService;
 
 import java.util.UUID;
 
@@ -18,10 +20,10 @@ public class DetailAction extends BaseAction {
   private OrganizationService organizationService;
   @Inject
   private NodeService nodeService;
-//  @Inject
-//  private NetworkService networkService;
-//  @Inject
-//  private TechnicalInstallationService technicalInstallationService;
+  @Inject
+  private NetworkService networkService;
+  @Inject
+  private TechnicalInstallationService technicalInstallationService;
 
   private UUID id;
   private String redirectUrl;
@@ -40,12 +42,12 @@ public class DetailAction extends BaseAction {
         return redirect("node");
       }
 
-//      member = networkService.get(id);
+      member = networkService.get(id);
       if (member != null){
         return redirect("network");
       }
 
-//      member = technicalInstallationService.get(id);
+      member = technicalInstallationService.get(id);
       if (member != null){
         return redirect("installation");
       }
