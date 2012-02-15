@@ -9,39 +9,53 @@ import org.gbif.registry.api.service.OrganizationService;
 import java.util.UUID;
 
 import com.google.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+/**
+ * Redirects to the typed url for the member or throws NotFoundException.
+ */
 public class DetailAction extends BaseAction {
-  private static final Logger LOG = LoggerFactory.getLogger(DetailAction.class);
-
   @Inject
-  protected OrganizationService organizationService;
+  private OrganizationService organizationService;
   @Inject
-  protected NodeService nodeService;
+  private NodeService nodeService;
+//  @Inject
+//  private NetworkService networkService;
+//  @Inject
+//  private TechnicalInstallationService technicalInstallationService;
 
   private UUID id;
+  private String redirectUrl;
 
   @Override
   public String execute() {
     if (id != null) {
-      LOG.debug("Getting detail for member id [{}]", id);
       // check organisation
       NetworkEntity member = organizationService.get(id);
-      if (member == null){
-        member = nodeService.get(id);
+      if (member != null){
+        return redirect("organization");
       }
 
-      if (member == null){
-        throw new NotFoundException();
+      member = nodeService.get(id);
+      if (member != null){
+        return redirect("node");
       }
-      return SUCCESS;
+
+//      member = networkService.get(id);
+      if (member != null){
+        return redirect("network");
+      }
+
+//      member = technicalInstallationService.get(id);
+      if (member != null){
+        return redirect("installation");
+      }
     }
     throw new NotFoundException();
   }
 
-  public UUID getId() {
-    return id;
+  private String redirect(String type){
+    redirectUrl = getBaseUrl() + "/" + type.toLowerCase() + "/" + id.toString();
+    return SUCCESS;
   }
 
   public void setId(String id) {
@@ -50,5 +64,9 @@ public class DetailAction extends BaseAction {
     } catch (Exception e) {
       this.id = null;
     }
+  }
+
+  public String getRedirectUrl() {
+    return redirectUrl;
   }
 }

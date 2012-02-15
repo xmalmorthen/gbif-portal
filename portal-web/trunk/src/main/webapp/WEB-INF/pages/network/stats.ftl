@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>Member statistics - GBIF</title>
+  <title>Network statistics</title>
   <meta name="gmap" content="true"/>
   <content tag="extra_scripts">
   </content>

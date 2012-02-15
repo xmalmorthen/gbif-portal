@@ -272,7 +272,7 @@
     </action>
 
     <action name="{id}" class="org.gbif.portal.action.member.DetailAction">
-      <result>/WEB-INF/pages/member/detail.ftl</result>
+      <result type="redirect">${redirectUrl}</result>
     </action>
   </package>
 
@@ -283,16 +283,16 @@
       <result>/WEB-INF/inc/member/activity.ftl</result>
     </action>
 
-    <action name="{id}/stats" class="org.gbif.portal.action.node.StatsAction">
-      <result>/WEB-INF/inc/member/stats.ftl</result>
-    </action>
-
     <action name="{id}/datasets" class="org.gbif.portal.action.node.DatasetAction">
       <result>/WEB-INF/inc/member/datasets.ftl</result>
     </action>
 
+    <action name="{id}/stats" class="org.gbif.portal.action.node.StatsAction">
+      <result>/WEB-INF/pages/node/stats.ftl</result>
+    </action>
+
     <action name="{id}" class="org.gbif.portal.action.node.DetailAction">
-      <result>/WEB-INF/inc/member/detail.ftl</result>
+      <result>/WEB-INF/pages/node/detail.ftl</result>
     </action>
   </package>
 
@@ -303,16 +303,16 @@
       <result>/WEB-INF/inc/member/activity.ftl</result>
     </action>
 
-    <action name="{id}/stats" class="org.gbif.portal.action.network.StatsAction">
-      <result>/WEB-INF/inc/member/stats.ftl</result>
-    </action>
-
     <action name="{id}/datasets" class="org.gbif.portal.action.network.DatasetAction">
       <result>/WEB-INF/inc/member/datasets.ftl</result>
     </action>
 
+    <action name="{id}/stats" class="org.gbif.portal.action.network.StatsAction">
+      <result>/WEB-INF/pages/network/stats.ftl</result>
+    </action>
+
     <action name="{id}" class="org.gbif.portal.action.network.DetailAction">
-      <result>/WEB-INF/inc/member/detail.ftl</result>
+      <result>/WEB-INF/pages/network/detail.ftl</result>
     </action>
   </package>
 
@@ -323,16 +323,16 @@
       <result>/WEB-INF/inc/member/activity.ftl</result>
     </action>
 
-    <action name="{id}/stats" class="org.gbif.portal.action.organization.StatsAction">
-      <result>/WEB-INF/inc/member/stats.ftl</result>
-    </action>
-
     <action name="{id}/datasets" class="org.gbif.portal.action.organization.DatasetAction">
       <result>/WEB-INF/inc/member/datasets.ftl</result>
     </action>
 
+    <action name="{id}/stats" class="org.gbif.portal.action.organization.StatsAction">
+      <result>/WEB-INF/pages/organization/stats.ftl</result>
+    </action>
+
     <action name="{id}" class="org.gbif.portal.action.organization.DetailAction">
-      <result>/WEB-INF/inc/member/detail.ftl</result>
+      <result>/WEB-INF/pages/organization/detail.ftl</result>
     </action>
   </package>
 
