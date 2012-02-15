@@ -1,4 +1,4 @@
-<#import "/WEB-INF/macros/dataset/contact.ftl" as contact>
+<#import "/WEB-INF/macros/common.ftl" as common>
 <#if dataset.project?has_content || (otherContacts?size>0) >
 <article>
   <header></header>
