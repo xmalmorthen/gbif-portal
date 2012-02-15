@@ -33,7 +33,7 @@
           <ul class="team">
             <#list dataset.project.contacts as per>
               <li>
-                <@contact.record con=per />
+                <@common.contact con=per />
               </li>
             </#list>
           </ul>
@@ -52,7 +52,7 @@
     <ul class="parties">
     <#list otherContacts as ap>
       <li>
-        <@contact.record con=ap />
+        <@common.contact con=ap />
       </li>
       <#-- only show 3 references at max. If we have 3 (index=2) we know there are more to show -->
       <#if ap_index==2>
