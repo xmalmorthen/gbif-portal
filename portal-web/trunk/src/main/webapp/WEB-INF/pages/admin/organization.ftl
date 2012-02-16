@@ -6,7 +6,7 @@
 </head>
 <body class="dataset">
 
-  <article id="step-1" class="tunnel">
+  <article id="edit" class="tunnel">
     <header></header>
     <div class="content">
       <ul class="breadcrumb">

@@ -49,7 +49,7 @@
 
     <#if (otherContacts?size>0) >
     <h3>Associated parties</h3>
-    <ul class="parties">
+    <ul class="team">
     <#list otherContacts as ap>
       <li>
         <@common.contact con=ap />

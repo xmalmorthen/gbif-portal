@@ -70,7 +70,7 @@
 
 <#if (preferredContacts?size>0) >
   <h3>Primary Contacts</h3>
-  <ul class="parties">
+  <ul class="team">
 
     <#list preferredContacts as cnt>
         <li>
