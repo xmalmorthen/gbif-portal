@@ -2,7 +2,7 @@ package org.gbif.portal.action.member;
 
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.NotFoundException;
-import org.gbif.registry.api.model.NetworkEntity;
+import org.gbif.registry.api.model.WritableMember;
 import org.gbif.registry.api.service.NetworkService;
 import org.gbif.registry.api.service.NodeService;
 import org.gbif.registry.api.service.OrganizationService;
@@ -32,7 +32,7 @@ public class DetailAction extends BaseAction {
   public String execute() {
     if (id != null) {
       // check organisation
-      NetworkEntity member = organizationService.get(id);
+      WritableMember member = organizationService.get(id);
       if (member != null){
         return redirect("organization");
       }
