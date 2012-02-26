@@ -1,15 +1,18 @@
 package org.gbif.portal.config;
 
-import org.gbif.checklistbank.service.mybatis.guice.ChecklistBankServiceMyBatisModule;
 import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
 import org.gbif.occurrencestore.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
+import org.gbif.utils.HttpUtil;
 
 import java.io.IOException;
 import java.util.Properties;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.name.Names;
+import org.apache.http.client.HttpClient;
 
 public class PortalModule extends AbstractModule {
 
@@ -21,51 +24,43 @@ public class PortalModule extends AbstractModule {
    *
    * @throws ConfigurationException If the application properties cannot be read
    */
-  private void bindApplicationProperties() throws ConfigurationException {
+  private Properties bindApplicationProperties() throws ConfigurationException {
     try {
       // load and bind single properties to pass on to other modules.
       Properties properties = new Properties();
       properties.load(this.getClass().getResourceAsStream("/application.properties"));
       Names.bindProperties(binder(), properties);
-
-      // bind checklist bank api. Select either the mybatis or the ws-client api implementation:
-      // installClbMyBatis(properties);
-      // TODO: the CLB ws client should be refactored to use PrivateServiceModule
-      installClbWsClient(properties);
-
-      // bind registry API
-      install(new RegistryWsClientModule(properties, true, true));
-
-      // bind occurrence API
-      // TODO: the occurrence ws client should be refactored to use PrivateServiceModule
-      install(new OccurrenceWsClientModule());
-
+      return properties;
     } catch (IOException e) {
       throw new ConfigurationException(
         "Unable to read the application.properties (perhaps missing in WEB-INF/classes?)", e);
     }
   }
 
-  /**
-   * Installs the CLB API using the direct MyBatis module and the solr search ws client.
-   */
-  private void installClbMyBatis(Properties properties) {
-    install(new ChecklistBankServiceMyBatisModule(properties));
-    install(new ChecklistBankWsClientModule(true, false));
-  }
-
-  /**
-   * Installs the CLB API using only the ws clients.
-   */
-  private void installClbWsClient(Properties properties) {
-    install(new ChecklistBankWsClientModule());
-  }
-
   @Override
   protected void configure() {
-    bindApplicationProperties();
+    Properties properties = bindApplicationProperties();
+
+    // bind checklist bank api. Select either the mybatis or the ws-client api implementation:
+    // TODO: the CLB ws client should be refactored to use PrivateServiceModule
+    install(new ChecklistBankWsClientModule());
+
+    // bind registry API
+    install(new RegistryWsClientModule(properties, true, true));
+
+    // bind occurrence API
+    // TODO: the occurrence ws client should be refactored to use PrivateServiceModule
+    install(new OccurrenceWsClientModule());
 
     bind(Config.class);
 
   }
+
+  @Provides
+  @Singleton
+  public HttpClient provideHttpClient() {
+    return HttpUtil.newMultithreadedClient();
+  }
+
+
 }

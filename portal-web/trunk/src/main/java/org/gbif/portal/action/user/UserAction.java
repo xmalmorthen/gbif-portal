@@ -54,7 +54,6 @@ public class UserAction extends BaseAction {
     // we simply create a new user here for testing
     user = userService.get(email);
     session.put(Constants.SESSION_USER, user);
-    session.put(Constants.SESSION_password, password);
     if (user == null){
       return INPUT;
     }
