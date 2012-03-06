@@ -5,14 +5,14 @@ import org.gbif.portal.config.PortalModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.opensymphony.xwork2.Action;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class DetailActionTest {
-  @Ignore("Need to updater jersey to 1.11 for this to pass - will coordinate this tomorrow")
+
+  @Test
   public void test() {
     Injector injector = Guice.createInjector(new PortalModule());
     DetailAction da = injector.getInstance(org.gbif.portal.action.dataset.DetailAction.class);
