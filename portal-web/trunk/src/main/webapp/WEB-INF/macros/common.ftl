@@ -71,7 +71,8 @@
   </#if>
 
   <address>
-    <#assign props = ["${con.address!}","${con.city!}", "${con.province!}", "${con.postalCode!}", "${con.country!}" ]>
+    <!-- remember Contact.Country is an Enum, and we want to display the title (ie. Great Britain, not the code GB)
+    <#assign props = ["${con.address!}","${con.city!}", "${con.province!}", "${con.postalCode!}", "${con.country.title!}" ]>
     <#list props as k>
       <#if k?has_content>
       ${k}<#if k_has_next>, </#if>
