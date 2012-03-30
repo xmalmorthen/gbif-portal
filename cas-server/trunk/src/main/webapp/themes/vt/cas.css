@@ -1,0 +1,490 @@
+body {
+  background-color:#9D9879;
+
+  /* Fix peekaboo bug for IE 6,
+     http://www.positioniseverything.net/explorer/peekaboo.html
+   */
+  line-height:1.2;
+}
+  
+html>body {
+  line-height:normal; /* For all other browsers including IE 7. */
+}
+
+html, body {
+  font-family:'Lucida Grande', 'Verdana', sans-serif;
+  font-size:0.9em;
+  margin:0;
+  padding:0;
+}
+
+/*---------------------------------------------------
+ * HEADERS
+ *--------------------------------------------------*/
+h1, h2, h3, h4, h5, h6 {
+  margin:0;
+  padding:0.3em 0 0.2em 0;
+  border:0;
+  color:#600;
+  font-family:'Lucida Grande', 'Verdana', sans-serif;
+  font-weight:bold;
+}
+
+h1 {
+  font-size:1.5em; /* equivalent to 150% */
+}
+
+h2 {
+  font-size:1.4em; /* equivalent to 140% */
+}
+
+h3 {  
+  font-size:1.2em; /* equivalent to 120% */
+}
+
+h4, h5, h6 {
+  margin-bottom:0;
+  text-transform:uppercase;
+  color:#555;
+  font-size:1.1em; /* equivalent to 110% */
+}
+
+/*---------------------------------------------------
+ * DIVISIONS, PARAGRAPHS, LISTS, AND BLOCKQUOTES
+ *--------------------------------------------------*/
+div, p, ul, ol, li, dl, dt, dd, blockquote {
+  margin:0;
+  padding:0;
+  border:0;
+}
+
+/* Paragraphs and Lists */
+
+p, ul, ol, dl {
+  padding:0.5em 0;
+}
+
+p, li, dt, dd {
+  line-height:1.3em;
+}
+
+ul, ol {
+  margin-left:1em;
+}
+
+/* Unordered and Ordered Lists */
+
+ul ul, ol ol, ul ol, ol ul,
+ul h1, ul h2, ul h3, ul h4, ul h5, ul h6, ul p,
+ol h1, ol h2, ol h3, ol h4, ol h5, ol h6, ol p {
+  margin-left:1em;
+}
+
+/* Blockquotes */
+
+blockquote {
+  margin:1em;
+  font-style:italic;
+}  
+
+/*---------------------------------------------------
+ * TABLES
+ *--------------------------------------------------*/
+table, tr, th, td {
+  margin:0;
+  padding:0;
+  border:0;  
+}
+
+table {
+  margin:10px 0 16px 0;
+  padding:0;
+  border-collapse:collapse;
+  border-spacing:0;
+  width:100%;
+  font-size:0.9em;
+}
+
+tr, th, td {
+  vertical-align:top;
+}
+
+th, td {
+  padding:3px;
+  border-bottom:1px solid #c2c1ba;
+}
+
+th {
+  background:#d7d1ae;
+  color:#333;
+  text-align:left;
+  font-weight:bold;
+}
+
+/*---------------------------------------------------
+ * FORM ELEMENTS
+ *--------------------------------------------------*/
+fieldset {
+  background-color:#edeada;
+  border:1px solid #dbd8bc;
+  padding:28px 16px;
+}
+
+fieldset.short {
+  width:74%;
+  margin:0 auto;
+}
+
+fieldset.short h2 {
+  padding:0 0 0.8em 0;
+}
+
+fieldset div.field {
+  margin-bottom:10px;
+  clear:both;
+}
+
+fieldset div.error, fieldset div.note {
+  margin:0 0 0 8.1em;
+}
+
+label, div.label {
+  display:block;
+  float:left;
+  padding:0.2em 0 0 0;
+  width:7.5em;
+  text-align:right;
+  font-weight:bold;
+}
+
+div.checkboxes, div.radios, div.buttons {
+  margin-left:7.5em;
+}
+
+div.checkboxes label, div.radios label {
+  display:inline-block;
+  float:none;
+  padding:0;
+  margin:0;
+  width:auto;
+  vertical-align:middle;
+  text-align:left;
+  font-weight:normal;
+}
+
+input,textarea,select,button {
+  padding:0;
+  margin:0 6px;
+}
+
+input[type=text],input[type=password] {
+  height:1.4em;
+}
+
+input[type=text],input[type=password],textarea,select {
+  width:20em;
+}
+
+input[type=checkbox], input[type=radio] {
+  vertical-align:middle;
+}
+
+input.number-field {
+  width:4em;
+}
+
+textarea {
+  height:6em;
+}
+
+button, a.button {
+  font-family:'Lucida Grande', 'Verdana', sans-serif;
+  font-weight:bold;
+  font-size:1em;
+  padding:3px 10px 5px 10px;
+  text-align:center;
+  text-decoration:none;
+  color:white;
+  background-color:#79946c;
+  background-image:url('../../images/green-fade-bg.png');
+  background-repeat:repeat-x;
+  background-position:left bottom;
+  border-top:1px solid #82b36c;
+  border-left:1px solid #82b36c;
+  border-right:1px solid #304228;
+  border-bottom:1px solid #304228;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.big-buttons a.button {
+  display:block;
+  position:relative;
+  font-size:1.2em;
+  padding:20px 16px;
+  margin:12px auto;
+  width:200px;
+  overflow: hidden;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+  border-top:2px solid #82b36c;
+  border-left:2px solid #82b36c;
+  border-right:2px solid #304228;
+  border-bottom:2px solid #304228;
+}
+
+button:hover, a.button:hover {
+  color:#ffff94;
+  background-color:#819e73;
+  background-image:url('../../images/green-fade-highlight-bg.png');
+}
+
+.button-down {
+  border-top:1px solid #304228;
+  border-left:1px solid #304228;
+  border-right:1px solid #82b36c;
+  border-bottom:1px solid #82b36c;
+}   
+
+.big-buttons .button-down {
+  border-top:2px solid #304228;
+  border-left:2px solid #304228;
+  border-right:2px solid #82b36c;
+  border-bottom:2px solid #82b36c;
+}
+
+
+
+/*---------------------------------------------------
+ * Page elements
+ *--------------------------------------------------*/
+ 
+#page {
+  margin:0 auto;
+  padding:0;
+  border:5px solid #fff;
+  border-top:0;
+  width:758px;
+  background-color:#fff;
+}
+
+#header {
+  margin:0;
+  padding:0;
+  height:77px;
+  background-color:#fff;
+}
+
+#title {
+  color:#600;
+  font-family:'Lucida Grande', 'Verdana', sans-serif;
+  font-weight:bold;
+  font-size:1.6em;
+  margin:0 0 1em 0;
+  padding:0;
+}   
+
+#links {
+  padding:3px 0 5px 20%;
+  margin:3px auto;
+  border-left:7px solid #4d758f;
+  background-color:#455680;
+  background-image:url('../../images/blue-fade-bg.png');
+  background-repeat:repeat-x;
+  background-position:left bottom;
+  font-family:'Lucida Grande', 'Verdana', sans-serif;
+  font-weight:bold;
+}
+
+#links .link {
+  float:left;
+  margin:0 30px;
+  padding-top:3px;
+}
+
+#links a {
+  color:#fff;
+  text-decoration:none;
+}
+
+#links a:hover {
+  color:#ffff94;
+}
+
+#content {
+  padding:30px 60px 60px 60px;
+  background-color:#f5f5eB;
+  background-image:url('../../images/tan-fade-bg.png');
+  background-repeat:repeat-x;
+  border-left:7px solid #edeada;
+}
+
+#content ul, #content ol {
+  margin-left:20px;
+}
+
+#content.help {
+  padding:30px 125px 125px 125px;
+}
+
+#content.help h2 {
+  margin-top:15px;
+}
+
+#content.help h3 {
+  margin-top:12px;
+}
+
+#footer {
+  padding:1.8em 0;
+  font-size:0.8em;
+  color:#333;
+}
+
+#footer a {
+  color:#333;
+}
+
+#footer p {
+  text-align:center;  
+  margin:auto auto;
+  padding:0;
+  margin:0;
+}
+
+/*---------------------------------------------------
+ * Other CAS styles
+ *--------------------------------------------------*/
+
+#login-error {
+  background-color:#f5f5eB;
+  margin-bottom:0.5em;
+  border:none;
+}
+
+#login-error .error {
+  font-size:1.2em;
+}
+
+#error, #info, #warn, .panel {
+  margin:0 16px 16px 16px;
+  padding:16px;
+  background-color:#edeada;
+  border:1px dotted #dbd8bc;
+  overflow:hidden;
+}
+
+#error {
+  background-color:#FFE0E8;
+  border:dotted 1px #C00000;
+}
+
+.error {
+  font-weight:bold;
+  color:#C00000;
+}
+
+#info {
+  background-color:#d7ff9e;
+  border:1px dotted #006600;
+}
+
+.info {
+  font-weight:bold;
+  color:#005500;
+}
+
+#warn {
+  background-color:#ffe6c7;
+  border:1px dotted #CC6600;
+}
+
+.warn {
+  font-weight:bold;
+  color:#AA3300;
+}
+
+.note {
+  color:#999;
+}
+
+tr.warn td {
+  background-color:#ffe6c7;
+}
+
+tr.warn a {
+  display:inline;
+  background:#fff;
+  padding:3px 10px;
+  position:relative;
+  top:2px;
+  color:#333;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+tr.warn a:hover {
+  background:#b00;
+  color:#fff;
+}
+
+.spacer {
+  height:20px;
+}
+
+.bigger {
+  font-size:1.3em;
+}
+
+.smaller {
+  font-size:0.8em;
+}
+
+#switch {
+  color:#666;
+  font-weight:bold;
+  font-size:1.1em;
+  text-align:center;
+}
+
+a.nav {
+  color:#004dcd;
+  text-decoration:none;
+}
+
+a.nav:hover {
+  text-decoration:underline;
+}
+
+#help {
+  background-image:url('images/help-icon.png');
+  background-repeat:no-repeat;
+  background-position:0 0.25em;
+  height:20px;
+}
+
+#help a {
+  padding-left:20px;
+}
+
+.clear {
+  clear:both;
+}
+
+#logout {
+  float:right;
+}
+
+.block-text {
+  margin-left:14%;
+  margin-right:14%;
+}
+
+.field-hint {
+  background-color:#FCF0AD;
+  color:#666;
+  border:1px solid #e0d69a;
+  display:none;
+  position:absolute;
+  padding: 0 0.2em;
+}
