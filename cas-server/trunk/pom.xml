@@ -1,149 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  <!--
-    ~ Copyright 2011 Global Biodiversity Information Facility (GBIF)
-    ~
-    ~ Licensed under the Apache License, Version 2.0 (the "License");
-    ~ you may not use this file except in compliance with the License.
-    ~ You may obtain a copy of the License at
-    ~
-    ~     http://www.apache.org/licenses/LICENSE-2.0
-    ~
-    ~ Unless required by applicable law or agreed to in writing, software
-    ~ distributed under the License is distributed on an "AS IS" BASIS,
-    ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    ~ See the License for the specific language governing permissions and
-    ~ limitations under the License.
-    -->
+<!--
+~ Copyright 2011 Global Biodiversity Information Facility (GBIF)
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-      <groupId>org.gbif</groupId>
-      <artifactId>motherpom</artifactId>
-      <version>7</version>
-    </parent>
-
+  <parent>
     <groupId>org.gbif</groupId>
-    <artifactId>cas-server</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <artifactId>motherpom</artifactId>
+    <version>8</version>
+  </parent>
 
-    <name>GBIF CAS Server</name>
-    <description>The CAS Server for central authentication</description>
-    <url>http://sites.gbif.org/portal/cas-server</url>
+  <groupId>org.gbif</groupId>
+  <artifactId>cas-server</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
 
-    <properties>
-      <server.url>https://cas.gbif.org</server.url>
-      <cas.version>3.4.11</cas.version>
-      <mysql.version>5.1.18</mysql.version>
-      <commons-dbcp.version>1.4</commons-dbcp.version>
-      <commons-pool.version>1.6</commons-pool.version>
-    </properties>
+  <name>GBIF CAS Server</name>
+  <description>The CAS Server for central authentication</description>
+  <url>http://sites.gbif.org/portal/cas-server</url>
 
-    <scm>
-      <connection>scm:svn:http://gbif-portal.googlecode.com/svn/cas-server/trunk</connection>
-      <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/cas-server/trunk</developerConnection>
-      <url>http://code.google.com/p/gbif-portal/source/browse/#svn/cas-server/trunk</url>
-    </scm>
+  <properties>
+    <server.url>https://cas.gbif.org</server.url>
+    <cas.version>3.4.11</cas.version>
+    <mysql.version>5.1.18</mysql.version>
+    <commons-dbcp.version>1.4</commons-dbcp.version>
+    <commons-pool.version>1.6</commons-pool.version>
+  </properties>
 
-    <distributionManagement>
-      <site>
-        <id>gbif-site</id>
-        <name>Site for the GBIF CAS Server project</name>
-        <url>scp://tools.gbif.org:/var/www/html/sites/portal/cas-server</url>
-      </site>
-    </distributionManagement>
+  <scm>
+    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/cas-server/trunk</connection>
+    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/cas-server/trunk</developerConnection>
+    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/cas-server/trunk</url>
+  </scm>
 
-    <build>
-      <defaultGoal>jetty:run</defaultGoal>
-      <plugins>
-        <plugin>
-           <artifactId>maven-war-plugin</artifactId>
-           <configuration>
-               <warName>cas</warName>
-           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.mortbay.jetty</groupId>
-          <artifactId>jetty-maven-plugin</artifactId>
-          <configuration>
-            <scanIntervalSeconds>10</scanIntervalSeconds>
-            <webAppConfig>
-              <contextPath>/</contextPath>
-            </webAppConfig>
-            <stopKey>stop</stopKey>
-            <stopPort>9362</stopPort>
-          </configuration>
-          <executions>
-            <execution>
-              <id>start-jetty</id>
-              <phase>pre-integration-test</phase>
-              <goals>
-                <goal>run</goal>
-              </goals>
-              <configuration>
-                <scanIntervalSeconds>0</scanIntervalSeconds>
-                <daemon>true</daemon>
-              </configuration>
-            </execution>
-            <execution>
-              <id>stop-jetty</id>
-              <phase>post-integration-test</phase>
-              <goals>
-                <goal>stop</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-    </build>
+  <distributionManagement>
+    <site>
+      <id>gbif-site</id>
+      <name>Site for the GBIF CAS Server project</name>
+      <url>scp://tools.gbif.org:/var/www/html/sites/portal/cas-server</url>
+    </site>
+  </distributionManagement>
 
-    <repositories>
-      <repository>
-        <id>gbif-all</id>
-        <url>http://repository.gbif.org/content/groups/gbif</url>
-      </repository>
-      <repository>
-        <id>ja-sig</id>
-        <url>http://oss.sonatype.org/content/repositories/releases/</url>
-      </repository>
-    </repositories>
+  <build>
+    <defaultGoal>jetty:run</defaultGoal>
+    <plugins>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warName>cas</warName>
+          <webResources>
+            <resource>
+              <directory>src/main/webapp/WEB-INF</directory>
+              <targetPath>WEB-INF</targetPath>
+              <include>cas.properties</include>
+              <include>deployerConfigContext.xml</include>
+              <filtering>true</filtering>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
-    <dependencies>
+  <repositories>
+    <repository>
+      <id>gbif-all</id>
+      <url>http://repository.gbif.org/content/groups/gbif</url>
+    </repository>
+    <repository>
+      <id>ja-sig</id>
+      <url>http://oss.sonatype.org/content/repositories/releases/</url>
+    </repository>
+  </repositories>
 
-      <!-- CAS -->
-      <dependency>
-        <groupId>org.jasig.cas</groupId>
-        <artifactId>cas-server-webapp</artifactId>
-        <version>${cas.version}</version>
-        <type>war</type>
-        <scope>runtime</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jasig.cas</groupId>
-        <artifactId>cas-server-support-jdbc</artifactId>
-        <version>${cas.version}</version>
-        <scope>runtime</scope>
-      </dependency>
+  <dependencies>
 
-      <!-- other -->
-      <dependency>
-        <groupId>commons-dbcp</groupId>
-        <artifactId>commons-dbcp</artifactId>
-        <version>${commons-dbcp.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-pool</groupId>
-        <artifactId>commons-pool</artifactId>
-        <version>${commons-pool.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>${mysql.version}</version>
-      </dependency>
+    <!-- CAS -->
+    <dependency>
+      <groupId>org.jasig.cas</groupId>
+      <artifactId>cas-server-webapp</artifactId>
+      <version>${cas.version}</version>
+      <type>war</type>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jasig.cas</groupId>
+      <artifactId>cas-server-support-jdbc</artifactId>
+      <version>${cas.version}</version>
+      <scope>runtime</scope>
+    </dependency>
 
-    </dependencies>
+    <!-- other -->
+    <dependency>
+      <groupId>commons-dbcp</groupId>
+      <artifactId>commons-dbcp</artifactId>
+      <version>${commons-dbcp.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-pool</groupId>
+      <artifactId>commons-pool</artifactId>
+      <version>${commons-pool.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>${mysql.version}</version>
+    </dependency>
 
-  </project>
+  </dependencies>
+
+</project>

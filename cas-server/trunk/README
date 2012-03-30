@@ -1,0 +1,13 @@
+CAS Server
+==========
+
+You need a profile (or multiple profiles) that has all these properties set:
+  * server.prefix
+
+  * cas.db.driver
+  * cas.db.url
+  * cas.db.username
+  * cas.db.password
+
+With this profile in place use this to build the Workflow:
+  mvn -P <profile> clean package
