@@ -36,6 +36,9 @@
     <properties>
       <server.url>https://cas.gbif.org</server.url>
       <cas.version>3.4.11</cas.version>
+      <mysql.version>5.1.18</mysql.version>
+      <commons-dbcp.version>1.4</commons-dbcp.version>
+      <commons-pool.version>1.6</commons-pool.version>
     </properties>
 
     <scm>
@@ -109,20 +112,38 @@
 
     <dependencies>
 
-        <dependency>
-            <groupId>org.jasig.cas</groupId>
-            <artifactId>cas-server-webapp</artifactId>
-            <version>${cas.version}</version>
-            <type>war</type>
-            <scope>runtime</scope>
-        </dependency>
+      <!-- CAS -->
+      <dependency>
+        <groupId>org.jasig.cas</groupId>
+        <artifactId>cas-server-webapp</artifactId>
+        <version>${cas.version}</version>
+        <type>war</type>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jasig.cas</groupId>
+        <artifactId>cas-server-support-jdbc</artifactId>
+        <version>${cas.version}</version>
+        <scope>runtime</scope>
+      </dependency>
 
-        <dependency>
-            <groupId>org.jasig.cas</groupId>
-            <artifactId>cas-server-support-jdbc</artifactId>
-            <version>${cas.version}</version>
-            <scope>runtime</scope>
-        </dependency>
+      <!-- other -->
+      <dependency>
+        <groupId>commons-dbcp</groupId>
+        <artifactId>commons-dbcp</artifactId>
+        <version>${commons-dbcp.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-pool</groupId>
+        <artifactId>commons-pool</artifactId>
+        <version>${commons-pool.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql.version}</version>
+      </dependency>
+
     </dependencies>
 
   </project>
