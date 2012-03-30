@@ -61,7 +61,6 @@
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>
-          <warName>cas</warName>
           <webResources>
             <resource>
               <directory>src/main/webapp/WEB-INF</directory>
