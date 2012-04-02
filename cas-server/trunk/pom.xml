@@ -34,11 +34,11 @@
   <url>http://sites.gbif.org/portal/cas-server</url>
 
   <properties>
-    <server.url>https://cas.gbif.org</server.url>
     <cas.version>3.4.11</cas.version>
     <mysql.version>5.1.18</mysql.version>
     <commons-dbcp.version>1.4</commons-dbcp.version>
     <commons-pool.version>1.6</commons-pool.version>
+    <junit.version>4.10</junit.version>
   </properties>
 
   <scm>
@@ -120,6 +120,12 @@
       <version>${mysql.version}</version>
     </dependency>
 
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit-dep</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
 </project>
