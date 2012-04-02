@@ -739,7 +739,8 @@ function _cas_allow_check_for_login() {
 
   // Check to see if we already have.
   if (!empty($_COOKIE['cas_login_checked'])) {
-    return FALSE;
+	// ignore checking the cookie - we want Drupal to always check with CAS
+    //return FALSE;
   }
 
   // Check to see if we've got a search bot.
