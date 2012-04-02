@@ -91,7 +91,7 @@
               +-->
         <bean class="org.jasig.cas.adaptors.jdbc.QueryDatabaseAuthenticationHandler">
           <property name="sql">
-            <value>select pass from drupal_w2users where name = ? and status > 0</value>
+            <value>select pass from users where name = ? and status > 0</value>
           </property>
            <property name="passwordEncoder">
              <bean class="org.jasig.cas.authentication.handler.DefaultPasswordEncoder" p:characterEncoding="UTF-8" >
