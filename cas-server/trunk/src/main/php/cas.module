@@ -662,6 +662,9 @@ function cas_logout() {
   module_invoke_all('user_logout', $user);
   session_destroy();
 
+  // delete cookie by setting valid to 1h in the past
+  setcookie('cas_login_checked', 'false', time() - 3600);
+
   // Force redirection in drupal_goto().
   unset($_GET['destination']);
   drupal_goto($logout_url, $options);
