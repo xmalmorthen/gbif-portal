@@ -46,8 +46,12 @@ public class ProtectedServlet extends HttpServlet {
     sb.append("<p>").append(endl);
 
     Principal p = request.getUserPrincipal();
+    String principalName = "NULL";
+    if (p != null){
+      principalName = p.getName();
+    }
     sb.append("request.getRemoteUser() = ").append(request.getRemoteUser()).append("<br/>").append(endl);
-    sb.append("request.getUserPrincipal() = ").append(p.getName()).append("<br/><br/>").append(endl);
+    sb.append("request.getUserPrincipal() = ").append(principalName).append("<br/><br/>").append(endl);
 
     sb.append("</p><p>").append(endl);
     sb.append("The context root name of this application is ").append(request.getContextPath()).append(endl);
