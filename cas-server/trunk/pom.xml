@@ -56,7 +56,7 @@
   </distributionManagement>
 
   <build>
-    <defaultGoal>jetty:run</defaultGoal>
+    <defaultGoal>jetty:run-war</defaultGoal>
     <plugins>
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
