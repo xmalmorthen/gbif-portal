@@ -73,7 +73,10 @@ public class ProtectedServlet extends HttpServlet {
 
     sb.append("<h3>Released Attributes</h3>").append(endl);
     AttributePrincipal principal = (AttributePrincipal) p;
-    Map attributes = principal.getAttributes();
+    Map attributes = null;
+    if (principal != null){
+      attributes = principal.getAttributes();
+    }
     if (attributes != null && attributes.size() > 0) {
       Iterator iter = attributes.keySet().iterator();
       while (iter.hasNext()) {
