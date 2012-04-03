@@ -15,14 +15,19 @@
         If login fails, a forbidden-access browser message will be displayed.</p>
 
         <b><a href="sso/ProtectedServlet">
-        	Access the Test App #1 protected page
+        	Access the Test App protected page
         </a></b><br/><br/>
 
-        <b><a href=<%= "https://"+ hostname +":8443/TestApp2/index.jsp" %>>
-        	Access the Test App #2 home page
+        <b><a href="http://staging.gbif.org/drupal/">
+        	Access Drupal on staging
         </a></b><br/>
-        <b><a href=<%= "https://"+ hostname +":8443/TestApp2/sso/ProtectedServlet" %>>
-        	Access the Test App #2 protected page
-        </a></b><br/><br/>
+
+        <b><a href="http://cas.gbif.org/">
+          Access CAS
+        </a></b><br/>
+
+        <b><a href="http://cas.gbif.org/services/">
+          Access CAS Service Management
+        </a></b><br/>
     </body>
 </html>
