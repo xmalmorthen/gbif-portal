@@ -41,14 +41,10 @@ public class LogoutServlet extends HttpServlet
         sb.append("<html><head>");
         sb.append("<title>Application Logout</title>");
         sb.append("</head><body>");
-        sb.append("<h2>You have logged out of one application only</h2>").append(endl);
+        sb.append("<h2>You have logged out of this application only</h2>").append(endl);
         
-        sb.append("<b><a href=\"").append(baseUrl).append("1/sso/ProtectedServlet\">").append(endl);
-        sb.append("Access the Test App #1 protected page").append(endl);
-        sb.append("</a></b><br/>").append(endl);
-
-        sb.append("<b><a href=\"").append(baseUrl).append("2/sso/ProtectedServlet\">").append(endl);
-        sb.append("Access the Test App #2 protected page").append(endl);
+        sb.append("<b><a href=\"").append(baseUrl).append(endl);
+        sb.append("Access the Test App home page").append(endl);
         sb.append("</a></b><br/>").append(endl);
 
         sb.append("</body></html>").append(endl);

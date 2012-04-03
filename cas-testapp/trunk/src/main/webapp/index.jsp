@@ -1,10 +1,10 @@
 <html>
 	<head> 
-        <title>CAS SSO Test Application #1 - Unprotected Page</title>
+        <title>CAS SSO Test Application - Unprotected Page</title>
     </head>
     <body>
     	<% String hostname = request.getServerName(); %>
-        <h2 align="center">CAS SSO Test Application #1 on <%= hostname %></h2>
+        <h2 align="center">CAS SSO Test Application on <%= hostname %></h2>
 		<img src="images/green_1.jpg" alt="Should see big green 1!" />
         <p>
            The context root name of this application is <%=request.getContextPath()%>.
