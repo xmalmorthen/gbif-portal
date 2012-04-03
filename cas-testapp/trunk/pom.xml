@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+~ Copyright 2011 Global Biodiversity Information Facility (GBIF)
+~
+~ Licensed under the Apache License, Version 2.0 (the "License");
+~ you may not use this file except in compliance with the License.
+~ You may obtain a copy of the License at
+~
+~     http://www.apache.org/licenses/LICENSE-2.0
+~
+~ Unless required by applicable law or agreed to in writing, software
+~ distributed under the License is distributed on an "AS IS" BASIS,
+~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~ See the License for the specific language governing permissions and
+~ limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.gbif</groupId>
+    <artifactId>motherpom</artifactId>
+    <version>8</version>
+  </parent>
+
+  <groupId>org.gbif</groupId>
+  <artifactId>cas-testapp</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>GBIF CAS Test Webapplication</name>
+  <description>The CAS Test Webapp to show attributes and test SSO login/out</description>
+  <url>http://sites.gbif.org/portal/cas-testapp</url>
+
+  <properties>
+    <cas.version>3.2.1</cas.version>
+    <xerces.version>2.9.1</xerces.version>
+    <servletapi.version>2.5</servletapi.version>
+    <opensaml.version>1.1</opensaml.version>
+  </properties>
+
+  <scm>
+    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/cas-testapp/trunk</connection>
+    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/cas-testapp/trunk</developerConnection>
+    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/cas-testapp/trunk</url>
+  </scm>
+
+  <distributionManagement>
+    <site>
+      <id>gbif-site</id>
+      <name>Site for the GBIF CAS Test Webapp project</name>
+      <url>scp://tools.gbif.org:/var/www/html/sites/portal/cas-testapp</url>
+    </site>
+  </distributionManagement>
+
+  <build>
+    <defaultGoal>jetty:run</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <configuration>
+          <scanIntervalSeconds>10</scanIntervalSeconds>
+          <webAppConfig>
+            <contextPath>/</contextPath>
+          </webAppConfig>
+          <stopKey>stop</stopKey>
+          <stopPort>9362</stopPort>
+          <systemProperties>
+            <systemProperty>
+              <name>jetty.port</name>
+              <value>8082</value>
+            </systemProperty>
+          </systemProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>gbif-all</id>
+      <url>http://repository.gbif.org/content/groups/gbif</url>
+    </repository>
+    <repository>
+      <id>ja-sig</id>
+      <url>http://oss.sonatype.org/content/repositories/releases/</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.jasig.cas.client</groupId>
+      <artifactId>cas-client-core</artifactId>
+      <version>${cas.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>${xerces.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servletapi.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.opensaml</groupId>
+      <artifactId>opensaml</artifactId>
+      <version>${opensaml.version}</version>
+    </dependency>
+  </dependencies>
+
+</project>
