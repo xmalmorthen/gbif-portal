@@ -22,11 +22,11 @@
         	Access Drupal on staging
         </a></b><br/>
 
-        <b><a href="http://cas.gbif.org/">
+        <b><a href="https://cas.gbif.org/">
           Access CAS
         </a></b><br/>
 
-        <b><a href="http://cas.gbif.org/services/">
+        <b><a href="https://cas.gbif.org/services/">
           Access CAS Service Management
         </a></b><br/>
     </body>
