@@ -81,6 +81,7 @@
 			<param-value>http://staging.gbif.org:8080</param-value>
 	  </init-param> 
     </servlet>
+
     <servlet>
       <servlet-name>LogoutServlet</servlet-name>
       <servlet-class>org.gbif.sso.LogoutServlet</servlet-class>
