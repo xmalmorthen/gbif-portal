@@ -118,19 +118,57 @@
   </sec:user-service>
 
   <!--
-   Bean that defines the attributes that a service may return.  This example uses the Stub/Mock version.  A real implementation
-   may go against a database or LDAP server.  The id should remain "attributeRepository" though.
-    -->
-  <bean id="attributeRepository"
-        class="org.jasig.services.persondir.support.StubPersonAttributeDao">
-    <property name="backingMap">
-      <map>
-        <entry key="uid" value="uid"/>
-        <entry key="eduPersonAffiliation" value="eduPersonAffiliation"/>
-        <entry key="groupMembership" value="groupMembership"/>
-      </map>
+   Expose user attributes taken from Drupal user tables.
+   -->
+<bean id="attributeRepository" class="org.jasig.services.persondir.support.MergingPersonAttributeDaoImpl">
+    <property name="personAttributeDaos">
+        <list>
+            <ref bean="attributeRepositoryCore" />
+            <ref bean="attributeRepositoryRoles" />
+        </list>
     </property>
+</bean>
+
+<bean id="attributeRepositoryCore" class="org.jasig.services.persondir.support.jdbc.SingleRowJdbcPersonAttributeDao">
+    <constructor-arg index="0" ref="dataSource" />
+    <constructor-arg index="1" value="select * from users where {0}" />
+    <property name="queryAttributeMapping">
+        <map>
+            <entry key="username" value="name" />
+        </map>
+    </property>
+    <property name="resultAttributeMapping">
+        <map>
+            <entry key="name" value="username" />
+            <entry key="mail" value="email" />
+            <entry key="language" value="language" />
+            <entry key="uid" value="uid" />
+        </map>
+    </property>
+</bean>
+
+  <bean id="attributeRepositoryRoles" class="org.jasig.services.persondir.support.jdbc.MultiRowJdbcPersonAttributeDao">
+      <constructor-arg index="0" ref="dataSource" />
+      <constructor-arg index="1" value="select u.name, 'role' as attr_name, r.name as attr_value from users u left join users_roles ur on u.uid=ur.uid left join role r on r.rid=ur.rid where {0}" />
+    <property name="nameValueColumnMappings">
+        <map>
+            <entry key="attr_name" value="attr_value" />
+        </map>
+    </property>
+    <property name="queryAttributeMapping">
+          <map>
+              <entry key="username" value="name" />
+          </map>
+      </property>
+      <property name="resultAttributeMapping">
+          <map>
+              <entry key="role" value="role" />
+          </map>
+      </property>
   </bean>
+
+
+
 
   <!--
    Sample, in-memory data store for the ServiceRegistry. A real implementation
