@@ -148,23 +148,24 @@
 </bean>
 
   <bean id="attributeRepositoryRoles" class="org.jasig.services.persondir.support.jdbc.MultiRowJdbcPersonAttributeDao">
-      <constructor-arg index="0" ref="dataSource" />
-      <constructor-arg index="1" value="select u.name, 'role' as attr_name, r.name as attr_value from users u left join users_roles ur on u.uid=ur.uid left join role r on r.rid=ur.rid where {0}" />
-    <property name="nameValueColumnMappings">
-        <map>
-            <entry key="attr_name" value="attr_value" />
-        </map>
-    </property>
+    <constructor-arg index="0" ref="dataSource"/>
+    <constructor-arg index="1"
+                     value="select u.name, 'role' as attr_name, r.name as attr_value from users u left join users_roles ur on u.uid=ur.uid left join role r on r.rid=ur.rid where {0}"/>
+    <property name="nameValueColumnMappings">
+      <map>
+        <entry key="attr_name" value="attr_value"/>
+      </map>
+    </property>
     <property name="queryAttributeMapping">
-          <map>
-              <entry key="username" value="name" />
-          </map>
-      </property>
-      <property name="resultAttributeMapping">
-          <map>
-              <entry key="role" value="role" />
-          </map>
-      </property>
+      <map>
+        <entry key="username" value="name"/>
+      </map>
+    </property>
+    <property name="resultAttributeMapping">
+      <map>
+        <entry key="role" value="role"/>
+      </map>
+    </property>
   </bean>
 
 
