@@ -5,6 +5,8 @@ import org.gbif.registry.api.model.WritableMember;
 
 import java.util.UUID;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +14,8 @@ public abstract class MemberBaseAction<T extends WritableMember> extends org.gbi
   private static final Logger LOG = LoggerFactory.getLogger(MemberBaseAction.class);
 
   protected UUID id;
-  protected T member;
+  @Valid
+  private T member;
   protected final Class<T> clazz;
 
   public MemberBaseAction(Class<T> clazz) {
@@ -53,5 +56,12 @@ public abstract class MemberBaseAction<T extends WritableMember> extends org.gbi
 
   public String getMemberType() {
     return clazz.getSimpleName();
+  }
+
+  /**
+   * @param member the member to set.
+   */
+  public void setMember(T member) {
+    this.member = member;
   }
 }

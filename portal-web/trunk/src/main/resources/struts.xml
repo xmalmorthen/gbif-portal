@@ -12,6 +12,7 @@
     <interceptors>
       <interceptor name="requireLogin" class="org.gbif.portal.struts.RequireLoginInterceptor"/>
       <interceptor name="requireAdmin" class="org.gbif.portal.struts.RequireAdminInterceptor"/>
+      <interceptor name="ovalValidation" class="org.gbif.portal.struts.OValValidationInterceptor" />
 
       <interceptor-stack name="portalStack">
         <interceptor-ref name="staticParams"/>
@@ -27,6 +28,7 @@
       <interceptor-stack name="adminStack">
         <interceptor-ref name="requireAdmin"/>
         <interceptor-ref name="portalStack"/>
+        <interceptor-ref name="ovalValidation"/>        
       </interceptor-stack>
 
       <interceptor-stack name="uploadStack">
@@ -432,6 +434,10 @@
     <action name="organization/{id}" class="org.gbif.portal.action.admin.OrganizationAction">
       <result>/WEB-INF/pages/admin/organization.ftl</result>
     </action>
+    
+    <action name="organization/{id}/add" class="org.gbif.portal.action.admin.OrganizationAction" method="addOrganization">
+      <result>/WEB-INF/pages/admin/organization.ftl</result>
+    </action>    
 
     <action name="dataset/{id}" class="org.gbif.portal.action.admin.DatasetAction">
       <result>/WEB-INF/pages/admin/dataset.ftl</result>

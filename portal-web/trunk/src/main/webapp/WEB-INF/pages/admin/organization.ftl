@@ -29,66 +29,70 @@
         <li class="last"><h2>Finish</h2></li>
       </ul>
 
-      <p>Please edit the necessary fields:</p>
 
+      <p>Please edit the necessary fields:</p>
       <div class="important">
         <div class="top"></div>
         <div class="inner">
-          <form>
-
+          <@s.form action="organization/${id}/add">
 			<div class="field">
               <p>TITLE</p>
-                <input id="title" name="title" type="text" value="${member.title!}"/>
+                <@s.textfield name="member.title" value="${member.title!}" size="20" maxlength="10" />
+                <@s.fielderror fieldName="member.title"/>
             </div>
 
             <div class="field">
               <p>DESCRIPTION</p>
-              <textarea rows="2" cols="20">${member.description!}</textarea>
+              <@s.textarea name="member.description" value="${member.description!}" rows="2" cols="20" />
+              <@s.fielderror fieldName="member.description"/>
             </div>
 
 			<div class="field">
               <p>ADDRESS</p>
-                <input id="address" name="address" type="text" value="${member.address!}"/>
+                <@s.textfield name="member.address" value="${member.address!}" size="20" maxlength="10" />
+                <@s.fielderror fieldName="member.address"/>
             </div>
             
 			<div class="field">
               <p>CITY</p>
-                <input id="city" name="city" type="text" value="${member.city!}"/>
+                <@s.textfield name="member.city" value="${member.city!}" size="20" maxlength="10" />
+                <@s.fielderror fieldName="member.city"/>
             </div>         
             
 			<div class="field">
               <p>ZIP</p>
-                <input id="email" name="email" type="text" value="${member.email!}"/>
+                <@s.textfield name="member.zip" value="${member.zip!}" size="20" maxlength="10" />    
+                <@s.fielderror fieldName="member.zip"/>            
             </div>       
              
 			<div class="field">
               <p>PHONE</p>
-                <input id="phone" name="phone" type="text" value="${member.phone!}"/>
+                <@s.textfield name="member.phone" value="${member.phone!}" size="20" maxlength="10" />  
+                <@s.fielderror fieldName="member.phone"/>                 
             </div>                  
-            
 			<div class="field">
-              <p>COUNTRY</p>
-              <select id="country" class="country" name="country">
-                <#list officialCountries as c>
-                  <option value="${c.iso2LetterCode}" <#if member.country==c>selected</#if> >${c.title}</option>
-                </#list>
-              </select>              
+              <p>COUNTRY - ${(member.country!).iso2LetterCode!}</p>
+              <@s.select name="member.country" value="${(member.country!).iso2LetterCode!}" list="officialCountries" 
+               listKey="iso2LetterCode" listValue="title" headerKey="" headerValue="Choose a country"/>
+               <@s.fielderror fieldName="member.country"/>
             </div>        
             
 			<div class="field">
               <p>HOMEPAGE</p>
-                <input id="homepage" name="homepage" type="text" value="${member.homepage!}"/>
+                <@s.textfield name="member.homepage" value="${member.homepage!}" size="20" maxlength="60" />
+                <@s.fielderror fieldName="member.homepage"/>
             </div>                
             
 			<div class="field">
               <p>LOGO URL</p>
-                <input id="logoUrl" name="logoUrl" type="text" value="${member.logoURL!}"/>
+                <@s.textfield name="member.logoURL" value="${member.logoURL!}" size="20" maxlength="60" />
+                <@s.fielderror fieldName="member.logoURL"/>
             </div>                                  
 	        
             <div class="field">
               <p>CONTACTS  [ <a href="#">add contacts</a> ] - popup to add a new contact
                 <ul class="team">
-                  <#list member.contacts as c>
+                  <#list member.contacts! as c>
                   <li>
                     <img src="<@s.url value='/img/minus.png'/>">
                       <@common.contact con=c />
@@ -100,7 +104,6 @@
             <div class="create_contact">
               <div id="dialog-form" title="Create new contact">
                 <p class="validateTips">All form fields are required.</p>
-                <form>
                   <fieldset>
                     <label for="name">Salutation</label>
                     <select name="new_contact_salutation" id="new_contact_salutation">
@@ -137,7 +140,7 @@
                     <label for="country">Country</label>
                     <select name="new_contact_country" id="new_contact_country">              
                       <#list officialCountries as c>
-                        <option value="${c.iso2LetterCode}" <#if member.country==c>selected</#if> >${c.title}</option>
+                        <option value="${c.iso2LetterCode}" <#if member.country??><#if member.country==c>selected</#if></#if> >${c.title}</option>
                       </#list>
                     </select>	
                     <label for="email">E-Mail</label>
@@ -145,7 +148,6 @@
                     <label for="phone">Phone</label>
                     <input type="text" name="new_contact_phone" id="new_contact_phone" value="" class="text ui-widget-content ui-corner-all" />                                                                                                                    	                                   
                   </fieldset>
-                </form>
               </div>
 
               <div id="users-contain" class="ui-widget">
@@ -177,36 +179,25 @@
             </div>
             <!-- End contact creation -->               
              
+			<div class="field">
+              <p>GBIF Endorsing Node</p>
+              <!-- TODO: 'member' is being mapped as a WritableMember, therefore 'endorsingKey' cant be mapped. Investigate further on this --> 
+              <!-- Possibly this might mean creating a 'member' objecto for each entity at their respective Action class --> 
+              <@s.select name="member.endorsingNodeKey" value="${member.endorsingNodeKey!}" list="nodes" 
+               listKey="key" listValue="title" headerKey="" headerValue="Choose a node"/>
+               <!-- <@s.fielderror fieldName="member.endorsingNodeKey"/> -->
+            </div>          
 
-            <div class="field">
-              <p>GBIF endorsing node</p>
-              <select id="endorsing_node" class="endorsing_node" name="endorsing_node">
-                <option value="">Select one of the list below...</option>
-                <option value="endorsing_node-1">ACB</option>
-                <option value="endorsing_node-2">Andorra</option>
-                <option value="endorsing_node-3" selected>Austria</option>
-                <option value="endorsing_node-4">Argentina</option>
-              </select>
-            </div>
-            <p/>
-            <div class="field">
-              <p>Network links</p>
-              <select multiple id="endorsing_node" class="endorsing_node" name="endorsing_node">
-                <option value="">Select one of the list below...</option>
-                <option value="network-1" selected>VertNET</option>
-                <option value="network-2">IABIN</option>
-                <option value="network-3" selected>African Territory</option>
-                <option value="network-4">Natural History Institutions</option>
-              </select>
-            </div>                     
-          </form>
+      
+            <nav><@s.submit title="Edit" class="candy_white_button next"><span>Save Changes</span></@s.submit>         
+          </@s.form>
        
           
         </div>
         <div class="bottom"></div>
       </div>
 
-      <nav><a href="<@s.url value='#'/>" title="Edit" class="candy_white_button next"><span>Save Changes</span></a>
+
 
         <p>When you are sure about the changes, press 'Save Changes'</p></nav>
     </div>
