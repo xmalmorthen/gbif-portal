@@ -66,6 +66,7 @@
     <servletapi.version>2.5</servletapi.version>
     <slf4j.version>1.6.4</slf4j.version>
     <struts.version>2.2.3.1</struts.version>
+    <oval.version>1.81</oval.version>
   </properties>
 
   <scm>
@@ -353,6 +354,19 @@
       <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
+    <!-- OVal validation framework -->
+    <dependency>
+      <groupId>org.apache.struts</groupId>
+      <artifactId>struts2-oval-plugin</artifactId>
+      <version>${struts.version}</version>
+    </dependency>
+    <!-- Needs to be added because the oval version that comes with the struts plugin
+    does not support JSR303 validation -->
+    <dependency>
+      <groupId>net.sf.oval</groupId>
+      <artifactId>oval</artifactId>
+      <version>${oval.version}</version>
+    </dependency>      
   </dependencies>
 
   <profiles>
