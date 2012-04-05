@@ -30,7 +30,15 @@ public final class DestroyDrupalCookieAction extends AbstractAction {
       if (response != null) {
         Cookie drupalCasCookie = new Cookie(cookieName, "");
         drupalCasCookie.setMaxAge(0);
+        drupalCasCookie.setDomain("gbif.org");
+        drupalCasCookie.setPath("/");
         response.addCookie(drupalCasCookie);
+
+        Cookie testCookie = new Cookie("cas_test_cookie", "true");
+        testCookie.setMaxAge(10000);
+        testCookie.setDomain("gbif.org");
+        testCookie.setPath("/");
+        response.addCookie(testCookie);
       }
         
       return success();
