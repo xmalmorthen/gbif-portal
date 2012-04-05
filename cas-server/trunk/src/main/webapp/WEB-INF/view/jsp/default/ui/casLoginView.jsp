@@ -32,12 +32,9 @@ Adding custom javascript to remove the drupal cas_module cookie.
 Only works if cas and drupal run on the same domain!
 --%>
 <script type="text/javascript">
-  console.debug("Remove drupal cookie");
-  console.debug(document.cookie);
   var exdate=new Date();
   exdate.setDate(exdate.getDate() - 1000);
   document.cookie = "cas_login_checked=;expires=100000" + exdate.toGMTString() + ";path=/;domain=gbif.org";
-  console.debug(document.cookie);
 </script>
 
 <c:if test="${not pageContext.request.secure}">
