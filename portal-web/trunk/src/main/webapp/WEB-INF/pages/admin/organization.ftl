@@ -69,7 +69,14 @@
               <p>PHONE</p>
                 <@s.textfield name="member.phone" value="${member.phone!}" size="20" maxlength="10" />  
                 <@s.fielderror fieldName="member.phone"/>                 
-            </div>                  
+            </div>    
+
+			<div class="field">
+              <p>E-MAIL</p>
+                <@s.textfield name="member.email" size="20" maxlength="10" />  
+                <@s.fielderror fieldName="member.email"/>                 
+            </div> 
+                                      
 			<div class="field">
               <p>COUNTRY - ${(member.country!).iso2LetterCode!}</p>
               <@s.select name="member.country" value="${(member.country!).iso2LetterCode!}" list="officialCountries" 

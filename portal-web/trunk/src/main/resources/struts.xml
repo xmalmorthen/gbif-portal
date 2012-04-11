@@ -12,7 +12,7 @@
     <interceptors>
       <interceptor name="requireLogin" class="org.gbif.portal.struts.RequireLoginInterceptor"/>
       <interceptor name="requireAdmin" class="org.gbif.portal.struts.RequireAdminInterceptor"/>
-      <interceptor name="ovalValidation" class="org.gbif.portal.struts.OValValidationInterceptor" />
+      <interceptor name="jsrvalidation" class="org.gbif.portal.struts.ValidationInterceptor" />
 
       <interceptor-stack name="portalStack">
         <interceptor-ref name="staticParams"/>
@@ -28,7 +28,9 @@
       <interceptor-stack name="adminStack">
         <interceptor-ref name="requireAdmin"/>
         <interceptor-ref name="portalStack"/>
-        <interceptor-ref name="ovalValidation"/>        
+        <interceptor-ref name="jsrvalidation">
+          <param name="excludeMethods">execute</param>
+        </interceptor-ref>        
       </interceptor-stack>
 
       <interceptor-stack name="uploadStack">
