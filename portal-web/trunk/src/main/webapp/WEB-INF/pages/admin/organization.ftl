@@ -47,50 +47,50 @@
               <@s.fielderror fieldName="member.description"/>
             </div>
 
-			<div class="field">
+            <div class="field">
               <p>ADDRESS</p>
                 <@s.textfield name="member.address" value="${member.address!}" size="20" maxlength="10" />
                 <@s.fielderror fieldName="member.address"/>
             </div>
             
-			<div class="field">
+            <div class="field">
               <p>CITY</p>
                 <@s.textfield name="member.city" value="${member.city!}" size="20" maxlength="10" />
                 <@s.fielderror fieldName="member.city"/>
             </div>         
             
-			<div class="field">
+            <div class="field">
               <p>ZIP</p>
                 <@s.textfield name="member.zip" value="${member.zip!}" size="20" maxlength="10" />    
                 <@s.fielderror fieldName="member.zip"/>            
             </div>       
              
-			<div class="field">
+            <div class="field">
               <p>PHONE</p>
                 <@s.textfield name="member.phone" value="${member.phone!}" size="20" maxlength="10" />  
                 <@s.fielderror fieldName="member.phone"/>                 
             </div>    
 
-			<div class="field">
+            <div class="field">
               <p>E-MAIL</p>
                 <@s.textfield name="member.email" size="20" maxlength="10" />  
                 <@s.fielderror fieldName="member.email"/>                 
             </div> 
                                       
-			<div class="field">
+            <div class="field">
               <p>COUNTRY - ${(member.country!).iso2LetterCode!}</p>
               <@s.select name="member.country" value="${(member.country!).iso2LetterCode!}" list="officialCountries" 
                listKey="iso2LetterCode" listValue="title" headerKey="" headerValue="Choose a country"/>
                <@s.fielderror fieldName="member.country"/>
             </div>        
             
-			<div class="field">
+            <div class="field">
               <p>HOMEPAGE</p>
                 <@s.textfield name="member.homepage" value="${member.homepage!}" size="20" maxlength="60" />
                 <@s.fielderror fieldName="member.homepage"/>
             </div>                
             
-			<div class="field">
+            <div class="field">
               <p>LOGO URL</p>
                 <@s.textfield name="member.logoURL" value="${member.logoURL!}" size="20" maxlength="60" />
                 <@s.fielderror fieldName="member.logoURL"/>
@@ -186,7 +186,7 @@
             </div>
             <!-- End contact creation -->               
              
-			<div class="field">
+            <div class="field">
               <p>GBIF Endorsing Node</p>
               <!-- TODO: 'member' is being mapped as a WritableMember, therefore 'endorsingKey' cant be mapped. Investigate further on this --> 
               <!-- Possibly this might mean creating a 'member' objecto for each entity at their respective Action class --> 
