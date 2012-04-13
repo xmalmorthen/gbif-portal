@@ -129,10 +129,11 @@
              
             <div class="field">
               <p>GBIF Endorsing Node</p>
+              <!-- TODO: all nodes still need to be loaded up. Service class can't return full list of nodes.  -->
+              <!-- Action class can page through results and consolidate a list of all nodes.  -->              
               <@s.select name="organization.endorsingNodeKey" value="${organization.endorsingNodeKey!}" list="nodes" 
                listKey="key" listValue="title" headerKey="" headerValue="Choose a node"/>
-               <!-- TODO: all nodes still need to be loaded up, commenting out the error field -->
-               <!-- <@s.fielderror fieldName="organization.endorsingNodeKey"/> -->
+              <@s.fielderror fieldName="organization.endorsingNodeKey"/>
             </div>          
 
       
