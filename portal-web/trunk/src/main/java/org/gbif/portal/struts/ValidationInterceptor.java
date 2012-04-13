@@ -64,6 +64,9 @@ public class ValidationInterceptor extends MethodFilterInterceptor {
         // the i18n key will take the form 'fieldName.error'.
         validatorContext.addFieldError(fieldName, i18nMsg);
       }
+      // TODO: perform normal validation?
+      // Validateable validateable = (Validateable) action;
+      // validateable.validate();
     }
   }
 }

@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>Edit Organization - GBIF</title>
+  <title>Add Organization - GBIF</title>
   <meta name="menu" content="datasets"/>
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/custom/modal_form.js'/>"></script>
@@ -25,81 +25,26 @@
     <div class="content">
       <ul class="breadcrumb">
         <li><h2>Administration</h2></li>
-        <li class="active"><h2>Edit Organization</h2></li>
+        <li class="active"><h2>Add Organization</h2></li>
         <li class="last"><h2>Finish</h2></li>
       </ul>
 
 
       <p>Please edit the necessary fields:</p>
+      <#if fieldErrors.size() != 0>
+        Errors have been detected!
+        <@s.fielderror/>
+      </#if>
       <div class="important">
         <div class="top"></div>
         <div class="inner">
-          <@s.form action="organization/${id}/add">
-			<div class="field">
-              <p>TITLE</p>
-                <@s.textfield name="member.title" value="${member.title!}" size="20" maxlength="10" />
-                <@s.fielderror fieldName="member.title"/>
-            </div>
-
-            <div class="field">
-              <p>DESCRIPTION</p>
-              <@s.textarea name="member.description" value="${member.description!}" rows="2" cols="20" />
-              <@s.fielderror fieldName="member.description"/>
-            </div>
-
-            <div class="field">
-              <p>ADDRESS</p>
-                <@s.textfield name="member.address" value="${member.address!}" size="20" maxlength="10" />
-                <@s.fielderror fieldName="member.address"/>
-            </div>
-            
-            <div class="field">
-              <p>CITY</p>
-                <@s.textfield name="member.city" value="${member.city!}" size="20" maxlength="10" />
-                <@s.fielderror fieldName="member.city"/>
-            </div>         
-            
-            <div class="field">
-              <p>ZIP</p>
-                <@s.textfield name="member.zip" value="${member.zip!}" size="20" maxlength="10" />    
-                <@s.fielderror fieldName="member.zip"/>            
-            </div>       
-             
-            <div class="field">
-              <p>PHONE</p>
-                <@s.textfield name="member.phone" value="${member.phone!}" size="20" maxlength="10" />  
-                <@s.fielderror fieldName="member.phone"/>                 
-            </div>    
-
-            <div class="field">
-              <p>E-MAIL</p>
-                <@s.textfield name="member.email" size="20" maxlength="10" />  
-                <@s.fielderror fieldName="member.email"/>                 
-            </div> 
-                                      
-            <div class="field">
-              <p>COUNTRY - ${(member.country!).iso2LetterCode!}</p>
-              <@s.select name="member.country" value="${(member.country!).iso2LetterCode!}" list="officialCountries" 
-               listKey="iso2LetterCode" listValue="title" headerKey="" headerValue="Choose a country"/>
-               <@s.fielderror fieldName="member.country"/>
-            </div>        
-            
-            <div class="field">
-              <p>HOMEPAGE</p>
-                <@s.textfield name="member.homepage" value="${member.homepage!}" size="20" maxlength="60" />
-                <@s.fielderror fieldName="member.homepage"/>
-            </div>                
-            
-            <div class="field">
-              <p>LOGO URL</p>
-                <@s.textfield name="member.logoURL" value="${member.logoURL!}" size="20" maxlength="60" />
-                <@s.fielderror fieldName="member.logoURL"/>
-            </div>                                  
+          <@s.form action="organization/add/step">
+            <#include "basic_organization.ftl">                           
 	        
             <div class="field">
               <p>CONTACTS  [ <a href="#">add contacts</a> ] - popup to add a new contact
                 <ul class="team">
-                  <#list member.contacts! as c>
+                  <#list (organization!).contacts! as c>
                   <li>
                     <img src="<@s.url value='/img/minus.png'/>">
                       <@common.contact con=c />
@@ -108,7 +53,7 @@
               </ul>
             </div>
             
-            <div class="create_contact">
+            <div class="field">
               <div id="dialog-form" title="Create new contact">
                 <p class="validateTips">All form fields are required.</p>
                   <fieldset>
@@ -147,7 +92,7 @@
                     <label for="country">Country</label>
                     <select name="new_contact_country" id="new_contact_country">              
                       <#list officialCountries as c>
-                        <option value="${c.iso2LetterCode}" <#if member.country??><#if member.country==c>selected</#if></#if> >${c.title}</option>
+                        <option value="${c.iso2LetterCode}" <#if (organization!).country??><#if (organization!).country==c>selected</#if></#if> >${c.title}</option>
                       </#list>
                     </select>	
                     <label for="email">E-Mail</label>
@@ -188,23 +133,20 @@
              
             <div class="field">
               <p>GBIF Endorsing Node</p>
-              <!-- TODO: 'member' is being mapped as a WritableMember, therefore 'endorsingKey' cant be mapped. Investigate further on this --> 
-              <!-- Possibly this might mean creating a 'member' objecto for each entity at their respective Action class --> 
-              <@s.select name="member.endorsingNodeKey" value="${member.endorsingNodeKey!}" list="nodes" 
+              <!-- TODO: all nodes still need to be loaded up. Service class can't return full list of nodes.  -->
+              <!-- Action class can page through results and consolidate a list of all nodes.  -->
+              <@s.select name="organization.endorsingNodeKey" value="'${(organization!).endorsingNodeKey!}'" list="nodes" 
                listKey="key" listValue="title" headerKey="" headerValue="Choose a node"/>
-               <!-- <@s.fielderror fieldName="member.endorsingNodeKey"/> -->
+               <@s.fielderror fieldName="organization.endorsingNodeKey"/>
             </div>          
 
-      
-            <nav><@s.submit title="Edit" class="candy_white_button next"><span>Save Changes</span></@s.submit>         
+            <nav><@s.submit title="Add" class="candy_white_button next"><span>Save Changes</span></@s.submit>         
           </@s.form>
        
           
         </div>
         <div class="bottom"></div>
       </div>
-
-
 
         <p>When you are sure about the changes, press 'Save Changes'</p></nav>
     </div>
