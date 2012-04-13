@@ -62,6 +62,11 @@ Only works if cas and drupal run on the same domain!
                 <span class="error" style="display:none">Wrong password</span>
               </span>
             </div>
+            
+						<input type="hidden" name="lt" value="${loginTicket}" />
+						<input type="hidden" name="execution" value="${flowExecutionKey}" />
+						<input type="hidden" name="_eventId" value="submit" />
+            
             <div class="tl"></div>
             <div class="tr"></div>
             <div class="bl"></div>
