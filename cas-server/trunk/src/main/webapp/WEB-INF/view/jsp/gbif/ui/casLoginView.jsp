@@ -47,18 +47,27 @@ Only works if cas and drupal run on the same domain!
         <h2>SIGN IN TO GBIF</h2>
         <p>You need to log in GBIF in order to download the data.</p>
         <form:form method="post" id="fm1" cssClass="fm-v clearfix" commandName="${commandName}" htmlEscape="true">
+        
           <div class="light_box">
             <div class="field email">
               <h3>Username</h3>
               <span class="input_text">
-                <input id="username" name="username" type="text">
+                
+						<c:if test="${not empty sessionScope.openIdLocalId}">
+						<input type="hidden" id="username" name="username" value="${sessionScope.openIdLocalId}" />
+						</c:if>
+
+						<c:if test="${empty sessionScope.openIdLocalId}">
+						<form:input cssClass="required" cssErrorClass="error" id="username" size="25" tabindex="1" accesskey="${userNameAccessKey}" path="username" autocomplete="false" htmlEscape="true" />
+						</c:if>                
+                
                 <span class="error" style="display:none">Username not recognized</span>
               </span>
             </div>
             <div class="field password">
               <h3>Password</h3>
               <span class="input_text">
-                <input id="password" name="password" type="password">
+                <form:password cssClass="required" cssErrorClass="error" id="password" size="25" tabindex="2" path="password"  accesskey="${passwordAccessKey}" htmlEscape="true" autocomplete="off" />
                 <span class="error" style="display:none">Wrong password</span>
               </span>
             </div>
