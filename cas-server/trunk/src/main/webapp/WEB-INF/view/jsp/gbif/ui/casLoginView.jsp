@@ -40,7 +40,7 @@ Only works if cas and drupal run on the same domain!
 
 
 <div id="content">
-<div id="login" class="infowindow" style="top: 200px; display: block; ">
+<div id="login" class="infowindow" style="top: 100px; display: block; ">
       <div class="lheader"></div>
       <div class="content">
       
