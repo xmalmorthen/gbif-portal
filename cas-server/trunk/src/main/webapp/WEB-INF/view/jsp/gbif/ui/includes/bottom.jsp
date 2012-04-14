@@ -1,7 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="<c:url value="/js/cas.js" />"></script>
   <footer>
     <div class="content">
       <ul>
@@ -58,38 +55,15 @@
       </ul>
 
     </div>
-  </footer>        
-        
-  <div class="copyright">
+  </footer> 
+  
+    <div class="copyright">
     <p>2011 &copy; GBIF. Data publishers retain all rights to data.</p>
   </div>
 
-  <!-- JavaScript at the bottom for fast page loading -->
-  <!-- scripts concatenated and minified via ant build script  -->
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/jquery-1.7.1.min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/jquery-ui-1.8.17.min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/autocomplete.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/jquery.uniform.min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/mousewheel.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/jscrollpane.min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/jquery-scrollTo-1.4.2-min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/underscore-min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/helpers.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/widgets.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/graphs.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/rss.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/app.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/raphael-min.js"></script>
-  <script type="text/javascript" src="/portal-web-dynamic/js/vendor/resourcebundle.js"></script>
-  <!-- end scripts-->
 
-  <!--[if lt IE 7 ]>
-  <script src="/portal-web-dynamic/js/libs/dd_belatedpng.js"></script>
-  <script>DD_belatedPNG
-          .fix("img, .png_bg"); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
-  <![endif]-->
-
-
-
-</body>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="<c:url value="/js/cas.js" />"></script>
+    </body>
 </html>

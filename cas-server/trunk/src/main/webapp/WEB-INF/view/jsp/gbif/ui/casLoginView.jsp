@@ -45,8 +45,7 @@ Only works if cas and drupal run on the same domain!
       <div class="content">
       
         <h2>SIGN IN TO GBIF</h2>
-        <p>You need to log in GBIF in order to download the data.</p>
-        <form:form method="post" id="fm1" cssClass="fm-v clearfix" commandName="${commandName}" htmlEscape="true">
+        <form:form method="post" id="fm2" cssClass="fm-v clearfix" commandName="${commandName}" htmlEscape="true">
         
           <div class="light_box">
             <div class="field email">
@@ -71,6 +70,14 @@ Only works if cas and drupal run on the same domain!
                 <span class="error" style="display:none">Wrong password</span>
               </span>
             </div>
+            <!-- div class="field">
+              <span class="input_text">
+                        <input id="warn" name="warn" value="true" tabindex="3" accesskey="<spring:message code="screen.welcome.label.warn.accesskey" />" type="checkbox" />
+                        <label for="warn"><spring:message code="screen.welcome.label.warn" /></label>
+              </span>
+            </div -->
+            
+            
             
 						<input type="hidden" name="lt" value="${loginTicket}" />
 						<input type="hidden" name="execution" value="${flowExecutionKey}" />
