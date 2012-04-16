@@ -88,12 +88,12 @@ Only works if cas and drupal run on the same domain!
             <div class="bl"></div>
             <div class="br"></div>
           </div>
-          <a href="#" class="recover_password" title="Recover your password">Forgot your password?</a>
+          <a href="http://staging.gbif.org/drupal/user/password" class="recover_password" title="Recover your password">Forgot your password?</a>
           <button type="submit" class="candy_blue_button"><span>Login</span></button>
           
         </form:form>
         <div class="footer">Do yo need to Sign up?
-          <a href="#" title="Create a new account">Create your account</a>
+          <a href="http://staging.gbif.org/drupal/user/register" title="Create a new account">Create your account</a>
         </div>
       </div>
       <div class="lfooter"></div>
