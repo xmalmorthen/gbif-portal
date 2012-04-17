@@ -4,16 +4,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
+import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.Validateable;
 import com.opensymphony.xwork2.interceptor.MethodFilterInterceptor;
 import com.opensymphony.xwork2.validator.DelegatingValidatorContext;
 import com.opensymphony.xwork2.validator.ValidatorContext;
-import org.apache.bval.jsr303.ApacheValidationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,14 +22,18 @@ public class ValidationInterceptor extends MethodFilterInterceptor {
 
   private static final Logger LOG = LoggerFactory.getLogger(ValidationInterceptor.class);
 
-  ValidatorFactory validatorFactory = Validation.byProvider(ApacheValidationProvider.class).configure()
-    .buildValidatorFactory();
-
   private Validator validator;
 
+  /**
+   * @param validator
+   */
+  @Inject
+  public ValidationInterceptor(Validator validator) {
+    this.validator = validator;
+  }
+
   @Override
-  protected String doIntercept(ActionInvocation invocation) throws Exception {
-    validator = validatorFactory.getValidator();
+  protected String doIntercept(ActionInvocation invocation) throws Exception {    // validator = validatorFactory.getValidator();
     Object action = invocation.getAction();
 
     if (LOG.isDebugEnabled()) {

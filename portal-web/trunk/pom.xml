@@ -66,7 +66,6 @@
     <servletapi.version>2.5</servletapi.version>
     <slf4j.version>1.6.4</slf4j.version>
     <struts.version>2.2.3.1</struts.version>
-    <oval.version>1.81</oval.version>
     <bval.version>0.3-incubating</bval.version>
   </properties>
 
@@ -356,6 +355,11 @@
       <scope>test</scope>
     </dependency>
     <!-- BVal validation framework -->
+    <dependency>
+      <groupId>org.apache.bval</groupId>
+      <artifactId>bval-guice</artifactId>
+      <version>${bval.version}</version>
+    </dependency>    
     <dependency>
       <groupId>org.apache.bval</groupId>
       <artifactId>bval-jsr303</artifactId>
