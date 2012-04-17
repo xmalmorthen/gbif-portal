@@ -33,7 +33,7 @@ public class ValidationInterceptor extends MethodFilterInterceptor {
   }
 
   @Override
-  protected String doIntercept(ActionInvocation invocation) throws Exception {    // validator = validatorFactory.getValidator();
+  protected String doIntercept(ActionInvocation invocation) throws Exception {
     Object action = invocation.getAction();
 
     if (LOG.isDebugEnabled()) {
