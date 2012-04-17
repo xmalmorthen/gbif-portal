@@ -67,6 +67,9 @@
     <slf4j.version>1.6.4</slf4j.version>
     <struts.version>2.2.3.1</struts.version>
     <bval.version>0.3-incubating</bval.version>
+    <cas.version>3.2.1</cas.version>
+    <xerces.version>2.9.1</xerces.version>
+    <opensaml.version>1.1</opensaml.version>
   </properties>
 
   <scm>
@@ -320,6 +323,29 @@
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-client</artifactId>
       <version>${jersey-client.version}</version>
+    </dependency>
+
+    <!-- CAS Auth -->
+    <dependency>
+      <groupId>org.jasig.cas.client</groupId>
+      <artifactId>cas-client-core</artifactId>
+      <version>${cas.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>${xerces.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servletapi.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.opensaml</groupId>
+      <artifactId>opensaml</artifactId>
+      <version>${opensaml.version}</version>
     </dependency>
 
     <!-- Logging -->
