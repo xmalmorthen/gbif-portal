@@ -13,26 +13,29 @@
 	</filter>
 	<filter>
 		<filter-name>CAS Authentication Filter</filter-name>
+
+    <!--filter-class>org.jasig.cas.client.authentication.Saml11AuthenticationFilter</filter-class-->
 		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
 		<init-param>
 		    <param-name>casServerLoginUrl</param-name>
-		    <param-value>https://cas.gbif.org/login</param-value>
+		    <param-value>${cas.server}/login</param-value>
 		</init-param>
 		<init-param> 
 			<param-name>serverName</param-name> 
-			<param-value>http://staging.gbif.org:8080</param-value>
+			<param-value>${testapp.server}</param-value>
 		</init-param> 
 	</filter>
 	<filter>
 	  <filter-name>CAS Validation Filter</filter-name>
-	  <filter-class>org.jasig.cas.client.validation.Saml11TicketValidationFilter</filter-class>
+    <!--filter-class>org.jasig.cas.client.validation.Saml11TicketValidationFilter</filter-class-->
+	  <filter-class>org.jasig.cas.client.validation.Cas10TicketValidationFilter</filter-class>
 	    <init-param>
 			<param-name>casServerUrlPrefix</param-name>
-			<param-value>https://cas.gbif.org</param-value>
+			<param-value>${cas.server}</param-value>
 	    </init-param>
 		<init-param> 
 			<param-name>serverName</param-name> 
-			<param-value>http://staging.gbif.org:8080</param-value>
+			<param-value>${testapp.server}</param-value>
 		</init-param> 
 		<init-param> 
 			<param-name>redirectAfterValidation</param-name> 
@@ -78,7 +81,7 @@
       <servlet-class>org.gbif.sso.ProtectedServlet</servlet-class>
 	  <init-param>
 			<param-name>serverName</param-name> 
-			<param-value>http://staging.gbif.org:8080</param-value>
+			<param-value>${testapp.server}</param-value>
 	  </init-param> 
     </servlet>
 
@@ -87,7 +90,7 @@
       <servlet-class>org.gbif.sso.LogoutServlet</servlet-class>
 	  <init-param>
 		    <param-name>casServerLogoutUrl</param-name>
-		    <param-value>https://cas.gbif.org/logout</param-value>
+		    <param-value>${cas.server}/logout</param-value>
 	  </init-param> 
     </servlet>
 
