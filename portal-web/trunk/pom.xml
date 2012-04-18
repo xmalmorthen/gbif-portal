@@ -331,16 +331,6 @@
       <artifactId>cas-client-core</artifactId>
       <version>${cas.version}</version>
     </dependency>
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-      <version>${xerces.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.opensaml</groupId>
-      <artifactId>opensaml</artifactId>
-      <version>${opensaml.version}</version>
-    </dependency>
 
     <!-- Logging -->
     <dependency>
