@@ -1,4 +1,4 @@
-<#if (dataset.citation.identifier?has_content || dataset.citation.text?has_content) || (dataset.bibliographicCitations?size>0) >
+<#if ( dataset.citation?has_content && (dataset.citation.identifier?has_content || dataset.citation.text?has_content)) || (dataset.bibliographicCitations?size>0) >
 <article id="references">
   <header></header>
   <div class="content">
