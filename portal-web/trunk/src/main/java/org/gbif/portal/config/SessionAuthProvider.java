@@ -26,7 +26,12 @@ public class SessionAuthProvider implements Provider<ClientFilter>{
   @Override
   public ClientFilter get() {
     HttpSession session = sessionProvider.get();
-    Principal user = (Principal) session.getAttribute(SESSION_USER);
-    return new HttpGbifAuthFilter(applicationKey, user.getName());
+    if (session != null){
+      Principal user = (Principal) session.getAttribute(SESSION_USER);
+      if (user != null){
+        return new HttpGbifAuthFilter(applicationKey, user.getName());
+      }
+    }
+    return null;
   }
 }
