@@ -116,21 +116,22 @@
       <version>${cas.version}</version>
     </dependency>
     <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-      <version>${xerces.version}</version>
-    </dependency>
-    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>${servletapi.version}</version>
       <scope>provided</scope>
     </dependency>
-    <!-- transient dependencies for the SAML validation filter not declared in opensaml -->
+    <!-- transient dependencies for the SAML validation filter using opensaml -->
+    <!--
     <dependency>
       <groupId>org.opensaml</groupId>
       <artifactId>opensaml</artifactId>
       <version>${opensaml.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>${xerces.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.santuario</groupId>
@@ -142,7 +143,8 @@
       <artifactId>commons-codec</artifactId>
       <version>1.6</version>
     </dependency>
-        <!-- Logging -->
+    -->
+    <!-- Logging -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
