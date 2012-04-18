@@ -8,7 +8,10 @@
  */
 package org.gbif.portal.config;
 
+import java.io.IOException;
+import java.net.URI;
 import java.util.Map;
+import java.util.Properties;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Guice;
@@ -25,16 +28,35 @@ import org.jasig.cas.client.authentication.AuthenticationFilter;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
 import org.jasig.cas.client.validation.Cas10TicketValidationFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Setting up filter and servlets in addition to the ones in web.xml.
  */
 public class PortalListener extends GuiceServletContextListener {
+  private static Logger LOG = LoggerFactory.getLogger(PortalListener.class);
 
   private final ServletModule sm = new ServletModule() {
 
     @Override
     protected void configureServlets() {
+
+      String serverName = "http://localhost:" + System.getProperty("jetty.port", "8080");
+      // try to get servername from properties
+      try {
+        Properties properties = new Properties();
+        properties.load(this.getClass().getResourceAsStream("/application.properties"));
+        String baseurl = properties.getProperty("baseurl");
+        // only use if its a real URL
+        URI uri = URI.create(baseurl);
+        if (uri != null){
+          serverName = uri.getScheme()+uri.getHost()+":"+uri.getPort();
+        }
+      } catch (IOException e) {
+      }
+      LOG.info("Configuring CAS filters with portal server name {}", serverName);
+
       // CAS filter parameters
       Map<String, String> params = Maps.newHashMap();
       params.put("serverName", "http://localhost:8080");
