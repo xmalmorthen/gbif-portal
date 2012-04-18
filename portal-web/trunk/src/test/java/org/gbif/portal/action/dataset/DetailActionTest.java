@@ -1,8 +1,7 @@
 package org.gbif.portal.action.dataset;
 
-import org.gbif.portal.config.PortalModule;
+import org.gbif.portal.action.ActionTestUtil;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.opensymphony.xwork2.Action;
 import org.junit.Test;
@@ -14,7 +13,7 @@ public class DetailActionTest {
 
   @Test
   public void test() {
-    Injector injector = Guice.createInjector(new PortalModule());
+    Injector injector = ActionTestUtil.initTestInjector();
     DetailAction da = injector.getInstance(org.gbif.portal.action.dataset.DetailAction.class);
     assertNotNull(da);
     // Checklist: "Orthoptera Species File"

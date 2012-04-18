@@ -1,8 +1,7 @@
 package org.gbif.portal.action.dataset;
 
-import org.gbif.portal.config.PortalModule;
+import org.gbif.portal.action.ActionTestUtil;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Test;
 
@@ -15,7 +14,7 @@ public class SearchActionTest {
    */
   @Test
   public void test() {
-    Injector injector = Guice.createInjector(new PortalModule());
+    Injector injector = ActionTestUtil.initTestInjector();
     SearchAction sa = injector.getInstance(org.gbif.portal.action.dataset.SearchAction.class);
     assertNotNull(sa);
   }
