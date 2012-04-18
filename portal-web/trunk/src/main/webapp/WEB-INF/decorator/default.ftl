@@ -68,85 +68,17 @@ ${head}
 <body class="${page.properties["body.class"]!}">
   <header>
 
-
-  <div id="templates">
-    <#-- hidden html template for the javascript based login/reset popovers in widget.js -->
-    <div id='template_login' class='infowindow'>
-      <div class="lheader"></div>
-      <span class='close'></span>
-      <div class='content'>
-        <h2>SIGN IN TO GBIF</h2>
-        <p>You need to log in GBIF in order to download the data.</p>
-        <form autocomplete='off' method='post' action='<@s.url value='/user/login'/>'>
-          <div class='light_box'>
-            <div class='field email'>
-              <h3>Email</h3>
-              <span class='input_text'>
-                <input id='email' name='email' type='text'/>
-                <span class='error' style='display:none'>Email not recognized</span>
-              </span>
-            </div>
-            <div class='field password'>
-              <h3>Password</h3>
-              <span class='input_text'>
-                <input id='password' name='password' type='password'/>
-                <span class='error' style='display:none'>Wrong password</span>
-              </span>
-            </div>
-            <div class='tl'></div>
-            <div class='tr'></div>
-            <div class='bl'></div>
-            <div class='br'></div>
-          </div>
-          <a href='#' class='recover_password' title='Recover your password'>Forgot your password?</a>
-          <button type='submit' class='candy_blue_button'><span>Login</span></button>
-        </form>
-        <div class='footer'>Do yo need to Sign up?
-          <a href="<@s.url value='/user/register/step1'/>" title='<@s.text name="menu.register"/>'>Create your account</a>
-        </div>
-      </div>
-      <div class="lfooter"></div>
-    </div>
-
-    <#-- hidden html template for the javascript based login/reset popovers in widget.js -->
-    <div id='template_recover_password' class='infowindow'>
-      <div class="lheader"></div>
-      <span class='close'></span>
-      <div class='content'>
-        <h2>RECOVER YOUR PASSWORD</h2>
-        <form autocomplete='off' method='post'>
-          <div class='light_box'>
-            <div class='field'>
-              <h3>Your email</h3>
-              <span class='input_text'><input id='email' name='email' type='text'/></span>
-            </div>
-            <div class='tl'></div>
-            <div class='tr'></div>
-            <div class='bl'></div>
-            <div class='br'></div>
-          </div>
-          <a href='#' class='back_to_login' title='Back to the sign in form'>Back to the sign in form</a>
-          <button type='submit' class='candy_blue_button'><span>Send email</span></button>
-        </form>
-        <div class='footer'>Do yo need to Sign up?
-          <a href="<@s.url value='/user/register/step1'/>" title='<@s.text name="menu.register"/>'>Create your account</a>
-        </div>
-      </div>
-      <div class="lfooter"></div>
-    </div>
-  </div>
-
     <!-- top -->
     <div id="top">
       <div class="content">
         <div class="account">
           <#if currentUser??>
-            <a href="<@s.url value='/user/'/>" title='Account'>View your account</a>
+            <a href="${cfg.drupal}/user/" title='Account'>View your account</a>
             or
-            <a href="<@s.url value='/user/logout'/>" title='<@s.text name="menu.logout"/>'><@s.text name="menu.logout"/></a>
+            <a href="${cfg.cas}/logout" title='<@s.text name="menu.logout"/>'><@s.text name="menu.logout"/></a>
           <#else>
-            <a href="#" class="login" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
-            <a href="<@s.url value='/user/register/step1'/>" title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
+            <a href="${cfg.cas}/login?service=${baseUrl}" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
+            <a href="${cfg.drupal}/user/register" title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
           </#if>
         </div>
 
@@ -234,10 +166,10 @@ ${head}
 
       <ul>
         <li><h3>JOIN THE COMMUNITY</h3></li>
-        <li><a href="<@s.url value='/user/register/step1'/>"><@s.text name="menu.register"/></a></li>
+        <li><a href="${cfg.drupal}/user/register"><@s.text name="menu.register"/></a></li>
         <li><a href="<@s.url value='/dataset/register/step1'/>"><@s.text name="menu.share"/></a></li>
-        <li><a href="<@s.url value='/terms'/>"><@s.text name="menu.terms"/></a></li>
-        <li><a href="<@s.url value='/about'/>"><@s.text name="menu.about"/></a></li>
+        <li><a href="${cfg.drupal}/terms"><@s.text name="menu.terms"/></a></li>
+        <li><a href="${cfg.drupal}/about"><@s.text name="menu.about"/></a></li>
       </ul>
 
       <ul class="first">
@@ -273,6 +205,23 @@ ${head}
   <div class="copyright">
     <p>2011 &copy; GBIF. Data publishers retain all rights to data.</p>
   </div>
+
+  <#--
+  <div class="sessiondebug" style="position:relative; top:150px;">
+    <h3>USER</h3>
+    <ul>
+        <li>currentUser : ${currentUser!"null"}</li>
+    </ul>
+
+    <h3>&nbsp;</h3>
+    <h3>SESSION VARS</h3>
+      <ul>
+        <#list session.getAttributeNames() as k>
+          <li>${k} : ${(session.get(k))!"null"}</li>
+        </#list>
+      </ul>
+  </div>
+  -->
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->
@@ -311,7 +260,7 @@ ${head}
       <#if admin>
         "<@s.text name="menu.admin"/>":"<@s.url value='/admin'/>",
       </#if>
-          "<@s.text name="menu.about"/>":"<@s.url value='/about'/>"
+          "<@s.text name="menu.about"/>":"${cfg.drupal}/about"
         }
       });
     });

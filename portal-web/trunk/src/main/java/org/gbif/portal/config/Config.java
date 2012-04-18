@@ -11,6 +11,14 @@ import com.google.inject.name.Named;
 public class Config {
 
   @Inject
+  @Named("cas.url")
+  private String cas;
+
+  @Inject
+  @Named("drupal.url")
+  private String drupal;
+
+  @Inject
   @Named("checklistbank.ws.url")
   private String wsClb;
 
@@ -38,6 +46,13 @@ public class Config {
   @Named("checklistbank.suggest.ws.url")
   private String wsClbSuggest;
 
+  public String getDrupal() {
+    return drupal;
+  }
+
+  public String getCas() {
+    return cas;
+  }
 
   public String getWsClb() {
     return wsClb;

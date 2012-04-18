@@ -1203,140 +1203,6 @@ var linkPopover = (function() {
 })(jQuery, window, document);
 
 
-/*
-* =============
-* LOGIN POPOVER
-* =============
-*/
-
-var loginPopover = (function() {
-  var displayed = false;
-  var el;
-  var errorEmail, errorPassword;
-  var transitionSpeed = 200;
-
-  function toggle(e, event, opt) {
-    event.stopPropagation();
-    event.preventDefault();
-    el = e;
-
-    displayed ? hide(): show();
-  }
-
-  function changePopover(template_id){
-
-    $popover.fadeOut(transitionSpeed, function() {
-
-      // let's remove the old popover and unbind the old buttons
-      $popover.find('a.download, a.close').unbind("click");
-      $popover.remove();
-
-      // clone template, return new id
-      popover_id = copyTemplate(template_id);
-
-      // we can now open the new popover
-      $popover = $("#"+popover_id);
-
-      $popover.find("p a").click(function(event) {
-        window.location.href = $(this).attr("href");
-      });
-
-      // finally bind everyhting so it keeps working
-      setupBindings();
-
-      $popover.css("top", getTopPosition() + "px");
-      $popover.fadeIn(transitionSpeed);
-    });
-  }
-
-  function getTopPosition() {
-    return (( $(window).height() - $popover.height()) / 2) + $(window).scrollTop();
-  }
-
-  function setupBindings() {
-
-    errorEmail = false;
-    errorPassword = false;
-
-    $popover.find("input").focus(function(event) {
-      event.preventDefault();
-      if ($(this).parents(".field.error").hasClass("email")) {
-        errorEmail = false;
-      } else {
-        errorPassword = false;
-      }
-
-      $(this).parents(".field.error").find("h3 span").fadeOut(transitionSpeed, function() {$(this).remove();});
-      $(this).parents(".field.error").removeClass("error");
-    });
-
-    $popover.find(".back_to_login").click(function(event) {
-      event.preventDefault();
-      changePopover("login");
-    });
-
-    $popover.find(".recover_password").click(function(event) {
-      event.preventDefault();
-      changePopover("recover_password");
-    });
-
-    $popover.find(".footer a, span.recover_password a").click(function(event) {
-      event.preventDefault();
-      displayed && hide(function(){ window.location.href = $(this).attr("href"); });
-    });
-
-    $popover.find(".close").click(function(event) {
-      event.preventDefault();
-      displayed && hide();
-    });
-
-    $popover.click(function(event) {
-      event.stopPropagation();
-    });
-  }
-
-  function copyTemplate(templ_id){
-    // clone template, all ids start with template_
-    $templ = $("#template_"+templ_id).clone();
-    $templ.attr("id", $templ.attr("id").substring(9));
-    $("#content").prepend($templ);
-    return $templ.attr("id");
-  }
-
-  function show() {
-    popover_id = copyTemplate("login");
-    // we can now open the new popover
-    $popover = $("#"+popover_id);
-
-    setupBindings();
-    $popover.css("top", getTopPosition() + "px");
-    $popover.fadeIn("slow", function() { hidden = false; });
-    $("body").append("<div id='lock_screen'></div>");
-    $("#lock_screen").height($(document).height());
-    $("#lock_screen").fadeIn("slow");
-    $("#login input:first").focus();
-    displayed = true;
-  }
-
-  function hide(callback) {
-    $popover.find('a.close').unbind("click");
-
-    $popover.fadeOut(transitionSpeed, function() {
-      $popover.remove(); displayed = false;
-      callback && callback();
-    });
-
-    $("#lock_screen").fadeOut(transitionSpeed, function() { $("#lock_screen").remove(); });
-  }
-
-  return {
-    toggle: toggle,
-    show: show,
-    hide: hide
-  };
-})();
-
-
 var dialogPopover = (function() {
 	  var displayed = false;		  
 	  var el;
@@ -1407,7 +1273,6 @@ var dialogPopover = (function() {
 
 var downloadPopover = (function() {
   var displayed = false;
-  var $login;
   var el;
   var explanation = "";
   var transitionSpeed = 200;
@@ -1594,12 +1459,6 @@ $.fn.bindSlider = function(min, max, values) {
 $.fn.bindDownloadPopover = function(opt) {
   $(this).click(function(event) {
     downloadPopover.toggle($(this), event, opt);
-  });
-};
-
-$.fn.bindLoginPopover = function(opt) {
-  $(this).click(function(event) {
-    loginPopover.toggle($(this), event, opt);
   });
 };
 

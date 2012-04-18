@@ -8,6 +8,9 @@
  */
 package org.gbif.portal.config;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -18,6 +21,10 @@ import org.apache.bval.guice.ValidationModule;
 import org.apache.struts2.dispatcher.ng.filter.StrutsExecuteFilter;
 import org.apache.struts2.dispatcher.ng.filter.StrutsPrepareFilter;
 import org.apache.struts2.sitemesh.FreemarkerPageFilter;
+import org.jasig.cas.client.authentication.AuthenticationFilter;
+import org.jasig.cas.client.session.SingleSignOutFilter;
+import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
+import org.jasig.cas.client.validation.Cas10TicketValidationFilter;
 
 /**
  * Setting up filter and servlets in addition to the ones in web.xml.
@@ -28,9 +35,31 @@ public class PortalListener extends GuiceServletContextListener {
 
     @Override
     protected void configureServlets() {
+      // CAS filter parameters
+      Map<String, String> params = Maps.newHashMap();
+      params.put("serverName", "http://localhost:8080");
+      params.put("casServerUrlPrefix", "https://cas.gbif.org");
+      params.put("casServerLoginUrl", "https://cas.gbif.org/login");
+      params.put("gateway", "true");
+      params.put("redirectAfterValidation", "true");
+      params.put("tolerance", "5000");
+
+      // CAS
+      bind(SingleSignOutFilter.class).in(Singleton.class);
+      bind(AuthenticationFilter.class).in(Singleton.class);
+      bind(Cas10TicketValidationFilter.class).in(Singleton.class);
+      bind(HttpServletRequestWrapperFilter.class).in(Singleton.class);
+      // Struts2
       bind(StrutsPrepareFilter.class).in(Singleton.class);
       bind(FreemarkerPageFilter.class).in(Singleton.class);
       bind(StrutsExecuteFilter.class).in(Singleton.class);
+
+      // CAS
+      filter("/*").through(SingleSignOutFilter.class);
+      filter("/*").through(AuthenticationFilter.class, params);
+      filter("/*").through(Cas10TicketValidationFilter.class, params);
+      filter("/*").through(HttpServletRequestWrapperFilter.class);
+      // Struts2
       filter("/*").through(StrutsPrepareFilter.class);
       filter("/*").through(FreemarkerPageFilter.class);
       filter("/*").through(StrutsExecuteFilter.class);
