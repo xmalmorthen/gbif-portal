@@ -8,9 +8,7 @@
  */
 package org.gbif.portal.config;
 
-import java.net.URI;
 import java.util.Map;
-import java.util.Properties;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Guice;
@@ -41,26 +39,14 @@ public class PortalListener extends GuiceServletContextListener {
     @Override
     protected void configureServlets() {
 
-      String serverName = "http://localhost:" + System.getProperty("jetty.port", "8080");
-      // try to get servername from properties
-      try {
-        Properties properties = new Properties();
-        properties.load(this.getClass().getResourceAsStream("/application.properties"));
-        String baseurl = properties.getProperty("baseurl");
-        // only use if its a real URL
-        URI uri = URI.create(baseurl);
-        if (uri != null){
-          //serverName = uri.getScheme() +"://" + uri.getAuthority();
-        }
-      } catch (Exception e) {
-      }
-      LOG.info("Configuring CAS filters with portal server name {}", serverName);
+      Config cfg = Config.buildFromProperties();
+      LOG.info("Configuring CAS filters with portal server name {}", cfg.getServerName());
 
       // CAS filter parameters
       Map<String, String> params = Maps.newHashMap();
-      params.put("serverName", serverName);
-      params.put("casServerUrlPrefix", "https://cas.gbif.org");
-      params.put("casServerLoginUrl", "https://cas.gbif.org/login");
+      params.put("serverName", cfg.getServerName());
+      params.put("casServerUrlPrefix", cfg.getCas());
+      params.put("casServerLoginUrl", cfg.getCas() + "/login");
       params.put("gateway", "true");
       params.put("redirectAfterValidation", "true");
       params.put("tolerance", "5000");

@@ -1,5 +1,7 @@
 package org.gbif.portal;
 
+import org.gbif.portal.config.Config;
+
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +26,8 @@ public abstract class SeleniumTestBase {
   private static final Pattern idLinkPattern = Pattern.compile("/([0-9]+)$");
 
   protected SeleniumTestBase() {
-    baseUrl = "http://localhost:" + System.getProperty("jetty.port", "8080");
+    Config cfg = Config.buildFromProperties();
+    baseUrl = cfg.getServerName();
   }
 
   @Before

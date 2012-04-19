@@ -20,6 +20,7 @@
     var cfg = new Object();
     cfg.context="<@s.url value="/"/>";
     cfg.currentUrl="${currentUrl!}";
+    cfg.serverName= "${cfg.serverName!}";
     cfg.baseUrl = "${baseUrl!}";
     cfg.wsClb="${cfg.wsClb!}";
     cfg.wsClbSearch="${cfg.wsClbSearch!}";
@@ -77,7 +78,7 @@ ${head}
             or
             <a href="${cfg.cas}/logout" title='<@s.text name="menu.logout"/>'><@s.text name="menu.logout"/></a>
           <#else>
-            <a href="${cfg.cas}/login?service=${baseUrl}" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
+            <a href="${cfg.cas}/login?service=${cfg.serverName}" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
             <a href="${cfg.drupal}/user/register" title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
           </#if>
         </div>
@@ -210,18 +211,29 @@ ${head}
   <div class="sessiondebug" style="position:relative; top:150px;">
     <h3>USER</h3>
     <ul>
-        <li>currentUser : ${currentUser!"null"}</li>
+      <li>currentUser : ${currentUser!"null"}</li>
+      <li>request.getRemoteUser() : ${(request.remoteUser)!"null"}</li>
+      <li>request.getUserPrincipal() : ${(request.userPrincipal)!"null"}</li>
     </ul>
 
     <h3>&nbsp;</h3>
     <h3>SESSION VARS</h3>
       <ul>
-        <#list session.getAttributeNames() as k>
-          <li>${k} : ${(session.get(k))!"null"}</li>
-        </#list>
+        <#if session??>
+          <#if session.attributeNames??>
+            <#list session.getAttributeNames() as k>
+              <li>${k} : ${(session.get(k))!"null"}</li>
+            </#list>
+          <#else>
+            <li>No Session Attributes</li>
+          </#if>
+        <#else>
+          <li>No Session!</li>
+        </#if>
       </ul>
   </div>
   -->
+
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->

@@ -46,9 +46,9 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
 	Takes an URL and strips off any "limit" or "offset" query parameter (along with its value). 
 	Any other query parameters are left untouched.
 -->
-<#function getStripUrl baseUrl>
+<#function getStripUrl url>
 	<#assign stripUrl = "">
-	<#list baseUrl?split("&") as queryParam>
+	<#list url?split("&") as queryParam>
 	    <#if !queryParam?contains("limit") && !queryParam?contains("offset")>
 			<#assign stripUrl = stripUrl+"&"+queryParam>
 		</#if>

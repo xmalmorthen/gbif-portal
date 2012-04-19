@@ -60,23 +60,7 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
    * @return the base url
    */  
   public String getBaseUrl() {
-    StringBuffer baseUrl = new StringBuffer();
-
-    baseUrl.append(request.getScheme()).append("://");
-    baseUrl.append(getServerName());
-    baseUrl.append(request.getContextPath());
-
-    return baseUrl.toString();
-  }
-
-  private String getServerName() {
-    String name = request.getServerName();
-    int portnum = request.getServerPort();
-    // Only add port if non-standard.
-    if (portnum != 80) {
-      name = name + ":" + String.valueOf(portnum);
-    }
-    return name;
+    return cfg.getServerName() + request.getContextPath();
   }
 
   /**
