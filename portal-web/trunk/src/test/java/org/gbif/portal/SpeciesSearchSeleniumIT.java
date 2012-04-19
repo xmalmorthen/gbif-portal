@@ -18,7 +18,7 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
    */
   private void assertNameSearch(String name, boolean searchNub, Integer expectedNumResults, int... expectedUsageId) {
     LOG.debug("Asserting name search '{}'", name);
-    driver.get(getPortalUrl("species"));
+    getUrl(getPortalUrl("species"));
     // Find input form and enter seach text
     WebElement input = driver.findElement(By.id("q"));
     input.sendKeys(name);

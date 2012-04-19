@@ -16,13 +16,13 @@ public class DatasetSeleniumIT extends SeleniumTestBase {
   @Test
   @Ignore
   public void testSearchForAnyDataset() {
-    getDriver().get(getBaseUrl());
-    getDriver().findElement(By.linkText("Datasets")).click();
-    getDriver().findElement(By.cssSelector("button.search_button")).click();
-    WebElement element = getDriver().findElement(By.xpath("//div[@class='result' and position() = 2]/h2/a"));
+    getUrl(getBaseUrl());
+    driver.findElement(By.linkText("Datasets")).click();
+    driver.findElement(By.cssSelector("button.search_button")).click();
+    WebElement element = driver.findElement(By.xpath("//div[@class='result' and position() = 2]/h2/a"));
     String sourceName = element.getText();
     element.click();
-    String targetName = getDriver().findElement(By.xpath("//div[@id='infoband']/div/h1")).getText();
+    String targetName = driver.findElement(By.xpath("//div[@id='infoband']/div/h1")).getText();
     assertEquals("Link target and dataset name must be the same", sourceName, targetName);
   }
 

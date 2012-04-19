@@ -29,15 +29,26 @@ public abstract class SeleniumTestBase {
 
   @Before
   public void setUp() {
+    LOG.info("Setting up html driver");
     driver = new HtmlUnitDriver();
     driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
   }
 
   @After
   public void tearDown() {
+    LOG.info("Tearing down html driver");
     if (driver != null) {
       driver.quit();
     }
+  }
+
+  /**
+   * Instructs the driver to get the given URL and logs the html source.
+   * @param url
+   */
+  protected void getUrl(String url){
+    driver.get(url);
+    LOG.debug("Page source retrieved for {}:\n{}", url, driver.getPageSource());
   }
 
   protected Integer parseIdLink(String link) {

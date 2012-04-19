@@ -8,7 +8,6 @@
  */
 package org.gbif.portal.config;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 import java.util.Properties;
@@ -51,9 +50,9 @@ public class PortalListener extends GuiceServletContextListener {
         // only use if its a real URL
         URI uri = URI.create(baseurl);
         if (uri != null){
-          serverName = uri.getScheme()+uri.getHost()+":"+uri.getPort();
+          serverName = uri.getScheme() +"://" + uri.getAuthority();
         }
-      } catch (IOException e) {
+      } catch (Exception e) {
       }
       LOG.info("Configuring CAS filters with portal server name {}", serverName);
 
