@@ -13,6 +13,7 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
@@ -33,13 +34,19 @@ import org.slf4j.LoggerFactory;
  */
 public class PortalListener extends GuiceServletContextListener {
   private static Logger LOG = LoggerFactory.getLogger(PortalListener.class);
+  private final static Config cfg = Config.buildFromProperties();
 
   private final ServletModule sm = new ServletModule() {
 
+    @Provides
+    @Singleton
+    public Config provideConfig(){
+      LOG.info("Configuring Guice with server name {}", cfg.getServerName());
+      return cfg;
+    }
+
     @Override
     protected void configureServlets() {
-
-      Config cfg = Config.buildFromProperties();
       LOG.info("Configuring CAS filters with portal server name {}", cfg.getServerName());
 
       // CAS filter parameters

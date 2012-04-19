@@ -4,62 +4,35 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Properties;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Simple configuration bean to pass the guice binded properties on to the rendering layer.
  */
-@Singleton
 public class Config {
+  private final static Logger LOG = LoggerFactory.getLogger(Config.class);
+  public final static String SERVERNAME = "servername";
 
-  @Inject
-  @Named("cas.url")
   private String cas;
-
-  @Inject
-  @Named("servername")
   private String serverName;
-
-  @Inject
-  @Named("drupal.url")
   private String drupal;
-
-  @Inject
-  @Named("checklistbank.ws.url")
   private String wsClb;
-
-  @Inject
-  @Named("checklistbank.search.ws.url")
   private String wsClbSearch;
-
-  @Inject
-  @Named("registry.ws.url")
   private String wsReg;
-
-  @Inject
-  @Named("registry.search.ws.url")
   private String wsRegSearch;
-
-  @Inject
-  @Named("occurrencestore.ws.url")
   private String wsOcc;
-
-  @Inject
-  @Named("occurrencestore.search.ws.url")
   private String wsOccSearch;
-
-  @Inject
-  @Named("checklistbank.suggest.ws.url")
   private String wsClbSuggest;
 
   private static String getPropertyUrl(Properties properties, String propName){
+    String value = null;
     try {
-      URI uri = URI.create(properties.getProperty(propName));
+      value = properties.getProperty(propName);
+      URI uri = URI.create(value);
       return uri.toString();
     } catch (Exception e) {
-      throw new ConfigurationException(propName+" is no valid URL. Please configure application.properties appropriately!", e);
+      throw new ConfigurationException(value+" is no valid URL for property "+propName+". Please configure application.properties appropriately!", e);
     }
   }
 
@@ -68,8 +41,16 @@ public class Config {
       try {
         Properties properties = new Properties();
         properties.load(Config.class.getResourceAsStream("/application.properties"));
-        // check if its a real URL
-        cfg.serverName = getPropertyUrl(properties, "servername");
+        // prefer system variable if existing
+        try {
+          URI uri = URI.create(System.getProperty(SERVERNAME));
+          cfg.serverName = uri.toString();
+          LOG.debug("Using servername system variable");
+        } catch (Exception e) {
+          cfg.serverName = getPropertyUrl(properties, SERVERNAME);
+        }
+        LOG.debug("Setting servername to {}", cfg.serverName);
+
         cfg.cas = getPropertyUrl(properties, "cas.url");
         cfg.drupal = getPropertyUrl(properties, "drupal.url");
         cfg.wsClb = getPropertyUrl(properties, "checklistbank.ws.url");

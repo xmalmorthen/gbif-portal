@@ -43,9 +43,10 @@
     <occurrencestore.search.ws.url>http://staging.gbif.org:8080/occurrencestore-search-ws/</occurrencestore.search.ws.url>
     <cas.url>https://cas.gbif.org</cas.url>
     <drupal.url>http://staging.gbif.org/drupal</drupal.url>
-    <!-- configure the default baseurl for jetty. Redefine this property if you run the portal without jetty -->
-    <jetty.port>8080</jetty.port>
-    <servername>http://localhost:${jetty.port}</servername>
+    <!--
+    used for packaging and deploying only.
+    We have used a system var localhost configuration for the failsafe and jetty plugin -->
+    <servername>http://staging.gbif.org:8080</servername>
     <!-- this looks silly, but we're not aware of a way to negate a variable, so we keep them separate to be used in struts config files -->
     <devMode>true</devMode>
     <notDevMode>false</notDevMode>
@@ -104,6 +105,12 @@
           </webAppConfig>
           <stopKey>stop</stopKey>
           <stopPort>9362</stopPort>
+         <systemProperties>
+           <systemProperty>
+             <name>servername</name>
+             <value>http://localhost:${jetty.port}</value>
+           </systemProperty>
+         </systemProperties>
         </configuration>
         <executions>
           <execution>
@@ -129,6 +136,14 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+         <systemProperties>
+           <property>
+             <name>servername</name>
+             <value>http://localhost:${jetty.port}</value>
+           </property>
+         </systemProperties>
+        </configuration>
         <executions>
           <execution>
             <id>integration-test</id>

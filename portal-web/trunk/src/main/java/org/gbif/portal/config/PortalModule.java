@@ -56,8 +56,6 @@ public class PortalModule extends AbstractModule {
     // TODO: the occurrence ws client should be refactored to use PrivateServiceModule
     install(new OccurrenceWsClientModule());
 
-    bind(Config.class);
-
   }
 
   @Provides
