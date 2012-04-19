@@ -58,7 +58,7 @@ public class PortalListener extends GuiceServletContextListener {
 
       // CAS filter parameters
       Map<String, String> params = Maps.newHashMap();
-      params.put("serverName", "http://localhost:8080");
+      params.put("serverName", serverName);
       params.put("casServerUrlPrefix", "https://cas.gbif.org");
       params.put("casServerLoginUrl", "https://cas.gbif.org/login");
       params.put("gateway", "true");
