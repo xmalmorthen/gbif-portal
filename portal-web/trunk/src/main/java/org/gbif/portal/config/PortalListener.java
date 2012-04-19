@@ -50,7 +50,7 @@ public class PortalListener extends GuiceServletContextListener {
         // only use if its a real URL
         URI uri = URI.create(baseurl);
         if (uri != null){
-          serverName = uri.getScheme() +"://" + uri.getAuthority();
+          //serverName = uri.getScheme() +"://" + uri.getAuthority();
         }
       } catch (Exception e) {
       }
