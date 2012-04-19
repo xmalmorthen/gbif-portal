@@ -46,6 +46,7 @@
     <!--
     used for packaging and deploying only.
     We have used a system var localhost configuration for the failsafe and jetty plugin -->
+    <jetty.port>8080</jetty.port>
     <servername>http://staging.gbif.org:8080</servername>
     <!-- this looks silly, but we're not aware of a way to negate a variable, so we keep them separate to be used in struts config files -->
     <devMode>true</devMode>
