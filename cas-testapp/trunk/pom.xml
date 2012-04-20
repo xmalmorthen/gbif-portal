@@ -167,9 +167,15 @@
 
   <profiles>
     <profile>
-      <id>localhost</id>
+      <id>local-jetty</id>
       <properties>
         <testapp.server>http://localhost:8082</testapp.server>
+      </properties>
+    </profile>
+    <profile>
+      <id>local-tomcat</id>
+      <properties>
+        <testapp.server>http://localhost:8080/cas-testapp</testapp.server>
       </properties>
     </profile>
   </profiles>
