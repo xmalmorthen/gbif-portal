@@ -173,9 +173,9 @@
       </properties>
     </profile>
     <profile>
-      <id>local-tomcat</id>
+      <id>local-8080</id>
       <properties>
-        <testapp.server>http://localhost:8080/cas-testapp</testapp.server>
+        <testapp.server>http://localhost:8080</testapp.server>
       </properties>
     </profile>
   </profiles>
