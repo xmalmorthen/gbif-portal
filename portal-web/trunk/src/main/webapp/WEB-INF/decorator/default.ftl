@@ -208,7 +208,8 @@ ${head}
   </div>
 
   <#--
-  <div class="sessiondebug" style="position:relative; top:150px;">
+  -->  <div class="sessiondebug" style="position:relative; top:150px;">
+    <h2>DEBUGGING</h2>
     <h3>USER</h3>
     <ul>
       <li>currentUser : ${currentUser!"null"}</li>
@@ -232,7 +233,7 @@ ${head}
         </#if>
       </ul>
   </div>
-  -->
+
 
 
   <!-- JavaScript at the bottom for fast page loading -->
