@@ -385,17 +385,12 @@
       <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
-    <!-- BVal validation framework -->
+    <!-- BVal validation framework - bval/guice plugin -->
     <dependency>
       <groupId>org.apache.bval</groupId>
       <artifactId>bval-guice</artifactId>
       <version>${bval.version}</version>
     </dependency>    
-    <dependency>
-      <groupId>org.apache.bval</groupId>
-      <artifactId>bval-jsr303</artifactId>
-      <version>${bval.version}</version>
-    </dependency>
   </dependencies>
 
   <profiles>

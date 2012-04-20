@@ -59,6 +59,7 @@ public class PortalListener extends GuiceServletContextListener {
       params.put("tolerance", "5000");
 
       // CAS
+
       bind(SingleSignOutFilter.class).in(Singleton.class);
       bind(AuthenticationFilter.class).in(Singleton.class);
       bind(Cas10TicketValidationFilter.class).in(Singleton.class);
@@ -69,10 +70,12 @@ public class PortalListener extends GuiceServletContextListener {
       bind(StrutsExecuteFilter.class).in(Singleton.class);
 
       // CAS
-      filter("/*").through(SingleSignOutFilter.class);
-      filter("/*").through(AuthenticationFilter.class, params);
-      filter("/*").through(Cas10TicketValidationFilter.class, params);
-      filter("/*").through(HttpServletRequestWrapperFilter.class);
+      /*
+       * filter("/*").through(SingleSignOutFilter.class);
+       * filter("/*").through(AuthenticationFilter.class, params);
+       * filter("/*").through(Cas10TicketValidationFilter.class, params);
+       * filter("/*").through(HttpServletRequestWrapperFilter.class);
+       */
       // Struts2
       filter("/*").through(StrutsPrepareFilter.class);
       filter("/*").through(FreemarkerPageFilter.class);

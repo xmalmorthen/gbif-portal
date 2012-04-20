@@ -31,6 +31,10 @@
 
 
       <p>Please edit the necessary fields:</p>
+      <#if fieldErrors.size() != 0>
+        Errors have been detected!
+        <@s.fielderror/>
+      </#if>      
       <div class="important">
         <div class="top"></div>
         <div class="inner">
@@ -50,6 +54,7 @@
             </div>
             
             <div class="field">
+              <@s.form action="organization/${id}/contact/add">
               <div id="dialog-form" title="Create new contact">
                 <p class="validateTips">All form fields are required.</p>
                   <fieldset>
@@ -97,6 +102,7 @@
                     <input type="text" name="new_contact_phone" id="new_contact_phone" value="" class="text ui-widget-content ui-corner-all" />                                                                                                                    	                                   
                   </fieldset>
               </div>
+              </@s.form>
 
               <div id="users-contain" class="ui-widget">
                 <table id="users" class="ui-widget ui-widget-content">
