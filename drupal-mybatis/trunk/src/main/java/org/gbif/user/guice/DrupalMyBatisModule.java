@@ -6,6 +6,7 @@ import org.gbif.user.UserService;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
+import javax.sql.DataSource;
 
 public class DrupalMyBatisModule extends PrivateServiceModule {
 
@@ -32,6 +33,8 @@ public class DrupalMyBatisModule extends PrivateServiceModule {
   protected void configureService() {
     // bind classes
     install(new InternalDrupalMyBatisModule());
+
+    expose(DataSource.class);
 
     // expose services
     expose(UserService.class);
