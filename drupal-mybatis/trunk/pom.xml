@@ -1,0 +1,172 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.gbif</groupId>
+    <artifactId>motherpom</artifactId>
+    <version>8</version>
+  </parent>
+
+  <groupId>org.gbif</groupId>
+  <artifactId>drupal-mybatis</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>Drupal :: MyBatis Service</name>
+  <url>http://code.google.com/p/gbif-portal</url>
+
+  <properties>
+    <bonecp.version>0.7.1.RELEASE</bonecp.version>
+    <commons-lang.version>2.4</commons-lang.version>
+    <commons-io.version>2.1</commons-io.version>
+    <gbif-common-api.version>0.1-SNAPSHOT</gbif-common-api.version>
+    <gbif-common-mybatis.version>0.1-SNAPSHOT</gbif-common-mybatis.version>
+    <gbif-common-service.version>0.1-SNAPSHOT</gbif-common-service.version>
+    <gbif-common-test.version>0.1-SNAPSHOT</gbif-common-test.version>
+    <guava.version>11.0.1</guava.version>
+    <guice.version>3.0</guice.version>
+    <junit.version>4.10</junit.version>
+    <mysql-connector-java.version>5.1.18</mysql-connector-java.version>
+    <mybatis.version>3.0.6</mybatis.version>
+    <mybatis-guice.version>3.2</mybatis-guice.version>
+    <slf4j.version>1.6.4</slf4j.version>
+  </properties>
+
+  <scm>
+    <connection>scm:svn:https://gbif-portal.googlecode.com/svn/trunk/drupal-mybatis</connection>
+    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/trunk/drupal-mybatis
+    </developerConnection>
+    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/trunk/drupal-mybatis</url>
+  </scm>
+
+  <ciManagement>
+    <system>jenkins</system>
+    <url>http://builds.gbif.org/job/drupal-mybatis</url>
+  </ciManagement>
+
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://dev.gbif.org/issues/browse/REG</url>
+  </issueManagement>
+
+  <distributionManagement>
+    <site>
+      <id>gbif-site</id>
+      <name>Site for the project</name>
+      <url>scp://tools.gbif.org:/var/www/html/sites/registry/drupal-mybatis</url>
+    </site>
+  </distributionManagement>
+
+  <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <repositories>
+    <repository>
+      <id>gbif-all</id>
+      <url>http://repository.gbif.org/content/groups/gbif</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>${guice.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jolbox</groupId>
+      <artifactId>bonecp-provider</artifactId>
+      <version>${bonecp.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons-io.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>${commons-lang.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit-dep</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>${mysql-connector-java.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-common-api</artifactId>
+      <version>${gbif-common-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-common-mybatis</artifactId>
+      <version>${gbif-common-mybatis.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-common-service</artifactId>
+      <version>${gbif-common-service.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-common-test</artifactId>
+      <version>${gbif-common-test.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>${mybatis.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-guice</artifactId>
+      <version>${mybatis-guice.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
