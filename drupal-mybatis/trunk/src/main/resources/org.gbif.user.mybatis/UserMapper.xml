@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gbif.user.mybatis.UserMapper" >
+
+  <resultMap id="ResultMapUser" type="org.gbif.api.model.User" >
+    <id column="name" property="name" jdbcType="VARCHAR" />
+    <result column="email" property="mail" jdbcType="VARCHAR" />
+    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+    <collection property="roles" column="uid" javaType="ArrayList" ofType="org.gbif.api.model.vocabulary.UserRole" select="selectRole" />
+  </resultMap>
+
+  <select id="get" resultMap="ResultMapContact" parameterType="java.lang.String" statementType="PREPARED">
+    select uid, name, mail, null as firstname, null as lastname, login, status
+    from users
+    where name = #{name}
+  </select>
+
+  <select id="selectRole" resultType="org.gbif.api.model.vocabulary.UserRole">
+    SELECT rid FROM users_roles WHERE uid = #{uid}
+</select>
+
+</mapper>
