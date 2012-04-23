@@ -5,14 +5,17 @@ import org.gbif.occurrencestore.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
 import org.gbif.user.guice.DrupalMyBatisModule;
 import org.gbif.utils.HttpUtil;
+import org.gbif.ws.filter.HttpGbifAuthFilter;
 
 import java.io.IOException;
 import java.util.Properties;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
 import com.google.inject.Provides;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.google.inject.name.Names;
 import com.sun.jersey.api.client.filter.ClientFilter;
 import org.apache.http.client.HttpClient;
@@ -40,11 +43,19 @@ public class PortalModule extends AbstractModule {
     }
   }
 
+  @Provides
+  @Singleton
+  @Inject
+  public ClientFilter provideSessionAuthFilter(SessionAuthProvider sessionAuthProvider,
+    @Named("application.key") String applicationKey){
+    return new HttpGbifAuthFilter(applicationKey, sessionAuthProvider);
+  }
+
   @Override
   protected void configure() {
     Properties properties = bindApplicationProperties();
 
-    bind(ClientFilter.class).toProvider(SessionAuthProvider.class).in(Scopes.SINGLETON);
+    bind(SessionAuthProvider.class).in(Scopes.SINGLETON);
 
     // bind registry API
     install(new RegistryWsClientModule(properties, true, true, false));
