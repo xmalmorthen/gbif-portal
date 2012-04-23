@@ -27,6 +27,8 @@
     <guava.version>11.0.1</guava.version>
     <guice.version>3.0</guice.version>
     <junit.version>4.10</junit.version>
+    <logback.version>1.0.0</logback.version>
+    <mockito.version>1.9.0</mockito.version>
     <mysql-connector-java.version>5.1.18</mysql-connector-java.version>
     <mybatis.version>3.0.6</mybatis.version>
     <mybatis-guice.version>3.2</mybatis-guice.version>
@@ -165,6 +167,18 @@
       <groupId>org.slf4j</groupId>
       <artifactId>jul-to-slf4j</artifactId>
       <version>${slf4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

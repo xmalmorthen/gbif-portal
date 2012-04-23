@@ -14,7 +14,7 @@ import org.dbunit.ext.mysql.MySqlDataTypeFactory;
  * Provides a JUnit {@link org.junit.rules.TestRule} to allow database driven integration tests in Drupal.
  * <p/>
  */
-public class DrupalTestRule extends DatabaseDrivenTestRule {
+public class DrupalTestRule<T> extends DatabaseDrivenTestRule<T> {
 
   private static final String DEFAULT_PROPERTIES_FILE = "drupal.properties";
   private static final String DEFAULT_PROPERTY_PREFIX = "drupal";
@@ -26,21 +26,21 @@ public class DrupalTestRule extends DatabaseDrivenTestRule {
    * @param propertyPrefix the prefix used to retrieve the db connections in the properties. E.g. occurrencestore
    * @param dbUnitFileName the optional unqualified filename within the dbunit package to be used in setting up the db
    */
-  public DrupalTestRule(String propertiesFile, String propertyPrefix, @Nullable String dbUnitFileName) {
-    super(DrupalMyBatisModule.class, propertiesFile, propertyPrefix, dbUnitFileName, DB_UNIT_PROPERTIES);
+  public DrupalTestRule(Class<T> serviceClass, String propertiesFile, String propertyPrefix, @Nullable String dbUnitFileName) {
+    super(DrupalMyBatisModule.class, serviceClass, propertiesFile, propertyPrefix, dbUnitFileName, DB_UNIT_PROPERTIES);
   }
 
   /**
    */
-  public DrupalTestRule() {
-    super(DrupalMyBatisModule.class, DEFAULT_PROPERTIES_FILE, DEFAULT_PROPERTY_PREFIX, null, DB_UNIT_PROPERTIES);
+  public DrupalTestRule(Class<T> serviceClass) {
+    super(DrupalMyBatisModule.class, serviceClass, DEFAULT_PROPERTIES_FILE, DEFAULT_PROPERTY_PREFIX, null, DB_UNIT_PROPERTIES);
   }
 
   /**
    * @param dbUnitFileName the optional unqualified filename within the dbunit package to be used in setting up the db
    */
-  public DrupalTestRule(String dbUnitFileName) {
-    super(DrupalMyBatisModule.class, DEFAULT_PROPERTIES_FILE, DEFAULT_PROPERTY_PREFIX, dbUnitFileName, DB_UNIT_PROPERTIES);
+  public DrupalTestRule(Class<T> serviceClass, String dbUnitFileName) {
+    super(DrupalMyBatisModule.class, serviceClass, DEFAULT_PROPERTIES_FILE, DEFAULT_PROPERTY_PREFIX, dbUnitFileName, DB_UNIT_PROPERTIES);
   }
 
   /**

@@ -1,5 +1,6 @@
 package org.gbif.user.guice;
 
+import org.gbif.api.model.User;
 import org.gbif.api.model.vocabulary.UserRole;
 import org.gbif.mybatis.type.UuidTypeHandler;
 import org.gbif.user.UserService;
@@ -21,16 +22,19 @@ public class InternalDrupalMyBatisModule extends MyBatisModule {
 
   @Override
   protected void initialize() {
-    environmentId("production");
+    environmentId("default");
+
+    addAlias("User").to(User.class);
+    addAlias("UserRole").to(UserRole.class);
 
     bindTransactionFactoryType(JdbcTransactionFactory.class);
-
-    // mybatis mapper
-    addMapperClass(UserMapper.class);
 
     // type handler
     handleType(UserRole.class).with(UserRoleTypeHandler.class);
     handleType(UUID.class).with(UuidTypeHandler.class);
+
+    // mybatis mapper
+    addMapperClass(UserMapper.class);
 
     // services. Make sure they are also exposed in the public module!
     bind(UserService.class).to(UserServiceImpl.class).in(Scopes.SINGLETON);
