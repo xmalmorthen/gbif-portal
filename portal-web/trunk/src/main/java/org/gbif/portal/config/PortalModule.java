@@ -3,6 +3,7 @@ package org.gbif.portal.config;
 import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
 import org.gbif.occurrencestore.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
+import org.gbif.user.guice.DrupalMyBatisModule;
 import org.gbif.utils.HttpUtil;
 
 import java.io.IOException;
@@ -45,17 +46,19 @@ public class PortalModule extends AbstractModule {
 
     bind(ClientFilter.class).toProvider(SessionAuthProvider.class).in(Scopes.SINGLETON);
 
+    // bind registry API
+    install(new RegistryWsClientModule(properties, true, true, false));
+
+    // bind drupal mybatis services
+    install(new DrupalMyBatisModule(properties));
+
     // bind checklist bank api. Select either the mybatis or the ws-client api implementation:
     // TODO: the CLB ws client should be refactored to use PrivateServiceModule
     install(new ChecklistBankWsClientModule());
 
-    // bind registry API
-    install(new RegistryWsClientModule(properties, true, true, false));
-
     // bind occurrence API
     // TODO: the occurrence ws client should be refactored to use PrivateServiceModule
     install(new OccurrenceWsClientModule());
-
   }
 
   @Provides

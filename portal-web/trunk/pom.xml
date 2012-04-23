@@ -59,6 +59,7 @@
     <registry-ws-client.version>0.1-SNAPSHOT</registry-ws-client.version>
     <occurrencestore-api.version>0.1-SNAPSHOT</occurrencestore-api.version>
     <occurrencestore-ws-client.version>0.1-SNAPSHOT</occurrencestore-ws-client.version>
+    <drupal-mybatis.version>1.0-SNAPSHOT</drupal-mybatis.version>
 
     <freemarker.version>2.3.18</freemarker.version>
     <guice.version>3.0</guice.version>
@@ -240,6 +241,12 @@
       <artifactId>occurrencestore-ws-client</artifactId>
       <version>${occurrencestore-ws-client.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>drupal-mybatis</artifactId>
+      <version>${drupal-mybatis.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-api</artifactId>
