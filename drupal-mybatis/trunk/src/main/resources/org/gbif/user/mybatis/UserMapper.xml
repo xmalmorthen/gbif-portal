@@ -4,9 +4,9 @@
 
   <resultMap id="ResultMapUser" type="User" >
     <id column="name" property="name" jdbcType="VARCHAR" />
-    <result column="email" property="mail" jdbcType="VARCHAR" />
-    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
-    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+    <result column="mail" property="email" jdbcType="VARCHAR" />
+    <result column="firstname" property="firstName" jdbcType="VARCHAR" />
+    <result column="lastname" property="lastName" jdbcType="VARCHAR" />
     <collection property="roles" column="uid" javaType="java.util.HashSet" ofType="UserRole" select="selectRole" />
   </resultMap>
 

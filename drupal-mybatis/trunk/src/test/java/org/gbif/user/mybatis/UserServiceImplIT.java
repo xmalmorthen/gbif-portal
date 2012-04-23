@@ -18,6 +18,7 @@ public class UserServiceImplIT {
     User admin = ddt.getService().get("admin");
     Assert.assertNotNull(admin);
     Assert.assertEquals("admin", admin.getName());
+    Assert.assertEquals("admin@mailinator.com", admin.getEmail());
     Assert.assertEquals(1, admin.getRoles().size());
     Assert.assertTrue(admin.getRoles().contains(UserRole.ADMIN));
   }
