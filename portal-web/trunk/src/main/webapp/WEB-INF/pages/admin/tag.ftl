@@ -1,5 +1,5 @@
           <div id="newone">
-          <@s.form action="organization/add/endpoint/step" id="contactForm">
+          <@s.form action="organization/add/endpoint/step" id="tagForm">
               <p>NAMESPACE</p>
               <@s.textfield name="tag.namespace" value="${(tag!).namespace!}" size="20" maxlength="50" />
               <@s.fielderror fieldName="tag.namespace"/>

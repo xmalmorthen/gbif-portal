@@ -129,7 +129,19 @@ public class OrganizationAction extends OrganizationBaseAction {
     if (getSessionContacts() == null) {
       session.put("contacts", new ArrayList<Contact>());
     }
+    if (getSessionEndpoints() == null) {
+      session.put("endpoints", new ArrayList<Endpoint>());
+    }
+    if (getSessionTags() == null) {
+      session.put("tags", new ArrayList<Tag>());
+    }    
+    if (getSessionIdentifiers() == null) {
+      session.put("identifiers", new ArrayList<Identifier>());
+    }        
     contact = new Contact();
+    endpoint = new Endpoint();
+    tag = new Tag();
+    identifier = new Identifier();
     return SUCCESS;
   }
 
@@ -179,17 +191,20 @@ public class OrganizationAction extends OrganizationBaseAction {
     return SUCCESS;
   }
 
-  public String addEndpoints() {
+  public String addendpoint() {
+    LOG.debug("Adding new endpoint");
     getSessionEndpoints().add(endpoint);
     return SUCCESS;
   }
 
-  public String addTags() {
+  public String addtag() {
+    LOG.debug("Adding new tag");	  
     getSessionTags().add(tag);
     return SUCCESS;
   }
 
-  public String addIdentifiers() {
+  public String addidentifier() {
+    LOG.debug("Adding new identifier");	  
     getSessionIdentifiers().add(identifier);
     return SUCCESS;
   }
@@ -212,5 +227,21 @@ public class OrganizationAction extends OrganizationBaseAction {
 
   public List<Identifier> getSessionIdentifiers() {
     return (List<Identifier>) session.get("identifiers");
+  }
+
+  public Tag getTag() {
+    return tag;
+  }
+
+  public void setTag(Tag tag) {
+    this.tag = tag;
+  }
+
+  public Identifier getIdentifier() {
+    return identifier;
+  }
+
+  public void setIdentifier(Identifier identifier) {
+    this.identifier = identifier;
   }
 }

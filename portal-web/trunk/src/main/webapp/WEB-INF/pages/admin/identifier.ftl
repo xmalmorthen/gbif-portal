@@ -1,5 +1,5 @@
           <div id="newone">
-          <@s.form action="organization/add/identifier/step" id="contactForm">
+          <@s.form action="organization/add/identifier/step" id="identifierForm">
             <div class="field">
               <p>TYPE</p>
               <@s.select name="identifier.type" value="'${(identifier.type!).interpreted!}'" list="identifierTypes" 

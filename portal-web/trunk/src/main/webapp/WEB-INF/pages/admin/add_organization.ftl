@@ -4,20 +4,10 @@
   <title>Add Organization - GBIF</title>
   <meta name="menu" content="datasets"/>
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/custom/modal_form.js'/>"></script>
-  
-    <style>
-      body { font-size: 62.5%; }
-      label, input { display:block; }
-      input.text { margin-bottom:12px; width:95%; padding: .4em; }
-      fieldset { padding:0; border:0; margin-top:25px; }
-      h1 { font-size: 1.2em; margin: .6em 0; }
-      div#users-contain { width: 350px; margin: 20px 0;  overflow: auto;}
-      div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-      div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-      .ui-dialog .ui-state-error { padding: .3em; }
-      .validateTips { border: 1px solid transparent; padding: 0.3em; }
-    </style>        
+    <script type="text/javascript" src="<@s.url value='/js/custom/contact_form.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/custom/endpoint_form.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/custom/tag_form.js'/>"></script>          
+    <script type="text/javascript" src="<@s.url value='/js/custom/identifier_form.js'/>"></script>          
 </head>
 <body class="dataset">
 
@@ -58,7 +48,11 @@
             <div id="tempContacts">...</div>
             </table>
             
-            <button id="create-user">Create new contact</button>
+            <button id="create-contact">Create new contact</button>
+            <button id="create-endpoint">Create new endpoint</button>
+            <button id="create-tag">Create new tag</button>
+            <button id="create-identifier">Create new identifier</button>
+
             
              
             <div class="field">
@@ -73,7 +67,11 @@
             <nav><@s.submit title="Add" class="candy_white_button next" value="Add"><span>Save Changes</span></@s.submit>         
           </@s.form>
        
-          <div id="dialog-form" title="Create new contact"></div>
+          <div id="dialog-contact" title="Create new contact"></div>
+          <div id="dialog-endpoint" title="Create new endpoint"></div>
+          <div id="dialog-tag" title="Create new tag"></div>
+          <div id="dialog-identifier" title="Create new identifier"></div>
+
           
         </div>
         <div class="bottom"></div>

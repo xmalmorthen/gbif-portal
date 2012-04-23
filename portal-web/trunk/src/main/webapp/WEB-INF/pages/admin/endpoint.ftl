@@ -1,5 +1,5 @@
           <div id="newone">
-          <@s.form action="organization/add/endpoint/step" id="contactForm">
+          <@s.form action="organization/add/endpoint/step" id="endpointForm">
             <div class="field">
               <p>TYPE</p>
               <@s.select name="endpoint.type" value="'${(endpoint.type!).interpreted!}'" list="endpointTypes" 
@@ -21,6 +21,6 @@
               <@s.textfield name="endpoint.description" value="${(endpoint!).description!}" size="20" maxlength="50" />
               <@s.fielderror fieldName="endpoint.description"/>
             </div>                                     
-              <@s.submit title="Add" class="candy_white_button next" value="Add contact"><span>Save Changes</span></@s.submit>  
+              <@s.submit title="Add" class="candy_white_button next" value="Add endpoint"><span>Save Changes</span></@s.submit>  
                </@s.form>               
           </div>
