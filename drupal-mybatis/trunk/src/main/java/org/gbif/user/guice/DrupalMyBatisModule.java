@@ -1,7 +1,7 @@
 package org.gbif.user.guice;
 
+import org.gbif.api.service.UserService;
 import org.gbif.service.guice.PrivateServiceModule;
-import org.gbif.user.UserService;
 
 import java.io.IOException;
 import java.util.Map;

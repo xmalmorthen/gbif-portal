@@ -5,7 +5,7 @@ import org.gbif.occurrencestore.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
 import org.gbif.user.guice.DrupalMyBatisModule;
 import org.gbif.utils.HttpUtil;
-import org.gbif.ws.filter.HttpGbifAuthFilter;
+import org.gbif.ws.client.filter.HttpGbifAuthFilter;
 
 import java.io.IOException;
 import java.util.Properties;

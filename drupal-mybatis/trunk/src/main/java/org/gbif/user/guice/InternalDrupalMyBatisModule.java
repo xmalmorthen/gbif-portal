@@ -2,8 +2,8 @@ package org.gbif.user.guice;
 
 import org.gbif.api.model.User;
 import org.gbif.api.model.vocabulary.UserRole;
+import org.gbif.api.service.UserService;
 import org.gbif.mybatis.type.UuidTypeHandler;
-import org.gbif.user.UserService;
 import org.gbif.user.mybatis.UserMapper;
 import org.gbif.user.mybatis.UserRoleTypeHandler;
 import org.gbif.user.mybatis.UserServiceImpl;

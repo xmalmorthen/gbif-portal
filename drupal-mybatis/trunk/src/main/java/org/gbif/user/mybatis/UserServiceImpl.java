@@ -1,11 +1,11 @@
 package org.gbif.user.mybatis;
 
 import org.gbif.api.model.User;
-import org.gbif.user.UserService;
+import org.gbif.api.service.UserService;
 
 import com.google.inject.Inject;
 
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
   private UserMapper mapper;
 
   @Inject
@@ -14,8 +14,8 @@ public class UserServiceImpl implements UserService{
   }
 
   @Override
-  public User get(String usernameOrEmail) {
-    return mapper.get(usernameOrEmail);
+  public User get(String username) {
+    return mapper.get(username);
   }
 
 }
