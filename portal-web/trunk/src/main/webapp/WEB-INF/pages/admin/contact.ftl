@@ -72,6 +72,5 @@
               <@s.textfield name="contact.onlineUrl" value="${(contact!).onlineUrl!}" size="20" maxlength="50" />
               <@s.fielderror fieldName="contact.onlineUrl"/>
             </div>                                         
-              <@s.submit title="Add" class="candy_white_button next" value="Add contact"><span>Save Changes</span></@s.submit>  
                </@s.form>               
           </div>

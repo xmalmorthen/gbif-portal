@@ -4,7 +4,7 @@
               <p>TYPE</p>
               <@s.select name="endpoint.type" value="'${(endpoint.type!).interpreted!}'" list="endpointTypes" 
                listKey="key" listValue="value" headerKey="" headerValue="Choose a type"/>
-               <@s.fielderror fieldName="contact.type"/>
+               <@s.fielderror fieldName="endpoint.type"/>
             </div>   
             <div class="field">
               <p>URL</p>
@@ -21,6 +21,5 @@
               <@s.textfield name="endpoint.description" value="${(endpoint!).description!}" size="20" maxlength="50" />
               <@s.fielderror fieldName="endpoint.description"/>
             </div>                                     
-              <@s.submit title="Add" class="candy_white_button next" value="Add endpoint"><span>Save Changes</span></@s.submit>  
                </@s.form>               
           </div>

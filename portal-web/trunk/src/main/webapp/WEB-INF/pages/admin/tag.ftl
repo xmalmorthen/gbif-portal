@@ -1,5 +1,6 @@
           <div id="newone">
           <@s.form action="organization/add/endpoint/step" id="tagForm">
+            <div class="field">          
               <p>NAMESPACE</p>
               <@s.textfield name="tag.namespace" value="${(tag!).namespace!}" size="20" maxlength="50" />
               <@s.fielderror fieldName="tag.namespace"/>
@@ -14,6 +15,5 @@
               <@s.textfield name="tag.value" value="${(tag!).value!}" size="20" maxlength="50" />
               <@s.fielderror fieldName="tag.value"/>
             </div>                                     
-              <@s.submit title="Add" class="candy_white_button next" value="Add tag"><span>Save Changes</span></@s.submit>  
                </@s.form>               
           </div>

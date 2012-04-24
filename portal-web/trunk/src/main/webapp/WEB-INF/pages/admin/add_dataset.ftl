@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>Add Organization - GBIF</title>
+  <title>Add Dataset - GBIF</title>
   <meta name="menu" content="datasets"/>
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/custom/contact_form.js'/>"></script>
@@ -16,7 +16,7 @@
     <div class="content">
       <ul class="breadcrumb">
         <li><h2>Administration</h2></li>
-        <li class="active"><h2>Add Organization</h2></li>
+        <li class="active"><h2>Add Dataset</h2></li>
         <li class="last"><h2>Finish</h2></li>
       </ul>
 
@@ -29,7 +29,7 @@
       <div class="important">
         <div class="top"></div>
         <div class="inner">
-        <#include "organization.ftl"> 
+        <#include "dataset.ftl"> 
        
           <div id="dialog-contact" title="Create new contact"></div>
           <div id="dialog-endpoint" title="Create new endpoint"></div>
