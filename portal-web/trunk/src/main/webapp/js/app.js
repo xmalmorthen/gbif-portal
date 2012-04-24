@@ -69,8 +69,6 @@ $(function() {
   $("a.download_2")
     .bindDownloadPopover({template: "direct_download", explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
 
-  $("a.login").bindLoginPopover();
-
   // Dropdown for the sorting options of the taxonomic explorer
   $('#tax_sort_ocurrences').dropdownPopover({
     options: {
