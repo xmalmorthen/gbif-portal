@@ -27,7 +27,7 @@ public class PortalModule extends AbstractModule {
    * You can switch between the mybatis and the ws-client api implementation for checklistbank
    * by swapping the used module below.
    * When mybatis is used make sure your maven settings include the checklistbank jdbc properties.
-   *
+   * 
    * @throws ConfigurationException If the application properties cannot be read
    */
   private Properties bindApplicationProperties() throws ConfigurationException {
@@ -47,7 +47,7 @@ public class PortalModule extends AbstractModule {
   @Singleton
   @Inject
   public ClientFilter provideSessionAuthFilter(SessionAuthProvider sessionAuthProvider,
-    @Named("application.key") String applicationKey){
+    @Named("application.key") String applicationKey) {
     return new HttpGbifAuthFilter(applicationKey, sessionAuthProvider);
   }
 
@@ -58,7 +58,7 @@ public class PortalModule extends AbstractModule {
     bind(SessionAuthProvider.class).in(Scopes.SINGLETON);
 
     // bind registry API
-    install(new RegistryWsClientModule(properties, true, true, false));
+    install(new RegistryWsClientModule(properties, true, true));
 
     // bind drupal mybatis services
     install(new DrupalMyBatisModule(properties));
