@@ -1,4 +1,4 @@
-package org.gbif.portal;
+package org.gbif.portal.selenium;
 
 import org.junit.Test;
 import org.openqa.selenium.By;

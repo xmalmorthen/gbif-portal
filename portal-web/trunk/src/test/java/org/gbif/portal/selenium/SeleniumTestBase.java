@@ -1,4 +1,4 @@
-package org.gbif.portal;
+package org.gbif.portal.selenium;
 
 import org.gbif.portal.config.Config;
 
@@ -51,7 +51,7 @@ public abstract class SeleniumTestBase {
    */
   protected void getUrl(String url){
     driver.get(url);
-    LOG.debug("Page source retrieved for {}:\n{}", url, driver.getPageSource());
+    LOG.debug("Page source retrieved for {}\n{}", url, driver.getPageSource());
   }
 
   protected Integer parseIdLink(String link) {
