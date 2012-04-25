@@ -60,6 +60,6 @@ $(function() {
     .button()
     .click(function(e) {
       e.preventDefault();
-      $( "#dialog-contact" ).load("/admin/organization/add/contact").dialog( "open" );
+      $( "#dialog-contact" ).load(cfg.baseUrl + "/admin/organization/add/contact").dialog( "open" );
     });
   });

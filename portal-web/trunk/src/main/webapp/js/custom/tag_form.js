@@ -31,6 +31,6 @@ $(function() {
     .button()
     .click(function(e) {
       e.preventDefault();
-      $( "#dialog-tag" ).load("/admin/organization/add/tag").dialog( "open" );
+      $( "#dialog-tag" ).load(cfg.baseUrl + "/admin/organization/add/tag").dialog( "open" );
     });
   });

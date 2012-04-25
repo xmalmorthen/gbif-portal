@@ -33,6 +33,6 @@ $(function() {
     .button()
     .click(function(e) {
       e.preventDefault();
-      $( "#dialog-endpoint" ).load("/admin/organization/add/endpoint").dialog( "open" );
+      $( "#dialog-endpoint" ).load(cfg.baseUrl + "/admin/organization/add/endpoint").dialog( "open" );
     });
   });

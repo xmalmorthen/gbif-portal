@@ -30,6 +30,6 @@ $(function() {
     .button()
     .click(function(e) {
       e.preventDefault();
-      $( "#dialog-identifier" ).load("/admin/organization/add/identifier").dialog( "open" );
+      $( "#dialog-identifier" ).load(cfg.baseUrl + "/admin/organization/add/identifier").dialog( "open" );
     });
   });
