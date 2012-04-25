@@ -25,7 +25,7 @@ import org.apache.struts2.sitemesh.FreemarkerPageFilter;
 import org.jasig.cas.client.authentication.AuthenticationFilter;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
-import org.jasig.cas.client.validation.Cas10TicketValidationFilter;
+import org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,7 +61,7 @@ public class PortalListener extends GuiceServletContextListener {
       // CAS
       bind(SingleSignOutFilter.class).in(Singleton.class);
       bind(AuthenticationFilter.class).in(Singleton.class);
-      bind(Cas10TicketValidationFilter.class).in(Singleton.class);
+      bind(Cas20ProxyReceivingTicketValidationFilter.class).in(Singleton.class);
       bind(HttpServletRequestWrapperFilter.class).in(Singleton.class);
       // Struts2
       bind(StrutsPrepareFilter.class).in(Singleton.class);
@@ -71,7 +71,7 @@ public class PortalListener extends GuiceServletContextListener {
       // CAS
       filter("/*").through(SingleSignOutFilter.class);
       filter("/*").through(AuthenticationFilter.class, params);
-      filter("/*").through(Cas10TicketValidationFilter.class, params);
+      filter("/*").through(Cas20ProxyReceivingTicketValidationFilter.class, params);
       filter("/*").through(HttpServletRequestWrapperFilter.class);
       // Struts2
       filter("/*").through(StrutsPrepareFilter.class);

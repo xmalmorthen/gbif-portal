@@ -78,7 +78,7 @@ ${head}
             or
             <a href="${cfg.cas}/logout" title='<@s.text name="menu.logout"/>'><@s.text name="menu.logout"/></a>
           <#else>
-            <a href="${cfg.cas}/login?service=${baseUrl}" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
+            <a href="${cfg.cas}/login?service=${baseUrl}/" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
             <a href="${cfg.drupal}/user/register" title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
           </#if>
         </div>
