@@ -1,6 +1,6 @@
 package org.gbif.portal.action.member;
 
-import org.gbif.portal.action.NotFoundException;
+import org.gbif.api.exception.NotFoundException;
 import org.gbif.registry.api.model.WritableMember;
 
 import java.util.UUID;

@@ -1,11 +1,11 @@
 package org.gbif.portal.action.species;
 
+import org.gbif.api.exception.NotFoundException;
 import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.NameUsageService;
 import org.gbif.portal.action.BaseAction;
-import org.gbif.portal.action.NotFoundException;
 
 import java.util.Collection;
 import java.util.HashMap;

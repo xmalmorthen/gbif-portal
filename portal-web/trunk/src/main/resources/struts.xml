@@ -17,20 +17,20 @@
 
 
       <interceptor-stack name="portalStack">
-        <interceptor-ref name="staticParams"/>
         <interceptor-ref name="loginSession"/>
         <interceptor-ref name="i18nStack"/>
+        <interceptor-ref name="staticParams"/>
       </interceptor-stack>
 
       <!-- see http://struts.apache.org/2.1.6/docs/interceptors.html -->
       <interceptor-stack name="loginStack">
-        <interceptor-ref name="requireLogin"/>
         <interceptor-ref name="portalStack"/>
+        <interceptor-ref name="requireLogin"/>
       </interceptor-stack>
 
       <interceptor-stack name="adminStack">
-        <interceptor-ref name="requireAdmin"/>
         <interceptor-ref name="portalStack"/>
+        <interceptor-ref name="requireAdmin"/>
         <interceptor-ref name="jsrvalidation">
           <param name="excludeMethods">execute,prepare</param>
         </interceptor-ref>
@@ -66,10 +66,11 @@
     </global-results>
 
     <global-exception-mappings>
-       <!-- catching not existing action mappings -->
-       <exception-mapping exception="com.opensymphony.xwork2.config.ConfigurationException" result="404" />
-       <exception-mapping exception="org.gbif.portal.action.NotFoundException" result="404" />
-      <exception-mapping exception="org.gbif.portal.action.NotAllowedException" result="401" />
+      <!-- catching not existing action mappings -->
+      <exception-mapping exception="com.opensymphony.xwork2.config.ConfigurationException" result="404" />
+      <exception-mapping exception="org.gbif.api.exception.NotFoundException" result="404" />
+      <exception-mapping exception="java.security.AccessControlException" result="401" />
+      <exception-mapping exception="org.gbif.api.exception.ServiceUnavailableException" result="error" />
     </global-exception-mappings>
 
   </package>

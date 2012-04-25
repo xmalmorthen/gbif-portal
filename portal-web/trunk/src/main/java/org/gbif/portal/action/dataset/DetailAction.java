@@ -8,10 +8,10 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.exception.NotFoundException;
 import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.portal.action.BaseAction;
-import org.gbif.portal.action.NotFoundException;
 import org.gbif.registry.api.model.Contact;
 import org.gbif.registry.api.model.Dataset;
 import org.gbif.registry.api.service.DatasetService;

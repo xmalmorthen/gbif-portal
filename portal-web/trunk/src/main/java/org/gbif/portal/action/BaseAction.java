@@ -7,19 +7,24 @@ import org.gbif.portal.config.Constants;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.util.ServletContextAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class BaseAction extends ActionSupport implements SessionAware, ServletRequestAware {
+public abstract class BaseAction extends ActionSupport
+  implements SessionAware, ServletRequestAware, ServletContextAware {
   private static final Logger LOG = LoggerFactory.getLogger(BaseAction.class);
   protected Map<String, Object> session;
   protected HttpServletRequest request;
+  protected ServletContext ctx;
+
 
   @Inject
   private Config cfg;
@@ -30,9 +35,8 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
   }
 
   @Override
-  public String execute() {
-    LOG.debug("Executing action class: " + this.getClass().getName());
-    return SUCCESS;
+  public void setServletContext(ServletContext context){
+    this.ctx = context;
   }
 
   @Override
@@ -60,7 +64,7 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
    * @return the base url
    */  
   public String getBaseUrl() {
-    return cfg.getServerName() + request.getContextPath();
+    return cfg.getServerName() + ctx.getContextPath();
   }
 
   /**

@@ -1,7 +1,7 @@
 package org.gbif.portal.action.occurrence;
 
+import org.gbif.api.exception.NotFoundException;
 import org.gbif.portal.action.BaseAction;
-import org.gbif.portal.action.NotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
+import com.opensymphony.xwork2.util.ValueStack;
 
 /**
  * An Interceptor that makes sure an admin user is currently logged in and returns a notAllowed otherwise
@@ -20,6 +21,10 @@ public class RequireAdminInterceptor extends AbstractInterceptor {
     if (user != null && user.isAdmin()) {
       return invocation.invoke();
     }
+
+    Object action = invocation.getAction();
+    ValueStack stack = invocation.getStack();
+
     return Constants.RESULT_NOT_ALLOWED;
   }
 
