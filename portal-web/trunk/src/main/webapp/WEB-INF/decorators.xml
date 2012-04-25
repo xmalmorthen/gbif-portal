@@ -2,14 +2,7 @@
   <excludes>
     <pattern>/config-browser/*</pattern>
     <!-- This is temporal. Will be done in 1 or 2 lines with wildcards -->
-    <pattern>/admin/organization/add/contact</pattern>
-    <pattern>/admin/organization/add/contact/step</pattern>
-    <pattern>/admin/organization/add/endpoint</pattern>
-    <pattern>/admin/organization/add/endpoint/step</pattern>
-    <pattern>/admin/organization/add/tag</pattern>
-    <pattern>/admin/organization/add/tag/step</pattern>
-    <pattern>/admin/organization/add/identifier</pattern>
-    <pattern>/admin/organization/add/identifier/step</pattern>            
+    <pattern>/admin/*/add/*</pattern>           
   </excludes>
   <decorator name="default" page="default.ftl">
     <pattern>/*</pattern>

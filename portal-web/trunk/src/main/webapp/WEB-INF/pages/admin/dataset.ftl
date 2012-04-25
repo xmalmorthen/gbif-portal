@@ -1,4 +1,3 @@
-          <@s.form action="dataset/add/step">
             <#include "network_entity.ftl">           
 	        
             <table>
@@ -22,6 +21,3 @@
                listKey="key" listValue="title" headerKey="" headerValue="Choose an organization"/>
                <@s.fielderror fieldName="member.hostingOrganizationKey"/>
             </div>        
-
-            <nav><@s.submit title="Add" class="candy_white_button next" value="Add"><span>Save Changes</span></@s.submit></nav>         
-          </@s.form>

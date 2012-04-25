@@ -394,6 +394,7 @@
       <result>/WEB-INF/pages/admin/network.ftl</result>
     </action>
 
+    <!-- ADD ENTITIES -->
     <action name="organization/add" class="org.gbif.portal.action.admin.OrganizationAction" method="prepare">
       <result>/WEB-INF/pages/admin/add_organization.ftl</result>
     </action>
@@ -412,8 +413,32 @@
       <result name="success">/WEB-INF/pages/admin/success.ftl</result>
     </action>       
     
+    <!-- EDIT ENTITIES -->    
+    <action name="organization/{id}/edit" class="org.gbif.portal.action.admin.OrganizationAction" method="prepare">
+      <result>/WEB-INF/pages/admin/edit_organization.ftl</result>    
+    </action>        
+    
+    <action name="dataset/{id}/edit" class="org.gbif.portal.action.admin.DatasetAction" method="prepare">
+      <result>/WEB-INF/pages/admin/edit_dataset.ftl</result>    
+    </action>        
      
+    <action name="organization/{id}/edit/step" class="org.gbif.portal.action.admin.OrganizationAction" method="editOrganization">
+      <result name="input">/WEB-INF/pages/admin/edit_organization.ftl</result>    
+      <result name="success">/WEB-INF/pages/admin/success.ftl</result>
+    </action>        
+    
+    <action name="dataset/{id}/edit/step" class="org.gbif.portal.action.admin.DatasetAction" method="editDataset">
+      <result name="input">/WEB-INF/pages/admin/edit_dataset.ftl</result>    
+      <result name="success">/WEB-INF/pages/admin/success.ftl</result>
+    </action>      
 
+
+
+
+
+
+
+	<!-- TO BE DECIDED IF SHOULD BE NEEDED ANHYMORE -->
     <action name="organization/{id}" class="org.gbif.portal.action.admin.OrganizationAction">
       <result>/WEB-INF/pages/admin/edit_organization.ftl</result>
     </action>

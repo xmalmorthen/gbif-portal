@@ -29,7 +29,11 @@
       <div class="important">
         <div class="top"></div>
         <div class="inner">
-        <#include "organization.ftl"> 
+        
+        <@s.form action="organization/add/step">
+          <#include "organization.ftl"> 
+          <nav><@s.submit title="Add" class="candy_white_button next" value="Add"><span>Save Changes</span></@s.submit></nav>             
+        </@s.form>        
        
           <div id="dialog-contact" title="Create new contact"></div>
           <div id="dialog-endpoint" title="Create new endpoint"></div>

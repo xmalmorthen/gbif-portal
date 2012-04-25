@@ -197,7 +197,7 @@ public class AdminBaseAction<T extends NetworkEntityService> extends BaseAction 
     Map<String, String> languages = new TreeMap<String, String>();
     for (Language language : Language.LANGUAGES) {
       // TODO: internationalize language names?
-      languages.put(language.getIso2LetterCode(), language.name());
+      languages.put(language.name(), language.name());
     }
     return languages;
   }
@@ -263,6 +263,22 @@ public class AdminBaseAction<T extends NetworkEntityService> extends BaseAction 
    */
   public void setIdentifier(Identifier identifier) {
     this.identifier = identifier;
+  }
+
+
+  /**
+   * @return the id.
+   */
+  public UUID getId() {
+    return id;
+  }
+
+
+  /**
+   * @param id the id to set.
+   */
+  public void setId(UUID id) {
+    this.id = id;
   }
 
 }

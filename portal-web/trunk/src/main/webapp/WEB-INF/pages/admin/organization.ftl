@@ -1,4 +1,3 @@
-          <@s.form action="organization/add/step">
             <#include "network_entity.ftl">           
             <#include "member.ftl">                          
 	        
@@ -14,6 +13,3 @@
                listKey="key" listValue="title" headerKey="" headerValue="Choose a node"/>
                <@s.fielderror fieldName="member.endorsingNodeKey"/>
             </div>          
-
-            <nav><@s.submit title="Add" class="candy_white_button next" value="Add"><span>Save Changes</span></@s.submit></nav>         
-          </@s.form>

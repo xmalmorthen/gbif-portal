@@ -29,7 +29,10 @@
       <div class="important">
         <div class="top"></div>
         <div class="inner">
+        <@s.form action="dataset/add/step">
         <#include "dataset.ftl"> 
+          <nav><@s.submit title="Add" class="candy_white_button next" value="Add"><span>Save Changes</span></@s.submit></nav>             
+        </@s.form>             
        
           <div id="dialog-contact" title="Create new contact"></div>
           <div id="dialog-endpoint" title="Create new endpoint"></div>
