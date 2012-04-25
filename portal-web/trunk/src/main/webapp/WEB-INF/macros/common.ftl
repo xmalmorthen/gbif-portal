@@ -87,3 +87,30 @@
     </#if>
   </address>
 </#macro>
+
+<#macro citation c>
+<#if c.identifier?has_content><a href="${c.identifier}">${c.text!c.identifier}</a><#else>${ref.text!}</#if>
+</#macro>
+
+<#macro enum enum>
+  <#if enum.interpreted?has_content>
+    <p>${enum.interpreted?string}</p>
+  <#else>
+    <p class="verbatim_temp">${enum.verbatim?string!}</p>
+  </#if>
+</#macro>
+
+<#macro article title id="" class="">
+<article<#if id?has_content> id="${id}"</#if> class="${class!}">
+  <header></header>
+  <div class="content">
+    <#if id?has_content>
+      <a name="${id}"><h2>${title!"???"}</h2></a>
+    <#else>
+      <h2>${title!"???"}</h2>
+    </#if>
+    <#nested>
+  </div>
+  <footer></footer>
+</article>
+</#macro>
