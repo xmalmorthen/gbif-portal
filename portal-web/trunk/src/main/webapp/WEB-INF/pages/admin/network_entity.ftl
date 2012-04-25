@@ -12,8 +12,8 @@
             
             <div class="field">
               <p>LANGUAGE</p>
-              <@s.select name="member.language" value="'${((member!).language!).iso2LetterCode!}'" list="officialCountries" 
-               listKey="iso2LetterCode" listValue="title" headerKey="" headerValue="Choose a language"/>
+              <@s.select name="member.language" value="'${((member!).language!).interpreted!}'" list="languages" 
+               listKey="key" listValue="value" headerKey="" headerValue="Choose a language"/>
                <@s.fielderror fieldName="member.language"/>
             </div>            
 

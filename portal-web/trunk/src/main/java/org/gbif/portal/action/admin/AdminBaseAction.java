@@ -2,6 +2,7 @@ package org.gbif.portal.action.admin;
 
 import org.gbif.api.model.vocabulary.Country;
 import org.gbif.api.model.vocabulary.IdentifierType;
+import org.gbif.api.model.vocabulary.Language;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Contact;
 import org.gbif.registry.api.model.Dataset;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -189,6 +191,15 @@ public class AdminBaseAction<T extends NetworkEntityService> extends BaseAction 
    */
   public List<Country> getOfficialCountries() {
     return Country.OFFICIAL_COUNTRIES;
+  }
+
+  public Map<String, String> getLanguages() {
+    Map<String, String> languages = new TreeMap<String, String>();
+    for (Language language : Language.LANGUAGES) {
+      // TODO: internationalize language names?
+      languages.put(language.getIso2LetterCode(), language.name());
+    }
+    return languages;
   }
 
   /**
