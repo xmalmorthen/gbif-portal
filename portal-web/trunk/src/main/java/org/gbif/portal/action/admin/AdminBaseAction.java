@@ -50,15 +50,12 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
   @Inject
   protected T wsClient;
 
-  public abstract K getMember();
+  public abstract K getEntity();
 
   public String prepare() {
 
-    NetworkEntityComponents entity = getMember();
+    NetworkEntityComponents entity=getEntity();
 
-    if (getSessionDataset() == null) {
-      session.put("dataset", new Dataset());
-    }
     if (getContacts() == null) {
       if (entity != null && entity.getContacts() != null) {
         session.put("contacts", entity.getContacts());

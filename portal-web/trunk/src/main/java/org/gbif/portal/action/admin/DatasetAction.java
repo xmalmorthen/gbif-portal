@@ -2,6 +2,7 @@ package org.gbif.portal.action.admin;
 
 import org.gbif.api.paging.PagingResponse;
 import org.gbif.registry.api.model.Dataset;
+import org.gbif.registry.api.model.Network;
 import org.gbif.registry.api.model.Organization;
 import org.gbif.registry.api.service.DatasetService;
 import org.gbif.registry.api.service.OrganizationService;
@@ -24,7 +25,6 @@ public class DatasetAction extends AdminBaseAction<DatasetService, Dataset> {
   /**
    * @return the dataset.
    */
-  @Override
   public Dataset getMember() {
     if (member == null) {
       member = loadMember(id);
@@ -60,8 +60,8 @@ public class DatasetAction extends AdminBaseAction<DatasetService, Dataset> {
 
   public String addDataset() {
     // first persist the WritableDataset entity
-    UUID dataseKey = wsClient.create(member);
-    createMembers(dataseKey);
+    //UUID dataseKey = wsClient.create(member);
+    //createMembers(dataseKey);
     return SUCCESS;
   }
 
@@ -69,4 +69,9 @@ public class DatasetAction extends AdminBaseAction<DatasetService, Dataset> {
   public Dataset getSessionDataset() {
     return (Dataset) session.get("dataset");
   }
+  
+  @Override
+  public Dataset getEntity() {
+    return member;
+  }  
 }

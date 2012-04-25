@@ -15,7 +15,7 @@ public class NetworkAction extends AdminBaseAction<NetworkService, Network> {
   /**
    * @return the network.
    */
-  @Override
+  
   public Network getMember() {
     if (member == null) {
       member = loadMember(id);
@@ -41,12 +41,17 @@ public class NetworkAction extends AdminBaseAction<NetworkService, Network> {
 
   public String addNetwork() {
     // first persist the WritableNetwork entity
-    UUID networkKey = wsClient.create(member);
-    createMembers(networkKey);
+    //UUID networkKey = wsClient.create(member);
+    //createMembers(networkKey);
     return SUCCESS;
   }
 
   public Network getSessionNetwork() {
     return (Network) session.get("network");
+  }
+
+  @Override
+  public Network getEntity() {
+    return member;
   }
 }
