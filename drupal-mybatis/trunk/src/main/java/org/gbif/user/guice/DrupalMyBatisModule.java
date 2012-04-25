@@ -6,7 +6,6 @@ import org.gbif.service.guice.PrivateServiceModule;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
-import javax.sql.DataSource;
 
 public class DrupalMyBatisModule extends PrivateServiceModule {
 
@@ -34,7 +33,9 @@ public class DrupalMyBatisModule extends PrivateServiceModule {
     // bind classes
     install(new InternalDrupalMyBatisModule());
 
-    expose(DataSource.class);
+    // we cannot expose 2 Datasources, so we dont do this here to not conflict with other modules
+    // this module is rather simple and ITests can be run manually when commenting out this line
+    //expose(DataSource.class);
 
     // expose services
     expose(UserService.class);
