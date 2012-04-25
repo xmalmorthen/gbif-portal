@@ -19,6 +19,10 @@
         <li class="active"><h2>Add Dataset</h2></li>
         <li class="last"><h2>Finish</h2></li>
       </ul>
+      <center>
+        <a href="../organization/add">Add new organization</a> | Add new dataset | <a href="../network/add">Add new network</a>
+      </center>
+      <hr/>      
 
 
       <p>Please fill in the necessary fields:</p>

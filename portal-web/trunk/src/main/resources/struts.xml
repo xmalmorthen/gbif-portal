@@ -403,6 +403,10 @@
       <result>/WEB-INF/pages/admin/add_dataset.ftl</result>
     </action>    
     
+    <action name="network/add" class="org.gbif.portal.action.admin.NetworkAction" method="prepare">
+      <result>/WEB-INF/pages/admin/add_network.ftl</result>
+    </action>        
+    
     <action name="organization/add/step" class="org.gbif.portal.action.admin.OrganizationAction" method="addOrganization">
       <result name="input">/WEB-INF/pages/admin/add_organization.ftl</result>
       <result name="success">/WEB-INF/pages/admin/success.ftl</result>
@@ -410,6 +414,11 @@
     
     <action name="dataset/add/step" class="org.gbif.portal.action.admin.DatasetAction" method="addDataset">
       <result name="input">/WEB-INF/pages/admin/add_dataset.ftl</result>
+      <result name="success">/WEB-INF/pages/admin/success.ftl</result>
+    </action>       
+    
+    <action name="network/add/step" class="org.gbif.portal.action.admin.NetworkAction" method="addNetwork">
+      <result name="input">/WEB-INF/pages/admin/add_network.ftl</result>
       <result name="success">/WEB-INF/pages/admin/success.ftl</result>
     </action>       
     
@@ -432,28 +441,21 @@
       <result name="success">/WEB-INF/pages/admin/success.ftl</result>
     </action>      
 
-
-
-
-
-
-
-	<!-- TO BE DECIDED IF SHOULD BE NEEDED ANHYMORE -->
-    <action name="organization/{id}" class="org.gbif.portal.action.admin.OrganizationAction">
-      <result>/WEB-INF/pages/admin/edit_organization.ftl</result>
-    </action>
-    
-    <action name="organization/{id}/edit" class="org.gbif.portal.action.admin.OrganizationAction" method="editOrganization">
-      <result name="input">/WEB-INF/pages/admin/edit_organization.ftl</result>    
-      <result name="success">/WEB-INF/pages/admin/edit_organization.ftl</result>
-    </action>    
+	<!-- ACTIONS FOR COMPONENTS -->
     <action name="organization/add/{1}" class="org.gbif.portal.action.admin.OrganizationAction" method="prepare">
       <result>/WEB-INF/pages/admin/{1}.ftl</result>
     </action>      
     <action name="organization/add/{1}/step" class="org.gbif.portal.action.admin.OrganizationAction" method="add{1}">
       <result name="input">/WEB-INF/pages/admin/{1}.ftl</result>          
       <result name="success">/WEB-INF/pages/admin/success.ftl</result>     
-    </action>      
+    </action>    
+  
+  
+    <!-- TO BE DECIDED IF THIS SHOULD BE KEPT -->  
+    <action name="organization/{id}" class="org.gbif.portal.action.admin.OrganizationAction">
+      <result>/WEB-INF/pages/admin/edit_organization.ftl</result>
+    </action>
+
     <action name="dataset/{id}" class="org.gbif.portal.action.admin.DatasetAction">
       <result>/WEB-INF/pages/admin/dataset.ftl</result>
     </action>

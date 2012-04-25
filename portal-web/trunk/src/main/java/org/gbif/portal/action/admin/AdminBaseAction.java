@@ -8,6 +8,7 @@ import org.gbif.registry.api.model.Contact;
 import org.gbif.registry.api.model.Dataset;
 import org.gbif.registry.api.model.Endpoint;
 import org.gbif.registry.api.model.Identifier;
+import org.gbif.registry.api.model.NetworkEntityComponents;
 import org.gbif.registry.api.model.Tag;
 import org.gbif.registry.api.model.vocabulary.ContactType;
 import org.gbif.registry.api.model.vocabulary.EndpointType;
@@ -26,7 +27,8 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AdminBaseAction<T extends NetworkEntityService> extends BaseAction {
+public abstract class AdminBaseAction<T extends NetworkEntityService, K extends NetworkEntityComponents> extends
+  BaseAction {
 
   protected static final Logger LOG = LoggerFactory.getLogger(AdminBaseAction.class);
 
@@ -48,20 +50,29 @@ public class AdminBaseAction<T extends NetworkEntityService> extends BaseAction 
   @Inject
   protected T wsClient;
 
+  public abstract K getMember();
+
   public String prepare() {
+
+    NetworkEntityComponents entity = getMember();
+
     if (getSessionDataset() == null) {
       session.put("dataset", new Dataset());
     }
-    if (getSessionContacts() == null) {
-      session.put("contacts", new ArrayList<Contact>());
+    if (getContacts() == null) {
+      if (entity.getContacts() != null) {
+        session.put("contacts", entity.getContacts());
+      } else {
+        session.put("contacts", new ArrayList<Contact>());
+      }
     }
-    if (getSessionEndpoints() == null) {
+    if (getEndpoints() == null) {
       session.put("endpoints", new ArrayList<Endpoint>());
     }
-    if (getSessionTags() == null) {
+    if (getTags() == null) {
       session.put("tags", new ArrayList<Tag>());
     }
-    if (getSessionIdentifiers() == null) {
+    if (getIdentifiers() == null) {
       session.put("identifiers", new ArrayList<Identifier>());
     }
     contact = new Contact();
@@ -73,30 +84,30 @@ public class AdminBaseAction<T extends NetworkEntityService> extends BaseAction 
 
   protected void createMembers(UUID memberKey) {
     // add contacts
-    if (getSessionContacts() != null) {
-      for (Contact contact : getSessionContacts()) {
+    if (getContacts() != null) {
+      for (Contact contact : getContacts()) {
         LOG.debug("WS add contact to entity with UUID: [{}]", memberKey);
         wsClient.add(memberKey, contact);
       }
     }
 
     // add endpoints
-    if (getSessionEndpoints() != null) {
-      for (Endpoint endpoint : getSessionEndpoints()) {
+    if (getEndpoints() != null) {
+      for (Endpoint endpoint : getEndpoints()) {
         wsClient.add(memberKey, endpoint);
       }
     }
 
     // add tags
-    if (getSessionTags() != null) {
-      for (Tag tag : getSessionTags()) {
+    if (getTags() != null) {
+      for (Tag tag : getTags()) {
         wsClient.add(memberKey, tag);
       }
     }
 
     // add identifiers
-    if (getSessionIdentifiers() != null) {
-      for (Identifier identifier : getSessionIdentifiers()) {
+    if (getIdentifiers() != null) {
+      for (Identifier identifier : getIdentifiers()) {
         wsClient.add(memberKey, identifier);
       }
     }
@@ -104,25 +115,25 @@ public class AdminBaseAction<T extends NetworkEntityService> extends BaseAction 
 
   public String addcontact() {
     LOG.debug("Adding new contact");
-    getSessionContacts().add(contact);
+    getContacts().add(contact);
     return SUCCESS;
   }
 
   public String addendpoint() {
     LOG.debug("Adding new endpoint");
-    getSessionEndpoints().add(endpoint);
+    getEndpoints().add(endpoint);
     return SUCCESS;
   }
 
   public String addtag() {
     LOG.debug("Adding new tag");
-    getSessionTags().add(tag);
+    getTags().add(tag);
     return SUCCESS;
   }
 
   public String addidentifier() {
     LOG.debug("Adding new identifier");
-    getSessionIdentifiers().add(identifier);
+    getIdentifiers().add(identifier);
     return SUCCESS;
   }
 
@@ -130,22 +141,21 @@ public class AdminBaseAction<T extends NetworkEntityService> extends BaseAction 
     return (Dataset) session.get("dataset");
   }
 
-  public List<Contact> getSessionContacts() {
+  public List<Contact> getContacts() {
     return (List<Contact>) session.get("contacts");
   }
 
-  public List<Endpoint> getSessionEndpoints() {
+  public List<Endpoint> getEndpoints() {
     return (List<Endpoint>) session.get("endpoints");
   }
 
-  public List<Tag> getSessionTags() {
+  public List<Tag> getTags() {
     return (List<Tag>) session.get("tags");
   }
 
-  public List<Identifier> getSessionIdentifiers() {
+  public List<Identifier> getIdentifiers() {
     return (List<Identifier>) session.get("identifiers");
   }
-
 
   /**
    * Return a map of contact types. <key> is the enum name and <value> is the i18n name.

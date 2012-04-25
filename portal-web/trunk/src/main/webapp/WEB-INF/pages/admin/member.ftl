@@ -45,4 +45,16 @@
               <p>LONGITUDE</p>
                 <@s.textfield name="member.longitude" value="${(member!).longitude!}" size="20" maxlength="10" />
                 <@s.fielderror fieldName="member.longitude"/>
-            </div>                                
+            </div>    
+            
+            <div class="field">
+              <p>CONTACTS
+                <ul class="team">
+                  <#list contacts! as c>
+                  <li>
+                    <img src="<@s.url value='/img/minus.png'/>">
+                      <@common.contact con=c />
+                  </li>
+                </#list>
+              </ul>
+            </div>                                        

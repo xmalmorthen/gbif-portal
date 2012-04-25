@@ -19,6 +19,10 @@
         <li class="active"><h2>Add Organization</h2></li>
         <li class="last"><h2>Finish</h2></li>
       </ul>
+      <center>
+        Add new organization | <a href="../dataset/add">Add new dataset</a> | <a href="../network/add">Add new network</a>
+      </center>
+      <hr/>
 
 
       <p>Please fill in the necessary fields:</p>
@@ -40,7 +44,6 @@
           <div id="dialog-tag" title="Create new tag"></div>
           <div id="dialog-identifier" title="Create new identifier"></div>
 
-          
         </div>
         <div class="bottom"></div>
       </div>

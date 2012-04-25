@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 import com.google.inject.Inject;
 
-public class OrganizationAction extends AdminBaseAction<OrganizationService> {
+public class OrganizationAction extends AdminBaseAction<OrganizationService, Organization> {
 
   @Inject
   NodeService nodeWsClient;
@@ -24,6 +24,7 @@ public class OrganizationAction extends AdminBaseAction<OrganizationService> {
   /**
    * @return the organization.
    */
+  @Override
   public Organization getMember() {
     if (member == null) {
       member = loadMember(id);

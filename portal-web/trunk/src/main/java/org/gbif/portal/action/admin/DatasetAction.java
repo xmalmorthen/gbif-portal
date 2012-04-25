@@ -13,7 +13,7 @@ import javax.validation.Valid;
 
 import com.google.inject.Inject;
 
-public class DatasetAction extends AdminBaseAction<DatasetService> {
+public class DatasetAction extends AdminBaseAction<DatasetService, Dataset> {
 
   @Inject
   OrganizationService organizationWsClient;
@@ -24,6 +24,7 @@ public class DatasetAction extends AdminBaseAction<DatasetService> {
   /**
    * @return the dataset.
    */
+  @Override
   public Dataset getMember() {
     if (member == null) {
       member = loadMember(id);

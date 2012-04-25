@@ -4,7 +4,10 @@
   <title>Edit Dataset - GBIF</title>
   <meta name="menu" content="datasets"/>
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/custom/modal_form.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/custom/contact_form.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/custom/endpoint_form.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/custom/tag_form.js'/>"></script>          
+    <script type="text/javascript" src="<@s.url value='/js/custom/identifier_form.js'/>"></script> 
  
 </head>
 <body class="dataset">
