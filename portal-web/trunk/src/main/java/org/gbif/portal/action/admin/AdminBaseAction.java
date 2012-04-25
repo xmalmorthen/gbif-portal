@@ -60,7 +60,7 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
       session.put("dataset", new Dataset());
     }
     if (getContacts() == null) {
-      if (entity.getContacts() != null) {
+      if (entity != null && entity.getContacts() != null) {
         session.put("contacts", entity.getContacts());
       } else {
         session.put("contacts", new ArrayList<Contact>());
