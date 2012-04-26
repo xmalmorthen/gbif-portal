@@ -13,10 +13,10 @@
 
   <h1>${dataset.title}</h1>
 
-  <h3 class="separator">Published by <a
-          href="<@s.url value='/member/${dataset.owningOrganizationKey!}'/>">${dataset.owningOrganization.title!"Unknown"}</a>
-  </h3>
-
+  <#if dataset.owningOrganizationKey?has_content>
+    <h3 class="separator">Published by <a href="<@s.url value='/member/${dataset.owningOrganizationKey}'/>">${(dataset.owningOrganization.title)!"Unknown"}</a>
+    </h3>
+  </#if>
 
 <ul class="tags">
 <#if (dataset.tags?size>0)>
