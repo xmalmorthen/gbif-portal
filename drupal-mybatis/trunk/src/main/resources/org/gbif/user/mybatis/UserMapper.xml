@@ -7,11 +7,13 @@
     <result column="mail" property="email" jdbcType="VARCHAR" />
     <result column="firstname" property="firstName" jdbcType="VARCHAR" />
     <result column="lastname" property="lastName" jdbcType="VARCHAR" />
+    <result column="pass" property="passwordHash" jdbcType="VARCHAR" />
+
     <collection property="roles" column="uid" javaType="java.util.HashSet" ofType="UserRole" select="selectRole" />
   </resultMap>
 
   <select id="get" resultMap="ResultMapUser" parameterType="java.lang.String">
-    select uid, name, mail, null as firstname, null as lastname, login, status
+    select uid, name, mail, null as firstname, null as lastname, login, status, pass
     from users
     where name = #{x}
   </select>

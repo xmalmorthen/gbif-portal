@@ -2,6 +2,7 @@ package org.gbif.user.mybatis;
 
 import org.gbif.api.model.User;
 import org.gbif.api.service.UserService;
+import org.gbif.user.util.PasswordEncoder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,6 +14,7 @@ import com.google.inject.Inject;
 public class UserServiceImpl implements UserService {
   private UserMapper mapper;
   private Cache<String, User> cache;
+  private PasswordEncoder encoder = new PasswordEncoder("MD5");
 
   @Inject
   public UserServiceImpl(UserMapper mapper) {
@@ -35,6 +37,24 @@ public class UserServiceImpl implements UserService {
       cache.put(username, u);
     }
     return u;
+  }
+
+  @Override
+  public User authenticate(String username, String password) {
+    if (Strings.isNullOrEmpty(username) || password == null){
+      return null;
+    }
+
+    User u = get(username);
+    if (u != null){
+      // build password hash stored in drupal
+      String phash = encoder.encode(password);
+      if (phash.equalsIgnoreCase(u.getPasswordHash())){
+        return u;
+      }
+    }
+
+    return null;
   }
 
 }
