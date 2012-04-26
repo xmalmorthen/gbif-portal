@@ -20,7 +20,7 @@
         <li class="last"><h2>Finish</h2></li>
       </ul>
       <center>
-        <a href="../organization/add">Add new organization</a> | Add new dataset | <a href="../network/add">Add new network</a>
+        <a href="${baseUrl}/admin/organization/add">Add new organization</a> | Add new dataset | <a href="${baseUrl}/admin/network/add">Add new network</a>
       </center>
       <hr/>      
 
