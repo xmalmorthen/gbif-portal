@@ -59,8 +59,8 @@ public class DatasetAction extends AdminBaseAction<DatasetService, Dataset> {
 
   public String addDataset() {
     // first persist the WritableDataset entity
-    // UUID dataseKey = wsClient.create(member);
-    // createMembers(dataseKey);
+    UUID dataseKey = wsClient.create(member);
+    createMembers(dataseKey);
     return SUCCESS;
   }
 
