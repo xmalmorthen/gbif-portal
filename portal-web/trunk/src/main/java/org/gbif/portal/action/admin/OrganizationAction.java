@@ -1,7 +1,6 @@
 package org.gbif.portal.action.admin;
 
 import org.gbif.api.paging.PagingResponse;
-import org.gbif.registry.api.model.Network;
 import org.gbif.registry.api.model.Node;
 import org.gbif.registry.api.model.Organization;
 import org.gbif.registry.api.service.NodeService;
@@ -25,7 +24,7 @@ public class OrganizationAction extends AdminBaseAction<OrganizationService, Org
   /**
    * @return the organization.
    */
-  
+
   public Organization getMember() {
     if (member == null) {
       member = loadMember(id);
@@ -61,17 +60,20 @@ public class OrganizationAction extends AdminBaseAction<OrganizationService, Org
 
   public String addOrganization() {
     // first persist the WritableOrganization entity
-    //UUID organisationKey = wsClient.create(member);
-    //createMembers(organisationKey);
+    // UUID organisationKey = wsClient.create(member);
+    // createMembers(organisationKey);
     return SUCCESS;
   }
 
   public Organization getSessionOrganization() {
     return (Organization) session.get("organization");
   }
-  
+
   @Override
   public Organization getEntity() {
-    return member;
-  }  
+    // TODO: for some reason if I create an abstract method on AdminBaseAction called getMember and
+    // its overriden in this action class, struts returns a null 'member' object when called from the FTLs.
+    // need to check further on this.
+    return getMember();
+  }
 }

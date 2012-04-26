@@ -54,14 +54,12 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
 
   public String prepare() {
 
-    NetworkEntityComponents entity=getEntity();
+    NetworkEntityComponents entity = getEntity();
 
-    if (getContacts() == null) {
-      if (entity != null && entity.getContacts() != null) {
-        session.put("contacts", entity.getContacts());
-      } else {
-        session.put("contacts", new ArrayList<Contact>());
-      }
+    if (entity != null && entity.getContacts() != null) {
+      session.put("contacts", entity.getContacts());
+    } else {
+      session.put("contacts", new ArrayList<Contact>());
     }
     if (getEndpoints() == null) {
       session.put("endpoints", new ArrayList<Endpoint>());

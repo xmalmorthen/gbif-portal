@@ -47,6 +47,7 @@
                 <@s.fielderror fieldName="member.longitude"/>
             </div>    
             
+            <#if contacts?has_content>
             <div class="field">
               <p>CONTACTS
                 <ul class="team">
@@ -57,4 +58,5 @@
                   </li>
                 </#list>
               </ul>
-            </div>                                        
+            </div> 
+            </#if>                                       
