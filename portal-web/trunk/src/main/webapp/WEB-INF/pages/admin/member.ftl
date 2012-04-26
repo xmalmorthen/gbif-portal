@@ -1,30 +1,30 @@
             <div class="field">
               <p>ADDRESS</p>
-                <@s.textfield name="member.address" value="${(member!).address!}" size="20" maxlength="10" />
+                <@s.textfield name="member.address" value="${(member!).address!}" size="20" maxlength="50" />
                 <@s.fielderror fieldName="member.address"/>
             </div>
             
             <div class="field">
               <p>CITY</p>
-                <@s.textfield name="member.city" value="${(member!).city!}" size="20" maxlength="10" />
+                <@s.textfield name="member.city" value="${(member!).city!}" size="20" maxlength="50" />
                 <@s.fielderror fieldName="member.city"/>
             </div>         
             
             <div class="field">
               <p>ZIP</p>
-                <@s.textfield name="member.zip" value="${(member!).zip!}" size="20" maxlength="10" />    
+                <@s.textfield name="member.zip" value="${(member!).zip!}" size="20" maxlength="50" />    
                 <@s.fielderror fieldName="member.zip"/>            
             </div>       
              
             <div class="field">
               <p>PHONE</p>
-                <@s.textfield name="member.phone" value="${(member!).phone!}" size="20" maxlength="10" />  
+                <@s.textfield name="member.phone" value="${(member!).phone!}" size="20" maxlength="50" />  
                 <@s.fielderror fieldName="member.phone"/>                 
             </div>    
 
             <div class="field">
               <p>E-MAIL</p>
-                <@s.textfield name="member.email" value="${(member!).email!}" size="20" maxlength="10" />  
+                <@s.textfield name="member.email" value="${(member!).email!}" size="20" maxlength="50" />  
                 <@s.fielderror fieldName="member.email"/>                 
             </div> 
                                       
@@ -37,13 +37,13 @@
             
             <div class="field">
               <p>LATITUDE</p>
-                <@s.textfield name="member.latitude" value="${(member!).latitude!}" size="20" maxlength="10" />
+                <@s.textfield name="member.latitude" value="${(member!).latitude!}" size="20" maxlength="50" />
                 <@s.fielderror fieldName="member.latitude"/>
             </div> 
             
             <div class="field">
               <p>LONGITUDE</p>
-                <@s.textfield name="member.longitude" value="${(member!).longitude!}" size="20" maxlength="10" />
+                <@s.textfield name="member.longitude" value="${(member!).longitude!}" size="20" maxlength="50" />
                 <@s.fielderror fieldName="member.longitude"/>
             </div>    
             

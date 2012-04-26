@@ -1,6 +1,6 @@
 			<div class="field">
               <p>TITLE</p>
-                <@s.textfield name="member.title" value="${(member!).title!}" size="20" maxlength="10" />
+                <@s.textfield name="member.title" value="${(member!).title!}" size="20" maxlength="50" />
                 <@s.fielderror fieldName="member.title"/>
             </div>
 
