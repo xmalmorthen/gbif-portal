@@ -64,12 +64,10 @@ public class PortalModule extends AbstractModule {
     install(new DrupalMyBatisModule(properties));
 
     // bind checklist bank api. Select either the mybatis or the ws-client api implementation:
-    // TODO: the CLB ws client should be refactored to use PrivateServiceModule
-    install(new ChecklistBankWsClientModule());
+    install(new ChecklistBankWsClientModule(properties));
 
     // bind occurrence API
-    // TODO: the occurrence ws client should be refactored to use PrivateServiceModule
-    install(new OccurrenceWsClientModule());
+    install(new OccurrenceWsClientModule(properties));
   }
 
   @Provides
