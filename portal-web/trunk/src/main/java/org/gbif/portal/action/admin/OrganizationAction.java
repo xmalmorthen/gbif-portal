@@ -46,9 +46,10 @@ public class OrganizationAction extends AdminBaseAction<OrganizationService, Org
 
 
   public List<Node> getNodes() {
-    Node n1 = new Node().builder().title("Node1").key(UUID.randomUUID()).build();
-    Node n2 = new Node().builder().title("Node2").key(UUID.randomUUID()).build();
-    Node n3 = new Node().builder().title("Node3").key(UUID.randomUUID()).build();
+    new Node();
+    Node n1 = Node.builder().title("Node1").key(UUID.randomUUID()).build();
+    Node n2 = Node.builder().title("Node2").key(UUID.randomUUID()).build();
+    Node n3 = Node.builder().title("Node3").key(UUID.randomUUID()).build();
     List<Node> nodeList = new ArrayList<Node>();
     nodeList.add(n1);
     nodeList.add(n2);
