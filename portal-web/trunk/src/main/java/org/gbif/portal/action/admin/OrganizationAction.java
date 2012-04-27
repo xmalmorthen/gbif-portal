@@ -6,6 +6,7 @@ import org.gbif.registry.api.model.Organization;
 import org.gbif.registry.api.service.NodeService;
 import org.gbif.registry.api.service.OrganizationService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,7 +46,16 @@ public class OrganizationAction extends AdminBaseAction<OrganizationService, Org
 
 
   public List<Node> getNodes() {
-    PagingResponse<Node> response = nodeWsClient.list(null);
+    Node n1 = new Node().builder().title("Node1").key(UUID.randomUUID()).build();
+    Node n2 = new Node().builder().title("Node2").key(UUID.randomUUID()).build();
+    Node n3 = new Node().builder().title("Node3").key(UUID.randomUUID()).build();
+    List<Node> nodeList = new ArrayList<Node>();
+    nodeList.add(n1);
+    nodeList.add(n2);
+    nodeList.add(n3);
+    PagingResponse<Node> response = new PagingResponse<Node>();
+    response.setResults(nodeList);
+    // PagingResponse<Node> response = nodeWsClient.list(null);
 
     if (response != null) {
       return response.getResults();
