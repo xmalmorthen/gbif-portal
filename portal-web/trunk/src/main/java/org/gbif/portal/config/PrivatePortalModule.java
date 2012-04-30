@@ -1,7 +1,6 @@
 package org.gbif.portal.config;
 
 import org.gbif.ws.client.filter.HttpGbifAuthFilter;
-import org.gbif.ws.server.filter.AuthFilter;
 
 import java.util.Properties;
 
@@ -33,6 +32,6 @@ public class PrivatePortalModule extends PrivateModule{
   @Singleton
   @Inject
   public ClientFilter provideSessionAuthFilter(SessionAuthProvider sessionAuthProvider) {
-    return new HttpGbifAuthFilter(AuthFilter.PORTAL_APP_KEY, sessionAuthProvider);
+    return new HttpGbifAuthFilter("portal", sessionAuthProvider);
   }
 }
