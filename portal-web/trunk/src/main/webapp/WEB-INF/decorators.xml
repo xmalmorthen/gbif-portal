@@ -5,7 +5,8 @@
     <pattern>/admin/*/add/contact*</pattern>
     <pattern>/admin/*/add/tag*</pattern>
     <pattern>/admin/*/add/identifier*</pattern>
-    <pattern>/admin/*/add/endpoint*</pattern>           
+    <pattern>/admin/*/add/endpoint*</pattern>  
+    <pattern>/admin/*/delete/*</pattern>          
   </excludes>
   <decorator name="default" page="default.ftl">
     <pattern>/*</pattern>

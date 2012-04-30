@@ -1,3 +1,28 @@
+<script type="text/javascript">
+$(function() {
+  $( "#tagbox" ).click(function() {
+    loader = cfg.baseUrl + "/img/ajax-loader.gif";
+    $("#currentTags").html( "<img src='" + loader + "'>" );
+    actionUrl = cfg.baseUrl + "/admin/organization/add/tag/step";
+    alert(actionUrl);
+    value = $("input[name='currentTag']").val();  
+    $.post( actionUrl, { 
+      'tag.value': value },
+        function( data ) {
+          $( "#currentTags" ).empty().append( data );
+          $("input[name='currentTag']").val('');	  
+    });
+  });
+});
+</script>
+  
+<div class="field">
+  <p>TAGS</p>
+  <div id="currentTags"></div>
+  <@s.textfield name="currentTag" size="20" maxlength="50"/>
+  <img src="<@s.url value='/img/admin/add.png'/>" name="tagbox" id="tagbox">
+</div>
+		
 			<div class="field">
               <p>TITLE</p>
                 <@s.textfield name="member.title" value="${(member!).title!}" size="20" maxlength="50" />

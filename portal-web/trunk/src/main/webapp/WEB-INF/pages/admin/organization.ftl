@@ -12,4 +12,4 @@
               <@s.select name="member.endorsingNodeKey" value="'${(member!).endorsingNodeKey!}'" list="nodes" 
                listKey="key" listValue="title" headerKey="" headerValue="Choose a node"/>
                <@s.fielderror fieldName="member.endorsingNodeKey"/>
-            </div>          
+            </div>

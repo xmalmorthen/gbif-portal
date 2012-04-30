@@ -64,7 +64,9 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
     if (getEndpoints() == null) {
       session.put("endpoints", new ArrayList<Endpoint>());
     }
-    if (getTags() == null) {
+    if (entity != null && entity.getContacts() != null) {
+      session.put("tags", entity.getTags());
+    } else {
       session.put("tags", new ArrayList<Tag>());
     }
     if (getIdentifiers() == null) {

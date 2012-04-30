@@ -3,6 +3,7 @@ package org.gbif.portal.action.admin;
 import org.gbif.api.paging.PagingResponse;
 import org.gbif.registry.api.model.Node;
 import org.gbif.registry.api.model.Organization;
+import org.gbif.registry.api.model.Tag;
 import org.gbif.registry.api.service.NodeService;
 import org.gbif.registry.api.service.OrganizationService;
 
@@ -42,6 +43,19 @@ public class OrganizationAction extends AdminBaseAction<OrganizationService, Org
    */
   public void setMember(Organization member) {
     this.member = member;
+  }
+
+  public String deletetag() {
+    LOG.debug("Deleting a tag");
+    List<Tag> tags = new ArrayList<Tag>();
+    for (Tag currentTag : getTags()) {
+      if (currentTag.equals(tag)) {
+        continue;
+      }
+      tags.add(currentTag);
+    }
+    session.put("tags", tags);
+    return SUCCESS;
   }
 
 

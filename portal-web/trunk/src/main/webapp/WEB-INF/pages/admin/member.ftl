@@ -48,7 +48,7 @@
             </div>    
             
             <#if contacts?has_content>
-            <div class="field">
+              <div class="field">
               <p>CONTACTS
                 <ul class="team">
                   <#list contacts! as c>
@@ -58,5 +58,13 @@
                   </li>
                 </#list>
               </ul>
-            </div> 
-            </#if>                                       
+              </div> 
+            </#if>   
+            
+            <div class="field">
+              <p>COUNTRY</p>
+              <@s.select name="member.country" value="'${((member!).country!).iso2LetterCode!}'" list="officialCountries" 
+               listKey="iso2LetterCode" listValue="title" headerKey="" headerValue="Choose a country"/>
+               <@s.fielderror fieldName="member.country"/>
+            </div>             
+                                                

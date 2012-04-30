@@ -445,11 +445,13 @@
     <action name="organization/add/{1}" class="org.gbif.portal.action.admin.OrganizationAction" method="prepare">
       <result>/WEB-INF/pages/admin/{1}.ftl</result>
     </action>      
+    <action name="organization/delete/{1}/{tag}" class="org.gbif.portal.action.admin.OrganizationAction" method="delete{1}">
+      <result name="success">/WEB-INF/pages/admin/{1}_success.ftl</result>  
+    </action>      
     <action name="organization/add/{1}/step" class="org.gbif.portal.action.admin.OrganizationAction" method="add{1}">
       <result name="input">/WEB-INF/pages/admin/{1}.ftl</result>          
-      <result name="success">/WEB-INF/pages/admin/success.ftl</result>     
+      <result name="success">/WEB-INF/pages/admin/{1}_success.ftl</result>     
     </action>    
-  
   
     <!-- TO BE DECIDED IF THIS SHOULD BE KEPT -->  
     <action name="organization/{id}" class="org.gbif.portal.action.admin.OrganizationAction">
