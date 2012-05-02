@@ -1,22 +1,4 @@
-<script type="text/javascript">
-$(function() {
-  $( "#deleteTag" ).click(function() {
-    tag=$("#deleteTag").attr("name");
-    loader = cfg.baseUrl + "/img/ajax-loader.gif";
-    $("#currentTags").html( "<img src='" + loader + "'>" );
-    actionUrl = cfg.baseUrl + "/admin/organization/delete/tag/" + tag;
-    alert(actionUrl);
-    value = $("input[name='currentTag']").val();  
-    $.post( actionUrl, { 
-      'tag': value },
-        function( data ) {
-          $( "#currentTags" ).empty().append( data );
-          $("input[name='currentTag']").val('');
-    });
-  });
-});
-</script>
-<!-- Modify this template with either a success page, or include some kind of redirect in struts.xml in case of sucess -->
 <#list tags as tag>
-  ${tag} <a href="#"><img src="<@s.url value='/img/minus.png'/>" id="deleteTag" name="${tag}"></a>
+  <#if tag.namespace?has_content>${tag.namespace}:</#if><#if tag.predicate?has_content>${tag.predicate}=</#if><#if tag.value?has_content>${tag.value}</#if>
+  <a href="#"><img src="<@s.url value='/img/minus.png'/>" class="deleteTag" name="${tag_index}" id="${tag_index}"></a>
 </#list>  

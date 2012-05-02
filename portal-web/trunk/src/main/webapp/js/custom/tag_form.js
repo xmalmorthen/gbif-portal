@@ -1,36 +1,36 @@
 $(function() {
-	  $( "#dialog-tag" ).dialog({
-		    autoOpen: false,
-		    height: 600,
-		    width: 350,
-		    modal: true,
-		    buttons: {
-		      "Create an endpoint": function() {
+  $( "#tagbox" ).click(function() {
+    loader = cfg.baseUrl + "/img/ajax-loader.gif";
+    $("#currentTags").html( "<img src='" + loader + "'>" );
+	$form = $( "#mainForm" );
+	entity = $form.attr( 'name' );	
+    actionUrl = cfg.baseUrl + "/admin/" + entity + "/add/tag/step";
+    value = $("input[name='currentTag']").val();  
+    $.post( actionUrl, { 
+      'tag': value },
+        function( data ) {
+          $( "#currentTags" ).empty().append( data );
+          $("input[name='currentTag']").val('');	  
+    });
+  }); 
+});
 
-		      var $form = $( "#tagForm" ),
-		        actionUrl = $form.attr( 'action' );
-				namespace = $("input[name='tag.namespace']").val();
-				predicate = $("input[name='tag.predicate']").val();
-				value = $("input[name='tag.value']").val();
-		        /* Send the data via jquery post and if errors are present, keep them on the same modal dialog */
-        $.post( actionUrl, { 'tag.namespace': namespace,
-                       'tag.predicate': predicate,
-					   'tag.value': value },
-						        function( data ) {
-						            $( "#newone" ).empty().append( data );	  
-						          });
-						        },
-						        Close: function() {
-		        $( this ).dialog( "close" );
-				window.location.reload();
-		      }
-		    },
-		  });
-
-  $( "#create-tag" )
-    .button()
-    .click(function(e) {
-      e.preventDefault();
-      $( "#dialog-tag" ).load(cfg.baseUrl + "/admin/organization/add/tag").dialog( "open" );
+$(function() {
+  $( ".deleteTag" ).live("click", function(e) {
+    e.preventDefault();
+    componentIndex=$(this).attr("name");
+    loader = cfg.baseUrl + "/img/ajax-loader.gif";
+    $("#currentTags").html( "<img src='" + loader + "'>" );
+	$form = $( "#mainForm" );
+	entity = $form.attr( 'name' );
+	actionUrl = cfg.baseUrl + "/admin/" + entity + "/delete/tag/" + componentIndex;
+    alert(actionUrl);
+    value = $("input[name='currentTag']").val();  
+    $.post( actionUrl, { 
+      'tag': componentIndex },
+        function( data ) {
+          $( "#currentTags" ).empty().append( data );
+          $("input[name='currentTag']").val('');
     });
   });
+});

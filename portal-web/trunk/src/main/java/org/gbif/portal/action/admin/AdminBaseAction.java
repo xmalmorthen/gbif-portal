@@ -34,6 +34,7 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
 
 
   protected UUID id;
+  protected int componentIndex;
 
   @Valid
   Contact contact;
@@ -209,6 +210,20 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
     return languages;
   }
 
+  public String deletetag() {
+    LOG.debug("Deleting a tag");
+    List<Tag> tags = new ArrayList<Tag>();
+    int currentIndex = 0;
+    for (Tag currentTag : getTags()) {
+      if (currentIndex++ == getComponentIndex()) {
+        continue;
+      }
+      tags.add(currentTag);
+    }
+    session.put("tags", tags);
+    return SUCCESS;
+  }
+
   /**
    * @return the contact.
    */
@@ -286,6 +301,22 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
    */
   public void setId(UUID id) {
     this.id = id;
+  }
+
+
+  /**
+   * @return the componentIndex.
+   */
+  public int getComponentIndex() {
+    return componentIndex;
+  }
+
+
+  /**
+   * @param componentIndex the componentIndex to set.
+   */
+  public void setComponentIndex(int componentIndex) {
+    this.componentIndex = componentIndex;
   }
 
 }

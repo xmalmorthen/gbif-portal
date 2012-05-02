@@ -34,14 +34,13 @@
         <div class="top"></div>
         <div class="inner">
         
-        <@s.form action="organization/add/step">
+        <@s.form id="mainForm" name="organization" action="organization/add/step">
           <#include "organization.ftl"> 
           <nav><@s.submit title="Add" class="candy_white_button next" value="Add"><span>Save Changes</span></@s.submit></nav>             
         </@s.form>        
        
           <div id="dialog-contact" title="Create new contact"></div>
           <div id="dialog-endpoint" title="Create new endpoint"></div>
-          <div id="dialog-tag" title="Create new tag"></div>
           <div id="dialog-identifier" title="Create new identifier"></div>
 
         </div>
@@ -51,7 +50,6 @@
 
             <button id="create-contact">Create new contact</button>
             <button id="create-endpoint">Create new endpoint</button>
-            <button id="create-tag">Create new tag</button>
             <button id="create-identifier">Create new identifier</button>
 
 
