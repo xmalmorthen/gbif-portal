@@ -1,4 +1,4 @@
-<script type="text/javascript">
+\<script type="text/javascript">
 $(function() {
   $( "#tagbox" ).click(function() {
     loader = cfg.baseUrl + "/img/ajax-loader.gif";
@@ -7,7 +7,7 @@ $(function() {
     alert(actionUrl);
     value = $("input[name='currentTag']").val();  
     $.post( actionUrl, { 
-      'tag.value': value },
+      'tag': value },
         function( data ) {
           $( "#currentTags" ).empty().append( data );
           $("input[name='currentTag']").val('');	  

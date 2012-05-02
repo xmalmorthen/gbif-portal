@@ -17,27 +17,23 @@ public class TagConverter extends StrutsTypeConverter {
 
   @Override
   public Object convertFromString(Map context, String[] values, Class toClass) {
-    String regex = "(\\w+)(:*)(\\w+)(=*)(\\w*)";
     Tag tag = new Tag();
     if (values != null && values.length > 0) {
-      Pattern pattern = Pattern.compile(regex);
-      Matcher matcher = pattern.matcher(values[0]);
-      if (matcher.matches()) {
-        if (matcher.group(1).isEmpty()) {
-          tag.setNamespace(null);
-        } else {
-          tag.setNamespace(matcher.group(1));
-        }
-        if (matcher.group(3).isEmpty()) {
-          tag.setPredicate(null);
-        } else {
-          tag.setPredicate(matcher.group(3));
-        }
-        if (matcher.group(5).isEmpty()) {
-          tag.setValue(null);
-        } else {
-          tag.setValue(matcher.group(5));
-        }
+            	
+      if((values[0].indexOf(':') != -1) && (values[0].indexOf('=') !=-1)) {
+        String[] tokens = values[0].split(":");
+        tag.setNamespace(tokens[0]);
+        String[] subTokens = tokens[1].split("=");
+        tag.setPredicate(subTokens[0]);
+        tag.setValue(subTokens[1]);
+      }
+      else if(values[0].indexOf('=') !=-1) {
+          String[] subTokens = values[0].split("=");
+          tag.setPredicate(subTokens[0]);
+          tag.setValue(subTokens[1]);
+      }
+      else {
+    	  tag.setValue(values[0]);
       }
       return tag;
     }
@@ -47,7 +43,7 @@ public class TagConverter extends StrutsTypeConverter {
 
   @Override
   public String convertToString(Map context, Object o) {
-    if (o instanceof UUID) {
+    if (o instanceof Tag) {
       return o.toString();
     }
     return null;

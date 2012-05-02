@@ -47,6 +47,7 @@ public class OrganizationAction extends AdminBaseAction<OrganizationService, Org
 
   public String deletetag() {
     LOG.debug("Deleting a tag");
+    //TODO: instead of the ns:pred:val triplet, use the tag index in the temporary list of tags for the network entity
     List<Tag> tags = new ArrayList<Tag>();
     for (Tag currentTag : getTags()) {
       if (currentTag.equals(tag)) {
