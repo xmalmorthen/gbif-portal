@@ -7441,3 +7441,16 @@ em.gbifHl {
 	color: #174919;
 	text-decoration: underline;
 }
+
+.admin-tag-input {
+  border: 1px solid #AAA;
+  width: 220px;
+  color: #666;
+  font-size: .9em;
+  margin: 2px 0 5px;
+  padding: 2px;
+}
+.admin-tag-caption {
+  color: #666;
+  font-size: .8em;
+}

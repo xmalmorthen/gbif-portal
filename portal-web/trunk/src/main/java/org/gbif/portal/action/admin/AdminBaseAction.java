@@ -125,7 +125,20 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
 
   public String addtag() {
     LOG.debug("Adding new tag");
+    // if "id" exists, it means a tag should be directly added to the entity
+    if (id != null) {
+      wsClient.add(id, tag);
+    }
+    // add to the session's list of tags
+    if (session.get("tags") == null) {
+      if (getEntity() == null) {
+        session.put("tags", new ArrayList<Tag>());
+      } else {
+        session.put("tags", getEntity().getTags());
+      }
+    }
     getTags().add(tag);
+
     return SUCCESS;
   }
 

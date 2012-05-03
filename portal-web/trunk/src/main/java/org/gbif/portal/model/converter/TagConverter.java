@@ -29,8 +29,8 @@ public class TagConverter extends StrutsTypeConverter {
         tag.setPredicate(subTokens[0]);
         tag.setValue(subTokens[1]);
       } else {
-        // TODO: if it just has the value, should we assign it a default namespace (from TagNamespace)
-        tag.setValue(values[0]);
+        // TODO: if it just has the predicate, should we assign it a default namespace (from TagNamespace)
+        tag.setPredicate(values[0]);
       }
       return tag;
     }
