@@ -1,4 +1,4 @@
-package org.gbif.portal.action.admin;
+package org.gbif.portal.action.network;
 
 import org.gbif.portal.action.AdminBaseAction;
 import org.gbif.registry.api.model.Network;
@@ -8,7 +8,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
-public class NetworkAction extends AdminBaseAction<NetworkService, Network> {
+public class AdminAction extends AdminBaseAction<NetworkService, Network> {
 
   @Valid
   Network member;
@@ -35,12 +35,12 @@ public class NetworkAction extends AdminBaseAction<NetworkService, Network> {
     this.member = member;
   }
 
-  public String editNetwork() {
+  public String editEntity() {
     // TODO: add logic required to edit the network fields (calling WS client)
     return SUCCESS;
   }
 
-  public String addNetwork() {
+  public String addEntity() {
     // first persist the WritableNetwork entity
     // UUID networkKey = wsClient.create(member);
     // createMembers(networkKey);

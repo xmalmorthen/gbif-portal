@@ -1,9 +1,8 @@
-package org.gbif.portal.action.admin;
+package org.gbif.portal.action;
 
 import org.gbif.api.model.vocabulary.Country;
 import org.gbif.api.model.vocabulary.IdentifierType;
 import org.gbif.api.model.vocabulary.Language;
-import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Contact;
 import org.gbif.registry.api.model.Dataset;
 import org.gbif.registry.api.model.Endpoint;
@@ -23,6 +22,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +35,7 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
 
   protected UUID id;
   protected int componentIndex;
+  protected String component;
 
   @Valid
   Contact contact;
@@ -57,26 +58,34 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
 
     NetworkEntityComponents entity = getEntity();
 
-    if (entity != null && entity.getContacts() != null) {
+    // admin is editing metadata or components of an existing entity
+    if (entity != null) {
       session.put("contacts", entity.getContacts());
-    } else {
-      session.put("contacts", new ArrayList<Contact>());
-    }
-    if (getEndpoints() == null) {
-      session.put("endpoints", new ArrayList<Endpoint>());
-    }
-    if (entity != null && entity.getContacts() != null) {
+      session.put("endpoints", entity.getEndpoints());
       session.put("tags", entity.getTags());
-    } else {
-      session.put("tags", new ArrayList<Tag>());
+      session.put("identifiers", entity.getIdentifiers());
     }
-    if (getIdentifiers() == null) {
-      session.put("identifiers", new ArrayList<Identifier>());
+    // admin is creating a new entity along with all its components
+    else {
+      if (session.get("contacts") == null) {
+        session.put("contacts", Lists.newArrayList());
+      }
+      if (session.get("endpoints") == null) {
+        session.put("endpoints", Lists.newArrayList());
+      }
+      if (session.get("tags") == null) {
+        session.put("tags", Lists.newArrayList());
+      }
+      if (session.get("identifiers") == null) {
+        session.put("identifiers", Lists.newArrayList());
+      }
     }
+
     contact = new Contact();
     endpoint = new Endpoint();
     tag = new Tag();
     identifier = new Identifier();
+
     return SUCCESS;
   }
 
@@ -125,19 +134,37 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
 
   public String addtag() {
     LOG.debug("Adding new tag");
-    // if "id" exists, it means a tag should be directly added to the entity
     if (id != null) {
       wsClient.add(id, tag);
+      // get the entity's tags
+      session.put("tags", getEntity().getTags());
+    } else {
+      // entity does not exists yet, add the tag to the session
+      // user is possibly creating a new organization in the same step
+      getTags().add(tag);
     }
-    // add to the session's list of tags
-    if (session.get("tags") == null) {
-      if (getEntity() == null) {
-        session.put("tags", new ArrayList<Tag>());
-      } else {
-        session.put("tags", getEntity().getTags());
+    return SUCCESS;
+  }
+
+  public String deletetag() {
+    // TODO: use the prepareable interceptor if possible
+    prepare();
+    List<Tag> tags = new ArrayList<Tag>();
+    Tag tagToDelete = null;
+    int currentIndex = 0;
+    for (Tag currentTag : getTags()) {
+      if (currentIndex++ == getComponentIndex()) {
+        tagToDelete = currentTag;
+        continue;
       }
+      tags.add(currentTag);
     }
-    getTags().add(tag);
+    // tag should be deleted from the entity as well
+    if (id != null) {
+      LOG.debug("Deleting a tag");
+      wsClient.delete(id, tagToDelete);
+    }
+    session.put("tags", tags);
 
     return SUCCESS;
   }
@@ -221,20 +248,6 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
       languages.put(language.name(), language.name());
     }
     return languages;
-  }
-
-  public String deletetag() {
-    LOG.debug("Deleting a tag");
-    List<Tag> tags = new ArrayList<Tag>();
-    int currentIndex = 0;
-    for (Tag currentTag : getTags()) {
-      if (currentIndex++ == getComponentIndex()) {
-        continue;
-      }
-      tags.add(currentTag);
-    }
-    session.put("tags", tags);
-    return SUCCESS;
   }
 
   /**
@@ -332,4 +345,11 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
     this.componentIndex = componentIndex;
   }
 
+
+  /**
+   * @param component the component to set.
+   */
+  public void setComponent(String component) {
+    this.component = component;
+  }
 }

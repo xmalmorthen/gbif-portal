@@ -1,4 +1,4 @@
-package org.gbif.portal.action.admin;
+package org.gbif.portal.action.dataset;
 
 import org.gbif.api.paging.PagingResponse;
 import org.gbif.portal.action.AdminBaseAction;
@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 import com.google.inject.Inject;
 
-public class DatasetAction extends AdminBaseAction<DatasetService, Dataset> {
+public class AdminAction extends AdminBaseAction<DatasetService, Dataset> {
 
   @Inject
   OrganizationService organizationWsClient;
@@ -63,12 +63,12 @@ public class DatasetAction extends AdminBaseAction<DatasetService, Dataset> {
     return null;
   }
 
-  public String editDataset() {
+  public String editEntity() {
     // TODO: add logic required to edit the dataset fields (calling WS client)
     return SUCCESS;
   }
 
-  public String addDataset() {
+  public String addEntity() {
     // first persist the WritableDataset entity
     UUID dataseKey = wsClient.create(member);
     createMembers(dataseKey);

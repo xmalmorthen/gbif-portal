@@ -1,4 +1,4 @@
-package org.gbif.portal.action.admin;
+package org.gbif.portal.action.organization;
 
 import org.gbif.api.paging.PagingResponse;
 import org.gbif.portal.action.AdminBaseAction;
@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 import com.google.inject.Inject;
 
-public class OrganizationAction extends AdminBaseAction<OrganizationService, Organization> {
+public class AdminAction extends AdminBaseAction<OrganizationService, Organization> {
 
   @Inject
   NodeService nodeWsClient;
@@ -64,12 +64,12 @@ public class OrganizationAction extends AdminBaseAction<OrganizationService, Org
     return null;
   }
 
-  public String editOrganization() {
+  public String editEntity() {
     // TODO: add logic required to edit the organization fields (calling WS client)
     return SUCCESS;
   }
 
-  public String addOrganization() {
+  public String addEntity() {
     // first persist the WritableOrganization entity
     // UUID organisationKey = wsClient.create(member);
     // createMembers(organisationKey);
