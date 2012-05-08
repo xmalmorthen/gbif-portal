@@ -418,32 +418,17 @@
 
 	<!-- ACTIONS FOR COMPONENTS -->
     <!-- TODO: find a way to map the name of the entity to the name of the Action class. Right now it can't be done as mapping is case sensitive -->
+   
     <!-- add component -->
-    <action name="organization/add/{1}/step" class="org.gbif.portal.action.admin.OrganizationAction" method="add{1}">
-      <result name="input">/WEB-INF/pages/admin/{1}.ftl</result>          
-      <result name="success">/WEB-INF/pages/admin/{1}_success.ftl</result>     
+    <action name="{1}/add/{2}/step" class="org.gbif.portal.action.{1}.AdminAction" method="add{2}">
+      <result name="input">/WEB-INF/pages/admin/{2}.ftl</result>          
+      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>     
     </action>    
-    <action name="dataset/add/{1}/step" class="org.gbif.portal.action.admin.OrganizationAction" method="add{1}">
-      <result name="input">/WEB-INF/pages/admin/{1}.ftl</result>          
-      <result name="success">/WEB-INF/pages/admin/{1}_success.ftl</result>     
-    </action>    
-    <action name="network/add/{1}/step" class="org.gbif.portal.action.admin.OrganizationAction" method="add{1}">
-      <result name="input">/WEB-INF/pages/admin/{1}.ftl</result>          
-      <result name="success">/WEB-INF/pages/admin/{1}_success.ftl</result>     
-    </action>            
-    
+
     <!-- delete component -->
     <action name="{1}/delete/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction" method="delete{2}">
       <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>  
     </action>      
-    <action name="{1}/delete/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction" method="delete{2}">
-      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>  
-    </action>     
-    <action name="{1}/delete/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction" method="delete{2}">
-      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>  
-    </action>                 
-      
-  
   
   
     <action name="organization/add/{1}" class="org.gbif.portal.action.admin.OrganizationAction" method="prepare">
