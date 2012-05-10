@@ -12,7 +12,16 @@
  / /_/ / /_/ // // __/    / /_/ / /_/ / /_/ /_/ /  / ____/ /_/ / /  / /_/ /_/ / /
  \____/_____/___/_/      /_____/\__,_/\__/\__,_/  /_/    \____/_/   \__/\__,_/_/
 -->
-<html class="no-js" lang="en"> <!--<![endif]-->
+<html version="HTML+RDFa 1.1" class="no-js" lang="en"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+xmlns:cc="http://creativecommons.org/ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:dwc="http://rs.tdwg.org/dwc/terms/"
+xmlns:foaf="http://xmlns.com/foaf/0.1/">
+<!--<![endif]-->
 <head>
   <meta charset="utf-8">
   <script type="text/javascript">
@@ -30,8 +39,7 @@
     cfg.wsOcc="${cfg.wsOcc!}";
     cfg.wsOccSearch="${cfg.wsOccSearch!}";
   </script>
-  <#-- Load bundle properties. The action class can filter out which properties
-       to show according to their key's prefixes -->
+  <#-- Load bundle properties. The action class can filter out which properties to show according to their key's prefixes -->
   <#if resourceBundleProperties?has_content>
   <script id="resources" type="text/plain">
     <#list resourceBundleProperties?keys as property>
@@ -39,26 +47,21 @@
     </#list>       
   </script>	  
   </#if>  
-<#-- Always force latest IE rendering engine (even in intranet) & Chrome Frame
-Remove this if you use the .htaccess -->
+  <#-- Always force latest IE rendering engine (even in intranet) & Chrome Frame Remove this if you use the .htaccess -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>${title}</title>
+  <title property="dc:title">${title}</title>
   <meta name="description" content="">
   <meta name="author" content="GBIF">
-
-  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+  <#-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+  <#-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
   <link rel="shortcut icon" href="<@s.url value='/favicon.ico'/>">
   <link rel="apple-touch-icon" href="<@s.url value='/apple-touch-icon.png'/>">
-
-  <!-- CSS: implied media="all" -->
+  <#-- CSS: implied media="all" -->
   <link rel="stylesheet" href="<@s.url value='/css/style.css?v=2'/>"/>
-  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css"
-        type="text/css" media="all"/>
-  <!-- Uncomment if you are specifically targeting less enabled mobile browsers
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all"/>
+  <#-- Uncomment if you are specifically targeting less enabled mobile browsers
 <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
 
   <script src="<@s.url value='/js/vendor/modernizr-1.7.min.js'/>"></script>

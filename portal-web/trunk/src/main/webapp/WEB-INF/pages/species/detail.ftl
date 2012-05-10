@@ -4,16 +4,22 @@
 <head>
   <title>${usage.scientificName} - Checklist View</title>
   <meta name="menu" content="species"/>
-  <content tag="extra_scripts">
-    <#if nub>
+  <#if nub>
+    <content tag="extra_scripts">
       <link rel="stylesheet" href="<@s.url value='/css/google.css'/>"/>
       <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=true"></script>
       <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
       <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
       <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
       <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
-    </#if>
-  </content>
+    </content>
+  </#if>
+  <#-- RDFa -->
+  <meta property="dwc:scientificName" content="${usage.scientificName!}" />
+  <meta property="dwc:kingdom" content="${usage.scientificName!}" />
+  <meta property="dwc:datasetID" content="${checklist.key}" />
+  <meta property="dwc:datasetName" content="${checklist.name!"???"}" />
+  <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${checklist.key}'/>" />
 </head>
 <body class="species typesmap">
 
