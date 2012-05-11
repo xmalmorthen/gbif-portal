@@ -1,8 +1,8 @@
 $(function() {
   $( "#dialog-contact" ).dialog({
     autoOpen: false,
-    height: 600,
-    width: 350,
+    height: 700,
+    width: 650,
     modal: true,
     buttons: {
       "Create a contact": function() {
