@@ -7,7 +7,6 @@ import org.gbif.registry.api.model.Organization;
 import org.gbif.registry.api.service.NodeService;
 import org.gbif.registry.api.service.OrganizationService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,17 +45,19 @@ public class AdminAction extends AdminBaseAction<OrganizationService, Organizati
   }
 
   public List<Node> getNodes() {
-    new Node();
-    Node n1 = Node.builder().title("Node1").key(UUID.randomUUID()).build();
-    Node n2 = Node.builder().title("Node2").key(UUID.randomUUID()).build();
-    Node n3 = Node.builder().title("Node3").key(UUID.randomUUID()).build();
-    List<Node> nodeList = new ArrayList<Node>();
-    nodeList.add(n1);
-    nodeList.add(n2);
-    nodeList.add(n3);
-    PagingResponse<Node> response = new PagingResponse<Node>();
-    response.setResults(nodeList);
-    // PagingResponse<Node> response = nodeWsClient.list(null);
+    /*
+     * new Node();
+     * Node n1 = Node.builder().title("Node1").key(UUID.randomUUID()).build();
+     * Node n2 = Node.builder().title("Node2").key(UUID.randomUUID()).build();
+     * Node n3 = Node.builder().title("Node3").key(UUID.randomUUID()).build();
+     * List<Node> nodeList = new ArrayList<Node>();
+     * nodeList.add(n1);
+     * nodeList.add(n2);
+     * nodeList.add(n3);
+     * PagingResponse<Node> response = new PagingResponse<Node>();
+     * response.setResults(nodeList);
+     */
+    PagingResponse<Node> response = nodeWsClient.list(null);
 
     if (response != null) {
       return response.getResults();
