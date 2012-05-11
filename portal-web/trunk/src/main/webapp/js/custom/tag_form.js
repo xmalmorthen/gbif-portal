@@ -24,7 +24,7 @@ $(function() {
 	$form = $( "#mainForm" );
 	entity = $form.attr( 'name' );
 	actionUrl = cfg.baseUrl + "/admin/" + entity + "/delete/tag/" + componentIndex;
-    alert(actionUrl);
+    //alert(actionUrl);
     value = $("input[name='currentTag']").val();  
     $.post( actionUrl, { 
       'tag': componentIndex },

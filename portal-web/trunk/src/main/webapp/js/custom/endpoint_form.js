@@ -23,7 +23,7 @@ $(function() {
                                   //if not, the form didn't validate and the original form is displayed again
                                   success = $(data).find("div#endpointSuccess").size();
 								  
-								  alert(success);	
+								  //alert(success);	
                                   if(success>0) {
                                     $( "#entityEndpoints" ).empty().append( data );
                                     $( modalWindow ).dialog( "close" );
