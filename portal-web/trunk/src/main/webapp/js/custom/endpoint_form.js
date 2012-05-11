@@ -6,7 +6,7 @@ $(function() {
 		    modal: true,
 		    buttons: {
 		      "Create an endpoint": function() {
-
+              var modalWindow= $( this );
 		      var $form = $( "#endpointForm" ),
 		        actionUrl = $form.attr( 'action' );
 				type = $("select[name='endpoint.type']").val();
@@ -19,10 +19,21 @@ $(function() {
 		                       'endpoint.code': code,
 							   'endpoint.description': description },
 						        function( data ) {
-						            $( "#newone" ).empty().append( data );	  
-						          });
-						        },
-						        Close: function() {
+                                  //find whether the data returned contains the <div id="endpointSuccess"/>
+                                  //if not, the form didn't validate and the original form is displayed again
+                                  success = $(data).find("div#endpointSuccess").size();
+								  
+								  alert(success);	
+                                  if(success>0) {
+                                    $( "#entityEndpoints" ).empty().append( data );
+                                    $( modalWindow ).dialog( "close" );
+                                  }
+                                  else {
+                                    $( "#newone" ).empty().append( data );		  
+                                  }  	  
+						        });
+						      },
+						      Close: function() {
 		        $( this ).dialog( "close" );
 				window.location.reload();
 		      }

@@ -1,10 +1,8 @@
-            <#include "network_entity.ftl">           
-            <#include "member.ftl">                          
-	        
-            <table>
-            <div id="tempContacts">...</div>
-            </table>
-             
+            <#include "network_entity.ftl">
+            <p/>           
+            <#include "member.ftl">
+                      
+             <p/>
             <div class="field">
               <p>GBIF Endorsing Node</p>
               <!-- TODO: all nodes still need to be loaded up. Service class can't return full list of nodes.  -->
@@ -13,3 +11,7 @@
                listKey="key" listValue="title" headerKey="" headerValue="Choose a node"/>
                <@s.fielderror fieldName="member.endorsingNodeKey"/>
             </div>
+            
+            <p/>
+            
+            <#include "components.ftl">                

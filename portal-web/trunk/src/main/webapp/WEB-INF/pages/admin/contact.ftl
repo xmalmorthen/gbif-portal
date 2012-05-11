@@ -1,4 +1,10 @@
-          <div id="newone">
+<link rel="stylesheet" href="<@s.url value='/css/style.css?v=2'/>"/>
+  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css"
+        type="text/css" media="all"/>
+<div class="content">
+<div class="important">
+<div class="inner">
+          <div id="newone"> 
           <@s.form action="organization/add/contact/step" id="contactForm">
             <div class="field">
               <p>TYPE</p>
@@ -74,3 +80,5 @@
             </div>                                         
                </@s.form>               
           </div>
+          
+</div></div>   </div>

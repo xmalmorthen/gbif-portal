@@ -1,4 +1,5 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
+<#import "/WEB-INF/macros/manage_tags.ftl" as manage>
 <html>
 <head>
   <title>${dataset.title!"???"} - Dataset detail</title>
@@ -75,6 +76,8 @@
 
   <div class="right">
     <#assign max_show_length = 30>
+
+    <@manage.manageTags type="dataset"/>
 
     <#if dataset.logoURL?has_content>
       <div class="logo_holder">

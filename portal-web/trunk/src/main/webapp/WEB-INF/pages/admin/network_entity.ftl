@@ -1,9 +1,4 @@
-            <div class="field">
-              <p>TAGS</p>
-                <div id="currentTags"></div>
-                <@s.textfield name="currentTag" size="20" maxlength="50"/>
-                <img src="<@s.url value='/img/admin/add.png'/>" name="tagbox" id="tagbox">
-            </div>
+      
 		
             <div class="field">
               <p>TITLE</p>

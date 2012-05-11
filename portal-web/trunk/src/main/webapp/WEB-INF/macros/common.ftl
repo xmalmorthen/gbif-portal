@@ -88,6 +88,30 @@
   </address>
 </#macro>
 
+<#--
+	Construct a Endpoint. Parameter is the actual endpoint object.
+-->
+<#macro endpoint ep>
+  <p>
+  <b><h4>${ep.type}</h4></b>
+  <#if ep.url?has_content>
+  ${ep.url!}
+  </#if>
+  </p>
+</#macro>
+
+<#--
+	Construct a Identifier. Parameter is the actual identifier object.
+-->
+<#macro identifier i>
+  <p>
+  <b><h4>${i.type}</h4></b>
+  <#if i.identifier?has_content>
+  ${i.identifier!}
+  </#if>
+  </p>
+</#macro>
+
 <#macro citation c>
 <#if c.identifier?has_content><a href="${c.identifier}">${c.text!c.identifier}</a><#else>${ref.text!}</#if>
 </#macro>

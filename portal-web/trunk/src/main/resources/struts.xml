@@ -390,12 +390,8 @@
       <result>/WEB-INF/pages/admin/node.ftl</result>
     </action>
 
-    <action name="network/{id}" class="org.gbif.portal.action.admin.NetworkAction">
-      <result>/WEB-INF/pages/admin/network.ftl</result>
-    </action>
-
     <!-- ADD ENTITIES -->
-    <action name="{1}/add" class="org.gbif.portal.action.{1}.AdminAction" method="prepare">
+    <action name="{1}/add" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddEntity">
       <result>/WEB-INF/pages/admin/add_{1}.ftl</result>
     </action>  
     
@@ -405,7 +401,7 @@
     </action>       
     
     <!-- EDIT ENTITIES -->    
-    <action name="{1}/{id}/edit" class="org.gbif.portal.action.{1}.AdminAction" method="prepare">
+    <action name="{1}/{id}/edit" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddEntity">
       <result>/WEB-INF/pages/admin/edit_{1}.ftl</result>    
     </action>             
      
@@ -420,6 +416,11 @@
     <!-- TODO: find a way to map the name of the entity to the name of the Action class. Right now it can't be done as mapping is case sensitive -->
    
     <!-- add component -->
+      <!-- prepare -->
+    <action name="{1}/add/{2}" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddComponent">
+      <result>/WEB-INF/pages/admin/{2}.ftl</result>
+    </action>  
+      <!-- add -->    
     <action name="{1}/add/{2}/step" class="org.gbif.portal.action.{1}.AdminAction" method="add{2}">
       <result name="input">/WEB-INF/pages/admin/{2}.ftl</result>          
       <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>     
@@ -428,14 +429,6 @@
     <!-- delete component -->
     <action name="{1}/delete/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction" method="delete{2}">
       <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>  
-    </action>      
-  
-  
-    <action name="organization/add/{1}" class="org.gbif.portal.action.admin.OrganizationAction" method="prepare">
-      <result>/WEB-INF/pages/admin/{1}.ftl</result>
-    </action>      
-    <action name="organization/delete/{1}/{componentIndex}" class="org.gbif.portal.action.admin.OrganizationAction" method="delete{1}">
-      <result name="success">/WEB-INF/pages/admin/{1}_success.ftl</result>  
     </action>      
 
   

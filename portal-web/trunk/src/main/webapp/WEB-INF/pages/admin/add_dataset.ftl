@@ -40,7 +40,6 @@
        
           <div id="dialog-contact" title="Create new contact"></div>
           <div id="dialog-endpoint" title="Create new endpoint"></div>
-          <div id="dialog-identifier" title="Create new identifier"></div>
 
           
         </div>
@@ -50,7 +49,6 @@
 
             <button id="create-contact">Create new contact</button>
             <button id="create-endpoint">Create new endpoint</button>
-            <button id="create-identifier">Create new identifier</button>
 
 
         <p>When you are sure about the changes, press 'Save Changes'</p>

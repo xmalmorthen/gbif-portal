@@ -69,7 +69,7 @@ public class DetailAction extends BaseAction {
   /**
    * Iterate over the list of dataset contacts. Divide them into two lists:
    * those thare are preferred (primary), and those that are not.
-   *
+   * 
    * @param contacts list of contacts associated to the dataset
    */
   private void separateContacts(List<Contact> contacts) {
@@ -114,5 +114,9 @@ public class DetailAction extends BaseAction {
 
   public Checklist getChecklist() {
     return checklist;
+  }
+
+  public Dataset getMember() {
+    return dataset;
   }
 }

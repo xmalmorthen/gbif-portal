@@ -27,14 +27,7 @@
                 <@s.textfield name="member.email" value="${(member!).email!}" size="20" maxlength="50" />  
                 <@s.fielderror fieldName="member.email"/>                 
             </div> 
-                                      
-            <div class="field">
-              <p>COUNTRY</p>
-              <@s.select name="member.country" value="'${((member!).country!).iso2LetterCode!}'" list="officialCountries" 
-               listKey="iso2LetterCode" listValue="title" headerKey="" headerValue="Choose a country"/>
-               <@s.fielderror fieldName="member.country"/>
-            </div> 
-            
+
             <div class="field">
               <p>LATITUDE</p>
                 <@s.textfield name="member.latitude" value="${(member!).latitude!}" size="20" maxlength="50" />
@@ -45,21 +38,7 @@
               <p>LONGITUDE</p>
                 <@s.textfield name="member.longitude" value="${(member!).longitude!}" size="20" maxlength="50" />
                 <@s.fielderror fieldName="member.longitude"/>
-            </div>    
-            
-            <#if contacts?has_content>
-              <div class="field">
-              <p>CONTACTS
-                <ul class="team">
-                  <#list contacts! as c>
-                  <li>
-                    <img src="<@s.url value='/img/minus.png'/>">
-                      <@common.contact con=c />
-                  </li>
-                </#list>
-              </ul>
-              </div> 
-            </#if>   
+            </div>               
             
             <div class="field">
               <p>COUNTRY</p>

@@ -27,7 +27,7 @@ public class AdminAction extends AdminBaseAction<DatasetService, Dataset> {
    * @return the dataset.
    */
   public Dataset getMember() {
-    if (member == null) {
+    if (id != null && member == null) {
       member = loadMember(id);
     }
     return member;

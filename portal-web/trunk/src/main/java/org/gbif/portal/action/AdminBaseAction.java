@@ -54,7 +54,7 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
 
   public abstract K getEntity();
 
-  public String prepare() {
+  public String prepareAddComponent() {
 
     NetworkEntityComponents entity = getEntity();
 
@@ -79,6 +79,33 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
       if (session.get("identifiers") == null) {
         session.put("identifiers", Lists.newArrayList());
       }
+    }
+
+    contact = new Contact();
+    endpoint = new Endpoint();
+    tag = new Tag();
+    identifier = new Identifier();
+
+    return SUCCESS;
+  }
+
+  public String prepareAddEntity() {
+
+    NetworkEntityComponents entity = getEntity();
+
+    // admin is editing metadata or components of an existing entity
+    if (entity != null) {
+      session.put("contacts", entity.getContacts());
+      session.put("endpoints", entity.getEndpoints());
+      session.put("tags", entity.getTags());
+      session.put("identifiers", entity.getIdentifiers());
+    }
+    // admin is creating a new entity along with all its components
+    else {
+      session.put("contacts", Lists.newArrayList());
+      session.put("endpoints", Lists.newArrayList());
+      session.put("tags", Lists.newArrayList());
+      session.put("identifiers", Lists.newArrayList());
     }
 
     contact = new Contact();
@@ -148,7 +175,7 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
 
   public String deletetag() {
     // TODO: use the prepareable interceptor if possible
-    prepare();
+    prepareAddComponent();
     List<Tag> tags = new ArrayList<Tag>();
     Tag tagToDelete = null;
     int currentIndex = 0;

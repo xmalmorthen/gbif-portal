@@ -1,9 +1,5 @@
             <#include "network_entity.ftl">           
-	        
-            <table>
-            <div id="tempContacts">...</div>
-            </table>
-             
+            
             <div class="field">
               <p>Owning Organization</p>
               <!-- TODO: all organizations still need to be loaded up. Service class can't return full list of organizations.  -->
@@ -12,7 +8,7 @@
                listKey="key" listValue="title" headerKey="" headerValue="Choose an organization"/>
                <@s.fielderror fieldName="member.owningOrganizationKey"/>
             </div>       
-            
+            <p/>
             <div class="field">
               <p>Hosting Organization</p>
               <!-- TODO: all organizations still need to be loaded up. Service class can't return full list of organizations.  -->
@@ -20,4 +16,7 @@
               <@s.select name="member.hostingOrganizationKey" value="'${(member!).hostingOrganizationKey!}'" list="organizations" 
                listKey="key" listValue="title" headerKey="" headerValue="Choose an organization"/>
                <@s.fielderror fieldName="member.hostingOrganizationKey"/>
-            </div>        
+            </div>       
+			<p/>
+
+            <#include "components.ftl">

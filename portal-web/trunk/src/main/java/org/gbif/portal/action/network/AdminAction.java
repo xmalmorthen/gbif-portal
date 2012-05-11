@@ -18,7 +18,7 @@ public class AdminAction extends AdminBaseAction<NetworkService, Network> {
    */
 
   public Network getMember() {
-    if (member == null) {
+    if (id != null && member == null) {
       member = loadMember(id);
     }
     return member;

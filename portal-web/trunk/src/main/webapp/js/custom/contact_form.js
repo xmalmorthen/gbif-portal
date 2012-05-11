@@ -6,7 +6,7 @@ $(function() {
     modal: true,
     buttons: {
       "Create a contact": function() {
-
+	  var modalWindow= $( this );
       var $form = $( "#contactForm" ),
         url = $form.attr( 'action' );
 		firstName = $("input[name='contact.firstName']").val();
@@ -37,21 +37,22 @@ $(function() {
 					   'contact.postalCode': postalCode,
 					   'contact.type': type,		
 					   'contact.phone': phone,	
-					   'contact.phone': phone,					   
 					   'contact.onlineUrl': onlineUrl },
         function( data ) {
-          $( "#newone" ).empty().append( data );
-          $( "#tempContacts" ).append( "<tr>" +
-            "<td>" + firstName + "</td>" + 
-            "<td>" + lastName + "</td>" + 
-            "<td>" + email + "</td>" +
-			"<td>" + type + "</td>" +  				
-            "</tr>" ); 		  
+		  //find whether the data returned contains the <div id="contactSuccess"/>
+		  //if not, the form didn't validate and the original form is displayed again
+		  success = $(data).find("div#contactSuccess").size();
+		  if(success>0) {
+            $( "#entityContacts" ).empty().append( data );
+			$( modalWindow ).dialog( "close" );
+		  }
+		  else {
+            $( "#newone" ).empty().append( data );		  
+          }  
         });
       },
       Close: function() {
         $( this ).dialog( "close" );
-		window.location.reload();
       }
     },
   });
