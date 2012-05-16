@@ -437,7 +437,7 @@
     </action>
     
     <!-- edit component -->
-    <action name="{1}/{id}/edit/{2}/{componentIndex}/step" class="org.gbif.portal.action.{1}.AdminAction" method="editComponent">
+    <action name="{1}/{id}/edit/{2}/{componentIndex}/step" class="org.gbif.portal.action.{1}.AdminAction" method="{2}Edit">
       <result name="input">/WEB-INF/pages/admin/edit_{2}.ftl</result>    
       <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>     
     </action>             

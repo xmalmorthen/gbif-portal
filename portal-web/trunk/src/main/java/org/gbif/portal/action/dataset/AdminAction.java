@@ -77,11 +77,6 @@ public class AdminAction extends AdminBaseAction<DatasetService, Dataset> {
   }
 
   @Override
-  public Dataset getSessionDataset() {
-    return (Dataset) session.get("dataset");
-  }
-
-  @Override
   public Dataset getEntity() {
     return getMember();
   }
