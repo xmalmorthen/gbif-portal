@@ -192,9 +192,9 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
     return SUCCESS;
   }
 
-  public String editComponent() {
-    LOG.debug("Edit existing component");
-    // TODO: call the client to edit the component. Not making the call as we have pending issues to solve at:
+  public String editContact() {
+    LOG.debug("Edit existing contact");
+    // TODO: call the client to edit the contact. Not making the call as we have pending issues to solve at:
     // http://dev.gbif.org/issues/browse/POR-213
     return SUCCESS;
   }
