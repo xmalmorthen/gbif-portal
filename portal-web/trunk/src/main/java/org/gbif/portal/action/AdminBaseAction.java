@@ -4,7 +4,6 @@ import org.gbif.api.model.vocabulary.Country;
 import org.gbif.api.model.vocabulary.IdentifierType;
 import org.gbif.api.model.vocabulary.Language;
 import org.gbif.registry.api.model.Contact;
-import org.gbif.registry.api.model.Dataset;
 import org.gbif.registry.api.model.Endpoint;
 import org.gbif.registry.api.model.Identifier;
 import org.gbif.registry.api.model.NetworkEntityComponents;
@@ -54,7 +53,21 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
 
   public abstract K getEntity();
 
-  public String prepareAddComponent() {
+  public String contactEditPrepare() {
+    // TODO: use the prepareable interceptor if possible
+    prepareComponents();
+    // get the contact to edit
+    int currentIndex = 0;
+    for (Contact currentContact : getContacts()) {
+      if (currentIndex++ == getComponentIndex()) {
+        contact = currentContact;
+        break;
+      }
+    }
+    return SUCCESS;
+  }
+
+  public String prepareComponents() {
 
     NetworkEntityComponents entity = getEntity();
 
@@ -147,19 +160,25 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
     }
   }
 
-  public String addcontact() {
+  public String contactAdd() {
     LOG.debug("Adding new contact");
     getContacts().add(contact);
     return SUCCESS;
   }
 
-  public String addendpoint() {
+  public String endpointAdd() {
     LOG.debug("Adding new endpoint");
     getEndpoints().add(endpoint);
     return SUCCESS;
   }
 
-  public String addtag() {
+  public String identifierAdd() {
+    LOG.debug("Adding new identifier");
+    getIdentifiers().add(identifier);
+    return SUCCESS;
+  }
+
+  public String tagAdd() {
     LOG.debug("Adding new tag");
     if (id != null) {
       wsClient.add(id, tag);
@@ -173,9 +192,16 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
     return SUCCESS;
   }
 
-  public String deletetag() {
+  public String editComponent() {
+    LOG.debug("Edit existing component");
+    // TODO: call the client to edit the component. Not making the call as we have pending issues to solve at:
+    // http://dev.gbif.org/issues/browse/POR-213
+    return SUCCESS;
+  }
+
+  public String tagDelete() {
     // TODO: use the prepareable interceptor if possible
-    prepareAddComponent();
+    prepareComponents();
     List<Tag> tags = new ArrayList<Tag>();
     Tag tagToDelete = null;
     int currentIndex = 0;
@@ -194,16 +220,6 @@ public abstract class AdminBaseAction<T extends NetworkEntityService, K extends 
     session.put("tags", tags);
 
     return SUCCESS;
-  }
-
-  public String addidentifier() {
-    LOG.debug("Adding new identifier");
-    getIdentifiers().add(identifier);
-    return SUCCESS;
-  }
-
-  public Dataset getSessionDataset() {
-    return (Dataset) session.get("dataset");
   }
 
   public List<Contact> getContacts() {

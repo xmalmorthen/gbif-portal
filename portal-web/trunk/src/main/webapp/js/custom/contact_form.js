@@ -5,7 +5,7 @@ $(function() {
     width: 650,
     modal: true,
     buttons: {
-      "Create a contact": function() {
+      "Submit": function() {
 	  var modalWindow= $( this );
       var $form = $( "#contactForm" ),
         url = $form.attr( 'action' );
@@ -57,10 +57,17 @@ $(function() {
     },
   });
 
-  $( "#create-contact" )
-    .button()
-    .click(function(e) {
+  $( ".create-contact" )
+    .live("click", function(e) {
       e.preventDefault();
       $( "#dialog-contact" ).load(cfg.baseUrl + "/admin/organization/add/contact").dialog( "open" );
     });
+  $( ".editContact" )
+    .live("click", function(e) {
+      e.preventDefault();	
+	  var contactIndex = ($(this).attr("componentIndex"));
+	  var agentKey = ($(this).attr("agentKey"));
+      $( "#dialog-contact" ).load(cfg.baseUrl + "/admin/organization/" + agentKey + "/edit/contact/"+contactIndex).dialog( "open" );
+    });	
+	
   });

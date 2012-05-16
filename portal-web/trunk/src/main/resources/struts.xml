@@ -409,7 +409,7 @@
       <result name="input">/WEB-INF/pages/admin/edit_{1}.ftl</result>    
       <result name="success">/WEB-INF/pages/admin/success.ftl</result>
     </action>        
-    
+
 
 
 	<!-- ACTIONS FOR COMPONENTS -->
@@ -417,20 +417,30 @@
    
     <!-- add component -->
       <!-- prepare -->
-    <action name="{1}/add/{2}" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddComponent">
-      <result>/WEB-INF/pages/admin/{2}.ftl</result>
+    <action name="{1}/add/{2}" class="org.gbif.portal.action.{1}.AdminAction" method="prepareComponents">
+      <result>/WEB-INF/pages/admin/add_{2}.ftl</result>
     </action>  
       <!-- add -->    
-    <action name="{1}/add/{2}/step" class="org.gbif.portal.action.{1}.AdminAction" method="add{2}">
-      <result name="input">/WEB-INF/pages/admin/{2}.ftl</result>          
+    <action name="{1}/add/{2}/step" class="org.gbif.portal.action.{1}.AdminAction" method="{2}Add">
+      <result name="input">/WEB-INF/pages/admin/add_{2}.ftl</result>          
       <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>     
     </action>    
 
     <!-- delete component -->
-    <action name="{1}/delete/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction" method="delete{2}">
+    <action name="{1}/delete/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction" method="{2}Delete">
       <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>  
     </action>      
-
+    
+    <!-- edit component -->
+    <action name="{1}/{id}/edit/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction" method="{2}EditPrepare">
+      <result>/WEB-INF/pages/admin/edit_{2}.ftl</result>        
+    </action>
+    
+    <!-- edit component -->
+    <action name="{1}/{id}/edit/{2}/{componentIndex}/step" class="org.gbif.portal.action.{1}.AdminAction" method="editComponent">
+      <result name="input">/WEB-INF/pages/admin/edit_{2}.ftl</result>    
+      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>     
+    </action>             
   
     <!-- TO BE DECIDED IF THIS SHOULD BE KEPT -->  
     <action name="organization/{id}" class="org.gbif.portal.action.admin.OrganizationAction">

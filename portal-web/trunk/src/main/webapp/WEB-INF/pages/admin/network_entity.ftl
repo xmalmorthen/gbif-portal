@@ -17,7 +17,7 @@
               <@s.select name="member.language" value="'${((member!).language!).interpreted!}'" list="languages" 
                listKey="key" listValue="value" headerKey="" headerValue="Choose a language"/>
                <@s.fielderror fieldName="member.language"/>
-            </div>            
+            </div>
 
             <div class="field">
               <p>HOMEPAGE</p>

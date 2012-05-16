@@ -1,13 +1,6 @@
-<link rel="stylesheet" href="<@s.url value='/css/style.css?v=2'/>"/>
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css"
         type="text/css" media="all"/>
-<div class="content">
-<div class="important">
-<div class="inner" style="background-color:#E6F2F7;">
 
-          <div id="newone"> 
-          <p/><br/><p/><br/>
-          <@s.form action="organization/add/contact/step" id="contactForm">
             <div class="field">
               <p>TYPE</p>
               <@s.select name="contact.type" value="'${(contact.type!).interpreted!}'" list="contactTypes" 
@@ -80,8 +73,5 @@
               <@s.textfield name="contact.onlineUrl" value="${(contact!).onlineUrl!}" size="50" maxlength="50" />
               <@s.fielderror fieldName="contact.onlineUrl"/>
             </div>                                         
-               </@s.form> 
-               <p/><br/><p/><br/>                
-          </div>
-          
-</div></div>   </div>
+
+
