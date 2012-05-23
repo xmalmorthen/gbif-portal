@@ -140,7 +140,7 @@
     <default-action-ref name=""/>
 
     <action name="" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/occurrence/home.ftl</result>
+      <result>/WEB-INF/pages/occurrence/download/home.ftl</result>
     </action>
 
     <action name="search" class="org.gbif.portal.action.occurrence.SearchAction">
@@ -158,7 +158,8 @@
 
     <action name="{id}" class="org.gbif.portal.action.occurrence.DetailAction">
       <result>/WEB-INF/pages/occurrence/detail.ftl</result>
-    </action>
+    </action>    
+    
   </package>
 
   <!-- SPECIES -->

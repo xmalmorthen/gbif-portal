@@ -1,0 +1,1007 @@
+{
+  "filters":[
+    {
+      "group":"Taxonomy",
+      "options":[
+        {
+          "id":1,
+          "name":"Scientific name",
+          "description":"Enter a scientific name and click Add Filter. <BR/>This filter will return any records that have a matching name given for the identification of the organism, regardless of how the organism is classified.",
+          "renderer":"SelectAndTextbox",
+          "group":"Taxonomy",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Starts with",
+                "value":1
+              }
+            ]
+          }
+        },
+        {
+          "id":2,
+          "name":"Common name",
+          "description":"Enter a common name (or part of a name) and click Add Filter. <BR/>This filter will return any records for species that are associated with the common name supplied.",
+          "renderer":"SelectAndTextbox",
+          "group":"Taxonomy",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Starts with",
+                "value":1
+              }
+            ]
+          }
+        },
+        {
+          "id":3,
+          "name":"Type Status",
+          "description":"Use this filter to find specimens marked as types. To do this click Add Filter.",
+          "renderer":"SelectSelect",
+          "group":"Taxonomy",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              }
+            ],
+            "value":[
+              "Type specimen"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "group":"Geospatial",
+      "options":[
+        {
+          "id":4,
+          "name":"Country",
+          "description":"Select a country from the pick list and click Add Filter to narrow you search to one or more countries. <BR/>This filter will return records from the country identified, whether or not they contain coordinates; but note that adding a coordinate filter (Bounding box, Latitude or Longitude) will limit the results to georeferenced records.",
+          "renderer":"SelectSelect",
+          "group":"Geospatial",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              }
+            ],
+            "value":[
+              "Abkhazia",
+              "Afghanistan",
+              "Aland",
+              "Albania",
+              "Algeria",
+              "American Samoa",
+              "Andorra",
+              "Angola",
+              "Anguilla",
+              "Antarctica",
+              "Antigua and Barbuda",
+              "Argentina",
+              "Armenia",
+              "Aruba",
+              "Ascension",
+              "Ashmore and Cartier Islands",
+              "Australia",
+              "Australian Antarctic Territory",
+              "Austria",
+              "Azerbaijan",
+              "Bahamas, The",
+              "Bahrain",
+              "Baker Island",
+              "Bangladesh",
+              "Barbados",
+              "Belarus",
+              "Belgium",
+              "Belize",
+              "Benin",
+              "Bermuda",
+              "Bhutan",
+              "Bolivia",
+              "Bosnia and Herzegovina",
+              "Botswana",
+              "Bouvet Island",
+              "Brazil",
+              "British Antarctic Territory",
+              "British Indian Ocean Territory",
+              "British Sovereign Base Areas",
+              "British Virgin Islands",
+              "Brunei",
+              "Bulgaria",
+              "Burkina Faso",
+              "Burundi",
+              "Cambodia",
+              "Cameroon",
+              "Canada",
+              "Cape Verde",
+              "Cayman Islands",
+              "Central African Republic",
+              "Chad",
+              "Chile",
+              "China, People's Republic of",
+              "China, Republic of (Taiwan)",
+              "Christmas Island",
+              "Clipperton Island",
+              "Cocos (Keeling) Islands",
+              "Colombia",
+              "Comoros",
+              "Congo, Democratic Republic of the (Congo ñ Kinshasa)",
+              "Congo, Republic of the (Congo ñ Brazzaville)",
+              "Cook Islands",
+              "Coral Sea Islands",
+              "Costa Rica",
+              "Cote d'Ivoire (Ivory Coast)",
+              "Croatia",
+              "Cuba",
+              "Cyprus",
+              "Czech Republic",
+              "Denmark",
+              "Djibouti",
+              "Dominica",
+              "Dominican Republic",
+              "Ecuador",
+              "Egypt",
+              "El Salvador",
+              "Equatorial Guinea",
+              "Eritrea",
+              "Estonia",
+              "Ethiopia",
+              "Falkland Islands (Islas Malvinas)",
+              "Faroe Islands",
+              "Fiji",
+              "Finland",
+              "France",
+              "French Guiana",
+              "French Polynesia",
+              "French Southern and Antarctic Lands",
+              "Gabon",
+              "Gambia, The",
+              "Georgia",
+              "Germany",
+              "Ghana",
+              "Gibraltar",
+              "Greece",
+              "Greenland",
+              "Grenada",
+              "Guadeloupe",
+              "Guam",
+              "Guatemala",
+              "Guernsey",
+              "Guinea",
+              "Guinea-Bissau",
+              "Guyana",
+              "Haiti",
+              "Heard Island and McDonald Islands",
+              "Honduras",
+              "Hong Kong",
+              "Howland Island",
+              "Hungary",
+              "Iceland",
+              "India",
+              "Indonesia",
+              "Iran",
+              "Iraq",
+              "Ireland",
+              "Isle of Man",
+              "Israel",
+              "Italy",
+              "Jamaica",
+              "Japan",
+              "Jarvis Island",
+              "Jersey",
+              "Johnston Atoll",
+              "Jordan",
+              "Kazakhstan",
+              "Kenya",
+              "Kingman Reef",
+              "Kiribati",
+              "Korea, Democratic People's Republic of (North Korea)",
+              "Korea, Republic of  (South Korea)",
+              "Kosovo",
+              "Kuwait",
+              "Kyrgyzstan",
+              "Laos",
+              "Latvia",
+              "Lebanon",
+              "Lesotho",
+              "Liberia",
+              "Libya",
+              "Liechtenstein",
+              "Lithuania",
+              "Luxembourg",
+              "Macau",
+              "Macedonia",
+              "Madagascar",
+              "Malawi",
+              "Malaysia",
+              "Maldives",
+              "Mali",
+              "Malta",
+              "Marshall Islands",
+              "Martinique",
+              "Mauritania",
+              "Mauritius",
+              "Mayotte",
+              "Mexico",
+              "Micronesia",
+              "Midway Islands",
+              "Moldova",
+              "Monaco",
+              "Mongolia",
+              "Montenegro",
+              "Montserrat",
+              "Morocco",
+              "Mozambique",
+              "Myanmar (Burma)",
+              "Nagorno-Karabakh",
+              "Namibia",
+              "Nauru",
+              "Navassa Island",
+              "Nepal",
+              "Netherlands",
+              "Netherlands Antilles",
+              "New Caledonia",
+              "New Zealand",
+              "Nicaragua",
+              "Niger",
+              "Nigeria",
+              "Niue",
+              "Norfolk Island",
+              "Northern Cyprus",
+              "Northern Mariana Islands",
+              "Norway",
+              "Oman",
+              "Pakistan",
+              "Palau",
+              "Palestinian Territories (Gaza Strip and West Bank)",
+              "Palmyra Atoll",
+              "Panama",
+              "Papua New Guinea",
+              "Paraguay",
+              "Peru",
+              "Peter I Island",
+              "Philippines",
+              "Pitcairn Islands",
+              "Poland",
+              "Portugal",
+              "Pridnestrovie (Transnistria)",
+              "Puerto Rico",
+              "Qatar",
+              "Queen Maud Land",
+              "Reunion",
+              "Romania",
+              "Ross Dependency",
+              "Russia",
+              "Rwanda",
+              "Saint Barthelemy",
+              "Saint Helena",
+              "Saint Kitts and Nevis",
+              "Saint Lucia",
+              "Saint Martin",
+              "Saint Pierre and Miquelon",
+              "Saint Vincent and the Grenadines",
+              "Samoa",
+              "San Marino",
+              "Sao Tome and Principe",
+              "Saudi Arabia",
+              "Senegal",
+              "Serbia",
+              "Seychelles",
+              "Sierra Leone",
+              "Singapore",
+              "Slovakia",
+              "Slovenia",
+              "Solomon Islands",
+              "Somalia",
+              "Somaliland",
+              "South Africa",
+              "South Georgia and the South Sandwich Islands",
+              "South Ossetia",
+              "Spain",
+              "Sri Lanka",
+              "Sudan",
+              "Suriname",
+              "Svalbard",
+              "Swaziland",
+              "Sweden",
+              "Switzerland",
+              "Syria",
+              "Tajikistan",
+              "Tanzania",
+              "Thailand",
+              "Timor-Leste (East Timor)",
+              "Togo",
+              "Tokelau",
+              "Tonga",
+              "Trinidad and Tobago",
+              "Tristan da Cunha",
+              "Tunisia",
+              "Turkey",
+              "Turkmenistan",
+              "Turks and Caicos Islands",
+              "Tuvalu",
+              "U.S. Virgin Islands",
+              "Uganda",
+              "Ukraine",
+              "United Arab Emirates",
+              "United Kingdom",
+              "United States",
+              "Uruguay",
+              "Uzbekistan",
+              "Vanuatu",
+              "Vatican City",
+              "Venezuela",
+              "Vietnam",
+              "Wake Island",
+              "Wallis and Futuna",
+              "Western Sahara",
+              "Yemen",
+              "Zambia",
+              "Zimbabwe"
+            ]
+          }
+        },
+        {
+          "id":5,
+          "name":"Region",
+          "description":"Select a geographic region from the pick list and click Add Filter. This filter will return records from all countries in the selected continent, oceanic area, etc.",
+          "renderer":"SelectSelect",
+          "group":"Geospatial",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              }
+            ],
+            "value":[
+              "Middle Africa",
+              "Northern Africa",
+              "Southern Africa",
+              "Western Africa",
+              "Caribbean",
+              "Central America",
+              "South America",
+              "Northern America",
+              "Central Asia",
+              "Eastern Asia",
+              "Southern Asia",
+              "South-Eastern Asia",
+              "Western Asia",
+              "Eastern Europe",
+              "Northern Europe",
+              "Southern Europe",
+              "Western Europe",
+              "Australia and New Zealand",
+              "Melanesia",
+              "Micronesia",
+              "Polynesia",
+              "Antarctica"
+            ]
+          }
+        },
+        {
+          "id":6,
+          "name":"Latitude",
+          "description":"Enter a latitude and choose between 'is', 'greater than' (inclusive) and 'less than' (inclusive). This filter will return only georeferenced records that match the selection.",
+          "renderer":"SelectAndTextbox",
+          "group":"Geospatial",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is greater than",
+                "value":1
+              },
+              {
+                "label":"Less than",
+                "value":2
+              }
+            ]
+          }
+        },
+        {
+          "id":7,
+          "name":"Longitude",
+          "description":"Enter a longitude and choose between 'is', 'greater than' (inclusive) and 'less than' (inclusive). This filter will return only georeferenced records that match the selection.",
+          "renderer":"SelectAndTextbox",
+          "group":"Geospatial",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is greater than",
+                "value":1
+              },
+              {
+                "label":"Less than",
+                "value":2
+              }
+            ]
+          }
+        },
+        {
+          "id":21,
+          "name":"User defined area",
+          "description":"Draw the geographic bounds on the map and click add filter to restrict to the area provided.",
+          "renderer":"Geometry",
+          "group":"Geospatial",
+          "data":{
+            "predicate":[
+              {
+                "label":"Within",
+                "value":0
+              }
+            ]
+          }
+        },        
+        {
+          "id":8, 
+          "name":"Altitude",
+          "description":"Enter an altitude in metres and choose between 'is', 'greater than' (inclusive) and 'less than' (inclusive). This filter will return only records with an altitude value that matches the selection. This filter only supports whole number values.<BR/>Please be aware that the underlying altitude values are supposed to be given in metres by the original data sources, but that not all data sources conform to this standard yet. Automatic conversion could only be supplied for cases where the measurement unit is known. If you plan any analyses based on altitude values, it is recommended to contact the relevant data owners directly and verify the measurement units used within their datasets.",
+          "renderer":"SelectAndTextbox",
+          "group":"Geospatial",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is greater than",
+                "value":1
+              },
+              {
+                "label":"Less than",
+                "value":2
+              }
+            ]
+          }
+        },
+        {
+          "id":9,  
+          "name":"Depth",
+          "description":"Enter a depth in metres and choose between 'is', 'greater than' (inclusive) and 'less than' (inclusive). This filter will return only records with a depth value that matches the selection. This filter supports decimal values to 2 decimal places.<BR/>Please be aware that the underlying depth values are supposed to be given in metres by the original data sources, but that not all data sources conform to this standard yet. Automatic conversion could only be supplied for cases where the measurement unit is known. If you plan any analyses based on depth values, it is recommended to contact the relevant data owners directly and verify the measurement units used within their datasets.",
+          "renderer":"SelectAndTextbox",
+          "group":"Geospatial",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is greater than",
+                "value":1
+              },
+              {
+                "label":"Less than",
+                "value":2
+              }
+            ]
+          }
+        },
+        {
+          "id":10,
+          "name":"Coordinate status",
+          "description":"Select 'includes coordinates' to filter out those records that are not georeferenced; alternatively, select 'does not include coordinates' to exclude georeferenced records. To see all records, do not use this filter.",
+          "renderer":"SelectSelect",
+          "group":"Geospatial",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              }
+            ],
+            "value":[
+              "Includes coordinates",
+              "Does not include coordinates"
+            ]
+          }
+        },
+        {
+          "id":11,
+          "name":"Coordinate issues",
+          "description":"Select 'issues detected' to identify records with coordinates that may be doubtful; otherwise, select 'issues not detected'.",
+          "renderer":"SelectSelect",
+          "group":"Geospatial",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              }
+            ],
+            "value":[
+              "No issues detected",
+              "Issues detected"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "group":"Datasets",
+      "options":[
+        {
+          "id":12,
+          "name":"Data publisher",
+          "description":"Select a data publisher from the pick list and click Add Filter. This filter will return records from the specified publisher(s).",
+          "renderer":"SelectSelect",
+          "group":"Datasets",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              }
+            ],
+            "value":[
+              "Academy of Natural Sciences",
+              "Acadia University"
+            ]
+          }
+        },
+        {
+          "id":13,
+          "name":"Dataset",
+          "description":"Select a data publisher from the pick list, and then select the dataset and click Add Filter. This filter will return records from the specified publisher(s).",
+          "renderer":"SelectSelect",
+          "group":"Datasets",
+          "data":{
+            "predicate":[
+              {
+                "label":"Academy of Natural Sciences",
+                "value":1
+              },
+              {
+                "label":"Acadia University",
+                "value":2
+              }
+            ],
+            "value":[
+              "Herpetology",
+              "Mammals"
+            ]
+          }
+        },
+        {
+          "id":14,
+          "name":"Country",
+          "description":"Select a country from the pick list and click Add Filter to narrow you search to one or more countries. <BR/>This filter will return records from the country identified, whether or not they contain coordinates; but note that adding a coordinate filter (Bounding box, Latitude or Longitude) will limit the results to georeferenced records.",
+          "renderer":"SelectSelect",
+          "group":"Datasets",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              }
+            ],
+            "value":[
+              "Abkhazia",
+              "Afghanistan",
+              "Aland",
+              "Albania",
+              "Algeria",
+              "American Samoa",
+              "Andorra",
+              "Angola",
+              "Anguilla",
+              "Antarctica",
+              "Antigua and Barbuda",
+              "Argentina",
+              "Armenia",
+              "Aruba",
+              "Ascension",
+              "Ashmore and Cartier Islands",
+              "Australia",
+              "Australian Antarctic Territory",
+              "Austria",
+              "Azerbaijan",
+              "Bahamas, The",
+              "Bahrain",
+              "Baker Island",
+              "Bangladesh",
+              "Barbados",
+              "Belarus",
+              "Belgium",
+              "Belize",
+              "Benin",
+              "Bermuda",
+              "Bhutan",
+              "Bolivia",
+              "Bosnia and Herzegovina",
+              "Botswana",
+              "Bouvet Island",
+              "Brazil",
+              "British Antarctic Territory",
+              "British Indian Ocean Territory",
+              "British Sovereign Base Areas",
+              "British Virgin Islands",
+              "Brunei",
+              "Bulgaria",
+              "Burkina Faso",
+              "Burundi",
+              "Cambodia",
+              "Cameroon",
+              "Canada",
+              "Cape Verde",
+              "Cayman Islands",
+              "Central African Republic",
+              "Chad",
+              "Chile",
+              "China, People's Republic of",
+              "China, Republic of (Taiwan)",
+              "Christmas Island",
+              "Clipperton Island",
+              "Cocos (Keeling) Islands",
+              "Colombia",
+              "Comoros",
+              "Congo, Democratic Republic of the (Congo ñ Kinshasa)",
+              "Congo, Republic of the (Congo ñ Brazzaville)",
+              "Cook Islands",
+              "Coral Sea Islands",
+              "Costa Rica",
+              "Cote d'Ivoire (Ivory Coast)",
+              "Croatia",
+              "Cuba",
+              "Cyprus",
+              "Czech Republic",
+              "Denmark",
+              "Djibouti",
+              "Dominica",
+              "Dominican Republic",
+              "Ecuador",
+              "Egypt",
+              "El Salvador",
+              "Equatorial Guinea",
+              "Eritrea",
+              "Estonia",
+              "Ethiopia",
+              "Falkland Islands (Islas Malvinas)",
+              "Faroe Islands",
+              "Fiji",
+              "Finland",
+              "France",
+              "French Guiana",
+              "French Polynesia",
+              "French Southern and Antarctic Lands",
+              "Gabon",
+              "Gambia, The",
+              "Georgia",
+              "Germany",
+              "Ghana",
+              "Gibraltar",
+              "Greece",
+              "Greenland",
+              "Grenada",
+              "Guadeloupe",
+              "Guam",
+              "Guatemala",
+              "Guernsey",
+              "Guinea",
+              "Guinea-Bissau",
+              "Guyana",
+              "Haiti",
+              "Heard Island and McDonald Islands",
+              "Honduras",
+              "Hong Kong",
+              "Howland Island",
+              "Hungary",
+              "Iceland",
+              "India",
+              "Indonesia",
+              "Iran",
+              "Iraq",
+              "Ireland",
+              "Isle of Man",
+              "Israel",
+              "Italy",
+              "Jamaica",
+              "Japan",
+              "Jarvis Island",
+              "Jersey",
+              "Johnston Atoll",
+              "Jordan",
+              "Kazakhstan",
+              "Kenya",
+              "Kingman Reef",
+              "Kiribati",
+              "Korea, Democratic People's Republic of (North Korea)",
+              "Korea, Republic of  (South Korea)",
+              "Kosovo",
+              "Kuwait",
+              "Kyrgyzstan",
+              "Laos",
+              "Latvia",
+              "Lebanon",
+              "Lesotho",
+              "Liberia",
+              "Libya",
+              "Liechtenstein",
+              "Lithuania",
+              "Luxembourg",
+              "Macau",
+              "Macedonia",
+              "Madagascar",
+              "Malawi",
+              "Malaysia",
+              "Maldives",
+              "Mali",
+              "Malta",
+              "Marshall Islands",
+              "Martinique",
+              "Mauritania",
+              "Mauritius",
+              "Mayotte",
+              "Mexico",
+              "Micronesia",
+              "Midway Islands",
+              "Moldova",
+              "Monaco",
+              "Mongolia",
+              "Montenegro",
+              "Montserrat",
+              "Morocco",
+              "Mozambique",
+              "Myanmar (Burma)",
+              "Nagorno-Karabakh",
+              "Namibia",
+              "Nauru",
+              "Navassa Island",
+              "Nepal",
+              "Netherlands",
+              "Netherlands Antilles",
+              "New Caledonia",
+              "New Zealand",
+              "Nicaragua",
+              "Niger",
+              "Nigeria",
+              "Niue",
+              "Norfolk Island",
+              "Northern Cyprus",
+              "Northern Mariana Islands",
+              "Norway",
+              "Oman",
+              "Pakistan",
+              "Palau",
+              "Palestinian Territories (Gaza Strip and West Bank)",
+              "Palmyra Atoll",
+              "Panama",
+              "Papua New Guinea",
+              "Paraguay",
+              "Peru",
+              "Peter I Island",
+              "Philippines",
+              "Pitcairn Islands",
+              "Poland",
+              "Portugal",
+              "Pridnestrovie (Transnistria)",
+              "Puerto Rico",
+              "Qatar",
+              "Queen Maud Land",
+              "Reunion",
+              "Romania",
+              "Ross Dependency",
+              "Russia",
+              "Rwanda",
+              "Saint Barthelemy",
+              "Saint Helena",
+              "Saint Kitts and Nevis",
+              "Saint Lucia",
+              "Saint Martin",
+              "Saint Pierre and Miquelon",
+              "Saint Vincent and the Grenadines",
+              "Samoa",
+              "San Marino",
+              "Sao Tome and Principe",
+              "Saudi Arabia",
+              "Senegal",
+              "Serbia",
+              "Seychelles",
+              "Sierra Leone",
+              "Singapore",
+              "Slovakia",
+              "Slovenia",
+              "Solomon Islands",
+              "Somalia",
+              "Somaliland",
+              "South Africa",
+              "South Georgia and the South Sandwich Islands",
+              "South Ossetia",
+              "Spain",
+              "Sri Lanka",
+              "Sudan",
+              "Suriname",
+              "Svalbard",
+              "Swaziland",
+              "Sweden",
+              "Switzerland",
+              "Syria",
+              "Tajikistan",
+              "Tanzania",
+              "Thailand",
+              "Timor-Leste (East Timor)",
+              "Togo",
+              "Tokelau",
+              "Tonga",
+              "Trinidad and Tobago",
+              "Tristan da Cunha",
+              "Tunisia",
+              "Turkey",
+              "Turkmenistan",
+              "Turks and Caicos Islands",
+              "Tuvalu",
+              "U.S. Virgin Islands",
+              "Uganda",
+              "Ukraine",
+              "United Arab Emirates",
+              "United Kingdom",
+              "United States",
+              "Uruguay",
+              "Uzbekistan",
+              "Vanuatu",
+              "Vatican City",
+              "Venezuela",
+              "Vietnam",
+              "Wake Island",
+              "Wallis and Futuna",
+              "Western Sahara",
+              "Yemen",
+              "Zambia",
+              "Zimbabwe"
+            ]
+          }
+        },
+        {
+          "id":15,
+          "name":"Year",
+          "description":"Enter a year and click Add Filter. The filter will return records from the year(s) that match the selection.",
+          "renderer":"SelectAndTextbox",
+          "group":"Datasets",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is greater than",
+                "value":1
+              },
+              {
+                "label":"Less than",
+                "value":2
+              }
+            ]
+          }
+        },
+        {
+          "id":16,
+          "name":"Month",
+          "description":"Enter a month and click Add Filter. The filter will return records from the year(s) that match the selection.",
+          "renderer":"SelectAndTextbox",
+          "group":"Datasets",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is greater than",
+                "value":1
+              },
+              {
+                "label":"Less than",
+                "value":2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "group":"Other",
+      "options":[
+        {
+          "id":17,
+          "name":"Basis of record",
+          "description":"Enter a longitude and choose between 'is', 'greater than' (inclusive) and 'less than' (inclusive). This filter will return only georeferenced records that match the selection.",
+          "renderer":"SelectSelect",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              }
+            ],
+            "value":[
+              "Specimen",
+              "Preserved specimen",
+              "Living specimen",
+              "Observation",
+              "Literature",
+              "Multimedia",
+              "Fossil"
+            ]
+          }
+        },
+        {
+          "id":18,
+          "name":"Institution code",
+          "description":"Enter an institution code and 'is' or 'is like'. The filter will return records with the specified institution code.",
+          "renderer":"SelectAndTextbox",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is like",
+                "value":1
+              }
+            ]
+          }
+        },
+        {
+          "id":19,
+          "name":"Collection code",
+          "description":"Enter an collection code and 'is' or 'is like'. The filter will return records with the specified institution code.",
+          "renderer":"SelectAndTextbox",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is like",
+                "value":1
+              }
+            ]
+          }
+        },
+        {
+          "id":20,
+          "name":"Catalogue number",
+          "description":"Enter an catalogue number and 'is' or 'is like'. The filter will return records with the specified institution code.",
+          "renderer":"SelectAndTextbox",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is like",
+                "value":1
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
