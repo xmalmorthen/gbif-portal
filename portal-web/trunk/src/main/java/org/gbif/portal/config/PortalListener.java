@@ -9,6 +9,7 @@
 package org.gbif.portal.config;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Guice;
@@ -68,18 +69,20 @@ public class PortalListener extends GuiceServletContextListener {
       bind(FreemarkerPageFilter.class).in(Singleton.class);
       bind(StrutsExecuteFilter.class).in(Singleton.class);
 
-      // CAS
-      filter("/*").through(SingleSignOutFilter.class);
-      filter("/*").through(AuthenticationFilter.class, params);
-      filter("/*").through(Cas20ProxyReceivingTicketValidationFilter.class, params);
-      filter("/*").through(HttpServletRequestWrapperFilter.class);
+      // CAS (do not CASify CSS, fonts, JS etc)
+      String excludeRegEx = "/(?!js|conf|css|img|fonts).*";
+      filterRegex(excludeRegEx).through(SingleSignOutFilter.class);
+      filterRegex(excludeRegEx).through(AuthenticationFilter.class, params);
+      filterRegex(excludeRegEx).through(Cas20ProxyReceivingTicketValidationFilter.class, params);
+      filterRegex(excludeRegEx).through(HttpServletRequestWrapperFilter.class);
+
       // Struts2
       filter("/*").through(StrutsPrepareFilter.class);
       filter("/*").through(FreemarkerPageFilter.class);
       filter("/*").through(StrutsExecuteFilter.class);
     }
   };
-
+  
 
   @Override
   public Injector getInjector() {
