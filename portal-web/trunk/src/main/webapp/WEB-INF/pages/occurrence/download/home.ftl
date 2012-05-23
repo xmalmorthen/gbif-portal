@@ -67,7 +67,7 @@ select.value {
     
     // subject container with event wiring to trigger changes on query
     $('#filter-container').Filter({
-      json:"/conf/occurrence-download.json",
+      json:"<@s.url value='/conf/occurrence-download.json'/>",
       addFilter: function(event, data) { 
         query.Query("add", data.filter);
       }
