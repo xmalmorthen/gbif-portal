@@ -96,7 +96,7 @@
     <p>${(dataset.pubDate?date)!"Unkown"}</p>
 
       <h3>Published by</h3>
-    <#if dataset.type?has_content>      
+    <#if dataset.owningOrganizationKey?has_content>
       <p><a href="<@s.url value='/member/${dataset.owningOrganizationKey}'/>" title="${dataset.owningOrganization.title!"Unknown"}">${dataset.owningOrganization.title!"Unknown"}</a></p>
     <#else>      
       <p>Unknown</p>    
@@ -109,12 +109,9 @@
     </#if>
 
     <!-- Could be an external dataset, with an owning org, but no endorsing node since it's not in GBIF Network -->
-    <#if dataset.owningOrganization?has_content && dataset.owningOrganization.endorsingNode?has_content>
+    <#if (dataset.owningOrganization.endorsingNode)?has_content>
       <h3>Endorsed by</h3>
       <p><a href="<@s.url value='/member/${dataset.owningOrganization.endorsingNode.key}'/>" title="${dataset.owningOrganization.endorsingNode.title!"Unknown"}">${dataset.owningOrganization.endorsingNode.title!"Unknown"}</a></p>
-    <#elseif dataset.hostingOrganization?has_content && dataset.hostingOrganization.endorsingNode?has_content>
-      <h3>Endorsed by</h3>
-      <p><a href="<@s.url value='/member/${dataset.hostingOrganization.endorsingNode.key}'/>" title="${dataset.hostingOrganization.endorsingNode.title!"Unknown"}">${dataset.hostingOrganization.endorsingNode.title!"Unknown"}</a></p>
     </#if>
 
     <!-- Ideally the alt. identifier has a type which is displayed as a link to the identifier. Otherwise, a trimmed version is displayed. In both cases, a popup appears to display the full identifier. -->
