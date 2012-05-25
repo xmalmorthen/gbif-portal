@@ -59,6 +59,7 @@
     <registry-ws-client.version>0.1-SNAPSHOT</registry-ws-client.version>
     <occurrencestore-api.version>0.1-SNAPSHOT</occurrencestore-api.version>
     <occurrencestore-ws-client.version>0.1-SNAPSHOT</occurrencestore-ws-client.version>
+    <occurrence-download.version>0.1-SNAPSHOT</occurrence-download.version>
     <drupal-mybatis.version>1.0-SNAPSHOT</drupal-mybatis.version>
 
     <freemarker.version>2.3.18</freemarker.version>
@@ -200,6 +201,16 @@
       <artifactId>checklistbank-api</artifactId>
       <version>${checklistbank-api.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>occurrence-download-api</artifactId>
+      <version>${occurrence-download.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>occurrence-download-ws-client</artifactId>
+      <version>${occurrence-download.version}</version>
+    </dependency>    
     <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>gbif-common-api</artifactId>

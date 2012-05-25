@@ -79,7 +79,7 @@ select.value {
       // This might cause issues in the future, if other parameters are needed
       // https://github.com/allmarkedup/jQuery-URL-Parser
       var u = $.url();
-      window.location = u.attr('protocol') + "://" + u.attr('host') + ":" + u.attr('port') + u.attr('path') + query.Query("serialize");
+      window.location = "<@s.url value='/occurrence/download'/>" + query.Query("serialize");
       return true;  // submit?
     });
     

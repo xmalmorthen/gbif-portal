@@ -34,6 +34,10 @@ public abstract class BaseAction extends ActionSupport
     this.request = request;
   }
 
+  protected HttpServletRequest getServletRequest() {
+    return request;
+  }
+
   @Override
   public void setServletContext(ServletContext context){
     this.ctx = context;

@@ -586,7 +586,7 @@
         },
         {
           "id":14,
-          "name":"Country",
+          "name":"Host country",
           "description":"Select a country from the pick list and click Add Filter to narrow you search to one or more countries. <BR/>This filter will return records from the country identified, whether or not they contain coordinates; but note that adding a coordinate filter (Bounding box, Latitude or Longitude) will limit the results to georeferenced records.",
           "renderer":"SelectSelect",
           "group":"Datasets",
@@ -887,11 +887,11 @@
               },
               {
                 "label":"Is greater than",
-                "value":1
+                "value":2
               },
               {
                 "label":"Less than",
-                "value":2
+                "value":3
               }
             ]
           }
@@ -910,11 +910,11 @@
               },
               {
                 "label":"Is greater than",
-                "value":1
+                "value":2
               },
               {
                 "label":"Less than",
-                "value":2
+                "value":3
               }
             ]
           }

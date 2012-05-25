@@ -15,7 +15,6 @@
       <interceptor name="requireAdmin" class="org.gbif.portal.struts.RequireAdminInterceptor"/>
       <interceptor name="jsrvalidation" class="org.gbif.portal.struts.ValidationInterceptor" />
 
-
       <interceptor-stack name="portalStack">
         <interceptor-ref name="loginSession"/>
         <interceptor-ref name="i18nStack"/>
@@ -46,6 +45,18 @@
         <interceptor-ref name="portalStack"/>
       </interceptor-stack>
 
+      <!--  Because of the param format in downloads, the PARAMS interceptor
+            Cannot be used.  It fails on f[0].s issues, as it tries to interpret 
+            that.  This is the basic stack without the params interceptor
+      -->
+      <interceptor-stack name="downloadStack">
+        <interceptor-ref name="exception"/>
+        <interceptor-ref name="servletConfig"/>
+        <interceptor-ref name="prepare"/>
+        <interceptor-ref name="checkbox"/>
+        <!--  interceptor-ref name="params"/-->
+        <interceptor-ref name="conversionError"/>
+      </interceptor-stack>
     </interceptors>
 
     <default-interceptor-ref name="portalStack"/>
@@ -141,6 +152,12 @@
 
     <action name="" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/occurrence/download/home.ftl</result>
+    </action>
+    
+    <action name="download" class="org.gbif.portal.action.occurrence.DownloadAction">
+      <interceptor-ref name="downloadStack"/>
+	      
+      <result>/WEB-INF/pages/occurrence/download/result.ftl</result>
     </action>
 
     <action name="search" class="org.gbif.portal.action.occurrence.SearchAction">

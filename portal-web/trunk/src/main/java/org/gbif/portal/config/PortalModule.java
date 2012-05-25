@@ -1,6 +1,7 @@
 package org.gbif.portal.config;
 
 import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
+import org.gbif.occurrencestore.download.ws.client.guice.OccurrenceDownloadWsClientModule;
 import org.gbif.occurrencestore.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
 import org.gbif.user.guice.DrupalMyBatisModule;
@@ -11,6 +12,7 @@ import java.util.Properties;
 import com.google.inject.AbstractModule;
 
 public class PortalModule extends AbstractModule {
+
   private static final String PROPERTIES_FILE = "application.properties";
 
   @Override
@@ -30,6 +32,9 @@ public class PortalModule extends AbstractModule {
 
     // bind occurrence API
     install(new OccurrenceWsClientModule(properties));
+
+    // bind the occurrence download service
+    install(new OccurrenceDownloadWsClientModule(properties));
   }
 
 }
