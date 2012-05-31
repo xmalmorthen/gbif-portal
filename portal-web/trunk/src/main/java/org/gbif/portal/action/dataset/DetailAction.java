@@ -9,16 +9,14 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.api.exception.NotFoundException;
-import org.gbif.checklistbank.api.model.Checklist;
-import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Contact;
 import org.gbif.registry.api.model.Dataset;
+import org.gbif.registry.api.model.DatasetMetrics;
 import org.gbif.registry.api.service.DatasetService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -31,14 +29,12 @@ public class DetailAction extends BaseAction {
   // detail
   private String id;
   private Dataset dataset;
-  private Checklist checklist;
+  private DatasetMetrics metrics;
   private List<Contact> preferredContacts;
   private List<Contact> otherContacts;
 
   @Inject
   private DatasetService datasetService;
-  @Inject
-  private ChecklistService checklistService;
 
   @Override
   public String execute() {
@@ -53,13 +49,6 @@ public class DetailAction extends BaseAction {
       throw new NotFoundException();
     }
 
-    // try to load a checklist object if it exists
-    try {
-      checklist = checklistService.get(UUID.fromString(dataset.getKey()));
-    } catch (Exception e) {
-      // swallow
-    }
-
     // are there preferred (primary) contacts
     separateContacts(dataset.getContacts());
 
@@ -69,7 +58,7 @@ public class DetailAction extends BaseAction {
   /**
    * Iterate over the list of dataset contacts. Divide them into two lists:
    * those thare are preferred (primary), and those that are not.
-   * 
+   *
    * @param contacts list of contacts associated to the dataset
    */
   private void separateContacts(List<Contact> contacts) {
@@ -112,8 +101,8 @@ public class DetailAction extends BaseAction {
     return otherContacts;
   }
 
-  public Checklist getChecklist() {
-    return checklist;
+  public DatasetMetrics getMetrics() {
+    return metrics;
   }
 
   public Dataset getMember() {

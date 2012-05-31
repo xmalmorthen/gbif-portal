@@ -1,11 +1,11 @@
 package org.gbif.portal.action.species;
 
 import org.gbif.api.exception.NotFoundException;
-import org.gbif.checklistbank.api.model.Checklist;
 import org.gbif.checklistbank.api.model.NameUsage;
-import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.NameUsageService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.registry.api.model.Dataset;
+import org.gbif.registry.api.service.DatasetService;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,12 +23,12 @@ public class UsageAction extends BaseAction {
   @Inject
   protected NameUsageService usageService;
   @Inject
-  protected ChecklistService checklistService;
+  protected DatasetService checklistService;
 
   protected Integer id;
   protected NameUsage usage;
-  protected Checklist checklist;
-  protected Map<UUID, Checklist> checklists = new HashMap<UUID, Checklist>();
+  protected Dataset checklist;
+  protected Map<UUID, Dataset> checklists = new HashMap<UUID, Dataset>();
 
   /**
    * Loads a name usage and its checklist by the id parameter.
@@ -77,17 +77,17 @@ public class UsageAction extends BaseAction {
     return usage;
   }
 
-  public Checklist getChecklist() {
+  public Dataset getChecklist() {
     return checklist;
   }
 
-  public Map<UUID, Checklist> getChecklists() {
+  public Map<UUID, Dataset> getChecklists() {
     return checklists;
   }
 
   public String getChecklistName(UUID key) {
     if (key != null && checklists.containsKey(key)) {
-      return checklists.get(key).getName();
+      return checklists.get(key).getTitle();
     }
     return "";
   }

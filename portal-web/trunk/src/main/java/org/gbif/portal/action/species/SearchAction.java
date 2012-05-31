@@ -13,12 +13,12 @@ import org.gbif.checklistbank.api.Constants;
 import org.gbif.checklistbank.api.model.search.NameUsageFacetParameter;
 import org.gbif.checklistbank.api.model.search.NameUsageSearchResult;
 import org.gbif.checklistbank.api.model.vocabulary.TaxonomicStatus;
-import org.gbif.checklistbank.api.service.ChecklistService;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
 import org.gbif.checklistbank.api.service.NameUsageService;
 import org.gbif.checklistbank.vocabulary.converter.TaxonomicStatusConverter;
 import org.gbif.checklistbank.vocabulary.converter.ThreatStatusConverter;
 import org.gbif.portal.action.BaseFacetedSearchAction;
+import org.gbif.registry.api.service.DatasetService;
 
 import java.util.UUID;
 
@@ -41,7 +41,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   // injected
   private final NameUsageService usageService;
-  private final ChecklistService checklistService;
+  private final DatasetService checklistService;
 
   private Function<String, String> getChecklistTitle;
   private Function<String, String> getHigherTaxaTitle;
@@ -53,8 +53,8 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   @Inject
   public SearchAction(NameUsageSearchService<NameUsageSearchResult> nameUsageSearchService,
-    NameUsageService usageService, ChecklistService checklistService,
-    TaxonomicStatusConverter taxonomicStatusConverter, ThreatStatusConverter threatStatusConverter) {
+    NameUsageService usageService, DatasetService checklistService, TaxonomicStatusConverter taxonomicStatusConverter,
+    ThreatStatusConverter threatStatusConverter) {
     super(nameUsageSearchService, NameUsageFacetParameter.class);
     this.usageService = usageService;
     this.checklistService = checklistService;
@@ -113,7 +113,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    */
   public boolean getShowAccordingTo() {
     return getFacets() == null || !getFacets().containsKey(NameUsageFacetParameter.CHECKLIST)
-      || getFacets().get(NameUsageFacetParameter.CHECKLIST).size() != 1;
+           || getFacets().get(NameUsageFacetParameter.CHECKLIST).size() != 1;
   }
 
   /**
@@ -127,7 +127,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
         if (Strings.emptyToNull(name) == null) {
           return null;
         }
-        return checklistService.get(UUID.fromString(name)).getName();
+        return checklistService.get(UUID.fromString(name)).getTitle();
       }
     };
 
@@ -190,7 +190,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   /**
    * Request parameter for filtering results by nubKey.
-   * 
+   *
    * @param nubKey the nubKey to set
    */
   public void setNubKey(Integer nubKey) {
