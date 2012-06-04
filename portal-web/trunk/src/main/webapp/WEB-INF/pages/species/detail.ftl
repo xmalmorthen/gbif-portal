@@ -18,7 +18,7 @@
   <meta property="dwc:scientificName" content="${usage.scientificName!}" />
   <meta property="dwc:kingdom" content="${usage.scientificName!}" />
   <meta property="dwc:datasetID" content="${checklist.key}" />
-  <meta property="dwc:datasetName" content="${checklist.name!"???"}" />
+  <meta property="dwc:datasetName" content="${checklist.title!"???"}" />
   <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${checklist.key}'/>" />
 </head>
 <body class="species typesmap">
@@ -34,7 +34,7 @@
     <h3>This is a particular view of ${usage.canonicalOrScientificName!}</h3>
 
     <p>This is the <em>${usage.scientificName}</em> view, as seen by <a
-            href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.name!"???"}</a> checklist.
+            href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.title!"???"}</a> checklist.
       <#if usage.nubKey?exists>
         Remember that you can also check the <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view
         on ${usage.canonicalOrScientificName!}</a>.
@@ -146,7 +146,7 @@
         <li><a href="${i.identifierLink}" title="${i.title!i.type!}">
           <#if i.title?has_content>${i.title}
           <#else>
-            ${common.limit( checklists.get(i.checklistKey).name ,30)}
+            ${common.limit( checklists.get(i.checklistKey).title ,30)}
           </#if>
         </a></li>
       </#list>
@@ -294,7 +294,7 @@
 
         <#if nub>
           <h3>Dataset</h3>
-          <p><a href="<@s.url value='/species/${img1.usageKey}'/>">${checklists.get(img1.checklistKey).name}</a></p>
+          <p><a href="<@s.url value='/species/${img1.usageKey}'/>">${checklists.get(img1.checklistKey).title}</a></p>
         </#if>
 
         <#if img1.publisher?has_content>
@@ -350,7 +350,7 @@
               <#assign more=true/>
               <#break />
             </#if>
-            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${checklists.get(rel.checklistKey).name}</a> <span
+            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${checklists.get(rel.checklistKey).title}</a> <span
                     class="note">${rel.scientificName}</span></li>
           </#list>
         </ul>
