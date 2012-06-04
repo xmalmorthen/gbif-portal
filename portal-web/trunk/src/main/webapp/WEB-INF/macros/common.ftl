@@ -17,7 +17,7 @@
     <#assign source=(component.source!"")?trim/>
   </#if>
   <#if showChecklistSource>
-    <#assign source><a href='<@s.url value='/species/${component.usageKey?c}'/>'>${checklists.get(component.checklistKey).name}</a><br/>${source}</#assign>
+    <#assign source><a href='<@s.url value='/species/${component.usageKey?c}'/>'>${checklists.get(component.checklistKey).title}</a><br/>${source}</#assign>
   </#if>
   <#if source?has_content || component.remarks?has_content>
     <a class="sourcePopup" message="${source!}" remarks="${component.remarks!}"></a>
@@ -31,7 +31,7 @@
       <p>
       <#if showSource>${comp.source!""}<br/></#if>
       <#if showChecklistSource>
-        <a href='<@s.url value='/species/${comp.usageKey?c}'/>'>${checklists.get(comp.checklistKey).name}</a>
+        <a href='<@s.url value='/species/${comp.usageKey?c}'/>'>${checklists.get(comp.checklistKey).title}</a>
       </#if>
       </p><br/>
     </#assign>
