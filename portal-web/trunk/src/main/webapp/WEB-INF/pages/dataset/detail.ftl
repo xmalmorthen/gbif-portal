@@ -55,12 +55,12 @@
 
     <#if dataset.metadataLanguage?has_content>
       <h3>Language of Metadata</h3>
-      <@common.enum dataset.metadataLanguage />
+       <p>${dataset.metadataLanguage}</p>
     </#if>
 
     <#if dataset.language?has_content>
       <h3>Language of Data</h3>
-      <@common.enum dataset.language />
+      <@common.enum dataset.dataLanguage />
     </#if>
 
     <#if (preferredContacts?size>0) >
@@ -97,21 +97,21 @@
 
       <h3>Published by</h3>
     <#if dataset.owningOrganizationKey?has_content>
-      <p><a href="<@s.url value='/member/${dataset.owningOrganizationKey}'/>" title="${dataset.owningOrganization.title!"Unknown"}">${dataset.owningOrganization.title!"Unknown"}</a></p>
+      <p><a href="<@s.url value='/member/${dataset.owningOrganizationKey}'/>" title="${owningOrganization.title!"Unknown"}">${owningOrganization.title!"Unknown"}</a></p>
     <#else>      
       <p>Unknown</p>    
     </#if>
 
     <!-- Only show hosting organization if it's different from owning / publishing org -->
-    <#if dataset.hostingOrganization?has_content && dataset.hostingOrganizationKey != dataset.owningOrganizationKey>
+    <#if hostingOrganization?has_content && dataset.hostingOrganizationKey != dataset.owningOrganizationKey>
       <h3>Hosted by</h3>
-      <p><a href="<@s.url value='/member/${dataset.hostingOrganizationKey}'/>" title="${dataset.hostingOrganization.title!"Unknown"}">${dataset.owningOrganization.title!"Unknown"}</a></p>
+      <p><a href="<@s.url value='/member/${dataset.hostingOrganizationKey}'/>" title="${hostingOrganization.title!"Unknown"}">${hostingOrganization.title!"Unknown"}</a></p>
     </#if>
 
     <!-- Could be an external dataset, with an owning org, but no endorsing node since it's not in GBIF Network -->
-    <#if (dataset.owningOrganization.endorsingNode)?has_content>
+    <#if (owningOrganization.endorsingNode)?has_content>
       <h3>Endorsed by</h3>
-      <p><a href="<@s.url value='/member/${dataset.owningOrganization.endorsingNode.key}'/>" title="${dataset.owningOrganization.endorsingNode.title!"Unknown"}">${dataset.owningOrganization.endorsingNode.title!"Unknown"}</a></p>
+      <p><a href="<@s.url value='/member/${owningOrganization.endorsingNode.key}'/>" title="${owningOrganization.endorsingNode.title!"Unknown"}">${owningOrganization.endorsingNode.title!"Unknown"}</a></p>
     </#if>
 
     <!-- Ideally the alt. identifier has a type which is displayed as a link to the identifier. Otherwise, a trimmed version is displayed. In both cases, a popup appears to display the full identifier. -->

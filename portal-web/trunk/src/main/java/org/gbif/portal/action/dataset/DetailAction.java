@@ -13,7 +13,11 @@ import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Contact;
 import org.gbif.registry.api.model.Dataset;
 import org.gbif.registry.api.model.DatasetMetrics;
+import org.gbif.registry.api.model.Organization;
+import org.gbif.registry.api.model.TechnicalInstallation;
 import org.gbif.registry.api.service.DatasetService;
+import org.gbif.registry.api.service.OrganizationService;
+import org.gbif.registry.api.service.TechnicalInstallationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,12 +33,20 @@ public class DetailAction extends BaseAction {
   // detail
   private String id;
   private Dataset dataset;
+  private Organization owningOrganization;
+  private Organization hostingOrganization;
   private DatasetMetrics metrics;
   private List<Contact> preferredContacts;
   private List<Contact> otherContacts;
 
   @Inject
   private DatasetService datasetService;
+
+  @Inject
+  private OrganizationService organizationService;
+
+  @Inject
+  private TechnicalInstallationService technicalInstallationService;
 
   @Override
   public String execute() {
@@ -52,13 +64,62 @@ public class DetailAction extends BaseAction {
     // are there preferred (primary) contacts
     separateContacts(dataset.getContacts());
 
+    // gets the owning organization
+    this.owningOrganization = this.organizationService.get(dataset.getOwningOrganizationKey());
+    if (dataset.getTechnicalInstallationKey() != null) {
+      TechnicalInstallation technicalInstallation =
+        this.technicalInstallationService.get(dataset.getTechnicalInstallationKey());
+      if (technicalInstallation.getHostingOrganizationKey().equals(this.dataset.getOwningOrganizationKey())) {
+        hostingOrganization = owningOrganization;
+      } else {
+        hostingOrganization = this.organizationService.get(technicalInstallation.getHostingOrganizationKey());
+      }
+    }
     return SUCCESS;
+  }
+
+  public Dataset getDataset() {
+    return dataset;
+  }
+
+  /**
+   * @return the hostingOrganization
+   */
+  protected Organization getHostingOrganization() {
+    return hostingOrganization;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public Dataset getMember() {
+    return dataset;
+  }
+
+  public DatasetMetrics getMetrics() {
+    return metrics;
+  }
+
+  public List<Contact> getOtherContacts() {
+    return otherContacts;
+  }
+
+  /**
+   * @return the dataset's owningOrganization
+   */
+  public Organization getOwningOrganization() {
+    return owningOrganization;
+  }
+
+  public List<Contact> getPreferredContacts() {
+    return preferredContacts;
   }
 
   /**
    * Iterate over the list of dataset contacts. Divide them into two lists:
    * those thare are preferred (primary), and those that are not.
-   *
+   * 
    * @param contacts list of contacts associated to the dataset
    */
   private void separateContacts(List<Contact> contacts) {
@@ -77,35 +138,13 @@ public class DetailAction extends BaseAction {
     }
   }
 
-  public Dataset getDataset() {
-    return dataset;
-  }
 
   public void setDataset(Dataset dataset) {
     this.dataset = dataset;
   }
 
+
   public void setId(String id) {
     this.id = id;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public List<Contact> getPreferredContacts() {
-    return preferredContacts;
-  }
-
-  public List<Contact> getOtherContacts() {
-    return otherContacts;
-  }
-
-  public DatasetMetrics getMetrics() {
-    return metrics;
-  }
-
-  public Dataset getMember() {
-    return dataset;
   }
 }
