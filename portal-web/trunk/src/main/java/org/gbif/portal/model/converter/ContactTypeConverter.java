@@ -22,7 +22,7 @@ public class ContactTypeConverter extends StrutsTypeConverter {
   @Override
   public String convertToString(Map context, Object o) {
     if (o instanceof InterpretedEnum) {
-      return ((InterpretedEnum) o).getInterpreted().name();
+      return ((InterpretedEnum<?, ?>) o).getInterpreted().name();
     }
     return null;
   }
