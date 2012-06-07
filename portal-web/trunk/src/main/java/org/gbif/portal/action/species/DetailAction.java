@@ -3,14 +3,12 @@ package org.gbif.portal.action.species;
 import org.gbif.api.paging.Pageable;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
-import org.gbif.checklistbank.api.model.Identifier;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.NameUsageComponent;
 import org.gbif.checklistbank.api.model.TypeSpecimen;
 import org.gbif.checklistbank.api.model.VernacularName;
 import org.gbif.checklistbank.api.service.DescriptionService;
 import org.gbif.checklistbank.api.service.DistributionService;
-import org.gbif.checklistbank.api.service.IdentifierService;
 import org.gbif.checklistbank.api.service.ImageService;
 import org.gbif.checklistbank.api.service.ReferenceService;
 import org.gbif.checklistbank.api.service.SpeciesProfileService;
@@ -37,8 +35,6 @@ public class DetailAction extends UsageAction {
   private ReferenceService referenceService;
   @Inject
   private DescriptionService descriptionService;
-  @Inject
-  private IdentifierService identifierService;
   @Inject
   private ImageService imageService;
   @Inject
@@ -132,10 +128,6 @@ public class DetailAction extends UsageAction {
     PagingResponse<NameUsage> synonymResponse = usageService.listSynonyms(id, getLocale(), page10);
     usage.setSynonyms(synonymResponse.getResults());
 
-    // get identifier
-    PagingResponse<Identifier> identifierResponse = identifierService.listByUsage(id, page10);
-    usage.setIdentifiers(identifierResponse.getResults());
-
     // get vernacular names
     usage.setVernacularNames(vernacularNameService.listByUsage(id, page10).getResults());
     // get references
@@ -155,13 +147,13 @@ public class DetailAction extends UsageAction {
   /**
    * Filters duplicates from vernacular names.
    */
-  private void distinctVernNames(){
-    for (VernacularName v : usage.getVernacularNames()){
-      if (Strings.isNullOrEmpty(v.getVernacularName())){
+  private void distinctVernNames() {
+    for (VernacularName v : usage.getVernacularNames()) {
+      if (Strings.isNullOrEmpty(v.getVernacularName())) {
         continue;
       }
-      String id = (v.getVernacularName()+"||"+ Strings.nullToEmpty(v.getLanguage())).toLowerCase();
-      if (!vernacularNames.containsKey(id)){
+      String id = (v.getVernacularName() + "||" + Strings.nullToEmpty(v.getLanguage())).toLowerCase();
+      if (!vernacularNames.containsKey(id)) {
         vernacularNames.put(id, Lists.<VernacularName>newArrayList());
       }
       vernacularNames.get(id).add(v);

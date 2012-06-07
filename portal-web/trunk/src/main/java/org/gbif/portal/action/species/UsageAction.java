@@ -2,6 +2,7 @@ package org.gbif.portal.action.species;
 
 import org.gbif.api.exception.NotFoundException;
 import org.gbif.checklistbank.api.model.NameUsage;
+import org.gbif.checklistbank.api.model.NameUsageContainer;
 import org.gbif.checklistbank.api.service.NameUsageService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Dataset;
@@ -26,7 +27,7 @@ public class UsageAction extends BaseAction {
   protected DatasetService checklistService;
 
   protected Integer id;
-  protected NameUsage usage;
+  protected NameUsageContainer usage;
   protected Dataset checklist;
   protected Map<UUID, Dataset> checklists = new HashMap<UUID, Dataset>();
 
@@ -40,11 +41,12 @@ public class UsageAction extends BaseAction {
       LOG.error("No checklist usage id given");
       throw new NotFoundException();
     }
-    usage = usageService.get(id, getLocale());
-    if (usage == null) {
+    NameUsage u = usageService.get(id, getLocale());
+    if (u == null) {
       LOG.error("No usage found with id {}", id);
       throw new NotFoundException();
     }
+    usage = new NameUsageContainer(u);
     // load checklist
     checklist = checklistService.get(usage.getChecklistKey());
   }
@@ -73,7 +75,7 @@ public class UsageAction extends BaseAction {
     return id;
   }
 
-  public NameUsage getUsage() {
+  public NameUsageContainer getUsage() {
     return usage;
   }
 
