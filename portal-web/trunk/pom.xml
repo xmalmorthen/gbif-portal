@@ -21,12 +21,12 @@
   <parent>
     <groupId>org.gbif</groupId>
     <artifactId>motherpom</artifactId>
-    <version>7</version>
+    <version>8</version>
   </parent>
 
   <groupId>org.gbif</groupId>
   <artifactId>portal-web</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>GBIF Portal</name>
@@ -55,12 +55,13 @@
     <gbif-common-api.version>0.1</gbif-common-api.version>
     <checklistbank-api.version>0.1-SNAPSHOT</checklistbank-api.version>
     <checklistbank-ws-client.version>0.1-SNAPSHOT</checklistbank-ws-client.version>
+    <checklistbank-mybatis.version>0.1-SNAPSHOT</checklistbank-mybatis.version>
     <registry-api.version>0.1-SNAPSHOT</registry-api.version>
     <registry-ws-client.version>0.1-SNAPSHOT</registry-ws-client.version>
-    <occurrencestore-api.version>0.1-SNAPSHOT</occurrencestore-api.version>
-    <occurrencestore-ws-client.version>0.1-SNAPSHOT</occurrencestore-ws-client.version>
+    <occurrence-download-api.version>0.1-SNAPSHOT</occurrence-download-api.version>
+    <occurrence-download-ws-client.version>0.1-SNAPSHOT</occurrence-download-ws-client.version>
     <occurrence-download.version>0.1-SNAPSHOT</occurrence-download.version>
-    <drupal-mybatis.version>1.0-SNAPSHOT</drupal-mybatis.version>
+    <drupal-mybatis.version>0.1-SNAPSHOT</drupal-mybatis.version>
 
     <freemarker.version>2.3.18</freemarker.version>
     <guice.version>3.0</guice.version>
@@ -197,24 +198,20 @@
   <dependencies>
     <!-- GBIF -->
     <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-common-api</artifactId>
+      <version>${gbif-common-api.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.gbif.checklistbank</groupId>
       <artifactId>checklistbank-api</artifactId>
       <version>${checklistbank-api.version}</version>
     </dependency>
+    <!-- we need the mybatis layer to have the enum converters for solr -->
     <dependency>
-      <groupId>org.gbif</groupId>
-      <artifactId>occurrence-download-api</artifactId>
-      <version>${occurrence-download.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gbif</groupId>
-      <artifactId>occurrence-download-ws-client</artifactId>
-      <version>${occurrence-download.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gbif</groupId>
-      <artifactId>gbif-common-api</artifactId>
-      <version>${gbif-common-api.version}</version>
+      <groupId>org.gbif.checklistbank</groupId>
+      <artifactId>checklistbank-mybatis-service</artifactId>
+      <version>${checklistbank-mybatis.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gbif.checklistbank</groupId>
@@ -238,14 +235,14 @@
       <version>${registry-ws-client.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.gbif</groupId>
-      <artifactId>occurrencestore-api</artifactId>
-      <version>${occurrencestore-api.version}</version>
+      <groupId>org.gbif.occurrence.download</groupId>
+      <artifactId>occurrence-download-api</artifactId>
+      <version>${occurrence-download-api.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.gbif</groupId>
-      <artifactId>occurrencestore-ws-client</artifactId>
-      <version>${occurrencestore-ws-client.version}</version>
+      <groupId>org.gbif.occurrence.download</groupId>
+      <artifactId>occurrence-download-ws-client</artifactId>
+      <version>${occurrence-download-ws-client.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gbif</groupId>
