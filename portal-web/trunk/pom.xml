@@ -52,7 +52,7 @@
     <devMode>true</devMode>
     <notDevMode>false</notDevMode>
 
-    <gbif-common-api.version>0.1-SNAPSHOT</gbif-common-api.version>
+    <gbif-common-api.version>0.1</gbif-common-api.version>
     <checklistbank-api.version>0.1-SNAPSHOT</checklistbank-api.version>
     <checklistbank-ws-client.version>0.1-SNAPSHOT</checklistbank-ws-client.version>
     <registry-api.version>0.1-SNAPSHOT</registry-api.version>
@@ -68,7 +68,7 @@
     <jersey-json.version>1.11</jersey-json.version>
     <jersey-client.version>1.11</jersey-client.version>
     <junit.version>4.10</junit.version>
-    <guava.version>11.0.1</guava.version>
+    <guava.version>12.0</guava.version>
     <logback.version>1.0.0</logback.version>
     <mockito.version>1.9.0</mockito.version>
     <selenium.version>2.21.0</selenium.version>
@@ -108,12 +108,12 @@
           </webAppConfig>
           <stopKey>stop</stopKey>
           <stopPort>9362</stopPort>
-         <systemProperties>
-           <systemProperty>
-             <name>servername</name>
-             <value>http://localhost:${jetty.port}</value>
-           </systemProperty>
-         </systemProperties>
+          <systemProperties>
+            <systemProperty>
+              <name>servername</name>
+              <value>http://localhost:${jetty.port}</value>
+            </systemProperty>
+          </systemProperties>
         </configuration>
         <executions>
           <execution>
@@ -140,12 +140,12 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
         <configuration>
-         <systemProperties>
-           <property>
-             <name>servername</name>
-             <value>http://localhost:${jetty.port}</value>
-           </property>
-         </systemProperties>
+          <systemProperties>
+            <property>
+              <name>servername</name>
+              <value>http://localhost:${jetty.port}</value>
+            </property>
+          </systemProperties>
         </configuration>
         <executions>
           <execution>
@@ -197,7 +197,7 @@
   <dependencies>
     <!-- GBIF -->
     <dependency>
-      <groupId>org.gbif</groupId>
+      <groupId>org.gbif.checklistbank</groupId>
       <artifactId>checklistbank-api</artifactId>
       <version>${checklistbank-api.version}</version>
     </dependency>
@@ -210,14 +210,14 @@
       <groupId>org.gbif</groupId>
       <artifactId>occurrence-download-ws-client</artifactId>
       <version>${occurrence-download.version}</version>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>gbif-common-api</artifactId>
       <version>${gbif-common-api.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.gbif</groupId>
+      <groupId>org.gbif.checklistbank</groupId>
       <artifactId>checklistbank-ws-client</artifactId>
       <version>${checklistbank-ws-client.version}</version>
       <exclusions>
@@ -228,17 +228,12 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.gbif</groupId>
-      <artifactId>checklistbank-mybatis-service</artifactId>
-      <version>0.1-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gbif</groupId>
+      <groupId>org.gbif.registry</groupId>
       <artifactId>registry-api</artifactId>
       <version>${registry-api.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.gbif</groupId>
+      <groupId>org.gbif.registry</groupId>
       <artifactId>registry-ws-client</artifactId>
       <version>${registry-ws-client.version}</version>
     </dependency>
@@ -408,7 +403,7 @@
       <groupId>org.apache.bval</groupId>
       <artifactId>bval-guice</artifactId>
       <version>${bval.version}</version>
-    </dependency>    
+    </dependency>
   </dependencies>
 
   <profiles>
