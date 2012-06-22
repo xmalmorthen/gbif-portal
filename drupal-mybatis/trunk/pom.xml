@@ -20,19 +20,19 @@
     <bonecp.version>0.7.1.RELEASE</bonecp.version>
     <commons-lang.version>2.4</commons-lang.version>
     <commons-io.version>2.1</commons-io.version>
-    <gbif-common-api.version>0.1-SNAPSHOT</gbif-common-api.version>
-    <gbif-common-mybatis.version>0.1-SNAPSHOT</gbif-common-mybatis.version>
-    <gbif-common-service.version>0.1-SNAPSHOT</gbif-common-service.version>
-    <gbif-common-test.version>0.1-SNAPSHOT</gbif-common-test.version>
-    <guava.version>11.0.1</guava.version>
+    <gbif-common-api.version>0.1</gbif-common-api.version>
+    <gbif-common-mybatis.version>0.1</gbif-common-mybatis.version>
+    <gbif-common-service.version>0.1</gbif-common-service.version>
+    <gbif-common-test.version>0.1</gbif-common-test.version>
+    <guava.version>12.0</guava.version>
     <guice.version>3.0</guice.version>
     <junit.version>4.10</junit.version>
-    <logback.version>1.0.0</logback.version>
+    <logback.version>1.0.6</logback.version>
     <mockito.version>1.9.0</mockito.version>
-    <mysql-connector-java.version>5.1.18</mysql-connector-java.version>
+    <mysql-connector-java.version>5.1.20</mysql-connector-java.version>
     <mybatis.version>3.0.6</mybatis.version>
     <mybatis-guice.version>3.2</mybatis-guice.version>
-    <slf4j.version>1.6.4</slf4j.version>
+    <slf4j.version>1.6.5</slf4j.version>
   </properties>
 
   <scm>
