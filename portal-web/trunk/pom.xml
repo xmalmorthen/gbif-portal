@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.gbif</groupId>
     <artifactId>motherpom</artifactId>
-    <version>8</version>
+    <version>9-SNAPSHOT</version>
   </parent>
 
   <groupId>org.gbif</groupId>
@@ -63,20 +63,18 @@
     <occurrence-download.version>0.1-SNAPSHOT</occurrence-download.version>
     <drupal-mybatis.version>0.1-SNAPSHOT</drupal-mybatis.version>
 
-    <freemarker.version>2.3.18</freemarker.version>
+    <freemarker.version>2.3.19</freemarker.version>
     <guice.version>3.0</guice.version>
-    <jersey-apache-client4.version>1.9.1</jersey-apache-client4.version>
-    <jersey-json.version>1.11</jersey-json.version>
-    <jersey-client.version>1.11</jersey-client.version>
+    <jersey.version>1.12</jersey.version>
     <junit.version>4.10</junit.version>
     <guava.version>12.0</guava.version>
-    <logback.version>1.0.0</logback.version>
+    <logback.version>1.0.6</logback.version>
     <mockito.version>1.9.0</mockito.version>
-    <selenium.version>2.21.0</selenium.version>
+    <selenium.version>2.24.1</selenium.version>
     <servletapi.version>2.5</servletapi.version>
-    <slf4j.version>1.6.4</slf4j.version>
-    <struts.version>2.2.3.1</struts.version>
-    <bval.version>0.3-incubating</bval.version>
+    <slf4j.version>1.6.5</slf4j.version>
+    <struts.version>2.3.4</struts.version>
+    <bval.version>0.4</bval.version>
     <cas.version>3.2.1</cas.version>
     <xerces.version>2.9.1</xerces.version>
     <opensaml.version>1.1</opensaml.version>
@@ -336,7 +334,7 @@
     <dependency>
       <groupId>com.sun.jersey.contribs</groupId>
       <artifactId>jersey-apache-client4</artifactId>
-      <version>${jersey-apache-client4.version}</version>
+      <version>${jersey.version}</version>
       <scope>runtime</scope>
       <exclusions>
         <exclusion>
@@ -348,12 +346,12 @@
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-json</artifactId>
-      <version>${jersey-json.version}</version>
+      <version>${jersey.version}</version>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-client</artifactId>
-      <version>${jersey-client.version}</version>
+      <version>${jersey.version}</version>
     </dependency>
 
     <!-- CAS Auth -->

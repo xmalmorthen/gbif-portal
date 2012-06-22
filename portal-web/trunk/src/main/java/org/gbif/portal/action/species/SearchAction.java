@@ -52,8 +52,8 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private final ThreatStatusConverter threatStatusConverter;
 
   @Inject
-  public SearchAction(NameUsageSearchService<NameUsageSearchResult> nameUsageSearchService,
-    NameUsageService usageService, DatasetService checklistService, TaxonomicStatusConverter taxonomicStatusConverter,
+  public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService,
+    DatasetService checklistService, TaxonomicStatusConverter taxonomicStatusConverter,
     ThreatStatusConverter threatStatusConverter) {
     super(nameUsageSearchService, NameUsageFacetParameter.class);
     this.usageService = usageService;
@@ -113,7 +113,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    */
   public boolean getShowAccordingTo() {
     return getFacets() == null || !getFacets().containsKey(NameUsageFacetParameter.CHECKLIST)
-           || getFacets().get(NameUsageFacetParameter.CHECKLIST).size() != 1;
+      || getFacets().get(NameUsageFacetParameter.CHECKLIST).size() != 1;
   }
 
   /**
@@ -190,7 +190,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   /**
    * Request parameter for filtering results by nubKey.
-   *
+   * 
    * @param nubKey the nubKey to set
    */
   public void setNubKey(Integer nubKey) {
