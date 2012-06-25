@@ -4,22 +4,22 @@
 <head>
   <title>${usage.scientificName} - Checklist View</title>
   <meta name="menu" content="species"/>
-  <#if nub>
-    <content tag="extra_scripts">
-      <link rel="stylesheet" href="<@s.url value='/css/google.css'/>"/>
-      <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=true"></script>
-      <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
-      <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
-      <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
-      <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
-    </content>
-  </#if>
-  <#-- RDFa -->
-  <meta property="dwc:scientificName" content="${usage.scientificName!}" />
-  <meta property="dwc:kingdom" content="${usage.scientificName!}" />
-  <meta property="dwc:datasetID" content="${checklist.key}" />
-  <meta property="dwc:datasetName" content="${checklist.title!"???"}" />
-  <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${checklist.key}'/>" />
+<#if nub>
+  <content tag="extra_scripts">
+    <link rel="stylesheet" href="<@s.url value='/css/google.css'/>"/>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=true"></script>
+    <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
+  </content>
+</#if>
+<#-- RDFa -->
+  <meta property="dwc:scientificName" content="${usage.scientificName!}"/>
+  <meta property="dwc:kingdom" content="${usage.scientificName!}"/>
+  <meta property="dwc:datasetID" content="${checklist.key}"/>
+  <meta property="dwc:datasetName" content="${checklist.title!"???"}"/>
+  <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${checklist.key}'/>"/>
 </head>
 <body class="species typesmap">
 
@@ -71,47 +71,56 @@
       </ul>
 
       <h3>Full name</h3>
+
       <p>${usage.scientificName}</p>
 
       <h3>Taxonomic Status</h3>
+
       <p>
-        ${usage.taxonomicStatus!"Unknown"}
-        <#if usage.synonym> of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a></#if>
+      ${usage.taxonomicStatus!"Unknown"}
+      <#if usage.synonym> of <a
+              href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a></#if>
       </p>
 
-      <#if usage.nomenclaturalStatus?has_content>
-        <h3>Nomenclatural Status</h3>
-        <p>${usage.nomenclaturalStatus}</p>
-      </#if>
+    <#if usage.nomenclaturalStatus?has_content>
+      <h3>Nomenclatural Status</h3>
 
-      <#if usage.isExtinct()??>
-        <h3>Extinction Status</h3>
-        <p>${usage.isExtinct()?string("Extinct","Living")}</p>
-      </#if>
+      <p>${usage.nomenclaturalStatus}</p>
+    </#if>
 
-      <#if (usage.livingPeriods?size>0)>
-        <h3>Living Period</h3>
-        <p><#list usage.livingPeriods as p>${p}<#if p_has_next>; </#if></#list></p>
-      </#if>
+    <#if usage.isExtinct()??>
+      <h3>Extinction Status</h3>
 
-      <#if usage.isMarine()?? || usage.isTerrestrial()?? || (usage.habitats?size>0)>
-        <h3>Habitat</h3>
-        <p>
-          <#if usage.isMarine()??><#if usage.isMarine()>Marine<#else>Non Marine</#if>;</#if>
-          <#if usage.isTerrestrial()??><#if usage.isTerrestrial()>Terrestrial<#else>Non Terrestrial</#if>;</#if>
-          <#list usage.habitats as h>${h}<#if t_has_next>; </#if></#list>
-        </p>
-      </#if>
+      <p>${usage.isExtinct()?string("Extinct","Living")}</p>
+    </#if>
 
-      <#if (usage.threatStatus?size>0)>
-        <h3>Threat Status</h3>
-        <p><#list usage.threatStatus as t><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#list></p>
-      </#if>
+    <#if (usage.livingPeriods?size>0)>
+      <h3>Living Period</h3>
+
+      <p><#list usage.livingPeriods as p>${p}<#if p_has_next>; </#if></#list></p>
+    </#if>
+
+    <#if usage.isMarine()?? || usage.isTerrestrial()?? || (usage.habitats?size>0)>
+      <h3>Habitat</h3>
+
+      <p>
+        <#if usage.isMarine()??><#if usage.isMarine()>Marine<#else>Non Marine</#if>;</#if>
+        <#if usage.isTerrestrial()??><#if usage.isTerrestrial()>Terrestrial<#else>Non Terrestrial</#if>;</#if>
+        <#list usage.habitats as h>${h}<#if t_has_next>; </#if></#list>
+      </p>
+    </#if>
+
+    <#if (usage.threatStatus?size>0)>
+      <h3>Threat Status</h3>
+
+      <p><#list usage.threatStatus as t><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#list></p>
+    </#if>
 
     <#list usage.descriptions as d>
-        <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
-        <p>${d.description!}</p>
-      </#list>
+      <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
+
+      <p>${d.description!}</p>
+    </#list>
 
     </div>
     <div class="right">
@@ -122,7 +131,9 @@
         <#list vernacularNames?keys as vk>
           <#assign names=vernacularNames.get(vk)/>
           <#assign v=names[0]/>
-          <li>${v.vernacularName} <span class="small">${v.language!}</span> <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() /> </li>
+          <li>${v.vernacularName} <span
+                  class="small">${v.language!}</span> <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
+          </li>
           <#if vk_index==8>
             <#assign more=true/>
             <#break />
@@ -137,6 +148,7 @@
 
     <#if basionym?has_content>
       <h3>Original Name</h3>
+
       <p><a href="<@s.url value='/species/${basionym.key?c}'/>">${basionym.scientificName}</a></p>
     </#if>
 
@@ -146,13 +158,13 @@
         <li><a href="${i.identifierLink}" title="${i.title!i.type!}">
           <#if i.title?has_content>${i.title}
           <#else>
-            ${common.limit( checklists.get(i.checklistKey).title ,30)}
+          ${common.limit( datasets.get(i.checklistKey).title ,30)}
           </#if>
         </a></li>
       </#list>
-       <#if usage.nubKey??>
+      <#if usage.nubKey??>
         <li><a href="http://eol.org/gbif/${usage.nubKey?c}" title="EOL">EOL</a></li>
-       </#if>
+      </#if>
         <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
 
       <#if (usage.lsids?size>0)>
@@ -179,7 +191,7 @@
       <h3>Taxonomic classification
         <div class="extended">[<a href="<@s.url value='/species/${id?c}/classification'/>">extended</a>]</div>
       </h3>
-	<#include "/WEB-INF/pages/species/taxbrowser.ftl">
+    <#include "/WEB-INF/pages/species/taxbrowser.ftl">
     </div>
 
 
@@ -240,7 +252,7 @@
       <h3>Visualize</h3>
 
       <p class="maptype">
-          <a href="#" title="occurrence" class="selected">occurrence</a>
+        <a href="#" title="occurrence" class="selected">occurrence</a>
         | <a class="placeholder_temp" href="#" title="diversity">diversity</a>
         | <a class="placeholder_temp" href="#" title="distribution">distribution</a>
       </p>
@@ -262,6 +274,7 @@
 <#if (usage.images?size>0)>
 <article id="images" class="photo_gallery">
   <a name="images"></a>
+
   <div class="content">
 
     <div class="slideshow">
@@ -287,6 +300,7 @@
 
         <#if img1.description?has_content>
           <h3>Description</h3>
+
           <p>${common.limit(img1.description!img1.title!"",100)}
             <#if (img1.description?length>100) ><@common.popup message=img1.description title=img1.title!"Description"/></#if>
           </p>
@@ -294,21 +308,25 @@
 
         <#if nub>
           <h3>Dataset</h3>
-          <p><a href="<@s.url value='/species/${img1.usageKey}'/>">${checklists.get(img1.checklistKey).title}</a></p>
+
+          <p><a href="<@s.url value='/species/${img1.usageKey}'/>">${datasets.get(img1.checklistKey).title}</a></p>
         </#if>
 
         <#if img1.publisher?has_content>
           <h3>Image publisher</h3>
+
           <p>${img1.publisher!"???"}</p>
         </#if>
 
         <#if (img1.creator!img1.created)?has_content>
           <h3>Photographer</h3>
+
           <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
         </#if>
 
-          <h3>Copyright</h3>
-          <p>${img1.license!"No license"}</p>
+        <h3>Copyright</h3>
+
+        <p>${img1.license!"No license"}</p>
 
       </#if>
     </div>
@@ -325,19 +343,20 @@
 
     <div class="left">
       <div class="col">
-        <h3>Occurrences datasets</h3>
+        <h3>Occurrence datasets</h3>
         <ul class="notes">
-        <#assign more=false/>
-        <#list relatedDatasets as uuid>
-          <#if uuid_index==6>
-            <#assign more=true/>
-            <#break />
-          </#if>
-          <li><a href="<@s.url value='/dataset/${uuid}'/>">${uuid}</a> <span class="note placeholder_temp">from Avian Knowledge Network <a href="http://gbrds.gbif.org/browse/agent?uuid=${uuid}">GBRDS</a></span></li>
-        </#list>
+          <#assign more=false/>
+          <#list relatedDatasets as uuid>
+            <#if uuid_index==12>
+              <#assign more=true/>
+              <#break />
+            </#if>
+            <li><a href="<@s.url value='/dataset/${uuid}'/>">${(datasets.get(uuid).title)!uuid}</a></li>
+          </#list>
         </ul>
         <#if more>
-          <p><a class="more_link" href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=occurrence'/>">see all</a></p>
+          <p><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">see
+            all</a></p>
         </#if>
       </div>
 
@@ -350,12 +369,14 @@
               <#assign more=true/>
               <#break />
             </#if>
-            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${checklists.get(rel.checklistKey).title}</a> <span
-                    class="note">${rel.scientificName}</span></li>
+            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${datasets.get(rel.checklistKey).title}</a>
+              <span class="note">${rel.scientificName}</span>
+            </li>
           </#list>
         </ul>
         <#if more>
-          <p><a class="more_link" href="<@s.url value='/species/search?nubKey=${usage.nubKey?c}'/>">see all</a></p>
+          <p><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">see
+            all</a></p>
         </#if>
       </div>
     </div>
@@ -363,15 +384,17 @@
     <div class="right">
       <h3>By dataset type</h3>
       <ul>
-        <li><a href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=occurrence'/>">${relatedDatasets?size} occurrence datasets</a></li>
-        <li><a href="<@s.url value='/dataset/search?nubKey=${usage.nubKey?c}&type=checklist'/>">${related?size} checklist datasets</a></li>
-        <li class="placeholder_temp"><a href="<@s.url value='/dataset/search?q=fake'/>">2 external datasets</a></li>
+        <li><a href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">${relatedDatasets?size}
+          occurrence datasets</a></li>
+        <li><a href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">${related?size} checklist
+          datasets</a></li>
+        <li><a href="<@s.url value='/dataset/search?q=${usage.canonicalOrScientificName!}'/>">external datasets</a></li>
       </ul>
       <h3>By checklist type</h3>
       <ul class="placeholder_temp">
-        <li><a href="<@s.url value='/dataset/search?q=fake'/>">13 inventory</a></li>
-        <li><a href="<@s.url value='/dataset/search?q=fake'/>">3 taxonomic</a></li>
-        <li><a href="<@s.url value='/dataset/search?q=fake'/>">1 nomenclator</a></li>
+        <li><a href="<@s.url value='/dataset/search?q=${usage.canonicalOrScientificName!}'/>">13 inventory</a></li>
+        <li><a href="<@s.url value='/dataset/search?q=${usage.canonicalOrScientificName!}'/>">3 taxonomic</a></li>
+        <li><a href="<@s.url value='/dataset/search?q=${usage.canonicalOrScientificName!}'/>">1 nomenclator</a></li>
       </ul>
 
     </div>
@@ -386,28 +409,28 @@
   <header></header>
   <div class="content">
     <h2><a name="typespecimenName">Type specimens</a></h2>
-    <#-- only show 4 type specimens at max -->
+  <#-- only show 4 type specimens at max -->
     <#assign maxRecords=4>
     <div class="left">
       <#list usage.typeSpecimens as ts>
-          <div class="col">
-            <@specimenRecord.record ts=ts showAsSearchResult=false />
-          </div>
-          <#-- If we have 4 (index=3) we know there are more to show -->
-          <#if (ts_index = maxRecords-1)>
-            <p>
-              <a class="more_link" href="<@s.url value='/species/${id?c}/typespecimens'/>">see all</a>
-            </p>
-            <#break>
-          </#if>
+        <div class="col">
+        <@specimenRecord.record ts=ts showAsSearchResult=false />
+        </div>
+      <#-- If we have 4 (index=3) we know there are more to show -->
+        <#if (ts_index = maxRecords-1)>
+          <p>
+            <a class="more_link" href="<@s.url value='/species/${id?c}/typespecimens'/>">see all</a>
+          </p>
+          <#break>
+        </#if>
       </#list>
     </div>
     <div class="right">
       <h3>Specimens by type</h3>
       <ul>
-      <#list typeStatusCounts?keys as prop>
-        <li>${prop} <a class="number">${typeStatusCounts.get(prop)}</a></li>
-      </#list>
+        <#list typeStatusCounts?keys as prop>
+          <li>${prop} <a class="number">${typeStatusCounts.get(prop)}</a></li>
+        </#list>
       </ul>
     </div>
   </div>
@@ -429,7 +452,7 @@
             <div>
               <p class="no_bottom">
                 <a href="#">${d.locationId!} ${d.country!} ${d.locality!}</a>
-                <@common.usageSource component=d showChecklistSource=nub />
+              <@common.usageSource component=d showChecklistSource=nub />
               </p>
 
               <p class="note semi_bottom">${d.lifeStage!} ${d.temporal!} ${d.status!"Present"}
@@ -454,7 +477,7 @@
               <div>
                 <p class="no_bottom">
                   <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
-                  <@common.usageSource component=d showChecklistSource=nub />
+                <@common.usageSource component=d showChecklistSource=nub />
                 </p>
 
                 <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>

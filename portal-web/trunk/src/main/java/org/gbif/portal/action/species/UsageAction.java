@@ -24,12 +24,12 @@ public class UsageAction extends BaseAction {
   @Inject
   protected NameUsageService usageService;
   @Inject
-  protected DatasetService checklistService;
+  protected DatasetService datasetService;
 
   protected Integer id;
   protected NameUsageContainer usage;
   protected Dataset checklist;
-  protected Map<UUID, Dataset> checklists = new HashMap<UUID, Dataset>();
+  protected Map<UUID, Dataset> datasets = new HashMap<UUID, Dataset>();
 
   /**
    * Loads a name usage and its checklist by the id parameter.
@@ -48,7 +48,7 @@ public class UsageAction extends BaseAction {
     }
     usage = new NameUsageContainer(u);
     // load checklist
-    checklist = checklistService.get(usage.getChecklistKey());
+    checklist = datasetService.get(usage.getChecklistKey());
   }
 
   /**
@@ -57,13 +57,13 @@ public class UsageAction extends BaseAction {
    */
   protected void loadChecklists(Collection<UUID> checklistKeys) {
     for (UUID u : checklistKeys) {
-      loadChecklist(u);
+      loadDataset(u);
     }
   }
 
-  protected void loadChecklist(UUID checklistKey) {
-    if (!checklists.containsKey(checklistKey)) {
-      checklists.put(checklistKey, checklistService.get(checklistKey));
+  protected void loadDataset(UUID checklistKey) {
+    if (!datasets.containsKey(checklistKey)) {
+      datasets.put(checklistKey, datasetService.get(checklistKey));
     }
   }
 
@@ -83,13 +83,13 @@ public class UsageAction extends BaseAction {
     return checklist;
   }
 
-  public Map<UUID, Dataset> getChecklists() {
-    return checklists;
+  public Map<UUID, Dataset> getDatasets() {
+    return datasets;
   }
 
   public String getChecklistName(UUID key) {
-    if (key != null && checklists.containsKey(key)) {
-      return checklists.get(key).getTitle();
+    if (key != null && datasets.containsKey(key)) {
+      return datasets.get(key).getTitle();
     }
     return "";
   }

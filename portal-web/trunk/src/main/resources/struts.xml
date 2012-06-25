@@ -10,10 +10,10 @@
     </result-types>
 
     <interceptors>
-      <interceptor name="loginSession" class="org.gbif.portal.struts.LoginInterceptor" />
+      <interceptor name="loginSession" class="org.gbif.portal.struts.LoginInterceptor"/>
       <interceptor name="requireLogin" class="org.gbif.portal.struts.RequireLoginInterceptor"/>
       <interceptor name="requireAdmin" class="org.gbif.portal.struts.RequireAdminInterceptor"/>
-      <interceptor name="jsrvalidation" class="org.gbif.portal.struts.ValidationInterceptor" />
+      <interceptor name="jsrvalidation" class="org.gbif.portal.struts.ValidationInterceptor"/>
 
       <interceptor-stack name="portalStack">
         <interceptor-ref name="loginSession"/>
@@ -78,10 +78,10 @@
 
     <global-exception-mappings>
       <!-- catching not existing action mappings -->
-      <exception-mapping exception="com.opensymphony.xwork2.config.ConfigurationException" result="404" />
-      <exception-mapping exception="org.gbif.api.exception.NotFoundException" result="404" />
-      <exception-mapping exception="java.security.AccessControlException" result="401" />
-      <exception-mapping exception="org.gbif.api.exception.ServiceUnavailableException" result="error" />
+      <exception-mapping exception="com.opensymphony.xwork2.config.ConfigurationException" result="404"/>
+      <exception-mapping exception="org.gbif.api.exception.NotFoundException" result="404"/>
+      <exception-mapping exception="java.security.AccessControlException" result="401"/>
+      <exception-mapping exception="org.gbif.api.exception.ServiceUnavailableException" result="error"/>
     </global-exception-mappings>
 
   </package>
@@ -153,10 +153,10 @@
     <action name="" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/occurrence/download/home.ftl</result>
     </action>
-    
+
     <action name="download" class="org.gbif.portal.action.occurrence.DownloadAction">
       <interceptor-ref name="downloadStack"/>
-	      
+
       <result>/WEB-INF/pages/occurrence/download/result.ftl</result>
     </action>
 
@@ -175,8 +175,8 @@
 
     <action name="{id}" class="org.gbif.portal.action.occurrence.DetailAction">
       <result>/WEB-INF/pages/occurrence/detail.ftl</result>
-    </action>    
-    
+    </action>
+
   </package>
 
   <!-- SPECIES -->
@@ -212,7 +212,11 @@
       <result>/WEB-INF/pages/species/verbatim.ftl</result>
     </action>
 
-    <!-- name usage subresources -->
+    <!-- name usage subresources / see more-->
+    <action name="{id}/datasets" class="org.gbif.portal.action.species.DatasetAction">
+      <result>/WEB-INF/pages/species/datasets.ftl</result>
+    </action>
+
     <action name="{id}/distributions" class="org.gbif.portal.action.species.DistributionAction">
       <result>/WEB-INF/pages/species/distributions.ftl</result>
     </action>
@@ -411,56 +415,57 @@
     <!-- ADD ENTITIES -->
     <action name="{1}/add" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddEntity">
       <result>/WEB-INF/pages/admin/add_{1}.ftl</result>
-    </action>  
-    
+    </action>
+
     <action name="{1}/add/step" class="org.gbif.portal.action.{1}.AdminAction" method="addEntity">
       <result name="input">/WEB-INF/pages/admin/add_{1}.ftl</result>
       <result name="success">/WEB-INF/pages/admin/success.ftl</result>
-    </action>       
-    
-    <!-- EDIT ENTITIES -->    
+    </action>
+
+    <!-- EDIT ENTITIES -->
     <action name="{1}/{id}/edit" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddEntity">
-      <result>/WEB-INF/pages/admin/edit_{1}.ftl</result>    
-    </action>             
-     
+      <result>/WEB-INF/pages/admin/edit_{1}.ftl</result>
+    </action>
+
     <action name="{1}/{id}/edit/step" class="org.gbif.portal.action.{1}.AdminAction" method="editEntity">
-      <result name="input">/WEB-INF/pages/admin/edit_{1}.ftl</result>    
+      <result name="input">/WEB-INF/pages/admin/edit_{1}.ftl</result>
       <result name="success">/WEB-INF/pages/admin/success.ftl</result>
-    </action>        
+    </action>
 
 
-
-	<!-- ACTIONS FOR COMPONENTS -->
+    <!-- ACTIONS FOR COMPONENTS -->
     <!-- TODO: find a way to map the name of the entity to the name of the Action class. Right now it can't be done as mapping is case sensitive -->
-   
+
     <!-- add component -->
-      <!-- prepare -->
+    <!-- prepare -->
     <action name="{1}/add/{2}" class="org.gbif.portal.action.{1}.AdminAction" method="prepareComponents">
       <result>/WEB-INF/pages/admin/add_{2}.ftl</result>
-    </action>  
-      <!-- add -->    
+    </action>
+    <!-- add -->
     <action name="{1}/add/{2}/step" class="org.gbif.portal.action.{1}.AdminAction" method="{2}Add">
-      <result name="input">/WEB-INF/pages/admin/add_{2}.ftl</result>          
-      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>     
-    </action>    
+      <result name="input">/WEB-INF/pages/admin/add_{2}.ftl</result>
+      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>
+    </action>
 
     <!-- delete component -->
     <action name="{1}/delete/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction" method="{2}Delete">
-      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>  
-    </action>      
-    
-    <!-- edit component -->
-    <action name="{1}/{id}/edit/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction" method="{2}EditPrepare">
-      <result>/WEB-INF/pages/admin/edit_{2}.ftl</result>        
+      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>
     </action>
-    
+
     <!-- edit component -->
-    <action name="{1}/{id}/edit/{2}/{componentIndex}/step" class="org.gbif.portal.action.{1}.AdminAction" method="{2}Edit">
-      <result name="input">/WEB-INF/pages/admin/edit_{2}.ftl</result>    
-      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>     
-    </action>             
-  
-    <!-- TO BE DECIDED IF THIS SHOULD BE KEPT -->  
+    <action name="{1}/{id}/edit/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction"
+            method="{2}EditPrepare">
+      <result>/WEB-INF/pages/admin/edit_{2}.ftl</result>
+    </action>
+
+    <!-- edit component -->
+    <action name="{1}/{id}/edit/{2}/{componentIndex}/step" class="org.gbif.portal.action.{1}.AdminAction"
+            method="{2}Edit">
+      <result name="input">/WEB-INF/pages/admin/edit_{2}.ftl</result>
+      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>
+    </action>
+
+    <!-- TO BE DECIDED IF THIS SHOULD BE KEPT -->
     <action name="organization/{id}" class="org.gbif.portal.action.admin.OrganizationAction">
       <result>/WEB-INF/pages/admin/edit_organization.ftl</result>
     </action>

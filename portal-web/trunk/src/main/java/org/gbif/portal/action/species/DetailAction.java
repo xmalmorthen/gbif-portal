@@ -15,7 +15,6 @@ import org.gbif.checklistbank.api.service.SpeciesProfileService;
 import org.gbif.checklistbank.api.service.TypeSpecimenService;
 import org.gbif.checklistbank.api.service.VernacularNameService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class DetailAction extends UsageAction {
   // list of unique names listing all sources for each
   private Map<String, List<VernacularName>> vernacularNames = Maps.newLinkedHashMap();
   private final List<NameUsage> related = new LinkedList<NameUsage>();
-  private List<UUID> relatedDatasets = new ArrayList<UUID>();
+  private List<UUID> relatedDatasets = Lists.newArrayList();
   // TODO: remove the children property once the taxonomic browser is working via ajax
   private List<NameUsage> children;
 
@@ -71,28 +70,31 @@ public class DetailAction extends UsageAction {
 
     // load checklist lookup map
     for (NameUsage u : related) {
-      loadChecklist(u.getChecklistKey());
+      loadDataset(u.getChecklistKey());
+    }
+    for (UUID uuid : relatedDatasets) {
+      loadDataset(uuid);
     }
     for (NameUsageComponent c : usage.getExternalLinks()) {
-      loadChecklist(c.getChecklistKey());
+      loadDataset(c.getChecklistKey());
     }
     for (NameUsageComponent c : usage.getImages()) {
-      loadChecklist(c.getChecklistKey());
+      loadDataset(c.getChecklistKey());
     }
     for (NameUsageComponent c : usage.getDescriptions()) {
-      loadChecklist(c.getChecklistKey());
+      loadDataset(c.getChecklistKey());
     }
     for (NameUsageComponent c : usage.getDistributions()) {
-      loadChecklist(c.getChecklistKey());
+      loadDataset(c.getChecklistKey());
     }
     for (NameUsageComponent c : usage.getReferences()) {
-      loadChecklist(c.getChecklistKey());
+      loadDataset(c.getChecklistKey());
     }
     for (NameUsageComponent c : usage.getTypeSpecimens()) {
-      loadChecklist(c.getChecklistKey());
+      loadDataset(c.getChecklistKey());
     }
     for (NameUsageComponent c : usage.getVernacularNames()) {
-      loadChecklist(c.getChecklistKey());
+      loadDataset(c.getChecklistKey());
     }
 
     // load typeSpecimen typestatus counts
