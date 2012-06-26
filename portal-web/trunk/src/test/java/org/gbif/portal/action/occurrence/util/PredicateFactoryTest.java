@@ -28,7 +28,7 @@ public class PredicateFactoryTest {
 
     assertTrue(p instanceof EqualsPredicate);
     EqualsPredicate eq = (EqualsPredicate) p;
-    assertEquals("scientific_name", eq.getKey());
+    assertEquals("i_scientific_name", eq.getKey());
     assertEquals("Puma concolor", eq.getValue());
 
     // add a second scientific name to check an OR is built
@@ -43,17 +43,17 @@ public class PredicateFactoryTest {
     p = iter.next();
     assertTrue(p instanceof EqualsPredicate);
     eq = (EqualsPredicate) p;
-    assertEquals("scientific_name", eq.getKey());
+    assertEquals("i_scientific_name", eq.getKey());
     assertEquals("Puma concolor", eq.getValue());
     p = iter.next();
     assertTrue(p instanceof EqualsPredicate);
     eq = (EqualsPredicate) p;
-    assertEquals("scientific_name", eq.getKey());
+    assertEquals("i_scientific_name", eq.getKey());
     assertEquals("Puma concolor", eq.getValue());
 
     // add a third to check an AND is built
     params.put("f[2].s", new String[] {"6"});
-    params.put("f[2].p", new String[] {"2"}); // greater than
+    params.put("f[2].p", new String[] {"1"}); // greater than
     params.put("f[2].v", new String[] {"10.00"});
     p = pf.build(params);
     assertTrue(p instanceof ConjunctionPredicate);
@@ -65,7 +65,7 @@ public class PredicateFactoryTest {
     p = iter.next();
     assertTrue(p instanceof GreaterThanPredicate);
     GreaterThanPredicate gp = (GreaterThanPredicate) p;
-    assertEquals("latitude", gp.getKey());
+    assertEquals("i_latitude", gp.getKey());
     assertEquals("10.00", gp.getValue());
   }
 
