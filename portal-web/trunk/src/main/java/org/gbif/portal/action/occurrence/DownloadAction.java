@@ -16,6 +16,9 @@ public class DownloadAction extends BaseAction {
   private static final Logger LOG = LoggerFactory.getLogger(DownloadAction.class);
   private final PredicateFactory predicateFactory = new PredicateFactory();
 
+  // TODO: drop this once validation ensures that we always get a valid email address from user
+  private static final String DEFAULT_EMAIL = "trobertson@gbif.org";
+
   @Inject
   private DownloadService downloadService;
 
@@ -27,13 +30,16 @@ public class DownloadAction extends BaseAction {
     LOG.info("Request [{}]", getServletRequest());
     LOG.info("Request [{}]", getServletRequest().getParameterMap());
 
+    String email = ((String[])getServletRequest().getParameterMap().get("email"))[0];
+    if (email == null) email = DEFAULT_EMAIL;
+
     // nothing more we can do than suppress
     @SuppressWarnings("unchecked")
     Predicate p = predicateFactory.build(getServletRequest().getParameterMap());
 
     LOG.info("Predicate build for passing to download [{}]", p);
     if (p != null) {
-      jobId = downloadService.create(new Download(p, "trobertson@gbif.org"));
+      jobId = downloadService.create(new Download(p, email));
       return SUCCESS;
     } else {
       return ERROR;
