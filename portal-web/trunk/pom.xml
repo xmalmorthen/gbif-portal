@@ -379,6 +379,13 @@
       <version>${slf4j.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- To ship JUL (e.g. Guice) logging to SLF4J -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>    
     <!-- Test -->
     <dependency>
       <groupId>junit</groupId>
