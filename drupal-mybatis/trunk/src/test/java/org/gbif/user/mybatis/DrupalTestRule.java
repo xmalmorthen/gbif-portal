@@ -26,21 +26,24 @@ public class DrupalTestRule<T> extends DatabaseDrivenTestRule<T> {
    * @param propertyPrefix the prefix used to retrieve the db connections in the properties. E.g. occurrencestore
    * @param dbUnitFileName the optional unqualified filename within the dbunit package to be used in setting up the db
    */
-  public DrupalTestRule(Class<T> serviceClass, String propertiesFile, String propertyPrefix, @Nullable String dbUnitFileName) {
+  public DrupalTestRule(Class<T> serviceClass, String propertiesFile, String propertyPrefix,
+    @Nullable String dbUnitFileName) {
     super(DrupalMyBatisModule.class, serviceClass, propertiesFile, propertyPrefix, dbUnitFileName, DB_UNIT_PROPERTIES);
   }
 
   /**
    */
   public DrupalTestRule(Class<T> serviceClass) {
-    super(DrupalMyBatisModule.class, serviceClass, DEFAULT_PROPERTIES_FILE, DEFAULT_PROPERTY_PREFIX, null, DB_UNIT_PROPERTIES);
+    super(DrupalMyBatisModule.class, serviceClass, DEFAULT_PROPERTIES_FILE, DEFAULT_PROPERTY_PREFIX, null,
+      DB_UNIT_PROPERTIES);
   }
 
   /**
    * @param dbUnitFileName the optional unqualified filename within the dbunit package to be used in setting up the db
    */
   public DrupalTestRule(Class<T> serviceClass, String dbUnitFileName) {
-    super(DrupalMyBatisModule.class, serviceClass, DEFAULT_PROPERTIES_FILE, DEFAULT_PROPERTY_PREFIX, dbUnitFileName, DB_UNIT_PROPERTIES);
+    super(DrupalMyBatisModule.class, serviceClass, DEFAULT_PROPERTIES_FILE, DEFAULT_PROPERTY_PREFIX, dbUnitFileName,
+      DB_UNIT_PROPERTIES);
   }
 
   /**

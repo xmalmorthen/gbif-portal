@@ -17,9 +17,9 @@ public class UserServiceImpl implements UserService {
 
   private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
-  private UserMapper mapper;
-  private Cache<String, User> cache;
-  private PasswordEncoder encoder = new PasswordEncoder("MD5");
+  private final UserMapper mapper;
+  private final Cache<String, User> cache;
+  private final PasswordEncoder encoder = new PasswordEncoder("MD5");
 
   @Inject
   public UserServiceImpl(UserMapper mapper) {

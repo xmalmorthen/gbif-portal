@@ -5,7 +5,7 @@ import org.gbif.mybatis.type.BaseConverter;
 
 import com.google.common.collect.ImmutableMap;
 
-public class UserRoleTypeConverter extends BaseConverter<Long, UserRole>{
+public class UserRoleTypeConverter extends BaseConverter<Long, UserRole> {
 
   /**
    * @throws IllegalArgumentException if two keys have the same value
