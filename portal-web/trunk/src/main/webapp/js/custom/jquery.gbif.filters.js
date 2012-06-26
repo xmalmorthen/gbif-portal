@@ -245,7 +245,7 @@
   var el2 = $('<SELECT/>').addClass("value");
   this.value = el2;
   $.each(data.value, function () {
-    el2.append($('<OPTION></OPTION>').attr('value',this).text(this));    
+    el2.append($('<OPTION></OPTION>').attr('value',this).text("" + this));    
   });
   el2.bind('change', function(event) {
     parent._setValue(el2.val());
