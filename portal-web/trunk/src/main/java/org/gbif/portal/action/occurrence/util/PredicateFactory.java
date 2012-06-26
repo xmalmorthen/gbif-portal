@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.gbif.portal.action.occurrence.util;
 
@@ -34,7 +34,7 @@ public class PredicateFactory {
   // This is a placeholder to map from the JSON definition for the UI to
   // that needed by the Predicate
   private enum TypeMapping {
-    EQUALS("0"), STARTS_WITH("1"), GREATER_THAN("2"), LESS_THAN("3");
+    EQUALS("0"), GREATER_THAN("1"), LESS_THAN("2"), STARTS_WITH("3"),;
 
     private final String id;
 
@@ -52,12 +52,14 @@ public class PredicateFactory {
   // This is a placeholder to map from the JSON definition ID to the query field
   private static final Map<String, String> QUERY_FIELD_MAPPING = Maps.newHashMap();
   static {
-    QUERY_FIELD_MAPPING.put("1", "scientific_name");
+    QUERY_FIELD_MAPPING.put("1", "i_scientific_name");
     QUERY_FIELD_MAPPING.put("4", "country");
-    QUERY_FIELD_MAPPING.put("6", "latitude");
-    QUERY_FIELD_MAPPING.put("7", "longitude");
-    QUERY_FIELD_MAPPING.put("8", "altitude");
-    QUERY_FIELD_MAPPING.put("9", "depth");
+    QUERY_FIELD_MAPPING.put("6", "i_latitude");
+    QUERY_FIELD_MAPPING.put("7", "i_longitude");
+    QUERY_FIELD_MAPPING.put("8", "i_altitude");
+    QUERY_FIELD_MAPPING.put("9", "i_depth");
+    QUERY_FIELD_MAPPING.put("15", "i_year");
+    QUERY_FIELD_MAPPING.put("16", "i_month");
     QUERY_FIELD_MAPPING.put("18", "institution_code");
     QUERY_FIELD_MAPPING.put("19", "collection_code");
     QUERY_FIELD_MAPPING.put("20", "catalogue_number");
@@ -83,7 +85,6 @@ public class PredicateFactory {
     List<Predicate> grouped = collect(filters);
     if (grouped.size() == 1) {
       return grouped.get(0);
-
     } else {
       return new ConjunctionPredicate(grouped);
     }
