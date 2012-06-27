@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -9,7 +10,7 @@
 
   <groupId>org.gbif</groupId>
   <artifactId>drupal-mybatis</artifactId>
-  <version>0.1</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Drupal :: MyBatis Service</name>
@@ -37,10 +38,10 @@
   </properties>
 
   <scm>
-    <connection>scm:svn:https://gbif-portal.googlecode.com/svn/tags/drupal-mybatis-0.1</connection>
-    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/tags/drupal-mybatis-0.1
+    <connection>scm:svn:https://gbif-portal.googlecode.com/svn/trunk/drupal-mybatis</connection>
+    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/trunk/drupal-mybatis
     </developerConnection>
-    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/tags/drupal-mybatis-0.1</url>
+    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/trunk/drupal-mybatis</url>
   </scm>
 
   <ciManagement>
