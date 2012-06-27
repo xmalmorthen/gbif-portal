@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.gbif</groupId>
     <artifactId>motherpom</artifactId>
-    <version>8</version>
+    <version>9</version>
   </parent>
 
   <groupId>org.gbif</groupId>
@@ -34,14 +34,13 @@
     <dbunit.version>2.4.8</dbunit.version>
     <jsr305.version>1.3.9</jsr305.version>
     <validation-api.version>1.0.0.GA</validation-api.version>
-    
+
   </properties>
 
   <scm>
-    <connection>scm:svn:https://gbif-portal.googlecode.com/svn/trunk/drupal-mybatis</connection>
-    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/trunk/drupal-mybatis
-    </developerConnection>
-    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/trunk/drupal-mybatis</url>
+    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/drupal-mybatis/trunk</connection>
+    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/drupal-mybatis/trunk</developerConnection>
+    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/drupal-mybatis/trunk</url>
   </scm>
 
   <ciManagement>
