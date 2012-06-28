@@ -135,7 +135,7 @@ public class DetailAction extends UsageAction {
     // get references
     usage.setReferences(referenceService.listByUsage(id, page10).getResults());
     // get descriptions
-    usage.setDescriptions(descriptionService.listByUsage(id, page10).getResults());
+    usage.setDescriptions(descriptionService.listByUsage(id, getLocale(), page10).getResults());
     // get distributions
     usage.setDistributions(distributionService.listByUsage(id, page10).getResults());
     // get images
