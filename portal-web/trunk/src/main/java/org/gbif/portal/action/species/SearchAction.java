@@ -8,6 +8,7 @@
  */
 package org.gbif.portal.action.species;
 
+import org.gbif.api.model.vocabulary.Rank;
 import org.gbif.api.model.vocabulary.ThreatStatus;
 import org.gbif.checklistbank.api.Constants;
 import org.gbif.checklistbank.api.model.search.NameUsageFacetParameter;
@@ -15,8 +16,6 @@ import org.gbif.checklistbank.api.model.search.NameUsageSearchResult;
 import org.gbif.checklistbank.api.model.vocabulary.TaxonomicStatus;
 import org.gbif.checklistbank.api.service.NameUsageSearchService;
 import org.gbif.checklistbank.api.service.NameUsageService;
-import org.gbif.checklistbank.vocabulary.converter.TaxonomicStatusConverter;
-import org.gbif.checklistbank.vocabulary.converter.ThreatStatusConverter;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 import org.gbif.registry.api.service.DatasetService;
 
@@ -47,19 +46,15 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private Function<String, String> getHigherTaxaTitle;
   private Function<String, String> getBooleanTitle;
   private Function<String, String> getTaxStatusTitle;
+  private Function<String, String> getRankTitle;
   private Function<String, String> getThreatStatusTitle;
-  private final TaxonomicStatusConverter taxonomicStatusConverter;
-  private final ThreatStatusConverter threatStatusConverter;
 
   @Inject
   public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService,
-    DatasetService checklistService, TaxonomicStatusConverter taxonomicStatusConverter,
-    ThreatStatusConverter threatStatusConverter) {
+    DatasetService checklistService) {
     super(nameUsageSearchService, NameUsageFacetParameter.class);
     this.usageService = usageService;
     this.checklistService = checklistService;
-    this.taxonomicStatusConverter = taxonomicStatusConverter;
-    this.threatStatusConverter = threatStatusConverter;
     initGetTitleFunctions();
   }
 
@@ -79,6 +74,9 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
     // replace taxonomic status keys with labels
     lookupFacetTitles(NameUsageFacetParameter.TAXSTATUS, getTaxStatusTitle);
+
+    // replace rank keys with labels
+    lookupFacetTitles(NameUsageFacetParameter.RANK, getRankTitle);
 
     // replace extinct boolean values
     lookupFacetTitles(NameUsageFacetParameter.EXTINCT, getBooleanTitle);
@@ -113,11 +111,13 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    */
   public boolean getShowAccordingTo() {
     return getFacets() == null || !getFacets().containsKey(NameUsageFacetParameter.CHECKLIST)
-      || getFacets().get(NameUsageFacetParameter.CHECKLIST).size() != 1;
+           || getFacets().get(NameUsageFacetParameter.CHECKLIST).size() != 1;
   }
 
   /**
    * Initializes the getTitle* functions: getChecklistTitle and getHigherTaxaTitle.
+   * Because we need the non static resource bundle lookup method getText() these methods
+   * unfortuantely cant be static ones and are created here instead for every action.
    */
   private void initGetTitleFunctions() {
     getChecklistTitle = new Function<String, String>() {
@@ -153,15 +153,31 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       }
     };
 
+    getRankTitle = new Function<String, String>() {
+
+      @Override
+      public String apply(String id) {
+        if (Strings.emptyToNull(id) == null) {
+          return null;
+        }
+        // this is the ordinal, replace with enum
+        Rank status = Rank.values()[Integer.parseInt(id)];
+        if (status != null) {
+          return getText("enum.rank." + status.name());
+        }
+        return null;
+      }
+    };
+
     getTaxStatusTitle = new Function<String, String>() {
 
       @Override
-      public String apply(String taxid) {
-        if (Strings.emptyToNull(taxid) == null) {
+      public String apply(String id) {
+        if (Strings.emptyToNull(id) == null) {
           return null;
         }
-        // this is the id, replace with enum
-        TaxonomicStatus status = taxonomicStatusConverter.toEnum(Integer.parseInt(taxid));
+        // this is the ordinal, replace with enum
+        TaxonomicStatus status = TaxonomicStatus.values()[Integer.parseInt(id)];
         if (status != null) {
           return getText("enum.taxstatus." + status.name());
         }
@@ -172,12 +188,12 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     getThreatStatusTitle = new Function<String, String>() {
 
       @Override
-      public String apply(String taxid) {
-        if (Strings.emptyToNull(taxid) == null) {
+      public String apply(String id) {
+        if (Strings.emptyToNull(id) == null) {
           return null;
         }
-        // this is the id, replace with enum
-        ThreatStatus status = threatStatusConverter.toEnum(Integer.parseInt(taxid));
+        // this is the ordinal, replace with enum
+        ThreatStatus status = ThreatStatus.values()[Integer.parseInt(id)];
         if (status != null) {
           return getText("enum.threatstatus." + status.name());
         }
@@ -190,7 +206,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   /**
    * Request parameter for filtering results by nubKey.
-   * 
+   *
    * @param nubKey the nubKey to set
    */
   public void setNubKey(Integer nubKey) {
