@@ -48,8 +48,6 @@ public class DetailAction extends UsageAction {
   private Map<String, List<VernacularName>> vernacularNames = Maps.newLinkedHashMap();
   private final List<NameUsage> related = new LinkedList<NameUsage>();
   private List<UUID> relatedDatasets = Lists.newArrayList();
-  // TODO: remove the children property once the taxonomic browser is working via ajax
-  private List<NameUsage> children;
 
   // various pagesizes used
   private final Pageable page20 = new PagingRequest(0, 20);
@@ -108,10 +106,6 @@ public class DetailAction extends UsageAction {
     if (usage.getBasionymKey() != null) {
       basionym = usageService.get(usage.getBasionymKey(), getLocale());
     }
-
-    // get children
-    PagingResponse<NameUsage> childrenResponse = usageService.listChildren(id, getLocale(), page20);
-    children = childrenResponse.getResults();
 
     // get non nub related usages & occ datasets
     if (usage.getNubKey() != null) {
@@ -186,10 +180,6 @@ public class DetailAction extends UsageAction {
 
   public NameUsage getBasionym() {
     return basionym;
-  }
-
-  public List<NameUsage> getChildren() {
-    return children;
   }
 
   public List<NameUsage> getRelated() {

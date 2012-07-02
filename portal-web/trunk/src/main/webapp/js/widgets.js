@@ -1773,17 +1773,22 @@ $.fn.bindSlideshow = function(opt) {
       var $cid = $breadcrumb.find("li").attr("cid");
       var $spid = $breadcrumb.find("li").last().attr("spid");
 
-      // there are no children to display. Display the root taxa.	
+      $offset = 0;
+      // is there a single usage selected yet?
       if ($spid < 0) {
-        //get the elements from the start
-        $offset = 0;
-        //url to get the root taxa
-        $url = cfg.wsClb + "name_usage/root/" + $cid + "?callback=?&offset=" + $offset + "&limit=" + $limit;
+        // No, display the root taxa.
+        $url = cfg.wsClb + "name_usage/root/" + $cid + "?offset=" + $offset + "&limit=" + $limit;
         //create the tree with the root taxa
         recreateTree($url);
         //return the offset to its original index
-        $offset = 20;
+      } else {
+        // usage selected, load its children
+        $url = cfg.wsClb + "name_usage/" + $spid + "/children?offset=" + $offset + "&limit=" + $limit;
+        //create the tree with the usage children
+        recreateTree($url);
       }
+      //return the offset to its original index
+      $offset = 20;
 
 
       $(".inner").scroll(function() {
@@ -1798,30 +1803,30 @@ $.fn.bindSlideshow = function(opt) {
           stop = true;
           var $wrapper = $("<ul></ul>");
           $.getJSON($wsUrl, function(scrollData) {
-              if (scrollData.results.length > 0) {
-                stop = false;
-              }
-              $(scrollData.results).each(function() {
-                $htmlContent =
-                $("<li species=\"" + this.numSpecies + "\" children=\"" + this.numChildren + "\"><span spid=\"" +
-                  this.key + "\" spname=\"" + this.canonicalOrScientificName + "\"  >" +
-                  this.canonicalOrScientificName + "<span class=\"rank\">" +
-                  $i18nresources.getString("enum.rank." + (this.rank || "unknown")) + "</span></span>" + "<a href=\"" +
-                  cfg.context + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>");
+            if (scrollData.results.length > 0) {
+              stop = false;
+            }
+            $(scrollData.results).each(function() {
+              $htmlContent =
+              $("<li species=\"" + this.numSpecies + "\" children=\"" + this.numChildren + "\"><span spid=\"" +
+                this.key + "\" spname=\"" + this.canonicalOrScientificName + "\"  >" + this.canonicalOrScientificName +
+                "<span class=\"rank\">" + $i18nresources.getString("enum.rank." + (this.rank || "unknown")) +
+                "</span></span>" + "<a href=\"" + cfg.context + "/species/" + this.key +
+                "\" style=\"display: none; \">see details</a></li>");
 
-                //add the bar for this appended element
-                addBar($htmlContent);
-                $ps.find(".sp ul").append($htmlContent);
-              })
-              $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed,
-                {axis: "x", onAfter: function() {
-                  _resize($ps, $ps.find(".sp ul").find("> li").length, $this);
-                  $ps.find(".loadingTaxa span").fadeOut("slow");
-                  //increment offset
-                  $offset += $limit;
-                }});
+              //add the bar for this appended element
+              addBar($htmlContent);
+              $ps.find(".sp ul").append($htmlContent);
+            })
+            $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed,
+              {axis: "x", onAfter: function() {
+                _resize($ps, $ps.find(".sp ul").find("> li").length, $this);
+                $ps.find(".loadingTaxa span").fadeOut("slow");
+                //increment offset
+                $offset += $limit;
+              }});
 
-            });
+          });
         }
       });
 
@@ -1865,26 +1870,26 @@ $.fn.bindSlideshow = function(opt) {
         //remove all children from tax browser
         $ps.find(".sp ul").html("<img src=\"../img/taxbrowser-loader.gif\">");
         //get the new list of children
-        $.getJSON($wsUrl, function(data) {
-            $ps.find(".sp ul").empty();
-            $(data.results).each(function() {
-              $htmlContent =
-              "<li species=\"" + this.numSpecies + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key +
-              "\" spname=\"" + this.canonicalName + "\">";
-              $htmlContent += this.canonicalName;
-              $htmlContent +=
-              "<span class=\"rank\">" + $i18nresources.getString("enum.rank." + (this.rank || "unknown")) + "</span>";
-              $htmlContent += "</span>";
-              $htmlContent +=
-              "<a href=\"" + cfg.baseUrl + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>";
-              $ps.find(".sp ul").append($htmlContent);
-            })
-            //add the adjacent bars
-            addBars($ps.find(".sp ul"));
-            _resize($ps, $ps.find(".sp ul > li").length, $this);
-            stop = false;
+        $.getJSON($wsUrl + '&callback=?', function(data) {
+          $ps.find(".sp ul").empty();
+          $(data.results).each(function() {
+            $htmlContent =
+            "<li species=\"" + this.numSpecies + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key +
+            "\" spname=\"" + this.canonicalName + "\">";
+            $htmlContent += this.canonicalName;
+            $htmlContent +=
+            "<span class=\"rank\">" + $i18nresources.getString("enum.rank." + (this.rank || "unknown")) + "</span>";
+            $htmlContent += "</span>";
+            $htmlContent +=
+            "<a href=\"" + cfg.baseUrl + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>";
+            $ps.find(".sp ul").append($htmlContent);
+          })
+          //add the adjacent bars
+          addBars($ps.find(".sp ul"));
+          _resize($ps, $ps.find(".sp ul > li").length, $this);
+          stop = false;
 
-          });
+        });
         // move to the list and resize it (resizing disabled, was not working correctly)
         $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed,
           {axis: "x", onAfter: function() {
@@ -1917,7 +1922,7 @@ $.fn.bindSlideshow = function(opt) {
         // make the new breadcrumb element appear with a slow transition
         $breadcrumb.find("li:last").animate({opacity:1}, data.settings.transitionSpeed);
         // url to call to recreate the taxonomic tree
-        var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?&offset=" + $offset + "&limit=" + $limit;
+        var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?offset=" + $offset + "&limit=" + $limit;
         //recreate the taxonomic tree
         recreateTree($wsUrl);
       });
@@ -1937,10 +1942,9 @@ $.fn.bindSlideshow = function(opt) {
           // url to call to recreate the taxonomic tree
           // if a user clicks ALL, the root tree of the checklist should be displayed
           if ($spidBC < 0) {
-            $wsUrl = cfg.wsClb + "name_usage/root/" + $cid + "?callback=?&offset=" + $offset + "&limit=" + $limit;
+            $wsUrl = cfg.wsClb + "name_usage/root/" + $cid + "?offset=" + $offset + "&limit=" + $limit;
           } else {
-            $wsUrl =
-            cfg.wsClb + "name_usage/" + $spidBC + "/children?callback=?&offset=" + $offset + "&limit=" + $limit;
+            $wsUrl = cfg.wsClb + "name_usage/" + $spidBC + "/children?offset=" + $offset + "&limit=" + $limit;
           }
 
           //recreate the taxonomic tree
@@ -1954,17 +1958,17 @@ $.fn.bindSlideshow = function(opt) {
           // show the normal classification breadcrumb
           else {
             $.getJSON(cfg.wsClb + "name_usage/" + $spidBC + "?callback=?", function(data) {
-                $htmlContent = "<li spid=\"-1\" cid=\"" + data.checklistKey + "\"><a href=\"#\">All</a></li>";
-                $.each(data.higherClassificationMap, function(speciesId, speciesName) {
-                  $htmlContent += "<li spid=\"" + speciesId + "\"><a href=\"#\">";
-                  $htmlContent += speciesName;
-                  $htmlContent += "</a></li>";
-                });
-                $htmlContent +=
-                "<li class=\"last\" style=\"opacity:1;\" spid=\"" + data.key + "\">" + data.canonicalOrScientificName +
-                "</li>";
-                $BC.html($htmlContent);
+              $htmlContent = "<li spid=\"-1\" cid=\"" + data.checklistKey + "\"><a href=\"#\">All</a></li>";
+              $.each(data.higherClassificationMap, function(speciesId, speciesName) {
+                $htmlContent += "<li spid=\"" + speciesId + "\"><a href=\"#\">";
+                $htmlContent += speciesName;
+                $htmlContent += "</a></li>";
               });
+              $htmlContent +=
+              "<li class=\"last\" style=\"opacity:1;\" spid=\"" + data.key + "\">" + data.canonicalOrScientificName +
+              "</li>";
+              $BC.html($htmlContent);
+            });
           }
         }
       });
