@@ -1494,7 +1494,7 @@ The id #content is used for forcing precedence over other style definitions.
   height: 31px;
   background: url("../img/autocomplete_bkg.png") no-repeat -226px -12px;
   cursor: pointer;
-  text-align: left;  
+  text-align: left;
 }
 
 .ac_results ul li .row:hover, #content ul.ui-autocomplete li.ui-menu-item:hover {
@@ -1562,11 +1562,10 @@ The id #content is used for forcing precedence over other style definitions.
   padding-top: 1px;
 }
 
-.ac_results ul li .row span.name strong, #content ul.ui-autocomplete li.ui-menu-item a.name strong{
-  font-weight:bold;
+.ac_results ul li .row span.name strong, #content ul.ui-autocomplete li.ui-menu-item a.name strong {
+  font-weight: bold;
   font-size: 12px;
 }
-
 
 #content span.autocomplete {
   float: left;
@@ -3009,14 +3008,13 @@ span.small {
   color: #666666;
 }
 
-#content article.taxonomies .content .left .sp ul li span.rank{
-  display:inline;
+#content article.taxonomies .content .left .sp ul li span.rank {
+  display: inline;
   float: right;
   width: 50px;
   font-size: 11px;
   color: #bbb;
 }
-
 
 span.number {
   font-family: "DINOT-Regular", Sans-Serif;
@@ -3991,10 +3989,6 @@ a.next_slide:hover {
 #content article .content .left ul.taxonomy {
   display: inline-block;
   clear: both;
-  float: left;
-  overflow: hidden;
-  margin: 0 0 15px 0;
-  padding: 0;
 }
 
 #content article .content .left ul.taxonomy li {
@@ -4300,8 +4294,8 @@ a.next_slide:hover {
   margin: 0px;
   padding: 3px;
   border: 1px solid #cccccc;
-  max-width:136px;
-  max-height:93px;
+  max-width: 136px;
+  max-height: 93px;
   width: 136px;
 }
 
@@ -4345,12 +4339,12 @@ a.next_slide:hover {
 }
 
 #content article .content .logo_holder {
-   background: no-repeat left top;
-   padding: 10px;
-   margin: 0 0 10px -2px;
- }
+  background: no-repeat left top;
+  padding: 10px;
+  margin: 0 0 10px -2px;
+}
 
-#content article .content .logo_holder .logo{
+#content article .content .logo_holder .logo {
   max-height: 93px;
   max-width: 136px;
 }
@@ -4707,8 +4701,8 @@ a.next_slide:hover {
 
 #content article.photo_gallery .content .slideshow .photos img {
   display: inline-block;
-  max-width:627px;
-  max-height:423px
+  max-width: 627px;
+  max-height: 423px
 }
 
 #content article.photo_gallery .content .right {
@@ -4992,7 +4986,7 @@ a.next_slide:hover {
   font-size: 13px;
 }
 
-#content .right div.last{
+#content .right div.last {
   margin-bottom: 80px;
 }
 
@@ -7385,61 +7379,61 @@ body.singlemap a.zoom_out:hover {
 
 /*Label for facets and filters*/
 .flabel {
-	font-weight: bold !important;
+  font-weight: bold !important;
 }
+
 .loadingTaxa {
   height: 28px;
   margin-top: 15px;
 }
 
 .loadingTaxa img {
-  vertical-align:-8px;
+  vertical-align: -8px;
 }
 
 em.gbifHl {
-	background: none repeat scroll 0 0 #FFFF00 !important;
-    font-weight: bold !important;
-    font-style: italic !important;
+  background: none repeat scroll 0 0 #FFFF00 !important;
+  font-weight: bold !important;
+  font-style: italic !important;
 }
 
-.selectedSeparator{
-	border:1px dashed #EEEEEE;
+.selectedSeparator {
+  border: 1px dashed #EEEEEE;
 }
 
 #templates div {
   display: none;
 }
 
-
 #adminPanel {
-	top: -50px;
-	position: relative;
-	font: bold small "Courier New", Courier, mono;
-	height: 0;
-	float: right;
+  top: -50px;
+  position: relative;
+  font: bold small "Courier New", Courier, mono;
+  height: 0;
+  float: right;
 }
 
 #adminPanel ul {
-	float: right;
-	background-color: #d8ff6f;
-	border: 1px solid black;
-	padding: 5px;
+  float: right;
+  background-color: #d8ff6f;
+  border: 1px solid black;
+  padding: 5px;
 }
 
 #adminPanel ul li {
-	float: left;
-	padding-right: 6px;
-	padding-left: 6px;
+  float: left;
+  padding-right: 6px;
+  padding-left: 6px;
 }
 
 #adminPanel ul li:not(:last-child) {
-	border-right-style: dotted;
-	border-right-width: 1px;
+  border-right-style: dotted;
+  border-right-width: 1px;
 }
 
-#adminPanel ul li a{
-	color: #174919;
-	text-decoration: underline;
+#adminPanel ul li a {
+  color: #174919;
+  text-decoration: underline;
 }
 
 .admin-tag-input {
@@ -7450,6 +7444,7 @@ em.gbifHl {
   margin: 2px 0 5px;
   padding: 2px;
 }
+
 .admin-tag-caption {
   color: #666;
   font-size: .8em;
