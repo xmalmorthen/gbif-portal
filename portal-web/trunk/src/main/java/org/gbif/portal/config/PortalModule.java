@@ -29,9 +29,6 @@ public class PortalModule extends AbstractModule {
     // bind checklist bank api. Select either the mybatis or the ws-client api implementation:
     install(new ChecklistBankWsClientModule(properties));
 
-    // bind occurrence API
-    //install(new OccurrenceWsClientModule(properties));
-
     // bind the occurrence download service
     install(new OccurrenceDownloadWsClientModule(properties));
   }
