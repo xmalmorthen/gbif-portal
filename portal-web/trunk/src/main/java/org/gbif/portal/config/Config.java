@@ -60,8 +60,6 @@ public class Config {
       cfg.wsClbSuggest = cfg.wsClbSearch + "search/suggest";
       cfg.wsReg = getPropertyUrl(properties, "registry.ws.url");
       cfg.wsRegSearch = getPropertyUrl(properties, "registry.search.ws.url");
-      cfg.wsOcc = getPropertyUrl(properties, "occurrencestore.ws.url");
-      cfg.wsOccSearch = getPropertyUrl(properties, "occurrencestore.search.ws.url");
     } catch (IOException e) {
       throw new ConfigurationException("application.properties cannot be read", e);
     }
