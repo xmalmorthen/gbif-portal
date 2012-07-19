@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.gbif</groupId>
     <artifactId>motherpom</artifactId>
-    <version>9-SNAPSHOT</version>
+    <version>9</version>
   </parent>
 
   <groupId>org.gbif</groupId>
@@ -45,15 +45,14 @@
 
     <!-- dependency versions -->
     <gbif-common-api.version>0.1</gbif-common-api.version>
-    <checklistbank-api.version>0.1-SNAPSHOT</checklistbank-api.version>
-    <checklistbank-ws-client.version>0.1-SNAPSHOT</checklistbank-ws-client.version>
-    <checklistbank-mybatis.version>0.1-SNAPSHOT</checklistbank-mybatis.version>
-    <registry-api.version>0.1-SNAPSHOT</registry-api.version>
-    <registry-ws-client.version>0.1-SNAPSHOT</registry-ws-client.version>
-    <occurrence-download-api.version>0.1-SNAPSHOT</occurrence-download-api.version>
-    <occurrence-download-ws-client.version>0.1-SNAPSHOT</occurrence-download-ws-client.version>
-    <occurrence-download.version>0.1-SNAPSHOT</occurrence-download.version>
-    <drupal-mybatis.version>0.1-SNAPSHOT</drupal-mybatis.version>
+    <checklistbank-api.version>0.1</checklistbank-api.version>
+    <checklistbank-ws-client.version>0.1</checklistbank-ws-client.version>
+    <registry-api.version>0.1</registry-api.version>
+    <registry-ws-client.version>0.1</registry-ws-client.version>
+    <occurrence-download-api.version>0.1</occurrence-download-api.version>
+    <occurrence-download-ws-client.version>0.1</occurrence-download-ws-client.version>
+    <occurrence-download.version>0.1</occurrence-download.version>
+    <drupal-mybatis.version>0.1</drupal-mybatis.version>
 
     <freemarker.version>2.3.19</freemarker.version>
     <guice.version>3.0</guice.version>
@@ -196,12 +195,6 @@
       <groupId>org.gbif.checklistbank</groupId>
       <artifactId>checklistbank-api</artifactId>
       <version>${checklistbank-api.version}</version>
-    </dependency>
-    <!-- we need the mybatis layer to have the enum converters for solr -->
-    <dependency>
-      <groupId>org.gbif.checklistbank</groupId>
-      <artifactId>checklistbank-mybatis-service</artifactId>
-      <version>${checklistbank-mybatis.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gbif.checklistbank</groupId>
@@ -402,23 +395,6 @@
 
   <profiles>
     <profile>
-      <id>development</id>
-      <dependencies>
-        <!--
-        http://struts.apache.org/2.x/docs/config-browser-plugin.html
-        open in your browser
-        http://localhost:8080/config-browser/actionNames.action
-        -->
-        <dependency>
-          <groupId>org.apache.struts</groupId>
-          <artifactId>struts2-config-browser-plugin</artifactId>
-          <version>${struts.version}</version>
-          <scope>runtime</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-
-    <profile>
       <!-- used by hudson for unit tests and continous integration -->
       <id>hudson</id>
       <properties>
@@ -430,7 +406,7 @@
 
     <profile>
       <!-- production deployment -->
-      <id>gbif</id>
+      <id>production</id>
       <properties>
         <devMode>false</devMode>
         <notDevMode>true</notDevMode>
