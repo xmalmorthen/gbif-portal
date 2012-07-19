@@ -34,6 +34,7 @@
   <url>http://sites.gbif.org/portal/portal-web</url>
 
   <properties>
+
     <!-- used for packaging and deploying only.
     We have used a system var localhost configuration for the failsafe and jetty plugin -->
     <jetty.port>8080</jetty.port>
