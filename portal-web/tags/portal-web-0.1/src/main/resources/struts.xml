@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+  "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+  "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+  <package name="default" namespace="/" extends="struts-default">
+    <result-types>
+      <result-type name="freemarker" class="org.apache.struts2.views.freemarker.FreemarkerResult" default="true"/>
+    </result-types>
+
+    <interceptors>
+      <interceptor name="loginSession" class="org.gbif.portal.struts.LoginInterceptor"/>
+      <interceptor name="requireLogin" class="org.gbif.portal.struts.RequireLoginInterceptor"/>
+      <interceptor name="requireAdmin" class="org.gbif.portal.struts.RequireAdminInterceptor"/>
+      <interceptor name="jsrvalidation" class="org.gbif.portal.struts.ValidationInterceptor"/>
+
+      <interceptor-stack name="portalStack">
+        <interceptor-ref name="loginSession"/>
+        <interceptor-ref name="i18nStack"/>
+        <interceptor-ref name="staticParams"/>
+      </interceptor-stack>
+
+      <!-- see http://struts.apache.org/2.1.6/docs/interceptors.html -->
+      <interceptor-stack name="loginStack">
+        <interceptor-ref name="portalStack"/>
+        <interceptor-ref name="requireLogin"/>
+      </interceptor-stack>
+
+      <interceptor-stack name="adminStack">
+        <interceptor-ref name="portalStack"/>
+        <interceptor-ref name="requireAdmin"/>
+        <interceptor-ref name="jsrvalidation">
+          <param name="excludeMethods">execute,prepare</param>
+        </interceptor-ref>
+        <!-- stops the flow if there are any validation errors -->
+        <interceptor-ref name="workflow"/>
+      </interceptor-stack>
+
+      <interceptor-stack name="uploadStack">
+        <interceptor-ref name="fileUpload">
+          <!-- the same setting also has to be applied in struts.properties !!! -->
+          <param name="maximumSize">2097152</param>
+        </interceptor-ref>
+        <interceptor-ref name="portalStack"/>
+      </interceptor-stack>
+
+      <!--  Because of the param format in downloads, the PARAMS interceptor
+            Cannot be used.  It fails on f[0].s issues, as it tries to interpret 
+            that.  This is the basic stack without the params interceptor
+      -->
+      <interceptor-stack name="downloadStack">
+        <interceptor-ref name="exception"/>
+        <interceptor-ref name="servletConfig"/>
+        <interceptor-ref name="prepare"/>
+        <interceptor-ref name="checkbox"/>
+        <!--  interceptor-ref name="params"/-->
+        <interceptor-ref name="conversionError"/>
+      </interceptor-stack>
+    </interceptors>
+
+    <default-interceptor-ref name="portalStack"/>
+
+    <global-results>
+      <result name="404">
+        <param name="location">/WEB-INF/error/404.ftl</param>
+      </result>
+      <result name="401">
+        <param name="location">/WEB-INF/error/401.ftl</param>
+      </result>
+      <result name="loginRequired">
+        <param name="location">/WEB-INF/error/loginRequired.ftl</param>
+      </result>
+      <result name="error">
+        <param name="location">/WEB-INF/error/error.ftl</param>
+      </result>
+    </global-results>
+
+    <global-exception-mappings>
+      <!-- catching not existing action mappings -->
+      <exception-mapping exception="com.opensymphony.xwork2.config.ConfigurationException" result="404"/>
+      <exception-mapping exception="org.gbif.api.exception.NotFoundException" result="404"/>
+      <exception-mapping exception="java.security.AccessControlException" result="401"/>
+      <exception-mapping exception="org.gbif.api.exception.ServiceUnavailableException" result="error"/>
+    </global-exception-mappings>
+
+  </package>
+
+
+  <package name="root" namespace="/" extends="default">
+    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/home.ftl</result>
+    </action>
+
+    <action name="{url}" class="org.gbif.portal.action.RedirectAction">
+      <result type="redirect">
+        <param name="parse">true</param>
+        <param name="location">${url}/</param>
+      </result>
+    </action>
+
+  </package>
+
+  <!-- DATASETS -->
+  <package name="dataset" namespace="/dataset" extends="default">
+    <!-- catches everything that doesn't match below! -->
+    <!--
+    <default-action-ref name=""/>
+    -->
+    <action name="" class="org.gbif.portal.action.dataset.HomeAction">
+      <result>/WEB-INF/pages/dataset/home.ftl</result>
+    </action>
+
+    <action name="search" class="org.gbif.portal.action.dataset.SearchAction">
+      <result>/WEB-INF/pages/dataset/search.ftl</result>
+    </action>
+
+    <action name="register/step1" class="org.gbif.portal.action.dataset.RegisterAction" method="step1">
+      <result>/WEB-INF/pages/dataset/register/step1.ftl</result>
+    </action>
+
+    <action name="register/step2" class="org.gbif.portal.action.dataset.RegisterAction" method="step2">
+      <result>/WEB-INF/pages/dataset/register/step2.ftl</result>
+    </action>
+
+    <action name="register/step3" class="org.gbif.portal.action.dataset.RegisterAction" method="step3">
+      <result>/WEB-INF/pages/dataset/register/step3.ftl</result>
+    </action>
+
+    <!-- {id} matches anything but "/" -->
+    <action name="{id}/activity" class="org.gbif.portal.action.dataset.ActivityAction">
+      <result>/WEB-INF/pages/dataset/activity.ftl</result>
+    </action>
+
+    <action name="{id}/occurrence" class="org.gbif.portal.action.dataset.OccurrencesAction">
+      <result>/WEB-INF/pages/dataset/occurrence.ftl</result>
+    </action>
+
+    <action name="{id}/discussion" class="org.gbif.portal.action.dataset.DiscussionAction">
+      <result>/WEB-INF/pages/dataset/discussion.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.dataset.DetailAction">
+      <result>/WEB-INF/pages/dataset/detail.ftl</result>
+    </action>
+  </package>
+
+  <!-- OCCURRENCES -->
+  <package name="occurrence" namespace="/occurrence" extends="default">
+    <!-- catches everything that doesn't match below! -->
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/occurrence/download/home.ftl</result>
+    </action>
+
+    <action name="download" class="org.gbif.portal.action.occurrence.DownloadAction">
+      <interceptor-ref name="downloadStack"/>
+
+      <result>/WEB-INF/pages/occurrence/download/result.ftl</result>
+    </action>
+
+    <action name="search" class="org.gbif.portal.action.occurrence.SearchAction">
+      <result>/WEB-INF/pages/occurrence/search.ftl</result>
+    </action>
+
+    <!-- {id} matches anything but "/" -->
+    <action name="{id}/activity" class="org.gbif.portal.action.occurrence.ActivityAction">
+      <result>/WEB-INF/pages/occurrence/activity.ftl</result>
+    </action>
+
+    <action name="{id}/detail_raw" class="org.gbif.portal.action.occurrence.DetailAction" method="raw">
+      <result>/WEB-INF/pages/occurrence/detail_raw.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.occurrence.DetailAction">
+      <result>/WEB-INF/pages/occurrence/detail.ftl</result>
+    </action>
+
+  </package>
+
+  <!-- SPECIES -->
+  <package name="species" namespace="/species" extends="default">
+    <!-- catches everything that doesn't match below! -->
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.species.HomeAction">
+      <result>/WEB-INF/pages/species/home.ftl</result>
+    </action>
+
+    <action name="search" class="org.gbif.portal.action.species.SearchAction">
+      <result>/WEB-INF/pages/species/search.ftl</result>
+    </action>
+
+    <action name="{id}/stats" class="org.gbif.portal.action.species.StatsAction">
+      <result>/WEB-INF/pages/species/stats.ftl</result>
+    </action>
+
+    <action name="{id}/activity" class="org.gbif.portal.action.species.ActivityAction">
+      <result>/WEB-INF/pages/species/activity.ftl</result>
+    </action>
+
+    <action name="{id}/synonyms" class="org.gbif.portal.action.species.SynonymsAction">
+      <result>/WEB-INF/pages/species/synonyms.ftl</result>
+    </action>
+
+    <action name="{id}/classification" class="org.gbif.portal.action.species.ClassificationAction">
+      <result>/WEB-INF/pages/species/classification.ftl</result>
+    </action>
+
+    <action name="{id}/verbatim" class="org.gbif.portal.action.species.VerbatimAction">
+      <result>/WEB-INF/pages/species/verbatim.ftl</result>
+    </action>
+
+    <!-- name usage subresources / see more-->
+    <action name="{id}/datasets" class="org.gbif.portal.action.species.DatasetAction">
+      <result>/WEB-INF/pages/species/datasets.ftl</result>
+    </action>
+
+    <action name="{id}/distributions" class="org.gbif.portal.action.species.DistributionAction">
+      <result>/WEB-INF/pages/species/distributions.ftl</result>
+    </action>
+
+    <action name="{id}/references" class="org.gbif.portal.action.species.ReferenceAction">
+      <result>/WEB-INF/pages/species/references.ftl</result>
+    </action>
+
+    <action name="{id}/typespecimens" class="org.gbif.portal.action.species.TypeSpecimenAction">
+      <result>/WEB-INF/pages/species/typespecimens.ftl</result>
+    </action>
+
+    <action name="{id}/vernaculars" class="org.gbif.portal.action.species.VernacularNameAction">
+      <result>/WEB-INF/pages/species/vernaculars.ftl</result>
+    </action>
+
+    <!-- nub or checklist usage -->
+    <action name="{id}" class="org.gbif.portal.action.species.DetailAction">
+      <result>/WEB-INF/pages/species/detail.ftl</result>
+    </action>
+
+  </package>
+
+  <!-- COUNTRIES -->
+  <package name="country" namespace="/country" extends="default">
+    <!-- catches everything that doesn't match below! -->
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/country/home.ftl</result>
+    </action>
+
+    <action name="search" class="org.gbif.portal.action.country.SearchAction">
+      <result>/WEB-INF/pages/country/search.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.country.DetailAction">
+      <result>/WEB-INF/pages/country/detail.ftl</result>
+    </action>
+  </package>
+
+  <!-- THEMES -->
+  <package name="theme" namespace="/theme" extends="default">
+    <!-- catches everything that doesn't match below! -->
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/theme/home.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.theme.DetailAction">
+      <result>/WEB-INF/pages/theme/detail.ftl</result>
+    </action>
+  </package>
+
+  <!-- STATS -->
+  <package name="stats" namespace="/stats" extends="default">
+    <!-- catches everything that doesn't match below! -->
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/stats/home.ftl</result>
+    </action>
+
+    <action name="activity" class="org.gbif.portal.action.stats.ActivityAction">
+      <result>/WEB-INF/pages/stats/activity.ftl</result>
+    </action>
+
+    <action name="history" class="org.gbif.portal.action.stats.HistoryAction">
+      <result>/WEB-INF/pages/stats/history.ftl</result>
+    </action>
+  </package>
+
+  <!-- MEMBERS -->
+  <package name="member" namespace="/member" extends="default">
+    <!-- catches everything that doesn't match below! -->
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.member.HomeAction">
+      <result>/WEB-INF/pages/member/home.ftl</result>
+    </action>
+
+    <action name="search" class="org.gbif.portal.action.member.SearchAction">
+      <result>/WEB-INF/pages/member/search.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.member.DetailAction">
+      <result type="redirect">${redirectUrl}</result>
+    </action>
+  </package>
+
+  <!-- NODE -->
+  <package name="node" namespace="/node" extends="default">
+    <!-- {id} matches anything but "/" -->
+    <action name="{id}/activity" class="org.gbif.portal.action.node.ActivityAction">
+      <result>/WEB-INF/inc/member/activity.ftl</result>
+    </action>
+
+    <action name="{id}/datasets" class="org.gbif.portal.action.node.DatasetAction">
+      <result>/WEB-INF/inc/member/datasets.ftl</result>
+    </action>
+
+    <action name="{id}/stats" class="org.gbif.portal.action.node.StatsAction">
+      <result>/WEB-INF/pages/node/stats.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.node.DetailAction">
+      <result>/WEB-INF/pages/node/detail.ftl</result>
+    </action>
+  </package>
+
+  <!-- NETWORK -->
+  <package name="network" namespace="/network" extends="default">
+    <!-- {id} matches anything but "/" -->
+    <action name="{id}/activity" class="org.gbif.portal.action.network.ActivityAction">
+      <result>/WEB-INF/inc/member/activity.ftl</result>
+    </action>
+
+    <action name="{id}/datasets" class="org.gbif.portal.action.network.DatasetAction">
+      <result>/WEB-INF/inc/member/datasets.ftl</result>
+    </action>
+
+    <action name="{id}/stats" class="org.gbif.portal.action.network.StatsAction">
+      <result>/WEB-INF/pages/network/stats.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.network.DetailAction">
+      <result>/WEB-INF/pages/network/detail.ftl</result>
+    </action>
+  </package>
+
+  <!-- ORGANIZATION -->
+  <package name="organization" namespace="/organization" extends="default">
+    <!-- {id} matches anything but "/" -->
+    <action name="{id}/activity" class="org.gbif.portal.action.organization.ActivityAction">
+      <result>/WEB-INF/inc/member/activity.ftl</result>
+    </action>
+
+    <action name="{id}/datasets" class="org.gbif.portal.action.organization.DatasetAction">
+      <result>/WEB-INF/inc/member/datasets.ftl</result>
+    </action>
+
+    <action name="{id}/stats" class="org.gbif.portal.action.organization.StatsAction">
+      <result>/WEB-INF/pages/organization/stats.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.organization.DetailAction">
+      <result>/WEB-INF/pages/organization/detail.ftl</result>
+    </action>
+  </package>
+
+  <!-- ABOUT -->
+  <package name="about" namespace="/about" extends="default">
+    <!-- catches everything that doesn't match below! -->
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/about/home.ftl</result>
+    </action>
+
+    <action name="contact" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/about/contact.ftl</result>
+    </action>
+
+    <action name="sharing" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/about/sharing.ftl</result>
+    </action>
+
+    <action name="terms" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/about/terms.ftl</result>
+    </action>
+
+    <action name="tools" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/about/tools.ftl</result>
+    </action>
+
+    <action name="use" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/about/use.ftl</result>
+    </action>
+  </package>
+
+  <!-- ADMIN area -->
+  <package name="admin" namespace="/admin" extends="default">
+    <default-interceptor-ref name="adminStack"/>
+    <!-- catches everything that doesn't match below! -->
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.admin.HomeAction">
+      <result>/WEB-INF/pages/admin/home.ftl</result>
+    </action>
+
+    <action name="node/{id}" class="org.gbif.portal.action.admin.NodeAction">
+      <result>/WEB-INF/pages/admin/node.ftl</result>
+    </action>
+
+    <!-- ADD ENTITIES -->
+    <action name="{1}/add" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddEntity">
+      <result>/WEB-INF/pages/admin/add_{1}.ftl</result>
+    </action>
+
+    <action name="{1}/add/step" class="org.gbif.portal.action.{1}.AdminAction" method="addEntity">
+      <result name="input">/WEB-INF/pages/admin/add_{1}.ftl</result>
+      <result name="success">/WEB-INF/pages/admin/success.ftl</result>
+    </action>
+
+    <!-- EDIT ENTITIES -->
+    <action name="{1}/{id}/edit" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddEntity">
+      <result>/WEB-INF/pages/admin/edit_{1}.ftl</result>
+    </action>
+
+    <action name="{1}/{id}/edit/step" class="org.gbif.portal.action.{1}.AdminAction" method="editEntity">
+      <result name="input">/WEB-INF/pages/admin/edit_{1}.ftl</result>
+      <result name="success">/WEB-INF/pages/admin/success.ftl</result>
+    </action>
+
+
+    <!-- ACTIONS FOR COMPONENTS -->
+    <!-- TODO: find a way to map the name of the entity to the name of the Action class. Right now it can't be done as mapping is case sensitive -->
+
+    <!-- add component -->
+    <!-- prepare -->
+    <action name="{1}/add/{2}" class="org.gbif.portal.action.{1}.AdminAction" method="prepareComponents">
+      <result>/WEB-INF/pages/admin/add_{2}.ftl</result>
+    </action>
+    <!-- add -->
+    <action name="{1}/add/{2}/step" class="org.gbif.portal.action.{1}.AdminAction" method="{2}Add">
+      <result name="input">/WEB-INF/pages/admin/add_{2}.ftl</result>
+      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>
+    </action>
+
+    <!-- delete component -->
+    <action name="{1}/delete/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction" method="{2}Delete">
+      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>
+    </action>
+
+    <!-- edit component -->
+    <action name="{1}/{id}/edit/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction"
+            method="{2}EditPrepare">
+      <result>/WEB-INF/pages/admin/edit_{2}.ftl</result>
+    </action>
+
+    <!-- edit component -->
+    <action name="{1}/{id}/edit/{2}/{componentIndex}/step" class="org.gbif.portal.action.{1}.AdminAction"
+            method="{2}Edit">
+      <result name="input">/WEB-INF/pages/admin/edit_{2}.ftl</result>
+      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>
+    </action>
+
+    <!-- TO BE DECIDED IF THIS SHOULD BE KEPT -->
+    <action name="organization/{id}" class="org.gbif.portal.action.admin.OrganizationAction">
+      <result>/WEB-INF/pages/admin/edit_organization.ftl</result>
+    </action>
+
+    <action name="dataset/{id}" class="org.gbif.portal.action.admin.DatasetAction">
+      <result>/WEB-INF/pages/admin/dataset.ftl</result>
+    </action>
+
+  </package>
+</struts>
