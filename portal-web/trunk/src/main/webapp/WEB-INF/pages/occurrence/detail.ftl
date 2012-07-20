@@ -51,9 +51,10 @@
     <div class="right">
       <h3>Position</h3>
 
-      <p class="no_bottom">Las Matas, Madrid, Spain</p>
-
-      <p class="light_note">+40.689152, -74.044636 (± 0.25)</p>
+      <p class="no_bottom placeholder_temp">Las Matas, Madrid, Spain</p>
+    <#if occurrence.longitude?? && occurrence.latitude??>
+      <p class="light_note">${occurrence.longitude}, ${occurrence.latitude} (± 0.25)</p>
+    </#if>
 
     <#if occurrence.altitude??>
       <h3>Altitude</h3>
@@ -70,11 +71,12 @@
 
       <h3>Geoprecision</h3>
 
-      <p>100m</p>
+      <p class="placeholder_temp">100m</p>
 
       <h3>Download</h3>
       <ul>
-        <li class="download"><a href="#" title="Placemark">Placemark <abbr title="Keyhole Markup Language">(KML)</abbr></a>
+        <li class="download placeholder_temp"><a href="#" title="Placemark">Placemark <abbr
+                title="Keyhole Markup Language">(KML)</abbr></a>
         </li>
       </ul>
     </div>
@@ -100,13 +102,13 @@
 
         <h3>Type status</h3>
 
-        <p>Holotype</p>
+        <p class="placeholder_temp">Holotype</p>
 
         <h3>Typified name string</h3>
 
-        <p>Puma concolor</p>
+        <p class="placeholder_temp">Puma concolor</p>
       </div>
-      <div class="col">
+      <div class="col placeholder_temp">
         <h3>Individual count</h3>
 
         <p>1</p>
@@ -142,7 +144,7 @@
 
 <article>
   <header></header>
-  <div class="content">
+  <div class="content placeholder_temp">
     <div class="header">
       <div class="left"><h2>Identification details <span class="subtitle">according to <a
               href="<@s.url value='/dataset/1'/>">GBIF Backbone Taxonomy</a></h2></div>
@@ -182,7 +184,7 @@
     <div class="header">
       <div class="left"><h2>Collection details</h2></div>
     </div>
-    <div class="left">
+    <div class="left placeholder_temp">
       <h3>Collection date </h3>
 
       <p>Oct 23th, 2007</p>
@@ -200,21 +202,34 @@
         id est laborum.</p>
     </div>
     <div class="right">
-      <h3>Collection code</h3>
-
-      <p>HRP</p>
-
+    <#if occurrence.catalogNumber??>
       <h3>Catalog number</h3>
 
-      <p>10</p>
+      <p>${occurrence.catalogNumber}</p>
+    </#if>
+
+    <#if occurrence.institutionCode??>
+      <h3>Institution code</h3>
+
+      <p>${occurrence.institutionCode}</p>
+    </#if>
+
+    <#if occurrence.collectionCode??>
+      <h3>Collection code</h3>
+
+      <p>${occurrence.collectionCode}</p>
+    </#if>
+
+    <#if occurrence.collectionCode??>
+      <h3>Collection code</h3>
+
+      <p>${occurrence.collectionCode}</p>
+    </#if>
 
       <h3>Occurrence identifier</h3>
 
-      <p>ITS-55526310</p>
+      <p class="placeholder_temp">ITS-55526310</p>
 
-      <h3>Institution code</h3>
-
-      <p>ITS-55526310</p>
     </div>
   </div>
   <footer></footer>
@@ -222,7 +237,7 @@
 
 <article class="mono_line">
   <header></header>
-  <div class="content">
+  <div class="content placeholder_temp">
     <h2>Usage & legal issues</h2>
 
     <div class="left">
