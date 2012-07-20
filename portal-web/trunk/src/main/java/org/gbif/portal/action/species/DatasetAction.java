@@ -27,8 +27,8 @@ public class DatasetAction extends UsageAction {
 
     if (type == null || type == DatasetType.CHECKLIST) {
       PagingRequest p = new PagingRequest(offset, 25);
-      PagingResponse<NameUsage> relatedResponse = usageService.listRelated(usage.getNubKey(), getLocale(), p);
-      for (NameUsage u : relatedResponse.getResults()) {
+      List<NameUsage> relatedResponse = usageService.listRelated(usage.getNubKey(), getLocale());
+      for (NameUsage u : relatedResponse) {
         // ignore this usage
         if (!u.getKey().equals(usage.getKey())) {
           page.getResults().add(datasetService.get(u.getChecklistKey()));
