@@ -14,7 +14,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -44,14 +45,16 @@
     <notDevMode>false</notDevMode>
 
     <!-- dependency versions -->
-    <gbif-common-api.version>0.1</gbif-common-api.version>
-    <checklistbank-api.version>0.1</checklistbank-api.version>
-    <checklistbank-ws-client.version>0.1</checklistbank-ws-client.version>
-    <registry-api.version>0.1</registry-api.version>
-    <registry-ws-client.version>0.1</registry-ws-client.version>
+    <gbif-common-api.version>0.2-SNAPSHOT</gbif-common-api.version>
+    <checklistbank-api.version>0.2-SNAPSHOT</checklistbank-api.version>
+    <checklistbank-ws-client.version>0.2-SNAPSHOT</checklistbank-ws-client.version>
+    <registry-api.version>0.2-SNAPSHOT</registry-api.version>
+    <registry-ws-client.version>0.2-SNAPSHOT</registry-ws-client.version>
     <occurrence-download-api.version>0.1</occurrence-download-api.version>
     <occurrence-download-ws-client.version>0.1</occurrence-download-ws-client.version>
     <occurrence-download.version>0.1</occurrence-download.version>
+    <occurrence-api.version>0.1-SNAPSHOT</occurrence-api.version>
+    <occurrence-ws-client.version>0.1-SNAPSHOT</occurrence-ws-client.version>
     <drupal-mybatis.version>0.1</drupal-mybatis.version>
 
     <freemarker.version>2.3.19</freemarker.version>
@@ -228,6 +231,16 @@
       <version>${occurrence-download-ws-client.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.gbif.occurrence</groupId>
+      <artifactId>occurrence-api</artifactId>
+      <version>${occurrence-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif.occurrence</groupId>
+      <artifactId>occurrence-ws-client</artifactId>
+      <version>${occurrence-ws-client.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>drupal-mybatis</artifactId>
       <version>${drupal-mybatis.version}</version>
@@ -400,7 +413,7 @@
       <properties>
         <devMode>false</devMode>
         <notDevMode>true</notDevMode>
-        <baseurl />
+        <baseurl/>
       </properties>
     </profile>
 

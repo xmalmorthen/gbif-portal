@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Occurrence detail - GBIF</title>
+  <title>Occurrence detail ${id?c} - GBIF</title>
   <meta name="menu" content="occurrences"/>
 </head>
 <body class="typesmap">
@@ -11,23 +11,27 @@
     <li class="last"><a href="#" title="Occurrences">Occurrences</a></li>
   </ul>
 
-  <h1>ANSP HRP 10</h1>
+  <h1>${occurrence.institutionCode!} ${occurrence.collectionCode!} ${occurrence.catalogNumber!}</h1>
 
-  <h3>An occurrence of <a href="<@s.url value='/species/42'/>">Puma concolor</a> from <a
-          href="<@s.url value='/dataset/123'/>">Sudamerican
-    Felines</a> dataset.</h3>
+  <h3>An occurrence
+    of <a href="<@s.url value='/species/${occurrence.id?c}'/>">${occurrence.scientificName!"MISSING NAME"}</a>
+    from <a href="<@s.url value='/dataset/${dataset.key}'/>">${dataset.title}</a> dataset.
+  </h3>
 
 </content>
 
 <content tag="tabs">
   <div id="tabs">
     <ul>
-      <li class='selected'><a href="<@s.url value='/occurrence/${id}'/>"
-                              title="Information"><span>Information</span></a>
+      <li class='selected'>
+        <a href="<@s.url value='/occurrence/${id?c}'/>" title="Information"><span>Information</span></a>
       </li>
-      <li><a id="activity_tab" href="<@s.url value='/occurrence/${id}/activity'/>"
-             title="Activity"><span>Activity <sup>(3)</sup></span></a></li>
-      <li><a href="<@s.url value='/occurrence/${id}/detail_raw'/>" title="Details"><span>Details</span></a></li>
+      <li>
+        <a id="activity_tab" href="<@s.url value='/occurrence/${id?c}/activity'/>" title="Activity"><span>Activity <sup>(3)</sup></span></a>
+      </li>
+      <li>
+        <a href="<@s.url value='/occurrence/${id}/detail_raw'/>" title="Details"><span>Details</span></a>
+      </li>
     </ul>
   </div>
 </content>
@@ -51,13 +55,18 @@
 
       <p class="light_note">+40.689152, -74.044636 (± 0.25)</p>
 
+    <#if occurrence.altitude??>
       <h3>Altitude</h3>
 
-      <p>100m → 300m</p>
+      <p>${occurrence.altitude}m</p>
+    </#if>
 
+    <#if occurrence.depth??>
       <h3>Depth</h3>
 
-      <p>-300m → -100m</p>
+      <p>${occurrence.depth}m</p>
+    </#if>
+
 
       <h3>Geoprecision</h3>
 
@@ -65,8 +74,8 @@
 
       <h3>Download</h3>
       <ul>
-        <li class="download"><a href="#" title="Placemark">Placemark <abbr
-                title="Keyhole Markup Language">(KML)</abbr></a></li>
+        <li class="download"><a href="#" title="Placemark">Placemark <abbr title="Keyhole Markup Language">(KML)</abbr></a>
+        </li>
       </ul>
     </div>
   </div>
@@ -85,9 +94,10 @@
       <div class="col">
         <h3>Basis of record</h3>
 
-        <p>Specimen
+        <p>${occurrence.basisOfRecord!"Unknown"}
           <super><a href="" id="interpretation">*</a></super>
         </p>
+
         <h3>Type status</h3>
 
         <p>Holotype</p>
@@ -113,11 +123,12 @@
     <div class="right">
       <h3>Dataset</h3>
 
-      <p>Sudamerican Felines</p>
+      <p>${dataset.title}</p>
 
       <h3>Data publisher</h3>
 
-      <p><a href="<@s.url value='/member/123'/>" title="">Museo de Ciencias Naturales</a></p>
+      <p><a href="<@s.url value='/organization/${dataset.owningOrganizationKey!}'/>"
+            title="">${dataset.owningOrganizationKey!"Unknown"}</a></p>
 
       <h3>DOWNLOAD</h3>
       <ul>

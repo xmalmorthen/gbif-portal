@@ -1,6 +1,7 @@
 package org.gbif.portal.config;
 
 import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
+import org.gbif.occurrence.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.occurrencestore.download.ws.client.guice.OccurrenceDownloadWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
 import org.gbif.user.guice.DrupalMyBatisModule;
@@ -31,6 +32,9 @@ public class PortalModule extends AbstractModule {
 
     // bind the occurrence download service
     install(new OccurrenceDownloadWsClientModule(properties));
+
+    // bind the occurrence service
+    install(new OccurrenceWsClientModule(properties));
   }
 
 }

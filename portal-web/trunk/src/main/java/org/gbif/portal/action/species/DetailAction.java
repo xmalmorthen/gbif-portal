@@ -50,7 +50,6 @@ public class DetailAction extends UsageAction {
   private List<UUID> relatedDatasets = Lists.newArrayList();
 
   // various pagesizes used
-  private final Pageable page20 = new PagingRequest(0, 20);
   private final Pageable page10 = new PagingRequest(0, 10);
   private final Pageable page4 = new PagingRequest(0, 4);
 
@@ -109,8 +108,8 @@ public class DetailAction extends UsageAction {
 
     // get non nub related usages & occ datasets
     if (usage.getNubKey() != null) {
-      PagingResponse<NameUsage> relatedResponse = usageService.listRelated(usage.getNubKey(), getLocale(), page10);
-      for (NameUsage u : relatedResponse.getResults()) {
+      List<NameUsage> relatedResponse = usageService.listRelated(usage.getNubKey(), getLocale());
+      for (NameUsage u : relatedResponse) {
         // ignore this usage
         if (!u.getKey().equals(usage.getKey())) {
           related.add(u);
@@ -148,7 +147,9 @@ public class DetailAction extends UsageAction {
       if (Strings.isNullOrEmpty(v.getVernacularName())) {
         continue;
       }
-      String id = (v.getVernacularName() + "||" + Strings.nullToEmpty(v.getLanguage())).toLowerCase();
+      String lang =
+        v.getLanguage().getInterpreted() == null ? "" : v.getLanguage().getInterpreted().getIso2LetterCode();
+      String id = v.getVernacularName() + "||" + lang;
       if (!vernacularNames.containsKey(id)) {
         vernacularNames.put(id, Lists.<VernacularName>newArrayList());
       }
