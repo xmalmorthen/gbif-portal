@@ -45,7 +45,7 @@
     <notDevMode>false</notDevMode>
 
     <!-- dependency versions -->
-    <gbif-common-api.version>0.2-SNAPSHOT</gbif-common-api.version>
+    <gbif-common-api.version>0.3-SNAPSHOT</gbif-common-api.version>
     <checklistbank-api.version>0.2-SNAPSHOT</checklistbank-api.version>
     <checklistbank-ws-client.version>0.2-SNAPSHOT</checklistbank-ws-client.version>
     <registry-api.version>0.2-SNAPSHOT</registry-api.version>
