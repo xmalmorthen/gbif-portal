@@ -407,6 +407,10 @@
     <action name="" class="org.gbif.portal.action.admin.HomeAction">
       <result>/WEB-INF/pages/admin/home.ftl</result>
     </action>
+    
+    <action name="crawler" class="org.gbif.portal.action.admin.CrawlerAction">
+      <result>/WEB-INF/pages/admin/crawler.ftl</result>
+    </action>    
 
     <action name="node/{id}" class="org.gbif.portal.action.admin.NodeAction">
       <result>/WEB-INF/pages/admin/node.ftl</result>
