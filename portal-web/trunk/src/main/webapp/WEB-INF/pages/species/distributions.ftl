@@ -29,20 +29,20 @@
       <div class="left">
       <#list page.results as item>
         <div class="result">
-          <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong>
+          <h2><strong>${item.locality!item.locationId!item.country.interpreted!"Unknown"}</strong>
             <span class="note">${item.status!"Present"}</span>
             <@common.usageSource component=item showChecklistSource=usage.nub />
           </h2>
 
           <div class="footer">
-          ${item.locationId!} ${item.country!} ${item.locality!}
+          ${item.locationId!} ${item.country.interpreted!} ${item.locality!}
           </div>
           <div class="footer">
           ${item.lifeStage!} ${item.temporal!} <#if item.startDayOfYear?? || item.endDayOfYear??>Days of the
             year: ${item.startDayOfYear!}-${item.endDayOfYear!}</#if>
           </div>
           <div class="footer">
-          ${item.threatStatus!} ${item.establishmentMeans!} ${item.appendixCites!}
+          ${item.threatStatus.interpreted!} ${item.establishmentMeans.interpreted!} ${item.appendixCites.interpreted!}
           </div>
         </div>
       </#list>
@@ -52,14 +52,14 @@
       </div>
 
       <div class="right placeholder_temp">
-          <h3>References by continent</h3>
-          <ul>
-            <li>Europe <a class="number">200</a></li>
-            <li>America <a class="number">32</a></li>
-            <li>Asia <a class="number">152</a></li>
-          </ul>
-        </div>
+        <h3>References by continent</h3>
+        <ul>
+          <li>Europe <a class="number">200</a></li>
+          <li>America <a class="number">32</a></li>
+          <li>Asia <a class="number">152</a></li>
+        </ul>
       </div>
+    </div>
 
     </div>
     <footer></footer>

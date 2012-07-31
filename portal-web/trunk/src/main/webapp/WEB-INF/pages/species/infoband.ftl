@@ -8,7 +8,7 @@
 -->
 <content tag="infoband">
   <ul class="breadcrumb">
-    <li class="last">${(usage.rank!"Unranked")?capitalize}</li>
+    <li class="last">${((usage.rank.interpreted)!"Unranked")?capitalize}</li>
   </ul>
 
   <h1>${usage.scientificName}</h1>
@@ -31,10 +31,10 @@
     <div class="content">
       <ul>
         <li><h4>${usage.numOccurrences}</h4>Occurrences</li>
-        <#if usage.rank.isSpeciesOrBelow()>
+        <#if usage.rank.interpreted.isSpeciesOrBelow()>
           <li class="last"><h4>${usage.numDescendants}</h4>Infraspecies</li>
-          <#else>
-            <li class="last"><h4>${usage.numSpecies}</h4>Species</li>
+        <#else>
+          <li class="last"><h4>${usage.numSpecies}</h4>Species</li>
         </#if>
       </ul>
       <a href="#" title="Download Occurrences" class="download candy_blue_button"><span>Download occurrences</span></a>

@@ -27,7 +27,7 @@
 
       <div class="left">
 
-        <#list page.results as u>
+      <#list page.results as u>
         <div class="result">
           <h2>
             <a href="<@s.url value='/species/${u.key?c}'/>"><strong>${u.scientificName}</strong></a>
@@ -36,12 +36,12 @@
           <#if usage.nub>
             <p>according to ${u.accordingTo!u.origin}</p>
           </#if>
-          <div class="footer">${u.taxonomicStatus!} ${u.nomenclaturalStatus!}</div>
+          <div class="footer">${u.taxonomicStatus.interpreted!} ${u.nomenclaturalStatus.interpreted!}</div>
         </div>
-        </#list>
+      </#list>
 
         <div class="footer">
-          <@paging.pagination page=page url=currentUrl/>
+        <@paging.pagination page=page url=currentUrl/>
         </div>
 
       </div>

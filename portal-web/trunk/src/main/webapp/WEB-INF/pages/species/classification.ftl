@@ -23,6 +23,7 @@
         <div class="left">
           <hgroup>
             <h2>${parents?size} taxonomy levels for "${usage.canonicalOrScientificName!"???"}"</h2>
+
             <h3>According to <a href="<@s.url value='/dataset/${usage.checklistKey}'/>">${checklist.name!"???"}</a></h3>
           </hgroup>
         </div>
@@ -30,15 +31,15 @@
 
       <div class="left">
         <ul class="classification">
-          <#assign indent = 30 />
-          <#list parents as p>
-            <li>
-              <span class="taxon_level">${p.rank!}</span>
-              <span class="separator" style="width:${indent}px"></span>
-              <a href="<@s.url value='/species/${p.key?c}'/>">${p.scientificName!"???"}</a>
-            </li>
-            <#assign indent = indent + 10 />
-          </#list>
+        <#assign indent = 30 />
+        <#list parents as p>
+          <li>
+            <span class="taxon_level">${p.rank.interpreted!}</span>
+            <span class="separator" style="width:${indent}px"></span>
+            <a href="<@s.url value='/species/${p.key?c}'/>">${p.scientificName!"???"}</a>
+          </li>
+          <#assign indent = indent + 10 />
+        </#list>
         </ul>
       </div>
 
@@ -46,7 +47,8 @@
         <div class="refine placeholder_temp">
           <h3>Download</h3>
           <ul>
-            <li class="download"><a href="#" title="Classification">Classification<abbr title="Comma separated values">(CSV)</abbr></a></li>
+            <li class="download"><a href="#" title="Classification">Classification<abbr title="Comma separated values">(CSV)</abbr></a>
+            </li>
           </ul>
         </div>
 

@@ -28,17 +28,18 @@
 
       <div class="left">
 
-        <#list page.results as item>
+      <#list page.results as item>
         <div class="result">
-          <h2><strong>${item.vernacularName}</strong><span class="note">${item.language!}</span>
+          <h2><strong>${item.vernacularName}</strong><span class="note">${item.language.interpreted!}</span>
             <@common.usageSource component=item showChecklistSource=usage.nub />
           </h2>
-          <div class="footer">${item.lifeStage!} ${item.sex!} ${item.country!} ${item.area!}</div>
+
+          <div class="footer">${item.lifeStage.interpreted!} ${item.sex.interpreted!} ${item.country.interpreted!} ${item.area!}</div>
         </div>
-        </#list>
+      </#list>
 
         <div class="footer">
-          <@paging.pagination page=page url=currentUrl/>
+        <@paging.pagination page=page url=currentUrl/>
         </div>
 
       </div>

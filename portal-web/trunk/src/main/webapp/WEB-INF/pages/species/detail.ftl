@@ -77,15 +77,15 @@
       <h3>Taxonomic Status</h3>
 
       <p>
-      ${usage.taxonomicStatus!"Unknown"}
+      ${usage.taxonomicStatus.interpreted!"Unknown"}
       <#if usage.synonym> of <a
               href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a></#if>
       </p>
 
-    <#if usage.nomenclaturalStatus?has_content>
+    <#if (usage.nomenclaturalStatus.interpreted)?has_content>
       <h3>Nomenclatural Status</h3>
 
-      <p>${usage.nomenclaturalStatus}</p>
+      <p>${usage.nomenclaturalStatus.interpreted}</p>
     </#if>
 
     <#if usage.isExtinct()??>
@@ -132,7 +132,7 @@
           <#assign names=vernacularNames.get(vk)/>
           <#assign v=names[0]/>
           <li>${v.vernacularName} <span
-                  class="small">${v.language!}</span> <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
+                  class="small">${(v.language.interpreted)!}</span> <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
           </li>
           <#if vk_index==8>
             <#assign more=true/>
@@ -414,7 +414,7 @@
     <div class="left">
       <#list usage.typeSpecimens as ts>
         <div class="col">
-        <@specimenRecord.record ts=ts showAsSearchResult=false />
+          <@specimenRecord.record ts=ts showAsSearchResult=false />
         </div>
       <#-- If we have 4 (index=3) we know there are more to show -->
         <#if (ts_index = maxRecords-1)>
@@ -451,13 +451,13 @@
           <#if (d_index % 2) == 0>
             <div>
               <p class="no_bottom">
-                <a href="#">${d.locationId!} ${d.country!} ${d.locality!}</a>
-              <@common.usageSource component=d showChecklistSource=nub />
+                <a href="#">${d.locationId!} ${(d.country.interpreted)!} ${d.locality!}</a>
+                <@common.usageSource component=d showChecklistSource=nub />
               </p>
 
-              <p class="note semi_bottom">${d.lifeStage!} ${d.temporal!} ${d.status!"Present"}
-              <#if d.threatStatus??><@s.text name="enum.threatstatus.${d.threatStatus}"/></#if>
-               ${d.establishmentMeans!} ${d.appendixCites!}</p>
+              <p class="note semi_bottom">${(d.lifeStage.interpreted)!} ${d.temporal!} ${(d.status.interpreted)!"Present"}
+              <#if (d.threatStatus.interpreted)??><@s.text name="enum.threatstatus.${d.threatStatus.interpreted}"/></#if>
+               ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}</p>
             </div>
           </#if>
         <#-- only show 10 distributions at max. If we have 10 (index=9) we know there are more to show -->
@@ -476,11 +476,11 @@
             <#if (d_index % 2) == 1>
               <div>
                 <p class="no_bottom">
-                  <a href="#">${d.locationId!} ${d.country!} ${d.locality!} ${d.temporal!}</a>
-                <@common.usageSource component=d showChecklistSource=nub />
+                  <a href="#">${d.locationId!} ${(d.country.interpreted)!} ${d.locality!} ${d.temporal!}</a>
+                  <@common.usageSource component=d showChecklistSource=nub />
                 </p>
 
-                <p class="note semi_bottom">${d.lifeStage!} ${d.status!"Present"} ${d.threatStatus!} ${d.establishmentMeans!} ${d.appendixCites!}</p>
+                <p class="note semi_bottom">${(d.lifeStage.interpreted)!} ${(d.status.interpreted)!"Present"} ${(d.threatStatus.interpreted)!} ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}</p>
               </div>
             </#if>
           </#list>
