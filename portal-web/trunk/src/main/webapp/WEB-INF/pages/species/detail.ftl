@@ -33,15 +33,15 @@
   <div class="content">
     <h3>This is a particular view of ${usage.canonicalOrScientificName!}</h3>
 
-    <p>This is the <em>${usage.scientificName}</em> view, as seen by <a
-            href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.title!"???"}</a> checklist.
+    <p>This is the <em>${usage.scientificName}</em> view,
+      as seen by <a href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.title!"???"}</a> checklist.
       <#if usage.nubKey?exists>
-        Remember that you can also check the <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view
-        on ${usage.canonicalOrScientificName!}</a>.
+        Remember that you can also check the
+        <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view on ${usage.canonicalOrScientificName!}</a>.
       </#if>
       <br/>You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
-      submitted by
-      the data publisher.</p>
+      submitted by the data publisher.
+    </p>
     <img id="notice_icon" src="<@s.url value='/img/icons/notice_icon.png'/>"/>
   </div>
   <footer></footer>
@@ -62,11 +62,10 @@
         <#if img_index==3 || !img_has_next>
           <#assign lastClass="last"/>
         </#if>
-        <li class="${lastClass!""}"><a href="#" class="images"><span><img
-                src="${img.thumbnail!img.image!"image missing url"}"/></span></a></li>
-        <#if img_index==3>
-          <#break>
-        </#if>
+        <li class="${lastClass!""}">
+          <a href="#" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a>
+        </li>
+        <#if img_index==3><#break></#if>
       </#list>
       </ul>
 
@@ -77,9 +76,10 @@
       <h3>Taxonomic Status</h3>
 
       <p>
-      ${usage.taxonomicStatus.interpreted!"Unknown"}
-      <#if usage.synonym> of <a
-              href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a></#if>
+      ${(usage.taxonomicStatus.interpreted)!"Unknown"}
+      <#if usage.synonym>
+        of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
+      </#if>
       </p>
 
     <#if (usage.nomenclaturalStatus.interpreted)?has_content>
@@ -175,7 +175,6 @@
         </li>
       </#if>
       </ul>
-
 
     </div>
   </div>
