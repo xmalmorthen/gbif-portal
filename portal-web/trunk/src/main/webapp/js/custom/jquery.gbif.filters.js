@@ -20,12 +20,12 @@
    */
   $.widget("gbif.Filter", {
     options: {
-  addFilter: $.noop,  // avoid nulls, allow overriding during construction
+      addFilter: $.noop,  // avoid nulls, allow overriding during construction
     },
     
     // call the JSON over AJAX
     _init: function() {
-  var self = this.element;
+      var self = this.element;
 	  this._loadData(this.options.json);
 	  this._renderSubjectSelector();
 	  this.filterContainer = $("<SPAN/>").appendTo(self);
@@ -37,68 +37,69 @@
     
     // utilities for setting the subject, predicate and value
     _setSubject: function(val) {
-  this.filter.subject = val;
+      this.filter.subject = val;
     },
     _setPredicate: function(val) {
-  this.filter.predicate = val;
+      this.filter.predicate = val;
     },
     _setValue: function(val) {
-  this.filter.value = val;
+      this.filter.value = val;
     },
     _setSubjectId: function(val) {
-  this.filter.subjectId = val;
+      this.filter.subjectId = val;
     },
     _setPredicateId: function(val) {
-  this.filter.predicateId = val;
+      this.filter.predicateId = val;
     },
     
     // Loads and stores the data from ajax using a synchronous call (hence not the $json method)
     _loadData: function(url) {
-  var that = this;
-  console.log("Loading JSON from " + url);
-  $.ajax({
-    type: 'GET', url: url, async: false, dataType: 'json',
-      success: function(data) { 
-      console.log("Loaded JSON from " + url);
-      that.data = data; 
-      }, 
-    });  
+      var that = this;
+      console.log("Loading JSON from " + url);
+      $.ajax({
+        type: 'GET', url: url, async: false, dataType: 'json',
+        success: function(data) { 
+          console.log("Loaded JSON from " + url);
+          that.data = data; 
+        }, 
+      });  
     },
     
     // Renders the subject selector and broadcasts the changed event
     _renderSubjectSelector: function() {
-    console.log("Setting up the subject selector");
-  var that = this;
-  var self = this.element;
-  console.log("Reading JSON to populate subject selector");
-  var el = $('<SELECT/>').addClass("subject");
-  that.subjectSelect = el;  // to be accessible from other methods
-  $.each(that.data.filters, function () {
-    var el2 = $("<optgroup label=" + this.group + "/>").appendTo(el);
-    $.each(this.options, function () {
-      el2.append($('<OPTION></OPTION>').attr('value',this.name).text(this.name));    
-    });  
-  });
-  el.appendTo(self);
-  // broadcast changes on the "changed" event
-  el.bind('change', function(event) {
-    $.each(that.data.filters, function (i, filter) {    
-      $.each(this.options, function (i2, filter) {
-      if ($(el,"option:selected").val() == filter.name) {
-    console.log("Detected subject change to " + el.val());
-    that._setSubject(el.val());
-    that._setSubjectId(filter.id);
-    that._setPredicate(null);
-    that._setPredicateId(null);
-    that._setValue(null);
-    that._renderFilter(filter);
-    that.descriptionContainer.html(filter.description);
-      }
+      console.log("Setting up the subject selector");
+      var that = this;
+      var self = this.element;
+      console.log("Reading JSON to populate subject selector");
+      var el = $('<SELECT/>').addClass("subject");
+      that.subjectSelect = el;  // to be accessible from other methods
+      $.each(that.data.filters, function () {
+        var el2 = $("<optgroup label=" + this.group + "/>").appendTo(el);
+        $.each(this.options, function () {
+          el2.append($('<OPTION></OPTION>').attr('value',this.name).text(this.name));    
+        });  
       });
+      el.appendTo(self);
+  
+      // broadcast changes on the "changed" event
+      el.bind('change', function(event) {
+        $.each(that.data.filters, function (i, filter) {    
+          $.each(this.options, function (i2, filter) {
+            if ($(el,"option:selected").val() == filter.name) {
+              console.log("Detected subject change to " + el.val());
+              that._setSubject(el.val());
+              that._setSubjectId(filter.id);
+              that._setPredicate(null);
+              that._setPredicateId(null);
+              that._setValue(null);
+              that._renderFilter(filter);
+              that.descriptionContainer.html(filter.description);
+          }
+        });
     });    
   });
   
-    },
+  },
     
     // utility to allow this to be called from various places
     _fireAddFilter: function() {
