@@ -16,7 +16,7 @@
 </#if>
 <#-- RDFa -->
   <meta property="dwc:scientificName" content="${usage.scientificName!}"/>
-  <meta property="dwc:kingdom" content="${usage.scientificName!}"/>
+  <meta property="dwc:kingdom" content="${usage.kingdom!}"/>
   <meta property="dwc:datasetID" content="${checklist.key}"/>
   <meta property="dwc:datasetName" content="${checklist.title!"???"}"/>
   <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${checklist.key}'/>"/>
@@ -53,7 +53,8 @@
   <div class="content">
 
     <div class="header">
-      <div class="left"><h2><a name="overview">Overview</a></h2></div>
+      <a name="overview"> </a>
+      <div class="left"><h2>Overview</h2></div>
     </div>
 
     <div class="left">
@@ -184,7 +185,8 @@
 <article class="taxonomies">
   <header></header>
   <div class="content">
-    <h2><a name="taxonomy">Taxonomy</a> <span class="subtitle">of ${usage.scientificName}</span></h2>
+    <a name="taxonomy"> </a>
+    <h2>Taxonomy <span class="subtitle">of ${usage.scientificName}</span></h2>
 
     <div class="left">
       <h3>Taxonomic classification
@@ -338,7 +340,8 @@
 <article id="appearsin">
   <header></header>
   <div class="content">
-    <h2><a name="related">Appears in</a></h2>
+    <a name="related"> </a>
+    <h2>Appears in</h2>
 
     <div class="left">
       <div class="col">
@@ -407,7 +410,8 @@
 <article id="typespecimen">
   <header></header>
   <div class="content">
-    <h2><a name="typespecimenName">Type specimens</a></h2>
+    <a name="typespecimen"> </a>
+    <h2>Type specimens</h2>
   <#-- only show 4 type specimens at max -->
     <#assign maxRecords=4>
     <div class="left">
@@ -441,7 +445,8 @@
 <article id="distribution">
   <header></header>
   <div class="content">
-    <h2><a name="distribution">${usage.canonicalOrScientificName!} distribution</a></h2>
+    <a name="distribution"> </a>
+    <h2>${usage.canonicalOrScientificName!} distribution</h2>
 
     <div class="left">
       <div class="col">
@@ -505,7 +510,8 @@
 <article id="references">
   <header></header>
   <div class="content">
-    <h2><a name="typespecimen">Academic references</a></h2>
+    <a name="references"> </a>
+    <h2>Academic references</h2>
 
     <div class="left">
       <#if usage.publishedIn?has_content>

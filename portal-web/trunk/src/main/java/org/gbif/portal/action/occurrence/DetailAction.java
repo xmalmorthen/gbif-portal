@@ -21,7 +21,7 @@ public class DetailAction extends BaseAction {
   private DatasetService datasetService;
 
   private Integer id;
-  private Occurrence occurrence;
+  private Occurrence occ;
   private Dataset dataset;
 
   @Override
@@ -30,18 +30,22 @@ public class DetailAction extends BaseAction {
       LOG.error("No occurrence id given");
       throw new NotFoundException();
     }
-    occurrence = occurrenceService.get(id);
-    if (occurrence == null) {
+    occ = occurrenceService.get(id);
+    if (occ == null) {
       LOG.error("No occurrence found with id {}", id);
       throw new NotFoundException();
     }
     // load dataset
-    dataset = datasetService.get(occurrence.getDatasetKey());
+    if (occ.getDatasetKey() != null){
+      dataset = datasetService.get(occ.getDatasetKey());
+    } else {
+      dataset = new Dataset();
+    }
 
     return SUCCESS;
   }
 
-  public String raw() {
+  public String verbatim() {
     LOG.debug("Loading raw details for occurrence id [{}]", id);
     return execute();
   }
@@ -54,8 +58,8 @@ public class DetailAction extends BaseAction {
     this.id = id;
   }
 
-  public Occurrence getOccurrence() {
-    return occurrence;
+  public Occurrence getOcc() {
+    return occ;
   }
 
   public Dataset getDataset() {

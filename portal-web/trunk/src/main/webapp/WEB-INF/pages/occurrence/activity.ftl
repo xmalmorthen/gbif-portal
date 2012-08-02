@@ -5,29 +5,8 @@
 </head>
 <body class="typesmap">
 
-<content tag="infoband">
-  <ul class="breadcrumb">
-    <li><a href="#" title="Explore">Explore</a></li>
-    <li class="last"><a href="#" title="Occurrences">Occurrences</a></li>
-  </ul>
-
-  <h1>ANSP HRP 10</h1>
-
-  <h3>An occurrence of <a href="<@s.url value='/species/123/'/>">Puma Concolor</a> from <a
-          href="<@s.url value='/dataset/42'/>">Sudamerican
-    Felines</a> dataset.</h3>
-</content>
-
-<content tag="tabs">
-  <div id="tabs">
-    <ul>
-      <li><a href="<@s.url value='/occurrence/${id}'/>" title="Information"><span>Information</span></a></li>
-      <li class='selected'><a id="activity_tab" href="<@s.url value='/occurrence/${id}/activity'/>"
-                              title="Activity"><span>Activity <sup>(3)</sup></span></a></li>
-      <li><a href="<@s.url value='/occurrence/${id}/detail_raw'/>" title="Details"><span>Details</span></a></li>
-    </ul>
-  </div>
-</content>
+<#assign tab="activity"/>
+<#include "/WEB-INF/pages/occurrence/infoband.ftl">
 
 <article class="graph">
 <header></header>

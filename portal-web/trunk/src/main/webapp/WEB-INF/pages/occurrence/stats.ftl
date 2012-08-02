@@ -1,12 +1,12 @@
 <html>
 <head>
-  <title>${usage.scientificName} - Statistics</title>
+  <title>Species statistics - GBIF</title>
   <meta name="menu" content="species"/>
 </head>
 <body class="species">
 
 <#assign tab="stats"/>
-<#include "/WEB-INF/pages/species/infoband.ftl">
+<#include "/WEB-INF/pages/occurrence/infoband.ftl">
 
 
 <article class="graph">

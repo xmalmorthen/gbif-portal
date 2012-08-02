@@ -5,34 +5,10 @@
 </head>
 <body class="stats">
 
-<content tag="infoband">
-  <ul class="breadcrumb">
-    <li><a href="#" title="Explore">Explore</a></li>
-    <li class="last"><a href="#" title="Occurrences">Occurrences</a></li>
-  </ul>
+<#assign tab="info"/>
+<#include "/WEB-INF/pages/occurrence/infoband.ftl">
 
-  <h1>ANSP HRP 10</h1>
-
-  <h3>An occurrence of <a href="<@s.url value='/species/42'/>">Puma concolor</a> from <a
-          href="<@s.url value='/dataset/123'/>">Sudamerican
-    Felines</a> dataset.</h3>
-
-</content>
-
-<content tag="tabs">
-  <div id="tabs">
-    <ul>
-      <li><a href="<@s.url value='/occurrence/${id}'/>" title="Information"><span>Information</span></a>
-      </li>
-      <li><a id="activity_tab" href="<@s.url value='/occurrence/${id}/activity'/>"
-             title="Activity"><span>Activity <sup>(3)</sup></span></a></li>
-      <li class='selected'><a href="<@s.url value='/occurrence/${id}/detail_raw'/>" title="Details"><span>Details</span></a>
-      </li>
-    </ul>
-  </div>
-</content>
-
-<article>
+<article class="placeholder_temp">
   <header></header>
   <div class="content">
 
@@ -79,7 +55,7 @@
   <footer></footer>
 </article>
 
-<article class="raw odd">
+<article class="raw odd placeholder_temp">
   <header></header>
   <div class="content">
 
@@ -128,7 +104,7 @@
   <footer></footer>
 </article>
 
-<article class="raw odd">
+<article class="raw odd placeholder_temp">
   <!-- added "odd" class because there're an odd number of rows and the footer has to be different -->
   <header></header>
   <div class="content">
@@ -206,7 +182,7 @@
   <footer></footer>
 </article>
 
-<article class="raw odd">
+<article class="raw odd placeholder_temp">
   <header></header>
   <div class="content">
     <div class="header">
@@ -236,7 +212,7 @@
   <footer></footer>
 </article>
 
-<article class="raw odd">
+<article class="raw odd placeholder_temp">
   <header></header>
   <div class="content">
     <div class="header">

@@ -1,44 +1,11 @@
 <html>
 <head>
-  <title>Species activity - GBIF</title>
+  <title>${usage.scientificName} - Activity</title>
 </head>
 <body class="species">
 
-<content tag="infoband">
-  <ul class="breadcrumb">
-    <li class="last"><a href="#" title="Species">Species</a></li>
-  </ul>
-
-  <h1>Puma Concolor</h1>
-
-  <h3 class="separator">Animalia</h3>
-
-  <ul class="tags">
-    <li><a href="#" title="Turkey">Turkey</a></li>
-    <li><a href="#" title="coastal">coastal</a></li>
-    <li class="last"><a href="#" title="herbal">herbal</a></li>
-  </ul>
-
-  <div class="box">
-    <div class="content">
-      <ul>
-        <li><h4>123,356</h4>Occurrences</li>
-        <li class="last"><h4>349</h4>Subspecies</li>
-      </ul>
-      <a href="#" title="Download Occurrences" class="download candy_blue_button"><span>Download occurrences</span></a>
-    </div>
-  </div>
-</content>
-
-<content tag="tabs">
-  <ul>
-    <li><a href="<@s.url value='/species/${id!}'/>"><span>Information</span></a></li>
-    <li class='selected'><a href="<@s.url value='/species/${id!}/activity'/>" title="Activity"
-                            id="activity_tab"><span>Activity <sup>(2)</sup></span></a>
-    </li>
-    <li><a href="<@s.url value='/species/${id!}/stats'/>" title="Stats"><span>Stats <sup>(2)</sup></span></a></li>
-  </ul>
-</content>
+<#assign tab="activity"/>
+<#include "/WEB-INF/pages/species/infoband.ftl">
 
 <article class="graph">
 <header></header>
