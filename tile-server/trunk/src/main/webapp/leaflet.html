@@ -1,0 +1,71 @@
+<html>
+<head>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" />
+<!--[if lte IE 8]>
+     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.ie.css" />
+ <![endif]-->
+ <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
+</head>
+<body>
+  <div id="map" style="width:100%; height:100%"></div>
+
+<script type="text/javascript">
+
+
+
+	    var cmAttr = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
+			cmUrl = 'http://{s}.tile.cloudmade.com/83fd59292199456282995a2e992a58f7/{styleId}/256/{z}/{x}/{y}.png';
+
+	    var minimal   = L.tileLayer(cmUrl, {styleId: 22677, attribution: cmAttr}),
+		    midnight  = L.tileLayer(cmUrl, {styleId: 999,   attribution: cmAttr}),
+		    motorways = L.tileLayer(cmUrl, {styleId: 46561, attribution: cmAttr});
+
+		var map = L.map('map', {
+			center: [39.73, -104.99],
+			zoom: 10,
+			layers: [minimal, motorways]
+		});
+
+		var baseLayers = {
+			"Minimal": minimal,
+			"Night View": midnight
+		};
+
+		var overlays = {
+			"Motorways": motorways,
+			"Cities": cities
+		};
+
+		L.control.layers(baseLayers, overlays).addTo(map);
+
+
+  
+var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/83fd59292199456282995a2e992a58f7/997/256/{z}/{x}/{y}.png',
+    cloudmadeAttribution = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
+
+var minimal   = L.tileLayer(cloudmadeUrl, {styleId: 22677, attribution: cloudmadeAttribution}),
+    midnight  = L.tileLayer(cloudmadeUrl, {styleId: 999,   attribution: cloudmadeAttribution}),
+    motorways = L.tileLayer(cloudmadeUrl, {styleId: 46561, attribution: cloudmadeAttribution});
+
+var map = L.map('map', {
+    center: new L.LatLng(0, 0),
+    zoom: 0,
+    layers: [minimal, midnight]
+});  
+  
+	// create the tile layer with correct attribution
+	var gbifUrl='http://localhost:7001/density/tile?key=1&x={x}&y={y}&z={z}&type=TAXON';
+	var gbifAttrib='GBIF contributors';
+	var gbif = new L.TileLayer(gbifUrl, {minZoom: 0, maxZoom: 14, attribution: gbifAttrib});		
+
+	// start the map in South-East England
+	map.setView(new L.LatLng(0, 0),0);
+	map.addLayer(gbif);  
+  
+      // return "http://localhost:7001/density/tile?key=1&x=" + coord.x + "&y=" + coord.y + "&z=" + zoom + "&type=TAXON";
+
+</script>
+
+
+</body>
+</html>
