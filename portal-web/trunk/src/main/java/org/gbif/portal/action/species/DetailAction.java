@@ -147,8 +147,10 @@ public class DetailAction extends UsageAction {
       if (Strings.isNullOrEmpty(v.getVernacularName())) {
         continue;
       }
-      String lang =
-        v.getLanguage().getInterpreted() == null ? "" : v.getLanguage().getInterpreted().getIso2LetterCode();
+      String lang = "";
+      if (v.getLanguage() != null && v.getLanguage().getInterpreted() != null){
+        lang = v.getLanguage().getInterpreted().getIso2LetterCode();
+      }
       String id = v.getVernacularName() + "||" + lang;
       if (!vernacularNames.containsKey(id)) {
         vernacularNames.put(id, Lists.<VernacularName>newArrayList());
