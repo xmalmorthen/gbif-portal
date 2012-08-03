@@ -50,9 +50,9 @@
     <checklistbank-ws-client.version>0.2-SNAPSHOT</checklistbank-ws-client.version>
     <registry-api.version>0.2-SNAPSHOT</registry-api.version>
     <registry-ws-client.version>0.2-SNAPSHOT</registry-ws-client.version>
-    <occurrence-download-api.version>0.1</occurrence-download-api.version>
-    <occurrence-download-ws-client.version>0.1</occurrence-download-ws-client.version>
-    <occurrence-download.version>0.1</occurrence-download.version>
+    <occurrence-download-api.version>0.2-SNAPSHOT</occurrence-download-api.version>
+    <occurrence-download-ws-client.version>0.2-SNAPSHOT</occurrence-download-ws-client.version>
+    <occurrence-download.version>0.2-SNAPSHOT</occurrence-download.version>
     <occurrence-api.version>0.1-SNAPSHOT</occurrence-api.version>
     <occurrence-ws-client.version>0.1-SNAPSHOT</occurrence-ws-client.version>
     <drupal-mybatis.version>0.1</drupal-mybatis.version>

@@ -4076,19 +4076,19 @@ a.next_slide:hover {
   color: #999999;
 }
 
-#content article .content .right div.big_number {
+#content article .content .big_number {
   display: inline-block;
   margin: 0 10px 20px 0;
 }
 
-#content article .content .right div.big_number span {
+#content article .content .big_number span {
   display: block;
   width: 100%;
   font-family: "DINOT-Medium", Sans-Serif;
   font-size: 23px;
 }
 
-#content article .content .right div.big_number a {
+#content article .content .big_number a {
   display: block;
   width: 100%;
   margin-top: 5px;

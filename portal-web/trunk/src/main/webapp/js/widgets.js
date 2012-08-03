@@ -1806,18 +1806,7 @@ $.fn.bindSlideshow = function(opt) {
             if (scrollData.results.length > 0) {
               stop = false;
             }
-            $(scrollData.results).each(function() {
-              $htmlContent =
-              $("<li species=\"" + this.numSpecies + "\" children=\"" + this.numChildren + "\"><span spid=\"" +
-                this.key + "\" spname=\"" + this.canonicalOrScientificName + "\"  >" + this.canonicalOrScientificName +
-                "<span class=\"rank\">" + $i18nresources.getString("enum.rank." + (this.rank || "unknown")) +
-                "</span></span>" + "<a href=\"" + cfg.context + "/species/" + this.key +
-                "\" style=\"display: none; \">see details</a></li>");
-
-              //add the bar for this appended element
-              addBar($htmlContent);
-              $ps.find(".sp ul").append($htmlContent);
-            })
+            renderUsages($ps, scrollData);
             $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed,
               {axis: "x", onAfter: function() {
                 _resize($ps, $ps.find(".sp ul").find("> li").length, $this);
@@ -1825,7 +1814,6 @@ $.fn.bindSlideshow = function(opt) {
                 //increment offset
                 $offset += $limit;
               }});
-
           });
         }
       });
@@ -1860,6 +1848,20 @@ $.fn.bindSlideshow = function(opt) {
         })
       }
 
+      // render taxonomic tree
+      function renderUsages($ps, data){
+        $(data.results).each(function() {
+          $htmlContent = "<li species=\"" + this.numSpecies + "\" children=\"" + this.numChildren + "\">";
+          $htmlContent += "<span spid=\"" + this.key + "\" spname=\"" + this.canonicalName + "\">";
+          $htmlContent += this.canonicalName;
+          $htmlContent += "<span class=\"rank\">" + $i18nresources.getString("enum.rank." + (this.rank.interpreted || "unknown")) + "</span>";
+          $htmlContent += "</span>";
+          $htmlContent += "<a href=\"" + cfg.baseUrl + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>";
+          $ps.find(".sp ul").append($htmlContent);
+        })
+        //add the adjacent bars
+        addBars($ps.find(".sp ul"));
+      }
       ;
 
       addBars($ps.find("ul:first"));
@@ -1872,23 +1874,9 @@ $.fn.bindSlideshow = function(opt) {
         //get the new list of children
         $.getJSON($wsUrl + '&callback=?', function(data) {
           $ps.find(".sp ul").empty();
-          $(data.results).each(function() {
-            $htmlContent =
-            "<li species=\"" + this.numSpecies + "\" children=\"" + this.numChildren + "\"><span spid=\"" + this.key +
-            "\" spname=\"" + this.canonicalName + "\">";
-            $htmlContent += this.canonicalName;
-            $htmlContent +=
-            "<span class=\"rank\">" + $i18nresources.getString("enum.rank." + (this.rank || "unknown")) + "</span>";
-            $htmlContent += "</span>";
-            $htmlContent +=
-            "<a href=\"" + cfg.baseUrl + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>";
-            $ps.find(".sp ul").append($htmlContent);
-          })
-          //add the adjacent bars
-          addBars($ps.find(".sp ul"));
+          renderUsages($ps, data);
           _resize($ps, $ps.find(".sp ul > li").length, $this);
           stop = false;
-
         });
         // move to the list and resize it (resizing disabled, was not working correctly)
         $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed,

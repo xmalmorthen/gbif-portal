@@ -197,6 +197,10 @@
 
 
     <div class="right">
+
+      <div class="big_number">
+        <span>${usage.numSpecies}</span> species
+      </div>
     <#if (usage.synonyms?size>0)>
       <h3>Synonyms</h3>
       <ul class="no_bottom">
