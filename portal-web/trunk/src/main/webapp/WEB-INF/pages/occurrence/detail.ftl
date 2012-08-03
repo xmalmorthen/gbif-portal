@@ -51,7 +51,6 @@
       <p>${occ.depth}m</p>
     </#if>
 
-
       <h3>Geoprecision</h3>
       <p class="placeholder_temp">100m</p>
 
@@ -79,6 +78,12 @@
         <h3>Basis of record</h3>
         <p>${occ.basisOfRecord!"Unknown"}</p>
 
+        <h3>Individual count</h3>
+        <p>1</p>
+
+        <h3>Behavior</h3>
+        <p>Foraging</p>
+
         <h3 class="placeholder_temp">Type status</h3>
         <p class="placeholder_temp">Holotype</p>
 
@@ -87,15 +92,29 @@
       </div>
 
       <div class="col placeholder_temp">
-        <h3>Individual count</h3>
-        <p>1</p>
-
         <h3>Sex</h3>
         <p>Male</p>
 
         <h3>Life stage</h3>
         <p>Juvenile</p>
+
+        <h3>Establishment means</h3>
+        <p>Wild</p>
+
+        <h3>Reproductive condition</h3>
+        <p>Pregnant</p>
+
+        <h3>Habitat</h3>
+        <p>Oak savanna</p>
       </div>
+
+      <h3 class="placeholder_temp">Occurrence notes</h3>
+      <p class="placeholder_temp">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+        id est laborum.</p>
+
     </div>
     <div class="right">
       <h3>Dataset</h3>
@@ -166,11 +185,21 @@
       <div class="left"><h2>Collection details</h2></div>
     </div>
     <div class="left placeholder_temp">
-      <h3>Collection date </h3>
-      <p>Oct 23th, 2007</p>
+      <div class="col">
+        <h3>Collection date </h3>
+        <p>Oct 23th, 2007</p>
 
-      <h3>Collector name</h3>
-      <p>Thomas Function</p>
+        <h3>Collector name</h3>
+        <p>Thomas Function</p>
+      </div>
+
+      <div class="col">
+        <h3>Preparations</h3>
+        <p>Skull</p>
+
+        <h3>Disposition</h3>
+        <p>Missing</p>
+      </div>
 
       <h3>Collector notes</h3>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
@@ -198,14 +227,66 @@
       <p>${occ.collectionCode}</p>
     </#if>
 
-    <#if occ.collectionCode??>
-      <h3>Collection code</h3>
-      <p>${occ.collectionCode}</p>
+    <#if occ.identifierRecords?has_content>
+      <h3>Occurrence identifiers</h3>
+      <#list occ.identifierRecords as i>
+        <p>${i.type}: ${i.identifier}</p>
+      </#list>
     </#if>
 
-      <h3>Occurrence identifier</h3>
-      <p class="placeholder_temp">ITS-55526310</p>
+    </div>
+  </div>
+  <footer></footer>
+</article>
 
+<article id="geology">
+  <header></header>
+  <div class="content placeholder_temp">
+
+    <div class="header">
+      <div class="left"><h2>Geological context</h2></div>
+    </div>
+
+    <div class="left">
+      <div class="col">
+        <h3>Eon</h3>
+        <p>XYZ</p>
+
+        <h3>Era</h3>
+        <p>XYZ</p>
+
+        <h3>Period</h3>
+        <p>XYZ</p>
+
+        <h3>Epoch</h3>
+        <p>XYZ</p>
+
+        <h3>Age</h3>
+        <p>XYZ</p>
+      </div>
+
+      <div class="col">
+        <h3>Biostratigraphic zone</h3>
+        <p>XYZ</p>
+
+        <h3>Lithostratigraphic terms</h3>
+        <p>XYZ</p>
+      </div>
+    </div>
+
+
+    <div class="right">
+      <h3>Group</h3>
+      <p>XYZ</p>
+
+      <h3>Formation</h3>
+      <p>XYZ</p>
+
+      <h3>Member</h3>
+      <p>XYZ</p>
+
+      <h3>Bed</h3>
+      <p>XYZ</p>
     </div>
   </div>
   <footer></footer>
