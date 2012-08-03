@@ -11,13 +11,18 @@
   <meta property="dwc:datasetName" content="${dataset.title!}"/>
   <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${dataset.key}'/>"/>
   </#if>
+  <style type="text/css">
+    article#taxonomy .content ul {
+      margin: 0 1px 26px 0px;
+    }
+  </style>
 </head>
 <body class="typesmap">
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/occurrence/infoband.ftl">
 
-<article class="map">
+<article id="overview" class="map">
   <header></header>
   <div id="map"></div>
   <a class="zoom_in" href="#zoom_in">zoom in</a>
@@ -61,7 +66,7 @@
   <footer></footer>
 </article>
 
-<article>
+<article id="details">
   <header></header>
   <div class="content">
 
@@ -72,14 +77,12 @@
     <div class="left">
       <div class="col">
         <h3>Basis of record</h3>
-        <p>${occ.basisOfRecord!"Unknown"}
-          <super><a href="" id="interpretation">*</a></super>
-        </p>
+        <p>${occ.basisOfRecord!"Unknown"}</p>
 
-        <h3>Type status</h3>
+        <h3 class="placeholder_temp">Type status</h3>
         <p class="placeholder_temp">Holotype</p>
 
-        <h3>Typified name string</h3>
+        <h3 class="placeholder_temp">Typified name string</h3>
         <p class="placeholder_temp">Puma concolor</p>
       </div>
 
@@ -112,41 +115,51 @@
   <footer></footer>
 </article>
 
-<article>
+<article id="taxonomy">
   <header></header>
-  <div class="content placeholder_temp">
+  <div class="content">
     <div class="header">
       <div class="left">
         <h2>Identification details <span class="subtitle">according to <a href="<@s.url value='/dataset/1'/>">GBIF Backbone Taxonomy</a></span></h2>
       </div>
     </div>
     <div class="left">
-      <h3>Species</h3>
-      <p><a href="<@s.url value='/species/123'/>">Puma concolor</a></p>
+      <#if occ.nubKey??>
+        <h3>Identified as</h3>
+        <p><a href="<@s.url value='/species/${occ.nubKey?c}'/>">${occ.scientificName}</a></p>
 
-      <h3>Taxonomic classification</h3>
-      <ul class="taxonomy">
-        <li><a href="<@s.url value='/species/123'/>">Animalia</a></li>
-        <li><a href="<@s.url value='/species/123'/>">Chordata</a></li>
-        <li><a href="<@s.url value='/species/123'/>">Mammalia</a></li>
-        <li><a href="<@s.url value='/species/123'/>">Carnivora</a></li>
-        <li><a href="<@s.url value='/species/123'/>">Felidae</a></li>
-        <li class="last"><a href="">Puma</a></li>
-      </ul>
-      <div class="extended">(<a href="/occurrence/classification.html">extended</a>)</div>
+        <div class="placeholder_temp">
+        <h3>Identification Notes</h3>
+        <p>cf. alpinum${occ.identificationQualifier!}. Flowers missing, maybe confused with R.alpestre? ${occ.identificationNotes!}</p>
+        </div>
+
+        <h3>Taxonomic classification
+          <div class="extended">[<a href="<@s.url value='/species/${occ.nubKey?c}/classification'/>">extended</a>]</div>
+        </h3>
+        <#assign classification=occ.higherClassificationMap />
+        <ul class="taxonomy">
+          <#list classification?keys as key>
+            <li<#if !key_has_next> class="last"</#if>><a href="<@s.url value='/species/${key?c}'/>">${classification.get(key)}</a></li>
+          </#list>
+        </ul>
+      </#if>
     </div>
-    <div class="right">
+
+    <div class="right placeholder_temp">
       <h3>Identification date </h3>
       <p>Oct 23th, 2007</p>
 
       <h3>Identifier name</h3>
       <p>Thomas Function</p>
+
+      <h3>Identification references</h3>
+      <p>Flora of Turkey ${occ.identificationReferences!}</p>
     </div>
   </div>
   <footer></footer>
 </article>
 
-<article>
+<article id="collection">
   <header></header>
   <div class="content">
     <div class="header">
@@ -198,7 +211,7 @@
   <footer></footer>
 </article>
 
-<article class="mono_line">
+<article id="legal" class="mono_line">
   <header></header>
   <div class="content placeholder_temp">
     <h2>Usage & legal issues</h2>
