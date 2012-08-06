@@ -26,6 +26,17 @@ public class Config {
   private String wsOcc;
   private String wsOccSearch;
   private String wsClbSuggest;
+  private String tileServerBaseUrl;
+
+  
+  public String getTileServerBaseUrl() {
+    return tileServerBaseUrl;
+  }
+
+  
+  public void setTileServerBaseUrl(String tileServerBaseUrl) {
+    this.tileServerBaseUrl = tileServerBaseUrl;
+  }
 
   private static String getPropertyUrl(Properties properties, String propName) {
     String value = null;
@@ -63,6 +74,7 @@ public class Config {
       cfg.wsRegSearch = getPropertyUrl(properties, "registry.search.ws.url");
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url");
       cfg.wsOccSearch = getPropertyUrl(properties, "occurrence.search.ws.url");
+      cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url");
     } catch (IOException e) {
       throw new ConfigurationException("application.properties cannot be read", e);
     }
