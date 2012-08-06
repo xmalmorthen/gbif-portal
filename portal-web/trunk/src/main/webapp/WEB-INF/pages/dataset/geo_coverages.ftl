@@ -1,4 +1,5 @@
-<content tag="extra_scripts">
+<!-- Removed as needs to be replaced by Leaflet -->
+<!--content tag="extra_scripts">
   <link rel="stylesheet" href="<@s.url value='/css/google.css'/>"/>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=true"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
@@ -14,7 +15,7 @@
       </#if>
     </#list>
   </script>
-</content>
+</content-->
 
 
 <!-- don't display the map if it contains a bounding box representing global coverage-->

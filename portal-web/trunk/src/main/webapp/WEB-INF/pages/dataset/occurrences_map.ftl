@@ -1,9 +1,13 @@
+<content tag="extra_scripts">
+  <link rel="stylesheet" href="<@s.url value='/css/leaflet.css'/>" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/css/leaflet.ie.css'/>" /><![endif]-->
+  <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
+</content>
 <article class="map">
   <header></header>
-  <div id="map"></div>
-  <a href="#zoom_in" class="zoom_in"></a>
-  <a href="#zoom_out" class="zoom_out"></a>
-
+  <div id="map" type="DATASET" key="${dataset.key}"></div>
+  
   <div class="content">
 
     <div class="header">

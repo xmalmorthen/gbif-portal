@@ -6,12 +6,10 @@
   <meta name="menu" content="species"/>
 <#if nub>
   <content tag="extra_scripts">
-    <link rel="stylesheet" href="<@s.url value='/css/google.css'/>"/>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=true"></script>
-    <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
+	<link rel="stylesheet" href="<@s.url value='/css/leaflet.css'/>" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/css/leaflet.ie.css'/>" /><![endif]-->
+    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
   </content>
 </#if>
 <#-- RDFa -->
@@ -21,7 +19,7 @@
   <meta property="dwc:datasetName" content="${checklist.title!"???"}"/>
   <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${checklist.key}'/>"/>
 </head>
-<body class="species typesmap">
+<body class="species map">
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/species/infoband.ftl">
@@ -220,24 +218,11 @@
   <footer></footer>
 </article>
 
+<#-- Taxon maps are only calculated for the nub taxonomy -->
 <#if nub>
-<#-- ONLY FOR NUB PAGES -->
 <article class="map">
   <header></header>
-  <div id="map" nubid="${usage.key?c}"></div>
-  <a href="#zoom_in" class="zoom_in"></a>
-  <a href="#zoom_out" class="zoom_out"></a>
-
-  <div class="projection placeholder_temp">
-    <a class="projection" href="#projection">projection</a>
-  <span>
-    <p>PROJECTION</p>
-    <ul>
-      <li><a class="selected" href="#mercator">Mercator</a></li>
-      <li class="disabled"><a href="#robinson">Robinson</a></li>
-    </ul>
-  </span>
-  </div>
+  <div id="map" type="TAXON" key="${usage.key?c}"></div>
   <div class="content">
 
     <div class="header">

@@ -38,6 +38,7 @@ xmlns:foaf="http://xmlns.com/foaf/0.1/">
     cfg.wsRegSearch="${cfg.wsRegSearch!}";
     cfg.wsOcc="${cfg.wsOcc!}";
     cfg.wsOccSearch="${cfg.wsOccSearch!}";
+    cfg.tileServerBaseUrl="${cfg.tileServerBaseUrl!}";
   </script>
   <#-- Load bundle properties. The action class can filter out which properties to show according to their key's prefixes -->
   <#if resourceBundleProperties?has_content>

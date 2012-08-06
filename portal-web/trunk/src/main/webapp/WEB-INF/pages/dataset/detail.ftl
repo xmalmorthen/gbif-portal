@@ -3,15 +3,8 @@
 <html>
 <head>
   <title>${dataset.title!"???"} - Dataset detail</title>
-  <content tag="extra_scripts">
-    <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
-  </content>
-  <meta name="menu" content="datasets" onunload="GUnload()"/>
 </head>
-<body onload="initBB()" class="typesmap">
+<body onload="initBB()" class="map">
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/dataset/infoband.ftl">
