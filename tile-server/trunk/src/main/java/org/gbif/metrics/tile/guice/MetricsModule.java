@@ -45,7 +45,6 @@ public class MetricsModule extends AbstractModule {
         } else {
           GangliaReporter.enable(1, TimeUnit.MINUTES, properties.getProperty(PROPERTY_GANGLIA_SERVER), gangliaPort);
         }
-
       } catch (Exception e) {
         LOG.warn("Failed to enable ganglia reporter: {}", e.getMessage());
       }

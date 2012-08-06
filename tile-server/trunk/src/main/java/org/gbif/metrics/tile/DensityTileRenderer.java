@@ -19,7 +19,9 @@ import com.urbanairship.datacube.Address;
 import com.urbanairship.datacube.DataCubeIo;
 import com.urbanairship.datacube.ReadBuilder;
 import com.yammer.metrics.Metrics;
+import com.yammer.metrics.core.Meter;
 import com.yammer.metrics.core.Timer;
+import com.yammer.metrics.core.TimerContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,17 +40,14 @@ public class DensityTileRenderer extends HttpServlet {
 
   private static final long serialVersionUID = 8681716273998041332L;
   private final DataCubeIo<DensityTile> cubeIo;
-  // allow monitoring of cube lookup and rendering
-  private final Timer readTimer;
-  private final Timer renderTimer;
+  // allow monitoring of cube lookup, rendering speed and the throughput per second
+  private final Timer readTimer = Metrics.newTimer(DensityTileRenderer.class, "readDuration", TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
+  private final Timer renderTimer = Metrics.newTimer(DensityTileRenderer.class, "renderDuration", TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
+  private final Meter requests = Metrics.newMeter(DensityTileRenderer.class, "requests", "requests", TimeUnit.SECONDS);
 
   @Inject
   public DensityTileRenderer(DataCubeIo<DensityTile> cubeIo) {
     this.cubeIo = cubeIo;
-
-    // TODO: will this push to Ganglia?
-    readTimer = Metrics.newTimer(DensityTileRenderer.class, "readDuration", TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
-    renderTimer = Metrics.newTimer(DensityTileRenderer.class, "renderDuration", TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
   }
 
   @Override
@@ -57,10 +56,13 @@ public class DensityTileRenderer extends HttpServlet {
     try {
       Optional<DensityTile> tile = getTile(req);
       if (tile.isPresent()) {
-        long before = System.currentTimeMillis();
-        PNGWriter.write(tile.get(), resp.getOutputStream());
-        long duration = System.currentTimeMillis() - before;
-        renderTimer.update(duration, TimeUnit.MILLISECONDS);
+        requests.mark();
+        final TimerContext context = renderTimer.time();
+        try {
+          PNGWriter.write(tile.get(), resp.getOutputStream());
+        } finally {
+          context.stop();
+        }
       } else {
         resp.getOutputStream().write(PNGWriter.EMPTY_TILE);
       }
@@ -127,16 +129,16 @@ public class DensityTileRenderer extends HttpServlet {
   // Looks up the tile from the cube
   private Optional<DensityTile> lookup(Address address) throws IOException {
     Optional<DensityTile> tile = null;
+    final TimerContext context = readTimer.time();
     try {
-      long before = System.currentTimeMillis();
       tile = cubeIo.get(address);
-      long duration = System.currentTimeMillis() - before;
-      readTimer.update(duration, TimeUnit.MILLISECONDS);
 
     } catch (InterruptedException e) {
       LOG.error("Unable to read from the cube", e);
       // Consider if this should create an error tile, rather than an empty one?
       tile = Optional.absent();
+    } finally {
+      context.stop();
     }
     return tile;
   }
