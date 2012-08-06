@@ -91,8 +91,8 @@ public class InMemoryTileModule extends AbstractModule {
     // load in some mock data
     BufferedReader br = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(fileLocation))));
     Pattern tab = Pattern.compile(",");
+    br.readLine(); // skip header
     String line = br.readLine();
-    line = br.readLine(); // skip header
 
     // We need to collect for each tile addressable at each zoom level
     Set<DensityTile.Builder> densityBuilders = Sets.newHashSet();

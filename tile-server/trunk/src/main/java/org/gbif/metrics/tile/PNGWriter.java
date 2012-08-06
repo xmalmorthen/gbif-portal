@@ -159,50 +159,61 @@ public class PNGWriter {
   }
 
   private static void write(OutputStream os, byte[] r, byte[] g, byte[] b, byte[] a) throws IOException {
-    DataOutputStream dos = new DataOutputStream(os);
-    dos.write(SIGNATURE);
+    DataOutputStream dos = null;
+    DeflaterOutputStream dfos = null;
+    Chunk cIHDR = null;
+    Chunk cIEND = null;
+    try {
+      dos = new DataOutputStream(os);
+      dos.write(SIGNATURE);
 
-    Chunk cIHDR = new Chunk(IHDR);
-    cIHDR.writeInt(DensityTile.TILE_SIZE);
-    cIHDR.writeInt(DensityTile.TILE_SIZE);
-    cIHDR.writeByte(8); // 8 bit per component
-    cIHDR.writeByte(COLOR_TRUECOLOR_ALPHA);
-    cIHDR.writeByte(COMPRESSION_DEFLATE);
-    cIHDR.writeByte(FILTER_NONE);
-    cIHDR.writeByte(INTERLACE_NONE);
-    cIHDR.writeTo(dos);
+      cIHDR = new Chunk(IHDR);
+      cIHDR.writeInt(DensityTile.TILE_SIZE);
+      cIHDR.writeInt(DensityTile.TILE_SIZE);
+      cIHDR.writeByte(8); // 8 bit per component
+      cIHDR.writeByte(COLOR_TRUECOLOR_ALPHA);
+      cIHDR.writeByte(COMPRESSION_DEFLATE);
+      cIHDR.writeByte(FILTER_NONE);
+      cIHDR.writeByte(INTERLACE_NONE);
+      cIHDR.writeTo(dos);
 
-    Chunk cIDAT = new Chunk(IDAT);
-    DeflaterOutputStream dfos = new DeflaterOutputStream(cIDAT, new Deflater(Deflater.BEST_COMPRESSION));
+      Chunk cIDAT = new Chunk(IDAT);
+      dfos = new DeflaterOutputStream(cIDAT, new Deflater(Deflater.BEST_COMPRESSION));
 
-    int channels = 4;
-    int lineLen = DensityTile.TILE_SIZE * channels;
-    byte[] lineOut = new byte[lineLen];
+      int channels = 4;
+      int lineLen = DensityTile.TILE_SIZE * channels;
+      byte[] lineOut = new byte[lineLen];
 
-    for (int line = 0; line < DensityTile.TILE_SIZE; line++) {
-      for (int p = 0; p < DensityTile.TILE_SIZE; p++) {
-        lineOut[p * 4 + 0] = r[(line * DensityTile.TILE_SIZE) + p]; // R
-        lineOut[p * 4 + 1] = g[(line * DensityTile.TILE_SIZE) + p]; // G
-        lineOut[p * 4 + 2] = b[(line * DensityTile.TILE_SIZE) + p]; // B
-        lineOut[p * 4 + 3] = a[(line * DensityTile.TILE_SIZE) + p]; // transparency
+      for (int line = 0; line < DensityTile.TILE_SIZE; line++) {
+        for (int p = 0; p < DensityTile.TILE_SIZE; p++) {
+          lineOut[p * 4 + 0] = r[(line * DensityTile.TILE_SIZE) + p]; // R
+          lineOut[p * 4 + 1] = g[(line * DensityTile.TILE_SIZE) + p]; // G
+          lineOut[p * 4 + 2] = b[(line * DensityTile.TILE_SIZE) + p]; // B
+          lineOut[p * 4 + 3] = a[(line * DensityTile.TILE_SIZE) + p]; // transparency
+        }
+
+        dfos.write(FILTER_NONE);
+        dfos.write(lineOut);
       }
 
-      dfos.write(FILTER_NONE);
-      dfos.write(lineOut);
+      dfos.finish();
+      try {
+        cIDAT.writeTo(dos);
+      } catch (IOException ex) {
+        // TODO: consider surfacing this?
+        ex.printStackTrace();
+      }
+
+      cIEND = new Chunk(IEND);
+
+      cIEND.writeTo(dos);
+      dos.flush();
+
+    } finally {
+      Closeables.closeQuietly(cIHDR);
+      Closeables.closeQuietly(cIEND);
+      Closeables.closeQuietly(dfos);
+      Closeables.closeQuietly(dos);
     }
-
-    dfos.finish();
-    try {
-      cIDAT.writeTo(dos);
-    } catch (IOException ex) {
-      // TODO: consider surfacing this?
-      ex.printStackTrace();
-    }
-
-    Chunk cIEND = new Chunk(IEND);
-    cIEND.writeTo(dos);
-
-    dos.flush();
-    dos.close();
   }
 }
