@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Simple configuration bean to pass the guice binded properties on to the rendering layer.
+ * When adding or modifying entries please also adjust the decorator default.ftl.
  */
 public class Config {
 
