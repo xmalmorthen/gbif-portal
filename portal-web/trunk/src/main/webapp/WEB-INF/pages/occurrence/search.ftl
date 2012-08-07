@@ -103,35 +103,35 @@
   </div>
   <div class="right">
     <form action="<@s.url value='/occurrence/search'/>" method="GET">
-          <input type="hidden" name="offset" value="${offset}"/>
+          <input type="hidden" name="offset" value="${offset!}"/>
           <div class="refine">
             <h4>Year</h4>
-            <input type="text" name="year" value="${year}"/>
+            <input type="text" name="year" value="${year!}"/>
           </div>
     
           <div class="refine">
             <h4>Month</h4>
-            <input type="text" name="month" value="${month}"/>
+            <input type="text" name="month" value="${month!}"/>
           </div>
     
           <div class="refine">
             <h4>Latitude</h4>
-            <input type="text" name="latitude" value="${latitude}"/>
+            <input type="text" name="latitude" value="${latitude!}"/>
           </div>
     
           <div class="refine">
             <h4>Longitude</h4>
-            <input type="text" name="longitude" value="${longitude}"/>
+            <input type="text" name="longitude" value="${longitude!}"/>
           </div>
           
           <div class="refine">
             <h4>Catalog number</h4>
-            <input type="text" name="catalogueNumber" value="${catalogueNumber}"/>
+            <input type="text" name="catalogueNumber" value="${catalogueNumber!}"/>
           </div>
           
           <div class="refine">
             <h4>Nub key</h4>
-            <input type="text" name="nubKey" value="${nubKey}"/>
+            <input type="text" name="nubKey" value="${nubKey!}"/>
           </div>
           
           <div class="refine">            
