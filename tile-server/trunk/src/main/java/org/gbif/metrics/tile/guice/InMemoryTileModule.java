@@ -119,7 +119,7 @@ public class InMemoryTileModule extends AbstractModule {
           b.collect(Double.parseDouble(atoms[0]), Double.parseDouble(atoms[1]), Integer.parseInt(atoms[2]));
         }
         for (PointTile.Builder b : pointBuilders) {
-          // TODO - we're just using the count as the id here as a quick test. Need a new CSV?
+          // NOTE: we're just using the count as the id here as a quick test. Need a new CSV?
           b.collect(Double.parseDouble(atoms[0]), Double.parseDouble(atoms[1]), Integer.parseInt(atoms[2]));
         }
       }

@@ -44,7 +44,6 @@ public class GuiceServletConfig extends GuiceServletContextListener {
     try {
       p.load(GuiceServletConfig.class.getResourceAsStream(APPLICATION_PROPERTIES));
     } catch (IOException e) {
-      // TODO: A better runtime exception?
       throw new IllegalArgumentException(APPLICATION_PROPERTIES + " is missing");
     }
 

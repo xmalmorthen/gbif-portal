@@ -87,7 +87,7 @@ public class PNGWriter {
 
   /**
    * Determines the color based on the density given.
-   * TODO: consider making this configurable in the future.
+   * We will consider making this configurable in the future.
    * 
    * @param count to use in lookup
    * @return the color index to use
@@ -197,12 +197,7 @@ public class PNGWriter {
       }
 
       dfos.finish();
-      try {
-        cIDAT.writeTo(dos);
-      } catch (IOException ex) {
-        // TODO: consider surfacing this?
-        ex.printStackTrace();
-      }
+      cIDAT.writeTo(dos);
 
       cIEND = new Chunk(IEND);
 
