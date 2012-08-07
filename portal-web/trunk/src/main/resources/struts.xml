@@ -147,21 +147,20 @@
 
   <!-- OCCURRENCES -->
   <package name="occurrence" namespace="/occurrence" extends="default">
-    <!-- catches everything that doesn't match below! -->
+    <!-- catches everything that doesn't match below! -->    
     <default-action-ref name=""/>
-
+    
     <action name="" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/occurrence/download/home.ftl</result>
     </action>
 
-    <action name="download" class="org.gbif.portal.action.occurrence.DownloadAction">
-      <interceptor-ref name="downloadStack"/>
-
-      <result>/WEB-INF/pages/occurrence/download/result.ftl</result>
-    </action>
-
     <action name="search" class="org.gbif.portal.action.occurrence.SearchAction">
       <result>/WEB-INF/pages/occurrence/search.ftl</result>
+    </action>
+    
+    <action name="download" class="org.gbif.portal.action.occurrence.DownloadAction">
+      <interceptor-ref name="downloadStack"/>
+      <result>/WEB-INF/pages/occurrence/download/result.ftl</result>
     </action>
 
     <!-- {id} matches anything but "/" -->

@@ -1,6 +1,7 @@
+<#import "/WEB-INF/macros/pagination.ftl" as macro>
 <html>
 <head>
-  <title>Occurrence Search Results for ${q!}</title>
+  <title>Occurrence Search Results</title>
   <meta name="menu" content="occurrences"/>
 </head>
 <body class="search typesmap">
@@ -9,7 +10,7 @@
   <h2>Search occurrences</h2>
 
   <form action="<@s.url value='/occurrence/search'/>" method="GET">
-    <input type="text" name="q"/>
+    <input type="text" name="q"/>    
   </form>
 </content>
 
@@ -19,7 +20,7 @@
 
     <div class="header">
       <div class="left">
-        <h2>213,212 results for "Puma concolor"</h2>
+        <h2>${searchResponse.count} results</h2>
       </div>
       <div class="right"><h3>Refine your search</h3></div>
     </div>
@@ -39,7 +40,7 @@
         <div class="geographic_coverage">
           <h3>Geographic coverage</h3>
 
-          <p>145,273 geolocated results of 213,212</p>
+          <p>145,273 geolocated results of ${searchResponse.count}</p>
         </div>
 
         <p class="maptype"><a class="selected" href="#" title="points">points</a></p>
@@ -73,164 +74,84 @@
 
         </div>
 
-        <a href="#" class="sort" title="Sort by relevance" id="sort_results">Sort by relevance <span
-                class="more"></span></a>
+        <a href="#" class="sort" title="Sort by relevance" id="sort_results">Sort by relevance <span class="more"></span></a>
       </div>
-
-      <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
-          ANSP
-          HARP 10</a></h2>
-
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/123'/>">Sudamerican Felines</a> |
-          Observation
-        </div>
-      </div>
-
-      <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
-          ANSP
-          HARP 10</a></h2>
-
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/123'/>">Sudamerican Felines</a> |
-          Observation
-        </div>
-      </div>
-
-      <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
-          ANSP
-          HARP 10</a></h2>
-
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/123'/>">Sudamerican Felines</a> |
-          Observation
-        </div>
-      </div>
-
-      <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
-          ANSP
-          HARP 10</a></h2>
-
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/123'/>">Sudamerican Felines</a> |
-          Observation
-        </div>
-      </div>
-
-      <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
-          ANSP
-          HARP 10</a></h2>
-
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/123'/>">Sudamerican Felines</a> |
-          Observation
-        </div>
-      </div>
-
-      <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
-          ANSP
-          HARP 10</a></h2>
-
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/123'/>">Sudamerican Felines</a> |
-          Observation
-        </div>
-      </div>
-
-      <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
-          ANSP
-          HARP 10</a></h2>
-
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/123'/>">Sudamerican Felines</a> |
-          Observation
-        </div>
-      </div>
-
-      <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
-          ANSP
-          HARP 10</a></h2>
-
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/123'/>">Sudamerican Felines</a> |
-          Observation
-        </div>
-      </div>
-
-      <div class="result">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
-          ANSP
-          HARP 10</a></h2>
-
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/123'/>">Sudamerican Felines</a> |
-          Observation
-        </div>
-      </div>
-
-      <div class="result last">
-        <h2><a href="<@s.url value='/occurrence/42'/>" title="World Mangroves Fauna"><strong>Puma concolor </strong>-
-          ANSP
-          HARP 10</a></h2>
-
-        <div class="footer">Oaxaca, México | <a href="<@s.url value='/dataset/123'/>">Sudamerican Felines</a> |
-          Observation
-        </div>
-      </div>
-
-      <div class="footer">
-        <a href="#" class="candy_white_button previous"><span>Previous page</span></a>
-        <a href="#" class="candy_white_button next"><span>Next page</span></a>
-
-        <div class="pagination">viewing page 2 of 31</div>
-      </div>
-
-    </div>
-    <div class="right">
-
-      <div class="refine">
-        <h4>DATA PUBLISHER</h4>
-        <a href="#">Any data provider</a>
-      </div>
-
-      <div class="refine">
-        <h4>DATASET</h4>
-        <a href="#">Any</a>
-      </div>
-
-      <div class="refine">
-        <h4>TAXA OR SPECIES</h4>
-        <a href="#" title="All species">All species <span class="more"></span></a>
-      </div>
-
-      <div class="refine">
-        <h4>GEOSPATIAL</h4>
-        <a href="#">All the world</a>
-      </div>
-
-      <div class="refine">
-        <h4>DATE OF COLLECTION</h4>
-        <a href="#">All dates</a>
-      </div>
-
-      <a href="#" title="Add another criteria" class="add_criteria" id="add_criteria">Add another criterion <span
-              class="more"></span></a>
-
-      <div class="download">
-
-        <div class="dropdown">
-          <a href="#" class="title" title="Download description"><span>Download occurrences</span></a>
-          <ul>
-            <li><a href="#a"><span>Download occurrences</span></a></li>
-            <li><a href="#a"><span>Download placemarks</span></a></li>
-            <li class="last"><a href="#b"><span>Download metadata</span></a></li>
-          </ul>
-        </div>
-
-      </div>
-
-    </div>
+                   
+      <#list searchResponse.results as occ>
+          <div class="result searchResult">
+            <h2>
+              <a href="<@s.url value='/occurrence/${occ.id?c}'/>"><strong>${occ.scientificName}</strong>
+              <#if occ.catalogNumber?has_content>
+                - ${occ.catalogNumber}
+              </#if>
+              </a>
+            </h2>
+            <div class="footer">
+              <#if occ.isoCountryCode?has_content>${occ.isoCountryCode} |</#if> 
+              <#if occ.datasetKey?has_content><a href="<@s.url value='/dataset/${occ.datasetKey?c}'/>">Dataset Title</a> |</#if>
+              <#if occ.basisOfRecord?has_content>${occ.basisOfRecord} |</#if>
+              <#if occ.latitude?has_content>Latitude: ${occ.latitude?c} |</#if>
+              <#if occ.longitude?has_content>Longitude: ${occ.longitude?c} |</#if>             
+              <#if occ.occurrenceYear?has_content>Year: ${occ.occurrenceYear?c} |</#if>
+              <#if occ.occurrenceMonth?has_content>Month: ${occ.occurrenceMonth?c}</#if>
+            </div>
+          </div>
+        </#list>        
+        <div class="footer">
+            <@macro.pagination page=searchResponse url=currentUrl/>
+        </div>                            
   </div>
-  <footer></footer>
+  <div class="right">
+    <form action="<@s.url value='/occurrence/search'/>" method="GET">
+          <input type="hidden" name="offset" value="${offset}"/>
+          <div class="refine">
+            <h4>Year</h4>
+            <input type="text" name="year" value="${year}"/>
+          </div>
+    
+          <div class="refine">
+            <h4>Month</h4>
+            <input type="text" name="month" value="${month}"/>
+          </div>
+    
+          <div class="refine">
+            <h4>Latitude</h4>
+            <input type="text" name="latitude" value="${latitude}"/>
+          </div>
+    
+          <div class="refine">
+            <h4>Longitude</h4>
+            <input type="text" name="longitude" value="${longitude}"/>
+          </div>
+          
+          <div class="refine">
+            <h4>Catalog number</h4>
+            <input type="text" name="catalogueNumber" value="${catalogueNumber}"/>
+          </div>
+          
+          <div class="refine">
+            <h4>Nub key</h4>
+            <input type="text" name="nubKey" value="${nubKey}"/>
+          </div>
+          
+          <div class="refine">            
+            <input type="submit" value="Search" />
+          </div>
+  </form>
+          
+          <div class="download">
+            <div class="dropdown">
+              <a href="#" class="title" title="Download description"><span>Download occurrences</span></a>
+              <ul>
+                <li><a href="#a"><span>Download occurrences</span></a></li>
+                <li><a href="#a"><span>Download placemarks</span></a></li>
+                <li class="last"><a href="#b"><span>Download metadata</span></a></li>
+              </ul>
+            </div>
+          </div>
+   </div>   
+   </div>
+   <footer></footer>  
 </article>
 
 </body>
