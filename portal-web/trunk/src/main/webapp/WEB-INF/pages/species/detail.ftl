@@ -494,6 +494,18 @@
   </@common.article>
 </#if>
 
+<@common.article id="legal" title="Usage & legal issues" class="mono_line placeholder_temp">
+    <div class="left">
+      <h3>USAGE RIGHTS</h3>
+      <p>Released under an Open Data licence, so it can be used to anyone who cites it. </p>
+
+      <h3>HOW TO CITE IT</h3>
+      <p>Alaska Ocean Observing System, Arctic Ocean Diversity (accessed through GBIF data portal,
+        <a href="http://data.gbif.org/datasets/resource/654">http://data.gbif.org/datasets/resource/654</a>,
+        2011-05-05)</p>
+    </div>
+</@common.article>
+
 <#if !usage.isNub()>
   <@common.notice title="Further information">
   <p>There may be more details available about this name usage in the

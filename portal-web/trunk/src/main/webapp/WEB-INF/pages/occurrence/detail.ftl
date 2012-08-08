@@ -71,17 +71,20 @@
         <h3>Basis of record</h3>
         <p>${occ.basisOfRecord!"Unknown"}</p>
 
+        <!-- remove this div once implemented -->
+        <div class="placeholder_temp">
         <h3>Individual count</h3>
         <p>1</p>
 
         <h3>Behavior</h3>
         <p>Foraging</p>
 
-        <h3 class="placeholder_temp">Type status</h3>
-        <p class="placeholder_temp">Holotype</p>
+        <h3>Type status</h3>
+        <p>Holotype</p>
 
-        <h3 class="placeholder_temp">Typified name string</h3>
-        <p class="placeholder_temp">Puma concolor</p>
+        <h3>Typified name string</h3>
+        <p>Puma concolor</p>
+        </div>
       </div>
 
       <div class="col placeholder_temp">
@@ -125,7 +128,7 @@
     </div>
 </@common.article>
 
-<@common.article id="taxonomy" title='Identification details <span class="subtitle">according to <a href="<@s.url value="/dataset/1"/>">GBIF Backbone Taxonomy</a></span>'>
+<@common.article id="taxonomy" title="Identification details <span class='subtitle'>according to GBIF Backbone Taxonomy</span>">
     <div class="left">
       <#if occ.nubKey??>
         <h3>Identified as</h3>
