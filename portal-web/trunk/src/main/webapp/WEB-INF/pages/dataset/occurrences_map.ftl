@@ -1,7 +1,7 @@
 <content tag="extra_scripts">
-  <link rel="stylesheet" href="<@s.url value='/css/leaflet.css'/>" />
-  <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/css/leaflet.ie.css'/>" /><![endif]-->
-  <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet.js'/>"></script>
+  <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
+  <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
 </content>
 <article class="map">

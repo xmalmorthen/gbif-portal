@@ -6,9 +6,9 @@
   <meta name="menu" content="species"/>
 <#if nub>
   <content tag="extra_scripts">
-	  <link rel="stylesheet" href="<@s.url value='/css/leaflet.css'/>" />
-	  <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/css/leaflet.ie.css'/>" /><![endif]-->
-    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet.js'/>"></script>
+    <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
+    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
   </content>
 </#if>
@@ -19,7 +19,7 @@
   <meta property="dwc:datasetName" content="${checklist.title!"???"}"/>
   <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${checklist.key}'/>"/>
 </head>
-<body class="species map">
+<body class="species densitymap">
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/species/infoband.ftl">

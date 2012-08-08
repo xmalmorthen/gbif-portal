@@ -91,7 +91,7 @@ var map,nubId, datasetId;
       if (nubId > 0){
         var gbifocc = new OpenLayers.Layer.TMS(
             "GBIF Occurrences",
-            "http://140.247.231.188/php/map/getEolTile.php", {
+            "http://staging.gbif.org:8080/tile-server/density/tile?type=TAXON&key=" + nubId, {
               layername: "occurrences",
               type: "png",
               isBaseLayer: false,
@@ -100,12 +100,11 @@ var map,nubId, datasetId;
                   var x = Math.round ((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));
                   var y = Math.round ((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));
                   var z = this.map.getZoom();
-
-                  var path = "?tile=" + x + "_" + y + "_" + z + "_"+nubId;
+                  var path = "&z=" + z +"&x=" +x+"&y=" + y;
                   var url = this.url;
-                  if (url instanceof Array) {
-                    url = this.selectUrl(path, url);
-                  }
+                  //if (url instanceof Array) {
+                    //url = this.selectUrl(path, url);
+                  //}
                   return url + path;
               },
 

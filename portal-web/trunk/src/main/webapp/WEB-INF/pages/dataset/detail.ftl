@@ -4,7 +4,7 @@
 <head>
   <title>${dataset.title!"???"} - Dataset detail</title>
 </head>
-<body onload="initBB()" class="map">
+<body onload="initBB()" class="densitymap">
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/dataset/infoband.ftl">

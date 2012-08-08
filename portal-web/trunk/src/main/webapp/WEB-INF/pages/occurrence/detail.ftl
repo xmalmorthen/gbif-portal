@@ -16,18 +16,25 @@
       margin: 0 1px 26px 0px;
     }
   </style>
+  <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
+  <content tag="extra_scripts">
+    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
+  </content>  
 </head>
-<body class="typesmap">
+<body class="pointmap">
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/occurrence/infoband.ftl">
 
 <article id="overview" class="map">
   <header></header>
-  <div id="map"></div>
-  <a class="zoom_in" href="#zoom_in">zoom in</a>
-  <a class="zoom_out" href="#zoom_out">zoom out</a>
-
+  <#if occ.longitude?? && occ.latitude??>
+    <div id="map" latitude="${occ.latitude}" longitude="${occ.longitude}"></div>
+  <#else>
+    <div id="map"></div>
+  </#if>
   <div class="content">
 
     <div class="header">
