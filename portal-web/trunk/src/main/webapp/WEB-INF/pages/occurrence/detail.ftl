@@ -65,14 +65,7 @@
   <footer></footer>
 </article>
 
-<article id="details">
-  <header></header>
-  <div class="content">
-
-    <div class="header">
-      <div class="left"><h2>Occurrence details</h2></div>
-    </div>
-
+<@common.article id="details" title="Occurrence details">
     <div class="left">
       <div class="col">
         <h3>Basis of record</h3>
@@ -130,18 +123,9 @@
         <li class="download"><a href="#" title="Placemark">Cached record</a></li>
       </ul>
     </div>
-  </div>
-  <footer></footer>
-</article>
+</@common.article>
 
-<article id="taxonomy">
-  <header></header>
-  <div class="content">
-    <div class="header">
-      <div class="left">
-        <h2>Identification details <span class="subtitle">according to <a href="<@s.url value='/dataset/1'/>">GBIF Backbone Taxonomy</a></span></h2>
-      </div>
-    </div>
+<@common.article id="taxonomy" title='Identification details <span class="subtitle">according to <a href="<@s.url value="/dataset/1"/>">GBIF Backbone Taxonomy</a></span>'>
     <div class="left">
       <#if occ.nubKey??>
         <h3>Identified as</h3>
@@ -163,7 +147,6 @@
         </ul>
       </#if>
     </div>
-
     <div class="right placeholder_temp">
       <h3>Identification date </h3>
       <p>Oct 23th, 2007</p>
@@ -174,16 +157,9 @@
       <h3>Identification references</h3>
       <p>Flora of Turkey ${occ.identificationReferences!}</p>
     </div>
-  </div>
-  <footer></footer>
-</article>
+</@common.article>
 
-<article id="collection">
-  <header></header>
-  <div class="content">
-    <div class="header">
-      <div class="left"><h2>Collection details</h2></div>
-    </div>
+<@common.article id="collection" title="Collection details">
     <div class="left placeholder_temp">
       <div class="col">
         <h3>Collection date </h3>
@@ -208,8 +184,6 @@
         nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
         id est laborum.</p>
     </div>
-
-
     <div class="right">
 
     <#if occ.catalogNumber??>
@@ -235,18 +209,9 @@
     </#if>
 
     </div>
-  </div>
-  <footer></footer>
-</article>
+</@common.article>
 
-<article id="geology">
-  <header></header>
-  <div class="content placeholder_temp">
-
-    <div class="header">
-      <div class="left"><h2>Geological context</h2></div>
-    </div>
-
+<@common.article id="geology" title="Geological context" class="placeholder_temp">
     <div class="left">
       <div class="col">
         <h3>Eon</h3>
@@ -273,8 +238,6 @@
         <p>XYZ</p>
       </div>
     </div>
-
-
     <div class="right">
       <h3>Group</h3>
       <p>XYZ</p>
@@ -288,15 +251,9 @@
       <h3>Bed</h3>
       <p>XYZ</p>
     </div>
-  </div>
-  <footer></footer>
-</article>
+</@common.article>
 
-<article id="legal" class="mono_line">
-  <header></header>
-  <div class="content placeholder_temp">
-    <h2>Usage & legal issues</h2>
-
+<@common.article id="legal" title="Usage & legal issues" class="mono_line placeholder_temp">
     <div class="left">
       <h3>USAGE RIGHTS</h3>
       <p>Released under an Open Data licence, so it can be used to anyone who cites it. </p>
@@ -306,19 +263,12 @@
         <a href="http://data.gbif.org/datasets/resource/654">http://data.gbif.org/datasets/resource/654</a>,
         2011-05-05)</p>
     </div>
-  </div>
-  <footer></footer>
-</article>
+</@common.article>
 
-<article class="notice">
-  <header></header>
-  <div class="content">
-    <h3>Further information</h3>
-    <p>There may be more details available about this occurrence in the
-      <a href="<@s.url value='/occurrence/${id?c}/verbatim'/>">verbatim version</a> of the record</p>
-  </div>
-  <footer></footer>
-</article>
+<@common.notice title="Further information">
+<p>There may be more details available about this occurrence in the
+  <a href="<@s.url value='/occurrence/${id?c}/verbatim'/>">verbatim version</a> of the record</p>
+</@common.notice>
 
 </body>
 </html>

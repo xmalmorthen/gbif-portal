@@ -2,7 +2,7 @@
  Generates the taxonomic browser
 -->
 
-<div id="taxonomy">
+<div id="taxonomicBrowser">
   <div class="breadcrumb">
   <#if usage??>
     <li spid="-1" cid="${usage.checklistKey}"><a href="#">All</a></li>

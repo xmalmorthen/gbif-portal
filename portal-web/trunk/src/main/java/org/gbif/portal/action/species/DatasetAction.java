@@ -6,6 +6,7 @@ import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.registry.api.model.Dataset;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ public class DatasetAction extends UsageAction {
   private long offset = 0;
   private DatasetType type;
   private PagingResponse<Dataset> page;
+  private List<NameUsage>  relatedUsages;
 
   @Override
   public String execute() {
@@ -27,12 +29,16 @@ public class DatasetAction extends UsageAction {
 
     if (type == null || type == DatasetType.CHECKLIST) {
       PagingRequest p = new PagingRequest(offset, 25);
-      List<NameUsage> relatedResponse = usageService.listRelated(usage.getNubKey(), getLocale());
-      for (NameUsage u : relatedResponse) {
-        // ignore this usage
-        if (!u.getKey().equals(usage.getKey())) {
-          page.getResults().add(datasetService.get(u.getChecklistKey()));
+      relatedUsages = usageService.listRelated(usage.getNubKey(), getLocale());
+      // remove nub usage itself
+      Iterator<NameUsage> iter = relatedUsages.iterator();
+      while (iter.hasNext()){
+        if (iter.next().getKey().equals(usage.getKey())) {
+          iter.remove();
         }
+      }
+      for (NameUsage u : relatedUsages) {
+        page.getResults().add(datasetService.get(u.getChecklistKey()));
       }
     }
 
@@ -62,5 +68,9 @@ public class DatasetAction extends UsageAction {
 
   public PagingResponse<Dataset> getPage() {
     return page;
+  }
+
+  public List<NameUsage> getRelatedUsages() {
+    return relatedUsages;
   }
 }

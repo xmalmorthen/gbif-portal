@@ -126,17 +126,31 @@
   </#if>
 </#macro>
 
-<#macro article title id="" class="">
+<#macro article title="" id="" class="">
 <article<#if id?has_content> id="${id}"</#if> class="${class!}">
   <header></header>
   <div class="content">
     <#if id?has_content>
-      <a name="${id}"><h2>${title!"???"}</h2></a>
-      <#else>
-        <h2>${title!"???"}</h2>
+      <a name="${id}"></a>
+    </#if>
+    <#if title?has_content>
+      <h2>${title}</h2>
     </#if>
     <#nested>
   </div>
   <footer></footer>
 </article>
 </#macro>
+
+<#macro notice title>
+<article class="notice">
+  <header></header>
+  <div class="content">
+    <h3>{title!}</h3>
+    <#nested>
+    <img id="notice_icon" src="<@s.url value='/img/icons/notice_icon.png'/>"/>
+  </div>
+  <footer></footer>
+</article>
+</#macro>
+

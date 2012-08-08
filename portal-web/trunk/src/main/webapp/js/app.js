@@ -36,9 +36,6 @@ $(function() {
 
   $(".selectbox").selectBox();
 
-  // setup taxonomic browser
-  $("#taxonomy").taxonomicExplorer({transitionSpeed:300});
-
   // read news
   parseDevNews(function(feed){
     $("#blog1title").html("<a target='_blank' href='"+feed.entries[0].link+"'>"+feed.entries[0].title+"</a>");
@@ -68,6 +65,9 @@ $(function() {
     .bindDownloadPopover({explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
   $("a.download_2")
     .bindDownloadPopover({template: "direct_download", explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
+
+  // setup taxonomic browser
+  $("#taxonomicBrowser").taxonomicExplorer({transitionSpeed:300});
 
   // Dropdown for the sorting options of the taxonomic explorer
   $('#tax_sort_ocurrences').dropdownPopover({

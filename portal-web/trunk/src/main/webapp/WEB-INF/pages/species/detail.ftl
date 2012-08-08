@@ -6,8 +6,8 @@
   <meta name="menu" content="species"/>
 <#if nub>
   <content tag="extra_scripts">
-	<link rel="stylesheet" href="<@s.url value='/css/leaflet.css'/>" />
-	<!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/css/leaflet.ie.css'/>" /><![endif]-->
+	  <link rel="stylesheet" href="<@s.url value='/css/leaflet.css'/>" />
+	  <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/css/leaflet.ie.css'/>" /><![endif]-->
     <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
   </content>
@@ -25,174 +25,148 @@
 <#include "/WEB-INF/pages/species/infoband.ftl">
 
 <#if !nub>
-<#-- ONLY FOR CHECKLIST PAGES -->
-<article class="notice">
-  <header></header>
-  <div class="content">
-    <h3>This is a particular view of ${usage.canonicalOrScientificName!}</h3>
-
-    <p>This is the <em>${usage.scientificName}</em> view,
-      as seen by <a href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.title!"???"}</a> checklist.
-      <#if usage.nubKey?exists>
-        Remember that you can also check the
-        <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view on ${usage.canonicalOrScientificName!}</a>.
-      </#if>
-      <br/>You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
-      submitted by the data publisher.
-    </p>
-    <img id="notice_icon" src="<@s.url value='/img/icons/notice_icon.png'/>"/>
-  </div>
-  <footer></footer>
-</article>
+<#-- Warn that this is not a nub page -->
+<@common.notice title="This is a particular view of ${usage.canonicalOrScientificName!}">
+  <p>This is the <em>${usage.scientificName}</em> view,
+    as seen by <a href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.title!"???"}</a> checklist.
+    <#if usage.nubKey?exists>
+      Remember that you can also check the
+      <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view on ${usage.canonicalOrScientificName!}</a>.
+    </#if>
+    <br/>You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
+    submitted by the data publisher.
+  </p>
+</@common.notice>
 </#if>
 
-<article id="overview">
-  <header></header>
-  <div class="content">
+<@common.article id="overview" title="Overview">
+<div class="left">
+  <ul class="thumbs_list">
+  <#list usage.images as img>
+    <#if img_index==3 || !img_has_next>
+      <#assign lastClass="last"/>
+    </#if>
+    <li class="${lastClass!""}">
+      <a href="#" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a>
+    </li>
+    <#if img_index==3><#break></#if>
+  </#list>
+  </ul>
 
-    <div class="header">
-      <a name="overview"> </a>
-      <div class="left"><h2>Overview</h2></div>
-    </div>
+  <h3>Full name</h3>
+  <p>${usage.scientificName}</p>
 
-    <div class="left">
-      <ul class="thumbs_list">
-      <#list usage.images as img>
-        <#if img_index==3 || !img_has_next>
-          <#assign lastClass="last"/>
-        </#if>
-        <li class="${lastClass!""}">
-          <a href="#" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a>
-        </li>
-        <#if img_index==3><#break></#if>
-      </#list>
-      </ul>
+  <h3>Taxonomic Status</h3>
+  <p>
+  ${(usage.taxonomicStatus.interpreted)!"Unknown"}
+  <#if usage.synonym>
+    of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
+  </#if>
+  </p>
 
-      <h3>Full name</h3>
+<#if (usage.nomenclaturalStatus.interpreted)?has_content>
+  <h3>Nomenclatural Status</h3>
 
-      <p>${usage.scientificName}</p>
+  <p>${usage.nomenclaturalStatus.interpreted}</p>
+</#if>
 
-      <h3>Taxonomic Status</h3>
+<#if usage.isExtinct()??>
+  <h3>Extinction Status</h3>
 
-      <p>
-      ${(usage.taxonomicStatus.interpreted)!"Unknown"}
-      <#if usage.synonym>
-        of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
+  <p>${usage.isExtinct()?string("Extinct","Living")}</p>
+</#if>
+
+<#if (usage.livingPeriods?size>0)>
+  <h3>Living Period</h3>
+
+  <p><#list usage.livingPeriods as p>${p}<#if p_has_next>; </#if></#list></p>
+</#if>
+
+<#if usage.isMarine()?? || usage.isTerrestrial()?? || (usage.habitats?size>0)>
+  <h3>Habitat</h3>
+
+  <p>
+    <#if usage.isMarine()??><#if usage.isMarine()>Marine<#else>Non Marine</#if>;</#if>
+    <#if usage.isTerrestrial()??><#if usage.isTerrestrial()>Terrestrial<#else>Non Terrestrial</#if>;</#if>
+    <#list usage.habitats as h>${h}<#if t_has_next>; </#if></#list>
+  </p>
+</#if>
+
+<#if (usage.threatStatus?size>0)>
+  <h3>Threat Status</h3>
+
+  <p><#list usage.threatStatus as t><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#list></p>
+</#if>
+
+<#list usage.descriptions as d>
+  <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
+
+  <p>${d.description!}</p>
+</#list>
+
+</div>
+<div class="right">
+<#if (vernacularNames?size>0)>
+  <h3>Common names</h3>
+  <ul>
+    <#assign more=false/>
+    <#list vernacularNames?keys as vk>
+      <#assign names=vernacularNames.get(vk)/>
+      <#assign v=names[0]/>
+      <li>${v.vernacularName} <span
+              class="small">${(v.language.interpreted)!}</span> <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
+      </li>
+      <#if vk_index==8>
+        <#assign more=true/>
+        <#break />
       </#if>
-      </p>
-
-    <#if (usage.nomenclaturalStatus.interpreted)?has_content>
-      <h3>Nomenclatural Status</h3>
-
-      <p>${usage.nomenclaturalStatus.interpreted}</p>
-    </#if>
-
-    <#if usage.isExtinct()??>
-      <h3>Extinction Status</h3>
-
-      <p>${usage.isExtinct()?string("Extinct","Living")}</p>
-    </#if>
-
-    <#if (usage.livingPeriods?size>0)>
-      <h3>Living Period</h3>
-
-      <p><#list usage.livingPeriods as p>${p}<#if p_has_next>; </#if></#list></p>
-    </#if>
-
-    <#if usage.isMarine()?? || usage.isTerrestrial()?? || (usage.habitats?size>0)>
-      <h3>Habitat</h3>
-
-      <p>
-        <#if usage.isMarine()??><#if usage.isMarine()>Marine<#else>Non Marine</#if>;</#if>
-        <#if usage.isTerrestrial()??><#if usage.isTerrestrial()>Terrestrial<#else>Non Terrestrial</#if>;</#if>
-        <#list usage.habitats as h>${h}<#if t_has_next>; </#if></#list>
-      </p>
-    </#if>
-
-    <#if (usage.threatStatus?size>0)>
-      <h3>Threat Status</h3>
-
-      <p><#list usage.threatStatus as t><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#list></p>
-    </#if>
-
-    <#list usage.descriptions as d>
-      <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
-
-      <p>${d.description!}</p>
     </#list>
+  </ul>
 
-    </div>
-    <div class="right">
-    <#if (vernacularNames?size>0)>
-      <h3>Common names</h3>
-      <ul>
-        <#assign more=false/>
-        <#list vernacularNames?keys as vk>
-          <#assign names=vernacularNames.get(vk)/>
-          <#assign v=names[0]/>
-          <li>${v.vernacularName} <span
-                  class="small">${(v.language.interpreted)!}</span> <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
-          </li>
-          <#if vk_index==8>
-            <#assign more=true/>
-            <#break />
-          </#if>
-        </#list>
-      </ul>
+  <#if more>
+    <p><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></p>
+  </#if>
+</#if>
 
-      <#if more>
-        <p><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></p>
+<#if basionym?has_content>
+  <h3>Original Name</h3>
+  <p><a href="<@s.url value='/species/${basionym.key?c}'/>">${basionym.scientificName}</a></p>
+</#if>
+
+  <h3>External Links</h3>
+  <ul>
+  <#list usage.externalLinks as i>
+    <li><a href="${i.identifierLink}" title="${i.title!i.type!}">
+      <#if i.title?has_content>${i.title}
+      <#else>
+      ${common.limit( datasets.get(i.checklistKey).title ,30)}
       </#if>
-    </#if>
+    </a></li>
+  </#list>
+  <#if usage.nubKey??>
+    <li><a href="http://eol.org/gbif/${usage.nubKey?c}" title="EOL">EOL</a></li>
+  </#if>
+    <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
 
-    <#if basionym?has_content>
-      <h3>Original Name</h3>
+  <#if (usage.lsids?size>0)>
+    <li><@common.popover linkTitle="LSID" popoverTitle="Life Science Identifier">
+      <#list usage.lsids as i>
+        <p><a href='${i.identifierLink}'>${i.identifier}</a></p><br/>
+      </#list></@common.popover>
+    </li>
+  </#if>
+  </ul>
 
-      <p><a href="<@s.url value='/species/${basionym.key?c}'/>">${basionym.scientificName}</a></p>
-    </#if>
+</div>
+</@common.article>
 
-      <h3>External Links</h3>
-      <ul>
-      <#list usage.externalLinks as i>
-        <li><a href="${i.identifierLink}" title="${i.title!i.type!}">
-          <#if i.title?has_content>${i.title}
-          <#else>
-          ${common.limit( datasets.get(i.checklistKey).title ,30)}
-          </#if>
-        </a></li>
-      </#list>
-      <#if usage.nubKey??>
-        <li><a href="http://eol.org/gbif/${usage.nubKey?c}" title="EOL">EOL</a></li>
-      </#if>
-        <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
-
-      <#if (usage.lsids?size>0)>
-        <li><@common.popover linkTitle="LSID" popoverTitle="Life Science Identifier">
-          <#list usage.lsids as i>
-            <p><a href='${i.identifierLink}'>${i.identifier}</a></p><br/>
-          </#list></@common.popover>
-        </li>
-      </#if>
-      </ul>
-
-    </div>
-  </div>
-  <footer></footer>
-</article>
-
-<article class="taxonomies">
-  <header></header>
-  <div class="content">
-    <a name="taxonomy"> </a>
-    <h2>Taxonomy <span class="subtitle">of ${usage.scientificName}</span></h2>
-
+<@common.article id="taxonomy" title='Taxonomy <span class="subtitle">of ${usage.scientificName}</span>' class="taxonomies">
     <div class="left">
       <h3>Taxonomic classification
         <div class="extended">[<a href="<@s.url value='/species/${id?c}/classification'/>">extended</a>]</div>
       </h3>
     <#include "/WEB-INF/pages/species/taxbrowser.ftl">
     </div>
-
 
     <div class="right">
 
@@ -218,10 +192,7 @@
     </#if>
 
     </div>
-
-  </div>
-  <footer></footer>
-</article>
+</@common.article>
 
 <#-- Taxon maps are only calculated for the nub taxonomy -->
 <#if nub>
@@ -234,7 +205,7 @@
       <div class="right">
         <div class="big_number">
           <span>${usage.numOccurrences!0}</span>
-          <a href="<@s.url value='/occurrence/search?q=holotype'/>">occurrences</a>
+          <a href="<@s.url value='/occurrence/search?nubKey=${usage.key?c}'/>">occurrences</a>
         </div>
         <div class="big_number placeholder_temp">
           <span class="big_number">8,453</span>
@@ -267,11 +238,7 @@
 </#if>
 
 <#if (usage.images?size>0)>
-<article id="images" class="photo_gallery">
-  <a name="images"></a>
-
-  <div class="content">
-
+  <@common.article id="images" class="photo_gallery">
     <div class="slideshow">
       <div class="photos">
         <#list usage.images as img>
@@ -325,18 +292,11 @@
 
       </#if>
     </div>
-  </div>
-  <footer></footer>
-</article>
+  </@common.article>
 </#if>
 
 <#if usage.nubKey??>
-<article id="appearsin">
-  <header></header>
-  <div class="content">
-    <a name="related"> </a>
-    <h2>Appears in</h2>
-
+  <@common.article id="appearsin" title="Appears in">
     <div class="left">
       <div class="col">
         <h3>Occurrence datasets</h3>
@@ -347,7 +307,9 @@
               <#assign more=true/>
               <#break />
             </#if>
-            <li><a href="<@s.url value='/dataset/${uuid}'/>">${(datasets.get(uuid).title)!uuid}</a></li>
+            <li>
+              <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">${(datasets.get(uuid).title)!uuid}</a>
+            </li>
           </#list>
         </ul>
         <#if more>
@@ -395,18 +357,12 @@
 
     </div>
 
-  </div>
-  <footer></footer>
-</article>
+  </@common.article>
 </#if>
 
 <#if (usage.typeSpecimens?size>0)>
-<article id="typespecimen">
-  <header></header>
-  <div class="content">
-    <a name="typespecimen"> </a>
-    <h2>Type specimens</h2>
-  <#-- only show 4 type specimens at max -->
+  <@common.article id="typespecimen" title="Type specimens">
+    <#-- only show 4 type specimens at max -->
     <#assign maxRecords=4>
     <div class="left">
       <#list usage.typeSpecimens as ts>
@@ -430,18 +386,11 @@
         </#list>
       </ul>
     </div>
-  </div>
-  <footer></footer>
-</article>
+  </@common.article>
 </#if>
 
 <#if (usage.distributions?size>0)>
-<article id="distribution">
-  <header></header>
-  <div class="content">
-    <a name="distribution"> </a>
-    <h2>${usage.canonicalOrScientificName!} distribution</h2>
-
+  <@common.article id="distribution" title="${usage.canonicalOrScientificName!} distribution">
     <div class="left">
       <div class="col">
       <ul class="notes">
@@ -495,18 +444,11 @@
       </ul>
     </div>
 
-  </div>
-  <footer></footer>
-</article>
+  </@common.article>
 </#if>
 
 <#if usage.publishedIn?has_content || usage.accordingTo?has_content || (usage.references?size>0)>
-<article id="references">
-  <header></header>
-  <div class="content">
-    <a name="references"> </a>
-    <h2>Academic references</h2>
-
+  <@common.article id="references" title="Academic references">
     <div class="left">
       <#if usage.publishedIn?has_content>
         <h3>Published In</h3>
@@ -549,22 +491,15 @@
       </ul>
     </div>
 
-  </div>
-  <footer></footer>
-</article>
+  </@common.article>
 </#if>
 
 <#if !usage.isNub()>
-<article class="notice">
-  <header></header>
-  <div class="content">
-    <h3>Further information</h3>
-
-    <p>There may be more details available about this name usage in the
-      <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a> of the record</p>
-  </div>
-  <footer></footer>
-</article>
+  <@common.notice title="Further information">
+  <p>There may be more details available about this name usage in the
+    <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a> of the record
+  </p>
+  </@common.notice>
 </#if>
 
 </body>

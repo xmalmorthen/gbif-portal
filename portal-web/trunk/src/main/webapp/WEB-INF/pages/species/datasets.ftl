@@ -30,9 +30,23 @@
 
       <#list page.results as item>
         <div class="result">
-          <h2><strong><a href="<@s.url value='/dataset/${item.key}'/>">${item.title!}</a></strong>
-            <span class="note">${item.type}, ${item.networkOfOrigin} network</span>
+          <h2><strong>
+            <#if item.type=="CHECKLIST">
+              <a href="<@s.url value='/species/${relatedUsages[item_index].key?c}'/>">
+            <#else>
+              <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${item.key}'/>">
+            </#if>
+            ${item.title!}</a>
+            </strong>
           </h2>
+
+          <div class="footer">
+          <#if item.type=="CHECKLIST">
+            ${relatedUsages[item_index].scientificName},
+          </#if>
+            ${item.type},
+            ${item.networkOfOrigin} network
+          </div>
 
           <div class="footer">
             <#if item.citation?has_content>
