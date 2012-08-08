@@ -197,8 +197,13 @@
     <div class="right">
 
       <div class="big_number">
-        <span>${usage.numSpecies}</span> species
+      <#if usage.rank.interpreted.isSpeciesOrBelow()>
+        <span>${usage.numDescendants}</span> Infraspecies
+      <#else>
+        <span>${usage.numSpecies}</span> Species
+      </#if>
       </div>
+
     <#if (usage.synonyms?size>0)>
       <h3>Synonyms</h3>
       <ul class="no_bottom">
