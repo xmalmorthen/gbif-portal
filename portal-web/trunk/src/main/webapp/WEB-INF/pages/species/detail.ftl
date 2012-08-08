@@ -494,15 +494,15 @@
   </@common.article>
 </#if>
 
-<@common.article id="legal" title="Usage & legal issues" class="mono_line placeholder_temp">
+<@common.article id="legal" title="Usage & legal issues" class="mono_line">
     <div class="left">
       <h3>USAGE RIGHTS</h3>
-      <p>Released under an Open Data licence, so it can be used to anyone who cites it. </p>
+      <p class="placeholder_temp">Released under an Open Data licence, so it can be used to anyone who cites it. </p>
 
       <h3>HOW TO CITE IT</h3>
-      <p>Alaska Ocean Observing System, Arctic Ocean Diversity (accessed through GBIF data portal,
-        <a href="http://data.gbif.org/datasets/resource/654">http://data.gbif.org/datasets/resource/654</a>,
-        2011-05-05)</p>
+      <p>${usage.scientificName} according to ${checklist.title!} <br/>
+        (accessed through GBIF data portal, <a href="<@s.url value='/species/${id?c}'/>">${baseUrl!}<@s.url value='/species/${id?c}'/></a>, ${.now?date?iso_utc})
+      </p>
     </div>
 </@common.article>
 
