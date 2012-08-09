@@ -79,8 +79,8 @@
           <tbody>
            <#list searchResponse.results as occ>
            <tr>
-            <td><#if occ.scientificName?has_content>${occ.scientificName!}</#if></td>
-            <td><#if occ.datasetKey?has_content>${occ.datasetKey!}</#if></td>
+            <td><#if occ.scientificName?has_content>${occ.scientificName}</#if></td>
+            <td><#if occ.datasetKey?has_content>${occ.datasetKey}</#if></td>
             <td><#if occ.institutionCode?has_content>${occ.institutionCode!}</#if></td>
             <td><#if occ.collectionCode?has_content>${occ.collectionCode!}</#if></td>
             <td><#if occ.catalogNumber?has_content>${occ.catalogNumber!}</#if></td>
