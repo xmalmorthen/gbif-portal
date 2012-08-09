@@ -12,7 +12,6 @@ import org.gbif.api.exception.NotFoundException;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Contact;
 import org.gbif.registry.api.model.Dataset;
-import org.gbif.registry.api.model.DatasetMetrics;
 import org.gbif.registry.api.model.Organization;
 import org.gbif.registry.api.model.TechnicalInstallation;
 import org.gbif.registry.api.service.DatasetService;
@@ -35,7 +34,6 @@ public class DetailAction extends BaseAction {
   private Dataset dataset;
   private Organization owningOrganization;
   private Organization hostingOrganization;
-  private DatasetMetrics metrics;
   private List<Contact> preferredContacts;
   private List<Contact> otherContacts;
 
@@ -82,23 +80,12 @@ public class DetailAction extends BaseAction {
     return dataset;
   }
 
-  /**
-   * @return the hostingOrganization
-   */
-  protected Organization getHostingOrganization() {
-    return hostingOrganization;
-  }
-
   public String getId() {
     return id;
   }
 
   public Dataset getMember() {
     return dataset;
-  }
-
-  public DatasetMetrics getMetrics() {
-    return metrics;
   }
 
   public List<Contact> getOtherContacts() {
@@ -115,6 +102,23 @@ public class DetailAction extends BaseAction {
   public List<Contact> getPreferredContacts() {
     return preferredContacts;
   }
+
+  public void setDataset(Dataset dataset) {
+    this.dataset = dataset;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+
+  /**
+   * @return the hostingOrganization
+   */
+  protected Organization getHostingOrganization() {
+    return hostingOrganization;
+  }
+
 
   /**
    * Iterate over the list of dataset contacts. Divide them into two lists:
@@ -136,15 +140,5 @@ public class DetailAction extends BaseAction {
         }
       }
     }
-  }
-
-
-  public void setDataset(Dataset dataset) {
-    this.dataset = dataset;
-  }
-
-
-  public void setId(String id) {
-    this.id = id;
   }
 }
