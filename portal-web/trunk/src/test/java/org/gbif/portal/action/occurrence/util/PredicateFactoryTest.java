@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.google.common.collect.Maps;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -17,9 +18,24 @@ import static org.junit.Assert.assertTrue;
 
 public class PredicateFactoryTest {
 
+  private static final Map<String, String> QUERY_FIELD_MAPPING = Maps.newHashMap();
+  static {
+    QUERY_FIELD_MAPPING.put("1", "i_scientific_name");
+    QUERY_FIELD_MAPPING.put("4", "country");
+    QUERY_FIELD_MAPPING.put("6", "i_latitude");
+    QUERY_FIELD_MAPPING.put("7", "i_longitude");
+    QUERY_FIELD_MAPPING.put("8", "i_altitude");
+    QUERY_FIELD_MAPPING.put("9", "i_depth");
+    QUERY_FIELD_MAPPING.put("15", "i_year");
+    QUERY_FIELD_MAPPING.put("16", "i_month");
+    QUERY_FIELD_MAPPING.put("18", "institution_code");
+    QUERY_FIELD_MAPPING.put("19", "collection_code");
+    QUERY_FIELD_MAPPING.put("20", "catalogue_number");
+  }
+
   @Test
   public void testBuild() {
-    PredicateFactory pf = new PredicateFactory();
+    PredicateFactory pf = new PredicateFactory(QUERY_FIELD_MAPPING);
     Map<String, String[]> params = new HashMap<String, String[]>();
     params.put("f[0].s", new String[] {"1"});
     params.put("f[0].p", new String[] {"0"}); // equals
@@ -71,7 +87,7 @@ public class PredicateFactoryTest {
 
   @Test
   public void testOR() {
-    PredicateFactory pf = new PredicateFactory();
+    PredicateFactory pf = new PredicateFactory(QUERY_FIELD_MAPPING);
     Map<String, String[]> params = new HashMap<String, String[]>();
 
     params.put("f[0].s", new String[] {"1"});

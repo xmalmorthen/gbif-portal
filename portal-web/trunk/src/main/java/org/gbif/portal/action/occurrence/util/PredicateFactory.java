@@ -18,7 +18,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +33,7 @@ public class PredicateFactory {
   // This is a placeholder to map from the JSON definition for the UI to
   // that needed by the Predicate
   private enum TypeMapping {
-    EQUALS("0"), GREATER_THAN("1"), LESS_THAN("2"), STARTS_WITH("3"),;
+    EQUALS("0"), GREATER_THAN("1"), LESS_THAN("2"), STARTS_WITH("3"), ;
 
     private final String id;
 
@@ -49,27 +48,17 @@ public class PredicateFactory {
 
   private static final Logger LOG = LoggerFactory.getLogger(PredicateFactory.class);
 
-  // This is a placeholder to map from the JSON definition ID to the query field
-  private static final Map<String, String> QUERY_FIELD_MAPPING = Maps.newHashMap();
-  static {
-    QUERY_FIELD_MAPPING.put("1", "i_scientific_name");
-    QUERY_FIELD_MAPPING.put("4", "country");
-    QUERY_FIELD_MAPPING.put("6", "i_latitude");
-    QUERY_FIELD_MAPPING.put("7", "i_longitude");
-    QUERY_FIELD_MAPPING.put("8", "i_altitude");
-    QUERY_FIELD_MAPPING.put("9", "i_depth");
-    QUERY_FIELD_MAPPING.put("15", "i_year");
-    QUERY_FIELD_MAPPING.put("16", "i_month");
-    QUERY_FIELD_MAPPING.put("18", "institution_code");
-    QUERY_FIELD_MAPPING.put("19", "collection_code");
-    QUERY_FIELD_MAPPING.put("20", "catalogue_number");
-  }
-
   // Pattern to detect the ID and type of filters from e.g.
   // f[11].s f[1].p f[0].v
   private final static Pattern SUBJECT = Pattern.compile("f\\[(\\d+)\\]\\.[s]");
   private final static Pattern PREDICATE = Pattern.compile("f\\[(\\d+)\\]\\.[p]");
   private final static Pattern VALUE = Pattern.compile("f\\[(\\d+)\\]\\.[v]");
+
+  private final Map<String, String> queryFieldMapping;
+
+  public PredicateFactory(final Map<String, String> queryFieldMapping) {
+    this.queryFieldMapping = queryFieldMapping;
+  }
 
   public Predicate build(Map<String, String[]> params) {
     if (LOG.isDebugEnabled()) {
@@ -94,13 +83,13 @@ public class PredicateFactory {
    * Converts the triple to a predicate
    */
   private Predicate build(Triple t) {
-    if (QUERY_FIELD_MAPPING.containsKey(t.getSubject())) {
+    if (queryFieldMapping.containsKey(t.getSubject())) {
       if (TypeMapping.EQUALS.getValue().equals(t.getPredicate())) {
-        return new EqualsPredicate(QUERY_FIELD_MAPPING.get(t.getSubject()), t.getValue());
+        return new EqualsPredicate(queryFieldMapping.get(t.getSubject()), t.getValue());
       } else if (TypeMapping.GREATER_THAN.getValue().equals(t.getPredicate())) {
-        return new GreaterThanPredicate(QUERY_FIELD_MAPPING.get(t.getSubject()), t.getValue());
+        return new GreaterThanPredicate(queryFieldMapping.get(t.getSubject()), t.getValue());
       } else if (TypeMapping.LESS_THAN.getValue().equals(t.getPredicate())) {
-        return new LessThanPredicate(QUERY_FIELD_MAPPING.get(t.getSubject()), t.getValue());
+        return new LessThanPredicate(queryFieldMapping.get(t.getSubject()), t.getValue());
       }
     } else {
       LOG.warn("Query mapping does not contain {}", t.getSubject());

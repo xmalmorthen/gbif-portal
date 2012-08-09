@@ -1,0 +1,125 @@
+{
+  "filters":[   
+    {
+      "group":"Geospatial",
+      "options":[        
+        {
+          "id":1,
+          "name":"Latitude",
+          "description":"Enter a latitude and choose between 'is', 'greater than' (inclusive) and 'less than' (inclusive). This filter will return only georeferenced records that match the selection.",
+          "renderer":"SelectAndTextbox",
+          "group":"Geospatial",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is greater than",
+                "value":1
+              },
+              {
+                "label":"Is less than",
+                "value":2
+              }
+            ]
+          }
+        },
+        {
+          "id":2,
+          "name":"Longitude",
+          "description":"Enter a longitude and choose between 'is', 'greater than' (inclusive) and 'less than' (inclusive). This filter will return only georeferenced records that match the selection.",
+          "renderer":"SelectAndTextbox",
+          "group":"Geospatial",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is greater than",
+                "value":1
+              },
+              {
+                "label":"Is less than",
+                "value":2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "group":"Datasets",
+      "options":[
+        {
+          "id":3,
+          "name":"Year",
+          "description":"Enter a year and click Add Filter. The filter will return records from the year(s) that match the selection.",
+          "renderer":"SelectAndTextbox",
+          "group":"Datasets",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is greater than",
+                "value":1
+              },
+              {
+                "label":"Is less than",
+                "value":2
+              }
+            ]
+          }
+        },
+        {
+          "id":4,
+          "name":"Month",
+          "description":"Enter a month and click Add Filter. The filter will return records from the month(s) that match the selection.",
+          "renderer":"SelectAndTextbox",
+          "group":"Datasets",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              },
+              {
+                "label":"Is greater than",
+                "value":1
+              },
+              {
+                "label":"Is less than",
+                "value":2
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "group":"Other",
+      "options":[        
+        {
+          "id":5,
+          "name":"Catalogue number",
+          "description":"Enter a catalogue number. The filter will return records with the specified catalogue number.",
+          "renderer":"SelectAndTextbox",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

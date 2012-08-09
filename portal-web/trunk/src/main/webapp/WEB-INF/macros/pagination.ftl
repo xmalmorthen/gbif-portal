@@ -48,15 +48,24 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
 -->
 <#function getStripUrl url>
 	<#assign stripUrl = "">
-	<#list url?split("&") as queryParam>
-	    <#if !queryParam?contains("limit") && !queryParam?contains("offset")>
-			<#assign stripUrl = stripUrl+"&"+queryParam>
+	<#assign baseUrl = "">
+	<#assign queryString = "">
+	<#if url?contains("?")>
+	   <#assign urlSplit = url?split("?")>
+	   <#assign baseUrl = urlSplit[0] + "?">
+	   <#assign queryString = urlSplit[1]>
+	<#else>
+	   <#assign baseUrl = url>
+	</#if>
+	<#list queryString?split("&") as queryParam>
+	  <#if !queryParam?contains("limit") && !queryParam?contains("offset")>
+		  <#assign stripUrl = stripUrl+"&"+queryParam>
 		</#if>
 	</#list>  
 	<#if stripUrl?starts_with("&")>
-		<#return stripUrl?substring(1)>
+		<#return baseUrl + stripUrl?substring(1)>
 	<#else>
-		<#return stripUrl>
+		<#return baseUrl + stripUrl>
 	</#if>
 </#function>
 

@@ -1,0 +1,79 @@
+table.hor-minimalist-b {
+  background: none repeat scroll 0 0 #FFFFFF;
+  border-collapse: collapse;
+  font-size: 11px;
+  text-align: left;
+  color: #999999;
+}
+
+table.hor-minimalist-b th {
+  border-left: 1px solid #F1F1F1;
+  border-bottom: 2px solid #CCCCCC;
+  color: #0099CC;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 2px;
+}
+
+table.hor-minimalist-b td {
+  border-left: 1px solid #F1F1F1;
+  border-bottom: 1px solid #CCCCCC;
+  color: #999999;
+  padding: 2px 2px;
+}
+
+table.hor-minimalist-b tbody tr:hover td {
+  color: #666666;
+}
+
+.description {
+  margin-top: 10px;
+  padding: 10px;
+  color: #666;
+  background-color: #E5F5FA;
+}
+
+p.query {
+  color: #999;
+  margin: 0px;
+  padding: 0px;
+  font-size: 11px;
+  font-family: DINOT-Medium, sans-serif;
+}
+
+ul.query {
+  list-style: none;
+  padding: 0px 0px 10px 10px;
+  margin: 0px;
+  color: #666;
+  font-weight: bold;
+}
+
+ul.query .boolean {
+  color: #999;
+  margin: 0px;
+  padding: 0px;
+  font-size: 11px;
+  font-weight: normal;
+  font-family: DINOT-Medium, sans-serif;
+}
+
+select,input {
+  margin-right: 5px;
+}
+
+select.subject {
+  width: 150px;
+}
+
+select.predicate {
+  width: 120px;
+}
+
+select.value {
+  width: 200px;
+}
+
+div#email-container {
+  margin-bottom: 10px;
+}
