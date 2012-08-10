@@ -21,11 +21,11 @@ public class DrupalMyBatisModule extends PrivateServiceModule {
   @Override
   protected void configureService() {
     // bind classes
-    install(new InternalDrupalMyBatisModule());
+    InternalDrupalMyBatisModule mod = new InternalDrupalMyBatisModule();
+    install(mod);
 
-    // we cannot expose 2 Datasources, so we dont do this here to not conflict with other modules
-    // this module is rather simple and ITests can be run manually when commenting out this line
-    //expose(DataSource.class);
+    // expose named datasource binding
+    expose(mod.getDatasourceKey());
 
     // expose services
     expose(UserService.class);
