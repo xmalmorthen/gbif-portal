@@ -23,7 +23,14 @@
                 "label":"Is less than",
                 "value":2
               }
-            ]
+            ],
+            "dataType":"decimal",
+            "size":"10",
+            "maxLength": 6,
+            "maxValue" : 90,
+            "minValue" : 0,
+            "decimalPrecision": 3,
+            "integerPrecision": 2
           }
         },
         {
@@ -46,7 +53,14 @@
                 "label":"Is less than",
                 "value":2
               }
-            ]
+            ],
+            "dataType":"decimal",
+            "size":"10",
+            "maxLength": 7,
+            "maxValue" : 180,
+            "minValue" : 0,
+            "decimalPrecision": 3,
+            "integerPrecision": 3            
           }
         }
       ]
@@ -74,14 +88,17 @@
                 "label":"Is less than",
                 "value":2
               }
-            ]
+            ],
+            "dataType":"numeric",
+            "size":"10",
+            "maxlength":4
           }
         },
         {
           "id":4,
           "name":"Month",
           "description":"Enter a month and click Add Filter. The filter will return records from the month(s) that match the selection.",
-          "renderer":"SelectAndTextbox",
+          "renderer":"SelectSelect",          
           "group":"Datasets",
           "data":{
             "predicate":[
@@ -97,7 +114,9 @@
                 "label":"Is less than",
                 "value":2
               }
-            ]
+            ],
+            "value":[1,2,3,4,5,6,7,8,9,10,11,12],
+            "width":"50"
           }
         }
       ]
@@ -116,7 +135,10 @@
                 "label":"Is",
                 "value":0
               }
-            ]
+            ],
+            "dataType":"numeric",
+            "size":20,
+            "maxlength":30
           }
         }
       ]

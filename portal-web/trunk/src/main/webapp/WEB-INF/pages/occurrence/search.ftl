@@ -8,13 +8,22 @@
     <script type="text/javascript" src="<@s.url value='/js/custom/jquery.gbif.filters.js'/>"></script>
     <script src='<@s.url value='/js/vendor/jquery.url.js'/>' type='text/javascript'></script>
     <script>
-      var query = $('#query-container').Query();
+      var query = $('#query-container').Query({
+        removeFilter: function(event, data) {
+         if(data.widget._filters.length == 0) {          
+            $('#submit-button').hide();
+            $('#searchTitle').hide();
+          }
+        }
+      });
 
       // subject container with event wiring to trigger changes on query
       $('#filter-container').Filter({
         json:"<@s.url value='/conf/occurrence-search.json'/>",
         addFilter: function(event, data) {
           query.Query("add", data.filter);
+          $('#submit-button').show();
+          $('#searchTitle').show();
         }
       });
       
@@ -47,62 +56,64 @@
 <article class="results light_pane taxonomies">
   <header></header>
   <div class="content">
-
-    <div class="header">
+    <div class="header">      
       <div class="left">
         <h2>${searchResponse.count} results</h2>
       </div>
-      <div class="right"><h3>Refine your search</h3></div>
+      <div class="right" id="searchTitle" style="display: none"><h3>Refine your search</h3></div>             
     </div>
 
-    <div class="left">
+    <div class="left">      
       <div id='filter-container'></div>
+      <br>
       <input type="hidden" value="${datasetKey}" name="datasetKey"/>
       <input type="hidden" value="${nubKey}" name="nubKey"/>
-       <#if searchResponse.count gt 0>
-         <table id="tableResults" class="hor-minimalist-b">
-         <thead>
-          <tr>
-            <th>Scientific<br>name</th>
-            <th>Dataset</th>
-            <th>Institution<br>Code</th>
-            <th>Collection<br>Code</th>
-            <th>Catalogue<br>Number</th>
-            <th>Basis<br>of<br>Record</th>
-            <th>Year</th>
-            <th>Month</th>
-            <th>Coordinates</th>
-            <th>Country</th>
-            <th></th>
-          </tr>
-          </thead>
-          <tbody>
-           <#list searchResponse.results as occ>
-           <tr>
-            <td><#if occ.scientificName?has_content>${occ.scientificName}</#if></td>
-            <td><#if occ.datasetKey?has_content>${occ.datasetKey}</#if></td>
-            <td><#if occ.institutionCode?has_content>${occ.institutionCode!}</#if></td>
-            <td><#if occ.collectionCode?has_content>${occ.collectionCode!}</#if></td>
-            <td><#if occ.catalogNumber?has_content>${occ.catalogNumber!}</#if></td>
-            <td><#if occ.basisOfRecord?has_content>${occ.basisOfRecord!}</#if></td>
-            <td><#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}</#if></td>
-            <td><#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}</#if></td>
-            <td><#if occ.latitude?has_content>${occ.latitude!?c}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?c}<#else>-</#if></td>
-            <td><#if occ.isoCountryCode?has_content> ${occ.isoCountryCode!} </#if></td>
-            <td><a href="<@s.url value='/occurrence/${occ.id?c}'/>"><strong>View</strong></a></td>
+      <#if searchResponse.count gt 0>
+        <div style="overflow: auto !important;"> 
+           <table id="tableResults" class="hor-minimalist-b">
+           <thead>
+            <tr>
+              <th>Scientific<br>name</th>
+              <th>Dataset</th>
+              <th>Institution<br>Code</th>
+              <th>Collection<br>Code</th>
+              <th>Catalogue<br>Number</th>
+              <th>Basis<br>of<br>Record</th>
+              <th>Year</th>
+              <th>Month</th>
+              <th>Coordinates</th>
+              <th>Country</th>
+              <th></th>
             </tr>
-           </#list>
-           </tbody>
-         </table>
+            </thead>
+            <tbody>
+             <#list searchResponse.results as occ>
+             <tr>
+              <td><#if occ.scientificName?has_content>${occ.scientificName}</#if></td>
+              <td><#if occ.datasetKey?has_content><a href="<@s.url value='/dataset/${occ.datasetKey}'/>">${occ.datasetKey}</a></#if></td>
+              <td><#if occ.institutionCode?has_content>${occ.institutionCode!}</#if></td>
+              <td><#if occ.collectionCode?has_content>${occ.collectionCode!}</#if></td>
+              <td><#if occ.catalogNumber?has_content>${occ.catalogNumber!}</#if></td>
+              <td><#if occ.basisOfRecord?has_content>${occ.basisOfRecord!}</#if></td>
+              <td><#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}</#if></td>
+              <td><#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}</#if></td>
+              <td><#if occ.latitude?has_content>${occ.latitude!?c}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?c}<#else>-</#if></td>
+              <td><#if occ.isoCountryCode?has_content> ${occ.isoCountryCode!} </#if></td>
+              <td><a href="<@s.url value='/occurrence/${occ.id?c}'/>"><strong>View</strong></a></td>
+              </tr>
+             </#list>
+             </tbody>
+           </table>  
+          </div>        
          <br>
          <div class="footer">          
             <@macro.pagination page=searchResponse url=currentUrl/>          
-        </div>
-      </#if>              
+        </div>        
+      </#if>                  
   </div>
   <div class="right">
     <div id='query-container'></div>      
-    <input type="submit" value="Search" id="submit-button"/>
+    <input type="submit" value="Search" id="submit-button" style="display: none"/>
     <div class="download">
       <div class="dropdown">
         <a href="#" class="title" title="Download description"><span>Download occurrences</span></a>
@@ -112,11 +123,10 @@
           <li class="last"><a href="#b"><span>Download metadata</span></a></li>
         </ul>
       </div>
-    </div>
-  </div>   
-  </div>
-  <footer></footer>  
+    </div>    
+  </div>      
+  </div>  
+  <footer></footer>    
 </article>
-
 </body>
 </html>

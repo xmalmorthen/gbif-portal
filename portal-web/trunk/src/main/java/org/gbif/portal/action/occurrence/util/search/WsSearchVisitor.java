@@ -23,7 +23,7 @@ public class WsSearchVisitor {
   private static final Logger LOG = LoggerFactory.getLogger(WsSearchVisitor.class);
 
   // Value place holder
-  private static final String V_PLACE_HOLDER = "$v";
+  private static final String V_PLACE_HOLDER = "\\$v";
 
   private static final String GREATER_THAN_OPERATOR = "[* TO " + V_PLACE_HOLDER + "]";
   private static final String LESS_THAN_OPERATOR = "[" + V_PLACE_HOLDER + " TO *]";
@@ -39,7 +39,9 @@ public class WsSearchVisitor {
    */
   public Multimap<String, String> getWsSearchParameters(Predicate predicate) throws QueryBuildingException {
     params = HashMultimap.create();
-    visit(predicate);
+    if (predicate != null) {
+      visit(predicate);
+    }
     return params;
   }
 

@@ -33,6 +33,12 @@ table.hor-minimalist-b tbody tr:hover td {
   background-color: #E5F5FA;
 }
 
+.error{     
+     border-color: red;
+     border-style: solid;
+     border-width: 1px;
+}
+
 p.query {
   color: #999;
   margin: 0px;

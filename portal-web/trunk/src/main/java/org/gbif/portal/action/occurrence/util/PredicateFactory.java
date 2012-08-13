@@ -71,11 +71,15 @@ public class PredicateFactory {
     // and AND'ing between the groups
     List<Triple> filters = parse(params);
 
-    List<Predicate> grouped = collect(filters);
-    if (grouped.size() == 1) {
-      return grouped.get(0);
+    if (filters.isEmpty()) {
+      return null;
     } else {
-      return new ConjunctionPredicate(grouped);
+      List<Predicate> grouped = collect(filters);
+      if (grouped.size() == 1) {
+        return grouped.get(0);
+      } else {
+        return new ConjunctionPredicate(grouped);
+      }
     }
   }
 
