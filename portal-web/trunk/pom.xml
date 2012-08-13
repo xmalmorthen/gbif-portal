@@ -55,7 +55,7 @@
     <occurrence-download.version>0.2-SNAPSHOT</occurrence-download.version>
     <occurrence-api.version>0.1-SNAPSHOT</occurrence-api.version>
     <occurrence-ws-client.version>0.1-SNAPSHOT</occurrence-ws-client.version>
-    <drupal-mybatis.version>0.1</drupal-mybatis.version>
+    <drupal-mybatis.version>0.2-SNAPSHOT</drupal-mybatis.version>
 
     <freemarker.version>2.3.19</freemarker.version>
     <guice.version>3.0</guice.version>

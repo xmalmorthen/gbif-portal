@@ -43,7 +43,7 @@
 
     <div class="right">
       <h3>Position</h3>
-      <p class="no_bottom placeholder_temp">Las Matas, Madrid, Spain</p>
+      <p class="no_bottom">${occ.locality!"?"}<#if occ.country??>, ${occ.country}</#if></p>
     <#if occ.longitude?? && occ.latitude??>
       <p class="light_note">${occ.longitude}, ${occ.latitude} (± 0.25)</p>
     </#if>
@@ -157,15 +157,19 @@
         </ul>
       </#if>
     </div>
-    <div class="right placeholder_temp">
-      <h3>Identification date </h3>
-      <p>Oct 23th, 2007</p>
+    <div class="right">
+      <#if occ.identificationDate??>
+        <h3>Identification date </h3>
+        <p>${occ.identificationDate}</p>
+      </#if>
 
-      <h3>Identifier name</h3>
-      <p>Thomas Function</p>
+      <#if occ.identifierName??>
+        <h3>Identified by</h3>
+        <p>${occ.identifierName}</p>
+      </#if>
 
       <h3>Identification references</h3>
-      <p>Flora of Turkey ${occ.identificationReferences!}</p>
+      <p class="placeholder_temp">Flora of Turkey ${occ.identificationReferences!}</p>
     </div>
 </@common.article>
 
