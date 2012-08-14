@@ -100,7 +100,7 @@
               </#list>
 
               <#if showAccordingTo>
-                <p><strong>According to</strong> ${u.checklistTitle}</p>
+                <p><strong>According to</strong> ${u.datasetTitle}</p>
               </#if>
             </div>
 

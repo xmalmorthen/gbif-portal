@@ -38,7 +38,7 @@ public class DatasetAction extends UsageAction {
         }
       }
       for (NameUsage u : relatedUsages) {
-        page.getResults().add(datasetService.get(u.getChecklistKey()));
+        page.getResults().add(datasetService.get(u.getDatasetKey()));
       }
     }
 

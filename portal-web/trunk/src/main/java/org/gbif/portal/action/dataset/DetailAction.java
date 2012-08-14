@@ -12,6 +12,7 @@ import org.gbif.api.exception.NotFoundException;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Contact;
 import org.gbif.registry.api.model.Dataset;
+import org.gbif.registry.api.model.NetworkEntityMetrics;
 import org.gbif.registry.api.model.Organization;
 import org.gbif.registry.api.model.TechnicalInstallation;
 import org.gbif.registry.api.service.DatasetService;
@@ -32,6 +33,7 @@ public class DetailAction extends BaseAction {
   // detail
   private String id;
   private Dataset dataset;
+  private NetworkEntityMetrics metrics;
   private Organization owningOrganization;
   private Organization hostingOrganization;
   private List<Contact> preferredContacts;
@@ -140,5 +142,9 @@ public class DetailAction extends BaseAction {
         }
       }
     }
+  }
+
+  public NetworkEntityMetrics getMetrics() {
+    return metrics;
   }
 }

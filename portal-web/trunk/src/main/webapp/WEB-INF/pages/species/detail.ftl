@@ -15,9 +15,9 @@
 <#-- RDFa -->
   <meta property="dwc:scientificName" content="${usage.scientificName!}"/>
   <meta property="dwc:kingdom" content="${usage.kingdom!}"/>
-  <meta property="dwc:datasetID" content="${checklist.key}"/>
-  <meta property="dwc:datasetName" content="${checklist.title!"???"}"/>
-  <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${checklist.key}'/>"/>
+  <meta property="dwc:datasetID" content="${dataset.key}"/>
+  <meta property="dwc:datasetName" content="${dataset.title!"???"}"/>
+  <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${dataset.key}'/>"/>
 </head>
 <body class="species densitymap">
 
@@ -28,7 +28,7 @@
 <#-- Warn that this is not a nub page -->
 <@common.notice title="This is a particular view of ${usage.canonicalOrScientificName!}">
   <p>This is the <em>${usage.scientificName}</em> view,
-    as seen by <a href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.title!"???"}</a> checklist.
+    as seen by <a href="<@s.url value='/dataset/${dataset.key}'/>">${dataset.title!"???"}</a> checklist.
     <#if usage.nubKey?exists>
       Remember that you can also check the
       <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view on ${usage.canonicalOrScientificName!}</a>.
@@ -500,7 +500,7 @@
       <p class="placeholder_temp">Released under an Open Data licence, so it can be used to anyone who cites it. </p>
 
       <h3>HOW TO CITE IT</h3>
-      <p>${usage.scientificName} according to ${checklist.title!} <br/>
+      <p>${usage.scientificName} according to ${dataset.title!} <br/>
         (accessed through GBIF data portal, <a href="<@s.url value='/species/${id?c}'/>">${baseUrl!}<@s.url value='/species/${id?c}'/></a>, ${.now?date?iso_utc})
       </p>
     </div>

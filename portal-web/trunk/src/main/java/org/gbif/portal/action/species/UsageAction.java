@@ -6,6 +6,7 @@ import org.gbif.checklistbank.api.model.NameUsageContainer;
 import org.gbif.checklistbank.api.service.NameUsageService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Dataset;
+import org.gbif.registry.api.model.NetworkEntityMetrics;
 import org.gbif.registry.api.service.DatasetService;
 
 import java.util.Collection;
@@ -28,7 +29,8 @@ public class UsageAction extends BaseAction {
 
   protected Integer id;
   protected NameUsageContainer usage;
-  protected Dataset checklist;
+  protected Dataset dataset;
+  protected NetworkEntityMetrics metrics;
   protected Map<UUID, Dataset> datasets = new HashMap<UUID, Dataset>();
 
   /**
@@ -48,7 +50,8 @@ public class UsageAction extends BaseAction {
     }
     usage = new NameUsageContainer(u);
     // load checklist
-    checklist = datasetService.get(usage.getChecklistKey());
+    dataset = datasetService.get(usage.getDatasetKey());
+    metrics = datasetService.getMetrics(usage.getDatasetKey());
   }
 
   /**
@@ -79,8 +82,8 @@ public class UsageAction extends BaseAction {
     return usage;
   }
 
-  public Dataset getChecklist() {
-    return checklist;
+  public Dataset getDataset() {
+    return dataset;
   }
 
   public Map<UUID, Dataset> getDatasets() {
@@ -92,5 +95,9 @@ public class UsageAction extends BaseAction {
       return datasets.get(key).getTitle();
     }
     return "";
+  }
+
+  public NetworkEntityMetrics getMetrics() {
+    return metrics;
   }
 }

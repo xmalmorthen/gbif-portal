@@ -1,21 +1,16 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.portal.action.BaseAction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ActivityAction extends BaseAction {
-
-  private Integer id;
+public class ActivityAction extends UsageAction {
+  private static final Logger LOG = LoggerFactory.getLogger(ActivityAction.class);
 
   @Override
   public String execute() {
+    loadUsage();
+
     return SUCCESS;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Integer getId() {
-    return id;
-  }
 }

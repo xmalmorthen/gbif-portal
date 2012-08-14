@@ -67,31 +67,31 @@ public class DetailAction extends UsageAction {
 
     // load checklist lookup map
     for (NameUsage u : related) {
-      loadDataset(u.getChecklistKey());
+      loadDataset(u.getDatasetKey());
     }
     for (UUID uuid : relatedDatasets) {
       loadDataset(uuid);
     }
     for (NameUsageComponent c : usage.getExternalLinks()) {
-      loadDataset(c.getChecklistKey());
+      loadDataset(c.getDatasetKey());
     }
     for (NameUsageComponent c : usage.getImages()) {
-      loadDataset(c.getChecklistKey());
+      loadDataset(c.getDatasetKey());
     }
     for (NameUsageComponent c : usage.getDescriptions()) {
-      loadDataset(c.getChecklistKey());
+      loadDataset(c.getDatasetKey());
     }
     for (NameUsageComponent c : usage.getDistributions()) {
-      loadDataset(c.getChecklistKey());
+      loadDataset(c.getDatasetKey());
     }
     for (NameUsageComponent c : usage.getReferences()) {
-      loadDataset(c.getChecklistKey());
+      loadDataset(c.getDatasetKey());
     }
     for (NameUsageComponent c : usage.getTypeSpecimens()) {
-      loadDataset(c.getChecklistKey());
+      loadDataset(c.getDatasetKey());
     }
     for (NameUsageComponent c : usage.getVernacularNames()) {
-      loadDataset(c.getChecklistKey());
+      loadDataset(c.getDatasetKey());
     }
 
     // load typeSpecimen typestatus counts

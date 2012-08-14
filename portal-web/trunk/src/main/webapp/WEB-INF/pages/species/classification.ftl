@@ -24,7 +24,7 @@
           <hgroup>
             <h2>${parents?size} taxonomy levels for "${usage.canonicalOrScientificName!"???"}"</h2>
 
-            <h3>According to <a href="<@s.url value='/dataset/${usage.checklistKey}'/>">${checklist.name!"???"}</a></h3>
+            <h3>According to <a href="<@s.url value='/dataset/${usage.checklistKey}'/>">${dataset.name!"???"}</a></h3>
           </hgroup>
         </div>
       </div>

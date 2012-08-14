@@ -5,6 +5,7 @@ import org.gbif.occurrencestore.api.model.Occurrence;
 import org.gbif.occurrencestore.api.service.OccurrenceService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Dataset;
+import org.gbif.registry.api.model.NetworkEntityMetrics;
 import org.gbif.registry.api.service.DatasetService;
 
 import com.google.inject.Inject;
@@ -23,6 +24,7 @@ public class DetailAction extends BaseAction {
   private Integer id;
   private Occurrence occ;
   private Dataset dataset;
+  private NetworkEntityMetrics metrics;
 
   @Override
   public String execute() {
@@ -36,11 +38,8 @@ public class DetailAction extends BaseAction {
       throw new NotFoundException();
     }
     // load dataset
-    if (occ.getDatasetKey() != null){
-      dataset = datasetService.get(occ.getDatasetKey());
-    } else {
-      dataset = new Dataset();
-    }
+    dataset = datasetService.get(occ.getDatasetKey());
+    metrics = datasetService.getMetrics(occ.getDatasetKey());
 
     return SUCCESS;
   }
@@ -64,5 +63,9 @@ public class DetailAction extends BaseAction {
 
   public Dataset getDataset() {
     return dataset;
+  }
+
+  public NetworkEntityMetrics getMetrics() {
+    return metrics;
   }
 }

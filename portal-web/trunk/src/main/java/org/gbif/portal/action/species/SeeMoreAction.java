@@ -30,7 +30,7 @@ public class SeeMoreAction<T extends NameUsageComponent> extends UsageAction {
     if (usage.isNub()) {
       Set<UUID> cids = new HashSet<UUID>();
       for (T comp : page.getResults()) {
-        cids.add(comp.getChecklistKey());
+        cids.add(comp.getDatasetKey());
       }
       loadChecklists(cids);
     }

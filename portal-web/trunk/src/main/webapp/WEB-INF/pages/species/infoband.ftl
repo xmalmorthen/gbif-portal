@@ -13,7 +13,7 @@
 
   <h1>${usage.scientificName}</h1>
 
-  <h3>according to <a href="<@s.url value='/dataset/${checklist.key}'/>">${checklist.title!"???"}</a></h3>
+  <h3>according to <a href="<@s.url value='/dataset/${dataset.key}'/>">${dataset.title!"???"}</a></h3>
 
   <h3>${usage.higherClassification!}</h3>
 
