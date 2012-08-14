@@ -46,6 +46,9 @@
     _setValue: function(val) {
       this.filter.value = val;
     },
+    _setMaxValue: function(val) {
+      this.filter.maxValue = val;
+    },
     _setSubjectId: function(val) {
       this.filter.subjectId = val;
     },
@@ -93,8 +96,12 @@
               that._setPredicate(null);
               that._setPredicateId(null);
               that._setValue(null);
+              that._setMaxValue(null);
               that._renderFilter(filter);
               that.descriptionContainer.html(filter.description);
+              that.descriptionContainer.show();
+              that.errorContainer.hide();
+              $("#addFilterBtn").attr('disabled',false);
             }
           });
         });    
@@ -117,8 +124,13 @@
 
       that.addFilter = $("<INPUT type='submit' id='addFilterBtn' value='Add filter'></INPUT>");
       // Register the add filter event for public subscription
-      that.addFilter.bind('click', function(event) {
+      that.addFilter.bind('click', function(event) {        
         that._fireAddFilter();
+        that._setValue(null);
+        that._setMaxValue(null);
+        $("#filter-container :text").each( function(idx,element){
+          $(element).val('');
+        });
       });
       that.addFilter.appendTo(self);
     },
@@ -160,7 +172,14 @@
                 });
 
                 that._setPredicateId(predicateId);
-                that._setValue(value);
+                if(value.indexOf(',') == -1){
+                  that._setValue(value);
+                  that._setMaxValue(null);
+                }else{
+                  var splitValue = value.split(',');
+                  that._setValue(splitValue[0]);
+                  that._setMaxValue(splitValue[1]);
+                }
                 console.log(subjectId + ": " + predicateId + ": " + value);
                 that._fireAddFilter();
               }
@@ -292,26 +311,12 @@
       }
       return true;
     },
-    _init : function() {
+    _createInput : function(data,isMaxValue){
       var that = this;
-      var self = this.element;
-      var parent = this.options.parent; // the owning widget
-      var data = this.options.data;
-
-      console.log("Rendering SimpleSelect");
-      var el = $('<SELECT/>').addClass("predicate");
-      this.predicate = el;
-      $.each(data.predicate, function () {
-        el.append($('<OPTION></OPTION>').attr('value',this.value).text(this.label));    
-      });
-      el.bind('change', function(event) {
-        parent._setPredicate($(el).find("option[value='" + el.val() + "']").text());
-        parent._setPredicateId(el.val());
-      });    
-      el.change();
-
       var size = 30; //DEFAULT SIZE
       var maxLength = 30; //DEFAULT MAX LENGTH
+      var parent = this.options.parent; // the owning widget
+      var input = null;
       if(data.size){
         size = data.size;
       }      
@@ -319,7 +324,7 @@
         maxLength = data.maxLength;
       }
       
-      this.value = $('<INPUT SIZE="'+size+'" MAXLENGTH="'+maxLength+'"/>');
+      input = $('<INPUT SIZE="'+size+'" MAXLENGTH="'+maxLength+'"/>');
       
       var maxValue = null;
       var minValue = null;
@@ -341,34 +346,79 @@
         if(data.integerPrecision !== null){
           intPrecision = data.integerPrecision;
         }
-        this.value.keydown(function(event) { that._numbersOnly(event,isDecimal,decimalPrecision,intPrecision) });
-        this.value.change(function(event) { $("#addFilterBtn").attr('disabled',!that._isValidNumber(event.target.value,isDecimal,minValue,maxValue));});
+        input.keydown(function(event) { that._numbersOnly(event,isDecimal,decimalPrecision,intPrecision) });
+        input.change(function(event) { $("#addFilterBtn").attr('disabled',!that._isValidNumber(event.target.value,isDecimal,minValue,maxValue));});
       }
-
-      this.value.bind('change', function(e) {
+      
+      input.bind('change', function(e) {
         console.log("Filter value changed to " + e.target.value);
-        parent._setValue(e.target.value);
+        that._setValue(e.target.value,isMaxValue,parent);
       });    
 
       // trigger an add filter on carriage return
-      this.value.bind('keypress', function(e) {
+      input.bind('keypress', function(e) {
         var code = (e.keyCode ? e.keyCode : e.which);
         if(code == 13) {
           if(isANumber){
             var isValidNumber = that._isValidNumber(e.target.value,isDecimal,minValue,maxValue);
             $("#addFilterBtn").attr('disabled',!isValidNumber);
             if(isValidNumber){
-              parent._setValue(e.target.value);
+              that._setValue(e.target.value,isMaxValue,parent);
               parent._fireAddFilter();
             }
           }else{
-            parent._setValue(e.target.value);
-            parent._fireAddFilter();
+            that._setValue(e.target.value,isMaxValue,parent);
           }
         }
-      });
+      });            
+      return input;
+    },
+    _setValue : function(value,isMaxValue,widget){
+      if(isMaxValue){
+        widget._setMaxValue(value);
+      }
+      else {
+        widget._setValue(value);
+      }
+    }
+    ,_init : function() {
+      var that = this;      
+      var self = this.element;
+      var parent = this.options.parent; // the owning widget
+      var data = this.options.data;
 
-      self.empty().append(el).append(this.value);	 
+      console.log("Rendering SimpleSelect");
+      var el = $('<SELECT/>').addClass("predicate");
+      this.predicate = el;
+      $.each(data.predicate, function () {
+        var opt = $('<OPTION></OPTION>');
+        opt.attr('value',this.value).text(this.label);
+        if(this.isRange != 'undefined' && this.isRange){
+          opt.addClass("range");          
+        }
+        el.append(opt);
+      });
+      el.bind('change', function(event) {
+        var selectedOpt = $(el).find("option[value='" + el.val() + "']");
+        parent._setPredicate(selectedOpt.text());
+        parent._setPredicateId(el.val());
+        if($(selectedOpt).hasClass('range')){
+          that.valueMax.show();
+        } else if(that.valueMax) {
+            that.valueMax.val('');
+            that.valueMax.hide();
+        }
+      });    
+      el.change();
+
+      this.value = that._createInput(data,false);
+      self.empty().append(el).append(this.value);
+      
+      if(data.isRange != 'undefined' && data.isRange){
+        this.valueMax = that._createInput(data,true);
+        this.valueMax.hide();
+        self.append(this.valueMax);
+      }
     },
   });
 
@@ -510,9 +560,6 @@
         map: map
       });
 
-
-
-
       $(".add_polygon").bind('click', function(e) {
         //map.setOptions({draggableCursor:'crosshair'});
         //var geometry_creator_ = new GeometryCreator(map);
@@ -535,10 +582,10 @@
       this._filters = [];
     },
     //removes a filter
-    remove : function(i){
+    remove : function(i){      
       this._filters.splice(i,1);
       this._refresh();
-      this._trigger('removeFilter', null, {widget : this});
+      this._trigger('removeFilter', null, {widget : this,idx: i});
     },
     add: function(filter) {
       // copy the values and put in the array
@@ -547,7 +594,8 @@
         subjectId: filter.subjectId,
         predicate: filter.predicate,
         predicateId: filter.predicateId,
-        value: filter.value});
+        value: filter.value,
+        maxValue: filter.maxValue});
 
       this._refresh();
     }, 
@@ -577,7 +625,13 @@
         link = $("<A href='#' id='" + "fRemLnk" + i +"'>remove</A></LI>");
         //binds the click function to widget.remove function
         link.click(function() {widget.remove(i);});
-        $("<LI>" + prefix + filter.value + " </LI>").appendTo(ul).append(link);
+        var value = null;
+        if(filter.maxValue != 'undefined' && filter.maxValue != null){
+          value =  filter.value + " AND " + filter.maxValue;
+        }else {
+          value =  filter.value;
+        }
+        $("<LI>" + prefix + value + " </LI>").appendTo(ul).append(link);
       });
     },
 
@@ -588,7 +642,13 @@
         else s += "?";
         s += "f[" + i + "].s=" + filter.subjectId;
         s += "&f[" + i + "].p=" + filter.predicateId;
-        s += "&f[" + i + "].v=" + filter.value;
+        var value = null;
+        if(filter.maxValue != 'undefined' && filter.maxValue != null){
+          value =  filter.value + "," + filter.maxValue;
+        }else {
+          value =  filter.value;
+        }
+        s += "&f[" + i + "].v=" + value;
       });
       return s;
     },    

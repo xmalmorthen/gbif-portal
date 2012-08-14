@@ -9,6 +9,7 @@ import org.gbif.occurrencestore.download.api.model.predicate.EqualsPredicate;
 import org.gbif.occurrencestore.download.api.model.predicate.GreaterThanPredicate;
 import org.gbif.occurrencestore.download.api.model.predicate.LessThanPredicate;
 import org.gbif.occurrencestore.download.api.model.predicate.Predicate;
+import org.gbif.occurrencestore.download.api.model.predicate.SimplePredicate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +32,42 @@ import org.slf4j.LoggerFactory;
  */
 public class PredicateFactory {
 
+  public class BetweenPredicate extends SimplePredicate {
+
+    private final String valueMax;
+
+
+    public BetweenPredicate(String key, String valueMin, String valueMax) {
+      super(key, valueMin);
+      this.valueMax = valueMax;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+
+      if (!(obj instanceof BetweenPredicate)) {
+        return false;
+      }
+
+      BetweenPredicate that = (BetweenPredicate) obj;
+      return Objects.equal(this.getKey(), that.getKey()) && Objects.equal(this.getValue(), that.getValue())
+        && Objects.equal(this.getValueMax(), that.getValueMax());
+    }
+
+    /**
+     * @return the valueMax
+     */
+    public String getValueMax() {
+      return valueMax;
+    }
+  }
   // This is a placeholder to map from the JSON definition for the UI to
   // that needed by the Predicate
   private enum TypeMapping {
-    EQUALS("0"), GREATER_THAN("1"), LESS_THAN("2"), STARTS_WITH("3"), ;
+    EQUALS("0"), GREATER_THAN("1"), LESS_THAN("2"), STARTS_WITH("3"), BETWEEN("4"), ;
 
     private final String id;
 
@@ -94,6 +128,10 @@ public class PredicateFactory {
         return new GreaterThanPredicate(queryFieldMapping.get(t.getSubject()), t.getValue());
       } else if (TypeMapping.LESS_THAN.getValue().equals(t.getPredicate())) {
         return new LessThanPredicate(queryFieldMapping.get(t.getSubject()), t.getValue());
+      } else if (TypeMapping.BETWEEN.getValue().equals(t.getPredicate())) {
+        // The value comes in form minValue,maxValue
+        String splitValue[] = t.getValue().split(",");
+        return new BetweenPredicate(queryFieldMapping.get(t.getSubject()), splitValue[0], splitValue[1]);
       }
     } else {
       LOG.warn("Query mapping does not contain {}", t.getSubject());

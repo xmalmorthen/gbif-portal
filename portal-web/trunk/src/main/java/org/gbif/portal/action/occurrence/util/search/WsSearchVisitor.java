@@ -8,6 +8,7 @@ import org.gbif.occurrencestore.download.api.model.predicate.GreaterThanPredicat
 import org.gbif.occurrencestore.download.api.model.predicate.LessThanPredicate;
 import org.gbif.occurrencestore.download.api.model.predicate.Predicate;
 import org.gbif.occurrencestore.download.api.model.predicate.SimplePredicate;
+import org.gbif.portal.action.occurrence.util.PredicateFactory.BetweenPredicate;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -25,8 +26,14 @@ public class WsSearchVisitor {
   // Value place holder
   private static final String V_PLACE_HOLDER = "\\$v";
 
+  private static final String VMIN_PLACE_HOLDER = "\\$v1";
+
+  private static final String VMAX_PLACE_HOLDER = "\\$v2";
+
   private static final String GREATER_THAN_OPERATOR = "[* TO " + V_PLACE_HOLDER + "]";
   private static final String LESS_THAN_OPERATOR = "[" + V_PLACE_HOLDER + " TO *]";
+
+  private static final String BETWEEN_THAN_OPERATOR = "[" + VMIN_PLACE_HOLDER + " TO " + VMAX_PLACE_HOLDER + "]";
 
   private Multimap<String, String> params;
 
@@ -43,6 +50,11 @@ public class WsSearchVisitor {
       visit(predicate);
     }
     return params;
+  }
+
+  public void visit(BetweenPredicate predicate) {
+    params.put(predicate.getKey(), BETWEEN_THAN_OPERATOR.replaceAll(VMIN_PLACE_HOLDER, predicate.getValue())
+      .replaceAll(VMAX_PLACE_HOLDER, predicate.getValueMax()));
   }
 
   public void visit(ConjunctionPredicate predicate) throws QueryBuildingException {

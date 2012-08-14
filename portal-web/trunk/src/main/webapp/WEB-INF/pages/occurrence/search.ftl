@@ -12,8 +12,12 @@
         removeFilter: function(event, data) {
          if(data.widget._filters.length == 0) {          
             $('#submit-button').hide();
-            $('#searchTitle').hide();
+            $('#searchTitle').hide();            
           }
+          //if the filter is in the url the form is submitted again
+          if(window.location.href.indexOf('f['+data.idx+']') != -1){
+            $('#submit-button').click();
+          }         
         }
       });
 
@@ -31,19 +35,29 @@
         // construct the query parameters again.  This will remove ALL
         // parameters and reconstruct the URL with the new filter
         // This might cause issues in the future, if other parameters are needed
-        // https://github.com/allmarkedup/jQuery-URL-Parser         
+        // https://github.com/allmarkedup/jQuery-URL-Parser
+        var params = {};         
          if($("#datasetKey").val()){
-            query.Query("add",'datasetKey=' + $("#datasetKey").val());            
+            params['datasetKey'] = $("#datasetKey").val();            
          }
          if($("#nubKey").val()){
-            query.Query("add",'nubKey=' + $("#nubKey").val());
-         }
-         
-        var u = $.url();     
-        
-        window.location = "<@s.url value='/occurrence/search'/>" + query.Query("serialize");
+            params['nubKey'] = $("#nubKey").val();
+         }        
+        var u = $.url();
+             
+        var filterParams = query.Query("serialize");
+        var additionalParams = $.param(params);
+        if (additionalParams.length > 0){
+          if(filterParams.length > 0){
+            filterParams = filterParams + "&" + additionalParams;
+          }else{
+            filterParams = filterParams + "?" + additionalParams;
+          }
+        }
+        window.location = "<@s.url value='/occurrence/search'/>" + filterParams;
         return true;  // submit?
       });
+            
     </script>
   </content>
 </head>
@@ -66,8 +80,8 @@
     <div class="left">      
       <div id='filter-container'></div>
       <br>
-      <input type="hidden" value="${datasetKey}" name="datasetKey"/>
-      <input type="hidden" value="${nubKey}" name="nubKey"/>
+      <input type="hidden" value="${datasetKey}" name="datasetKey" id="datasetKey"/>
+      <input type="hidden" value="${nubKey}" name="nubKey" id="nubKey"/>
       <#if searchResponse.count gt 0>
         <div style="overflow: auto !important;"> 
            <table id="tableResults" class="hor-minimalist-b">
@@ -114,6 +128,7 @@
   <div class="right">
     <div id='query-container'></div>      
     <input type="submit" value="Search" id="submit-button" style="display: none"/>
+        
     <div class="download">
       <div class="dropdown">
         <a href="#" class="title" title="Download description"><span>Download occurrences</span></a>

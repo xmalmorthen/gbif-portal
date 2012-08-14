@@ -118,7 +118,6 @@ public class SearchAction extends BaseAction {
     return searchResponse;
   }
 
-
   /**
    * @param datasetKey the datasetKey to set
    */

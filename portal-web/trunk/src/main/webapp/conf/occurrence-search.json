@@ -87,11 +87,20 @@
               {
                 "label":"Is less than",
                 "value":2
+              },
+              {
+                "label":"Between",
+                "value":4,
+                "isRange":true
               }
             ],
             "dataType":"numeric",
             "size":"10",
-            "maxlength":4
+            "maxlength":4,
+            "isRange":true,
+            "maxValue" : 2012,
+            "minValue" : 0,
+            "integerPrecision": 4
           }
         },
         {
