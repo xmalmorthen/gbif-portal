@@ -57,11 +57,7 @@ public class GuiceServletConfig extends GuiceServletContextListener {
       modules.add(new InMemoryTileModule(p.get(PROP_CSV).toString(), zooms, pixelsPerCluster));
     } else if (TYPE_HBASE.equals(p.getProperty(PROP_STORAGE_TYPE))) {
       LOG.info("Configuration declares an HBase backed DataCube");
-      try {
-        modules.add(new DensityCubeHBaseModule(p));
-      } catch (IOException e) {
-        throw new IllegalStateException("Fail to enable DensityCubeHBaseModule", e);
-      }
+      modules.add(new DensityCubeHBaseModule(p));
     } else {
       throw new RuntimeException(PROP_STORAGE_TYPE + " is not a valid.  Use one of " + Joiner.on(",").join(TYPE_CSV_MEMORY, TYPE_HBASE));
     }
