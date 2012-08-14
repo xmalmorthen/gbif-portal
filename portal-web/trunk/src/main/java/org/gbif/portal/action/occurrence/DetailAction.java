@@ -39,7 +39,7 @@ public class DetailAction extends BaseAction {
     }
     // load dataset
     dataset = datasetService.get(occ.getDatasetKey());
-    metrics = datasetService.getMetrics(occ.getDatasetKey());
+    //metrics = datasetService.getMetrics(occ.getDatasetKey());
 
     return SUCCESS;
   }

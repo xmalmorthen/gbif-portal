@@ -51,7 +51,7 @@ public class UsageAction extends BaseAction {
     usage = new NameUsageContainer(u);
     // load checklist
     dataset = datasetService.get(usage.getDatasetKey());
-    metrics = datasetService.getMetrics(usage.getDatasetKey());
+//    metrics = datasetService.getMetrics(usage.getDatasetKey());
   }
 
   /**
