@@ -15,9 +15,9 @@
 <#-- RDFa -->
   <meta property="dwc:scientificName" content="${usage.scientificName!}"/>
   <meta property="dwc:kingdom" content="${usage.kingdom!}"/>
-  <meta property="dwc:datasetID" content="${dataset.key}"/>
-  <meta property="dwc:datasetName" content="${dataset.title!"???"}"/>
-  <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${dataset.key}'/>"/>
+  <meta property="dwc:datasetID" content="${usage.datasetKey}"/>
+  <meta property="dwc:datasetName" content="${(dataset.title)!"???"}"/>
+  <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${usage.datasetKey}'/>"/>
 </head>
 <body class="species densitymap">
 
@@ -28,7 +28,7 @@
 <#-- Warn that this is not a nub page -->
 <@common.notice title="This is a particular view of ${usage.canonicalOrScientificName!}">
   <p>This is the <em>${usage.scientificName}</em> view,
-    as seen by <a href="<@s.url value='/dataset/${dataset.key}'/>">${dataset.title!"???"}</a> checklist.
+    as seen by <a href="<@s.url value='/dataset/${usage.datasetKey}'/>">${(dataset.title)!"???"}</a> checklist.
     <#if usage.nubKey?exists>
       Remember that you can also check the
       <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view on ${usage.canonicalOrScientificName!}</a>.
@@ -139,7 +139,7 @@
     <li><a href="${i.identifierLink}" title="${i.title!i.type!}">
       <#if i.title?has_content>${i.title}
       <#else>
-      ${common.limit( datasets.get(i.checklistKey).title ,30)}
+      ${common.limit( datasets.get(i.datasetKey).title ,30)}
       </#if>
     </a></li>
   </#list>
@@ -271,7 +271,7 @@
         <#if nub>
           <h3>Dataset</h3>
 
-          <p><a href="<@s.url value='/species/${img1.usageKey}'/>">${datasets.get(img1.checklistKey).title}</a></p>
+          <p><a href="<@s.url value='/species/${img1.usageKey}'/>">${(datasets.get(img1.datasetKey).title)!"???"}</a></p>
         </#if>
 
         <#if img1.publisher?has_content>
@@ -327,7 +327,7 @@
               <#assign more=true/>
               <#break />
             </#if>
-            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${datasets.get(rel.checklistKey).title}</a>
+            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${(datasets.get(rel.datasetKey).title)!"???"}</a>
               <span class="note">${rel.scientificName}</span>
             </li>
           </#list>
@@ -500,7 +500,7 @@
       <p class="placeholder_temp">Released under an Open Data licence, so it can be used to anyone who cites it. </p>
 
       <h3>HOW TO CITE IT</h3>
-      <p>${usage.scientificName} according to ${dataset.title!} <br/>
+      <p>${usage.scientificName} according to ${(dataset.title)!} <br/>
         (accessed through GBIF data portal, <a href="<@s.url value='/species/${id?c}'/>">${baseUrl!}<@s.url value='/species/${id?c}'/></a>, ${.now?date?iso_utc})
       </p>
     </div>

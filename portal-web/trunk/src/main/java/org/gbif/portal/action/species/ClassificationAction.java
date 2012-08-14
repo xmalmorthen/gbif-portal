@@ -4,7 +4,7 @@ import org.gbif.checklistbank.api.model.NameUsage;
 
 import java.util.List;
 
-public class ClassificationAction extends UsageAction {
+public class ClassificationAction extends UsageBaseAction {
 
   private List<NameUsage> parents;
 

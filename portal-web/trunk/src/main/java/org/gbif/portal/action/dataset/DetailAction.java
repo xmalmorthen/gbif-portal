@@ -8,14 +8,9 @@
  */
 package org.gbif.portal.action.dataset;
 
-import org.gbif.api.exception.NotFoundException;
-import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Contact;
-import org.gbif.registry.api.model.Dataset;
-import org.gbif.registry.api.model.NetworkEntityMetrics;
 import org.gbif.registry.api.model.Organization;
 import org.gbif.registry.api.model.TechnicalInstallation;
-import org.gbif.registry.api.service.DatasetService;
 import org.gbif.registry.api.service.OrganizationService;
 import org.gbif.registry.api.service.TechnicalInstallationService;
 
@@ -26,21 +21,15 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DetailAction extends BaseAction {
+public class DetailAction extends DatasetBaseAction {
 
   private static final Logger LOG = LoggerFactory.getLogger(DetailAction.class);
 
   // detail
-  private String id;
-  private Dataset dataset;
-  private NetworkEntityMetrics metrics;
   private Organization owningOrganization;
   private Organization hostingOrganization;
   private List<Contact> preferredContacts;
   private List<Contact> otherContacts;
-
-  @Inject
-  private DatasetService datasetService;
 
   @Inject
   private OrganizationService organizationService;
@@ -50,16 +39,7 @@ public class DetailAction extends BaseAction {
 
   @Override
   public String execute() {
-    LOG.debug("Fetching detail for dataset id [{}]", id);
-    if (id == null) {
-      throw new NotFoundException();
-    }
-
-    dataset = datasetService.get(id);
-    if (dataset == null) {
-      LOG.error("No dataset found with id {}", id);
-      throw new NotFoundException();
-    }
+    super.execute();
 
     // are there preferred (primary) contacts
     separateContacts(dataset.getContacts());
@@ -78,18 +58,6 @@ public class DetailAction extends BaseAction {
     return SUCCESS;
   }
 
-  public Dataset getDataset() {
-    return dataset;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public Dataset getMember() {
-    return dataset;
-  }
-
   public List<Contact> getOtherContacts() {
     return otherContacts;
   }
@@ -104,15 +72,6 @@ public class DetailAction extends BaseAction {
   public List<Contact> getPreferredContacts() {
     return preferredContacts;
   }
-
-  public void setDataset(Dataset dataset) {
-    this.dataset = dataset;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
 
   /**
    * @return the hostingOrganization
@@ -144,7 +103,4 @@ public class DetailAction extends BaseAction {
     }
   }
 
-  public NetworkEntityMetrics getMetrics() {
-    return metrics;
-  }
 }

@@ -18,9 +18,9 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UsageAction extends BaseAction {
+public class UsageBaseAction extends BaseAction {
 
-  private static final Logger LOG = LoggerFactory.getLogger(UsageAction.class);
+  private static final Logger LOG = LoggerFactory.getLogger(UsageBaseAction.class);
 
   @Inject
   protected NameUsageService usageService;

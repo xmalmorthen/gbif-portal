@@ -26,7 +26,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 
-public class DetailAction extends UsageAction {
+public class DetailAction extends UsageBaseAction {
 
   @Inject
   private VernacularNameService vernacularNameService;

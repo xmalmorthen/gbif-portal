@@ -1,11 +1,12 @@
-<!-- Removed as needs to be replaced by Leaflet -->
-<!--content tag="extra_scripts">
+<#-- Removed as needs to be replaced by Leaflet -->
+<#-- content tag="extra_scripts">
   <link rel="stylesheet" href="<@s.url value='/css/google.css'/>"/>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=true"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/OpenLayers.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/openlayers_addons.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/Infowindow.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/types_map.js'/>"></script>
+-->
   <!-- needs to be well known text: http://en.wikipedia.org/wiki/Well-known_text#Geometric_Objects -->
   <script type="text/javascript">
     var map_features = new Array();

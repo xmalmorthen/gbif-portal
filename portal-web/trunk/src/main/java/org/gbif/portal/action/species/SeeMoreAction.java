@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class SeeMoreAction<T extends NameUsageComponent> extends UsageAction {
+public class SeeMoreAction<T extends NameUsageComponent> extends UsageBaseAction {
 
   private PagingResponse<T> page;
   private long offset = 0;

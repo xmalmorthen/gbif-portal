@@ -11,7 +11,7 @@
   <div class="content">
 
     <div class="header">
-      <div class="right"><h2>1,453 georeferenced occurrences</h2></div>
+      <div class="right"><h2>${(metrics.countGeoreferenced)!"Unkown"} georeferenced occurrences</h2></div>
     </div>
 
     <div class="right">

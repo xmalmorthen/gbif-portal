@@ -1,15 +1,21 @@
 package org.gbif.portal.action;
 
 import org.gbif.api.model.User;
+import org.gbif.api.model.vocabulary.Kingdom;
+import org.gbif.api.model.vocabulary.Rank;
 import org.gbif.portal.config.Config;
 import org.gbif.portal.config.Constants;
+import org.gbif.registry.api.model.vocabulary.Extension;
 
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.interceptor.ServletRequestAware;
@@ -24,7 +30,17 @@ public abstract class BaseAction extends ActionSupport
   protected Map<String, Object> session;
   protected HttpServletRequest request;
   protected ServletContext ctx;
-
+  private static final List<Kingdom> KINGDOMS = ImmutableList.of(
+    Kingdom.ANIMALIA,
+    Kingdom.ARCHAEA,
+    Kingdom.BACTERIA,
+    Kingdom.CHROMISTA,
+    Kingdom.FUNGI,
+    Kingdom.PLANTAE,
+    Kingdom.PROTOZOA,
+    Kingdom.VIRUSES,
+    Kingdom.INCERTAE_SEDIS
+  );
 
   @Inject
   private Config cfg;
@@ -136,4 +152,18 @@ public abstract class BaseAction extends ActionSupport
     }
     return false;
   }
+
+  public List<Kingdom> getKingdomEnum() {
+    return KINGDOMS;
+  }
+  public List<Rank> getRankEnum() {
+    return Rank.LINNEAN_RANKS;
+  }
+  public List<Extension> getExtensionEnum() {
+    return Lists.newArrayList(Extension.values());
+  }
+  public Rank getSpeciesRank() {
+    return Rank.SPECIES;
+  }
+
 }

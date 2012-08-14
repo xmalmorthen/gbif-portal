@@ -12,7 +12,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-public class DatasetAction extends UsageAction {
+public class DatasetAction extends UsageBaseAction {
 
   private long offset = 0;
   private DatasetType type;

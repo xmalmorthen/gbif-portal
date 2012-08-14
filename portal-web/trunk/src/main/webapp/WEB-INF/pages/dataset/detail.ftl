@@ -228,29 +228,36 @@
 </div>
 
 <div class="right">
-  <h3>Statistics</h3>
-  <ul>
-    <li>Species <span class="number">${(checklist.numSpecies)!"?"}</span></li>
-    <li>Genera <span class="number">${(checklist.numGenera)!"?"}</span></li>
-    <li>Families <span class="number">${(checklist.numFamilies)!"?"}</span></li>
-  <#--
-    <li>Plants <span class="number">33.111</span></li>
-    <li>Animals <span class="number">0</span></li>
-    <li>Fungi <span class="number">20.052</span></li>
-    <li>Bacteria <span class="number">12</span></li>
-    <li>Other <span class="number placeholder_temp">115</span></li>
-  -->
-  </ul>
-  <#if checklist??>
+  <#if metrics.countByKingdom?has_content>
+    <h3>By Kingdom</h3>
+    <ul>
+      <#list kingdomEnum as k>
+        <#if metrics.countByKingdom(k)?has_content>
+          <li><@s.text name="enum.kingdom.${k}"/> <span class="number">${metrics.countByKingdom(k)!0}</span></li>
+        </#if>
+      </#list>
+    </ul>
+  </#if>
+
+  <#if metrics.countByRank?has_content>
+    <h3>By Rank</h3>
+    <ul>
+      <#list rankEnum as k>
+        <#if metrics.countByRank(k)?has_content>
+          <li><@s.text name="enum.rank.${k}"/> <span class="number">${metrics.countByRank(k)!0}</span></li>
+        </#if>
+      </#list>
+    </ul>
+  </#if>
+
+  <#if metrics.countExtensionRecords?has_content>
     <h3>Associated Data</h3>
     <ul>
-      <li>Common names <span class="number">${checklist.numVernacularNames}</span></li>
-      <li>Descriptions <span class="number">${checklist.numDescriptions}</span></li>
-      <li>Distributions <span class="number">${checklist.numDistributions}</span></li>
-      <li>Images <span class="number">${checklist.numImages}</span></li>
-      <li>References <span class="number">${checklist.numReferences}</span></li>
-      <li>Species Profiles <span class="number">${checklist.numSpeciesProfiles}</span></li>
-      <li>TypeSpecimen <span class="number">${checklist.numTypes}</span></li>
+      <#list extensionEnum as k>
+        <#if ((metrics.getExtensionRecordCount(k)!0)>0)>
+          <li><@s.text name="enum.extension.${k}"/> <span class="number">${metrics.getExtensionRecordCount(k)!0}</span></li>
+        </#if>
+      </#list>
     </ul>
   </#if>
 </div>

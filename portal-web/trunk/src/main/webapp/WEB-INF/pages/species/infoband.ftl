@@ -13,18 +13,9 @@
 
   <h1>${usage.scientificName}</h1>
 
-  <h3>according to <a href="<@s.url value='/dataset/${dataset.key}'/>">${dataset.title!"???"}</a></h3>
+  <h3>according to <a href="<@s.url value='/dataset/${usage.datasetKey}'/>">${(dataset.title)!"???"}</a></h3>
 
   <h3>${usage.higherClassification!}</h3>
-
-  <!--
-  <h3 class="separator">${usage.higherClassification!}</h3>
-  <ul class="tags">
-    <li><a href="#" title="Turkey">Turkey</a></li>
-    <li><a href="#" title="coastal">coastal</a></li>
-    <li class="last"><a href="#" title="herbal">herbal</a></li>
-  </ul>
-  -->
 
 <#if usage.nub>
   <div class="box">

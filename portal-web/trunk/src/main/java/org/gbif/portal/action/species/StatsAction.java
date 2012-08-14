@@ -11,7 +11,7 @@ package org.gbif.portal.action.species;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StatsAction extends UsageAction {
+public class StatsAction extends UsageBaseAction {
   private static final Logger LOG = LoggerFactory.getLogger(StatsAction.class);
 
 
