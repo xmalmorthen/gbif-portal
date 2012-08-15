@@ -51,7 +51,11 @@ public class UsageBaseAction extends BaseAction {
     usage = new NameUsageContainer(u);
     // load checklist
     dataset = datasetService.get(usage.getDatasetKey());
-//    metrics = datasetService.getMetrics(usage.getDatasetKey());
+    try {
+      metrics = datasetService.getMetrics(usage.getDatasetKey());
+    } catch (NotFoundException e) {
+      LOG.warn("Cant get metrics for dataset {}", usage.getDatasetKey(), e);
+    }
   }
 
   /**

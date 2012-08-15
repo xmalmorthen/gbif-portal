@@ -39,7 +39,11 @@ public class DetailAction extends BaseAction {
     }
     // load dataset
     dataset = datasetService.get(occ.getDatasetKey());
-    //metrics = datasetService.getMetrics(occ.getDatasetKey());
+    try {
+      metrics = datasetService.getMetrics(occ.getDatasetKey());
+    } catch (NotFoundException e) {
+      LOG.warn("Cant get metrics for dataset {}", occ.getDatasetKey(), e);
+    }
 
     return SUCCESS;
   }

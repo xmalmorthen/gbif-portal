@@ -1,12 +1,9 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.api.exception.NotFoundException;
-import org.gbif.api.model.vocabulary.Kingdom;
-import org.gbif.api.model.vocabulary.Rank;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Dataset;
 import org.gbif.registry.api.model.NetworkEntityMetrics;
-import org.gbif.registry.api.model.vocabulary.Extension;
 import org.gbif.registry.api.service.DatasetService;
 
 import java.util.UUID;
@@ -41,24 +38,13 @@ public class DatasetBaseAction extends BaseAction {
     }
 
     // get metrics
-    //TODO: remove once metrics webservice works
-    metrics = new NetworkEntityMetrics();
-    metrics.getCountExtensionRecords().put(Extension.IMAGE, 4);
-    metrics.getCountExtensionRecords().put(Extension.VERNACULAR_NAME, 44);
-    metrics.getCountByKingdom().put(Kingdom.ANIMALIA, 400);
-    metrics.getCountByKingdom().put(Kingdom.PLANTAE, 300);
-    metrics.getCountByKingdom().put(Kingdom.VIRUSES, 4);
-    metrics.getCountByKingdom().put(Kingdom.FUNGI, 14);
-    metrics.getCountByRank().put(Rank.SPECIES, 777);
-    metrics.getCountByRank().put(Rank.FAMILY, 77);
-    metrics.getCountByRank().put(Rank.KINGDOM, 7);
-    metrics.getCountByRank().put(Rank.INFRASPECIFIC_NAME, 99);
-    metrics.setCountIndexed(432011);
     try {
-      UUID key = UUID.fromString(id);
-      metrics.setNetworkEntityKey(key);
-      //metrics = datasetService.getMetrics(key);
+      key = UUID.fromString(id);
+      metrics = datasetService.getMetrics(key);
+    } catch (NotFoundException e) {
+      LOG.warn("Cant get metrics for dataset {}", key, e);
     } catch (IllegalArgumentException e) {
+      // ignore external datasets without a uuid
     }
 
     return SUCCESS;
