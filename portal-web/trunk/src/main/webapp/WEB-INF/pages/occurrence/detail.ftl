@@ -160,7 +160,7 @@
     <div class="right">
       <#if occ.identificationDate??>
         <h3>Identification date </h3>
-        <p>${occ.identificationDate}</p>
+        <p>${occ.identificationDate?date?iso_utc}}</p>
       </#if>
 
       <#if occ.identifierName??>
