@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.gbif.user.mybatis.UserMapper" >
+
+  <resultMap id="ResultMapUser" type="User" >
+    <id column="name" property="name" jdbcType="VARCHAR" />
+    <result column="mail" property="email" jdbcType="VARCHAR" />
+    <result column="firstname" property="firstName" jdbcType="VARCHAR" />
+    <result column="lastname" property="lastName" jdbcType="VARCHAR" />
+    <result column="pass" property="passwordHash" jdbcType="VARCHAR" />
+
+    <collection property="roles" column="uid" javaType="java.util.HashSet" ofType="UserRole" select="selectRole" />
+  </resultMap>
+
+  <select id="get" resultMap="ResultMapUser" parameterType="java.lang.String">
+    select uid, name, mail, null as firstname, null as lastname, login, status, pass
+    from users
+    where name = #{x}
+  </select>
+
+  <select id="selectRole" resultType="UserRole" parameterType="java.lang.Integer">
+    SELECT rid FROM users_roles WHERE uid = #{uid}
+  </select>
+
+</mapper>
