@@ -85,7 +85,7 @@
       var u = $.url();
       // TODO: hand encoding is surely not right
       var emailParam = ($('#email-text').val()=="")?"":"&email=" + $('#email-text').val();
-      window.location = "<@s.url value='/occurrence/download'/>" + query.Query("serialize") + emailParam;
+      window.location = "<@s.url value='/occurrence/download/result'/>" + query.Query("serialize") + emailParam;
       return true;  // submit?
     });
 
