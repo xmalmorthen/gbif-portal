@@ -1,6 +1,7 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.api.exception.NotFoundException;
+import org.gbif.api.exception.ServiceUnavailableException;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Dataset;
 import org.gbif.registry.api.model.NetworkEntityMetrics;
@@ -46,6 +47,12 @@ public class DatasetBaseAction extends BaseAction {
     } catch (IllegalArgumentException e) {
       // ignore external datasets without a uuid
     }
+    // TODO: currently the getMetrics() just returns metrics for a checklist dataset, but if it is a
+    // an occurrence DS, it sends a HTTP 500, which makes the DS detail page load fail. This catch should remain here
+    // until the occurrence DS metrics is implemented and/or does not return a 500. Remove when implemented.
+    catch (ServiceUnavailableException e) {
+      metrics = new NetworkEntityMetrics();
+    }
 
     return SUCCESS;
   }
@@ -61,6 +68,7 @@ public class DatasetBaseAction extends BaseAction {
   public Dataset getDataset() {
     return dataset;
   }
+
   public Dataset getMember() {
     return dataset;
   }
