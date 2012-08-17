@@ -31,7 +31,7 @@
         <div class="result">
           <h2>
             <a href="<@s.url value='/species/${u.key?c}'/>"><strong>${u.scientificName}</strong></a>
-            <span class="note"><@s.text name="enum.rank.${u.rank!}"/></span>
+            <span class="note"><@s.text name='enum.rank.${(u.rank.interpreted)!"UNRANKED"}'/></span>
           </h2>
           <#if usage.nub>
             <p>according to ${u.accordingTo!u.origin!}</p>
