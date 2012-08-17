@@ -1852,8 +1852,8 @@ $.fn.bindSlideshow = function(opt) {
       function renderUsages($ps, data){
         $(data.results).each(function() {
           $htmlContent = "<li species=\"" + this.numSpecies + "\" children=\"" + this.numChildren + "\">";
-          $htmlContent += "<span spid=\"" + this.key + "\" spname=\"" + this.canonicalName + "\">";
-          $htmlContent += this.canonicalName;
+          $htmlContent += "<span spid=\"" + this.key + "\" spname=\"" + this.canonicalOrScientificName + "\">";
+          $htmlContent += this.canonicalOrScientificName;
           $htmlContent += "<span class=\"rank\">" + $i18nresources.getString("enum.rank." + (this.rank.interpreted || "unknown")) + "</span>";
           $htmlContent += "</span>";
           $htmlContent += "<a href=\"" + cfg.baseUrl + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>";
