@@ -24,7 +24,7 @@
           <hgroup>
             <h2>${parents?size} taxonomy levels for "${usage.canonicalOrScientificName!"???"}"</h2>
 
-            <h3>According to <a href="<@s.url value='/dataset/${usage.datasetKey}'/>">${dataset.name!"???"}</a></h3>
+            <h3>According to <a href="<@s.url value='/dataset/${usage.datasetKey}'/>">${dataset.title!"???"}</a></h3>
           </hgroup>
         </div>
       </div>
@@ -34,7 +34,7 @@
         <#assign indent = 30 />
         <#list parents as p>
           <li>
-            <span class="taxon_level">${p.rank.interpreted!}</span>
+            <span class="taxon_level">${(p.rank.interpreted)!(p.rank.verbatim)!}</span>
             <span class="separator" style="width:${indent}px"></span>
             <a href="<@s.url value='/species/${p.key?c}'/>">${p.scientificName!"???"}</a>
           </li>

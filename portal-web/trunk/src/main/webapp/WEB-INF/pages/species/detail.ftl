@@ -66,7 +66,6 @@
 
 <#if (usage.nomenclaturalStatus.interpreted)?has_content>
   <h3>Nomenclatural Status</h3>
-
   <p>${usage.nomenclaturalStatus.interpreted}</p>
 </#if>
 

@@ -8,7 +8,7 @@
 -->
 <content tag="infoband">
   <ul class="breadcrumb">
-    <li class="last">${((usage.rank.interpreted)!"Unranked")?capitalize}</li>
+    <li class="last">${((usage.rank.interpreted)!(usage.rank.verbatim)!"Unranked")?capitalize}</li>
   </ul>
 
   <h1>${usage.scientificName}</h1>
