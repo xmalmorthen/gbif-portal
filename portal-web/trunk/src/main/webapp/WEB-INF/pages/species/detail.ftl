@@ -171,7 +171,7 @@
     <div class="right">
 
       <div class="big_number">
-      <#if usage.rank.interpreted.isSpeciesOrBelow()>
+      <#if (usage.rank.interpreted)?? && usage.rank.interpreted.isSpeciesOrBelow()>
         <span>${usage.numDescendants}</span> Infraspecies
       <#else>
         <span>${usage.numSpecies}</span> Species
