@@ -3,9 +3,9 @@ package org.gbif.portal.action;
 import org.gbif.api.model.User;
 import org.gbif.api.model.vocabulary.Kingdom;
 import org.gbif.api.model.vocabulary.Rank;
+import org.gbif.checklistbank.api.model.vocabulary.Extension;
 import org.gbif.portal.config.Config;
 import org.gbif.portal.config.Constants;
-import org.gbif.registry.api.model.vocabulary.Extension;
 
 import java.util.List;
 import java.util.Map;

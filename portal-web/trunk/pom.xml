@@ -45,7 +45,7 @@
     <notDevMode>false</notDevMode>
 
     <!-- dependency versions -->
-    <gbif-common-api.version>0.3-SNAPSHOT</gbif-common-api.version>
+    <gbif-common-api.version>0.3</gbif-common-api.version>
     <checklistbank-api.version>0.2-SNAPSHOT</checklistbank-api.version>
     <checklistbank-ws-client.version>0.2-SNAPSHOT</checklistbank-ws-client.version>
     <registry-api.version>0.2-SNAPSHOT</registry-api.version>
@@ -55,7 +55,7 @@
     <occurrence-download.version>0.2-SNAPSHOT</occurrence-download.version>
     <occurrence-api.version>0.1-SNAPSHOT</occurrence-api.version>
     <occurrence-ws-client.version>0.1-SNAPSHOT</occurrence-ws-client.version>
-    <drupal-mybatis.version>0.2-SNAPSHOT</drupal-mybatis.version>
+    <drupal-mybatis.version>0.2</drupal-mybatis.version>
 
     <freemarker.version>2.3.19</freemarker.version>
     <guice.version>3.0</guice.version>

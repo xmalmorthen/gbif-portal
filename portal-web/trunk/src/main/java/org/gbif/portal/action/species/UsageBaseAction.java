@@ -1,12 +1,13 @@
 package org.gbif.portal.action.species;
 
 import org.gbif.api.exception.NotFoundException;
+import org.gbif.checklistbank.api.model.DatasetMetrics;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.NameUsageContainer;
+import org.gbif.checklistbank.api.service.DatasetMetricsService;
 import org.gbif.checklistbank.api.service.NameUsageService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Dataset;
-import org.gbif.registry.api.model.NetworkEntityMetrics;
 import org.gbif.registry.api.service.DatasetService;
 
 import java.util.Collection;
@@ -26,11 +27,13 @@ public class UsageBaseAction extends BaseAction {
   protected NameUsageService usageService;
   @Inject
   protected DatasetService datasetService;
+  @Inject
+  protected DatasetMetricsService metricsService;
 
   protected Integer id;
   protected NameUsageContainer usage;
   protected Dataset dataset;
-  protected NetworkEntityMetrics metrics;
+  protected DatasetMetrics metrics;
   protected Map<UUID, Dataset> datasets = new HashMap<UUID, Dataset>();
 
   /**
@@ -51,11 +54,7 @@ public class UsageBaseAction extends BaseAction {
     usage = new NameUsageContainer(u);
     // load checklist
     dataset = datasetService.get(usage.getDatasetKey());
-    try {
-      metrics = datasetService.getMetrics(usage.getDatasetKey());
-    } catch (NotFoundException e) {
-      LOG.warn("Cant get metrics for dataset {}", usage.getDatasetKey(), e);
-    }
+    metrics = metricsService.get(usage.getDatasetKey());
   }
 
   /**
@@ -101,7 +100,7 @@ public class UsageBaseAction extends BaseAction {
     return "";
   }
 
-  public NetworkEntityMetrics getMetrics() {
+  public DatasetMetrics getMetrics() {
     return metrics;
   }
 }

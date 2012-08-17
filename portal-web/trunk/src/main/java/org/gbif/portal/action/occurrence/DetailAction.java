@@ -1,12 +1,11 @@
 package org.gbif.portal.action.occurrence;
 
 import org.gbif.api.exception.NotFoundException;
-import org.gbif.api.exception.ServiceUnavailableException;
+import org.gbif.checklistbank.api.model.DatasetMetrics;
 import org.gbif.occurrencestore.api.model.Occurrence;
 import org.gbif.occurrencestore.api.service.OccurrenceService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Dataset;
-import org.gbif.registry.api.model.NetworkEntityMetrics;
 import org.gbif.registry.api.service.DatasetService;
 
 import com.google.inject.Inject;
@@ -25,7 +24,7 @@ public class DetailAction extends BaseAction {
   private Integer id;
   private Occurrence occ;
   private Dataset dataset;
-  private NetworkEntityMetrics metrics;
+  private DatasetMetrics metrics;
 
   @Override
   public String execute() {
@@ -40,17 +39,8 @@ public class DetailAction extends BaseAction {
     }
     // load dataset
     dataset = datasetService.get(occ.getDatasetKey());
-    try {
-      metrics = datasetService.getMetrics(occ.getDatasetKey());
-    } catch (NotFoundException e) {
-      LOG.warn("Cant get metrics for dataset {}", occ.getDatasetKey(), e);
-    }
-    // TODO: currently the getMetrics() just returns metrics for a checklist dataset, but if it is a
-    // an occurrence DS, it sends a HTTP 500, which makes the DS detail page load fail. This catch should remain here
-    // until the occurrence DS metrics is implemented and/or does not return a 500. Remove when implemented.
-    catch (ServiceUnavailableException e) {
-      metrics = new NetworkEntityMetrics();
-    }
+    //TODO: load metrics for occurrence once implemented
+    metrics = null;
 
     return SUCCESS;
   }
@@ -76,7 +66,7 @@ public class DetailAction extends BaseAction {
     return dataset;
   }
 
-  public NetworkEntityMetrics getMetrics() {
+  public DatasetMetrics getMetrics() {
     return metrics;
   }
 }
