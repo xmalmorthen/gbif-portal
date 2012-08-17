@@ -228,6 +228,7 @@
 </div>
 
 <div class="right">
+ <#if metrics??>
   <#if metrics.countByKingdom?has_content>
     <h3>By Kingdom</h3>
     <ul>
@@ -260,6 +261,7 @@
       </#list>
     </ul>
   </#if>
+ </#if>
 </div>
 </@common.article>
 

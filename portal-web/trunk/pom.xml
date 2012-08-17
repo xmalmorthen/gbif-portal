@@ -46,10 +46,10 @@
 
     <!-- dependency versions -->
     <gbif-common-api.version>0.3</gbif-common-api.version>
-    <checklistbank-api.version>0.2-SNAPSHOT</checklistbank-api.version>
-    <checklistbank-ws-client.version>0.2-SNAPSHOT</checklistbank-ws-client.version>
-    <registry-api.version>0.2-SNAPSHOT</registry-api.version>
-    <registry-ws-client.version>0.2-SNAPSHOT</registry-ws-client.version>
+    <checklistbank-api.version>0.2</checklistbank-api.version>
+    <checklistbank-ws-client.version>0.2</checklistbank-ws-client.version>
+    <registry-api.version>0.2</registry-api.version>
+    <registry-ws-client.version>0.2</registry-ws-client.version>
     <occurrence-download-api.version>0.2-SNAPSHOT</occurrence-download-api.version>
     <occurrence-download-ws-client.version>0.2-SNAPSHOT</occurrence-download-ws-client.version>
     <occurrence-download.version>0.2-SNAPSHOT</occurrence-download.version>
