@@ -24,11 +24,11 @@
     },
 
     // call the JSON over AJAX
-    _init: function() {
+    _create: function() {
       var self = this.element;
-      this._loadData(this.options.json);
+      this._loadData(this.options.json);      
+      this.filterContainer = $("<DIV class='container' style='float:left'/>").appendTo(self);
       this._renderSubjectSelector();
-      this.filterContainer = $("<SPAN/>").appendTo(self);
       this._renderAddFilter();
       this.descriptionContainer = $("<DIV class='description'/>").appendTo(self);
       this.errorContainer = $("<DIV class='description error' style='display:none'/>").appendTo(self);
@@ -73,8 +73,7 @@
     _renderSubjectSelector: function() {
       console.log("Setting up the subject selector");
       var that = this;
-      var self = this.element;
-      console.log("Reading JSON to populate subject selector");
+      console.log("Reading JSON to populate subject selector");      
       var el = $('<SELECT/>').addClass("subject");
       that.subjectSelect = el;  // to be accessible from other methods
       $.each(that.data.filters, function () {
@@ -83,8 +82,7 @@
           el2.append($('<OPTION></OPTION>').attr('value',this.name).text(this.name));    
         });  
       });
-      el.appendTo(self);
-
+      el.appendTo(this.filterContainer);
       // broadcast changes on the "changed" event
       el.bind('change', function(event) {
         $.each(that.data.filters, function (i, filter) {    
@@ -119,8 +117,8 @@
     _renderAddFilter: function() {
       var that = this;
       var self = this.element;
-      that.filter = $("<SPAN/>");
-      that.filter.appendTo(self);
+      that.filter = $("<SPAN class='filter'/>");
+      that.filter.appendTo(this.filterContainer);
 
       that.addFilter = $("<INPUT type='submit' id='addFilterBtn' value='Add filter'></INPUT>");
       // Register the add filter event for public subscription
@@ -133,6 +131,7 @@
         });
       });
       that.addFilter.appendTo(self);
+      self.append("<br>")
     },
 
     // Renders the filter calling the renderer by name using bracket notation i.e. ['name']()
@@ -199,9 +198,20 @@
     }
 
   });
+  
+  $.widget("gbif.BaseWidget", {
+    _getOrCreateExpressionContainer : function(container){
+      var divExpression = container.children(".expression")[0];
+      if(divExpression){
+        $(divExpression).remove();
+      }
+      divExpression = $('<SPAN class="expression"/>');
+      return divExpression;
+    }
+  });
 
   // Renders a select with a text box input
-  $.widget("gbif.SelectAndTextbox", {       
+  $.widget("gbif.SelectAndTextbox", $.gbif.BaseWidget , {       
     _isValidDecimalPrecision: function(value,decimalPrecision) {
       if(decimalPrecision != 'undefined' && decimalPrecision != null){
         var splitByDot = value.split('.');
@@ -380,14 +390,15 @@
       else {
         widget._setValue(value);
       }
-    }
-    ,_init : function() {
+    },
+    _init : function() {
       var that = this;      
       var self = this.element;
       var parent = this.options.parent; // the owning widget
       var data = this.options.data;
+      var divExpression = this._getOrCreateExpressionContainer(parent.filterContainer);
 
-      console.log("Rendering SimpleSelect");
+      console.log("Rendering SimpleSelect");      
       var el = $('<SELECT/>').addClass("predicate");
       this.predicate = el;
       $.each(data.predicate, function () {
@@ -403,33 +414,37 @@
         parent._setPredicate(selectedOpt.text());
         parent._setPredicateId(el.val());
         if($(selectedOpt).hasClass('range')){
-          that.valueMax.show();
+          that.valueMax.parent().show();
         } else if(that.valueMax) {
             that.valueMax.val('');
-            that.valueMax.hide();
+            that.valueMax.parent().hide();
         }
       });    
       el.change();
 
-      this.value = that._createInput(data,false);
-      self.empty().append(el).append(this.value);
+      this.value = that._createInput(data,false);            
+      divExpression.append(el).append(this.value);
       
       if(data.isRange != 'undefined' && data.isRange){
+        var divValueMax = $('<DIV style="float:right"> and </DIV>');
         this.valueMax = that._createInput(data,true);
-        this.valueMax.hide();
-        self.append(this.valueMax);
+        divValueMax.append(this.valueMax);
+        divValueMax.hide();
+        divExpression.append(divValueMax);
       }
+      parent.filterContainer.append(divExpression);
     },
   });
 
   // Renders 2 select options
-  $.widget("gbif.SelectSelect", {  
+  $.widget("gbif.SelectSelect",$.gbif.BaseWidget, {  
     _init : function() {
       var that = this;
       var self = this.element;
       var parent = this.options.parent; // the owning widget
       var data = this.options.data;
-
+      var divExpression = this._getOrCreateExpressionContainer(parent.filterContainer);
+      
       
       console.log("Rendering SelectSelect");
       var el = $('<SELECT />').addClass("predicate");
@@ -468,7 +483,8 @@
       });
 
       el2.change();
-      self.empty().append(el).append(this.value);	 
+      divExpression.append(el).append(this.value);
+      self.append(divExpression);	 
     }, 
   });
 
