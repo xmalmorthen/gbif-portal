@@ -28,25 +28,47 @@
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/occurrence/infoband.ftl">
 
-<article id="overview" class="map">
-  <header></header>
-  <#if occ.longitude?? && occ.latitude??>
+<#assign showMap=occ.longitude?? && occ.latitude??/>
+<#assign titleRight=""/>
+<#if showMap>
+  <#assign titleRight="Geoposition"/>
+</#if>
+
+<@common.article id="location" title="Geoposition" titleRight=titleRight class="map">
+  <#if showMap>
     <div id="map" latitude="${occ.latitude}" longitude="${occ.longitude}"></div>
-  <#else>
-    <div id="map"></div>
-  </#if>
-  <div class="content">
-
-    <div class="header">
-      <div class="right"><h2>Geoposition</h2></div>
-    </div>
-
     <div class="right">
-      <h3>Position</h3>
-      <p class="no_bottom">${occ.locality!"?"}<#if occ.country??>, ${occ.country}</#if></p>
-    <#if occ.longitude?? && occ.latitude??>
-      <p class="light_note">${occ.longitude}, ${occ.latitude} (± 0.25)</p>
+      <h3>Locality</h3>
+        <p class="no_bottom">${occ.locality!"?"}<#if occ.country??>, ${occ.country}</#if></p>
+        <p class="light_note">${occ.longitude}, ${occ.latitude} (± 0.25)</p>
+
+  <#else>
+    <div class="left">
+    <#if occ.continent??>
+        <h3>Continent</h3>
+        <p>${occ.continent}</p>
     </#if>
+
+    <#if occ.country??>
+        <h3>Country</h3>
+        <p>${occ.country}</p>
+    </#if>
+
+    <#if occ.continent??>
+        <h3>State/Province</h3>
+        <p>${occ.province}</p>
+    </#if>
+
+    <#if occ.county??>
+        <h3>County</h3>
+        <p>${occ.county}</p>
+    </#if>
+
+    <#if occ.locality??>
+        <h3>Locality</h3>
+        <p>${occ.locality}</p>
+    </#if>
+  </#if>
 
     <#if occ.altitude??>
       <h3>Altitude</h3>
@@ -57,20 +79,10 @@
       <h3>Depth</h3>
       <p>${occ.depth}m</p>
     </#if>
+   </div>
 
-      <h3>Geoprecision</h3>
-      <p class="placeholder_temp">100m</p>
+</@common.article>
 
-      <h3>Download</h3>
-      <ul>
-        <li class="download placeholder_temp"><a href="#" title="Placemark">Placemark <abbr
-                title="Keyhole Markup Language">(KML)</abbr></a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <footer></footer>
-</article>
 
 <@common.article id="details" title="Occurrence details">
     <div class="left">

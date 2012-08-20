@@ -124,16 +124,25 @@
   </#if>
 </#macro>
 
-<#macro article title="" id="" class="">
+<#macro article id="" title="" titleRight="" class="">
 <article<#if id?has_content> id="${id}"</#if> class="${class!}">
   <header></header>
-  <div class="content">
-    <#if id?has_content>
-      <a name="${id}"></a>
-    </#if>
+  <#if id?has_content>
+    <a name="${id}"></a>
+  </#if>
+  <div class="header">
     <#if title?has_content>
-      <h2>${title}</h2>
+      <div class="left">
+        <h2>${title}</h2>
+      </div>
     </#if>
+    <#if titleRight?has_content>
+      <div class="right">
+        <h2>${title}</h2>
+      </div>
+    </#if>
+  </div>
+  <div class="content">
     <#nested>
   </div>
   <footer></footer>
