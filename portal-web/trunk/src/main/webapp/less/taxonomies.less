@@ -1,0 +1,140 @@
+@import "helpers";
+
+/* Taxonomies */
+
+#content article.taxonomies {
+
+  .disable-selection();
+
+  .header .left h2 {
+    float: left;
+  }
+
+
+  .header .left ul {
+    float: right;
+    margin: 7px 10px 0 0;
+    padding: 0;
+
+    li {
+      display: inline;
+      background: none;
+      margin-left: 15px;
+    }
+  }
+
+  .header .left ul li a {
+    position: relative;
+    font-size: 15px;
+  }
+
+  .content .left div.inner {
+    overflow: auto;
+    height: 150px;
+    outline: none;
+  }
+
+  .content .left .breadcrumb {
+    margin: 0 0 10px 0;
+    padding: 0;
+    position: relative;
+    clear: both;
+    overflow: hidden;
+    list-style: none;
+    height: 28px;
+  }
+
+  .content .left .breadcrumb li {
+    float: left;
+    margin: 0 5px 0 0;
+    padding: 0;
+    background: url("../img/icons/tiny_gray_arrow.png") no-repeat right 3px;
+    padding-right: 10px;
+    color: #cccccc;
+  }
+
+  .content .left .breadcrumb li.last-child {
+    background: none;
+  }
+
+  .content .left .breadcrumb li.last {
+    background: none;
+  }
+
+  .content .left .breadcrumb li a {
+    color: @cGray3;
+    text-decoration: underline;
+  }
+
+  .content .left .sp {
+    width: 540px;
+    overflow: hidden;
+  }
+
+  .content .left .sp ul {
+    margin: 0;
+    margin-top: 0;
+    padding: 0;
+    width: 540px;
+    position: relative;
+  }
+
+  .content .left .sp ul li {
+    background: none;
+    margin: 0 0 5px 0;
+    padding: 0;
+    height: 20px;
+    clear: both;
+    overflow: hidden;
+  }
+
+  .content .left .sp ul li span {
+    display: block;
+    width: 250px;
+    float: left;
+  }
+
+  .content .left .sp ul li span.clickable {
+    color: #0099cc;
+    cursor: pointer;
+  }
+
+  .content .left .sp ul li a {
+    display: none;
+    margin-left: 40px;
+    font-size: 13px;
+  }
+
+  .content .left .sp ul li .bar {
+    position: relative;
+    float: left;
+    height: 20px;
+    background: url("../img/green_bar.png") repeat-x center top;
+  }
+
+  .content .left .sp ul li .bar.clickable {
+    cursor: pointer;
+    background-position: center bottom;
+  }
+
+  .content .left .sp ul li .bar .count {
+    display: none;
+    float: right;
+    right: -40px;
+    padding-right: 10px;
+    font-family: "DINOT-Regular", sans-serif;
+    font-size: 18px;
+    color: @cGray2;
+    position: absolute;
+    bottom: 5px;
+  }
+
+  .content .left .sp ul ul {
+    display: none;
+    margin: 0 0 0 540px!important;
+    position: absolute;
+    top: 0;
+    background: #fff;
+  }
+}
+

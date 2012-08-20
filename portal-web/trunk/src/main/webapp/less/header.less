@@ -25,8 +25,7 @@ header {
     .logo {
       position: relative;
       float: left;
-      width: 41px;
-      height: 38px;
+      .size(41px, 38px);
       margin: 0 10px 0 0;
       top: -5px;
     }
@@ -83,8 +82,7 @@ header {
 
       form {
         input {
-          width: 563px;
-          height: 37px;
+          .size(563px, 37px);
           padding: 0 50px 0 25px;
           border: none;
           background: url("../img/header/search_bkg.png") no-repeat left top;
@@ -135,30 +133,32 @@ header {
           &:after { content: "\002C\0020"; }
         }
       }
+
       .box {
         position: absolute;
         top: 0;
         right: 37px;
         background: url("../img/header/infoband_box_left.png") no-repeat left top;
         padding: 0 12px;
+
         .content {
-          width: auto;
+          .size(auto, 120px);
           position: relative;
           margin: 0;
           left: 0;
           right: 0;
-          height: 120px;
           padding: 12px 12px 0 0;
+
           background: url("../img/header/infoband_box_right.png") repeat-x right top;
+
+          .candy_blue_button:hover { text-decoration:none; }
+
           ul {
             clear: both;
             overflow: hidden;
             margin-bottom: 10px;
             margin-top: 2px;
-            li:last-child {
-              padding-right: 0;
-              border: none;
-            }
+
             li {
               float: left;
               border-right: 1px solid #cccccc;
@@ -166,17 +166,27 @@ header {
               padding-right: 10px;
               text-align: center;
               color: #999999;
+
+              &:last-child {
+                padding-right: 0;
+                border: none;
+              }
+
+              &.last {
+                padding-right: 0;
+                border: none;
+              }
+
+
               h4 {
                 margin-bottom: 3px;
                 font-family: "DINOT-Medium", Sans-Serif;
                 font-size: 31px;
                 color: #333333;
               }
+
             }
-            li.last {
-              padding-right: 0;
-              border: none;
-            }
+
           }
         }
       }
@@ -198,8 +208,10 @@ header {
       }
     }
   }
+
   div#tabs {
     position: relative;
+
     ul {
       padding: 0;
       margin: 0;
@@ -290,6 +302,7 @@ header {
     background: url("../img/header/top_header_bkg.jpg") repeat-x;
     height: 97px;
     text-align: center;
+
     .account {
       position: absolute;
       top: -3px;
@@ -301,18 +314,21 @@ header {
       color: #ADD8B8;
       font-size: 11px;
       background: url("../img/header/header_account_bkg.png") no-repeat;
+
       a {
-        color: white;
-      }
-      a:hover {
-        color: #333333;
-        -webkit-transition: color "" ease-in-out;
-        -moz-transition: color "" ease-in-out;
-        -o-transition: color "", ease-in-out;
-        -ms-transition: color "" ease-in-out;
-        transition: color "" ease-in-out;
+        color: @cWhite;
+
+        &:hover {
+          color: #333333;
+          -webkit-transition: color "" ease-in-out;
+          -moz-transition:    color "" ease-in-out;
+          -o-transition:      color "" ease-in-out;
+          -ms-transition:     color "" ease-in-out;
+          transition:         color "" ease-in-out;
+        }
       }
     }
+
     .content {
       position: absolute;
       width: 1024px;

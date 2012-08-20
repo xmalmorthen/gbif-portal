@@ -2209,8 +2209,7 @@ a.next_slide:hover {
 #content article header {
   position: absolute;
   top: -20px;
-  width: 924px;
-  height: 20px;
+  .size(924px, 20px);
   padding: 0;
   background: url("../img/boxes/box_top.png") no-repeat left top;
 }
@@ -2218,8 +2217,7 @@ a.next_slide:hover {
 #content article footer {
   position: absolute;
   bottom: -20px;
-  width: 924px;
-  height: 20px;
+  .size(924px, 20px);
   padding: 0;
   background: url("../img/boxes/box_bottom.png") no-repeat left top;
   text-align: left;
@@ -2491,8 +2489,7 @@ a.next_slide:hover {
 
 #content article .content .light_box.data_repatriation .percentage_bar_background {
   display: inline-block;
-  width: 123px;
-  height: 4px;
+  .size(123px, 4px);
   background: #dedede;
   vertical-align: top;
   margin: 14px 0 0 7px;
@@ -2502,18 +2499,20 @@ a.next_slide:hover {
 
 #content article .content .light_box.data_repatriation .percentage_bar {
   display: inline-block;
-  width: 30px;
-  height: 4px;
+  .size(30px, 4px);
   background: #3ec05c;
   vertical-align: top;
+
   -webkit-border-top-left-radius: 3px;
   -webkit-border-top-right-radius: 0px;
   -webkit-border-bottom-right-radius: 0px;
   -webkit-border-bottom-left-radius: 3px;
+
   -moz-border-radius-topleft: 3px;
   -moz-border-radius-topright: 0px;
   -moz-border-radius-bottomright: 0px;
   -moz-border-radius-bottomleft: 3px;
+
   border-top-left-radius: 3px;
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -2548,8 +2547,7 @@ a.next_slide:hover {
 }
 
 #content article .content .light_box .tl, #content article .content .light_box .tr, #content article .content .light_box .bl, #content article .content .light_box .br {
-  width: 5px;
-  height: 5px;
+  .size(5px);
   background: url("../img/boxes/box_light_bkg.png") no-repeat;
   position: absolute;
 }
@@ -2654,6 +2652,7 @@ a.next_slide:hover {
   width: 285px;
   margin: 0 10px 0 0;
   display: -moz-inline-stack;
+
   /* FF2*/
   display: inline-block;
   vertical-align: top;
@@ -2956,8 +2955,7 @@ a.next_slide:hover {
 
 #content article .content ul.classification li .separator {
   display: inline-block;
-  width: 100px;
-  height: 15px;
+  .size(100px, 15px);
   margin: 0 10px;
   background: url("../img/dotted_line_bck.png") repeat-x left bottom;
 }
@@ -3008,8 +3006,7 @@ a.next_slide:hover {
 
 #content article .content .pieMultiLegend ul li div.pieLegendBullet {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  .size(8px);
   margin: 0 5px 0 0;
   background-color: #000000;
 
@@ -3235,15 +3232,17 @@ a.next_slide:hover {
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 0;
-  width: 100%;
+  .size(100%, 0);
+
   background: #f1f1f1;
   background: rgba(0, 0, 0, 0.1);
   text-indent: -9999px;
   overflow: hidden;
+
   -webkit-border-top-left-radius: 3px;
   -moz-border-top-left-radius: 3px;
   border-top-left-radius: 3px;
+
   -webkit-border-top-right-radius: 3px;
   -moz-border-top-right-radius: 3px;
   border-top-right-radius: 3px;
@@ -3263,10 +3262,9 @@ a.next_slide:hover {
 
 #content article.map #map {
   position: absolute;
-  top: -19px;
-  height: 423px;
-  left: 2px;
-  width: 627px;
+  top: -19px; left: 2px;
+  .size(627px, 423px);
+
   z-index: 100;
 }
 
@@ -3293,10 +3291,10 @@ a.next_slide:hover {
 }
 
 #content article.photo_gallery .content .slideshow {
-  width: 627px;
+  .size(627px, 423px);
+
   overflow: hidden;
   top: 0;
-  height: 423px;
   left: 2px;
   z-index: 100;
   position: absolute;
@@ -3700,159 +3698,159 @@ a.next_slide:hover {
 
 // Dataset
 #content article.dataset {
-    width: 702px;
-    margin: 40px auto 100px auto;
+  width: 702px;
+  margin: 40px auto 100px auto;
 
-    .content {
-      padding: 61px 0;
+  .content {
+    padding: 61px 0;
+    text-align: center;
+    background: url("../img/boxes/box_dataset_bkg.png") repeat-y;
+
+    form {
+      clear: both;
+      overflow: hidden;
+      width: 522px;
+      margin: 0 auto 20px auto;
+
+      input[type="text"]:focus { outline: none; }
+
+      button { margin-right: 0; }
+
+      input[type="text"] {
+        width: 360px;
+        height: 37px;
+        margin: 0;
+        padding: 0 40px 0 15px;
+        font-size: 17px;
+        color: @cGray1;
+        border: none;
+        background: url("../img/input_bkg.png") no-repeat left -62px;
+      }
+
+      .input_text {
+        float: left;
+        width: 368px;
+        height: 37px;
+        padding: 0px 20px 0 0;
+      }
+
+    }
+
+    ul.species {
+      clear: both;
+      overflow: hidden;
+      margin: auto;
       text-align: center;
-      background: url("../img/boxes/box_dataset_bkg.png") repeat-y;
+      margin-bottom: 26px;
 
-      form {
-        clear: both;
-        overflow: hidden;
-        width: 522px;
-        margin: 0 auto 20px auto;
 
-        input[type="text"]:focus { outline: none; }
+      li {
+        background: none;
+        display: inline;
+        margin: 0px;
+        padding: 0;
 
-        button { margin-right: 0; }
+        a { text-decoration: none; }
 
-        input[type="text"] {
-          width: 360px;
-          height: 37px;
-          margin: 0;
-          padding: 0 40px 0 15px;
-          font-size: 17px;
-          color: @cGray1;
-          border: none;
-          background: url("../img/input_bkg.png") no-repeat left -62px;
-        }
-
-        .input_text {
-          float: left;
-          width: 368px;
-          height: 37px;
-          padding: 0px 20px 0 0;
-        }
+        &:after { content: "\00a0\00B7"; }
+        &:last-child:after { content: ""; }
 
       }
 
-      ul.species {
-        clear: both;
-        overflow: hidden;
-        margin: auto;
-        text-align: center;
-        margin-bottom: 26px;
+    }
 
+    h1 {
+      margin-bottom: 23px;
+      font-family: "DINOT-Medium", sans-serif;
+      color: @cGray2;
+      font-size: 35px;
+    }
+
+    .results {
+      float: left;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      padding-top: 5px;
+
+      ul {
+        position: relative;
+        clear: left;
+        float: left;
+        left: 50%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: center;
+
+        li:last-child {
+          margin-right: 0;
+          padding-right: 0;
+          border: none;
+        }
 
         li {
-          background: none;
-          display: inline;
-          margin: 0px;
-          padding: 0;
-
-          a { text-decoration: none; }
-
-          &:after { content: "\00a0\00B7"; }
-          &:last-child:after { content: ""; }
-
-        }
-
-      }
-
-      h1 {
-        margin-bottom: 23px;
-        font-family: "DINOT-Medium", sans-serif;
-        color: @cGray2;
-        font-size: 35px;
-      }
-
-      .results {
-        float: left;
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-        padding-top: 5px;
-
-        ul {
-          position: relative;
-          clear: left;
+          display: block;
           float: left;
-          left: 50%;
-          margin: 0;
-          padding: 0;
-          list-style: none;
+          margin: 0 14px 0 0;
+          padding: 1px 14px 0 0;
+          position: relative;
+          right: 50%;
+          background: none;
+          font-size: 13px;
+          color: @cGray3;
           text-align: center;
+          border-right: 1px solid #CCCCCC;
+          list-style: none;
 
-          li:last-child {
-            margin-right: 0;
-            padding-right: 0;
-            border: none;
-          }
-
-          li {
+          a {
             display: block;
-            float: left;
-            margin: 0 14px 0 0;
-            padding: 1px 14px 0 0;
-            position: relative;
-            right: 50%;
-            background: none;
-            font-size: 13px;
-            color: @cGray3;
-            text-align: center;
-            border-right: 1px solid #CCCCCC;
-            list-style: none;
+            margin-bottom: 10px;
+            color: #0099cc;
+            font-family: "DINOT-Medium", sans-serif;
+            font-size: 31px;
+            text-decoration: none;
 
-            a {
-              display: block;
-              margin-bottom: 10px;
-              color: #0099cc;
-              font-family: "DINOT-Medium", sans-serif;
-              font-size: 31px;
-              text-decoration: none;
-
-              &:hover {
-                color: @cGray1;
-                -webkit-transition: color "" ease-in-out;
-                -moz-transition: color "" ease-in-out;
-                -o-transition: color "", ease-in-out;
-                -ms-transition: color "" ease-in-out;
-                transition: color "" ease-in-out;
-              }
+            &:hover {
+              color: @cGray1;
+              -webkit-transition: color "" ease-in-out;
+              -moz-transition: color "" ease-in-out;
+              -o-transition: color "", ease-in-out;
+              -ms-transition: color "" ease-in-out;
+              transition: color "" ease-in-out;
             }
           }
+        }
 
-          li.last {
-            margin-right: 0;
-            padding-right: 0;
-            border: none;
-          }
+        li.last {
+          margin-right: 0;
+          padding-right: 0;
+          border: none;
         }
       }
     }
-
-    header {
-      width: 702px;
-      background: url("../img/boxes/box_dataset_top.png") no-repeat left top;
-    }
-
-    footer {
-      width: 702px;
-      background: url("../img/boxes/box_dataset_bottom.png") no-repeat left top;
-    }
   }
 
-  article.static {
-    .content {
-      .left {
-        margin: 0 50px 0 0;
-        padding: 0;
-        border: none;
-      }
+  header {
+    width: 702px;
+    background: url("../img/boxes/box_dataset_top.png") no-repeat left top;
+  }
+
+  footer {
+    width: 702px;
+    background: url("../img/boxes/box_dataset_bottom.png") no-repeat left top;
+  }
+}
+
+article.static {
+  .content {
+    .left {
+      margin: 0 50px 0 0;
+      padding: 0;
+      border: none;
     }
   }
+}
 
 
 
@@ -5281,84 +5279,86 @@ div.selector span {
 div.selector select {
   position: absolute;
   opacity: 0;
-  /* filter: alpha(opacity:0);*/
+  filter:~"alpha(opacity:0);";
   height: 34px;
   border: none;
   background: none;
 }
 
+// Checker
 div.checker {
   position: relative;
+
+  span {
+    display: -moz-inline-box;
+    display: inline-block;
+    text-align: center;
+  }
+
+  input {
+    opacity: 0;
+    filter: ~"alpha(opacity:0);";
+    display: inline-block;
+    background: none;
+  }
 }
 
-div.checker span {
-  display: -moz-inline-box;
-  display: inline-block;
-  text-align: center;
-}
-
-div.checker input {
-  opacity: 0;
-  /* filter: alpha(opacity:0);*/
-  display: inline-block;
-  background: none;
-}
-
+// Radio
 div.radio {
   position: relative;
+
+  span {
+    display: -moz-inline-box;
+    display: inline-block;
+    text-align: center;
+  }
+
+  input {
+    opacity: 0;
+    filter: ~"alpha(opacity:0);";
+    text-align: center;
+    display: inline-block;
+    background: none;
+  }
 }
 
-div.radio span {
-  display: -moz-inline-box;
-  display: inline-block;
-  text-align: center;
-}
-
-div.radio input {
-  opacity: 0;
-  /* filter: alpha(opacity:0);*/
-  text-align: center;
-  display: inline-block;
-  background: none;
-}
-
+// Uploader
 div.uploader {
   position: relative;
   overflow: hidden;
   cursor: default;
-}
 
-div.uploader span.action {
-  float: left;
-  display: inline;
-  padding: 2px 0px;
-  overflow: hidden;
-  cursor: pointer;
-}
+  span.action {
+    float: left;
+    display: inline;
+    padding: 2px 0px;
+    overflow: hidden;
+    cursor: pointer;
+  }
 
-div.uploader span.filename {
-  padding: 0px 10px;
-  float: left;
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  cursor: default;
-}
+  span.filename {
+    padding: 0px 10px;
+    float: left;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: default;
+  }
 
-div.uploader input {
-  opacity: 0;
-  /*  filter: alpha(opacity:0); */
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  float: right;
-  height: 25px;
-  border: none;
-  cursor: default;
+  input {
+    opacity: 0;
+    filter: ~"alpha(opacity:0);";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    float: right;
+    height: 25px;
+    border: none;
+    cursor: default;
+  }
 }
-
 
 /* Temporary CSS for signaling placeholders. Remove this styles when not needed anymore */
 /* On every FTL, search for the literal "placeholder_temp" and replace it when real values are available */
