@@ -1,7 +1,28 @@
-/* Select */
-/* Checker */
-/* Radio */
-/* Uploader */
+@import "helpers";
+
+#map {
+  .size(608px, 140px);
+  margin-bottom: 23px;
+}
+
+#map_canvas {
+  position: relative;
+  #map { width: 580px; }
+
+  .tl, .tr, .bl, .br {
+    .size(4px);
+    position: absolute;
+    z-index: 100;
+
+    background: url("../img/circle.png") no-repeat;
+  }
+
+  .tl { top: -1px; left: -1px; background-position: top left; } 
+  .tr { top: -1px; right: -1px; background-position: top right; }
+  .bl { bottom: -1px; left: -1px; background-position: bottom left; } 
+  .br { bottom: -1px; right: -1px; background-position: bottom right; }
+}
+
 body.mapfull #content {
   padding: 0;
 }
@@ -328,3 +349,4 @@ body.singlemap a.zoom_out {
 body.singlemap a.zoom_out:hover {
   background-position: -28px -32px;
 }
+
