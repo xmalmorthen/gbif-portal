@@ -104,7 +104,7 @@
              <#list searchResponse.results as occ>
              <tr>
               <td><#if occ.scientificName?has_content>${occ.scientificName}</#if></td>
-              <td><#if occ.datasetKey?has_content><a href="<@s.url value='/dataset/${occ.datasetKey}'/>">${occ.datasetKey}</a></#if></td>
+              <td><#if occ.datasetKey?has_content><a href="<@s.url value='/dataset/${occ.datasetKey}'/>">${action.getDatasetTitle(occ.datasetKey)!}</a></#if></td>
               <td><#if occ.institutionCode?has_content>${occ.institutionCode!}</#if></td>
               <td><#if occ.collectionCode?has_content>${occ.collectionCode!}</#if></td>
               <td><#if occ.catalogNumber?has_content>${occ.catalogNumber!}</#if></td>

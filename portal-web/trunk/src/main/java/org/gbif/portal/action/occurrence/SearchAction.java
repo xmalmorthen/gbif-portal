@@ -10,6 +10,8 @@ import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.util.PredicateFactory;
 import org.gbif.portal.action.occurrence.util.search.QueryBuildingException;
 import org.gbif.portal.action.occurrence.util.search.WsSearchVisitor;
+import org.gbif.registry.api.model.Dataset;
+import org.gbif.registry.api.service.DatasetService;
 
 import java.util.Map;
 
@@ -52,6 +54,8 @@ public class SearchAction extends BaseAction {
 
   private final OccurrenceSearchService occurrenceSearchService;
 
+  private final DatasetService datasetService;
+
   private final PredicateFactory predicateFactory = new PredicateFactory(QUERY_FIELD_MAPPING);
 
   private final OccurrenceSearchRequest pagingRequest;
@@ -65,9 +69,10 @@ public class SearchAction extends BaseAction {
   private String nubKey = "";
 
   @Inject
-  public SearchAction(OccurrenceSearchService occurrenceSearchService) {
+  public SearchAction(OccurrenceSearchService occurrenceSearchService, DatasetService datasetService) {
     this.pagingRequest = new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
     this.occurrenceSearchService = occurrenceSearchService;
+    this.datasetService = datasetService;
     LOG.info("Action built!");
   }
 
@@ -88,10 +93,26 @@ public class SearchAction extends BaseAction {
 
 
   /**
+   * Allows exposing the Action class to the jsp level.
+   */
+  public SearchAction getAction() {
+    return this;
+  }
+
+  /**
    * @return the datasetKey
    */
   public String getDatasetKey() {
     return datasetKey;
+  }
+
+
+  /**
+   * Gets the title of a data set byt its key.
+   */
+  public String getDatasetTitle(String datasetKey) {
+    Dataset dataset = datasetService.get(datasetKey);
+    return dataset.getTitle();
   }
 
 
@@ -110,13 +131,13 @@ public class SearchAction extends BaseAction {
     return pagingRequest.getOffset();
   }
 
-
   /**
    * @return the response
    */
   public PagingResponse<Occurrence> getSearchResponse() {
     return searchResponse;
   }
+
 
   /**
    * @param datasetKey the datasetKey to set
@@ -132,7 +153,6 @@ public class SearchAction extends BaseAction {
   public void setNubKey(String nubKey) {
     this.nubKey = nubKey;
   }
-
 
   /**
    * @param offset the offset to set
