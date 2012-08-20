@@ -1,16 +1,18 @@
+@import "helpers";
+
 header {
   position: relative;
   padding-top: 3px;
-  background: url("../img/header/top_bar.jpg") repeat-x;
   height: 285px;
   text-align: center;
+
+  background: url("../img/header/top_bar.jpg") repeat-x;
 
   #logo {
     position: absolute;
     top: 36px;
     left: 55px;
-    height: 38px;
-    width: 300px;
+    .size(300px, 38px);
     color: #333333;
     font-size: 11px;
 
@@ -39,6 +41,7 @@ header {
     height: 155px;
     padding-top: 33px;
     background: url("../img/header/infoband.jpg") repeat-x right top;
+
     .content {
       position: absolute;
       width: 967px;
@@ -47,6 +50,7 @@ header {
       padding-left: 50px;
       margin-left: -512px;
       text-align: left;
+
       h3 {
         font-size: 15px;
         font-weight: normal;
@@ -55,28 +59,29 @@ header {
         margin-left: 1px;
         opacity: .75;
         padding-bottom: 10px;
+
         a {
           color: white;
           opacity: 1.25;
-        }
-        a:hover {
-          text-decoration: underline;
+
+          &:hover { text-decoration: underline; }
         }
       }
+
       ul {
         padding: 0;
         margin: 0;
+
         li {
           display: inline;
           font-size: 13px;
           color: #333333;
           opacity: .75;
         }
+
       }
+
       form {
-        input:focus {
-          outline: none;
-        }
         input {
           width: 563px;
           height: 37px;
@@ -85,31 +90,30 @@ header {
           background: url("../img/header/search_bkg.png") no-repeat left top;
           font-size: 17px;
           color: #333333;
+
+          &:focus { outline: none; }
         }
       }
+
       h3.separator {
         background: url("../img/header/tag_line.png") no-repeat left bottom;
       }
+
       ul.breadcrumb {
-        li:last-child {
-          background: none;
-        }
         li {
           margin-left: 2px;
           padding-right: 12px;
           margin-right: 3px;
           background: url("../img/icons/arrow_header_right.png") no-repeat right;
-          a {
-            color: #333333;
-          }
-          a:hover {
-            text-decoration: underline;
-          }
-        }
-        li.last {
-          background: none;
+
+          a { color: #333333; }
+          a:hover { text-decoration: underline; }
+
+          &:last-child { background: none; }
+          &.last { background: none; }
         }
       }
+
       ul.tags {
         background: url("../img/icons/tags.png") no-repeat left;
         padding-left: 16px;
@@ -118,21 +122,17 @@ header {
         }
         a {
           color: #333333;
+          &:hover { text-decoration: underline; }
         }
-        a:hover {
-          text-decoration: underline;
-        }
-        li:last-child:after {
-          content: "";
-        }
+
         li {
           display: inline;
           font-size: 11px;
           color: #333333;
           opacity: .75;
-        }
-        li:after {
-          content: "\002C\0020";
+
+          &:last-child:after { content: ""; }
+          &:after { content: "\002C\0020"; }
         }
       }
       .box {
@@ -180,12 +180,16 @@ header {
           }
         }
       }
+
       h1 {
+        width: 680px;
+
         margin-bottom: 9px;
         font-family: "DINOT-Medium", Sans-Serif;
         font-size: 35px;
         color: white;
       }
+
       h2 {
         margin-bottom: 10px;
         font-size: 23px;
@@ -394,5 +398,149 @@ header {
       }
     }
   }
+}
+
+
+
+
+/* HEADERS */
+
+body.user header #infoband,
+body.static header #infoband {
+  border-bottom: 1px solid #4b8741;
+  height: 96px;
+}
+
+body.big header {
+  height: 326px;
+
+  #infoband {
+    border-bottom: 1px solid #4b8741;
+    height: 195px;
+  }
+
+  h2 { margin-left: 25px; }
+
+}
+
+body.themes header {
+  height: 226px;
+
+  #infoband {
+    border-bottom: 1px solid #4b8741;
+    height: 107px;
+  }
+
+  h2 { margin-left: 25px; }
+}
+
+body.search header {
+  height: 226px;
+
+  #infoband {
+    border-bottom: 1px solid #4b8741;
+    height: 96px;
+  }
+
+  h2 { margin-left: 25px; }
+}
+
+
+
+body.themes_detail header {
+  height: 98px;
+
+  #infoband {
+    border-bottom: 1px solid #4b8741;
+    height: 107px;
+  }
+
+  #top {
+    border-bottom: 1px solid #cccccc;
+
+    .content #logo {
+      top: 42px;
+    }
+
+    nav {
+      ul {
+        li.selected {
+          a {
+            background: url("../img/header/triangle_gray.png") no-repeat center bottom;
+          }
+        }
+        li {
+          a:hover {
+            background: url("../img/header/triangle_gray.png") no-repeat center bottom;
+          }
+        }
+      }
+    }
+  }
+
+  h2 { margin-left: 25px; }
+}
+
+body.dataset header #top .content #logo,
+body.register header #top .content #logo {
+  top: 42px;
+}
+
+body.register header {
+  height: 98px;
+
+  #top .content {
+    position: absolute;
+    width: 810px;
+    margin-left: -405px;
+    left: 50%;
+    right: 50%;
+  }
+
+  h2 { margin-left: 25px; }
+}
+
+body.dataset header #top nav ul li.selected a,
+body.register header #top nav ul li.selected a {
+    background: url("../img/header/triangle_gray.png") no-repeat center bottom;
+}
+
+body.user header, 
+body.static header {
+    height: 226px;
+}
+
+body.reference header {
+  height: 226px;
+
+  #infoband {
+    border-bottom: 1px solid #4b8741;
+    height: 96px;
+
+    .content h3 {
+      background: none;
+    }
+  }
+}
+
+body.reference article .header .right h4 {
+  margin-top: 22px;
+}
+
+body.register header #top .content nav ul li.selected a,
+body.register header #top .content nav ul li a:hover {
+  background: none;
+}
+
+body.dataset header {
+  height: 98px;
+
+  #top { border-bottom: 1px solid #cccccc; }
+  h2  { margin-left: 25px; }
+}
+
+body.dataset header #top nav ul li a:hover,
+body.register header #top nav ul li a:hover {
+  background: url("../img/header/triangle_gray.png") no-repeat center bottom;
 }
 
