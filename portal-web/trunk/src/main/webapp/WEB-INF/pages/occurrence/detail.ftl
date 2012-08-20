@@ -103,6 +103,9 @@
     </div>
 
     <div class="right">
+      <h3>GBIF ID</h3>
+      <p>${occ.id?c}</p>
+
       <#if occ.catalogNumber??>
         <h3>Catalog number</h3>
         <p>${occ.catalogNumber}</p>
@@ -116,18 +119,18 @@
 </@common.article>
 
 <#assign title>
-Identification details <span class='subtitle'>according to <a href="<@s.url value='/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c'/>">GBIF Backbone Taxonomy</a></span>
+Identification details <span class='subtitle'>According to <a href="<@s.url value='/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c'/>">GBIF Backbone Taxonomy</a></span>
 </#assign>
 <@common.article id="taxonomy" title=title>
     <div class="left">
       <#if occ.nubKey??>
-        <h3>Identified as</h3>
+        <h3>Identified as ${occ.rank!"species"}</h3>
         <p><a href="<@s.url value='/species/${occ.nubKey?c}'/>">${occ.scientificName}</a></p>
 
-        <div class="placeholder_temp">
-        <h3>Notes</h3>
-        <p>cf. alpinum${occ.identificationQualifier!}. Flowers missing, maybe confused with R.alpestre? ${occ.identificationNotes!}</p>
-        </div>
+        <#if occ.identificationNotes??>
+          <h3>Notes</h3>
+          <p>${occ.identificationNotes}</p>
+        </#if>
 
         <h3>Taxonomic classification
           <div class="extended">[<a href="<@s.url value='/species/${occ.nubKey?c}/classification'/>">extended</a>]</div>
@@ -143,7 +146,7 @@ Identification details <span class='subtitle'>according to <a href="<@s.url valu
     <div class="right">
       <#if occ.identificationDate??>
         <h3>Identification date </h3>
-        <p>${occ.identificationDate?date?iso_utc}</p>
+        <p>${occ.identificationDate?date?string.medium}</p>
       </#if>
 
       <#if occ.identifierName??>
@@ -151,8 +154,10 @@ Identification details <span class='subtitle'>according to <a href="<@s.url valu
         <p>${occ.identifierName}</p>
       </#if>
 
+      <#-- TODO: uncomment once implemented
       <h3>Identification references</h3>
-      <p class="placeholder_temp">Flora of Turkey ${occ.identificationReferences!}</p>
+      <p>Flora of Turkey ${occ.identificationReferences!}</p>
+      -->
     </div>
 </@common.article>
 
@@ -162,14 +167,19 @@ Identification details <span class='subtitle'>according to <a href="<@s.url valu
       <h3>Basis of record</h3>
       <p>${occ.basisOfRecord!"Unknown"}</p>
 
-      <h3>Collection date </h3>
-      <p>Oct 23th, 2007</p>
+      <#if occ.occurrenceDate??>
+        <h3>Gathering date </h3>
+        <#-- show year or month only if no full date exists. same for time !!! -->
+        <p>${occ.occurrenceDate?datetime?string.medium}</p>
+        <p>${.now?datetime?string.medium}</p>
+      </#if>
 
-      <h3>Collector name</h3>
-      <p>Thomas Function</p>
+      <#if occ.collectorName??>
+        <h3>Collector name</h3>
+        <p>${occ.collectorName}</p>
+      </#if>
 
-      <!-- remove this div once implemented -->
-      <div class="placeholder_temp">
+      <#-- TODO: uncomment once implemented
       <h3>Individual count</h3>
       <p>1</p>
 
@@ -178,11 +188,11 @@ Identification details <span class='subtitle'>according to <a href="<@s.url valu
 
       <h3>Disposition</h3>
       <p>Missing</p>
-
-      </div>
+      -->
     </div>
 
-    <div class="col placeholder_temp">
+    <div class="col">
+      <#-- TODO: uncomment once implemented
       <h3>Sex</h3>
       <p>Male</p>
 
@@ -200,25 +210,26 @@ Identification details <span class='subtitle'>according to <a href="<@s.url valu
 
       <h3>Habitat</h3>
       <p>Oak savanna</p>
+      -->
     </div>
 
-    <h3 class="placeholder_temp">Notes</h3>
-    <p class="placeholder_temp">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-      dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-      nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-      id est laborum.</p>
+<#-- TODO: uncomment once implemented
+    <h3>Notes</h3>
+    <p>${occ.notes}</p>
+-->
 
   </div>
 
-  <div class="right placeholder_temp">
+  <div class="right">
+    <#-- TODO: uncomment once implemented
     <h3>Type status</h3>
     <p>Holotype</p>
+    -->
   </div>
 
 </@common.article>
 
-<#-- FOR LATER
+<#-- TODO: uncomment once implemented
 <@common.article id="geology" title="Geological context" class="placeholder_temp">
     <div class="left">
       <div class="col">

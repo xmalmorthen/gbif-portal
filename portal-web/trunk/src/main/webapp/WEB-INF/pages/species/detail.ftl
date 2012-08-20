@@ -96,14 +96,8 @@
 
   <p><#list usage.threatStatus as t><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#list></p>
 </#if>
-
-<#list usage.descriptions as d>
-  <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
-
-  <p>${d.description!}</p>
-</#list>
-
 </div>
+
 <div class="right">
 <#if (vernacularNames?size>0)>
   <h3>Common names</h3>
@@ -235,6 +229,32 @@
   <footer></footer>
 </article>
 </#if>
+
+<@common.article id="description" title='Description' class="">
+    <div class="left">
+      <h3></h3>
+      <#list usage.descriptions as d>
+        <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
+
+        <p>${d.description!}</p>
+      </#list>
+    </div>
+
+    <div class="right">
+
+      <h3>Content</h3>
+      <ul class="no_bottom">
+        <#list usage.synonyms as syn>
+          <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
+        <#-- only show 9 synonyms at max. If we have 10 (index=9) we know there are more to show -->
+          <#if !syn_has_next && syn_index==9>
+            <p><a class="more_link" href="<@s.url value='/species/${id?c}/synonyms'/>">see all</a></p>
+          </#if>
+        </#list>
+      </ul>
+
+    </div>
+</@common.article>
 
 <#if (usage.images?size>0)>
   <@common.article id="images" class="photo_gallery">

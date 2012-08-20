@@ -130,19 +130,19 @@
   <#if id?has_content>
     <a name="${id}"></a>
   </#if>
-  <div class="header">
-    <#if title?has_content>
-      <div class="left">
-        <h2>${title}</h2>
-      </div>
-    </#if>
-    <#if titleRight?has_content>
-      <div class="right">
-        <h2>${title}</h2>
-      </div>
-    </#if>
-  </div>
   <div class="content">
+    <div class="header">
+      <#if title?has_content>
+        <div class="left">
+          <h2>${title}</h2>
+        </div>
+      </#if>
+      <#if titleRight?has_content>
+        <div class="right">
+          <h2>${title}</h2>
+        </div>
+      </#if>
+    </div>
     <#nested>
   </div>
   <footer></footer>
