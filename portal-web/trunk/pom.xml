@@ -169,7 +169,15 @@
               <outputDirectory>${project.basedir}/src/main/webapp/css</outputDirectory>
               <compress>true</compress>
               <includes>
-                  <include>*.less</include>
+                <include>style.less</include>
+                <include>crawl-table.less</include>
+                <include>google.less</include>
+                <include>leaflet.ie.less</include>
+                <include>leaflet.less</include>
+                <include>occ-table.less</include>
+                <include>simple-modal.less</include>
+                <include>uniform.less</include>
+                <include>uploader.less</include>
               </includes>
           </configuration>
           <executions>
