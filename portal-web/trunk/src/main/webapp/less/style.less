@@ -1,5 +1,10 @@
 @import "reset";
+@import "helpers";
 @import "fonts";
+@import "buttons";
+
+@import "maps";
+
 @import "header";
 @import "footer";
 
@@ -89,11 +94,8 @@ span.remove {
   position: absolute;
   float: left;
   z-index: 1000;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
+
+  .disable-selection();
 }
 
 #content .select-filter .arrow {
@@ -134,11 +136,8 @@ span.remove {
 #content .select_box {
   position: relative;
   z-index: 100;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
+
+  .disable-selection();
 }
 
 #content .select_box.open .listing {
@@ -163,8 +162,7 @@ span.remove {
   /* IE8 */
   /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #00FFFFFF, endColorstr = #00FFFFFF);*/
   /* IE6 & 7 */
-  zoom: 1;
-  cursor: pointer;
+  zoom: 1; cursor: pointer;
   text-align: left;
   font-size: 13px;
   color: #666666;
@@ -340,11 +338,8 @@ span.remove {
   text-align: left;
   opacity: 0;
   z-index: 1000;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
+
+  .disable-selection();
 }
 
 #content .yellow_popover div.t {
@@ -465,64 +460,6 @@ span.remove {
   background: url("../img/white_popover_right_side.png") repeat-x right -41px;
   font-family: "DINOT-Regular", Sans-Serif;
   font-size: 15px;
-}
-
-.candy_blue_button {
-  display: block;
-  min-width: 88px;
-  height: 35px;
-  padding: 0 0 0 9px;
-  border: none;
-  background: url("../img/buttons/button_blue_left_side.png") no-repeat left top;
-  text-align: center;
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)";
-  /* IE8 */
-  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #00FFFFFF, endColorstr = #00FFFFFF);*/
-  /* IE6 & 7 */
-  zoom: 1;
-}
-
-.candy_blue_button.lft {
-  float: left;
-}
-
-.candy_blue_button.rgt {
-  float: right;
-}
-
-.candy_blue_button:focus, .candy_blue_button:hover {
-  background-position: left -35px;
-}
-
-.candy_blue_button:focus span, .candy_blue_button:hover span {
-  background-position: right -35px;
-}
-
-.candy_blue_button.active, .candy_blue_button:active {
-  background-position: left -70px;
-}
-
-.candy_blue_button.active span, .candy_blue_button:active span {
-  line-height: 35px;
-  background-position: right -70px;
-}
-
-.candy_blue_button span {
-  display: block;
-  height: 35px;
-  padding-right: 10px;
-  line-height: 30px;
-  background: url("../img/buttons/button_blue_right_side.png") repeat-x right top;
-  font-family: "DINOT-Medium", Sans-Serif;
-  font-size: 15px;
-  color: white;
-  text-shadow: 0 -1px #0079a2;
-  /*filter: progid:DXImageTransform.Microsoft.DropShadow(offx = 0, offy = 1, color = #FFFFFF);*/
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)";
-  /* IE8 */
-  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #00FFFFFF, endColorstr = #00FFFFFF);*/
-  /* IE6 & 7 */
-  zoom: 1;
 }
 
 .download .dropdown {
@@ -658,107 +595,6 @@ span.remove {
   background: url("../img/buttons/dropdown_right_side.png") repeat-x right -74px;
 }
 
-.candy_white_button {
-  display: block;
-  min-width: 88px;
-  height: 38px;
-  padding: 0 0 0 11px;
-  border: none;
-  text-align: center;
-  background: url("../img/buttons/button_white_left.png") no-repeat left top;
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)";
-  /* IE8 */
-  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #00FFFFFF, endColorstr = #00FFFFFF);*/
-  /* IE6 & 7 */
-  zoom: 1;
-}
-
-.candy_white_button.lft {
-  float: left;
-}
-
-.candy_white_button.rgt {
-  float: right;
-}
-
-.candy_white_button:hover {
-  background-position: left -38px !important;
-}
-
-.candy_white_button:hover span {
-  color: #333333 !important;
-  background-position: right -38px !important;
-}
-
-.candy_white_button.active, .candy_white_button:active {
-  background-position: left bottom !important;
-}
-
-.candy_white_button.active span, .candy_white_button:active span {
-  line-height: 38px !important;
-  background-position: right bottom !important;
-}
-
-.candy_white_button span {
-  display: block;
-  height: 38px;
-  padding-right: 11px;
-  line-height: 35px;
-  background: url("../img/buttons/button_white_right.png") repeat-x right top;
-  font-family: "DINOT-Medium", Sans-Serif;
-  font-size: 15px;
-  text-shadow: 0 1px white;
-  filter: progid:DXImageTransform.Microsoft.DropShadow(offx = 0, offy = 1, color = #FFFFFF);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)";
-  /* IE8 */
-  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #00FFFFFF, endColorstr = #00FFFFFF);*/
-  /* IE6 & 7 */
-  zoom: 1;
-}
-
-.candy_white_button.previous {
-  float: left;
-  padding-left: 15px;
-  background: url("../img/buttons/button_white_previous_left.png") no-repeat left top;
-}
-
-.candy_white_button.previous span {
-  padding: 0 11px 0 5px;
-  background: url("../img/buttons/button_white_right.png") repeat-x right top;
-}
-
-.candy_white_button.next {
-  float: right;
-  background: url("../img/buttons/button_white_left.png") no-repeat left top;
-}
-
-.candy_white_button.next span {
-  padding-right: 22px;
-  background: url("../img/buttons/button_white_next_right.png") repeat-x right top;
-}
-
-.search_button {
-  float: left;
-  margin: 0;
-  padding: 0 20px 7px 0;
-  width: 109px;
-  height: 37px;
-  background: url("../img/buttons/button_search.png") no-repeat left top;
-  border: none;
-  color: white;
-  font-family: "DINOT-Medium", Sans-Serif;
-  font-size: 17px;
-}
-
-.search_button:hover {
-  background-position: left -37px;
-}
-
-.search_button.active, .search_button:active {
-  padding-top: 5px;
-  background-position: left bottom;
-}
-
 #content .range {
   clear: both;
   overflow: hidden;
@@ -843,11 +679,8 @@ span.remove {
   z-index: 1000;
   text-align: left;
   line-height: 23px;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
+
+  .disable-selection();
 }
 
 #content div.date-selector div.month, #content div.date-selector div.day, #content div.date-selector div.year {
@@ -952,7 +785,7 @@ span.remove {
 /**
 ac_results and #content ui-complete (jquery ui): are styles for autocomplete/autosuggest widgets.
 The id #content is used for forcing precedence over other style definitions.
-**/
+ **/
 .ac_results, #content ui-autocomplete {
   z-index: 1000;
   text-align: left;
@@ -2242,18 +2075,8 @@ a.next_slide:hover {
   background: #dedede;
   vertical-align: top;
   margin: 14px 0 0 7px;
-  -webkit-border-top-left-radius: 3px;
-  -webkit-border-top-right-radius: 3px;
-  -webkit-border-bottom-right-radius: 3px;
-  -webkit-border-bottom-left-radius: 3px;
-  -moz-border-radius-topleft: 3px;
-  -moz-border-radius-topright: 3px;
-  -moz-border-radius-bottomright: 3px;
-  -moz-border-radius-bottomleft: 3px;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
+
+  .border-radius(3px);
 }
 
 #content div.infowindow .light_box.data_repatriation .percentage_bar {
@@ -2806,18 +2629,8 @@ a.next_slide:hover {
   background: #dedede;
   vertical-align: top;
   margin: 14px 0 0 7px;
-  -webkit-border-top-left-radius: 3px;
-  -webkit-border-top-right-radius: 3px;
-  -webkit-border-bottom-right-radius: 3px;
-  -webkit-border-bottom-left-radius: 3px;
-  -moz-border-radius-topleft: 3px;
-  -moz-border-radius-topright: 3px;
-  -moz-border-radius-bottomright: 3px;
-  -moz-border-radius-bottomleft: 3px;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
+
+  .border-radius(3px);
 }
 
 #content article .content .light_box.data_repatriation .percentage_bar {
@@ -2977,10 +2790,7 @@ a.next_slide:hover {
   /* FF2*/
   display: inline-block;
   vertical-align: top;
-  zoom: 1;
-  /* IE7 (hasLayout)*/
-  *display: inline;
-  /* IE */
+  zoom: 1; *display: inline;
 }
 
 #content article .content .middle {
@@ -3231,10 +3041,7 @@ a.next_slide:hover {
   margin: 0 3px 0 0;
   padding: 0;
   background: none;
-  zoom: 1;
-  /* IE7 (hasLayout)*/
-  *display: inline;
-  /* IE */
+  zoom: 1; *display: inline;
 }
 
 #content article .content ul.thumbs_list li.last {
@@ -3338,18 +3145,8 @@ a.next_slide:hover {
   height: 8px;
   margin: 0 5px 0 0;
   background-color: #000000;
-  -webkit-border-top-left-radius: 4px;
-  -webkit-border-top-right-radius: 4px;
-  -webkit-border-bottom-right-radius: 4px;
-  -webkit-border-bottom-left-radius: 4px;
-  -moz-border-radius-topleft: 4px;
-  -moz-border-radius-topright: 4px;
-  -moz-border-radius-bottomright: 4px;
-  -moz-border-radius-bottomleft: 4px;
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
+
+  .border-radius(4px);
 }
 
 #content article .content .horizontal_graph ul {
@@ -3366,18 +3163,8 @@ a.next_slide:hover {
   height: 3px;
   margin: 0 0 3px 0;
   background-color: #cccccc;
-  -webkit-border-top-left-radius: 1px;
-  -webkit-border-top-right-radius: 1px;
-  -webkit-border-bottom-right-radius: 1px;
-  -webkit-border-bottom-left-radius: 1px;
-  -moz-border-radius-topleft: 1px;
-  -moz-border-radius-topright: 1px;
-  -moz-border-radius-bottomright: 1px;
-  -moz-border-radius-bottomleft: 1px;
-  border-top-left-radius: 1px;
-  border-top-right-radius: 1px;
-  border-bottom-right-radius: 1px;
-  border-bottom-left-radius: 1px;
+
+  .border-radius(1px);
 }
 
 #content article .content .horizontal_graph .value_label {
@@ -5259,11 +5046,7 @@ a.next_slide:hover {
 }
 
 #content article.taxonomies {
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -o-user-select: none;
-  user-select: none;
+  .disable-selection();
 }
 
 #content article.taxonomies .header .left h2 {
@@ -5409,7 +5192,7 @@ http://pixelmatrixdesign.com/uniform/
 Generated by Uniform Theme Generator:
 http://pixelmatrixdesign.com/uniform/themer.html
 
-*/
+ */
 /* Global Declaration */
 div.selector {
   background-image: url(../img/uniform/sprite.png);
@@ -5678,98 +5461,6 @@ div.checker.disabled span, div.checker.disabled:active span, div.checker.disable
 div.checker.disabled span.checked, div.checker.disabled:active span.checked, div.checker.disabled.active span.checked {
   background-position: -162px -279px;
 }
-
-div.uploader {
-  background-position: 0px -297px;
-  height: 28px;
-}
-
-div.uploader span.action {
-  background-position: right -409px;
-  height: 34px;
-  line-height: 24px;
-}
-
-div.uploader span.filename {
-  height: 34px;
-  /* change this line to adjust positioning of filename area */
-  margin: 2px 0px 2px 2px;
-  line-height: 24px;
-}
-
-div.uploader.focus, div.uploader.hover, div.uploader:hover {
-  background-position: 0px -353px;
-}
-
-div.uploader.focus span.action, div.uploader.hover span.action, div.uploader:hover span.action {
-  background-position: right -437px;
-}
-
-div.uploader.active span.action, div.uploader:active span.action {
-  background-position: right -465px;
-}
-
-div.uploader.focus.active span.action, div.uploader:focus.active span.action, div.uploader.focus:active span.action, div.uploader:focus:active span.action {
-  background-position: right -493px;
-}
-
-div.uploader.disabled {
-  background-position: 0px -325px;
-}
-
-div.uploader.disabled span.action {
-  background-position: right -381px;
-}
-
-div.button {
-  background-position: 0px -523px;
-  height: 30px;
-}
-
-div.button span {
-  background-position: right -643px;
-}
-
-div.button.focus, div.button:focus, div.button:hover, div.button.hover {
-  background-position: 0px -553px;
-}
-
-div.button.focus span, div.button:focus span, div.button:hover span, div.button.hover span {
-  background-position: right -673px;
-}
-
-div.button.active, div.button:active {
-  background-position: 0px -583px;
-}
-
-div.button.active span, div.button:active span {
-  background-position: right -703px;
-  color: #555;
-}
-
-div.button.disabled, div.button:disabled {
-  background-position: 0px -613px;
-}
-
-div.button.disabled span, div.button:disabled span {
-  background-position: right -733px;
-  color: #bbb;
-  cursor: default;
-}
-
-div.button span {
-  margin-left: 13px;
-  height: 22px;
-  padding-top: 8px;
-  font-weight: bold;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding-left: 2px;
-  padding-right: 15px;
-}
-
 div.selector {
   width: 210px;
   font-size: 13px;
@@ -5802,62 +5493,18 @@ div.checker {
   margin-right: 3px;
 }
 
-div.uploader {
-  width: 190px;
-  cursor: pointer;
-}
 
-div.uploader span.action {
-  width: 85px;
-  text-align: center;
-  text-shadow: #fff 0px 1px 0px;
-  background-color: #fff;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-div.uploader span.filename {
-  color: #777;
-  width: 82px;
-  border-right: solid 1px #bbb;
-  font-size: 11px;
-}
-
-div.uploader input {
-  width: 190px;
-}
-
-div.uploader.disabled span.action {
-  color: #aaa;
-}
-
-div.uploader.disabled span.filename {
-  border-color: #ddd;
-  color: #aaa;
-}
-
-/* Checkbox */
-/* Radio */
-/* Uploader */
-/* PRESENTATION */
-/* Button */
-/* Select */
-/* Checker */
-/* Radio */
-/* Uploader */
 /*
-
 CORE FUNCTIONALITY
 
 Not advised to edit stuff below this line
 -----------------------------------------------------
-*/
+ */
 .selector, .checker, .button, .radio, .uploader {
   display: -moz-inline-box;
   display: inline-block;
   vertical-align: middle;
-  zoom: 1;
-  *display: inline;
+  zoom: 1; *display: inline;
 }
 
 .selector select:focus, .radio input:focus, .checker input:focus, .uploader input:focus {
@@ -5975,336 +5622,6 @@ div.uploader input {
   cursor: default;
 }
 
-/* Select */
-/* Checker */
-/* Radio */
-/* Uploader */
-body.mapfull #content {
-  padding: 0;
-}
-
-body.mapfull #content div#map {
-  position: relative;
-  width: 100%;
-  height: 475px;
-  margin: 0;
-  z-index: 1;
-}
-
-body.mapfull #content a.zoom_in {
-  position: absolute;
-  top: 110px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
-  background: url("../img/icons/zoom.png") no-repeat 0 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
-  display: none;
-}
-
-body.mapfull #content a.zoom_in:hover {
-  background-position: 0 -32px;
-}
-
-body.mapfull #content a.zoom_out {
-  position: absolute;
-  top: 139px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
-  background: url("../img/icons/zoom.png") no-repeat -28px 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
-  display: none;
-}
-
-body.mapfull #content a.zoom_out:hover {
-  background-position: -28px -32px;
-}
-
-body.mapfull #content article.dataset {
-  position: absolute !important;
-  top: 183px;
-  left: 50%;
-  margin: 0 0 0 -356px;
-  z-index: 10;
-  display: block;
-}
-
-body.mapfull #content article.dataset.countries {
-  top: 205px;
-}
-
-body.mapfull #content article.dataset div.content {
-  padding: 50px 0 20px;
-}
-
-body.mapfull #content article.dataset p.explore {
-  float: left;
-  width: 100%;
-  padding: 40px 0 0 0;
-  text-align: center;
-}
-
-body.mapfull #content div#infowindow_ {
-  position: absolute;
-  width: 261px;
-}
-
-body.mapfull #content div#infowindow_ a.close {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 13px;
-  height: 12px;
-  background: url("../img/close_infowindow.png") no-repeat 0 0;
-  z-index: 10;
-}
-
-body.mapfull #content div#infowindow_ a.close:hover {
-  background-position: 0 -12px;
-}
-
-body.mapfull #content div#infowindow_ img {
-  display: none;
-}
-
-body.mapfull #content div#infowindow_ div.top {
-  display: inline-block;
-  width: 209px;
-  height: auto;
-  padding: 26px 26px 0px 26px;
-  margin: 0;
-  background: url("../img/infowindow_top.png") no-repeat 0 0;
-}
-
-body.mapfull #content div#infowindow_ div.top h2 {
-  height: auto;
-  margin: 0;
-  padding: 0 0 10px;
-  text-align: left !important;
-}
-
-body.mapfull #content div#infowindow_ div.top h2 a {
-  font: bold 19px "Arial", "Helvetica", Sans-Serif;
-  color: #0099CC;
-  text-decoration: none;
-}
-
-body.mapfull #content div#infowindow_ div.top h2 a:hover {
-  text-decoration: underline;
-}
-
-body.mapfull #content div#infowindow_ div.bottom {
-  display: inline-block;
-  width: 209px;
-  height: 73px;
-  padding: 5px 26px 10px 26px;
-  background: url("../img/infowindow_bottom.png") no-repeat 0 bottom;
-}
-
-body.mapfull #content div#infowindow_ div.bottom span {
-  float: left;
-  height: 41px;
-  margin: 0;
-}
-
-body.mapfull #content div#infowindow_ div.bottom span p {
-  text-align: left;
-  font: normal 21px "DINOT-Medium", Sans-Serif;
-  color: #0099CC;
-}
-
-body.mapfull #content div#infowindow_ div.bottom span label {
-  text-align: left;
-  font: normal 13px "Arial", "Helvetica", Sans-Serif;
-  color: #9f9f9f;
-}
-
-body.mapfull #content div#infowindow_ div.bottom span.datasets {
-  width: 55px;
-}
-
-body.mapfull #content div#infowindow_ div.bottom span.occurrences {
-  margin: 0 0 0 15px;
-  width: 76px;
-}
-
-body.mapfull #content div#infowindow_ div.bottom span.species {
-  margin: 0 0 0 14px;
-  width: 47px;
-}
-
-body.typesmap div#map {
-  position: absolute;
-  top: -19px;
-  height: 423px;
-  left: 2px;
-  width: 603px;
-  z-index: 10 !important;
-}
-
-body.typesmap a.zoom_in {
-  position: absolute;
-  top: -13px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
-  background: url("../img/icons/zoom.png") no-repeat 0 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
-}
-
-body.typesmap a.zoom_in:hover {
-  background-position: 0 -32px;
-}
-
-body.typesmap a.zoom_out {
-  position: absolute;
-  top: 15px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
-  background: url("../img/icons/zoom.png") no-repeat -28px 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
-}
-
-body.typesmap a.zoom_out:hover {
-  background-position: -28px -32px;
-}
-
-body.typesmap div.projection {
-  position: absolute;
-  top: -12px;
-  right: 303px;
-  width: 28px;
-  height: 28px;
-  z-index: 10;
-}
-
-body.typesmap div.projection a.projection {
-  float: left;
-  height: 28px;
-  width: 28px;
-  background: url("../img/projection_button.png") no-repeat 0 0;
-  text-indent: -9999px;
-  font-size: 0;
-  line-height: 0;
-  z-index: 1;
-}
-
-body.typesmap div.projection a.projection:hover {
-  background-position: 0 -28px;
-}
-
-body.typesmap div.projection span {
-  display: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 93px;
-  height: 62px;
-  padding: 8px 13px;
-  background: url("../img/projection_bkg.png") no-repeat 0 0;
-  z-index: 10;
-}
-
-body.typesmap div.projection span p {
-  font: normal 13px "DINOT-Medium";
-  color: #333333;
-}
-
-body.typesmap div.projection span ul {
-  display: block;
-  padding: 8px 0 0 0;
-}
-
-body.typesmap div.projection span ul li {
-  padding: 0 0 5px 0;
-  display: block;
-}
-
-body.typesmap div.projection span ul li.disabled a {
-  color: #CCCCCC;
-}
-
-body.typesmap div.projection span ul li.disabled a:hover {
-  cursor: default;
-}
-
-body.typesmap div.projection span ul li a.selected {
-  color: #333333 !important;
-}
-
-body.typesmap div.projection span ul li a.selected:hover {
-  color: #333333;
-  cursor: default;
-  text-decoration: none;
-}
-
-body.typesmap p.maptype a.selected {
-  color: #666666;
-  text-decoration: none;
-}
-
-body.typesmap p.maptype a.selected:hover {
-  color: #666666 !important;
-  text-decoration: none;
-  cursor: default;
-}
-
-body.singlemap div#map {
-  position: absolute;
-  top: -19px;
-  height: 423px;
-  left: 2px;
-  width: 603px;
-  z-index: 10 !important;
-}
-
-body.singlemap a.zoom_in {
-  position: absolute;
-  top: -13px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
-  background: url("../img/icons/zoom.png") no-repeat 0 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
-}
-
-body.singlemap a.zoom_in:hover {
-  background-position: 0 -32px;
-}
-
-body.singlemap a.zoom_out {
-  position: absolute;
-  top: 15px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
-  background: url("../img/icons/zoom.png") no-repeat -28px 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
-}
-
-body.singlemap a.zoom_out:hover {
-  background-position: -28px -32px;
-}
 
 /* Temporary CSS for signaling placeholders. Remove this styles when not needed anymore */
 /* On every FTL, search for the literal "placeholder_temp" and replace it when real values are available */
