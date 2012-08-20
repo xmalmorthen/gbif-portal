@@ -29,12 +29,11 @@
 <#include "/WEB-INF/pages/occurrence/infoband.ftl">
 
 <#assign showMap=occ.longitude?? && occ.latitude??/>
-<#assign titleRight=""/>
 <#if showMap>
   <#assign titleRight="Geoposition"/>
 </#if>
 
-<@common.article id="location" title="Geoposition" titleRight=titleRight class="map">
+<@common.article id="location" title="Geoposition" titleRight=titleRight! class="map">
   <#if showMap>
     <div id="map" latitude="${occ.latitude}" longitude="${occ.longitude}"></div>
     <div class="right">
@@ -84,77 +83,49 @@
 </@common.article>
 
 
-<@common.article id="details" title="Occurrence details">
+<@common.article id="source" title="Source details">
     <div class="left">
-      <div class="col">
-        <h3>Basis of record</h3>
-        <p>${occ.basisOfRecord!"Unknown"}</p>
-
-        <!-- remove this div once implemented -->
-        <div class="placeholder_temp">
-        <h3>Individual count</h3>
-        <p>1</p>
-
-        <h3>Behavior</h3>
-        <p>Foraging</p>
-
-        <h3>Type status</h3>
-        <p>Holotype</p>
-
-        <h3>Typified name string</h3>
-        <p>Puma concolor</p>
-        </div>
-      </div>
-
-      <div class="col placeholder_temp">
-        <h3>Sex</h3>
-        <p>Male</p>
-
-        <h3>Life stage</h3>
-        <p>Juvenile</p>
-
-        <h3>Establishment means</h3>
-        <p>Wild</p>
-
-        <h3>Reproductive condition</h3>
-        <p>Pregnant</p>
-
-        <h3>Habitat</h3>
-        <p>Oak savanna</p>
-      </div>
-
-      <h3 class="placeholder_temp">Occurrence notes</h3>
-      <p class="placeholder_temp">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-        id est laborum.</p>
-
-    </div>
-    <div class="right">
-      <h3>Dataset</h3>
-      <p>${dataset.title!}</p>
-
       <h3>Data publisher</h3>
       <p><a href="<@s.url value='/organization/${(dataset.owningOrganizationKey)!}'/>"
             title="">${(dataset.owningOrganizationKey)!"Unknown"}</a></p>
+      <h3>Dataset</h3>
+      <p>${dataset.title!}</p>
 
-      <h3>DOWNLOAD</h3>
-      <ul class="placeholder_temp">
-        <li class="download"><a href="#" title="Placemark">Original record</a></li>
-        <li class="download"><a href="#" title="Placemark">Cached record</a></li>
-      </ul>
+      <#if occ.institutionCode??>
+        <h3>Institution code</h3>
+        <p>${occ.institutionCode}</p>
+      </#if>
+
+      <#if occ.collectionCode??>
+        <h3>Collection code</h3>
+        <p>${occ.collectionCode}</p>
+      </#if>
+    </div>
+
+    <div class="right">
+      <#if occ.catalogNumber??>
+        <h3>Catalog number</h3>
+        <p>${occ.catalogNumber}</p>
+      </#if>
+
+      <#list occ.identifierRecords as i>
+        <h3>${i.type}</h3>
+        <p>${i.identifier}</p>
+      </#list>
     </div>
 </@common.article>
 
-<@common.article id="taxonomy" title="Identification details <span class='subtitle'>according to GBIF Backbone Taxonomy</span>">
+<#assign title>
+Identification details <span class='subtitle'>according to <a href="<@s.url value='/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c'/>">GBIF Backbone Taxonomy</a></span>
+</#assign>
+<@common.article id="taxonomy" title=title>
     <div class="left">
       <#if occ.nubKey??>
         <h3>Identified as</h3>
         <p><a href="<@s.url value='/species/${occ.nubKey?c}'/>">${occ.scientificName}</a></p>
 
         <div class="placeholder_temp">
-        <h3>Identification Notes</h3>
+        <h3>Notes</h3>
         <p>cf. alpinum${occ.identificationQualifier!}. Flowers missing, maybe confused with R.alpestre? ${occ.identificationNotes!}</p>
         </div>
 
@@ -172,7 +143,7 @@
     <div class="right">
       <#if occ.identificationDate??>
         <h3>Identification date </h3>
-        <p>${occ.identificationDate?date?iso_utc}}</p>
+        <p>${occ.identificationDate?date?iso_utc}</p>
       </#if>
 
       <#if occ.identifierName??>
@@ -186,57 +157,68 @@
 </@common.article>
 
 <@common.article id="collection" title="Collection details">
-    <div class="left placeholder_temp">
-      <div class="col">
-        <h3>Collection date </h3>
-        <p>Oct 23th, 2007</p>
+  <div class="left">
+    <div class="col">
+      <h3>Basis of record</h3>
+      <p>${occ.basisOfRecord!"Unknown"}</p>
 
-        <h3>Collector name</h3>
-        <p>Thomas Function</p>
+      <h3>Collection date </h3>
+      <p>Oct 23th, 2007</p>
+
+      <h3>Collector name</h3>
+      <p>Thomas Function</p>
+
+      <!-- remove this div once implemented -->
+      <div class="placeholder_temp">
+      <h3>Individual count</h3>
+      <p>1</p>
+
+      <h3>Preparations</h3>
+      <p>Skull</p>
+
+      <h3>Disposition</h3>
+      <p>Missing</p>
+
       </div>
-
-      <div class="col">
-        <h3>Preparations</h3>
-        <p>Skull</p>
-
-        <h3>Disposition</h3>
-        <p>Missing</p>
-      </div>
-
-      <h3>Collector notes</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-        nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-        id est laborum.</p>
     </div>
-    <div class="right">
 
-    <#if occ.catalogNumber??>
-      <h3>Catalog number</h3>
-      <p>${occ.catalogNumber}</p>
-    </#if>
+    <div class="col placeholder_temp">
+      <h3>Sex</h3>
+      <p>Male</p>
 
-    <#if occ.institutionCode??>
-      <h3>Institution code</h3>
-      <p>${occ.institutionCode}</p>
-    </#if>
+      <h3>Life stage</h3>
+      <p>Juvenile</p>
 
-    <#if occ.collectionCode??>
-      <h3>Collection code</h3>
-      <p>${occ.collectionCode}</p>
-    </#if>
+      <h3>Behavior</h3>
+      <p>Foraging</p>
 
-    <#if occ.identifierRecords?has_content>
-      <h3>Occurrence identifiers</h3>
-      <#list occ.identifierRecords as i>
-        <p>${i.type}: ${i.identifier}</p>
-      </#list>
-    </#if>
+      <h3>Establishment means</h3>
+      <p>Wild</p>
 
+      <h3>Reproductive condition</h3>
+      <p>Pregnant</p>
+
+      <h3>Habitat</h3>
+      <p>Oak savanna</p>
     </div>
+
+    <h3 class="placeholder_temp">Notes</h3>
+    <p class="placeholder_temp">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+      dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+      nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+      id est laborum.</p>
+
+  </div>
+
+  <div class="right placeholder_temp">
+    <h3>Type status</h3>
+    <p>Holotype</p>
+  </div>
+
 </@common.article>
 
+<#-- FOR LATER
 <@common.article id="geology" title="Geological context" class="placeholder_temp">
     <div class="left">
       <div class="col">
@@ -278,6 +260,7 @@
       <p>XYZ</p>
     </div>
 </@common.article>
+-->
 
 <@common.article id="legal" title="Usage & legal issues" class="mono_line placeholder_temp">
     <div class="left">
