@@ -98,6 +98,9 @@
           <scanIntervalSeconds>10</scanIntervalSeconds>
           <webAppConfig>
             <contextPath>/</contextPath>
+            <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
+              <resourcesAsCSV>src/main/webapp,${project.build.directory}/${project.build.finalName}</resourcesAsCSV>
+            </baseResource>
           </webAppConfig>
           <stopKey>stop</stopKey>
           <stopPort>9362</stopPort>
@@ -154,6 +157,26 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+          <groupId>org.lesscss</groupId>
+          <artifactId>lesscss-maven-plugin</artifactId>
+          <version>1.3.0</version>
+          <configuration>
+              <sourceDirectory>${project.basedir}/src/main/webapp/less</sourceDirectory>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}/css</outputDirectory>
+              <compress>true</compress>
+              <includes>
+                  <include>main.less</include>
+              </includes>
+          </configuration>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>compile</goal>
+                  </goals>
+              </execution>
+          </executions>
       </plugin>
     </plugins>
     <resources>
