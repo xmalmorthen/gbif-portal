@@ -1,5 +1,9 @@
 $(function() {
 
+  $("div.graph li a, div.bargraph li a").on("click", function(e) {
+    e.preventDefault();
+  });
+
   $('div.graph').each(function(index) {
     $(this).find('ul li .value').each(function(index) {
       var width = $(this).parents("div").attr("class").replace(/graph /, "");
@@ -154,7 +158,7 @@ $(function() {
     dataHistory.initialize(generateRandomValues(365), {height: 180, processes: processes});
     dataHistory.show();
   }
-  
+
   // wrapper to use for i18n in JQuery. See README file for how to use it.
   $i18nresources = $.getResourceBundle("resources");
 
