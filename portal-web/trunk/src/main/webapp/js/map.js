@@ -49,6 +49,23 @@ $(function() {
       });
 
       setupZoom(map);
+      
+      // draw the bounding boxes should they exist (for example from a geographic coverage in the dataset)
+      if (bboxes != null) {
+        // bboxes have minLat,maxLat,minLng,maxLng
+        $.each(bboxes, function(index, box) {
+      	  // handle boxes that are really points
+      	  if (box[0]==box[1] && box[2]==box[3]) {
+	        L.marker([box[0], box[2]]).addTo(map);
+      	  } else {
+        	var bounds = [[box[0], box[2]], [box[1], box[3]]];
+            L.rectangle(bounds, {color: "#ff7800", weight: 2}).addTo(map);
+            // Some small boxes don't show, so provide a marker
+            L.marker([box[0] + ((box[1]-box[0])/2), box[2] + ((box[3]-box[2])/2)]).addTo(map);
+      	  }
+      	  
+      	});
+      }      
 
       L.control.layers(baseLayers, overlays).addTo(map);
 

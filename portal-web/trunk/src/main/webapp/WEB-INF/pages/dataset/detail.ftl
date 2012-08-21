@@ -3,6 +3,12 @@
 <html>
 <head>
   <title>${dataset.title!"???"} - Dataset detail</title>
+  <content tag="extra_scripts">
+    <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
+    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
+  </content>  
 </head>
 <body onload="initBB()" class="densitymap">
 
@@ -275,13 +281,38 @@
 </@common.article>
 </#if>
 
-<#-- OCCURRENCE MAPS -->
-<#if dataset.type?has_content && dataset.type == "OCCURRENCE">
-  <#include "/WEB-INF/pages/dataset/occurrences_map.ftl">
-</#if>
+<article class="map">
+  <header></header>
+  <div id="map" type="DATASET" key="${dataset.key}"></div>
+  
+  <script>
+    // create an array of the bounding boxes from the geographic coverages
+    // we ignore anything that is global as that tells us very little
+    var bboxes = [
+    <#list dataset.geographicCoverages as geo>
+       <#if geo.boundingBox?has_content && (!geo.boundingBox.isGlobalCoverage())>
+         [${geo.boundingBox.minLatitude},${geo.boundingBox.maxLatitude},${geo.boundingBox.minLongitude},${geo.boundingBox.maxLongitude},],
+       </#if>
+    </#list>
+    ];
+  </script>
+  
+  <div class="content">
+      <div class="header">
+        <div class="right"><h2>Geographic Coverages</h2></div>
+      </div>
+	  <div class="right">
+        <#list dataset.geographicCoverages as geo>
+            <#assign extended_desc_len = 150>
+            <p>${common.limit(geo.description!"",extended_desc_len)}
+              <#if (geo.description?length>extended_desc_len) ><@common.popup message=geo.description title="Description"/></#if>
+            </p>
+        </#list>
+	  </div>
+  </div>
+  <footer></footer>
+</article>
 
-<#-- GEO COVERAGE -->
-<#include "/WEB-INF/pages/dataset/geo_coverages.ftl">
 
 <#-- PROJECT -->
 <#if dataset.project?has_content || (otherContacts?size>0) >
