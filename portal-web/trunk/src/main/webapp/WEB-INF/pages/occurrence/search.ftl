@@ -113,7 +113,7 @@
               <td><#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}</#if></td>
               <td><#if occ.latitude?has_content>${occ.latitude!?c}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?c}<#else>-</#if></td>
               <td><#if occ.isoCountryCode?has_content> ${occ.isoCountryCode!} </#if></td>
-              <td><a href="<@s.url value='/occurrence/${occ.id?c}'/>"><strong>View</strong></a></td>
+              <td><a href="<@s.url value='/occurrence/${occ.key?c}'/>"><strong>View</strong></a></td>
               </tr>
              </#list>
              </tbody>
