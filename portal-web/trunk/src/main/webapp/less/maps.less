@@ -35,42 +35,6 @@ body.mapfull #content div#map {
   z-index: 1;
 }
 
-body.mapfull #content a.zoom_in {
-  position: absolute;
-  top: 110px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
-  background: url("../img/icons/zoom.png") no-repeat 0 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
-  display: none;
-}
-
-body.mapfull #content a.zoom_in:hover {
-  background-position: 0 -32px;
-}
-
-body.mapfull #content a.zoom_out {
-  position: absolute;
-  top: 139px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
-  background: url("../img/icons/zoom.png") no-repeat -28px 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
-  display: none;
-}
-
-body.mapfull #content a.zoom_out:hover {
-  background-position: -28px -32px;
-}
-
 body.mapfull #content article.dataset {
   position: absolute !important;
   top: 183px;
@@ -193,39 +157,6 @@ body.typesmap div#map {
   z-index: 10 !important;
 }
 
-body.typesmap a.zoom_in {
-  position: absolute;
-  top: -13px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
-  background: url("../img/icons/zoom.png") no-repeat 0 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
-}
-
-body.typesmap a.zoom_in:hover {
-  background-position: 0 -32px;
-}
-
-body.typesmap a.zoom_out {
-  position: absolute;
-  top: 15px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
-  background: url("../img/icons/zoom.png") no-repeat -28px 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
-}
-
-body.typesmap a.zoom_out:hover {
-  background-position: -28px -32px;
-}
 
 body.typesmap div.projection {
   position: absolute;
@@ -316,37 +247,78 @@ body.singlemap div#map {
   z-index: 10 !important;
 }
 
-body.singlemap a.zoom_in {
-  position: absolute;
-  top: -13px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
-  background: url("../img/icons/zoom.png") no-repeat 0 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
-}
 
-body.singlemap a.zoom_in:hover {
-  background-position: 0 -32px;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+body.singlemap a.zoom_in {
+  top: -13px;
 }
 
 body.singlemap a.zoom_out {
-  position: absolute;
   top: 15px;
-  left: 8px;
-  height: 28px;
-  width: 28px;
+}
+
+body.mapfull #content a.zoom_in {
+  top: 110px;
+  display: none;
+}
+
+body.mapfull #content a.zoom_out {
+  top: 139px;
+  display: none;
+}
+
+body.typesmap a.zoom_in { 
+  top: -13px;
+}
+
+body.typesmap a.zoom_out {
+  top: 15px;
+}
+
+
+.map_container {
+  position:relative;
+  display:inline;
+  .size(627px, 423px);
+}
+
+.zoom_in {
+  top: -13px;
+  background: url("../img/icons/zoom.png") no-repeat 0 0;
+  &:hover { background-position: 0 -32px; }
+}
+
+.zoom_out {
+  top: 15px;
   background: url("../img/icons/zoom.png") no-repeat -28px 0;
-  z-index: 10;
-  text-indent: -999px;
-  line-height: 0;
-  font-size: 0;
+  &:hover { background-position: -28px -32px; }
 }
 
-body.singlemap a.zoom_out:hover {
-  background-position: -28px -32px;
+.zoom_in, .zoom_out {
+  position: absolute;
+  left: 8px;
+  .size(28px);
+  z-index: 1000;
 }
 
+.leaflet-control-layers-base { 
+  padding: 3px; 
+  input[type="radio"] { margin: 0 3px 0 0; }
+}

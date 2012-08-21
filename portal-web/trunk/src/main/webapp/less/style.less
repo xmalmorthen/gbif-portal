@@ -4,6 +4,7 @@
 @import "buttons";
 @import "occ_table";
 @import "popovers";
+@import "graphs";
 
 @import "taxonomies";
 
@@ -87,7 +88,7 @@ span.small {
 
 span.number {
   font-family: "DINOT-Regular", sans-serif;
-  color: #cccccc;
+  color: @cGray4;
   font-size: 15px;
 }
 
@@ -265,18 +266,14 @@ span.remove {
   z-index: 100;
 
   .disable-selection();
-}
 
-#content .select_box.open .listing {
-  display: block;
-}
-
-#content .select_box.open div.selected_option {
-  background: url("../img/select_left_side.png") no-repeat left -39px;
-}
-
-#content .select_box.open div.selected_option span {
-  background: url("../img/select_right_side.png") repeat-x right -39px;
+  &.open .listing { display: block; }
+  &.open div.selected_option {
+    background: url("../img/select_left_side.png") no-repeat left -39px;
+  }
+  &.open div.selected_option span {
+    background: url("../img/select_right_side.png") repeat-x right -39px;
+  }
 }
 
 #content .select_box div.selected_option {
@@ -293,16 +290,17 @@ span.remove {
   text-align: left;
   font-size: 13px;
   color: @cGray2;
-}
 
-#content .select_box div.selected_option span {
-  display: block;
-  height: 41px;
-  padding-right: 45px;
-  line-height: 37px;
-  background: url("../img/select_right_side.png") repeat-x right top;
-  font-family: "DINOT-Regular", sans-serif;
-  font-size: 13px;
+  span {
+    display: block;
+    height: 41px;
+    padding-right: 45px;
+    line-height: 37px;
+    background: url("../img/select_right_side.png") repeat-x right top;
+    font-family: "DINOT-Regular", sans-serif;
+    font-size: 13px;
+  }
+
 }
 
 #content .select_listing {
@@ -312,54 +310,47 @@ span.remove {
   padding: 0 0 0 17px;
   margin-left: -5px;
   background: url("../img/select_left_side.png") no-repeat left -73px;
+
+  &.open { display: block; }
+
+  .select_inner {
+    text-align: left;
+    display: block;
+    background: url("../img/select_right_side.png") repeat-x right -73px;
+    margin: 0;
+    padding: 0 0 20px 0;
+    height: 150px;
+
+    ul {
+      height: 130px;
+      overflow: auto;
+      outline: none;
+      margin: 0;
+      padding: 5px 0px 0 0;
+
+      li {
+        display: block;
+        cursor: pointer;
+        font-size: 13px;
+        color: @cGray2;
+        padding: 0;
+        margin: 0;
+        line-height: 20px;
+        background: none;
+
+        -webkit-transition: color "" ease-in-out;
+        -moz-transition:    color "" ease-in-out;
+        -o-transition:      color "" ease-in-out;
+        -ms-transition:     color "" ease-in-out;
+        transition:         color "" ease-in-out;
+
+        &:hover { color: @cGray0; }
+        &.selected { color: @cGray0; }
+
+      }
+    }
+  }
 }
-
-#content .select_listing.open {
-  display: block;
-}
-
-#content .select_listing .select_inner {
-  text-align: left;
-  display: block;
-  background: url("../img/select_right_side.png") repeat-x right -73px;
-  margin: 0;
-  padding: 0 0 20px 0;
-  height: 150px;
-}
-
-#content .select_listing .select_inner ul {
-  height: 130px;
-  overflow: auto;
-  outline: none;
-  margin: 0;
-  padding: 5px 0px 0 0;
-}
-
-#content .select_listing .select_inner ul li {
-  display: block;
-  cursor: pointer;
-  font-size: 13px;
-  color: @cGray2;
-  padding: 0;
-  margin: 0;
-  line-height: 20px;
-  background: none;
-
-  -webkit-transition: color "" ease-in-out;
-  -moz-transition:    color "" ease-in-out;
-  -o-transition:      color "" ease-in-out;
-  -ms-transition:     color "" ease-in-out;
-  transition:         color "" ease-in-out;
-}
-
-#content .select_listing .select_inner ul li:hover {
-  color: @cGray0;
-}
-
-#content .select_listing .select_inner ul li.selected {
-  color: @cGray0;
-}
-
 
 .download .dropdown {
   width: 220px;
@@ -536,7 +527,6 @@ span.remove {
 }
 
 // Range
-
 #content .range {
   clear: both;
   overflow: hidden;
@@ -559,7 +549,7 @@ span.remove {
 
     outline: none;
     text-align: right;
-    color: #cccccc;
+    color: @cGray4;
     font-size: 11px;
     text-transform: uppercase;
     border: 0;
@@ -703,31 +693,31 @@ span.remove {
   width: 65px;
 }
 
-#content div.date-selector div.day div.inner,
+#content div.date-selector div.day   div.inner,
 #content div.date-selector div.month div.inner,
-#content div.date-selector div.year div.inner {
+#content div.date-selector div.year  div.inner {
   height: 80px;
 }
 
-#content div.date-selector div.day div.inner ul,
+#content div.date-selector div.day   div.inner ul,
 #content div.date-selector div.month div.inner ul,
-#content div.date-selector div.year div.inner ul {
+#content div.date-selector div.year  div.inner ul {
   margin: 0;
   padding: 0;
 }
 
-#content div.date-selector div.day div.inner ul li,
+#content div.date-selector div.day   div.inner ul li,
 #content div.date-selector div.month div.inner ul li,
-#content div.date-selector div.year div.inner ul li {
+#content div.date-selector div.year  div.inner ul li {
   margin: 0;
   padding: 0;
   line-height: 16px;
   z-index: 1000;
 }
 
-#content div.date-selector div.day div.inner ul li.selected,
+#content div.date-selector div.day   div.inner ul li.selected,
 #content div.date-selector div.month div.inner ul li.selected,
-#content div.date-selector div.year div.inner ul li.selected {
+#content div.date-selector div.year  div.inner ul li.selected {
   font-weight: bold;
 }
 
@@ -738,7 +728,7 @@ The id #content is used for forcing precedence over other style definitions.
 .ac_results, #content ui-autocomplete {
   z-index: 1000;
   text-align: left;
-  color: #cccccc;
+  color: @cGray4;
   font-size: 11px;
   text-transform: uppercase;
   font-family: "DINOT-Medium", sans-serif;
@@ -869,7 +859,7 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li.ui-menu-
   margin: 0;
   padding: 11px;
   border: 0;
-  color: #cccccc;
+  color: @cGray4;
   font-size: 11px;
   text-transform: uppercase;
   font-family: "DINOT-Medium", sans-serif;
@@ -1055,7 +1045,7 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li.ui-menu-
 
 #content article .content .ps_container div.ps_options ul.ps_options_inner li.hidden a {
   cursor: default !important;
-  color: #cccccc;
+  color: @cGray4;
 }
 
 #content article .content .ps_container div.ps_options ul.ps_options_inner li.hidden span {
@@ -1172,7 +1162,7 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li.ui-menu-
 
 #content article .content .ps_container div.ps_options ul.ps_options_inner li.hidden a {
   cursor: default !important;
-  color: #cccccc;
+  color: @cGray4;
 }
 
 #content article .content .ps_container div.ps_options ul.ps_options_inner li.hidden span {
@@ -1191,8 +1181,6 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li.ui-menu-
   font-size: 12px;
   display: none;
 }
-
-
 
 #content .criteria_popover {
 
@@ -1216,12 +1204,12 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li.ui-menu-
 
       input.legend {
         float: right;
-        background: #f1f1f1;
+        background: #cGray5;
         width: 100px;
         margin-right: 10px;
         outline: none;
         text-align: right;
-        color: #cccccc;
+        color: @cGray4;
         font-size: 11px;
         text-transform: uppercase;
         border: 0;
@@ -1300,9 +1288,8 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li.ui-menu-
 
     .scrollpane {
       position: relative;
-      width: 220px;
+      .size(220px, 110px);
       overflow: auto;
-      height: 110px;
       top: 20px;
       left: 20px;
       outline: none;
@@ -1312,16 +1299,14 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li.ui-menu-
       top: 6px;
       left: -9px;
       position: relative;
-      width: 18px;
-      height: 13px;
+      .size(18px, 13px);
       margin: auto;
       background: url("../img/white_popover_arrow.png") no-repeat;
     }
 
     .l {
       float: left;
-      height: 153px;
-      width: 20px;
+      .size(20px, 153px);
       margin: 0 0 0 -20px;
       padding: 0 0 0 7px;
       background: url("../img/select_filter_left_side.png") no-repeat left top;
@@ -1329,8 +1314,7 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li.ui-menu-
 
     .background {
       padding-right: 30px;
-      width: 20px;
-      height: 153px;
+      .size(20px, 153px);
       background: url("../img/select_filter_right_side.png") repeat-x right top;
     }
 
@@ -1355,7 +1339,7 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li.ui-menu-
         &.hidden {
           a {
             cursor: default !important;
-            color: #cccccc;
+            color: @cGray4;
           }
 
           span {
@@ -1375,72 +1359,13 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li.ui-menu-
   }
 }
 
-
-
-body.reference article div.download {
-  position: absolute;
-  bottom: 0;
-  z-index: 1000;
-}
-
-body.reference article ul li ul {
-  margin-top: 10px !important;
-  margin-bottom: 0 !important;
-}
-
-body.reference article strong {
-  color: @cGray1;
-}
-
-body.reference article .color {
-  float: left;
-  margin-right: 5px;
-  margin-top: 4px;
-  height: 10px;
-  width: 10px;
-  background: #000;
-  border: 1px solid #000;
-}
-
-body.reference article span.code {
-  color: @cGray3;
-  font-size: 11px;
-}
-
-body.reference article .example {
-  overflow: hidden;
-  clear: both;
-  margin-bottom: 10px;
-}
-
-body.reference article .example.big {
-  height: 100px;
-}
-
-body.reference article .example ul {
-  padding: 0;
-  margin: 0;
-}
-
-body.reference article .example ul li {
-  background: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-body.reference article .example .field {
-  clear: both;
-  overflow: hidden;
-  position: relative;
-}
-
-
 // Register
 body.register footer {
   height: auto;
   margin-top: 94px;
-  background: none;
   padding-bottom: 40px;
+
+  background: none;
 
   .content {
     padding: 0;
@@ -1481,12 +1406,14 @@ body.register footer {
 
 #content .mini-profile {
 
-  a { text-decoration: underline; }
+  a { 
+    text-decoration: underline;
 
-  a.avatar {
-    float: left;
-    margin-right: 10px;
-    text-decoration: none;
+    &.avatar {
+      float: left;
+      margin-right: 10px;
+      text-decoration: none;
+    }
   }
 
   strong {
@@ -1507,18 +1434,15 @@ body.register footer {
 #content .back {
   padding: 16px 0 0 0;
   height: 28px;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid @cGray4;
   position: relative;
   top: -60px;
   background: #ffffcc;
   text-align: left;
 
   .content {
-    position: absolute;
-    width: 924px;
-    margin-left: -462px;
-    left: 50%;
-    right: 50%;
+
+    .absolute-landscape-center(924px);
 
     a {
       padding: 0 0 0 10px;
@@ -1529,10 +1453,9 @@ body.register footer {
       color: @cGray2;
       text-decoration: underline;
     }
+
   }
 }
-
-
 
 #content article {
   position: relative;
@@ -1650,7 +1573,7 @@ body.register footer {
 
 #content article .content p.light_note {
   font-size: 12px;
-  color: #cccccc;
+  color: @cGray4;
 }
 
 #content article .content a:hover {
@@ -1658,43 +1581,37 @@ body.register footer {
 }
 
 #content article .content ul.triptic {
+
   clear: both;
   overflow: hidden;
   padding: 0;
   margin: 0;
-}
 
-#content article .content ul.triptic.last li {
-  margin-bottom: 0;
-}
+  &.last li { margin-bottom: 0; } 
 
-#content article .content ul.triptic li {
-  float: left;
-  width: 229px;
-  padding: 0;
-  margin: 0 90px 22px 0;
-  background: none;
-}
+  li {
+    float: left;
+    width: 229px;
+    padding: 0;
+    margin: 0 90px 22px 0;
+    background: none;
 
-#content article .content ul.triptic li h3 {
-  font-size: 19px;
-  text-transform: none;
-}
+    h3 {
+      font-size: 19px;
+      text-transform: none;
 
-#content article .content ul.triptic li h3 span {
-  font-family: "Arial", "Helvetica", sans-serif;
-  margin-left: 7px;
-  font-size: 15px;
-  font-weight: normal;
-  color: #cccccc;
-}
+      span {
+        font-family: "Arial", "Helvetica", sans-serif;
+        margin-left: 7px;
+        font-size: 15px;
+        font-weight: normal;
+        color: @cGray4;
+      }
+    }
 
-#content article .content ul.triptic li p {
-  width: 180px;
-}
-
-#content article .content ul.triptic li.last {
-  margin: 0;
+    p { width: 180px; } 
+    &.last { margin: 0; }
+  }
 }
 
 // Article .header
@@ -2233,7 +2150,7 @@ body.register footer {
   img {
     margin: 0px;
     padding: 3px;
-    border: 1px solid #cccccc;
+    border: 1px solid @cGray4;
     max-width: 136px;
     max-height: 93px;
     width: 136px;
@@ -2264,6 +2181,7 @@ body.register footer {
 
     .separator {
       .size(100px, 15px);
+
       display: inline-block; // TODO: add mixin
       margin: 0 10px;
       background: url("../img/dotted_line_bck.png") repeat-x left bottom;
@@ -2280,98 +2198,32 @@ body.register footer {
   background: no-repeat left top;
   padding: 10px;
   margin: 0 0 10px -2px;
-}
 
-#content article .content .logo_holder .logo {
-  max-height: 93px;
-  max-width: 136px;
-}
-
-#content article .content .multipie {
-  display: inline-block;
-  width: 75px;
-}
-
-#content article .content .pieMultiLegend {
-  display: inline-block;
-  width: 100px;
-  vertical-align: top;
-  margin: 0;
-  padding: 0;
-}
-
-#content article .content .pieMultiLegend ul {
-  margin: 0 0 0 15px;
-  padding: 0;
-}
-
-#content article .content .pieMultiLegend ul li {
-  margin: 0;
-  padding: 0;
-  line-height: 110%;
-}
-
-#content article .content .pieMultiLegend ul li a {
-  font-size: 13px;
-}
-
-#content article .content .pieMultiLegend ul li div.pieLegendBullet {
-  display: inline-block;
-  .size(8px);
-  margin: 0 5px 0 0;
-  background-color: #000000;
-
-  .border-radius(4px);
-}
-
-#content article .content .horizontal_graph ul {
-  margin: 0;
-}
-
-#content article .content .horizontal_graph ul li a {
-  display: inline-block;
-  width: 150px;
-}
-
-#content article .content .horizontal_graph .grey_bar {
-  display: inline-block;
-  height: 3px;
-  margin: 0 0 3px 0;
-  background-color: #cccccc;
-
-  .border-radius(1px);
-}
-
-#content article .content .horizontal_graph .value_label {
-  font-family: "DINOT-Medium", sans-serif;
-  font-size: 13px;
-  color: #cccccc;
-  display: inline-block;
-  margin: 0 0 0 10px;
-  padding: 0;
+  .logo {
+    max-height: 93px;
+    max-width: 136px;
+  }
 }
 
 #content article.big div.content div.header {
   text-align: center;
   margin-bottom: 25px;
   border-bottom: 1px solid #e0e0e0;
-}
 
-#content article.big div.content div.header hgroup {
-  margin: 71px auto 70px auto;
-}
+  hgroup { margin: 71px auto 70px auto; }
 
-#content article.big div.content div.header h1 {
-  margin: 0 0 10px 0;
-  font-family: "DINOT-Medium", sans-serif;
-  color: @cGray2;
-  font-size: 35px;
-}
+  h1 {
+    margin: 0 0 10px 0;
+    font-family: "DINOT-Medium", sans-serif;
+    color: @cGray2;
+    font-size: 35px;
+  }
 
-#content article.big div.content div.header h5 {
-  font-family: "Arial", "Helvetica", sans-serif;
-  font-size: 13px;
-  color: @cGray2;
+  h5 {
+    font-family: "Arial", "Helvetica", sans-serif;
+    font-size: 13px;
+    color: @cGray2;
+  }
 }
 
 #content article.big div.content h5 {
@@ -2410,165 +2262,6 @@ body.register footer {
   font-size: 15px;
   background: url("../img/icons/dot.png") no-repeat left 8px;
   color: @cGray2;
-}
-
-#content article.graph .header {
-  border-bottom: 1px solid #ddd;
-  margin: 0 0 20px 0;
-}
-
-#content article.graph .header .right {
-  margin-top: 7px;
-  color: @cGray2;
-  text-align: right;
-  font-size: 15px;
-}
-
-#content article.graph.multigraph .header {
-  border: 0;
-  margin: 0;
-}
-
-#content article.graph div.graph, #content article.graph div.bargraph {
-  float: left;
-  margin-right: 24px;
-}
-
-#content article.graph div.graph:last-child, #content article.graph div.bargraph:last-child {
-  margin-right: 0;
-}
-
-#content article.graph div.graph .y_label, #content article.graph div.bargraph .y_label {
-  font-family: "DINOT-Medium", sans-serif;
-  font-size: 11px;
-  color: #cccccc;
-}
-
-#content article.graph div.graph .graph_axis, #content article.graph div.bargraph .graph_axis {
-  width: 100%;
-}
-
-#content article.graph div.graph .start, #content article.graph div.graph .end, #content article.graph div.bargraph .start, #content article.graph div.bargraph .end {
-  display: block;
-  position: relative;
-  bottom: 0px;
-  font-size: 11px;
-  color: #cccccc;
-  font-family: "DINOT-Medium", sans-serif;
-}
-
-#content article.graph div.graph .start, #content article.graph div.bargraph .start {
-  float: left;
-}
-
-#content article.graph div.graph .end, #content article.graph div.bargraph .end {
-  float: right;
-}
-
-#content article.graph div.graph div.summary, #content article.graph div.bargraph div.summary {
-  clear: left;
-  text-align: right;
-  float: right;
-  color: @cGray2;
-}
-
-#content article.graph div.graph div.summary h3, #content article.graph div.bargraph div.summary h3 {
-  float: left;
-  font-size: 31px;
-  color: @cGray2;
-  margin: 0 5px 0 0;
-  padding: 0;
-}
-
-#content article.graph div.graph div.summary .info, #content article.graph div.bargraph div.summary .info {
-  float: left;
-  text-align: left;
-  margin-top: 3px;
-}
-
-#content article.graph div.graph div.summary .info strong, #content article.graph div.bargraph div.summary .info strong {
-  display: block;
-  color: @cGray0;
-}
-
-#content article.graph div.graph ul, #content article.graph div.bargraph ul {
-  padding: 20px 0 0 0;
-  margin: 0;
-  height: 180px;
-  float: left;
-  clear: both;
-  overflow: hidden;
-}
-
-#content article.graph div.graph ul li, #content article.graph div.bargraph ul li {
-  position: relative;
-  float: left;
-  margin: 0 1px;
-  height: 11em;
-  padding: 0;
-  background: none;
-}
-
-#content article.graph div.graph ul li a, #content article.graph div.bargraph ul li a {
-  display: block;
-  height: 100%;
-}
-
-#content article.graph div.graph ul li:hover .value, #content article.graph div.bargraph ul li:hover .value {
-  background: #0099cc;
-}
-
-#content article.graph div.graph ul li:hover .label, #content article.graph div.bargraph ul li:hover .label {
-  display: block;
-}
-
-#content article.graph div.graph ul li:hover .value_label, #content article.graph div.bargraph ul li:hover .value_label {
-  display: block;
-}
-
-#content article.graph div.graph ul li .label, #content article.graph div.bargraph ul li .label {
-  display: none;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  height: 0;
-  width: 100%;
-  font-family: "DINOT-Medium", sans-serif;
-  font-size: 11px;
-  color: @cGray3;
-}
-
-#content article.graph div.graph ul li .value, #content article.graph div.bargraph ul li .value {
-  display: block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  .size(100%, 0);
-
-  background: #f1f1f1;
-  background: rgba(0, 0, 0, 0.1);
-  text-indent: -9999px;
-  overflow: hidden;
-
-  -webkit-border-top-left-radius: 3px;
-  -moz-border-top-left-radius: 3px;
-  border-top-left-radius: 3px;
-
-  -webkit-border-top-right-radius: 3px;
-  -moz-border-top-right-radius: 3px;
-  border-top-right-radius: 3px;
-}
-
-#content article.graph div.graph ul li .value_label, #content article.graph div.bargraph ul li .value_label {
-  display: none;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  height: 0;
-  width: 100%;
-  font-family: "DINOT-Medium", sans-serif;
-  font-size: 16px;
-  color: #0099cc;
 }
 
 #content article.map #map {
@@ -2645,6 +2338,9 @@ body.register footer {
     }
   }
 }
+
+#content article .left.no-border,
+#content article .right.no-border { border: none; }
 
 #content article.mono_line {
 
@@ -2794,14 +2490,14 @@ body.register footer {
         clear: both;
         overflow: hidden;
         margin: 0 0 12px 0;
-        border-bottom: 1px solid #f1f1f1;
+        border-bottom: 1px solid #cGray5;
 
         span.note {
           margin: 0 0 0 10px;
           font-family: Arial;
           font-size: 15px;
           font-weight: normal;
-          color: #cccccc;
+          color: @cGray4;
         }
 
         p {
@@ -2886,7 +2582,7 @@ body.register footer {
 
       .result_summary {
         margin-bottom: 15px;
-        border-bottom: 1px solid #cccccc;
+        border-bottom: 1px solid @cGray4;
 
         .maptype {
           display: none;
@@ -2944,7 +2640,7 @@ body.register footer {
         .pagination {
           float: right;
           margin-right: 10px;
-          color: #cccccc;
+          color: @cGray4;
           line-height: 40px;
         }
 
@@ -3105,7 +2801,7 @@ body.register footer {
           font-size: 13px;
           color: @cGray3;
           text-align: center;
-          border-right: 1px solid #CCCCCC;
+          border-right: 1px solid @cGray4;
           list-style: none;
 
           a {
@@ -3167,7 +2863,7 @@ article.static {
 
 #content article.static .content .left .header {
   width: 600px;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid @cGray4;
   margin: 0 0 25px 0;
 }
 
@@ -3207,10 +2903,10 @@ article.static {
   float: left;
   margin-right: 20px;
   padding: 5px;
-  border: 1px solid #cccccc;
-  -moz-box-shadow: 0 0 1px 1px #f1f1f1;
-  -webkit-box-shadow: 0 0 1px 1px #f1f1f1;
-  -box-shadow: 0 0 1px 1px #f1f1f1;
+  border: 1px solid @cGray4;
+  -moz-box-shadow: 0 0 1px 1px #cGray5;
+  -webkit-box-shadow: 0 0 1px 1px #cGray5;
+  -box-shadow: 0 0 1px 1px #cGray5;
 }
 
 #content article.static .content .left .tool h3 {
@@ -3351,7 +3047,7 @@ article.static {
 #content article.register .content ul.breadcrumb, #content article.download .content ul.breadcrumb, #content article.tunnel .content ul.breadcrumb {
   margin: 0 0 20px 0;
   padding: 0 0 20px 0;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid @cGray4;
   text-align: left;
 }
 
@@ -3376,7 +3072,7 @@ article.static {
   display: inline;
   font-family: "DINOT-Medium", sans-serif;
   font-size: 23px;
-  color: #cccccc;
+  color: @cGray4;
 }
 
 #content article.register .content .light_box, #content article.download .content .light_box, #content article.tunnel .content .light_box {
@@ -3763,7 +3459,7 @@ article.static {
 }
 
 #content article.comments .comment .left {
-  border-top: 1px solid #ccc;
+  border-top: 1px solid @cGray4;
   padding-top: 25px;
 }
 
@@ -3775,7 +3471,7 @@ article.static {
   margin: 0;
   background: none;
   padding-top: 25px;
-  border-top: 1px solid #ccc;
+  border-top: 1px solid @cGray4;
 }
 
 #content article.reply .triangle {
@@ -3843,203 +3539,6 @@ article.static {
   opacity: .5;
   background: white;
   z-index: 400;
-}
-
-#content article .content .left .graph, #content article .content .left .bargraph, #content article .content .middle .graph, #content article .content .middle .bargraph {
-  position: relative;
-  margin-right: 19px;
-  float: left;
-}
-
-#content article .content .left .graph.graph, #content article .content .left .bargraph.graph, #content article .content .middle .graph.graph, #content article .content .middle .bargraph.graph {
-  width: 606px;
-}
-
-#content article .content .left .graph.bargraph, #content article .content .left .bargraph.bargraph, #content article .content .middle .graph.bargraph, #content article .content .middle .bargraph.bargraph {
-  width: 280px;
-}
-
-#content article .content .left .graph .start, #content article .content .left .graph .end, #content article .content .left .bargraph .start, #content article .content .left .bargraph .end, #content article .content .middle .graph .start, #content article .content .middle .graph .end, #content article .content .middle .bargraph .start, #content article .content .middle .bargraph .end {
-  position: relative;
-  bottom: 10px;
-  font-size: 11px;
-  color: #cccccc;
-  font-family: "DINOT-Medium", sans-serif;
-}
-
-#content article .content .left .graph .start, #content article .content .left .bargraph .start, #content article .content .middle .graph .start, #content article .content .middle .bargraph .start {
-  float: left;
-}
-
-#content article .content .left .graph .end, #content article .content .left .bargraph .end, #content article .content .middle .graph .end, #content article .content .middle .bargraph .end {
-  float: right;
-}
-
-#content article .content .left .graph .percentage, #content article .content .left .bargraph .percentage, #content article .content .middle .graph .percentage, #content article .content .middle .bargraph .percentage {
-  position: absolute;
-  right: 14px;
-  bottom: 25px;
-  font-size: 14px;
-  color: @cGray2;
-  padding-right: 10px;
-}
-
-#content article .content .left .graph .percentage.up, #content article .content .left .bargraph .percentage.up, #content article .content .middle .graph .percentage.up, #content article .content .middle .bargraph .percentage.up {
-  background: url("../img/icons/tiny_triangle_up.png") no-repeat right center;
-}
-
-#content article .content .left .graph .percentage.down, #content article .content .left .bargraph .percentage.down, #content article .content .middle .graph .percentage.down, #content article .content .middle .bargraph .percentage.down {
-  background: url("../img/icons/tiny_triangle_down.png") no-repeat right center;
-}
-
-#content article .content .left .graph h3, #content article .content .left .bargraph h3, #content article .content .middle .graph h3, #content article .content .middle .bargraph h3 {
-  position: absolute;
-  color: #0099cc;
-  font-size: 31px;
-  font-weight: normal;
-  font-family: "DINOT-Medium", sans-serif;
-  top: 0px;
-  left: 0px;
-  text-shadow: 0 0;
-}
-
-#content article .content .left .graph h3 span, #content article .content .left .bargraph h3 span, #content article .content .middle .graph h3 span, #content article .content .middle .bargraph h3 span {
-  display: block;
-  text-transform: none;
-  color: @cGray2;
-  font-size: 13px;
-  font-family: "Arial", "Helvetica", sans-serif;
-}
-
-#content article .content .left .graph.last-child, #content article .content .left .bargraph.last-child, #content article .content .middle .graph.last-child, #content article .content .middle .bargraph.last-child {
-  margin: 0;
-}
-
-#content article .content .left .graph.last, #content article .content .left .bargraph.last, #content article .content .middle .graph.last, #content article .content .middle .bargraph.last {
-  margin: 0;
-}
-
-#content article .content .left .graph .lt, #content article .content .left .bargraph .lt, #content article .content .middle .graph .lt, #content article .content .middle .bargraph .lt {
-  position: absolute;
-  bottom: 16px;
-  left: 6px;
-  width: 4px;
-  height: 4px;
-  background: url("../img/mingraph_left_corner.png") no-repeat;
-}
-
-#content article .content .left .graph .rt, #content article .content .left .bargraph .rt, #content article .content .middle .graph .rt, #content article .content .middle .bargraph .rt {
-  position: absolute;
-  bottom: 16px;
-  right: 6px;
-  width: 4px;
-  height: 4px;
-  background: url("../img/mingraph_right_corner.png") no-repeat;
-}
-
-#content article .content .minigraphs {
-  clear: both;
-  overflow: hidden;
-  margin-bottom: 10px;
-}
-
-#content article .content .minigraphs .minigraph {
-  position: relative;
-  margin-right: 19px;
-  width: 289px;
-  float: left;
-}
-
-#content article .content .minigraphs .minigraph .start, #content article .content .minigraphs .minigraph .end {
-  position: absolute;
-  bottom: 0px;
-  font-size: 11px;
-  color: #cccccc;
-  font-family: "DINOT-Medium", sans-serif;
-}
-
-#content article .content .minigraphs .minigraph .start {
-  left: 0;
-}
-
-#content article .content .minigraphs .minigraph .end {
-  right: 0;
-}
-
-#content article .content .minigraphs .minigraph .help {
-  position: absolute;
-  right: 0;
-  top: 10px;
-}
-
-#content article .content .minigraphs .minigraph .percentage {
-  position: absolute;
-  right: 14px;
-  bottom: 25px;
-  font-size: 14px;
-  color: @cGray2;
-  padding-right: 10px;
-}
-
-#content article .content .minigraphs .minigraph .percentage.up {
-  background: url("../img/icons/tiny_triangle_up.png") no-repeat right center;
-}
-
-#content article .content .minigraphs .minigraph .percentage.down {
-  background: url("../img/icons/tiny_triangle_down.png") no-repeat right center;
-}
-
-#content article .content .minigraphs .minigraph h3 {
-  position: absolute;
-  color: #0099cc;
-  font-size: 31px;
-  font-weight: normal;
-  font-family: "DINOT-Medium", sans-serif;
-  top: 0px;
-  left: 0px;
-  text-shadow: 0 0;
-}
-
-#content article .content .minigraphs .minigraph h3 span {
-  display: block;
-  text-transform: none;
-  color: @cGray2;
-  font-size: 13px;
-  font-family: "Arial", "Helvetica", sans-serif;
-}
-
-#content article .content .minigraphs .minigraph.last-child {
-  margin: 0;
-}
-
-#content article .content .minigraphs .minigraph.last {
-  margin: 0;
-}
-
-#content article .content .minigraphs .minigraph .lt {
-  position: absolute;
-  bottom: 16px;
-  left: 3px;
-  width: 4px;
-  height: 4px;
-  background: url("../img/mingraph_left_corner.png") no-repeat;
-}
-
-#content article .content .minigraphs .minigraph .rt {
-  position: absolute;
-  bottom: 16px;
-  right: 3px;
-  width: 4px;
-  height: 4px;
-  background: url("../img/mingraph_right_corner.png") no-repeat;
-}
-
-#content article .content .minigraphs.last-child {
-  margin: 0;
-}
-
-#content article .content .minigraphs.last {
-  margin: 0;
 }
 
 #content article.raw .content .left {
@@ -4132,15 +3631,13 @@ article.static {
 
 #content article.indicators .content ul.summary {
   margin: 5px 0 10px 0;
-}
 
-#content article.indicators .content ul.summary li {
-  width: 158px;
-  margin: 0 20px 0 0;
-}
+  li {
+    width: 158px;
+    margin: 0 20px 0 0;
 
-#content article.indicators .content ul.summary li .light_box {
-  padding: 25px 0 25px 0;
+    .light_box { padding: 25px 0 25px 0; }
+  }
 }
 
 #content article.process_detail .content ul.summary li {
@@ -4154,94 +3651,82 @@ article.static {
 
 #content article.search .content ul.summary {
   margin: 0;
+
+  li {
+    width: 120px;
+    margin-right: 20px;
+
+    .light_box { padding: 25px 0; }
+  }
 }
 
-#content article.search .content ul.summary li {
-  width: 120px;
-  margin-right: 20px;
-}
-
-#content article.search .content ul.summary li .light_box {
-  padding: 25px 0;
-}
-
+// Summary 
+// Appear in the "Main indicators" block
 #content article .content ul.summary {
+
   clear: both;
   overflow: hidden;
   margin: 16px 0 25px 0;
   padding: 0;
-}
 
-#content article .content ul.summary li {
-  float: left;
-  width: 182px;
-  margin-right: 18px;
-  background: none;
-  padding: 0 !important;
-  line-height: 15px;
-  font-size: 13px;
-  text-align: center;
-  color: @cGray3;
-}
+  li {
+    float: left;
+    width: 182px;
+    margin-right: 18px;
+    background: none;
+    padding: 0!important;
+    line-height: 15px;
+    font-size: 13px;
+    text-align: center;
+    color: @cGray3;
 
-#content article .content ul.summary li .light_box {
-  padding: 18px 0 0 0;
-}
+    &.last { margin-right: 0; }
+    &:last-child { margin-right: 0; }
 
-#content article .content ul.summary li.last {
-  margin-right: 0;
-}
+    .light_box { padding: 18px 0 0 0; }
 
-#content article .content ul.summary li:last-child {
-  margin-right: 0;
-}
+    a.detail {
+      display: block;
+      margin-top: 17px;
+      padding: 13px 0 12px 0;
 
-#content article .content ul.summary li a.detail {
-  display: block;
-  margin-top: 17px;
-  padding: 13px 0 12px 0;
-  text-decoration: none;
-  border-top: 1px solid white;
-}
+      text-decoration: none;
+      border-top: 1px solid white;
+    }
 
-#content article .content ul.summary li h2 {
-  margin: 3px 0;
-  padding: 0;
-  display: block;
-  font-size: 35px;
-  font-family: "Arial", "Helvetica", sans-serif;
-  font-weight: bold;
-  color: @cGray2;
-}
+    h2 {
+      margin: 3px 0;
+      padding: 0;
+      display: block;
+      font-size: 35px;
+      font-family: "Arial", "Helvetica", sans-serif;
+      font-weight: bold;
+      color: @cGray2;
+    }
 
-#content article .content ul.summary li h3 {
-  margin: 0 0 13px 0;
-  font-size: 25px;
-  color: @cGray1;
+    h3 {
+      margin: 0 0 13px 0;
+      font-size: 25px;
+      color: @cGray1;
+    }
+  }
 }
 
 #content article .content ul.pies {
   margin: 0;
-}
 
-#content article .content ul.pies li {
-  float: left;
-  width: 251px;
-  margin: 0 42px 0 0;
-  padding: 0;
-  background: none;
-}
+  li {
+    float: left;
+    width: 251px;
+    margin: 0 42px 0 0;
+    padding: 0;
 
-#content article .content ul.pies li p {
-  font-size: 14px;
-}
+    background: none;
 
-#content article .content ul.pies li:last-child {
-  margin: 0;
-}
-
-#content article .content ul.pies li.last {
-  margin: 0;
+    p { font-size: 14px; }
+    &:last-child { margin: 0; }
+    &.last { margin: 0; }
+  }
 }
 
 /*
@@ -4300,8 +3785,8 @@ input.text, input.email, input.password {
   background: url("../img/uniform/bg-input.png") repeat-x 0px 0px;
   border-top: solid 1px #aaa;
   border-left: solid 1px #aaa;
-  border-bottom: solid 1px #ccc;
-  border-right: solid 1px #ccc;
+  border-bottom: solid 1px @cGray4;
+  border-right: solid 1px @cGray4;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -4318,8 +3803,8 @@ textarea.uniform {
   background: url("../img/uniform/bg-input.png") repeat-x 0px 0px;
   border-top: solid 1px #aaa;
   border-left: solid 1px #aaa;
-  border-bottom: solid 1px #ccc;
-  border-right: solid 1px #ccc;
+  border-bottom: solid 1px @cGray4;
+  border-right: solid 1px @cGray4;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
@@ -4499,6 +3984,7 @@ div.checker.disabled span, div.checker.disabled:active span, div.checker.disable
 div.checker.disabled span.checked, div.checker.disabled:active span.checked, div.checker.disabled.active span.checked {
   background-position: -162px -279px;
 }
+
 div.selector {
   width: 210px;
   font-size: 13px;
@@ -4516,7 +4002,7 @@ div.selector {
 
     padding: 0px 25px 0px 2px;
     cursor: pointer;
-    color: #666;
+    color: @cGray2;
     text-shadow: 0 1px 0 #fff;
   }
 
@@ -4533,13 +4019,12 @@ div.checker {
   margin-right: 3px;
 }
 
-
 /*
 CORE FUNCTIONALITY
-
 Not advised to edit stuff below this line
 -----------------------------------------------------
- */
+*/
+
 .selector, .checker, .button, .radio, .uploader {
   display: -moz-inline-box;
   display: inline-block;
@@ -4547,7 +4032,10 @@ Not advised to edit stuff below this line
   zoom: 1; *display: inline;
 }
 
-.selector select:focus, .radio input:focus, .checker input:focus, .uploader input:focus {
+.selector select:focus,
+.radio    input:focus,
+.checker  input:focus,
+.uploader input:focus {
   outline: 0;
 }
 
@@ -4555,39 +4043,41 @@ Not advised to edit stuff below this line
 div.button {
   cursor: pointer;
   position: relative;
+
+  span {
+    display: -moz-inline-box;
+    display: inline-block;
+    line-height: 1;
+    text-align: center;
+  }
+
 }
 
 div.button a, div.button button, div.button input {
   position: absolute;
 }
 
-div.button span {
-  display: -moz-inline-box;
-  display: inline-block;
-  line-height: 1;
-  text-align: center;
-}
-
+// Selector
 div.selector {
   position: relative;
   padding-left: 10px;
   overflow: hidden;
-}
 
-div.selector span {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+  span {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
-div.selector select {
-  position: absolute;
-  opacity: 0;
-  filter:~"alpha(opacity:0);";
-  height: 34px;
-  border: none;
-  background: none;
+  select {
+    position: absolute;
+    opacity: 0;
+    filter:~"alpha(opacity:0);";
+    height: 34px;
+    border: none;
+    background: none;
+  }
 }
 
 // Checker
@@ -4633,22 +4123,26 @@ div.uploader {
   overflow: hidden;
   cursor: default;
 
-  span.action {
-    float: left;
-    display: inline;
-    padding: 2px 0px;
-    overflow: hidden;
-    cursor: pointer;
-  }
+  span {
 
-  span.filename {
-    padding: 0px 10px;
-    float: left;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    cursor: default;
+    &.action {
+      float: left;
+      display: inline;
+      padding: 2px 0px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    &.filename {
+      padding: 0px 10px;
+      float: left;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      cursor: default;
+    }
+
   }
 
   input {
@@ -4697,12 +4191,12 @@ div.uploader {
 }
 
 .loadingTaxa {
+
   height: 28px;
   margin-top: 15px;
-}
 
-.loadingTaxa img {
-  vertical-align: -8px;
+  img { vertical-align: -8px; }
+
 }
 
 em.gbifHl {
@@ -4753,14 +4247,14 @@ em.gbifHl {
 .admin-tag-input {
   border: 1px solid #AAA;
   width: 220px;
-  color: #666;
+  color: @cGray2;
   font-size: .9em;
   margin: 2px 0 5px;
   padding: 2px;
 }
 
 .admin-tag-caption {
-  color: #666;
+  color: @cGray2;
   font-size: .8em;
 }
 
@@ -4768,7 +4262,7 @@ em.gbifHl {
 .input_text {
   input::-webkit-input-placeholder {
     font-family: "Arial", "Helvetica", sans-serif;
-    color:    #333333;
+    color:    @cGray1;
     opacity: .5;
     font-size:15px;
     line-height: 20px;
@@ -4776,15 +4270,40 @@ em.gbifHl {
 
   input:-moz-placeholder {
     font-family: "Arial", "Helvetica", sans-serif;
-    color:    #333333;
+    color:    @cGray1;
     opacity: .5;
     font-size:15px;
   }
 
   input:-ms-input-placeholder {
     font-family: "Arial", "Helvetica", sans-serif;
-    color:    #333333;
+    color:    @cGray1;
     opacity: .5;
     font-size:15px;
+  }
+}
+
+#content article.results .content .left {
+
+  ul.results  {
+
+    list-style: none!mportant;
+
+    li {
+      background: none;
+      padding: 0; margin: 0;
+      font-size: 17px;
+      color: @cGray2;
+
+      .code {
+        color: @cGray4;
+        font-size: 13px;
+      }
+
+      .footer {
+        color: @cGray3;
+        font-size: 13px;
+      }
+    }
   }
 }
