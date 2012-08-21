@@ -13,7 +13,7 @@
     <li class="last"><a href="#" title="Occurrences">Occurrences</a></li>
   </ul>
 
-  <h1>${occ.scientificName!}, ID: ${id?c}</h1>
+  <h1>${occ.scientificName!} · ${id?c}</h1>
 
   <h3>An ${occ.basisOfRecord!"occurrence"} of
     <#if occ.nubKey??>

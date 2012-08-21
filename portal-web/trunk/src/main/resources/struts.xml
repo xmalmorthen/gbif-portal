@@ -96,6 +96,11 @@
       <result>/WEB-INF/pages/home.ftl</result>
     </action>
 
+    <!-- reference developer page TO BE DELETED IN PRODUCTION -->
+    <action name="reference" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/reference.ftl</result>
+    </action>
+
     <action name="{url}" class="org.gbif.portal.action.RedirectAction">
       <result type="redirect">
         <param name="parse">true</param>
