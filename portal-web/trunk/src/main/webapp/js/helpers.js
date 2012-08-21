@@ -132,3 +132,20 @@ jQuery.fn.sortList = (function() {
 
 })();
 
+
+function setupZoom(map) {
+  var minZoom = 0;
+
+  $(".zoom_in").on("click", function() {
+    map.setZoom(map.getZoom() + 1);
+  });
+
+  $(".zoom_out").on("click", function() {
+    var zoom;
+
+    if ( map.getZoom() > minZoom ) {
+      map.setZoom(map.getZoom() - 1);
+    }
+
+  });
+}

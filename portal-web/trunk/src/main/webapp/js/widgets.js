@@ -1,6 +1,6 @@
 /*
- * GOD sees everything
- */
+* GOD sees everything
+*/
 var GOD = (function() {
   var subscribers = {};
   var debug = false;
@@ -53,10 +53,11 @@ var GOD = (function() {
 
 
 /*
- * ============
- * SOURCE POPOVER
- * ============
- */
+* ============
+* SOURCE POPOVER
+* ============
+*/
+
 
 (function($, window, document) {
 
@@ -70,15 +71,15 @@ var GOD = (function() {
   }
 
   var // Public methods exposed to $.fn.sourcePopover()
-    methods = {}, // HTML template for the dropdowns
-    templates = {
-      main: [
-        '<div id="<%= name %>_<%= id %>" class="yellow_popover"><div class="t"></div><div class="c"><h3><%= title %></h3><%= message %><BR/><%= remarks %></div><div class="b"></div></div>'
+  methods = {}, // HTML template for the dropdowns
+  templates = {
+    main: [
+      '<div id="<%= name %>_<%= id %>" class="yellow_popover"><div class="t"></div><div class="c"><h3><%= title %></h3><%= message %><BR/><%= remarks %></div><div class="b"></div></div>'
       ].join('')
-    }, store = "sourcepopover", // Some nice default values
-    defaults = {
-      title: "Source"
-    };
+  }, store = "sourcepopover", // Some nice default values
+  defaults = {
+    title: "Source"
+  };
 
   // Called by using $('foo').sourcePopover();
   methods.init = function(settings) {
@@ -86,24 +87,24 @@ var GOD = (function() {
 
     return this.each(function() {
       var // The current element
-        $this = $(this), // We store lots of great stuff using jQuery data
-        data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
-        id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
-        width = settings.width || $this.outerWidth(), // The completed ps_container element
-        $ps = false;
+      $this = $(this), // We store lots of great stuff using jQuery data
+      data  = $this.data(store) || {}, // This gets applied to the 'ps_container' element
+      id    = $this.attr('id')  || $this.attr('name'), // This gets updated to be equal to the longest <option> element
+      width = settings.width    || $this.outerWidth(), // The completed ps_container element
+      $ps   = false;
 
       // Dont do anything if we've already setup sourcePopover on this element
       if (data.id) {
         return $this;
       } else {
-        data.id = id;
-        data.$this = $this;
-        data.name = store;
+        data.id        = id;
+        data.$this     = $this;
+        data.name      = store;
         data.templates = templates;
-        data.title = settings.title;
-        data.message = settings.message;
-        data.remarks = settings.remarks;
-        data.settings = settings;
+        data.title     = settings.title;
+        data.message   = settings.message;
+        data.remarks   = settings.remarks;
+        data.settings  = settings;
       }
 
       // Hide the <select> list and place our new one in front of it
@@ -132,7 +133,7 @@ var GOD = (function() {
   // Build popover
   function _build(data) {
     var $ps = $(_.template(data.templates.main,
-      {name:data.name, id:data.id, title: data.title, message:data.message, remarks:data.remarks}));
+    {name:data.name, id:data.id, title: data.title, message:data.message, remarks:data.remarks}));
 
     $ps.bind('click', function(e) {
       e.stopPropagation();
@@ -242,10 +243,10 @@ var GOD = (function() {
 })(jQuery, window, document);
 
 /*
- * ===============
- * PROCESS POPOVER
- * ===============
- */
+* ===============
+* PROCESS POPOVER
+* ===============
+*/
 
 (function($, window, document) {
 
@@ -259,14 +260,14 @@ var GOD = (function() {
   }
 
   var // Public methods exposed to $.fn.processPopover()
-    methods = {}, // HTML template for the dropdowns
-    templates = {
-      main: [
-        '<div id="<%= name %>_<%= id %>" class="yellow_popover"><div class="t"></div><div class="c"><h3><%= title %></h3><%= message %></div><div class="b"></div></div>'
+  methods = {}, // HTML template for the dropdowns
+  templates = {
+    main: [
+      '<div id="<%= name %>_<%= id %>" class="yellow_popover"><div class="t"></div><div class="c"><h3><%= title %></h3><%= message %></div><div class="b"></div></div>'
       ].join('')
-    }, store = "processpopover", // Some nice default values
-    defaults = {
-    };
+  }, store = "processpopover", // Some nice default values
+  defaults = {
+  };
 
   // Called by using $('foo').processPopover();
   methods.init = function(settings) {
@@ -274,11 +275,11 @@ var GOD = (function() {
 
     return this.each(function() {
       var // The current element
-        $this = $(this), // We store lots of great stuff using jQuery data
-        data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
-        id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
-        width = settings.width || $this.outerWidth(), // The completed ps_container element
-        $ps = false;
+      $this = $(this), // We store lots of great stuff using jQuery data
+      data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
+      id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
+      width = settings.width || $this.outerWidth(), // The completed ps_container element
+      $ps = false;
 
       // Dont do anything if we've already setup processPopover on this element
       if (data.id) {
@@ -434,10 +435,10 @@ var GOD = (function() {
 })(jQuery, window, document);
 
 /*
- * ============
- * DATE POPOVER
- * ============
- */
+* ============
+* DATE POPOVER
+* ============
+*/
 
 (function($, window, document) {
 
@@ -451,324 +452,324 @@ var GOD = (function() {
   }
 
   var // Public methods exposed to $.fn.datePopover()
-    methods = {}, store = "datepopover", months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG", "SEP","OCT","NOV",
-                                                   "DEC"], templates = {
-    main: ['<div id="<%=name %>_<%= id %>" class="date-selector">',
-           '<div class="month"><span></span></div>',
-           '<div class="day"><span></span></div>',
-           '<div class="year"><span></span></div>',
-           '</div>'].join(' '),
-    input: '<input type="hidden" value="" id="datefield_<%= name %>_<%= id %>" name="<%= name %>" />'
-  };
+  methods = {}, store = "datepopover", months = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG", "SEP","OCT","NOV",
+    "DEC"], templates = {
+      main: ['<div id="<%=name %>_<%= id %>" class="date-selector">',
+        '<div class="month"><span></span></div>',
+        '<div class="day"><span></span></div>',
+        '<div class="year"><span></span></div>',
+        '</div>'].join(' '),
+        input: '<input type="hidden" value="" id="datefield_<%= name %>_<%= id %>" name="<%= name %>" />'
+    };
 
-  // Some nice default values
-  defaults = {
-    transitionSpeed:150
-  };
+    // Some nice default values
+    defaults = {
+      transitionSpeed:150
+    };
 
-  // Called by using $('foo').datePopover();
-  methods.init = function(settings) {
-    settings = $.extend({}, defaults, settings);
+    // Called by using $('foo').datePopover();
+    methods.init = function(settings) {
+      settings = $.extend({}, defaults, settings);
 
-    return this.each(function() {
-      var // The current <select> element
+      return this.each(function() {
+        var // The current <select> element
         $this = $(this), // We store lots of great stuff using jQuery data
         data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
         id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
         width = settings.width || $this.outerWidth(), // The completed ps_container element
         $ps = false;
 
-      // Dont do anything if we've already setup datePopover on this element
-      if (data.id) {
-        return $this;
-      } else {
-        data.id = id;
-        data.$this = $this;
-        data.name = store;
-        data.templates = templates;
-        data.settings = settings;
-      }
+        // Dont do anything if we've already setup datePopover on this element
+        if (data.id) {
+          return $this;
+        } else {
+          data.id = id;
+          data.$this = $this;
+          data.name = store;
+          data.templates = templates;
+          data.settings = settings;
+        }
 
-      // Update the reference to $ps
-      $ps = $("#" + data.name + "_" + data.id);
+        // Update the reference to $ps
+        $ps = $("#" + data.name + "_" + data.id);
 
-      // Save the updated $ps reference into our data object
-      data.$ps = $ps;
+        // Save the updated $ps reference into our data object
+        data.$ps = $ps;
 
-      // Save the datePopover data onto the <select> element
-      $this.data(store, data);
+        // Save the datePopover data onto the <select> element
+        $this.data(store, data);
 
-      // Do the same for the dropdown, but add a few helpers
-      $ps.data(store, data);
+        // Do the same for the dropdown, but add a few helpers
+        $ps.data(store, data);
 
-      // Add input field so we can submit the date in the form
-      var $input = _buildInput(data);
+        // Add input field so we can submit the date in the form
+        var $input = _buildInput(data);
 
-      $this.before($input); // add the input to the DOM
-      data.$input = $('#datefield_' + data.name + '_' + data.id);
+        $this.before($input); // add the input to the DOM
+        data.$input = $('#datefield_' + data.name + '_' + data.id);
 
-      // Add the initial date to the hidden input field
-      _captureDate($this);
-      _updateDate($this);
+        // Add the initial date to the hidden input field
+        _captureDate($this);
+        _updateDate($this);
 
-      $this.click(_toggle);
+        $this.click(_toggle);
 
-      $(window).bind('_close.' + data.name + '.' + data.id, function() {
+        $(window).bind('_close.' + data.name + '.' + data.id, function() {
+          var $ps = $("#" + data.name + "_" + data.id);
+          _close($this, $ps);
+        });
+      });
+    };
+
+    // Build popover
+    function _build(data) {
+      var $ps = $(_.template(data.templates.main, {name:data.name, id:data.id}));
+
+      $day = $ps.find(".day");
+      $month = $ps.find(".month");
+      $year = $ps.find(".year");
+
+      $ps.bind('click', function(e) {
+        e.stopPropagation();
+      });
+
+      return $ps;
+    }
+
+    // Build hidden input field that stores the date
+    function _buildInput(data) {
+      return $(_.template(data.templates.input, {name:data.name, id:data.id}));
+    }
+
+    // Open a popover
+    function _toggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      var $this = $(this);
+      var $day, $month, $year;
+      var day, month, year;
+      var data = $this.data(store);
+
+      if ($(this).hasClass("open")) {
         var $ps = $("#" + data.name + "_" + data.id);
         _close($this, $ps);
-      });
-    });
-  };
-
-  // Build popover
-  function _build(data) {
-    var $ps = $(_.template(data.templates.main, {name:data.name, id:data.id}));
-
-    $day = $ps.find(".day");
-    $month = $ps.find(".month");
-    $year = $ps.find(".year");
-
-    $ps.bind('click', function(e) {
-      e.stopPropagation();
-    });
-
-    return $ps;
-  }
-
-  // Build hidden input field that stores the date
-  function _buildInput(data) {
-    return $(_.template(data.templates.input, {name:data.name, id:data.id}));
-  }
-
-  // Open a popover
-  function _toggle(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    var $this = $(this);
-    var $day, $month, $year;
-    var day, month, year;
-    var data = $this.data(store);
-
-    if ($(this).hasClass("open")) {
-      var $ps = $("#" + data.name + "_" + data.id);
-      _close($this, $ps);
-    } else {
-
-      data.$ps = _build(data);
-      var $ps = data.$ps;
-
-      // setup the close event & signal the other subscribers
-      var event = "_close." + data.name + "." + data.id;
-      GOD.subscribe(event);
-      GOD.broadcast(event);
-
-      $("#content").prepend($ps);
-      _center($this, $ps);
-      _setup($this, $ps);
-      _captureDate($this);
-      _setupLists($this, $ps);
-      _bindLists($this, $ps);
-
-      if (oldIE) {
-        $ps.show();
-        $this.addClass("open");
       } else {
-        $ps.animate({top:$ps.position().top - 15, opacity:1}, data.settings.transitionSpeed, function() {
+
+        data.$ps = _build(data);
+        var $ps = data.$ps;
+
+        // setup the close event & signal the other subscribers
+        var event = "_close." + data.name + "." + data.id;
+        GOD.subscribe(event);
+        GOD.broadcast(event);
+
+        $("#content").prepend($ps);
+        _center($this, $ps);
+        _setup($this, $ps);
+        _captureDate($this);
+        _setupLists($this, $ps);
+        _bindLists($this, $ps);
+
+        if (oldIE) {
+          $ps.show();
           $this.addClass("open");
+        } else {
+          $ps.animate({top:$ps.position().top - 15, opacity:1}, data.settings.transitionSpeed, function() {
+            $this.addClass("open");
+          });
+        }
+      }
+    }
+
+    // Close popover
+    function _close($this, $ps) {
+      var data = $this.data(store);
+      GOD.unsubscribe("_close." + data.name + "." + data.id);
+
+      if (is_ie) {
+        $ps.hide();
+        $ps.remove();
+        $this.removeClass("open");
+      } else {
+        $ps.animate({top:$ps.position().top - 10, opacity:0}, data.settings.transitionSpeed, function() {
+          $ps.remove();
+          $this.removeClass("open");
         });
       }
     }
-  }
 
-  // Close popover
-  function _close($this, $ps) {
-    var data = $this.data(store);
-    GOD.unsubscribe("_close." + data.name + "." + data.id);
+    function _center($this, $ps) {
+      var data = $this.data(store);
 
-    if (is_ie) {
-      $ps.hide();
-      $ps.remove();
-      $this.removeClass("open");
-    } else {
-      $ps.animate({top:$ps.position().top - 10, opacity:0}, data.settings.transitionSpeed, function() {
-        $ps.remove();
-        $this.removeClass("open");
-      });
-    }
-  }
+      var x = $this.offset().left;
+      var y = $this.offset().top;
+      var w = $ps.width();
+      var el_w = $this.width();
 
-  function _center($this, $ps) {
-    var data = $this.data(store);
+      $ps.css("left", x - Math.floor(w / 2) + Math.floor(el_w / 2) - 4); // 4px == shadow
 
-    var x = $this.offset().left;
-    var y = $this.offset().top;
-    var w = $ps.width();
-    var el_w = $this.width();
-
-    $ps.css("left", x - Math.floor(w / 2) + Math.floor(el_w / 2) - 4); // 4px == shadow
-
-    if (oldIE) {
-      $ps.css("top", y + 9);
-    } else {
-      $ps.css("top", y + 9 + 20);
-    }
-  }
-
-  // Get the date from the <time> tag
-  function _captureDate($this) {
-    var date = new Date($this.attr("datetime"));
-
-    day = date.getDate();
-    month = date.getMonth();
-    year = date.getFullYear();
-  }
-
-  // Setup the click events on each selector (year, month, day)
-  function _setup($this, $ps) {
-    $year.click(function(event) {
-      event.stopPropagation();
-      $(this).toggleClass("selected");
-      $(".day, .month").removeClass("selected");
-      var pane = $(this).find('.inner').jScrollPane({ verticalDragMinHeight: 20});
-      pane.data('jsp').scrollToY(15 * (year - 1950));
-    });
-
-    $month.click(function(event) {
-      event.stopPropagation();
-      $(this).toggleClass("selected");
-      $(".year, .day").removeClass("selected");
-      var pane = $(this).find('.inner').jScrollPane({ verticalDragMinHeight: 20});
-      pane.data('jsp').scrollToY(month);
-    });
-
-    $day.click(function(event) {
-      event.stopPropagation();
-      $(this).toggleClass("selected");
-      $(".year, .month").removeClass("selected");
-      var pane = $(this).find('.inner').jScrollPane({ verticalDragMinHeight: 20});
-      pane.data('jsp').scrollToY(15 * (day - 1));
-    });
-  }
-
-
-  // Bind click events on each of the items (1, 2, 3, january, february, 2011, 2012…)
-  function _bindLists($this, $ps) {
-    var data = $this.data(store);
-
-    $year.find("li").click(function(event) {
-      event.stopPropagation();
-      year = $(this).html();
-
-      _adjustCalendar();
-
-      $year.find("li").removeClass("selected");
-      $(this).addClass("selected");
-
-      $year.find("span").animate({opacity:0}, data.settings.transitionSpeed, function() {
-        $(this).html(year);
-        $(this).animate({opacity:1}, data.settings.transitionSpeed);
-      });
-      $year.removeClass("selected");
-      _updateDate($this);
-    });
-
-    $month.find("li").click(function(event) {
-      event.stopPropagation();
-      month = _.indexOf(months, $(this).html());
-
-      _adjustCalendar();
-
-      $month.find("li").removeClass("selected");
-      $(this).addClass("selected");
-
-      $month.find("span").animate({opacity:0}, data.settings.transitionSpeed, function() {
-        $(this).html(months[month]);
-        $(this).animate({opacity:1}, data.settings.transitionSpeed);
-      });
-      $month.removeClass("selected");
-      _updateDate($this);
-    });
-
-    $day.find("li").click(function(event) {
-      event.stopPropagation();
-      day = $(this).html();
-
-      $day.find("li").removeClass("selected");
-      $(this).addClass("selected");
-
-      $day.find("span").animate({opacity:0}, data.settings.transitionSpeed, function() {
-        $(this).html(day);
-        $(this).animate({opacity:1}, data.settings.transitionSpeed);
-      });
-
-      $day.removeClass("selected");
-      _updateDate($this);
-    });
-
-  }
-
-  function _setupLists($this, $ps) {
-    $month.find("span").html(months[month]);
-    $day.find("span").html(day);
-    $year.find("span").html(year);
-
-    $month.append('<div class="listing"><div class="inner"><ul></ul></div></div>');
-    $day.append('<div class="listing"><div class="inner"><ul></ul></div></div>');
-    $year.append('<div class="listing"><div class="inner"><ul></ul></div></div>');
-
-    $ps.find('.listing, .jspVerticalBar').click(function(event) {
-      event.stopPropagation();
-    });
-
-    _.each(months, function(m, index) {
-      if (index == month) {
-        $month.find(".listing ul").append('<li class="selected">' + m + '</li>');
+      if (oldIE) {
+        $ps.css("top", y + 9);
       } else {
-        $month.find(".listing ul").append("<li>" + m + "</li>");
-      }
-    });
-
-    for (var i = 1; i <= 31; i++) {
-      if (i == day) {
-        $day.find(".listing ul").append("<li class='selected'>" + i + "</li>");
-      } else {
-        $day.find(".listing ul").append("<li>" + i + "</li>");
+        $ps.css("top", y + 9 + 20);
       }
     }
 
-    for (var i = 1950; i <= 2020; i++) {
-      if (i == year) {
-        $year.find(".listing ul").append("<li class='selected'>" + i + "</li>");
-      } else {
-        $year.find(".listing ul").append("<li>" + i + "</li>");
+    // Get the date from the <time> tag
+    function _captureDate($this) {
+      var date = new Date($this.attr("datetime"));
+
+      day = date.getDate();
+      month = date.getMonth();
+      year = date.getFullYear();
+    }
+
+    // Setup the click events on each selector (year, month, day)
+    function _setup($this, $ps) {
+      $year.click(function(event) {
+        event.stopPropagation();
+        $(this).toggleClass("selected");
+        $(".day, .month").removeClass("selected");
+        var pane = $(this).find('.inner').jScrollPane({ verticalDragMinHeight: 20});
+        pane.data('jsp').scrollToY(15 * (year - 1950));
+      });
+
+      $month.click(function(event) {
+        event.stopPropagation();
+        $(this).toggleClass("selected");
+        $(".year, .day").removeClass("selected");
+        var pane = $(this).find('.inner').jScrollPane({ verticalDragMinHeight: 20});
+        pane.data('jsp').scrollToY(month);
+      });
+
+      $day.click(function(event) {
+        event.stopPropagation();
+        $(this).toggleClass("selected");
+        $(".year, .month").removeClass("selected");
+        var pane = $(this).find('.inner').jScrollPane({ verticalDragMinHeight: 20});
+        pane.data('jsp').scrollToY(15 * (day - 1));
+      });
+    }
+
+
+    // Bind click events on each of the items (1, 2, 3, january, february, 2011, 2012…)
+    function _bindLists($this, $ps) {
+      var data = $this.data(store);
+
+      $year.find("li").click(function(event) {
+        event.stopPropagation();
+        year = $(this).html();
+
+        _adjustCalendar();
+
+        $year.find("li").removeClass("selected");
+        $(this).addClass("selected");
+
+        $year.find("span").animate({opacity:0}, data.settings.transitionSpeed, function() {
+          $(this).html(year);
+          $(this).animate({opacity:1}, data.settings.transitionSpeed);
+        });
+        $year.removeClass("selected");
+        _updateDate($this);
+      });
+
+      $month.find("li").click(function(event) {
+        event.stopPropagation();
+        month = _.indexOf(months, $(this).html());
+
+        _adjustCalendar();
+
+        $month.find("li").removeClass("selected");
+        $(this).addClass("selected");
+
+        $month.find("span").animate({opacity:0}, data.settings.transitionSpeed, function() {
+          $(this).html(months[month]);
+          $(this).animate({opacity:1}, data.settings.transitionSpeed);
+        });
+        $month.removeClass("selected");
+        _updateDate($this);
+      });
+
+      $day.find("li").click(function(event) {
+        event.stopPropagation();
+        day = $(this).html();
+
+        $day.find("li").removeClass("selected");
+        $(this).addClass("selected");
+
+        $day.find("span").animate({opacity:0}, data.settings.transitionSpeed, function() {
+          $(this).html(day);
+          $(this).animate({opacity:1}, data.settings.transitionSpeed);
+        });
+
+        $day.removeClass("selected");
+        _updateDate($this);
+      });
+
+    }
+
+    function _setupLists($this, $ps) {
+      $month.find("span").html(months[month]);
+      $day.find("span").html(day);
+      $year.find("span").html(year);
+
+      $month.append('<div class="listing"><div class="inner"><ul></ul></div></div>');
+      $day.append('<div class="listing"><div class="inner"><ul></ul></div></div>');
+      $year.append('<div class="listing"><div class="inner"><ul></ul></div></div>');
+
+      $ps.find('.listing, .jspVerticalBar').click(function(event) {
+        event.stopPropagation();
+      });
+
+      _.each(months, function(m, index) {
+        if (index == month) {
+          $month.find(".listing ul").append('<li class="selected">' + m + '</li>');
+        } else {
+          $month.find(".listing ul").append("<li>" + m + "</li>");
+        }
+      });
+
+      for (var i = 1; i <= 31; i++) {
+        if (i == day) {
+          $day.find(".listing ul").append("<li class='selected'>" + i + "</li>");
+        } else {
+          $day.find(".listing ul").append("<li>" + i + "</li>");
+        }
+      }
+
+      for (var i = 1950; i <= 2020; i++) {
+        if (i == year) {
+          $year.find(".listing ul").append("<li class='selected'>" + i + "</li>");
+        } else {
+          $year.find(".listing ul").append("<li>" + i + "</li>");
+        }
       }
     }
-  }
 
-  function _zeroPad(num, count) {
-    var numZeropad = num + '';
-    while (numZeropad.length < count) {
-      numZeropad = "0" + numZeropad;
-    }
-    return numZeropad;
-  }
-
-  // Update the original date contained in the <time> tag
-  function _updateDate($this) {
-
-    function _suffix(n) { // returns the appropriate suffix
-      return [null, 'st', 'nd', 'rd', 'th'][n] || "th";
+    function _zeroPad(num, count) {
+      var numZeropad = num + '';
+      while (numZeropad.length < count) {
+        numZeropad = "0" + numZeropad;
+      }
+      return numZeropad;
     }
 
-    var data = $this.data(store);
+    // Update the original date contained in the <time> tag
+    function _updateDate($this) {
 
-    $this.html(months[month].toProperCase() + " " + day + _suffix(day) + ", " + year); // Visible date
+      function _suffix(n) { // returns the appropriate suffix
+        return [null, 'st', 'nd', 'rd', 'th'][n] || "th";
+      }
 
-    var datetime = year + "/" + _zeroPad(month + 1, 2) + "/" + day;
-    $this.attr("datetime", datetime); // Tag's date
-    data.$input.val(datetime.replace(/\//g, "-")); // Hidden input's date
-  }
+      var data = $this.data(store);
+
+      $this.html(months[month].toProperCase() + " " + day + _suffix(day) + ", " + year); // Visible date
+
+      var datetime = year + "/" + _zeroPad(month + 1, 2) + "/" + day;
+      $this.attr("datetime", datetime); // Tag's date
+      data.$input.val(datetime.replace(/\//g, "-")); // Hidden input's date
+    }
 
   // Adjust the selectors
   function _adjustCalendar() {
@@ -817,10 +818,10 @@ var GOD = (function() {
 
 
 /*
- * =============
- *  LINK POPOVER
- * =============
- */
+* =============
+*  LINK POPOVER
+* =============
+*/
 
 var linkPopover = (function() {
   var el;
@@ -917,10 +918,10 @@ var linkPopover = (function() {
 
 
 /*
- * ========
- * DROPDOWN
- * ========
- */
+* ========
+* DROPDOWN
+* ========
+*/
 
 (function($, window, document) {
 
@@ -934,17 +935,17 @@ var linkPopover = (function() {
   }
 
   var // Public methods exposed to $.fn.dropdownPopover()
-    methods = {}, store = "sortpopover", // HTML templates for the popover
-    templates = {
-      main: [
-        '<div id="<%= name %>_<%= id %>" class="white_popover">',
-        '<div class="arrow"></div>',
-        '<ul></ul>',
-        '</div>'].join(''),
+  methods = {}, store = "sortpopover", // HTML templates for the popover
+  templates = {
+    main: [
+      '<div id="<%= name %>_<%= id %>" class="white_popover">',
+      '<div class="arrow"></div>',
+      '<ul></ul>',
+      '</div>'].join(''),
       item: '<li data-select="<%= select %>"><a href="#"><span><%= name %></span></a></li>'
-    }, // Some nice default values
-    defaults = {
-    };
+  }, // Some nice default values
+  defaults = {
+  };
 
   // Called by using $('foo').dropdownPopover();
   methods.init = function(settings) {
@@ -952,11 +953,11 @@ var linkPopover = (function() {
 
     return this.each(function() {
       var // The current <select> element
-        $this = $(this), // We store lots of great stuff using jQuery data
-        data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
-        id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
-        width = settings.width || $this.outerWidth(), // The completed ps_container element
-        $ps = false;
+      $this = $(this), // We store lots of great stuff using jQuery data
+      data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
+      id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
+      width = settings.width || $this.outerWidth(), // The completed ps_container element
+      $ps = false;
 
       // Dont do anything if we've already setup dropdownPopover on this element
       if (data.id) {
@@ -1197,9 +1198,7 @@ var dialogPopover = (function() {
     $popover.fadeIn("slow", function() {
       hidden = false;
     });
-    //$("body").append("<div id='lock_screen'></div>");
-    //$("#lock_screen").height($(document).height());
-    //$("#lock_screen").fadeIn("slow");
+
     displayed = true;
   }
 
@@ -1210,11 +1209,6 @@ var dialogPopover = (function() {
       $popover.hide();
       displayed = false;
     });
-
-    /* $("#lock_screen").fadeOut(transitionSpeed, function() {
-     $("#lock_screen").remove();
-     callback && callback();
-     });*/
   }
 
   return {
@@ -1224,63 +1218,67 @@ var dialogPopover = (function() {
 })();
 
 /*
- * ================
- * DOWNLOAD POPOVER
- * ================
- */
+* ================
+* DOWNLOAD POPOVER
+* ================
+*/
 
 var downloadPopover = (function() {
-  var displayed = false;
-  var el;
-  var explanation = "";
-  var transitionSpeed = 200;
-  var selected_template;
+  var
+  el,
+  displayed       = false,
+  explanation     = "",
+  transitionSpeed = 200,
+  selected_template;
 
   var templates = {
+
     download_selector: ['<div class="infowindow download_popover download_selector">',
-                        '<div class="lheader"></div>',
-                        '<span class="close"></span>',
-                        '<div class="content">',
-                        '<h2>DOWNLOAD DATA</h2>',
-                        '<p><%= explanation %></p>',
-                        '<div class="light_box">',
-                        '<h3>Select a format</h3>',
-                        '<ul>',
-                        '<li><input type="radio" name="format" value="csv" id="format_csv" /> <label for="format_csv">CSV</label> <span class="size">(≈150Kb)</span></li>',
-                        '<li><input type="radio" name="format" value="xls" id="format_xls" /> <label for="format_xls">XLS</label></li>',
-                        '<li><input type="radio" name="format" value="xml" id="format_xml" /> <label for="format_xml">XML</label></li>',
-                        '</ul>',
-                        '<div class="tl"></div><div class="tr"></div><div class="bl"></div><div class="br"></div>',
-                        '</div>',
-                        '<a class="candy_blue_button download" target="_blank" href="http://localhost:3000/tmp/download.zip"><span>Download</span></a>',
-                        '</div>',
-                        '<div class="lfooter"></div>',
-                        '</div>'].join(' '),
-    direct_download: ['<div class="infowindow download_popover direct_download">',
-                      '<div class="lheader"></div>',
-                      '<span class="close"></span>',
-                      '<div class="content">',
-                      '<h2>DOWNLOAD DATA</h2>',
-                      '<div class="light_box package">',
-                      '<div class="content">',
-                      '<p><%= explanation %></p>',
-                      '</div>',
-                      '</div>',
-                      '<span class="filetype"><strong>CSV file</strong> <span class="size">(≈150Kb)</span></span> <a class="candy_blue_button download" target="_blank" href="http://localhost:3000/tmp/download.zip"><span>Download</span></a>',
-                      '</div>',
-                      '<div class="lfooter"></div>',
-                      '</div>'].join(' '),
-    download_started: ['<div class="infowindow download_has_started">',
-                       '<div class="lheader"></div>',
-                       '<span class="close"></span>',
-                       '<div class="content">',
-                       '<h2>DOWNLOAD STARTED</h2>',
-                       '<p>Remember that the downloaded data has to be correctly cited if it is used in publications. You will receive a citation text vbundled in the file with your download.</p>',
-                       '<p>If you have any doubt about the legal terms, please check our <a href="/static/terms_and_conditions.html" class="about" title="GBIF Data Terms and Conditions">GBIF Data Terms and Conditions</a>.</p>',
-                       '<a href="#" class="candy_white_button close"><span>Close</span></a>',
-                       '</div>',
-                       '<div class="lfooter"></div>',
-                       '</div>'].join(' ')
+      '<div class="lheader"></div>',
+      '<span class="close"></span>',
+      '<div class="content">',
+      '<h2>DOWNLOAD DATA</h2>',
+      '<p><%= explanation %></p>',
+      '<div class="light_box">',
+      '<h3>Select a format</h3>',
+      '<ul>',
+      '<li><input type="radio" name="format" value="csv" id="format_csv" /> <label for="format_csv">CSV</label> <span class="size">(≈150Kb)</span></li>',
+      '<li><input type="radio" name="format" value="xls" id="format_xls" /> <label for="format_xls">XLS</label></li>',
+      '<li><input type="radio" name="format" value="xml" id="format_xml" /> <label for="format_xml">XML</label></li>',
+      '</ul>',
+      '<div class="tl"></div><div class="tr"></div><div class="bl"></div><div class="br"></div>',
+      '</div>',
+      '<a class="candy_blue_button download" target="_blank" href="http://localhost:3000/tmp/download.zip"><span>Download</span></a>',
+      '</div>',
+      '<div class="lfooter"></div>',
+      '</div>'].join(' '),
+
+      direct_download: ['<div class="infowindow download_popover direct_download">',
+        '<div class="lheader"></div>',
+        '<span class="close"></span>',
+        '<div class="content">',
+        '<h2>DOWNLOAD DATA</h2>',
+        '<div class="light_box package">',
+        '<div class="content">',
+        '<p><%= explanation %></p>',
+        '</div>',
+        '</div>',
+        '<span class="filetype"><strong>CSV file</strong> <span class="size">(≈150Kb)</span></span> <a class="candy_blue_button download" target="_blank" href="http://localhost:3000/tmp/download.zip"><span>Download</span></a>',
+        '</div>',
+        '<div class="lfooter"></div>',
+        '</div>'].join(' '),
+
+        download_started: ['<div class="infowindow download_has_started">',
+          '<div class="lheader"></div>',
+          '<span class="close"></span>',
+          '<div class="content">',
+          '<h2>DOWNLOAD STARTED</h2>',
+          '<p>Remember that the downloaded data has to be correctly cited if it is used in publications. You will receive a citation text vbundled in the file with your download.</p>',
+          '<p>If you have any doubt about the legal terms, please check our <a href="/static/terms_and_conditions.html" class="about" title="GBIF Data Terms and Conditions">GBIF Data Terms and Conditions</a>.</p>',
+          '<a href="#" class="candy_white_button close"><span>Close</span></a>',
+          '</div>',
+          '<div class="lfooter"></div>',
+          '</div>'].join(' ')
   };
 
   function toggle(e, event, opt) {
@@ -1372,9 +1370,12 @@ var downloadPopover = (function() {
     $popover.fadeIn("slow", function() {
       hidden = false;
     });
+
     $("body").append("<div id='lock_screen'></div>");
     $("#lock_screen").height($(document).height());
     $("#lock_screen").fadeIn("slow");
+    $("#lock_screen").on("click", hide);
+
     displayed = true;
   }
 
@@ -1399,10 +1400,10 @@ var downloadPopover = (function() {
 })();
 
 /*
- * ================
- * POPOVER BINDINGS
- * ================
- */
+* ================
+* POPOVER BINDINGS
+* ================
+*/
 
 $.fn.bindSlider = function(min, max, values) {
   var $slider = $(this).find(".slider");
@@ -1502,10 +1503,10 @@ $.fn.bindSlideshow = function(opt) {
 
 
 /*
- * ==========
- * SELECT BOX
- * ==========
- */
+* ==========
+* SELECT BOX
+* ==========
+*/
 
 (function($, window, document) {
 
@@ -1519,31 +1520,31 @@ $.fn.bindSlideshow = function(opt) {
   }
 
   var // Public methods exposed to $.fn.selectBox()
-    methods = {}, store = "selectbox", // HTML template for the dropdowns
-    templates = {
-      main: ['<div id="<%= name %>_<%= id %>" class="select_box">',
-             '<div class="selected_option"><span><%= label %></span></div>',
-             '</div>'].join(''),
+  methods = {}, store = "selectbox", // HTML template for the dropdowns
+  templates = {
+    main: ['<div id="<%= name %>_<%= id %>" class="select_box">',
+      '<div class="selected_option"><span><%= label %></span></div>',
+      '</div>'].join(''),
       list:['<div id="list_<%= name %>_<%= id %>" class="select_listing">',
-            '<div class="select_inner">',
-            '<ul><%= options %></ul>',
-            '</div>',
-            '</div>'].join(' ')
-    }, // Some nice default values
-    defaults = {
-      transitionSpeed: 150
-    };
+        '<div class="select_inner">',
+        '<ul><%= options %></ul>',
+        '</div>',
+        '</div>'].join(' ')
+  }, // Some nice default values
+  defaults = {
+    transitionSpeed: 150
+  };
   // Called by using $('foo').selectBox();
   methods.init = function(settings) {
     settings = $.extend({}, defaults, settings);
 
     return this.each(function() {
       var // The current <select> element
-        $this = $(this), // We store lots of great stuff using jQuery data
-        data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
-        id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
-        width = settings.width || $this.outerWidth(), // Save all of the <option> elements
-        $options = $this.find('option'), $original = $this.find(':selected').first();
+      $this = $(this), // We store lots of great stuff using jQuery data
+      data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
+      id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
+      width = settings.width || $this.outerWidth(), // Save all of the <option> elements
+      $options = $this.find('option'), $original = $this.find(':selected').first();
 
       // The completed ps_container element
       $ps = false;
@@ -1705,10 +1706,10 @@ $.fn.bindSlideshow = function(opt) {
 
 
 /*
- * ==================
- * TAXONOMIC EXPLORER
- * ==================
- */
+* ==================
+* TAXONOMIC EXPLORER
+* ==================
+*/
 
 (function($, window, document) {
 
@@ -1724,12 +1725,12 @@ $.fn.bindSlideshow = function(opt) {
   }
 
   var // Public methods exposed to $.fn.taxonomicExplorer()
-    methods = {}, level = 0, zIndex = 0, stop = false, stopBack = false, // Some nice default values
-    defaults = {
-      width: 540,
-      transitionSpeed:300,
-      liHeight: 25
-    };
+  methods = {}, level = 0, zIndex = 0, stop = false, stopBack = false, // Some nice default values
+  defaults = {
+    width: 540,
+    transitionSpeed:300,
+    liHeight: 25
+  };
 
 
   // Called by using $('foo').taxonomicExplorer();
@@ -1738,12 +1739,12 @@ $.fn.bindSlideshow = function(opt) {
 
     return this.each(function() {
       var // The current <select> element
-        $this = $(this), $breadcrumb = false, // for paging
-        $limit = 45, $offset = 20, // We store lots of great stuff using jQuery data
-        data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
-        id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
-        width = settings.width || $this.outerWidth(), // The completed ps_container element
-        $ps = false;
+      $this = $(this), $breadcrumb = false, // for paging
+      $limit = 45, $offset = 20, // We store lots of great stuff using jQuery data
+      data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
+      id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
+      width = settings.width || $this.outerWidth(), // The completed ps_container element
+      $ps = false;
 
       // Dont do anything if we've already setup taxonomicExplorer on this element
       if (data.id) {
@@ -1793,13 +1794,13 @@ $.fn.bindSlideshow = function(opt) {
 
       $(".inner").scroll(function() {
         if (($(".jspTrack").height() <= ( parseInt($(".jspDrag").css("top")) + $(".jspDrag").height() + 35)) &&
-            stop == false) {
+        stop == false) {
           $ps.find(".loadingTaxa span").html("<img src=\"../img/taxbrowser-loader.gif\"> Loading more elements...")
-            .show();
+          .show();
           //set next paging values
           $spid = $ps.find(".breadcrumb li:last").attr("spid");
           var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?&offset=" + $offset + "&limit=" +
-                       $limit;
+            $limit;
           stop = true;
           var $wrapper = $("<ul></ul>");
           $.getJSON($wsUrl, function(scrollData) {
@@ -1830,15 +1831,15 @@ $.fn.bindSlideshow = function(opt) {
         }
 
         $li.find("span:first").after('<div class="bar' + clase + '" style="width:' + (species + 10) +
-                                     'px"><div class="count">' + species + '</div></div>');
+        'px"><div class="count">' + species + '</div></div>');
 
-        $li.find("span:first").parent().hover(function() {
-          $li.find(".count:first").show();
-          $li.find("a:first").show();
-        }, function() {
-          $li.find(".count:first").hide();
-          $li.find("a:first").hide();
-        });
+      $li.find("span:first").parent().hover(function() {
+        $li.find(".count:first").show();
+        $li.find("a:first").show();
+      }, function() {
+        $li.find(".count:first").hide();
+        $li.find("a:first").hide();
+      });
       }
 
       // Add the adjacent bars next to each taxonomic element
@@ -1884,9 +1885,9 @@ $.fn.bindSlideshow = function(opt) {
             //add anything here needed after loading the tax tree.
           }});
 
-        // scroll to the top of the list
-        $ps.find(".inner").data('jsp').scrollTo(0, 0, true);
-        $offset += $limit;
+          // scroll to the top of the list
+          $ps.find(".inner").data('jsp').scrollTo(0, 0, true);
+          $offset += $limit;
       }
 
       // If the user clicks on a bar
@@ -1954,7 +1955,7 @@ $.fn.bindSlideshow = function(opt) {
               });
               $htmlContent +=
               "<li class=\"last\" style=\"opacity:1;\" spid=\"" + data.key + "\">" + data.canonicalOrScientificName +
-              "</li>";
+                "</li>";
               $BC.html($htmlContent);
             });
           }
@@ -2001,7 +2002,7 @@ $.fn.bindSlideshow = function(opt) {
                 });
               });
             });
-          _resize($ps, $ps.find(".sp ul:visible:eq(" + gotoLevel + ") > li").length, data.$this);
+            _resize($ps, $ps.find(".sp ul:visible:eq(" + gotoLevel + ") > li").length, data.$this);
         }});
     }
   }
@@ -2030,10 +2031,10 @@ $.fn.bindSlideshow = function(opt) {
 
 
 /*
- * ===========
- * AUTOSUGGEST
- * ===========
- */
+* ===========
+* AUTOSUGGEST
+* ===========
+*/
 
 (function($, window, document) {
 
@@ -2047,36 +2048,36 @@ $.fn.bindSlideshow = function(opt) {
   }
 
   var // Public methods exposed to $.fn.autosuggest()
-    methods = {}, // Test data
-    species = [
-      { name: "Acantocephala", desc: "Family"},
-      { name: "Actinobacteria", desc: "Especies"},
-      { name: "Annelida", desc: "Order"},
-      { name: "Aquificae", desc: "Suborders"},
-      { name: "Arthropoda", desc: "Especies"},
-      { name: "Bacteroidetes", desc: "Order"},
-      { name: "Brachipoda", desc: "Suborders"},
-      { name: "Cephalorhyncha", desc: "Especies"},
-      { name: "Chaetognatha", desc: "Especies"},
-      { name: "Chordata", desc: "Especies"},
-      { name: "Chromista", desc: "Order"},
-      { name: "Cnidaria", desc: "Especies"},
-      { name: "Ctenophora", desc: "Suborders"},
-      { name: "Fungi", desc: "Order"},
-      { name: "Plantae", desc: "Especies"},
-      { name: "Puma Concolor", desc: "Family"},
-      { name: "Puma", desc: "Order"}
-    ], // HTML template for the dropdowns
-    templates = {
-      main: '<div id="<%= name %>_<%= id %>" class="autosuggest"></div>',
-      more: '<a href="#" class="more">Add more</a>',
-      row: '<div class="row<%= clase %>"><span class="name"><%= name %></span><%= desc %></div>',
-      list: '<ul id="listing_<%= name %>_<%= id %>" class="autosuggest_results"></ul>',
-      li: '<li><div class="value"><%= value %> <span class="remove"></span><input type="hidden" value="<%= value %>" name="<%= name %>_<%= id %>" /></div></li>',
-      result: '<%= value %>'
-    }, store = "autosuggest", // Some nice default values
-    defaults = {
-    };
+  methods = {}, // Test data
+  species = [
+    { name: "Acantocephala", desc: "Family"},
+    { name: "Actinobacteria", desc: "Especies"},
+    { name: "Annelida", desc: "Order"},
+    { name: "Aquificae", desc: "Suborders"},
+    { name: "Arthropoda", desc: "Especies"},
+    { name: "Bacteroidetes", desc: "Order"},
+    { name: "Brachipoda", desc: "Suborders"},
+    { name: "Cephalorhyncha", desc: "Especies"},
+    { name: "Chaetognatha", desc: "Especies"},
+    { name: "Chordata", desc: "Especies"},
+    { name: "Chromista", desc: "Order"},
+    { name: "Cnidaria", desc: "Especies"},
+    { name: "Ctenophora", desc: "Suborders"},
+    { name: "Fungi", desc: "Order"},
+    { name: "Plantae", desc: "Especies"},
+    { name: "Puma Concolor", desc: "Family"},
+    { name: "Puma", desc: "Order"}
+  ], // HTML template for the dropdowns
+  templates = {
+    main: '<div id="<%= name %>_<%= id %>" class="autosuggest"></div>',
+    more: '<a href="#" class="more">Add more</a>',
+    row: '<div class="row<%= clase %>"><span class="name"><%= name %></span><%= desc %></div>',
+    list: '<ul id="listing_<%= name %>_<%= id %>" class="autosuggest_results"></ul>',
+    li: '<li><div class="value"><%= value %> <span class="remove"></span><input type="hidden" value="<%= value %>" name="<%= name %>_<%= id %>" /></div></li>',
+    result: '<%= value %>'
+  }, store = "autosuggest", // Some nice default values
+  defaults = {
+  };
 
   // Called by using $('foo').autosuggest();
   methods.init = function(settings) {
@@ -2084,11 +2085,11 @@ $.fn.bindSlideshow = function(opt) {
 
     return this.each(function() {
       var // The current element
-        $this = $(this), // We store lots of great stuff using jQuery data
-        data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
-        id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
-        width = settings.width || $this.outerWidth(), // The completed ps_container element
-        $ps = false;
+      $this = $(this), // We store lots of great stuff using jQuery data
+      data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
+      id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
+      width = settings.width || $this.outerWidth(), // The completed ps_container element
+      $ps = false;
 
       // Dont do anything if we've already setup autosuggest on this element
       if (data.id) {
@@ -2204,8 +2205,8 @@ $.fn.bindSlideshow = function(opt) {
         return row.name;
       }
     }).result(function(e, result, formatted) {
-        _onResult(e, result, formatted, $this);
-      });
+      _onResult(e, result, formatted, $this);
+    });
 
   }
 
@@ -2224,10 +2225,10 @@ $.fn.bindSlideshow = function(opt) {
 
 
 /*
- * ================
- * CRITERIA POPOVER
- * ================
- */
+* ================
+* CRITERIA POPOVER
+* ================
+*/
 
 (function($, window, document) {
 
@@ -2241,47 +2242,47 @@ $.fn.bindSlideshow = function(opt) {
   }
 
   var // Public methods exposed to $.fn.criteriaPopover()
-    methods = {}, store = "criteria_popover", // HTML template for the dropdowns
-    templates = {
-      main: [
-        '<div class="criteria_popover" id="criteria_popover_<%= id %>">',
-        '<a href="#" class="select"><%= title %></a>',
-        '<div class="criterias">',
-        '<div class="arrow"></div>',
-        '<div class="background">',
-        '<div class="l">',
-        '<div class="scrollpane"><ul class="criterias_inner"></ul></div>',
-        '</div>',
-        '</div>',
-        '</div>',
-        '<div class="selected_criterias"></div>',
-        '<a href="#" class="more">Add more</a>',
-        '</div>'
+  methods = {}, store = "criteria_popover", // HTML template for the dropdowns
+  templates = {
+    main: [
+      '<div class="criteria_popover" id="criteria_popover_<%= id %>">',
+      '<a href="#" class="select"><%= title %></a>',
+      '<div class="criterias">',
+      '<div class="arrow"></div>',
+      '<div class="background">',
+      '<div class="l">',
+      '<div class="scrollpane"><ul class="criterias_inner"></ul></div>',
+      '</div>',
+      '</div>',
+      '</div>',
+      '<div class="selected_criterias"></div>',
+      '<a href="#" class="more">Add more</a>',
+      '</div>'
       ].join(''),
       li: '<li><a data-criteria="<%= criteria %>"><span class="label"><%= text %><span></a></li>',
 
       // Templates for the criterias
       range: ['<div class="refine" data-criteria="<%= criteria %>">',
-              '<div id="<%= criteria %>_<%= name %>_<%= id %>" class="range"><h4>RANGE</h4> <input type="text" value="" class="legend" /><div class="slider"><div class="ui-slider-handle"></div><div class="ui-slider-handle last"></div></div></div>',
-              '</div>'].join(' '),
+        '<div id="<%= criteria %>_<%= name %>_<%= id %>" class="range"><h4>RANGE</h4> <input type="text" value="" class="legend" /><div class="slider"><div class="ui-slider-handle"></div><div class="ui-slider-handle last"></div></div></div>',
+        '</div>'].join(' '),
 
-      date: ['<div class="refine" data-criteria="<%= criteria %>">',
-             '<h4>Date</h4><time id="<%= criteria %>_<%= name %>_<%= id %>_start" class="selectable" datetime="2012/10/22">Oct 22th, 2012</time>  - <time class="selectable" datetime="1981/06/18" id="<%= criteria %>_<%= name %>_<%= id %>_end">Jun 18th, 1981</time>',
-             '</div>'].join(' ')
-    }, // Some nice default values
-    defaults = { };
+        date: ['<div class="refine" data-criteria="<%= criteria %>">',
+          '<h4>Date</h4><time id="<%= criteria %>_<%= name %>_<%= id %>_start" class="selectable" datetime="2012/10/22">Oct 22th, 2012</time>  - <time class="selectable" datetime="1981/06/18" id="<%= criteria %>_<%= name %>_<%= id %>_end">Jun 18th, 1981</time>',
+          '</div>'].join(' ')
+  }, // Some nice default values
+  defaults = { };
   // Called by using $('foo').criteriaPopover();
   methods.init = function(settings) {
     settings = $.extend({}, defaults, settings);
 
     return this.each(function() {
       var // The current <select> element
-        $this = $(this), // Save all of the <option> elements
-        $options = $this.find('option'), // We store lots of great stuff using jQuery data
-        data = $this.data(store) || {}, // This gets applied to the 'criteria_popover' element
-        id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
-        width = settings.width || $this.outerWidth(), // The completed criteria_popover element
-        $ps = false;
+      $this = $(this), // Save all of the <option> elements
+      $options = $this.find('option'), // We store lots of great stuff using jQuery data
+      data = $this.data(store) || {}, // This gets applied to the 'criteria_popover' element
+      id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
+      width = settings.width || $this.outerWidth(), // The completed criteria_popover element
+      $ps = false;
 
       // Dont do anything if we've already setup criteriaPopover on this element
       if (data.id) {
@@ -2480,7 +2481,7 @@ $.fn.bindSlideshow = function(opt) {
       var data = $ps.data(store);
 
       var $selected_element = $ps.find(".selected_criterias > div a[data-criteria=" + $option.attr("data-criteria") +
-                                       "]").parent();
+        "]").parent();
 
       if ($selected_element.length < 1) {
 
