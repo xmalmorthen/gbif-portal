@@ -25,7 +25,7 @@
 </@common.notice>
 
 <#list verbatim?keys as group>
-  <@common.article id="record_level" title="Record level" class="raw odd">
+  <@common.article id="record_level" title=group class="raw odd">
   <div class="left">
     <#list verbatim[group]?keys as term>
       <div class="row <#if term_index==0>first</#if> <#if term_index % 2 == 0>odd<#else>even</#if> <#if !term_has_next>last</#if>">
