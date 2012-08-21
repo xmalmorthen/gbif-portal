@@ -524,12 +524,10 @@
 <div class="left">
   <#if dataset.intellectualRights?has_content>
     <h3>Usage rights</h3>
-
     <p>${dataset.intellectualRights}</p>
   </#if>
 
   <h3>How to cite it</h3>
-
   <p>${dataset.title!"???"} (accessed through GBIF data portal, <a href="${baseUrl}/dataset/${dataset.key}"
                                                                    title="${dataset.title!}">${baseUrl}
     /dataset/${dataset.key}</a>, ${.now?date})</p>

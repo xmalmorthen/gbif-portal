@@ -24,81 +24,18 @@
   </p>
 </@common.notice>
 
-
-<@common.article id="record_level" title="Record level" class="raw odd">
-<div class="left">
-  <div class="row first odd">
-    <h4>Type</h4>
-
-    <div class="value">
-      Value
-    </div>
+<#list verbatim?keys as group>
+  <@common.article id="record_level" title="Record level" class="raw odd">
+  <div class="left">
+    <#list verbatim[group]?keys as term>
+      <div class="row <#if term_index==0>first</#if> <#if term_index % 2 == 0>odd<#else>even</#if> <#if !term_has_next>last</#if>">
+        <h4>${term}</h4>
+        <div class="value">${verbatim[group][term]}</div>
+      </div>
+    </#list>
   </div>
-
-  <div class="row even">
-    <h4>Modified</h4>
-
-    <div class="value">
-      Value
-    </div>
-  </div>
-
-  <div class="row odd">
-    <h4>Language</h4>
-
-    <div class="value">
-      Value
-    </div>
-  </div>
-
-  <div class="row even last">
-    <h4>Rights</h4>
-
-    <div class="value">
-      Value
-    </div>
-  </div>
-
-</div>
-</@common.article>
-
-<@common.article id="occurrence" title="Occurrence" class="raw odd">
-<div class="left">
-  <div class="row first odd">
-    <h4>Type</h4>
-
-    <div class="value">
-      Value
-    </div>
-  </div>
-
-  <div class="row even">
-    <h4>Modified</h4>
-
-    <div class="value">
-      Value
-    </div>
-  </div>
-
-  <div class="row odd">
-    <h4>Language</h4>
-
-    <div class="value">
-      Value
-    </div>
-  </div>
-
-  <div class="row even last">
-    <h4>Rights</h4>
-
-    <div class="value">
-      Value
-    </div>
-  </div>
-
-</div>
-</@common.article>
-
+  </@common.article>
+</#list>
 
 </body>
 </html>

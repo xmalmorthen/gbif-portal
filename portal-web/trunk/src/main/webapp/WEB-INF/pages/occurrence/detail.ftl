@@ -38,7 +38,7 @@
     <div id="map" latitude="${occ.latitude}" longitude="${occ.longitude}"></div>
     <div class="right">
       <h3>Locality</h3>
-        <p class="no_bottom">${occ.locality!"?"}<#if occ.country??>, ${occ.country}</#if></p>
+        <p class="no_bottom">${occ.locality!}<#if occ.country??>, ${occ.country}</#if></p>
         <p class="light_note">${occ.longitude}, ${occ.latitude} (± 0.25)</p>
 
   <#else>
@@ -81,7 +81,6 @@
    </div>
 
 </@common.article>
-
 
 <@common.article id="source" title="Source details">
     <div class="left">
@@ -276,15 +275,20 @@ Identification details <span class='subtitle'>According to <a href="<@s.url valu
 </@common.article>
 -->
 
-<@common.article id="legal" title="Usage & legal issues" class="mono_line placeholder_temp">
+<@common.article id="legal" title="Usage & legal issues" class="mono_line">
     <div class="left">
-      <h3>USAGE RIGHTS</h3>
-      <p>Released under an Open Data licence, so it can be used to anyone who cites it. </p>
+      <#assign rights = occ.rights!dataset.intellectualRights! />
+      <#if rights?has_content>
+        <h3>Usage rights</h3>
+        <p>${rights}</p>
+      </#if>
 
-      <h3>HOW TO CITE IT</h3>
-      <p>Alaska Ocean Observing System, Arctic Ocean Diversity (accessed through GBIF data portal,
-        <a href="http://data.gbif.org/datasets/resource/654">http://data.gbif.org/datasets/resource/654</a>,
-        2011-05-05)</p>
+      <#if occ.citation?has_content || dataset.citation??>
+        <h3>HOW TO CITE IT</h3>
+        <p>
+          <#if occ.citation?has_content>${occ.citation} <#else> <@common.citation dataset.citation /></#if>
+        </p>
+      </#if>
     </div>
 </@common.article>
 
