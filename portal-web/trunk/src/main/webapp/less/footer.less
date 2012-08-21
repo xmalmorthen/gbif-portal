@@ -1,46 +1,58 @@
 @import "helpers";
 
+@width: 893px;
+
 .copyright {
   position: relative;
   background: #222222;
   height: 40px;
 
   .inner {
-    width: 874px;
+    width: @width;
     margin:auto;
   }
 
   p {
-    padding: 16px 0;
+    padding: 15px 0;
     text-align: left;
     color: white;
     font-size: 11px;
   }
 }
 
-footer {
+body > footer {
 
-  height: 200px;
+  height: 400px;
+
+  border-top: 1px solid #666;
+  border-top: 1px solid rgba(0,0,0,.4);
 
   position: relative;
-  text-align: center;
   background: url("../img/footer/footer_bkg.jpg") repeat-x;
 
-  .content {
+  & > .inner {
 
-    .absolute-landscape-center(948px);
+    // Clearfix
+    & { *zoom: 1; }
+    &:before, &:after { content: ""; display: table; }
+    &:after { clear: both; }
 
-    padding: 24px 0px 64px 76px;
+    width: @width;
+    margin: auto;
 
-    text-align: left;
+    padding: 24px 0px 64px 0;
+
   }
 
-  ul {
+  .inner ul {
     display: block;
     float: left;
-    margin: 0px 38px 36px 0px;
-    width: 278px;
+    margin: 0 34px 36px 0;
+    width: 275px;
 
+    text-align: left;
+
+    &.last{ margin-right: 0; }
     &.first { clear: left; }
 
     li {

@@ -3,6 +3,7 @@
 @import "fonts";
 @import "buttons";
 @import "occ_table";
+@import "popovers";
 
 @import "taxonomies";
 
@@ -125,10 +126,10 @@ a {
 a:hover {
   color: @cGray1;
   -webkit-transition: color "" ease-in-out;
-  -moz-transition: color "" ease-in-out;
-  -o-transition: color "", ease-in-out;
-  -ms-transition: color "" ease-in-out;
-  transition: color "" ease-in-out;
+  -moz-transition:    color "" ease-in-out;
+  -o-transition:      color "" ease-in-out;
+  -ms-transition:     color "" ease-in-out;
+  transition:         color "" ease-in-out;
 }
 
 a.small {
@@ -172,7 +173,6 @@ a.next_slide {
 
 }
 
-
 .add_more {
   clear: both;
   padding-left: 15px;
@@ -190,10 +190,7 @@ a.next_slide {
   position: relative;
   color: @cGray2;
   margin-bottom: 10px;
-}
-
-.filter_selected:hover .delete {
-  display: block;
+  &:hover .delete { display: block; }
 }
 
 span.remove {
@@ -221,45 +218,47 @@ span.remove {
   display: none;
   position: absolute;
   float: left;
+
   z-index: 1000;
 
   .disable-selection();
+
+  .arrow {
+    .size(38px, 23px);
+    top: 6px;
+    position: relative;
+    margin: auto;
+
+    background: url("../img/white_popover_arrow.png") no-repeat center bottom;
+  }
+
+  .listing {
+    background: url("../img/select_filter_left_side.png") no-repeat left top;
+    padding: 0 0 0 20px;
+  }
+
+  .listing .inner {
+    height: 160px;
+    background: url("../img/select_filter_right_side.png") repeat-x right top;
+    padding: 15px 0 0 5px;
+
+    ul {
+      .size(100px, 110px);
+      padding: 5px 40px 0 0;
+      margin: 0;
+
+      float: left;
+      overflow: auto;
+      outline: none;
+    }
+
+    ul li {
+      text-align: left;
+      line-height: 20px;
+    }
+  }
 }
 
-#content .select-filter .arrow {
-  top: 6px;
-  position: relative;
-  .size(38px, 23px);
-  margin: auto;
-
-  background: url("../img/white_popover_arrow.png") no-repeat center bottom;
-}
-
-#content .select-filter .listing {
-  background: url("../img/select_filter_left_side.png") no-repeat left top;
-  padding: 0 0 0 20px;
-}
-
-#content .select-filter .listing .inner {
-  height: 160px;
-  background: url("../img/select_filter_right_side.png") repeat-x right top;
-  padding: 15px 0 0 5px;
-}
-
-#content .select-filter .listing .inner ul {
-  .size(100px, 110px);
-
-  float: left;
-  overflow: auto;
-  outline: none;
-  padding: 5px 40px 0 0;
-  margin: 0;
-}
-
-#content .select-filter .listing .inner ul li {
-  text-align: left;
-  line-height: 20px;
-}
 
 #content .select_box {
   position: relative;
@@ -361,234 +360,6 @@ span.remove {
   color: @cGray0;
 }
 
-#content .white_narrow_popover {
-  opacity: 0;
-  position: absolute;
-  float: left;
-  z-index: 1000;
-}
-
-#content .white_narrow_popover .arrow {
-  top: 8px;
-  position: relative;
-  .size(18px, 13px);
-  margin: auto;
-  background: url("../img/white_popover_arrow.png") no-repeat;
-}
-
-#content .white_narrow_popover ul {
-  margin: 0;
-  padding: 0;
-}
-
-#content .white_narrow_popover ul li {
-  background: none;
-  margin: 0;
-  padding: 0;
-}
-
-#content .white_narrow_popover ul li.selected a {
-  color: @cGray2;
-}
-
-#content .white_narrow_popover ul li.first a {
-  height: 38px;
-  background: url("../img/white_popover_left_side.png") no-repeat left top;
-}
-
-#content .white_narrow_popover ul li.first a span {
-  height: 24px;
-  padding-top: 14px;
-  background: url("../img/white_popover_right_side.png") repeat-x right top;
-}
-
-#content .white_narrow_popover ul li:first-child a {
-  height: 38px;
-  background: url("../img/white_popover_left_side.png") no-repeat left top;
-}
-
-#content .white_narrow_popover ul li:first-child a span {
-  height: 24px;
-  padding-top: 14px;
-  background: url("../img/white_popover_right_side.png") repeat-x right top;
-}
-
-#content .white_narrow_popover ul li.last a {
-  height: 34px;
-  background: url("../img/white_popover_left_side.png") no-repeat left bottom;
-}
-
-#content .white_narrow_popover ul li.last a span {
-  height: 34px;
-  background: url("../img/white_popover_right_side.png") repeat-x right bottom;
-}
-
-#content .white_narrow_popover ul li:last-child a {
-  height: 34px;
-  background: url("../img/white_popover_left_side.png") no-repeat left bottom;
-}
-
-#content .white_narrow_popover ul li:last-child a span {
-  height: 34px;
-  background: url("../img/white_popover_right_side.png") repeat-x right bottom;
-}
-
-#content .white_narrow_popover ul li a {
-  display: block;
-  min-width: 88px;
-  height: 21px;
-  padding: 0 0 0 19px;
-  border: none;
-  background: url("../img/white_popover_left_side.png") no-repeat left -41px;
-  font-size: 15px;
-  text-align: left;
-  text-decoration: none;
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)";
-  /* IE8 */
-  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #00FFFFFF, endColorstr = #00FFFFFF);*/
-  /* IE6 & 7 */
-  zoom: 1;
-}
-
-#content .white_narrow_popover ul li a span {
-  display: block;
-  height: 21px;
-  padding-right: 19px;
-  background: url("../img/white_popover_right_side.png") repeat-x right -41px;
-  font-family: "DINOT-Regular", sans-serif;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-#content .yellow_popover {
-  position: absolute;
-  width: 212px;
-  text-align: left;
-  opacity: 0;
-  z-index: 1000;
-
-  .disable-selection();
-}
-
-#content .yellow_popover div.t {
-  height: 20px;
-  background: url("../img/yellow_popover.png") no-repeat left top;
-}
-
-#content .yellow_popover div.b {
-  height: 27px;
-  background: url("../img/yellow_popover.png") no-repeat right top;
-}
-
-#content .yellow_popover div.c {
-  background: url("../img/yellow_popover.png") repeat-y -212px top;
-  padding: 0 20px;
-  line-height: 20px;
-  color: @cGray2;
-  font-size: 13px;
-}
-
-#content .yellow_popover div.c h3 {
-  margin-bottom: 3px;
-  font-family: "DINOT-Medium", sans-serif;
-  font-size: 13px;
-  text-transform: uppercase;
-  color: @cGray1;
-  text-shadow: 0 1px white;
-  filter: progid:DXImageTransform.Microsoft.DropShadow(offx = 0, offy = 1, color = #FFFFFF);
-}
-
-#content .yellow_popover div.c strong {
-  font-weight: bold;
-}
-
-#content .white_popover {
-  opacity: 0;
-  position: absolute;
-  float: left;
-  z-index: 1000;
-}
-
-#content .white_popover .arrow {
-  top: 8px;
-  position: relative;
-  .size(18px, 13px);
-  margin: auto;
-
-  background: url("../img/white_popover_arrow.png") no-repeat;
-}
-
-#content .white_popover ul {
-  margin: 0;
-  padding: 0;
-}
-
-#content .white_popover ul li {
-  background: none;
-  margin: 0;
-  padding: 0;
-}
-
-#content .white_popover ul li.selected a {
-  color: @cGray2;
-}
-
-#content .white_popover ul li:first-child a {
-  height: 38px;
-  background: url("../img/white_popover_left_side.png") no-repeat left top;
-}
-
-#content .white_popover ul li:first-child a span {
-  height: 23px;
-  padding-top: 15px;
-  background: url("../img/white_popover_right_side.png") repeat-x right top;
-}
-
-#content .white_popover ul li.last a {
-  height: 34px;
-  background: url("../img/white_popover_left_side.png") no-repeat left bottom;
-}
-
-#content .white_popover ul li.last a span {
-  height: 34px;
-  background: url("../img/white_popover_right_side.png") repeat-x right bottom;
-}
-
-#content .white_popover ul li:last-child a {
-  height: 34px;
-  background: url("../img/white_popover_left_side.png") no-repeat left bottom;
-}
-
-#content .white_popover ul li:last-child a span {
-  height: 34px;
-  background: url("../img/white_popover_right_side.png") repeat-x right bottom;
-}
-
-#content .white_popover ul li a {
-  display: block;
-  min-width: 88px;
-  height: 21px;
-  padding: 0 0 0 19px;
-  border: none;
-  background: url("../img/white_popover_left_side.png") no-repeat left -41px;
-  font-size: 15px;
-  text-align: left;
-  text-decoration: none;
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)";
-  /* IE8 */
-  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = #00FFFFFF, endColorstr = #00FFFFFF);*/
-  /* IE6 & 7 */
-  zoom: 1;
-}
-
-#content .white_popover ul li a span {
-  display: block;
-  height: 21px;
-  padding-right: 19px;
-  background: url("../img/white_popover_right_side.png") repeat-x right -41px;
-  font-family: "DINOT-Regular", sans-serif;
-  font-size: 15px;
-}
 
 .download .dropdown {
   width: 220px;
@@ -1664,38 +1435,40 @@ body.reference article .example .field {
 }
 
 
-
+// Register
 body.register footer {
   height: auto;
   margin-top: 94px;
   background: none;
   padding-bottom: 40px;
-}
 
-body.register footer .content {
-  padding: 0;
-  width: 702px;
-  margin-left: -351px;
-}
+  .content {
+    padding: 0;
+    width: 702px;
+    margin-left: -351px;
+  }
 
-body.register footer .copyright {
-  float: left;
-  position: relative;
-  background: none;
-  height: auto;
-  font-size: 11px;
-  color: @cGray3;
-}
+  .copyright {
+    float: left;
+    position: relative;
+    height: auto;
 
-body.register footer p {
-  float: right;
-  font-size: 11px;
-  color: @cGray3;
-}
+    background: none;
+    font-size: 11px;
+    color: @cGray3;
+  }
 
-body.register footer p a {
-  color: #04a531;
-  text-decoration: underline;
+  footer p {
+    float: right;
+
+    font-size: 11px;
+    color: @cGray3;
+
+    a {
+      color: #04a531;
+      text-decoration: underline;
+    }
+  }
 }
 
 #content {
