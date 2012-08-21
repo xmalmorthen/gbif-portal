@@ -86,10 +86,13 @@
 <@common.article id="source" title="Source details">
     <div class="left">
       <h3>Data publisher</h3>
-      <p><a href="<@s.url value='/organization/${(dataset.owningOrganizationKey)!}'/>"
-            title="">${(dataset.owningOrganizationKey)!"Unknown"}</a></p>
+      <p>
+        <a href="<@s.url value='/organization/${publisher.key}'/>"
+            title="">${publisher.title}</a>
+      </p>
       <h3>Dataset</h3>
       <p>${dataset.title!}</p>
+
 
       <#if occ.institutionCode??>
         <h3>Institution code</h3>

@@ -8,28 +8,17 @@
  */
 package org.gbif.portal.action.occurrence;
 
-import org.gbif.portal.action.BaseAction;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StatsAction extends BaseAction {
+public class StatsAction extends OccurrenceBaseAction {
 
   private static final Logger LOG = LoggerFactory.getLogger(StatsAction.class);
 
-  private Integer id;
-
   @Override
   public String execute() {
-    LOG.debug("Loading stats for occurrence id [{}]", id);
+    loadDetail();
     return SUCCESS;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Integer getId() {
-    return id;
-  }
 }
