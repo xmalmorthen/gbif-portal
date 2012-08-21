@@ -150,7 +150,7 @@ ${head}
   </div>
 
   <footer>
-    <div class="content">
+    <div class="inner">
       <ul>
         <li><h3>EXPLORE THE DATA</h3></li>
         <li><a href="<@s.url value='/occurrence'/>"><@s.text name="menu.occurrence"/></a></li>
@@ -169,7 +169,7 @@ ${head}
         <li><a href="#">Countries</a></li>
       </ul>
 
-      <ul>
+      <ul class="last">
         <li><h3>JOIN THE COMMUNITY</h3></li>
         <li><a href="${cfg.drupal}/user/register"><@s.text name="menu.register"/></a></li>
         <li><a href="<@s.url value='/dataset/register/step1'/>"><@s.text name="menu.share"/></a></li>
@@ -178,10 +178,8 @@ ${head}
       </ul>
 
       <ul class="first">
-      </ul>
-
-      <ul class="first">
-        <li class="no_title">
+        <li><h3>LATEST FROM THE GBIF DEVELOPER BLOG</h3></li>
+        <li>
           <p id="blog1title"></a>
             <span id="blog1data" class="date"></span></p>
           <p id="blog1body"></p>
@@ -196,7 +194,7 @@ ${head}
         </li>
       </ul>
 
-      <ul>
+      <ul class="last">
         <li class="no_title">
           <p id="blog3title">
             <span id="blog3date" class="date"></span></p>
@@ -208,7 +206,9 @@ ${head}
   </footer>
 
   <div class="copyright">
-    <p>2011 &copy; GBIF. Data publishers retain all rights to data.</p>
+    <div class="inner">
+      <p>2011 &copy; GBIF. Data publishers retain all rights to data.</p>
+    </div>
   </div>
 
   <#--
