@@ -41,17 +41,21 @@ public class DetailAction extends OccurrenceBaseAction {
     loadDetail();
 
     // prepare verbatim map
-    VerbatimOccurrence v = verbatimService.getVerbatim(id);
     verbatim = Maps.newLinkedHashMap();
-    for (String group : DwcTerm.GROUPS) {
-      for (DwcTerm t : DwcTerm.listByGroup(group)) {
-        if (v.getFields().containsKey(t.simpleName())) {
-          if (!verbatim.containsKey(group)) {
-            verbatim.put(group, new TreeMap<String, String>());
+    try {
+      VerbatimOccurrence v = verbatimService.getVerbatim(id);
+      for (String group : DwcTerm.GROUPS) {
+        for (DwcTerm t : DwcTerm.listByGroup(group)) {
+          if (v.getFields().containsKey(t.simpleName())) {
+            if (!verbatim.containsKey(group)) {
+              verbatim.put(group, new TreeMap<String, String>());
+            }
+            verbatim.get(group).put(t.simpleName(), v.getFields().get(t.simpleName()));
           }
-          verbatim.get(group).put(t.simpleName(), v.getFields().get(t.simpleName()));
         }
       }
+    } catch (Exception e) {
+      LOG.error("Can't load verbatim data for occurrence {}: {}", id, e);
     }
 
     return SUCCESS;
