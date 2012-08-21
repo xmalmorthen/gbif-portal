@@ -2110,6 +2110,7 @@ body.register footer {
   }
 }
 
+// Team contact info
 #content article .content ul.team {
 
   clear: both;
@@ -2126,17 +2127,11 @@ body.register footer {
     color: @cGray2;
     background: none;
 
-    &.last {
-      margin-right: 0;
-      clear: right;
-    }
-
-    &:last-child {
-      margin-right: 0;
-      clear: right;
-    }
-
     a { display: block; }
+
+    &.last       { margin-right: 0; clear: right; }
+    &:last-child { margin-right: 0; clear: right; }
+    address { margin-top: 5px; }
 
     h4 {
       color: @cGray1;
@@ -2146,6 +2141,7 @@ body.register footer {
 
       &.position {
         margin-bottom: 3px;
+
         font-weight: normal;
         color: @cGray3;
       }
@@ -2592,89 +2588,95 @@ body.register footer {
   float: left;
 }
 
-#content article.photo_gallery h2 {
-  margin-bottom: 20px;
+#content article.photo_gallery {
+
+  h2 { margin-bottom: 20px; }
+
+  .content { height: 406px; }
+
+  .content .controllers {
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+  }
+
+  .content .slideshow {
+    .size(627px, 423px);
+
+    overflow: hidden;
+    top: 0;
+    left: 2px;
+    position: absolute;
+
+    z-index: 100;
+
+    .photos {
+      top: 0;
+      height: 423px;
+      position: relative;
+
+      img {
+        display: inline-block;
+        max-width: 627px;
+        max-height: 423px
+      }
+
+    }
+
+  }
+
+  .content .right {
+
+    float: left;
+    margin-left: 640px;
+    border: none;
+
+    z-index: 1000;
+
+    .download {
+
+      ul {
+        margin-bottom: 0;
+
+        li { display: none; }
+        li:first-child { display: block; }
+        li.first { display: block; }
+      }
+
+    }
+  }
 }
 
-#content article.photo_gallery .content {
-  height: 406px;
+#content article.mono_line {
+
+  .header { margin: 0 0 10px 0; }
+
+  h2 {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  .content .left {
+    margin: 0;
+    padding: 5px 0 0 0;
+    border: none;
+  }
 }
 
-#content article.photo_gallery .content .controllers {
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 20px;
-}
+#content article.credits {
 
-#content article.photo_gallery .content .slideshow {
-  .size(627px, 423px);
+  h2 {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+  }
 
-  overflow: hidden;
-  top: 0;
-  left: 2px;
-  z-index: 100;
-  position: absolute;
-}
+  .content {
+    .left, .right {
+      padding: 5px 0 0 0;
+      border: none;
+    }
 
-#content article.photo_gallery .content .slideshow .photos {
-  top: 0;
-  height: 423px;
-  position: relative;
-}
-
-#content article.photo_gallery .content .slideshow .photos img {
-  display: inline-block;
-  max-width: 627px;
-  max-height: 423px
-}
-
-#content article.photo_gallery .content .right {
-  z-index: 1000;
-  margin-left: 640px;
-  float: left;
-  border: none;
-}
-
-#content article.photo_gallery .content .right .download ul {
-  margin-bottom: 0;
-}
-
-#content article.photo_gallery .content .right .download ul li {
-  display: none;
-}
-
-#content article.photo_gallery .content .right .download ul li:first-child {
-  display: block;
-}
-
-#content article.photo_gallery .content .right .download ul li.first {
-  display: block;
-}
-
-#content article.mono_line h2 {
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-#content article.mono_line .content .left {
-  margin: 0;
-  padding: 5px 0 0 0;
-  border: none;
-}
-
-#content article.credits h2 {
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-#content article.credits .content .left {
-  padding: 5px 0 0 0;
-  border: none;
-}
-
-#content article.credits .content .right {
-  margin: 0;
-  padding: 5px 0 0 0;
-  border: none;
+    .right { margin: 0; }
+  }
 }
 
 #content article.simple h2 {
@@ -2688,8 +2690,7 @@ body.register footer {
   border: none;
 }
 
-/* Light pane */
-
+// Light pane 
 #content article.light_pane {
   .content {
 
@@ -4761,4 +4762,29 @@ em.gbifHl {
 .admin-tag-caption {
   color: #666;
   font-size: .8em;
+}
+
+// Placeholders style
+.input_text {
+  input::-webkit-input-placeholder {
+    font-family: "Arial", "Helvetica", sans-serif;
+    color:    #333333;
+    opacity: .5;
+    font-size:15px;
+    line-height: 20px;
+  }
+
+  input:-moz-placeholder {
+    font-family: "Arial", "Helvetica", sans-serif;
+    color:    #333333;
+    opacity: .5;
+    font-size:15px;
+  }
+
+  input:-ms-input-placeholder {
+    font-family: "Arial", "Helvetica", sans-serif;
+    color:    #333333;
+    opacity: .5;
+    font-size:15px;
+  }
 }
