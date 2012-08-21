@@ -53,9 +53,9 @@
         <p>${occ.country}</p>
     </#if>
 
-    <#if occ.continent??>
+    <#if occ.stateProvince??>
         <h3>State/Province</h3>
-        <p>${occ.province}</p>
+        <p>${occ.stateProvince}</p>
     </#if>
 
     <#if occ.county??>
@@ -107,14 +107,14 @@
 
     <div class="right">
       <h3>GBIF ID</h3>
-      <p>${occ.id?c}</p>
+      <p>${id?c}</p>
 
       <#if occ.catalogNumber??>
         <h3>Catalog number</h3>
         <p>${occ.catalogNumber}</p>
       </#if>
 
-      <#list occ.identifierRecords as i>
+      <#list occ.identifiers as i>
         <h3>${i.type}</h3>
         <p>${i.identifier}</p>
       </#list>
