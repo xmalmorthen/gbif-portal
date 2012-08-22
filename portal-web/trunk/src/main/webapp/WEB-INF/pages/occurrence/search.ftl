@@ -126,6 +126,22 @@
           </ul>
         </td>
       </tr>
+
+      <tr class="filter">
+        <td colspan="4">
+
+          <h4>Dataset</h4>
+          <div class="filter">
+
+            <input type="text" placeholder="Type a dataset name..." />
+
+            <a href="#" class="button candy_blue_button"><span>Apply filter</span></a>
+
+          </div>
+          <a href="#" class="close"></a>
+        </td>
+      </tr>
+
       <tr class="filters">
           <td colspan="4">
             <ul class="filters">
@@ -148,9 +164,9 @@
               <a href="#" class="close"></a>
               </li>
 
-              <li data-filter="dataset">
-              <h4>Dataset</h4>
-              <div class="filter"><a href="#">UNSM Vertebrate Specimens or UAM Paleontology Specimens</a></div>
+              <li data-filter="collection_date">
+              <h4>Collection date</h4>
+              <div class="filter"><a href="#">From November 1980</a></div>
               <a href="#" class="close"></a>
               </li>
 
@@ -287,7 +303,8 @@
   </article>
 
 
-
+  <script type="text/template" id="template-filter"></script>
+</script>
 
 </body>
 </html>

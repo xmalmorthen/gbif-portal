@@ -4366,44 +4366,54 @@ em.gbifHl {
 
     tr.filters:hover td { background: #F2FAFC; }
 
-    tr.filters {
-      td { 
-        background: #F2FAFC; 
+    tr.filter td {
 
-        ul li {
+      h4 { display: block; margin: 0 0 10px 0; }
 
-          border-bottom: 1px solid #F0F0F0;
-          padding: 16px 0; 
-          position:relative;
+      border-bottom: 1px solid #C2C2C2;
+      padding: 16px 20px; 
+      position:relative;
 
-          h4, .filter {
-            display: -moz-inline-box;
-            -moz-box-orient: vertical;
-            display: inline-block;
-            vertical-align: middle;
-            *vertical-align:auto;
-          }
+      background: #F2FAFC; 
 
-          h4 { 
-            width: 135px; 
+      .button {
+        width: 128px;
+      }
 
-            text-transform: uppercase;
-            color: #999999;
-            font-size: 11px; 
-          }
+      .close { right: 20px; }
 
-          .filter a { 
-            font-size: 15px;
-            &:hover { color: #333; }
-          }
+      input[type="text"] {
+        width: 260px;
+        padding: 10px;
+        margin: 0 0 13px 0;
 
-          a.close { width: 9px; height: 8px; position:absolute; right: 0; top: 15px; background:url(../img/icons/filter_close.png) no-repeat; }
-
-          &:last-child { border: none; }
-        }
+        .border-radius(2px);
+        border: 1px solid #CCC;
+        box-shadow: inset 0px 2px 3px #E8E8E8;
+        outline: none;
+        font-size: 13px;
       }
     }
 
+    tr.filters td { 
+
+      background: #F2FAFC; 
+
+      ul li {
+
+        border-bottom: 1px solid #F0F0F0;
+        padding: 16px 0; 
+        position:relative;
+
+        &:last-child { border: none; }
+      }
+
+      .filter a { 
+        font-size: 15px;
+        &:hover { color: #333; }
+      }
+
+    }
 
     tr.header {
       td { height: 30px; padding: 0 20px 15px 20px; border-right: none; }
@@ -4519,6 +4529,31 @@ em.gbifHl {
       div.country { margin: 20px 0 5px 0; }
       .coordinates { color: #CCCCCC; }
 
+
+      h4, .filter {
+        display: -moz-inline-box;
+        -moz-box-orient: vertical;
+        display: inline-block;
+        vertical-align: middle;
+        *vertical-align:auto;
+      }
+
+      h4 { 
+        width: 135px; 
+
+        text-transform: uppercase;
+        color: #999999;
+        font-size: 11px; 
+      }
+
+      a.close { 
+        width: 9px;
+        height: 8px;
+        position:absolute;
+        right: 0;
+        top: 23px; 
+        background:url(../img/icons/filter_close.png) no-repeat;
+      }
     }
   }
 }
