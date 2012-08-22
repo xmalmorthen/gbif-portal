@@ -8,6 +8,16 @@
     <script type="text/javascript" src="<@s.url value='/js/custom/jquery.gbif.filters.js'/>"></script>
     <script src='<@s.url value='/js/vendor/jquery.url.js'/>' type='text/javascript'></script>
     <script>
+
+      $(function() {
+
+        $(".dropdown .title").on("click", function(e) {
+          e.preventDefault();
+          $(this).parent().toggleClass("selected");
+        });
+
+      });
+
       var query = $('#query-container').Query({
         removeFilter: function(event, data) {
           if(data.widget._filters.length == 0) {          
@@ -85,38 +95,31 @@
           </td>
         </tr>
 
+        <#if searchResponse.count gt 0>
+        <#list searchResponse.results as occ>
         <tr>
           <td>
-            <div class="header"> <span class="code">8712960</span> · <span class="category">Cat. 72718</span> </div>
-            <a href="#">Ranunculus aquatilis L from UNSM Vertebrate Specimens</a> 
-            <div class="footer">Published by Bundesamt für Naturschutz / Netzwerk Phytodiversität...</div>
-          </td>
-          <td class="country"><div class="country">Germany</div> <div class="coordinates">51.57 / 6.92</div></td>
-          <td class="kind">Specimen</td>
-          <td class="date">May 2012</td>
-        </tr>
+            <div class="header"> 
+              <span class="code">${occ.key?c}</span> 
+              <#if occ.catalogNumber?has_content>· <span class="catalogue">Cat. ${occ.catalogNumber!}</span></#if>
+            </div>
+            <#if occ.scientificName?has_content><a href="<@s.url value='/occurrence/${occ.key?c}'/>">${occ.scientificName}</a></#if>
 
-        <tr>
-          <td>
-            <div class="header"> <span class="code">8712960</span> · <span class="category">Cat. 72718</span> </div>
-            <a href="#">Ranunculus aquatilis L from UNSM Vertebrate Specimens</a> 
-            <div class="footer">Published by Bundesamt für Naturschutz / Netzwerk Phytodiversität...</div>
+            <div class="footer">Published by <#if occ.datasetKey?has_content>${action.getDatasetTitle(occ.datasetKey)!}</#if></div>
           </td>
-          <td class="country"><div class="country">Germany</div> <div class="coordinates">51.57 / 6.92</div></td>
+          <td class="country"><#if occ.isoCountryCode?has_content><div class="country">${occ.isoCountryCode!}</div></#if>
+            <div class="coordinates">
+              <#if occ.latitude?has_content>${occ.latitude!?c}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?c}<#else>-</#if>
+            </div>
+        </td>
           <td class="kind">Specimen</td>
-          <td class="date">May 2012</td>
-        </tr>
-
-        <tr>
-          <td>
-            <div class="header"> <span class="code">8712960</span> · <span class="category">Cat. 72718</span> </div>
-            <a href="#">Ranunculus aquatilis L from UNSM Vertebrate Specimens</a> 
-            <div class="footer">Published by Bundesamt für Naturschutz / Netzwerk Phytodiversität...</div>
+          <td class="date">
+            <#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}</#if>
+            <#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}</#if>
           </td>
-          <td class="country"><div class="country">Germany</div> <div class="coordinates">51.57 / 6.92</div></td>
-          <td class="kind">Specimen</td>
-          <td class="date">May 2012</td>
         </tr>
+        </#list>
+        </#if>                  
 
       </table>
 
@@ -195,5 +198,32 @@
     </div>  
     <footer></footer>    
     </article>
+
+
+    <article class="download_ocurrences">
+    <header></header>
+    <div class="content">
+
+      <div class="header">
+        <h2>Download 213,212 occurrences for your search</h2>
+        <span> Or refine it using the <a href="#">advanced search</a></span>
+      </div>
+
+        <div class="dropdown">
+          <a href="#" class="title" title="Download description"><span>Download occurrences</span></a>
+          <ul>
+            <li><a href="#a"><span>Download occurrences</span></a></li>
+            <li><a href="#a"><span>Download placemarks</span></a></li>
+            <li class="last"><a href="#b"><span>Download metadata</span></a></li>
+          </ul>
+        </div>
+
+    </div>
+    <footer></footer>
+    </article>
+
+
+
+
   </body>
 </html>
