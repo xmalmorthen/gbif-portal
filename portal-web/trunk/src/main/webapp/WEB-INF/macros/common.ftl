@@ -113,7 +113,7 @@
 </#macro>
 
 <#macro citation c>
-  <#if c.identifier?has_content><a href="${c.identifier}">${c.text!c.identifier}</a><#else>${ref.text!}</#if>
+  <#if c.identifier?has_content><a href="${c.identifier}">${c.text!c.identifier}</a><#else>${c.text!}</#if>
 </#macro>
 
 <#macro enum enum>
