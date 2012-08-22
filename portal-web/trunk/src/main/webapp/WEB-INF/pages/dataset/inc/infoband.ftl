@@ -73,13 +73,13 @@
 
 <content tag="tabs">
   <ul>
-    <li<#if (tab!"")=="info"> class='selected highlighted'</#if>>
+    <li<#if (tab!"")=="info"> class='selected'</#if>>
       <a href="<@s.url value='/dataset/${id!}'/>" title="Information"><span>Information</span></a>
     </li>
-    <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>>
+    <li<#if (tab!"")=="activity"> class='selected'</#if>>
       <a href="#" title="Activity"><span>Activity <sup>(2)</sup></span></a>
     </li>
-    <li<#if (tab!"")=="discussion"> class='selected highlighted'</#if>>
+    <li<#if (tab!"")=="discussion"> class='selected'</#if>>
       <a href="#" title="Discussion"><span>Discussion <sup>(5)</sup></span></a>
     </li>
   </ul>
