@@ -4362,8 +4362,9 @@ em.gbifHl {
     margin: 0 0 0 2px;
 
     tr:hover td         { background: #FFFFF5; } 
-    tr.filters:hover td, 
     tr.header:hover td  { background: #FFFFFF; } 
+
+    tr.filters:hover td { background: #F2FAFC; }
 
     tr.filters {
       td { 
@@ -4373,6 +4374,7 @@ em.gbifHl {
 
           border-bottom: 1px solid #F0F0F0;
           padding: 10px 0; 
+          position:relative;
 
           h4, .filter {
             display: -moz-inline-box;
@@ -4390,7 +4392,12 @@ em.gbifHl {
             font-size: 11px; 
           }
 
-          .filter a { font-size: 15px; }
+          .filter a { 
+            font-size: 15px;
+            &:hover { color: #333; }
+          }
+
+          a.close { width: 9px; height: 8px; position:absolute; right: 0; top: 15px; background:url(../img/icons/filter_close.png) no-repeat; }
 
           &:last-child { border: none; }
         }

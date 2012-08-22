@@ -133,11 +133,25 @@
               <li data-filter="dataset">
               <h4>Dataset</h4>
               <div class="filter"><a href="#">UNSM Vertebrate Specimens or UAM Paleontology Specimens</a></div>
+              <a href="#" class="close"></a>
               </li>
 
               <li data-filter="dataset">
               <h4>Dataset</h4>
               <div class="filter"><a href="#">UNSM Vertebrate Specimens or UAM Paleontology Specimens</a></div>
+              <a href="#" class="close"></a>
+              </li>
+
+              <li data-filter="dataset">
+              <h4>Dataset</h4>
+              <div class="filter"><a href="#">UNSM Vertebrate Specimens or UAM Paleontology Specimens</a></div>
+              <a href="#" class="close"></a>
+              </li>
+
+              <li data-filter="dataset">
+              <h4>Dataset</h4>
+              <div class="filter"><a href="#">UNSM Vertebrate Specimens or UAM Paleontology Specimens</a></div>
+              <a href="#" class="close"></a>
               </li>
 
             </ul>
