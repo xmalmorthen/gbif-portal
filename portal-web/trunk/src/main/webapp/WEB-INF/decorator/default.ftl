@@ -218,6 +218,7 @@ ${head}
   <script type="text/javascript" src="<@s.url value='/js/vendor/mousewheel.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jscrollpane.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-scrollTo-1.4.2-min.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/bootstrap.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/underscore-min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/helpers.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/widgets.js'/>"></script>

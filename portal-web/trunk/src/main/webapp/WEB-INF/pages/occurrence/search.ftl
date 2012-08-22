@@ -90,7 +90,29 @@
           <td class="options" colspan="3">
             <ul>
               <li><a href="#" class="configure"><i></i> Configure</a></li>
-              <li><a href="#" class="filters"><i></i> Add a filter</a></li>
+              <li>
+              <a href="#" class="filters" data-toggle="dropdown"><i></i> Add a filter</a>
+
+
+              <div class="dropdown-menu filters">
+                <div class="tip"></div>
+                <ul>
+                  <li><a tabindex="-1" href="#">Scientific name</a></li>
+                  <li><a tabindex="-1" href="#">Location</a></li>
+                  <li><a tabindex="-1" href="#">Collector</a></li>
+                  <li><a tabindex="-1" href="#">Basis of record</a></li>
+                  <li><a tabindex="-1" href="#">Dataset</a></li>
+                  <li><a tabindex="-1" href="#">Collection date</a></li>
+                  <li><a tabindex="-1" href="#">Catalogue number</a></li>
+                  <li class="divider"></li>
+                  <li class="more"><a tabindex="-1" href="#">Need a different filter?</a></li>
+                </ul>
+              </div>
+
+    </div>
+              
+              
+              </li>
             </ul>
           </td>
         </tr>
