@@ -9,6 +9,39 @@
     <script src='<@s.url value='/js/vendor/jquery.url.js'/>' type='text/javascript'></script>
     <script>
 
+      function removeRecentlyAddedFilter(e) {
+        e.preventDefault();
+
+        var $li = $(this).parent();
+
+        $li.fadeOut(250, function() {
+          $(this).remove();
+        });
+      }
+
+      function removeFilter(e) {
+        e.preventDefault();
+
+        var 
+        $li = $(this).parent(),
+        $ul = $li.parent(),
+        $tr = $ul.parent().parent();
+
+        if ($ul.find("li").length == 1) {
+
+          $tr.fadeOut(250, function() {
+            $tr.find("ul").remove();
+          });
+
+          } else {
+
+          $(this).parent().slideUp(250, function() {
+            $(this).remove();
+          });
+
+        }
+      }
+
       function addFilter(filter) {
 
       }
@@ -24,6 +57,9 @@
           var filter = $(this).attr("data-filter");
           addFilter(filter);
         });
+
+        $("tr.filters .close").on("click", removeFilter);
+        $("tr.filter .close").on("click", removeRecentlyAddedFilter);
 
       });
 
@@ -132,12 +168,10 @@
 
           <h4>Dataset</h4>
           <div class="filter">
-
             <input type="text" placeholder="Type a dataset name..." />
-
             <a href="#" class="button candy_blue_button"><span>Apply filter</span></a>
-
           </div>
+
           <a href="#" class="close"></a>
         </td>
       </tr>
