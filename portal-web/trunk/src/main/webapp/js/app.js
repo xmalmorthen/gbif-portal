@@ -40,21 +40,6 @@ $(function() {
 
   $(".selectbox").selectBox();
 
-  // read news
-  parseDevNews(function(feed){
-    $("#blog1title").html("<a target='_blank' href='"+feed.entries[0].link+"'>"+feed.entries[0].title+"</a>");
-    $("#blog1date").text(feed.entries[0].publishedDate);
-    $("#blog1body").text(feed.entries[0].contentSnippet);
-    $("#blog2title").html("<a target='_blank' href='"+feed.entries[1].link+"'>"+feed.entries[1].title+"</a>");
-    $("#blog2date").text(feed.entries[1].publishedDate);
-    $("#blog2body").text(feed.entries[1].contentSnippet);
-  });
-  parseGbifNews(function(feed){
-    $("#blog3title").html("<a target='_blank' href='"+feed.entries[0].link+"'>"+feed.entries[0].title+"</a>");
-    $("#blog3date").text(feed.entries[0].publishedDate);
-    $("#blog3body").text(feed.entries[0].contentSnippet);
-  });
-
   // Activate source popovers
   $("a.sourcePopup").append('<img src="'+((cfg.context+"/img/icons/questionmark.png").replace("//", "/")) +'"/>').each(function(idx, obj){
       $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});

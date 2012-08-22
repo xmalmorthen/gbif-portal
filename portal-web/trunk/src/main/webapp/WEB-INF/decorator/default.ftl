@@ -13,14 +13,8 @@
  \____/_____/___/_/      /_____/\__,_/\__/\__,_/  /_/    \____/_/   \__/\__,_/_/
 -->
 <html version="HTML+RDFa 1.1" class="no-js" lang="en"
-xmlns="http://www.w3.org/1999/xhtml"
-xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-xmlns:cc="http://creativecommons.org/ns#"
-xmlns:dc="http://purl.org/dc/elements/1.1/"
-xmlns:dwc="http://rs.tdwg.org/dwc/terms/"
-xmlns:foaf="http://xmlns.com/foaf/0.1/">
+      xmlns="http://www.w3.org/1999/xhtml"
+        >
 <!--<![endif]-->
 <head>
   <meta charset="utf-8">
@@ -162,7 +156,7 @@ ${head}
       </ul>
 
       <ul>
-        <li><h3>VIEW THE STATISTICS (not implemented)</h3></li>
+        <li><h3>VIEW THE STATISTICS</h3></li>
         <li><a href="#">Global numbers</a></li>
         <li><a href="#">Taxonomic coverage</a></li>
         <li><a href="#">Providers</a></li>
@@ -177,31 +171,6 @@ ${head}
         <li><a href="${cfg.drupal}/about"><@s.text name="menu.about"/></a></li>
       </ul>
 
-      <ul class="first">
-        <li><h3>LATEST FROM THE GBIF DEVELOPER BLOG</h3></li>
-        <li>
-          <p id="blog1title"></a>
-            <span id="blog1data" class="date"></span></p>
-          <p id="blog1body"></p>
-        </li>
-      </ul>
-
-      <ul>
-        <li class="no_title">
-          <p id="blog2title">
-            <span id="blog2date" class="date"></span></p>
-          <p id="blog2body"></p>
-        </li>
-      </ul>
-
-      <ul class="last">
-        <li class="no_title">
-          <p id="blog3title">
-            <span id="blog3date" class="date"></span></p>
-          <p id="blog3body"></p>
-        </li>
-      </ul>
-
     </div>
   </footer>
 
@@ -212,7 +181,7 @@ ${head}
   </div>
 
   <#--
-  -->  <div class="sessiondebug" style="position:relative; top:150px;">
+    <div class="sessiondebug" style="position:relative; top:150px;">
     <h2>DEBUGGING</h2>
     <h3>USER</h3>
     <ul>
@@ -237,7 +206,7 @@ ${head}
         </#if>
       </ul>
   </div>
-
+  -->
 
 
   <!-- JavaScript at the bottom for fast page loading -->
@@ -253,7 +222,6 @@ ${head}
   <script type="text/javascript" src="<@s.url value='/js/helpers.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/widgets.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/graphs.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/rss.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/app.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/raphael-min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/resourcebundle.js'/>"></script>
