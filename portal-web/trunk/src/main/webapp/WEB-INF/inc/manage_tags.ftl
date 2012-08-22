@@ -10,7 +10,6 @@
     <span class="admin-tag-caption">separate tags by a comma (,)</span> <@s.submit type="button" id="add_tag_bt" name="add_tag_bt">Add</@s.submit>
 </#if>
 
-<content tag="extra_scripts">
   <script type="text/javascript">
     $(function() {
       $( "#add_tag_bt" ).click(function() {
@@ -46,5 +45,4 @@
       });
     });
   </script>
-</content>
 
