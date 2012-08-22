@@ -4,9 +4,16 @@
   <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
 </content>
+
 <article class="map">
   <header></header>
-  <div id="map" type="DATASET" key="${dataset.key}"></div>
+
+  <div class="map_container">
+    <a href="#zoom_in"  class="zoom_in"></a>
+    <a href="#zoom_out" class="zoom_out"></a>
+
+    <div id="map" type="DATASET" key="${dataset.key}"></div>
+  </div>
   
   <div class="content">
 

@@ -27,16 +27,16 @@
 
 <content tag="tabs">
   <ul>
-    <li<#if (tab!"")=="info"> class='selected highlighted'</#if>>
+    <li<#if (tab!"")=="info"> class='selected'</#if>>
       <a href="<@s.url value='/${memberType?lower_case}/${id}'/>" title="Information"><span>Information</span></a>
     </li>
-    <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>>
+    <li<#if (tab!"")=="activity"> class='selected'</#if>>
       <a href="<@s.url value='/${memberType?lower_case}/${id}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a>
     </li>
-    <li<#if (tab!"")=="datasets"> class='selected highlighted'</#if>>
+    <li<#if (tab!"")=="datasets"> class='selected'</#if>>
       <a href="<@s.url value='/${memberType?lower_case}/${id}/datasets'/>" title="Datasets"><span>Datasets <sup>(12)</sup></span></a>
     </li>
-    <li<#if (tab!"")=="stats"> class='selected highlighted'</#if>>
+    <li<#if (tab!"")=="stats"> class='selected'</#if>>
       <a href="<@s.url value='/${memberType?lower_case}/${id}/stats'/>" title="Stats"><span>Stats <sup>(2)</sup></span></a>
     </li>
   </ul>

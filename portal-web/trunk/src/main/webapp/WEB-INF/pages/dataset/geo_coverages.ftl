@@ -60,6 +60,12 @@
     <a href="#zoom_in" class="zoom_in"></a>
     <a href="#zoom_out" class="zoom_out"></a>
 
+    <div class="content">
+      <div class="header">
+        <div class="right"><h2>Geographic Coverage</h2></div>
+      </div>
+
+      <div class="left">
     <div class="projection placeholder_temp">
       <a class="projection" href="#projection">projection</a>
       <span>
@@ -70,12 +76,8 @@
         </ul>
       </span>
     </div>
+    </div>
 
-    <div class="content">
-
-      <div class="header">
-        <div class="right"><h2>Geographic Coverage</h2></div>
-      </div>
 
       <#if (dataset.geographicCoverages?size>0) >
         <div class="right">

@@ -1,19 +1,19 @@
 <html>
-<head>
-  <title>Dataset - GBIF</title>
-  <meta name="gmap" content="true"/>
-  <meta name="menu" content="datasets"/>
-</head>
-<body class="dataset">
+  <head>
+    <title>Dataset - GBIF</title>
+    <meta name="gmap" content="true"/>
+    <meta name="menu" content="datasets"/>
+  </head>
+  <body class="dataset">
 
-  <article class="dataset">
+    <article class="dataset">
     <header></header>
     <div class="content">
       <h1>Search through 21.392 datasets</h1>
 
       <form action="<@s.url value='/dataset/search'/>" method="GET">
         <span class="input_text">
-          <input type="text" name="q" class="focus"/>
+          <input type="text" name="q" placeholder="Search species, places, data publishers..." class="focus"/>
         </span>
         <button type="submit" class="search_button"><span>Search</span></button>
       </form>
@@ -26,7 +26,7 @@
       </div>
     </div>
     <footer></footer>
-  </article>
+    </article>
 
-</body>
+  </body>
 </html>

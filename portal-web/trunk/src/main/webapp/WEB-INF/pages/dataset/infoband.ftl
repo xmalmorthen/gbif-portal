@@ -82,7 +82,7 @@
 
 <content tag="tabs">
   <ul>
-    <li<#if (tab!"")=="info"> class='selected highlighted'</#if>><a href="<@s.url value='/dataset/${id!}'/>"
+    <li<#if (tab!"")=="info"> class='selected'</#if>><a href="<@s.url value='/dataset/${id!}'/>"
                                                                     title="Information"><span>Information</span></a>
     </li>
   <#if dataset.type?has_content && dataset.type == "OCCURRENCE">

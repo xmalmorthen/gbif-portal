@@ -28,7 +28,7 @@
 
 <content tag="tabs">
   <ul>
-    <li<#if (tab!"")=="info"> class='selected highlighted'</#if>>
+    <li<#if (tab!"")=="info"> class='selected'</#if>>
       <a href="<@s.url value='/occurrence/${id?c}'/>" title="Information"><span>Information</span></a>
     </li>
     <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>>
