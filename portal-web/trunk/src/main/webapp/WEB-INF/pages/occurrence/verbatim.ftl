@@ -7,7 +7,7 @@
 <body class="stats">
 
 <#assign tab="info"/>
-<#include "/WEB-INF/pages/occurrence/infoband.ftl">
+<#include "/WEB-INF/pages/occurrence/inc/infoband.ftl">
 
 
 
@@ -19,8 +19,8 @@
 
 <@common.notice title="Occurrence verbatim data">
   <p>This listing shows the orignal information as received by GBIF from the data publisher, without further
-    interpretation processing. Alternatively you can also
-    <a href="<@s.url value='/occurrence/${id?c}/raw'/>">view the raw XML</a>.
+    interpretation processing. Alternatively you can also view the raw XML
+    <a href="<@s.url value='/occurrence/${id?c}/raw'/>"></a>.
   </p>
 </@common.notice>
 

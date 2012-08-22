@@ -9,7 +9,6 @@ import org.gbif.registry.api.service.OrganizationService;
 
 import java.util.List;
 import java.util.UUID;
-
 import javax.validation.Valid;
 
 import com.google.inject.Inject;
@@ -38,7 +37,7 @@ public class AdminAction extends AdminBaseAction<OrganizationService, Organizati
   }
 
   /**
-   * @param organization the organization to set.
+   * @param member the organization to set.
    */
   public void setMember(Organization member) {
     this.member = member;

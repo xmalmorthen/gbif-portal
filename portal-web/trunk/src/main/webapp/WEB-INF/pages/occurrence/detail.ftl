@@ -26,7 +26,7 @@
 <body class="pointmap">
 
 <#assign tab="info"/>
-<#include "/WEB-INF/pages/occurrence/infoband.ftl">
+<#include "/WEB-INF/pages/occurrence/inc/infoband.ftl">
 
 <#assign showMap=occ.longitude?? && occ.latitude??/>
 <#if showMap>
@@ -121,7 +121,7 @@
 </@common.article>
 
 <#assign title>
-Identification details <span class='subtitle'>According to <a href="<@s.url value='/dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c'/>">GBIF Backbone Taxonomy</a></span>
+Identification details <span class='subtitle'>According to <a href="<@s.url value='/dataset/${nubDatasetKey}'/>">GBIF Backbone Taxonomy</a></span>
 </#assign>
 <@common.article id="taxonomy" title=title>
     <div class="left">

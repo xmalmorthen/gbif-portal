@@ -176,38 +176,9 @@ ${head}
 
   <div class="copyright">
     <div class="inner">
-      <p>2011 &copy; GBIF. Data publishers retain all rights to data.</p>
+      <p>2012 &copy; GBIF. Data publishers retain all rights to data.</p>
     </div>
   </div>
-
-  <#--
-    <div class="sessiondebug" style="position:relative; top:150px;">
-    <h2>DEBUGGING</h2>
-    <h3>USER</h3>
-    <ul>
-      <li>currentUser : ${currentUser!"null"}</li>
-      <li>request.getRemoteUser() : ${(request.remoteUser)!"null"}</li>
-      <li>request.getUserPrincipal() : ${(request.userPrincipal)!"null"}</li>
-    </ul>
-
-    <h3>&nbsp;</h3>
-    <h3>SESSION VARS</h3>
-      <ul>
-        <#if session??>
-          <#if session.attributeNames??>
-            <#list session.getAttributeNames() as k>
-              <li>${k} : ${(session.get(k))!"null"}</li>
-            </#list>
-          <#else>
-            <li>No Session Attributes</li>
-          </#if>
-        <#else>
-          <li>No Session!</li>
-        </#if>
-      </ul>
-  </div>
-  -->
-
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->

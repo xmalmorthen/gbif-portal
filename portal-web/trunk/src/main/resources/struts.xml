@@ -137,18 +137,6 @@
     </action>
 
     <!-- {id} matches anything but "/" -->
-    <action name="{id}/activity" class="org.gbif.portal.action.dataset.ActivityAction">
-      <result>/WEB-INF/pages/dataset/activity.ftl</result>
-    </action>
-
-    <action name="{id}/occurrence" class="org.gbif.portal.action.dataset.OccurrencesAction">
-      <result>/WEB-INF/pages/dataset/occurrence.ftl</result>
-    </action>
-
-    <action name="{id}/discussion" class="org.gbif.portal.action.dataset.DiscussionAction">
-      <result>/WEB-INF/pages/dataset/discussion.ftl</result>
-    </action>
-
     <action name="{id}" class="org.gbif.portal.action.dataset.DetailAction">
       <result>/WEB-INF/pages/dataset/detail.ftl</result>
     </action>
@@ -177,16 +165,8 @@
     </action>
 
     <!-- {id} matches anything but "/" -->
-    <action name="{id}/activity" class="org.gbif.portal.action.occurrence.ActivityAction">
-      <result>/WEB-INF/pages/occurrence/activity.ftl</result>
-    </action>
-
     <action name="{id}/verbatim" class="org.gbif.portal.action.occurrence.DetailAction" method="verbatim">
       <result>/WEB-INF/pages/occurrence/verbatim.ftl</result>
-    </action>
-
-    <action name="{id}/stats" class="org.gbif.portal.action.occurrence.StatsAction">
-      <result>/WEB-INF/pages/occurrence/stats.ftl</result>
     </action>
 
     <action name="{id}" class="org.gbif.portal.action.occurrence.DetailAction">
@@ -206,14 +186,6 @@
 
     <action name="search" class="org.gbif.portal.action.species.SearchAction">
       <result>/WEB-INF/pages/species/search.ftl</result>
-    </action>
-
-    <action name="{id}/stats" class="org.gbif.portal.action.species.StatsAction">
-      <result>/WEB-INF/pages/species/stats.ftl</result>
-    </action>
-
-    <action name="{id}/activity" class="org.gbif.portal.action.species.ActivityAction">
-      <result>/WEB-INF/pages/species/activity.ftl</result>
     </action>
 
     <action name="{id}/synonyms" class="org.gbif.portal.action.species.SynonymsAction">
@@ -256,56 +228,6 @@
 
   </package>
 
-  <!-- COUNTRIES -->
-  <package name="country" namespace="/country" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/country/home.ftl</result>
-    </action>
-
-    <action name="search" class="org.gbif.portal.action.country.SearchAction">
-      <result>/WEB-INF/pages/country/search.ftl</result>
-    </action>
-
-    <action name="{id}" class="org.gbif.portal.action.country.DetailAction">
-      <result>/WEB-INF/pages/country/detail.ftl</result>
-    </action>
-  </package>
-
-  <!-- THEMES -->
-  <package name="theme" namespace="/theme" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/theme/home.ftl</result>
-    </action>
-
-    <action name="{id}" class="org.gbif.portal.action.theme.DetailAction">
-      <result>/WEB-INF/pages/theme/detail.ftl</result>
-    </action>
-  </package>
-
-  <!-- STATS -->
-  <package name="stats" namespace="/stats" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/stats/home.ftl</result>
-    </action>
-
-    <action name="activity" class="org.gbif.portal.action.stats.ActivityAction">
-      <result>/WEB-INF/pages/stats/activity.ftl</result>
-    </action>
-
-    <action name="history" class="org.gbif.portal.action.stats.HistoryAction">
-      <result>/WEB-INF/pages/stats/history.ftl</result>
-    </action>
-  </package>
-
   <!-- MEMBERS -->
   <package name="member" namespace="/member" extends="default">
     <!-- catches everything that doesn't match below! -->
@@ -319,7 +241,7 @@
       <result>/WEB-INF/pages/member/search.ftl</result>
     </action>
 
-    <action name="{id}" class="org.gbif.portal.action.member.DetailAction">
+    <action name="{id}" class="org.gbif.portal.action.member.RedirectAction">
       <result type="redirect">${redirectUrl}</result>
     </action>
   </package>
@@ -327,18 +249,6 @@
   <!-- NODE -->
   <package name="node" namespace="/node" extends="default">
     <!-- {id} matches anything but "/" -->
-    <action name="{id}/activity" class="org.gbif.portal.action.node.ActivityAction">
-      <result>/WEB-INF/inc/member/activity.ftl</result>
-    </action>
-
-    <action name="{id}/datasets" class="org.gbif.portal.action.node.DatasetAction">
-      <result>/WEB-INF/inc/member/datasets.ftl</result>
-    </action>
-
-    <action name="{id}/stats" class="org.gbif.portal.action.node.StatsAction">
-      <result>/WEB-INF/pages/node/stats.ftl</result>
-    </action>
-
     <action name="{id}" class="org.gbif.portal.action.node.DetailAction">
       <result>/WEB-INF/pages/node/detail.ftl</result>
     </action>
@@ -347,18 +257,6 @@
   <!-- NETWORK -->
   <package name="network" namespace="/network" extends="default">
     <!-- {id} matches anything but "/" -->
-    <action name="{id}/activity" class="org.gbif.portal.action.network.ActivityAction">
-      <result>/WEB-INF/inc/member/activity.ftl</result>
-    </action>
-
-    <action name="{id}/datasets" class="org.gbif.portal.action.network.DatasetAction">
-      <result>/WEB-INF/inc/member/datasets.ftl</result>
-    </action>
-
-    <action name="{id}/stats" class="org.gbif.portal.action.network.StatsAction">
-      <result>/WEB-INF/pages/network/stats.ftl</result>
-    </action>
-
     <action name="{id}" class="org.gbif.portal.action.network.DetailAction">
       <result>/WEB-INF/pages/network/detail.ftl</result>
     </action>
@@ -367,50 +265,8 @@
   <!-- ORGANIZATION -->
   <package name="organization" namespace="/organization" extends="default">
     <!-- {id} matches anything but "/" -->
-    <action name="{id}/activity" class="org.gbif.portal.action.organization.ActivityAction">
-      <result>/WEB-INF/inc/member/activity.ftl</result>
-    </action>
-
-    <action name="{id}/datasets" class="org.gbif.portal.action.organization.DatasetAction">
-      <result>/WEB-INF/inc/member/datasets.ftl</result>
-    </action>
-
-    <action name="{id}/stats" class="org.gbif.portal.action.organization.StatsAction">
-      <result>/WEB-INF/pages/organization/stats.ftl</result>
-    </action>
-
     <action name="{id}" class="org.gbif.portal.action.organization.DetailAction">
       <result>/WEB-INF/pages/organization/detail.ftl</result>
-    </action>
-  </package>
-
-  <!-- ABOUT -->
-  <package name="about" namespace="/about" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/about/home.ftl</result>
-    </action>
-
-    <action name="contact" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/about/contact.ftl</result>
-    </action>
-
-    <action name="sharing" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/about/sharing.ftl</result>
-    </action>
-
-    <action name="terms" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/about/terms.ftl</result>
-    </action>
-
-    <action name="tools" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/about/tools.ftl</result>
-    </action>
-
-    <action name="use" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/about/use.ftl</result>
     </action>
   </package>
 
@@ -427,10 +283,6 @@
     <action name="crawler" class="org.gbif.portal.action.admin.CrawlerAction">
       <result>/WEB-INF/pages/admin/crawler.ftl</result>
     </action>    
-
-    <action name="node/{id}" class="org.gbif.portal.action.admin.NodeAction">
-      <result>/WEB-INF/pages/admin/node.ftl</result>
-    </action>
 
     <!-- ADD ENTITIES -->
     <action name="{1}/add" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddEntity">
@@ -495,4 +347,66 @@
     </action>
 
   </package>
+
+  <!--
+   ###
+   ### UNIMPLEMENRTED PARTS WHICH MIGHT BE MOVED TO DRUPAL
+   ###
+  -->
+
+  <!-- COUNTRIES -->
+  <!--
+  <package name="country" namespace="/country" extends="default">
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/country/home.ftl</result>
+    </action>
+
+    <action name="search" class="org.gbif.portal.action.country.SearchAction">
+      <result>/WEB-INF/pages/country/search.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.country.DetailAction">
+      <result>/WEB-INF/pages/country/detail.ftl</result>
+    </action>
+  </package>
+  -->
+
+
+  <!-- THEMES -->
+  <!--
+  <package name="theme" namespace="/theme" extends="default">
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/theme/home.ftl</result>
+    </action>
+
+    <action name="{id}" class="org.gbif.portal.action.theme.DetailAction">
+      <result>/WEB-INF/pages/theme/detail.ftl</result>
+    </action>
+  </package>
+  -->
+
+  <!-- STATS -->
+  <!--
+  <package name="stats" namespace="/stats" extends="default">
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/stats/home.ftl</result>
+    </action>
+
+    <action name="activity" class="org.gbif.portal.action.stats.ActivityAction">
+      <result>/WEB-INF/pages/stats/activity.ftl</result>
+    </action>
+
+    <action name="history" class="org.gbif.portal.action.stats.HistoryAction">
+      <result>/WEB-INF/pages/stats/history.ftl</result>
+    </action>
+  </package>
+  -->
+
+
 </struts>

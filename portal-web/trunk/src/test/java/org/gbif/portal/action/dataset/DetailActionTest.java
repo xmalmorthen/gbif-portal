@@ -18,16 +18,13 @@ public class DetailActionTest {
     assertNotNull(da);
     // Checklist: "Orthoptera Species File"
     da.setId("af66d4cf-0fd2-434b-9334-9806a5efa6f7");
-    String result = da.execute();
-    assertEquals(Action.SUCCESS, result);
+    assertEquals(Action.SUCCESS, da.execute());
     // Dataset title = "OCNMS: Physical Oceanography: moored temperature data: Makah Bay, Washington, USA (MB015)"
     da.setId("7879e569-4a13-4643-b833-d1a564675b86:MB015X_015MTBD015R00_20040517.50.4");
-    result = da.execute();
-    assertEquals(Action.SUCCESS, result);
+    assertEquals(Action.SUCCESS, da.execute());
     // External - escaped
     // Dataset title = "OCNMS: Physical Oceanography: moored temperature data: Makah Bay, Washington, USA (MB015)"
     da.setId("7879e569-4a13-4643-b833-d1a564675b86%3AMB015X_015MTBD015R00_20040517.50.4");
-    result = da.execute();
-    assertEquals(Action.SUCCESS, result);
+    assertEquals(Action.SUCCESS, da.execute());
   }
 }

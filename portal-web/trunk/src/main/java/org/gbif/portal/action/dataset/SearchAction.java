@@ -77,4 +77,5 @@ public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, D
   public Multimap<String, String> getRequestParameters() {
     return HashMultimap.create();
   }
+
 }

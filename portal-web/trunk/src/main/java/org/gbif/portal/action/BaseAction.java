@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
+import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,6 +24,8 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.gbif.checklistbank.api.Constants.NUB_TAXONOMY_KEY;
 
 public abstract class BaseAction extends ActionSupport
   implements SessionAware, ServletRequestAware, ServletContextAware {
@@ -164,6 +167,9 @@ public abstract class BaseAction extends ActionSupport
   }
   public Rank getSpeciesRank() {
     return Rank.SPECIES;
+  }
+  public UUID getNubDatasetKey() {
+    return NUB_TAXONOMY_KEY;
   }
 
 }

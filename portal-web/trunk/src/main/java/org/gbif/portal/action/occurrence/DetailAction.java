@@ -30,7 +30,9 @@ public class DetailAction extends OccurrenceBaseAction {
   public String execute() {
     loadDetail();
     // load publisher
-    publisher = organizationService.get(dataset.getOwningOrganizationKey());
+    if (dataset.getOwningOrganizationKey() != null) {
+      publisher = organizationService.get(dataset.getOwningOrganizationKey());
+    }
 
     return SUCCESS;
   }

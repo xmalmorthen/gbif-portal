@@ -16,15 +16,16 @@
   <article class="dataset">
     <header></header>
     <div class="content">
-      <h1>Search through 2,183,212 species</h1>
+      <h1>Search through ${nubMetrics.countIndexed} records</h1>
+      <p>of the <a href="<@s.url value='/dataset/${nubDatasetKey}'/>">GBIF Backbone Taxonomy</a></p>
 
-      <form action="<@s.url value='/species/search'/>" method="GET">                    
+      <form action="<@s.url value='/species/search'/>" method="GET">
         <span class="input_text">
          <input id="q" type="text" value="" name="q"/>
-        </span>                             
+        </span>
         <button id="submitSearch" type="submit" class="search_button"><span>Search</span></button>
-        <input id="checklist" name="checklist" type="hidden" value="nub"/>            
-      </form>      
+        <input id="checklist" name="checklist" type="hidden" value="nub"/>
+      </form>
       <div class="example">
 </div>
       <ul class="species">
@@ -45,9 +46,9 @@
       </ul>
       <div class="results">
         <ul>
-          <li><a href="<@s.url value='/species/search?checklist=nub&rank=species'/>" title="">2,183,212</a>total species</li>
-          <li><a href="<@s.url value='/species/search?checklist=nub&rank=infraspecific_name&rank=subspecies&rank=infrasubspecific_name&rank=variety&rank=subvariety&rank=form&rank=subform&rank=cultivar_group&rank=cultivar'/>" title="">1,291,282</a>total infraspecific</li>
-          <li class="last"><a href="<@s.url value='/species/search?checklist=nub'/>">13,121,251</a>common names in 41 languages</li>
+          <li><a href="<@s.url value='/species/search?checklist=nub&rank=species'/>" title="">${numSpecies!0}</a>total species</li>
+          <li><a href="<@s.url value='/species/search?checklist=nub&rank=infraspecific_name&rank=subspecies&rank=infrasubspecific_name&rank=variety&rank=subvariety&rank=form&rank=subform&rank=cultivar_group&rank=cultivar'/>" title="">${numInfraSpecies!0}</a>total infraspecific</li>
+          <li class="last"><a href="<@s.url value='/species/search?checklist=nub'/>">${numCommonNames!0}</a>common names in ${numLanguages!0} languages</li>
         </ul>
       </div>
     </div>

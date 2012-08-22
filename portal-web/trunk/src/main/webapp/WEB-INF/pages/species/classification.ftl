@@ -7,7 +7,7 @@
 
 
 <#assign tab="info"/>
-<#include "/WEB-INF/pages/species/infoband.ftl">
+<#include "/WEB-INF/pages/species/inc/infoband.ftl">
 
   <div class="back">
     <div class="content">

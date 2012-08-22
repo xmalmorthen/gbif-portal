@@ -2,25 +2,18 @@
 <html>
 <head>
   <title>Network detail</title>
-  <meta name="gmap" content="true"/>
 </head>
-<body class="species typesmap">
+<body class="species">
 
 <#assign tab="info"/>
-<#include "/WEB-INF/inc/member/infoband.ftl">
+<#assign memberType="network"/>
+<#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
-<#include "/WEB-INF/inc/member/admin.ftl">
+<#include "/WEB-INF/pages/member/inc/admin.ftl">
 
-<article>
-  <header></header>
-  <div class="content">
-
-    <div class="header">
-      <div class="left"><h2>Network Information</h2></div>
-    </div>
-
+<@common.article id="information" title="Network Information">
     <div class="left">
-      <#include "/WEB-INF/inc/member/basics.ftl">
+      <#include "/WEB-INF/pages/member/inc/basics.ftl">
     </div>
 
     <div class="right">
@@ -29,16 +22,8 @@
           <img src="${member.logoURL}"/>
         </div>
       </#if>
-
     </div>
-  </div>
-  <footer></footer>
-</article>
-
-<#include "/WEB-INF/inc/member/contribution.ftl">
-
-<#include "/WEB-INF/inc/member/occmap.ftl">
-
+</@common.article>
 
 </body>
 </html>

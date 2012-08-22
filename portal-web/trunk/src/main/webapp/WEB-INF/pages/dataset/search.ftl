@@ -15,6 +15,8 @@
 }
   </style>
 </head>
+
+
 <body class="search">
   <content tag="infoband">
     <h2>Search datasets</h2>

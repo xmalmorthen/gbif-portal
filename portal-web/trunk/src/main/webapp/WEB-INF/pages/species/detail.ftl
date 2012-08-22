@@ -22,7 +22,7 @@
 <body class="species densitymap">
 
 <#assign tab="info"/>
-<#include "/WEB-INF/pages/species/infoband.ftl">
+<#include "/WEB-INF/pages/species/inc/infoband.ftl">
 
 <#if !nub>
 <#-- Warn that this is not a nub page -->
@@ -158,7 +158,7 @@
       <h3>Taxonomic classification
         <div class="extended">[<a href="<@s.url value='/species/${id?c}/classification'/>">extended</a>]</div>
       </h3>
-    <#include "/WEB-INF/pages/species/taxbrowser.ftl">
+    <#include "/WEB-INF/pages/species/inc/taxbrowser.ftl">
     </div>
 
     <div class="right">
@@ -515,13 +515,18 @@
 
 <@common.article id="legal" title="Usage & legal issues" class="mono_line">
     <div class="left">
-      <h3>USAGE RIGHTS</h3>
-      <p class="placeholder_temp">Released under an Open Data licence, so it can be used to anyone who cites it. </p>
+      <#assign rights = usage.rights!dataset.intellectualRights! />
+      <#if rights?has_content>
+        <h3>Usage rights</h3>
+        <p>${rights}</p>
+      </#if>
 
-      <h3>HOW TO CITE IT</h3>
-      <p>${usage.scientificName} according to ${(dataset.title)!} <br/>
-        (accessed through GBIF data portal, <a href="<@s.url value='/species/${id?c}'/>">${baseUrl!}<@s.url value='/species/${id?c}'/></a>, ${.now?date?iso_utc})
-      </p>
+      <#if usage.citation?has_content || dataset.citation??>
+        <h3>HOW TO CITE IT</h3>
+        <p>
+          <#if usage.citation?has_content>${usage.citation} <#else> <@common.citation dataset.citation /></#if>
+        </p>
+      </#if>
     </div>
 </@common.article>
 

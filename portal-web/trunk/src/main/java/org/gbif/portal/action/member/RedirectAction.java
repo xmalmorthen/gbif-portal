@@ -15,7 +15,7 @@ import com.google.inject.Inject;
 /**
  * Redirects to the typed url for the member or throws NotFoundException.
  */
-public class DetailAction extends BaseAction {
+public class RedirectAction extends BaseAction {
   @Inject
   private OrganizationService organizationService;
   @Inject

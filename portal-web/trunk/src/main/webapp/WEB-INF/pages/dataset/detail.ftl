@@ -1,5 +1,4 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
-<#import "/WEB-INF/macros/manage_tags.ftl" as manage>
 <html>
 <head>
   <title>${dataset.title!"???"} - Dataset detail</title>
@@ -13,7 +12,7 @@
 <body onload="initBB()" class="densitymap">
 
 <#assign tab="info"/>
-<#include "/WEB-INF/pages/dataset/infoband.ftl">
+<#include "/WEB-INF/pages/dataset/inc/infoband.ftl">
 
 <#-- SUMMARY -->
 <@common.article id="taxonomic_coverage" title="Summary">
@@ -84,7 +83,8 @@
 <div class="right">
   <#assign max_show_length = 30>
 
-<@manage.manageTags type="dataset"/>
+<#assign type="dataset"/>
+<#include "/WEB-INF/inc/manage_tags.ftl">
 
   <#if dataset.logoURL?has_content>
     <div class="logo_holder">
@@ -274,7 +274,7 @@
 <#if dataset.type?has_content && dataset.type == "CHECKLIST">
 <@common.article id="taxonomy" title="Browse Classification" class="taxonomies">
 <div class="left">
-  <#include "/WEB-INF/pages/species/taxbrowser.ftl">
+  <#include "/WEB-INF/pages/species/inc/taxbrowser.ftl">
 </div>
 <div class="right">
 </div>
@@ -291,7 +291,7 @@
     var bboxes = [
     <#list dataset.geographicCoverages as geo>
        <#if geo.boundingBox?has_content && (!geo.boundingBox.isGlobalCoverage())>
-         [${geo.boundingBox.minLatitude},${geo.boundingBox.maxLatitude},${geo.boundingBox.minLongitude},${geo.boundingBox.maxLongitude},],
+         [${geo.boundingBox.minLatitude},${geo.boundingBox.maxLatitude},${geo.boundingBox.minLongitude},${geo.boundingBox.maxLongitude}],
        </#if>
     </#list>
     ];

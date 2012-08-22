@@ -26,9 +26,7 @@ public class DatasetBaseAction extends BaseAction {
   @Inject
   protected DatasetMetricsService metricsService;
 
-
-  @Override
-  public String execute() {
+  protected void loadDetail() {
     LOG.debug("Fetching detail for dataset id [{}]", id);
     if (Strings.isNullOrEmpty(id)) {
       throw new NotFoundException();
@@ -51,8 +49,6 @@ public class DatasetBaseAction extends BaseAction {
     } catch (Exception e) {
       LOG.warn("Cant get metrics for dataset {}", key, e);
     }
-
-    return SUCCESS;
   }
 
   public String getId() {

@@ -1,11 +1,12 @@
 <html>
 <head>
-  <title>${usage.scientificName} - Activity</title>
+  <title>Member activity - GBIF</title>
+  <meta name="gmap" content="true"/>
 </head>
-<body class="species">
+<body class="species typesmap">
 
 <#assign tab="activity"/>
-<#include "/WEB-INF/pages/species/infoband.ftl">
+<#include "/WEB-INF/inc/member/infoband.ftl">
 
 <article class="graph">
 <header></header>

@@ -39,20 +39,19 @@ public class DetailAction extends DatasetBaseAction {
 
   @Override
   public String execute() {
-    super.execute();
+    loadDetail();
 
     // are there preferred (primary) contacts
     separateContacts(dataset.getContacts());
 
     // gets the owning organization
-    this.owningOrganization = this.organizationService.get(dataset.getOwningOrganizationKey());
+    owningOrganization = organizationService.get(dataset.getOwningOrganizationKey());
     if (dataset.getTechnicalInstallationKey() != null) {
-      TechnicalInstallation technicalInstallation =
-        this.technicalInstallationService.get(dataset.getTechnicalInstallationKey());
-      if (technicalInstallation.getHostingOrganizationKey().equals(this.dataset.getOwningOrganizationKey())) {
+      TechnicalInstallation technicalInstallation = technicalInstallationService.get(dataset.getTechnicalInstallationKey());
+      if (technicalInstallation.getHostingOrganizationKey().equals(dataset.getOwningOrganizationKey())) {
         hostingOrganization = owningOrganization;
       } else {
-        hostingOrganization = this.organizationService.get(technicalInstallation.getHostingOrganizationKey());
+        hostingOrganization = organizationService.get(technicalInstallation.getHostingOrganizationKey());
       }
     }
     return SUCCESS;

@@ -41,10 +41,10 @@
       <a href="<@s.url value='/species/${id?c}'/>" title="Information"><span>Information</span></a>
     </li>
     <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>>
-      <a href="<@s.url value='/species/${id?c}/activity'/>" title="Activity"><span>Activity <sup>(2)</sup></span></a>
+      <a href="#" title="Activity"><span>Activity <sup>(2)</sup></span></a>
     </li>
     <li<#if (tab!"")=="stats"> class='selected highlighted'</#if>>
-      <a href="<@s.url value='/species/${id?c}/stats'/>" title="Stats"><span>Stats <sup>(2)</sup></span></a>
+      <a href="#" title="Stats"><span>Stats <sup>(2)</sup></span></a>
     </li>
   </ul>
 </content>

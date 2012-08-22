@@ -1,29 +1,20 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
-<#import "/WEB-INF/macros/manage_tags.ftl" as manage>
 <html>
 <head>
   <title>Organization Detail</title>
-  <meta name="gmap" content="true"/>
 </head>
-<body class="species typesmap">
-
+<body class="species">
 
 
 <#assign tab="info"/>
-<#include "/WEB-INF/inc/member/infoband.ftl">
+<#assign memberType="organization"/>
+<#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
-<#include "/WEB-INF/inc/member/admin.ftl">
+<#include "/WEB-INF/pages/member/inc/admin.ftl">
 
-<article>
-  <header></header>
-  <div class="content">
-
-    <div class="header">
-      <div class="left"><h2>Organization Information</h2></div>
-    </div>
-
+<@common.article id="information" title="Organization Information">
     <div class="left">
-      <#include "/WEB-INF/inc/member/basics.ftl">
+      <#include "/WEB-INF/pages/member/inc/basics.ftl">
     </div>
 
     <div class="right">
@@ -34,19 +25,30 @@
       </#if>
 
       <h3>Endorsed by</h3>
-      <p><#if member.endorsingNode??><a href="<@s.url value='/node/${member.endorsingNode.key}'/>">${member.endorsingNode.title}</a><#else>Not endorsed yet</#if></p>
+      <p><#if node??><a href="<@s.url value='/node/${node.key}'/>">${node.title}</a><#else>Not endorsed yet</#if></p>
 
-      <@manage.manageTags type="organization"/>
+      <#assign type="organization"/>
+      <#include "/WEB-INF/inc/manage_tags.ftl">
 
     </div>
+</@common.article>
+
+<@common.article id="appearsin" title="Published Datasets">
+  <div class="left">
+      <h3>Datasets</h3>
+      <ul class="notes">
+        <#list datasets as d>
+          <li>
+            <a href="<@s.url value='/dataset/${d.key}'/>">${d.title!"???"}</a>
+          </li>
+        </#list>
+      </ul>
+      <p>
+        <a class="more_link" href="<@s.url value='/dataset/search?owning_org={member.key}'/>">see all</a>
+      </p>
   </div>
-  <footer></footer>
-</article>
+</@common.article>
 
-<#include "/WEB-INF/inc/member/contribution.ftl">
-
-<#include "/WEB-INF/inc/member/occmap.ftl">
-  
 
 </body>
 </html>
