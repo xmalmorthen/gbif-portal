@@ -33,9 +33,8 @@
     </div>
 </@common.article>
 
-<@common.article id="appearsin" title="Published Datasets">
+<@common.article id="datasets" title="Published Datasets">
   <div class="left">
-      <h3>Datasets</h3>
       <ul class="notes">
         <#list datasets as d>
           <li>
@@ -44,7 +43,7 @@
         </#list>
       </ul>
       <p>
-        <a class="more_link" href="<@s.url value='/dataset/search?owning_org={member.key}'/>">see all</a>
+        <a class="more_link" href="<@s.url value='/dataset/search?owning_org=${member.key}'/>">see all</a>
       </p>
   </div>
 </@common.article>

@@ -13,8 +13,9 @@
 
   <h1>${dataset.title}</h1>
 
-  <#if dataset.owningOrganizationKey?has_content>
-    <h3 class="separator">Published by <a href="<@s.url value='/member/${dataset.owningOrganizationKey}'/>">${(dataset.owningOrganization.title)!"Unknown"}</a>
+  <#if owningOrganization??>
+    <h3 class="separator">Published by
+      <a href="<@s.url value='/member/${owningOrganization.key}'/>">${owningOrganization.title!"Unknown"}</a>
     </h3>
   </#if>
 
@@ -51,7 +52,7 @@
       <li><h4>${(metrics.countByRank(speciesRank))!"?"}</h4>Species</li>
       <li class="last"><h4>${(metrics.countDistinctNames)!"?"}</h4>Taxa</li>
     </ul>
-    <a href="<@s.url value='/occurrence/search/?datasetKey=${id!}'/>" title="View occurrences" class="download candy_blue_button"><span>View occurrences</span></a>
+    <a href="<@s.url value='/occurrence/search/?datasetKey=${id!}'/>" title="View occurrences" class="candy_blue_button"><span>View occurrences</span></a>
   </div>
 </div>
 </#if>
@@ -62,7 +63,7 @@
         <li><h4>${(metrics.getCountByRank(speciesRank))!"?"}</h4>Species</li>
         <li class="last"><h4>${(metrics.countIndexed)!"?"}</h4>Taxa</li>
       </ul>
-      <a href="<@s.url value='/species/search/?datasetKey=${id!}'/>" title="View species" class="download candy_blue_button"><span>View species</span></a>
+      <a href="<@s.url value='/species/search/?datasetKey=${id!}'/>" title="View species" class="candy_blue_button"><span>View species</span></a>
     </div>
   </div>
 </#if>

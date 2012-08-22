@@ -189,8 +189,9 @@
 
 
 <#-- TAXONOMIC COVERAGE -->
-<@common.article id="taxonomic_coverage" title="Taxonomic Coverage">
-<div class="left">
+<#if metrics?? && (dataset.taxonomicCoverages?size>0)>
+ <@common.article id="taxonomic_coverage" title="Taxonomic Coverage">
+ <div class="left">
   <#if (dataset.taxonomicCoverages?size>0)>
   <#-- descriptions -->
     <#list dataset.taxonomicCoverages as cov>
@@ -231,9 +232,9 @@
       <p><a href="#" class="download" title="Download all the elments">&nbsp;Download them all</a>.</p>
     </ul>
   </#if>
-</div>
+ </div>
 
-<div class="right">
+ <div class="right">
  <#if metrics??>
   <#if metrics.countByKingdom?has_content>
     <h3>By Kingdom</h3>
@@ -268,8 +269,9 @@
     </ul>
   </#if>
  </#if>
-</div>
+ </div>
 </@common.article>
+</#if>
 
 <#if dataset.type?has_content && dataset.type == "CHECKLIST">
 <@common.article id="taxonomy" title="Browse Classification" class="taxonomies">

@@ -25,9 +25,8 @@
     </div>
 </@common.article>
 
-<@common.article id="appearsin" title="Appears in">
+<@common.article id="appearsin" title="Endorsed Organizations">
   <div class="left">
-      <h3>Endorsed Organizations</h3>
       <ul class="notes">
         <#list organizations as org>
           <li>
