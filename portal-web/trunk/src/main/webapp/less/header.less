@@ -423,7 +423,7 @@ header {
             }
           }
 
-          &.selected > a { background:url(../img/header/tip_up.png) no-repeat right 7px; }
+          &.selected > a { color: @cLink; background:url(../img/header/tip_up.png) no-repeat right 7px; }
 
           & >  a {
             display: block;
@@ -431,6 +431,8 @@ header {
             text-shadow: 0 1px white;
             padding: 0 13px 0 0;
             background:url(../img/header/tip_down.png) no-repeat right 7px;
+
+            &:hover { color: @cLink; }
 
             z-index: 1000;
 
