@@ -161,3 +161,7 @@
 </article>
 </#macro>
 
+<#macro cityAndCountry member>
+${member.city!}<#if member.city?has_content && member.country?has_content>, </#if>${member.country!}
+</#macro>
+

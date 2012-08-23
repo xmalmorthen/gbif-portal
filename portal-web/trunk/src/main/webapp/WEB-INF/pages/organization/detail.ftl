@@ -39,12 +39,16 @@
         <#list datasets as d>
           <li>
             <a href="<@s.url value='/dataset/${d.key}'/>">${d.title!"???"}</a>
+            <span class="note">A ${d.subtype!} <@s.text name="enum.datasettype.${d.type!}"/>
+              <#if d.pubDate??>${d.pubDate?date?string.medium}</#if></span>
           </li>
         </#list>
+        <#if more>
+          <li>
+            <a class="more_link" href="<@s.url value='/dataset/search?owningOrganisationKey=${member.key}'/>">see all</a>
+          </li>
+        </#if>
       </ul>
-      <p>
-        <a class="more_link" href="<@s.url value='/dataset/search?owning_org=${member.key}'/>">see all</a>
-      </p>
   </div>
 </@common.article>
 

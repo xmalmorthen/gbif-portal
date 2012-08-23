@@ -31,12 +31,15 @@
         <#list organizations as org>
           <li>
             <a href="<@s.url value='/organization/${org.key}'/>">${org.title!"???"}</a>
+            <span class="note">An organization <#if org.city?? || org.country??>from <@common.cityAndCountry org/></#if> with ${org.numDatasets!"?"} published datasets</span>
           </li>
         </#list>
+        <#if more>
+          <li>
+            <a class="more_link" href="<@s.url value='/node/${member.key}/organizations'/>">see all</a>
+          </li>
+        </#if>
       </ul>
-      <p>
-        <a class="more_link" href="#">see all</a>
-      </p>
   </div>
 </@common.article>
 

@@ -94,8 +94,8 @@ public class DetailAction extends UsageBaseAction {
       loadDataset(c.getDatasetKey());
     }
 
-    // load typeSpecimen typestatus counts
-    loadTypeStatusCounts();
+    // calc typeSpecimen typestatus counts
+    calcTypeSpecimenFacets();
 
     return SUCCESS;
   }
@@ -134,7 +134,7 @@ public class DetailAction extends UsageBaseAction {
     // get images
     usage.setImages(imageService.listByUsage(id, page10).getResults());
     // get typeSpecimens
-    usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page4).getResults());
+    usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
     // get species profiles
     usage.setSpeciesProfiles(speciesProfileService.listByUsage(id, page10).getResults());
   }
@@ -160,14 +160,12 @@ public class DetailAction extends UsageBaseAction {
   }
 
   /**
-   * Retrieve all TypeSpecimen for this usage. Iterate through them. Count the number of times each different
+   * Iterate through all types and count the number of times each different
    * typeStatus appears. Store this information in a map, key=typeStatus and value=count. This map is used in the .ftl
    * to filter the TypeSpecimen.
    */
-  public void loadTypeStatusCounts() {
-    // get typeSpecimens type status counts
-    List<TypeSpecimen> allTypeSpecimen = typeSpecimenService.listByUsage(id, null).getResults();
-    for (TypeSpecimen ts : allTypeSpecimen) {
+  public void calcTypeSpecimenFacets() {
+    for (TypeSpecimen ts : usage.getTypeSpecimens()) {
       String typeStatus = Strings.emptyToNull(ts.getTypeStatus());
       if (typeStatus != null) {
         if (typeStatusCounts.containsKey(typeStatus)) {
