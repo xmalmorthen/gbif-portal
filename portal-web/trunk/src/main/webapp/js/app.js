@@ -1,9 +1,9 @@
 function removeRecentlyAddedFilter(e) {
   e.preventDefault();
 
-  var $li = $(this).parent().parent();
+  var $li = $(this).parent().parent().parent();
 
-  $li.fadeOut(250);
+  $li.fadeOut(250, function() { $(this).remove(); });
 }
 
 function removeFilter(e) {
@@ -17,7 +17,7 @@ function removeFilter(e) {
   if ($ul.find("li").length == 1) {
 
     $tr.fadeOut(250, function() {
-      $tr.find("ul").remove();
+     $(this).remove();
     });
 
   } else {
@@ -33,7 +33,35 @@ function addNewFilter(e) {
   e.preventDefault();
 
   var filter = $(this).attr("data-filter");
-  console.log(filter);
+
+  var
+  $filters = $("tr.filters"),
+  template = _.template($("#template-filter").html()),
+  $filter  = $(template({ name: filter, title: "This is a test" }));
+
+  if ($filters.length > 0) {
+
+    var
+    $tr      = $("tr.filters td ul");
+    $tr.prepend( $filter );
+
+  } else {
+
+    var
+    containerTemplate = _.template($("#template-filter-container").html()),
+    $filterContainer  = $(containerTemplate());
+
+    $("tr.filter").after( $filterContainer );
+
+    $filterContainer.find("ul").prepend( $filter );
+
+  }
+
+    // Removes the filter selector and add the filter
+    $("tr.filter").fadeOut(250, function() {
+      $(this).remove();
+      $filter.fadeIn(250);
+    });
 
 }
 
@@ -87,7 +115,8 @@ $(function() {
     addFilter(filter, placeholder);
   });
 
-  $("tr.filters .close").on("click", removeFilter);
+
+  $(document).on("click", "tr.filters .close", removeFilter);
   $(document).on("click", "tr.filter .close", removeRecentlyAddedFilter);
 
   $(document).on("click", "a.button[data-action:'add-new-filter']", addNewFilter);

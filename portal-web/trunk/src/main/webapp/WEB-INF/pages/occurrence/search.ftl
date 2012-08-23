@@ -115,39 +115,6 @@
         </td>
       </tr>
 
-      <tr class="filters">
-          <td colspan="4">
-            <ul class="filters">
-
-              <li data-filter="dataset">
-              <h4>Dataset</h4>
-              <div class="filter"><a href="#">UNSM Vertebrate Specimens or UAM Paleontology Specimens</a></div>
-              <a href="#" class="close"></a>
-              </li>
-
-              <li data-filter="dataset">
-              <h4>Dataset</h4>
-              <div class="filter"><a href="#">UNSM Vertebrate Specimens or UAM Paleontology Specimens</a></div>
-              <a href="#" class="close"></a>
-              </li>
-
-              <li data-filter="dataset">
-              <h4>Dataset</h4>
-              <div class="filter"><a href="#">UNSM Vertebrate Specimens or UAM Paleontology Specimens</a></div>
-              <a href="#" class="close"></a>
-              </li>
-
-              <li data-filter="collection_date">
-              <h4>Collection date</h4>
-              <div class="filter"><a href="#">From November 1980</a></div>
-              <a href="#" class="close"></a>
-              </li>
-
-            </ul>
-          </td>
-
-        </tr>
-
       <#if searchResponse.count gt 0>
       <#list searchResponse.results as occ>
       <tr>
@@ -294,10 +261,18 @@
 
   <script type="text/template" id="template-filter">
     <li data-filter="dataset">
-    <h4>Dataset</h4>
-    <div class="filter"><a href="#">UNSM Vertebrate Specimens or UAM Paleontology Specimens</a></div>
+    <h4><%= name %></h4>
+    <div class="filter"><a href="#"><%= title %></a></div>
     <a href="#" class="close"></a>
     </li>
+  </script>
+
+  <script type="text/template" id="template-filter-container">
+    <tr class="filters">
+      <td colspan="4">
+        <ul class="filters"></ul>
+      </td>
+    </tr>
   </script>
 
   <!-- /Filter templates -->
