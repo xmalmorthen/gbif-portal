@@ -6,7 +6,7 @@
 </head>
 <body class="stats">
 
-<#assign tab="info"/>
+<#assign tab="info-verbatim"/>
 <#include "/WEB-INF/pages/occurrence/inc/infoband.ftl">
 
 
