@@ -19,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,6 +81,18 @@ public class PredicateFactory {
     }
   }
 
+  // Enables simple linking as per http://dev.gbif.org/issues/browse/POR-277 using a predifined mapping
+  // TODO: Verify all this with http://dev.gbif.org/issues/browse/POR-278
+  public static final String BYPASS_PARAM_NUB = "nubKey";
+  public static final String BYPASS_PARAM_DATASET = "datasetKey";
+  // not possible today, but reserved for the future
+  public static final String BYPASS_PARAM_OWNING_ORG = "owningOrgKey";
+  // not possible today, but reserved for the future
+  public static final String BYPASS_PARAM_HOSTING_ORG = "hostingOrgKey";
+  public static final String BYPASS_PARAM_COUNTRY_ISO = "countryISO";
+  private static final Map<String, Integer> BYPASS_PARAM_TO_SUBJECT = ImmutableMap.of(BYPASS_PARAM_NUB, 1, BYPASS_PARAM_DATASET, 2,
+    BYPASS_PARAM_COUNTRY_ISO, 4);
+
   private static final Logger LOG = LoggerFactory.getLogger(PredicateFactory.class);
 
   // Pattern to detect the ID and type of filters from e.g.
@@ -98,6 +111,14 @@ public class PredicateFactory {
     if (LOG.isDebugEnabled()) {
       for (String k : params.keySet()) {
         LOG.debug("{}: {}", k, params.get(k)[0]);
+      }
+    }
+
+    // determine if any bypass keys are present, and if so return the first
+    for (Entry<String, Integer> e : BYPASS_PARAM_TO_SUBJECT.entrySet()) {
+      if (params.keySet().contains(e.getKey())) {
+        LOG.debug("Passing filter as simple URL observed for " + params.get(e.getKey())[0]);
+        return new EqualsPredicate(String.valueOf(e.getValue()), params.get(e.getKey())[0]);
       }
     }
 

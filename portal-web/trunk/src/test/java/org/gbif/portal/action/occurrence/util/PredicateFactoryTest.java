@@ -85,6 +85,35 @@ public class PredicateFactoryTest {
     assertEquals("10.00", gp.getValue());
   }
 
+
+  @Test
+  public void testBypass() {
+    PredicateFactory pf = new PredicateFactory(QUERY_FIELD_MAPPING);
+    Map<String, String[]> params = new HashMap<String, String[]>();
+    params.put(PredicateFactory.BYPASS_PARAM_NUB, new String[] {"10"});
+    Predicate p = pf.build(params);
+    assertTrue(p instanceof EqualsPredicate);
+    EqualsPredicate eq = (EqualsPredicate) p;
+    assertEquals("1", eq.getKey());
+    assertEquals("10", eq.getValue());
+
+    params = new HashMap<String, String[]>();
+    params.put(PredicateFactory.BYPASS_PARAM_COUNTRY_ISO, new String[] {"UK"});
+    p = pf.build(params);
+    assertTrue(p instanceof EqualsPredicate);
+    eq = (EqualsPredicate) p;
+    assertEquals("4", eq.getKey());
+    assertEquals("UK", eq.getValue());
+
+    params = new HashMap<String, String[]>();
+    params.put(PredicateFactory.BYPASS_PARAM_DATASET, new String[] {"11"});
+    p = pf.build(params);
+    assertTrue(p instanceof EqualsPredicate);
+    eq = (EqualsPredicate) p;
+    assertEquals("2", eq.getKey());
+    assertEquals("11", eq.getValue());
+  }
+
   @Test
   public void testOR() {
     PredicateFactory pf = new PredicateFactory(QUERY_FIELD_MAPPING);
