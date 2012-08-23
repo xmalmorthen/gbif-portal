@@ -59,9 +59,12 @@
         }
         window.location = "<@s.url value='/occurrence/search'/>" + filterParams;
         return true;  // submit?
+
       });
+    });
 
     </script>
+
     </content>
   </head>
   <body class="search typesmap">
