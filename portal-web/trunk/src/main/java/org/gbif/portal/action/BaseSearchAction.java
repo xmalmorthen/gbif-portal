@@ -50,6 +50,19 @@ public abstract class BaseSearchAction<T> extends BaseAction {
 
   public static final String HL_POST = "</em>";
 
+  protected SearchResponse<T> searchResponse;
+
+  protected SearchRequest searchRequest;
+  protected String q;
+
+  /**
+   * Default constructor
+   */
+  public BaseSearchAction() {
+    // Initialize the request
+    this.searchRequest = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
+  }
+
   /**
    * Takes a highlighted text and trimmed it to show the first highlighted term.
    * The text is found using the HL_PRE and HL_POST tags.
@@ -65,8 +78,7 @@ public abstract class BaseSearchAction<T> extends BaseAction {
     int newSize = firstHlEndTag - firstHlBeginTag;
     if (firstHlBeginTag >= 0 && firstHlEndTag >= 0) {
       int textLenght = text.length();
-      firstHlEndTag =
-        Math.min(firstHlEndTag + ((newSize > MAX_LONG_HL_FIELD) ? 0 : (MAX_LONG_HL_FIELD - newSize)), textLenght);
+      firstHlEndTag = Math.min(firstHlEndTag + ((newSize > MAX_LONG_HL_FIELD) ? 0 : (MAX_LONG_HL_FIELD - newSize)), textLenght);
       trimmedHLText = text.substring(firstHlBeginTag, firstHlEndTag);
       if (firstHlBeginTag > 0) {
         trimmedHLText = MORE_TEXT_MARKER + trimmedHLText;
@@ -78,26 +90,14 @@ public abstract class BaseSearchAction<T> extends BaseAction {
     return trimmedHLText;
   }
 
-  protected SearchResponse<T> searchResponse;
-  protected SearchRequest searchRequest;
-
-  protected String q;
-
-  /**
-   * Default constructor
-   */
-  public BaseSearchAction() {
-    // Initialize the request
-    this.searchRequest = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
-  }
-
   /**
    * The input search pattern used to issue a search operation.
    * 
-   * @return the q, input search pattern
+   * @return the q, input search pattern defaulting to "" if none is provided
    */
   public String getQ() {
-    return q;
+    // To enable simple linking without a query as per http://dev.gbif.org/issues/browse/POR-274
+    return (q == null) ? "" : q;
   }
 
   /**
