@@ -2885,7 +2885,8 @@ article.static {
   filter: progid:DXImageTransform.Microsoft.DropShadow(offx = 0, offy = 1, color = #FFFFFF);
 }
 
-#content article.static .content .left ul, #content article.static .content .left ol {
+#content article.static .content .left ul,
+#content article.static .content .left ol {
   margin: 0 1px 26px 20px;
 }
 
@@ -2972,44 +2973,63 @@ article.static {
   margin: 0;
 }
 
-#content article.register, #content article.download, #content article.tunnel {
+#content article.register,
+#content article.download,
+#content article.tunnel {
   width: 702px;
 }
 
-#content article.register header, #content article.download header, #content article.tunnel header {
+#content article.register header,
+#content article.download header,
+#content article.tunnel header {
   width: 702px;
   background: url("../img/boxes/box_dataset_top.png") no-repeat left top;
 }
 
-#content article.register footer, #content article.download footer, #content article.tunnel footer {
+#content article.register footer,
+#content article.download footer,
+#content article.tunnel footer {
   width: 702px;
   background: url("../img/boxes/box_dataset_bottom.png") no-repeat left top;
 }
 
-#content article.register .content, #content article.download .content, #content article.tunnel .content {
+#content article.register .content,
+#content article.download .content,
+#content article.tunnel .content {
   background: url("../img/boxes/box_dataset_bkg.png") repeat-y;
   padding: 0 29px;
 }
 
-#content article.register .content nav, #content article.download .content nav, #content article.tunnel .content nav {
+#content article.register .content nav,
+#content article.download .content nav,
+#content article.tunnel .content nav {
   clear: both;
   overflow: hidden;
   margin: auto;
   width: 638px;
 }
 
-#content article.register .content nav.left, #content article.download .content nav.left, #content article.tunnel .content nav.left {
+#content article.register .content nav.left, 
+#content article.download .content nav.left,
+#content article.tunnel .content nav.left {
   margin: 0 0 5px 0;
   padding: 0;
   border: none;
 }
 
-#content article.register .content nav.left a.candy_blue_button, #content article.register .content nav.left a.candy_white_button, #content article.download .content nav.left a.candy_blue_button, #content article.download .content nav.left a.candy_white_button, #content article.tunnel .content nav.left a.candy_blue_button, #content article.tunnel .content nav.left a.candy_white_button {
+#content article.register .content nav.left a.candy_blue_button,
+#content article.register .content nav.left a.candy_white_button,
+#content article.download .content nav.left a.candy_blue_button,
+#content article.download .content nav.left a.candy_white_button,
+#content article.tunnel .content nav.left a.candy_blue_button,
+#content article.tunnel .content nav.left a.candy_white_button {
   float: left;
   padding-right: 0;
 }
 
-#content article.register .content nav.left p, #content article.download .content nav.left p, #content article.tunnel .content nav.left p {
+#content article.register .content nav.left p,
+#content article.download .content nav.left p,
+#content article.tunnel .content nav.left p {
   float: left;
   padding: 0 0 9px 0;
   margin: 0 0 0 8px;
@@ -4463,13 +4483,14 @@ em.gbifHl {
           left: -78px;
 
           ul { padding: 10px 0 0 0; }
+
           ul li a {
             font-size:15px;
             text-decoration:none;
 
-            &:hover { color: #333; background:none; }
+            &:hover  { color: #333; background:none; }
             &:action { outline:none; color: #333; background:none; }
-            &:focus { outline:none; color: #333; background:none; }
+            &:focus  { outline:none; color: #333; background:none; }
           }
 
           ul li.more {

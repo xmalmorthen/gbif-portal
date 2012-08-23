@@ -55,7 +55,9 @@
           $(this).parent().toggleClass("selected");
         });
 
-        $(".dropdown-menu ul li a").on("click", function() {
+        $(".dropdown-menu ul li a").on("click", function(e) {
+          e.preventDefault();
+
           var 
           filter      = $(this).attr("data-filter"),
           placeholder = $(this).attr("data-placeholder");
@@ -353,6 +355,7 @@
     <a href="#" class="close"></a>
     </li>
   </script>
+
   <!-- /Filter templates -->
 
 </body>

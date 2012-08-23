@@ -1,5 +1,30 @@
 $(function() {
 
+  // HEADER MENU
+  var $nav = $("header #top nav");
+
+  $nav.find("> ul div").on("mouseleave", function() {
+    $(this).hide();
+    $(this).parent().removeClass("selected");
+  });
+
+  $nav.find("> ul > li > a").on("mouseenter", function() {
+
+    $(this).parent().addClass("selected");
+    var $div = $(this).parent().find("div");
+    $div.show();
+
+    $nav.find("> ul div").each(function(i, e) {
+
+      if ($(e).attr("class") != $div.attr("class")) {
+        $(e).hide();
+        $(e).parent().removeClass("selected");
+      }
+    });
+  });
+
+
+  // GRAPHS
   $("div.graph li a, div.bargraph li a").on("click", function(e) {
     e.preventDefault();
   });
@@ -42,18 +67,18 @@ $(function() {
 
   // Activate source popovers
   $("a.sourcePopup").append('<img src="'+((cfg.context+"/img/icons/questionmark.png").replace("//", "/")) +'"/>').each(function(idx, obj){
-      $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});
+    $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});
   });
 
   // Activate link popovers
   $("a.popover").each(function(idx, obj){
-      $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});
+    $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});
   });
 
   $("a.download")
-    .bindDownloadPopover({explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
+  .bindDownloadPopover({explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
   $("a.download_2")
-    .bindDownloadPopover({template: "direct_download", explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
+  .bindDownloadPopover({template: "direct_download", explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
 
   // setup taxonomic browser
   $("#taxonomicBrowser").taxonomicExplorer({transitionSpeed:300});
@@ -137,14 +162,14 @@ $(function() {
       {start:"2011-6-1", title: "123 - HARVESTING ", message:"No processes"},
       {start:"2011-7-1", title: "123 - HARVESTING ", message:"No processes"},
       {start:"2011-8-1", title: "123 - HARVESTING ", message:"No processes"}
-    ]};
+      ]};
 
-  if ($("#holder").length) {
-    dataHistory.initialize(generateRandomValues(365), {height: 180, processes: processes});
-    dataHistory.show();
-  }
+      if ($("#holder").length) {
+        dataHistory.initialize(generateRandomValues(365), {height: 180, processes: processes});
+        dataHistory.show();
+      }
 
-  // wrapper to use for i18n in JQuery. See README file for how to use it.
-  $i18nresources = $.getResourceBundle("resources");
+      // wrapper to use for i18n in JQuery. See README file for how to use it.
+      $i18nresources = $.getResourceBundle("resources");
 
 })

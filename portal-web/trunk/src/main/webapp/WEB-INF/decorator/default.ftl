@@ -61,13 +61,109 @@
 
   <script src="<@s.url value='/js/vendor/modernizr-1.7.min.js'/>"></script>
 
+
 ${head}
 
 </head>
 <body class="${page.properties["body.class"]!}">
-  <header>
+
+    <header>
 
     <!-- top -->
+    <div id="top">
+      <div class="content">
+        <div class="account">
+            <a href="https://cas.gbif.org/login?service=http://localhost:8080/" title='Login'>Login</a> or
+            <a href="http://staging.gbif.org/drupal/user/register" title='Create a new account'>Create a new account</a>
+        </div>
+
+        <div id="logo">
+          <a href="/" class="logo"><img src="/img/header/logo.png"/></a>
+
+          <h1><a href="/" title="DATA.GBIF.ORG">DATA.GBIF.ORG</a></h1>
+          <span>Free and open access to biodiversity data</span>
+        </div>
+
+        <nav>
+          <ul>
+            <li>
+            <a href="#" title="GBIF Data">GBIF Data</a>
+
+            <div class="data">
+              <a href="#"></a>
+              <ul>
+                <li><a href="#">Occurrences</a></li>
+                <li><a href="#">Datasets</a></li>
+                <li><a href="#">Species</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Themes</a></li>
+                <li><a href="#">Statistics</a></li>
+                <li><a href="#">GBIF Data usage</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Publish your data</a></li>
+                <li><a href="#">Publishing workflow</a></li>
+              </ul>
+            </div>
+            
+            </li> 
+
+            <li>
+            <a href="#" title="GBIF Community">GBIF Community</a> 
+
+            <div class="community">
+              <a href="#"></a>
+              <ul>
+                <li><a href="#">Regions</a></li>
+                <li><a href="#">Countries</a></li>
+                <li><a href="#">Participant organizations</a></li>
+                <li><a href="#">Data publishers</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Capacity bulding</a></li>
+                <li><a href="#">Training</a></li>
+                <li><a href="#">BIF building</a></li>
+                <li><a href="#">Whitepages</a></li>
+              </ul>
+            </div>
+
+            </li>
+
+            <li>
+            <a href="#" title="About GBIF">About GBIF</a>
+
+            <div class="about">
+              <a href="#"></a>
+              <ul>
+                <li><a href="#">News</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Key partners</a></li>
+                <li><a href="#">Mission</a></li>
+                <li><a href="#">Governance details</a></li>
+                <li><a href="#">Work programs</a></li>
+                <li><a href="#">Key facts</a></li>
+              </ul>
+            </div>
+
+            </li>
+
+            <li class="search">
+              <form href="/dataset/search" method="GET">
+                <span class="input_text">
+                  <input type="text" name="q"/>
+                </span>
+              </form>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- /top -->
+
+    </header>
+
+
+    <!--
+  <header>
+
     <div id="top">
       <div class="content">
         <div class="account">
@@ -111,7 +207,6 @@ ${head}
         </nav>
       </div>
     </div>
-    <!-- /top -->
 
   <#if page.properties["page.infoband"]?has_content>
     <div id="infoband">
@@ -130,6 +225,7 @@ ${head}
   </#if>
 
   </header>
+  -->
 
   <div id="content">
 
