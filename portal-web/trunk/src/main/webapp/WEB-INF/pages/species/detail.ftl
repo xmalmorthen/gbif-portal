@@ -53,49 +53,59 @@
   </#list>
   </ul>
 
-  <h3>Full name</h3>
-  <p>${usage.scientificName}</p>
+  <div class="col">
+    <h3>Taxonomic Status</h3>
+    <p>
+    ${(usage.taxonomicStatus.interpreted)!"Unknown"}
+    <#if usage.synonym>
+      of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
+    </#if>
+    </p>
 
-  <h3>Taxonomic Status</h3>
-  <p>
-  ${(usage.taxonomicStatus.interpreted)!"Unknown"}
-  <#if usage.synonym>
-    of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
+  <#if (usage.nomenclaturalStatus.interpreted)?has_content>
+    <h3>Nomenclatural Status</h3>
+    <p>${usage.nomenclaturalStatus.interpreted}</p>
   </#if>
-  </p>
 
-<#if (usage.nomenclaturalStatus.interpreted)?has_content>
-  <h3>Nomenclatural Status</h3>
-  <p>${usage.nomenclaturalStatus.interpreted}</p>
-</#if>
+  <#if usage.isExtinct()??>
+    <h3>Extinction Status</h3>
+    <p>${usage.isExtinct()?string("Extinct","Living")}</p>
+  </#if>
 
-<#if usage.isExtinct()??>
-  <h3>Extinction Status</h3>
+  <#if (usage.livingPeriods?size>0)>
+    <h3>Living Period</h3>
+    <p><#list usage.livingPeriods as p>${p}<#if p_has_next>; </#if></#list></p>
+  </#if>
 
-  <p>${usage.isExtinct()?string("Extinct","Living")}</p>
-</#if>
+  <#if usage.isMarine()?? || usage.isTerrestrial()?? || (usage.habitats?size>0)>
+    <h3>Habitat</h3>
+    <p>
+      <#if usage.isMarine()??><#if usage.isMarine()>Marine<#else>Non Marine</#if>;</#if>
+      <#if usage.isTerrestrial()??><#if usage.isTerrestrial()>Terrestrial<#else>Non Terrestrial</#if>;</#if>
+      <#list usage.habitats as h>${h}<#if t_has_next>; </#if></#list>
+    </p>
+  </#if>
 
-<#if (usage.livingPeriods?size>0)>
-  <h3>Living Period</h3>
+  <#if (usage.threatStatus?size>0)>
+    <h3>Threat Status</h3>
+    <p><#list usage.threatStatus as t><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#list></p>
+  </#if>
+  </div>
 
-  <p><#list usage.livingPeriods as p>${p}<#if p_has_next>; </#if></#list></p>
-</#if>
-
-<#if usage.isMarine()?? || usage.isTerrestrial()?? || (usage.habitats?size>0)>
-  <h3>Habitat</h3>
-
-  <p>
-    <#if usage.isMarine()??><#if usage.isMarine()>Marine<#else>Non Marine</#if>;</#if>
-    <#if usage.isTerrestrial()??><#if usage.isTerrestrial()>Terrestrial<#else>Non Terrestrial</#if>;</#if>
-    <#list usage.habitats as h>${h}<#if t_has_next>; </#if></#list>
-  </p>
-</#if>
-
-<#if (usage.threatStatus?size>0)>
-  <h3>Threat Status</h3>
-
-  <p><#list usage.threatStatus as t><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#list></p>
-</#if>
+  <div class="col">
+    <#if (usage.synonyms?size>0)>
+      <h3>Synonyms</h3>
+      <ul class="no_bottom">
+        <#list usage.synonyms as syn>
+          <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
+        <#-- only show 9 synonyms at max. If we have 10 (index=9) we know there are more to show -->
+          <#if !syn_has_next && syn_index==9>
+            <p><a class="more_link" href="<@s.url value='/species/${id?c}/synonyms'/>">see all</a></p>
+          </#if>
+        </#list>
+      </ul>
+    </#if>
+  </div>
 </div>
 
 <div class="right">
@@ -153,15 +163,39 @@
 </div>
 </@common.article>
 
-<@common.article id="taxonomy" title='Taxonomy <span class="subtitle">of ${usage.scientificName}</span>' class="taxonomies">
+<#assign title>
+Taxonomic classification <span class='subtitle'>According to <a href="<@s.url value='/dataset/${dataset.key}'/>">${dataset.title!}</a></span>
+</#assign>
+<@common.article id="taxonomy" title=title class="taxonomies">
     <div class="left">
-      <h3>Taxonomic classification
-        <div class="extended">[<a href="<@s.url value='/species/${id?c}/classification'/>">extended</a>]</div>
-      </h3>
-    <#include "/WEB-INF/pages/species/inc/taxbrowser.ftl">
+      <div id="taxonomicBrowser">
+        <div class="breadcrumb">
+        <#if usage??>
+          <li spid="-1" cid="${usage.datasetKey}"><a href="#">All</a></li>
+          <#assign classification=usage.higherClassificationMap />
+          <#list classification?keys as key>
+            <li spid="${key?c}"><a href="#">${classification.get(key)}</a></li>
+          </#list>
+          <li class="last" spid="${usage.key?c}">${usage.canonicalOrScientificName!"???"}</li>
+          <#else>
+            <li spid="-1" cid="${id}"><a href="#">All</a></li>
+        </#if>
+        </div>
+        <div class="inner">
+          <div class="sp">
+            <ul>
+            </ul>
+          </div>
+        </div>
+        <div class="loadingTaxa"><span></span></div>
+      </div>
     </div>
 
     <div class="right">
+
+      <h3>Taxonomic classification
+        <div class="extended">[<a href="<@s.url value='/species/${id?c}/classification'/>">extended</a>]</div>
+      </h3>
 
       <div class="big_number">
       <#if (usage.rank.interpreted)?? && usage.rank.interpreted.isSpeciesOrBelow()>
@@ -170,19 +204,6 @@
         <span>${usage.numSpecies}</span> Species
       </#if>
       </div>
-
-    <#if (usage.synonyms?size>0)>
-      <h3>Synonyms</h3>
-      <ul class="no_bottom">
-        <#list usage.synonyms as syn>
-          <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
-        <#-- only show 9 synonyms at max. If we have 10 (index=9) we know there are more to show -->
-          <#if !syn_has_next && syn_index==9>
-            <p><a class="more_link" href="<@s.url value='/species/${id?c}/synonyms'/>">see all</a></p>
-          </#if>
-        </#list>
-      </ul>
-    </#if>
 
     </div>
 </@common.article>
@@ -230,31 +251,24 @@
 </article>
 </#if>
 
-<@common.article id="description" title='Description' class="">
+<#if usage.descriptions?has_content>
+  <@common.article id="description" title='Description' class="">
     <div class="left">
-      <h3></h3>
-      <#list usage.descriptions as d>
-        <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
-
-        <p>${d.description!}</p>
-      </#list>
+      <#assign d = usage.descriptions[0]>
+      <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
+      <p>${d.description!}</p>
     </div>
 
     <div class="right">
-
       <h3>Content</h3>
       <ul class="no_bottom">
-        <#list usage.synonyms as syn>
-          <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
-        <#-- only show 9 synonyms at max. If we have 10 (index=9) we know there are more to show -->
-          <#if !syn_has_next && syn_index==9>
-            <p><a class="more_link" href="<@s.url value='/species/${id?c}/synonyms'/>">see all</a></p>
-          </#if>
+        <#list usage.descriptions as d>
+          <li><a href="#'/>">${d.type!"Description"}</a> <span class="language">${d.language!}</span></li>
         </#list>
       </ul>
-
     </div>
-</@common.article>
+  </@common.article>
+</#if>
 
 <#if (usage.images?size>0)>
   <@common.article id="images" class="photo_gallery">

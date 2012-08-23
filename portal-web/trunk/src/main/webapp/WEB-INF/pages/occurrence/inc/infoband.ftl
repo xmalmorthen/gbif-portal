@@ -15,7 +15,7 @@
 
   <h1>${nub.canonicalOrScientificName!} · ${id?c}</h1>
 
-  <h3>An ${occ.basisOfRecord!"occurrence"} of
+  <h3><@s.text name="enum.basisofrecord.${occ.basisOfRecord!'UNKNOWN'}"/> of
     <#if occ.nubKey??>
       <a href="<@s.url value='/species/${occ.nubKey?c}'/>">${occ.scientificName}</a>
     <#else>

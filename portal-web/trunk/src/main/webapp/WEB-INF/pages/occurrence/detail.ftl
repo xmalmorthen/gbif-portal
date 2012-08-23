@@ -86,12 +86,13 @@
     <div class="left">
       <h3>Data publisher</h3>
       <p>
-        <a href="<@s.url value='/organization/${publisher.key}'/>"
-            title="">${publisher.title}</a>
+        <a href="<@s.url value='/organization/${publisher.key}'/>" title="">${publisher.title}</a>
       </p>
-      <h3>Dataset</h3>
-      <p>${dataset.title!}</p>
 
+      <h3>Dataset</h3>
+      <p>
+        <a href="<@s.url value='/organization/${dataset.key}'/>" title="">${dataset.title}</a>
+      </p>
 
       <#if occ.institutionCode??>
         <h3>Institution code</h3>
@@ -167,13 +168,12 @@ Identification details <span class='subtitle'>According to <a href="<@s.url valu
   <div class="left">
     <div class="col">
       <h3>Basis of record</h3>
-      <p>${occ.basisOfRecord!"Unknown"}</p>
+      <p><@s.text name="enum.basisofrecord.${occ.basisOfRecord!'UNKNOWN'}"/></p>
 
       <#if occ.occurrenceDate??>
         <h3>Gathering date </h3>
-        <#-- show year or month only if no full date exists. same for time !!! -->
+        <#-- TODO: show year or month only if no full date exists. same for time !!! -->
         <p>${occ.occurrenceDate?datetime?string.medium}</p>
-        <p>${.now?datetime?string.medium}</p>
       </#if>
 
       <#if occ.collectorName??>
