@@ -185,8 +185,7 @@
     <!--
     <div id='filter-container'></div>
     <br>
-    <input type="hidden" value="${datasetKey}" name="datasetKey" id="datasetKey"/>
-    <input type="hidden" value="${nubKey}" name="nubKey" id="nubKey"/>
+  
     <#if searchResponse.count gt 0>
     <div style="overflow: auto !important;"> 
       <table id="tableResults" class="hor-minimalist-b">

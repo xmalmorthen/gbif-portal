@@ -9,6 +9,7 @@ import org.gbif.occurrencestore.download.api.model.predicate.LessThanPredicate;
 import org.gbif.occurrencestore.download.api.model.predicate.Predicate;
 import org.gbif.occurrencestore.download.api.model.predicate.SimplePredicate;
 import org.gbif.portal.action.occurrence.util.PredicateFactory.BetweenPredicate;
+import org.gbif.portal.action.occurrence.util.PredicateFactory.BoundingBoxPredicate;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,10 +31,21 @@ public class WsSearchVisitor {
 
   private static final String VMAX_PLACE_HOLDER = "\\$v2";
 
+  private static final String VMIN_LAT = "\\$vLAT1";
+
+  private static final String VMAX_LAT = "\\$vLAT1";
+
+  private static final String VMIN_LON = "\\$vLON1";
+
+  private static final String VMAX_LON = "\\$vLON1";
+
   private static final String GREATER_THAN_OPERATOR = "[* TO " + V_PLACE_HOLDER + "]";
   private static final String LESS_THAN_OPERATOR = "[" + V_PLACE_HOLDER + " TO *]";
 
   private static final String BETWEEN_THAN_OPERATOR = "[" + VMIN_PLACE_HOLDER + " TO " + VMAX_PLACE_HOLDER + "]";
+
+  private static final String BOUNDING_BOX_OPERATOR = "[" + VMIN_LAT + "," + VMIN_LON + " TO " + VMAX_LAT + ","
+    + VMAX_LON + "]";
 
   private Multimap<String, String> params;
 
@@ -55,6 +67,14 @@ public class WsSearchVisitor {
   public void visit(BetweenPredicate predicate) {
     params.put(predicate.getKey(), BETWEEN_THAN_OPERATOR.replaceAll(VMIN_PLACE_HOLDER, predicate.getValue())
       .replaceAll(VMAX_PLACE_HOLDER, predicate.getValueMax()));
+  }
+
+  public void visit(BoundingBoxPredicate predicate) {
+    params.put(predicate.getKey(),
+      BOUNDING_BOX_OPERATOR.replaceAll(VMIN_LAT, Double.toString(predicate.getValue().getMinLatitude()))
+        .replaceAll(VMIN_LON, Double.toString(predicate.getValue().getMinLongitude()))
+        .replaceAll(VMAX_LAT, Double.toString(predicate.getValue().getMaxLatitude()))
+        .replaceAll(VMAX_LAT, Double.toString(predicate.getValue().getMaxLongitude())));
   }
 
   public void visit(ConjunctionPredicate predicate) throws QueryBuildingException {

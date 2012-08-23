@@ -10,6 +10,7 @@ import org.gbif.occurrencestore.download.api.model.predicate.GreaterThanPredicat
 import org.gbif.occurrencestore.download.api.model.predicate.LessThanPredicate;
 import org.gbif.occurrencestore.download.api.model.predicate.Predicate;
 import org.gbif.occurrencestore.download.api.model.predicate.SimplePredicate;
+import org.gbif.registry.api.model.geospatial.BoundingBox;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,7 @@ import org.slf4j.LoggerFactory;
  * f[0].s=1 & f[0].p=0 & f[0].v=Puma concolor
  */
 public class PredicateFactory {
+
 
   public class BetweenPredicate extends SimplePredicate {
 
@@ -65,10 +67,56 @@ public class PredicateFactory {
       return valueMax;
     }
   }
+
+
+  public class BoundingBoxPredicate implements Predicate {
+
+    private final String key;
+
+    private final BoundingBox value;
+
+
+    public BoundingBoxPredicate(String key, BoundingBox value) {
+      this.value = value;
+      this.key = key;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj) {
+        return true;
+      }
+
+      if (!(obj instanceof BetweenPredicate)) {
+        return false;
+      }
+
+      BetweenPredicate that = (BetweenPredicate) obj;
+      return Objects.equal(this.getKey(), that.getKey()) && Objects.equal(this.getValue(), that.getValue());
+    }
+
+
+    /**
+     * @return the key
+     */
+    public String getKey() {
+      return key;
+    }
+
+
+    /**
+     * @return the value
+     */
+    public BoundingBox getValue() {
+      return value;
+    }
+
+
+  }
   // This is a placeholder to map from the JSON definition for the UI to
   // that needed by the Predicate
   private enum TypeMapping {
-    EQUALS("0"), GREATER_THAN("1"), LESS_THAN("2"), STARTS_WITH("3"), BETWEEN("4"), ;
+    EQUALS("0"), GREATER_THAN("1"), LESS_THAN("2"), STARTS_WITH("3"), BETWEEN("4"), BOUNDING_BOX("5");
 
     private final String id;
 
@@ -90,7 +138,8 @@ public class PredicateFactory {
   // not possible today, but reserved for the future
   public static final String BYPASS_PARAM_HOSTING_ORG = "hostingOrgKey";
   public static final String BYPASS_PARAM_COUNTRY_ISO = "countryISO";
-  private static final Map<String, Integer> BYPASS_PARAM_TO_SUBJECT = ImmutableMap.of(BYPASS_PARAM_NUB, 1, BYPASS_PARAM_DATASET, 2,
+  private static final Map<String, Integer> BYPASS_PARAM_TO_SUBJECT = ImmutableMap.of(BYPASS_PARAM_NUB, 1,
+    BYPASS_PARAM_DATASET, 2,
     BYPASS_PARAM_COUNTRY_ISO, 4);
 
   private static final Logger LOG = LoggerFactory.getLogger(PredicateFactory.class);
@@ -118,7 +167,7 @@ public class PredicateFactory {
     for (Entry<String, Integer> e : BYPASS_PARAM_TO_SUBJECT.entrySet()) {
       if (params.keySet().contains(e.getKey())) {
         LOG.debug("Passing filter as simple URL observed for " + params.get(e.getKey())[0]);
-        return new EqualsPredicate(String.valueOf(e.getValue()), params.get(e.getKey())[0]);
+        return new EqualsPredicate(String.valueOf(e.getKey()), params.get(e.getKey())[0]);
       }
     }
 
@@ -153,6 +202,13 @@ public class PredicateFactory {
         // The value comes in form minValue,maxValue
         String splitValue[] = t.getValue().split(",");
         return new BetweenPredicate(queryFieldMapping.get(t.getSubject()), splitValue[0], splitValue[1]);
+      } else if (TypeMapping.BOUNDING_BOX.getValue().equals(t.getPredicate())) {
+        // The value comes in form minValue,maxValue
+        String splitValue[] = t.getValue().split(",");
+        BoundingBox bbox =
+          new BoundingBox(Double.parseDouble(splitValue[0]), Double.parseDouble(splitValue[1]),
+            Double.parseDouble(splitValue[2]), Double.parseDouble(splitValue[3]));
+        return new BoundingBoxPredicate(queryFieldMapping.get(t.getSubject()), bbox);
       }
     } else {
       LOG.warn("Query mapping does not contain {}", t.getSubject());

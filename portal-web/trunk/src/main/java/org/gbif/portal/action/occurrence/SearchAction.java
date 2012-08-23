@@ -15,7 +15,6 @@ import org.gbif.registry.api.service.DatasetService;
 
 import java.util.Map;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
@@ -25,11 +24,9 @@ import org.slf4j.LoggerFactory;
 import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
 import static org.gbif.occurrencestore.api.service.search.Constants.CATALOGUE_NUMBER_PARAM;
-import static org.gbif.occurrencestore.api.service.search.Constants.DATASET_KEY_PARAM;
 import static org.gbif.occurrencestore.api.service.search.Constants.LATITUDE_PARAM;
 import static org.gbif.occurrencestore.api.service.search.Constants.LONGITUDE_PARAM;
 import static org.gbif.occurrencestore.api.service.search.Constants.MONTH_PARAM;
-import static org.gbif.occurrencestore.api.service.search.Constants.NUB_KEY_PARAM;
 import static org.gbif.occurrencestore.api.service.search.Constants.YEAR_PARAM;
 
 /**
@@ -64,10 +61,6 @@ public class SearchAction extends BaseAction {
 
   private PagingResponse<Occurrence> searchResponse;
 
-  private String datasetKey = "";
-
-  private String nubKey = "";
-
   @Inject
   public SearchAction(OccurrenceSearchService occurrenceSearchService, DatasetService datasetService) {
     this.pagingRequest = new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
@@ -100,29 +93,12 @@ public class SearchAction extends BaseAction {
   }
 
   /**
-   * @return the datasetKey
-   */
-  public String getDatasetKey() {
-    return datasetKey;
-  }
-
-
-  /**
    * Gets the title of a data set byt its key.
    */
   public String getDatasetTitle(String datasetKey) {
     Dataset dataset = datasetService.get(datasetKey);
     return dataset.getTitle();
   }
-
-
-  /**
-   * @return the nubKey
-   */
-  public String getNubKey() {
-    return nubKey;
-  }
-
 
   /**
    * Gets the offset value.
@@ -138,21 +114,6 @@ public class SearchAction extends BaseAction {
     return searchResponse;
   }
 
-
-  /**
-   * @param datasetKey the datasetKey to set
-   */
-  public void setDatasetKey(String datasetKey) {
-    this.datasetKey = datasetKey;
-  }
-
-
-  /**
-   * @param nubKey the nubKey to set
-   */
-  public void setNubKey(String nubKey) {
-    this.nubKey = nubKey;
-  }
 
   /**
    * @param offset the offset to set
@@ -171,12 +132,6 @@ public class SearchAction extends BaseAction {
       @SuppressWarnings("unchecked")
       Predicate p = predicateFactory.build(getServletRequest().getParameterMap());
       params = paramsVisitor.getWsSearchParameters(p);
-      if (!Strings.isNullOrEmpty(datasetKey)) {
-        params.put(DATASET_KEY_PARAM, datasetKey);
-      }
-      if (!Strings.isNullOrEmpty(nubKey)) {
-        params.put(NUB_KEY_PARAM, nubKey);
-      }
       LOG.info("Predicate build for passing to search [{}]", params);
     }
     return params;
