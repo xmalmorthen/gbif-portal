@@ -227,9 +227,38 @@ ${head}
     </div>
   </footer>
 
-  <div class="copyright">
+  <div class="contact_footer">
     <div class="inner">
-      <p>2012 &copy; GBIF. Data publishers retain all rights to data.</p>
+      <!--<p>2012 &copy; GBIF. Data publishers retain all rights to data.</p>-->
+      <div class="copyright">
+        <div class="logo"></div>
+        <p>2011 © GBIF</p>
+      </div>
+
+      <div class="address">
+        <h3>GBIF Secretariat</h3>
+  
+        <address>
+          Universitetsparken 15<br />
+          DK-2100 Copenhagen Ø<br />
+          DENMARK
+        </address>
+      </div>
+
+      <div class="contact">
+        <h3>Contact</h3>
+        <ul>
+          <li><strong>Email</strong> info@gbif.org</li>
+          <li><strong>Tel</strong> +45 35 32 14 70</li>
+          <li><strong>Fax</strong> +45 35 32 14 80</li>
+        </ul>
+        <p>
+          You can also check the <a href="#">GBIF Directory</a>
+        </p>
+
+      </div>
+
+
     </div>
   </div>
 
