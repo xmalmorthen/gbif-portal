@@ -67,20 +67,26 @@ ${head}
 </head>
 <body class="${page.properties["body.class"]!}">
 
-    <header>
+  <header>
 
     <!-- top -->
     <div id="top">
       <div class="content">
         <div class="account">
-            <a href="https://cas.gbif.org/login?service=http://localhost:8080/" title='Login'>Login</a> or
-            <a href="http://staging.gbif.org/drupal/user/register" title='Create a new account'>Create a new account</a>
+          <#if currentUser??>
+            <a href="${cfg.drupal}/user/" title='Account'>View your account</a>
+            or
+            <a href="${cfg.cas}/logout?service=${baseUrl}/" title='<@s.text name="menu.logout"/>'><@s.text name="menu.logout"/></a>
+          <#else>
+            <a href="${cfg.cas}/login?service=${baseUrl}/" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
+            <a href="${cfg.drupal}/user/register" title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
+          </#if>
         </div>
 
         <div id="logo">
-          <a href="/" class="logo"><img src="/img/header/logo.png"/></a>
+          <a href="<@s.url value='/'/>" class="logo"><img src="<@s.url value='/img/header/logo.png'/>"/></a>
 
-          <h1><a href="/" title="DATA.GBIF.ORG">DATA.GBIF.ORG</a></h1>
+          <h1><a href="<@s.url value='/'/>" title="DATA.GBIF.ORG">DATA.GBIF.ORG</a></h1>
           <span>Free and open access to biodiversity data</span>
         </div>
 
@@ -92,9 +98,9 @@ ${head}
             <div class="data">
               <a href="#"></a>
               <ul>
-                <li><a href="#">Occurrences</a></li>
-                <li><a href="#">Datasets</a></li>
-                <li><a href="#">Species</a></li>
+                <li><a href="<@s.url value='/occurrence'/>"><@s.text name="menu.occurrence"/></a></li>
+                <li><a href="<@s.url value='/dataset'/>"><@s.text name="menu.dataset"/></a></li>
+                <li><a href="<@s.url value='/species'/>"><@s.text name="menu.species"/></a></li>
                 <li class="divider"></li>
                 <li><a href="#">Themes</a></li>
                 <li><a href="#">Statistics</a></li>
@@ -146,7 +152,7 @@ ${head}
             </li>
 
             <li class="search">
-              <form href="/dataset/search" method="GET">
+              <form href="<@s.url value='/dataset/search'/>" method="GET">
                 <span class="input_text">
                   <input type="text" name="q"/>
                 </span>
@@ -158,74 +164,25 @@ ${head}
     </div>
     <!-- /top -->
 
-    </header>
 
-
-    <!--
-  <header>
-
-    <div id="top">
-      <div class="content">
-        <div class="account">
-          <#if currentUser??>
-            <a href="${cfg.drupal}/user/" title='Account'>View your account</a>
-            or
-            <a href="${cfg.cas}/logout?service=${baseUrl}/" title='<@s.text name="menu.logout"/>'><@s.text name="menu.logout"/></a>
-          <#else>
-            <a href="${cfg.cas}/login?service=${baseUrl}/" title='<@s.text name="menu.login"/>'><@s.text name="menu.login"/></a> or
-            <a href="${cfg.drupal}/user/register" title='<@s.text name="menu.register"/>'><@s.text name="menu.register"/></a>
-          </#if>
+    <#if page.properties["page.infoband"]?has_content>
+      <div id="infoband">
+        <div class="content">
+        ${page.properties["page.infoband"]}
         </div>
+      </div>
+    </#if>
 
-        <div id="logo">
-          <a href="<@s.url value='/'/>" class="logo"><img src="<@s.url value='/img/header/logo.png'/>"/></a>
-
-          <h1><a href="<@s.url value='/'/>" title="DATA.GBIF.ORG">DATA.GBIF.ORG</a></h1>
-          <span>Free and open access to biodiversity data</span>
+    <#if page.properties["page.tabs"]?has_content>
+      <div id="tabs">
+        <div class="content">
+        ${page.properties["page.tabs"]}
         </div>
-
-      <#assign menu=(page.properties["meta.menu"])!"home" />
-      <#assign menuItems=["occurrence","dataset","species"] />
-        <nav>
-          <ul>
-          <#list menuItems as m>
-            <li<#if menu==m> class="selected"</#if>>
-            <@s.text id="menuName" name="menu.${m}" />
-                <@s.a value="/${m}" title="%{menuName}"><@s.text name="menu.${m}"/></@s.a></li>
-          </#list>
-            <li><a href="#" class="more" title="<@s.text name="menu.more"/>"><@s.text name="menu.more"/><span
-                    class="more"></span></a>
-            </li>
-            <li class="search">
-              <form href="<@s.url value='/dataset/search'/>" method="GET">
-                <span class="input_text">
-                  <input type="text" name="q"/>
-                </span>
-              </form>
-            </li>
-          </ul>
-        </nav>
       </div>
-    </div>
-
-  <#if page.properties["page.infoband"]?has_content>
-    <div id="infoband">
-      <div class="content">
-      ${page.properties["page.infoband"]}
-      </div>
-    </div>
-  </#if>
-
-  <#if page.properties["page.tabs"]?has_content>
-    <div id="tabs">
-      <div class="content">
-      ${page.properties["page.tabs"]}
-      </div>
-    </div>
-  </#if>
+    </#if>
 
   </header>
-  -->
+
 
   <div id="content">
 
