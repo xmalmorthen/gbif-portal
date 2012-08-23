@@ -139,7 +139,7 @@ ${head}
             <div class="about">
               <a href="#"></a>
               <ul>
-                <li><a href="#">News</a></li>
+                <li><a href="${cfg.drupal}/news">News</a></li>
                 <li class="divider"></li>
                 <li><a href="#">Key partners</a></li>
                 <li><a href="#">Mission</a></li>
@@ -203,9 +203,9 @@ ${head}
         <li><a href="<@s.url value='/occurrence'/>"><@s.text name="menu.occurrence"/></a></li>
         <li><a href="<@s.url value='/dataset'/>"><@s.text name="menu.dataset"/></a></li>
         <li><a href="<@s.url value='/species'/>"><@s.text name="menu.species"/></a></li>
-        <li><a href="<@s.url value='/country'/>"><@s.text name="menu.country"/></a></li>
-        <li><a href="<@s.url value='/member'/>"><@s.text name="menu.member"/></a></li>
-        <li><a href="<@s.url value='/theme'/>"><@s.text name="menu.theme"/></a></li>
+        <li><a href="#"><@s.text name="menu.country"/></a></li>
+        <li><a href="#"><@s.text name="menu.member"/></a></li>
+        <li><a href="#"><@s.text name="menu.theme"/></a></li>
       </ul>
 
       <ul>
