@@ -1,5 +1,7 @@
 package org.gbif.portal.config;
 
+import org.gbif.utils.file.properties.PropertiesUtil;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.Properties;
@@ -13,8 +15,9 @@ import org.slf4j.LoggerFactory;
  */
 public class Config {
 
-  private final static Logger LOG = LoggerFactory.getLogger(Config.class);
-  public final static String SERVERNAME = "servername";
+  private static final Logger LOG = LoggerFactory.getLogger(Config.class);
+  public static final String SERVERNAME = "servername";
+  public static final String APPLICATION_PROPERTIES = "/application.properties";
 
   private String cas;
   private String serverName;
@@ -38,10 +41,15 @@ public class Config {
     this.tileServerBaseUrl = tileServerBaseUrl;
   }
 
-  private static String getPropertyUrl(Properties properties, String propName) {
+  /**
+   * Reads the property as a URL, and will optionally force a trailing slash as required by
+   * http://dev.gbif.org/issues/browse/POR-260
+   */
+  private static String getPropertyUrl(Properties properties, String propName, boolean forceTrailingSlash) {
     String value = null;
     try {
       value = properties.getProperty(propName);
+      value = (forceTrailingSlash && !value.endsWith("/")) ? value + "/" : value; 
       URI uri = URI.create(value);
       return uri.toString();
     } catch (Exception e) {
@@ -50,31 +58,37 @@ public class Config {
     }
   }
 
+  /**
+   * To safeguard against configuration issues, this ensures that trailing slashes exist where required.
+   * A future enhancement would be for those not to be required by the depending components, but currently
+   * this is the state of affairs.  This does at least help guard against incorrect use in the property 
+   * files. 
+   */
   public static Config buildFromProperties() {
     Config cfg = new Config();
     try {
-      Properties properties = new Properties();
-      properties.load(Config.class.getResourceAsStream("/application.properties"));
-      // prefer system variable if existing
+      Properties properties = PropertiesUtil.loadProperties(APPLICATION_PROPERTIES);
+      
+      // prefer system variable if existing, required (e.g.) by selenim
       try {
         URI uri = URI.create(System.getProperty(SERVERNAME));
         cfg.serverName = uri.toString();
         LOG.debug("Using servername system variable");
       } catch (Exception e) {
-        cfg.serverName = getPropertyUrl(properties, SERVERNAME);
+        cfg.serverName = getPropertyUrl(properties, SERVERNAME, false);
       }
       LOG.debug("Setting servername to {}", cfg.serverName);
 
-      cfg.cas = getPropertyUrl(properties, "cas.url");
-      cfg.drupal = getPropertyUrl(properties, "drupal.url");
-      cfg.wsClb = getPropertyUrl(properties, "checklistbank.ws.url");
-      cfg.wsClbSearch = getPropertyUrl(properties, "checklistbank.search.ws.url");
+      cfg.cas = getPropertyUrl(properties, "cas.url", true);
+      cfg.drupal = getPropertyUrl(properties, "drupal.url", false);
+      cfg.wsClb = getPropertyUrl(properties, "checklistbank.ws.url", true);
+      cfg.wsClbSearch = getPropertyUrl(properties, "checklistbank.search.ws.url", true);
       cfg.wsClbSuggest = cfg.wsClbSearch + "search/suggest";
-      cfg.wsReg = getPropertyUrl(properties, "registry.ws.url");
-      cfg.wsRegSearch = getPropertyUrl(properties, "registry.search.ws.url");
-      cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url");
-      cfg.wsOccSearch = getPropertyUrl(properties, "occurrence.search.ws.url");
-      cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url");
+      cfg.wsReg = getPropertyUrl(properties, "registry.ws.url", true);
+      cfg.wsRegSearch = getPropertyUrl(properties, "registry.search.ws.url", true);
+      cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
+      cfg.wsOccSearch = getPropertyUrl(properties, "occurrence.search.ws.url", true);
+      cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
     } catch (IOException e) {
       throw new ConfigurationException("application.properties cannot be read", e);
     }
