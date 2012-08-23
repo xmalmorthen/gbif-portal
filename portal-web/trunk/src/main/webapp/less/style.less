@@ -1,5 +1,7 @@
 @import "reset";
-@import "helpers";
+
+@import "helpers"; // color and mixin definitions
+
 @import "fonts";
 @import "buttons";
 @import "occ_table";
@@ -4375,13 +4377,18 @@ em.gbifHl {
 
     tr.filters:hover td { background: #F2FAFC; }
 
+    tr { border-bottom: 1px solid red; }
+
+    tr.filter { display: none; }
     tr.filter td {
 
       h4 { display: block; margin: 0 0 10px 0; }
 
       border-bottom: 1px solid #C2C2C2;
       padding: 16px 20px; 
-      position:relative;
+
+      // we use this to solve a problem with relative td in Firefox
+      .inner { position:relative; }
 
       background: #F2FAFC; 
 
@@ -4389,7 +4396,7 @@ em.gbifHl {
         width: 128px;
       }
 
-      .close { right: 20px; }
+      .close { position:absolute; top: 0px; right: 0px; }
 
       input[type="text"] {
         width: 260px;

@@ -12,11 +12,9 @@
       function removeRecentlyAddedFilter(e) {
         e.preventDefault();
 
-        var $li = $(this).parent();
+        var $li = $(this).parent().parent();
 
-        $li.fadeOut(250, function() {
-          $(this).remove();
-        });
+        $li.fadeOut(250);
       }
 
       function removeFilter(e) {
@@ -42,8 +40,12 @@
         }
       }
 
-      function addFilter(filter) {
-
+      function addFilter(filter, placeholder) {
+        var $tr = $("tr.header");
+        var template = _.template($("#template-add-filter").html());
+        var $filter = $(template({ name: filter, placeholder: placeholder }));
+        $tr.after( $filter );
+        $filter.fadeIn(250);
       }
 
       $(function() {
@@ -54,12 +56,14 @@
         });
 
         $(".dropdown-menu ul li a").on("click", function() {
-          var filter = $(this).attr("data-filter");
-          addFilter(filter);
+          var 
+          filter      = $(this).attr("data-filter"),
+          placeholder = $(this).attr("data-placeholder");
+          addFilter(filter, placeholder);
         });
 
         $("tr.filters .close").on("click", removeFilter);
-        $("tr.filter .close").on("click", removeRecentlyAddedFilter);
+        $(document).on("click", "tr.filter .close", removeRecentlyAddedFilter);
 
       });
 
@@ -128,6 +132,7 @@
     <div class="content">
 
       <table class="results">
+
         <tr class="header">
 
           <td class="summary">
@@ -143,13 +148,13 @@
               <div class="dropdown-menu filters">
                 <div class="tip"></div>
                 <ul>
-                  <li><a tabindex="-1" href="#" data-filter="scientific_name">Scientific name</a></li>
-                  <li><a tabindex="-1" href="#" data-filter="location">Location</a></li>
-                  <li><a tabindex="-1" href="#" data-filter="collector">Collector</a></li>
-                  <li><a tabindex="-1" href="#" data-filter="basis_of_record">Basis of record</a></li>
-                  <li><a tabindex="-1" href="#" data-filter="dataset">Dataset</a></li>
-                  <li><a tabindex="-1" href="#" data-filter="collection_date">Collection date</a></li>
-                  <li><a tabindex="-1" href="#" data-filter="catalogue_number">Catalogue number</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="scientific_name">Scientific name</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="location">Location</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="collector">Collector</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="basis_of_record">Basis of record</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="dataset">Dataset</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="collection_date">Collection date</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="catalogue_number">Catalogue number</a></li>
                   <li class="divider"></li>
                   <li class="more"><a tabindex="-1" href="#">Need a different filter?</a></li>
                 </ul>
@@ -160,19 +165,6 @@
 
             </li>
           </ul>
-        </td>
-      </tr>
-
-      <tr class="filter">
-        <td colspan="4">
-
-          <h4>Dataset</h4>
-          <div class="filter">
-            <input type="text" placeholder="Type a dataset name..." />
-            <a href="#" class="button candy_blue_button"><span>Apply filter</span></a>
-          </div>
-
-          <a href="#" class="close"></a>
         </td>
       </tr>
 
@@ -337,8 +329,31 @@
   </article>
 
 
-  <script type="text/template" id="template-filter"></script>
-</script>
+  <!-- Filter templates -->
+
+  <script type="text/template" id="template-add-filter">
+    <tr class="filter">
+      <td colspan="4">
+        <div class="inner">
+          <h4><%= name %></h4>
+          <div class="filter">
+            <input type="text" placeholder="<%= placeholder %>" />
+            <a href="#" class="button candy_blue_button"><span>Apply filter</span></a>
+          </div>
+          <a href="#" class="close"></a>
+        </div>
+      </td>
+    </tr>
+  </script>
+
+  <script type="text/template" id="template-filter">
+    <li data-filter="dataset">
+    <h4>Dataset</h4>
+    <div class="filter"><a href="#">UNSM Vertebrate Specimens or UAM Paleontology Specimens</a></div>
+    <a href="#" class="close"></a>
+    </li>
+  </script>
+  <!-- /Filter templates -->
 
 </body>
 </html>
