@@ -4347,10 +4347,16 @@ em.gbifHl {
   .content  > .footer {
     padding: 24px 26px;
 
-    a, .pagination { float:left; } 
+    a, .pagination {
+      display: -moz-inline-box;
+      -moz-box-orient: vertical;
+      display: inline-block;
+      vertical-align: middle;
+      *vertical-align:auto;
+    } 
 
     .pagination { 
-      width: 646px;
+      width: 642px;
       padding: 10px 0;
 
       color: #CCCCCC;
