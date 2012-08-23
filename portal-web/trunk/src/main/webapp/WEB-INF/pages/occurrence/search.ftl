@@ -9,65 +9,7 @@
     <script src='<@s.url value='/js/vendor/jquery.url.js'/>' type='text/javascript'></script>
     <script>
 
-      function removeRecentlyAddedFilter(e) {
-        e.preventDefault();
-
-        var $li = $(this).parent().parent();
-
-        $li.fadeOut(250);
-      }
-
-      function removeFilter(e) {
-        e.preventDefault();
-
-        var 
-        $li = $(this).parent(),
-        $ul = $li.parent(),
-        $tr = $ul.parent().parent();
-
-        if ($ul.find("li").length == 1) {
-
-          $tr.fadeOut(250, function() {
-            $tr.find("ul").remove();
-          });
-
-          } else {
-
-          $(this).parent().slideUp(250, function() {
-            $(this).remove();
-          });
-
-        }
-      }
-
-      function addFilter(filter, placeholder) {
-        var $tr = $("tr.header");
-        var template = _.template($("#template-add-filter").html());
-        var $filter = $(template({ name: filter, placeholder: placeholder }));
-        $tr.after( $filter );
-        $filter.fadeIn(250);
-      }
-
       $(function() {
-
-        $(".dropdown .title").on("click", function(e) {
-          e.preventDefault();
-          $(this).parent().toggleClass("selected");
-        });
-
-        $(".dropdown-menu ul li a").on("click", function(e) {
-          e.preventDefault();
-
-          var 
-          filter      = $(this).attr("data-filter"),
-          placeholder = $(this).attr("data-placeholder");
-          addFilter(filter, placeholder);
-        });
-
-        $("tr.filters .close").on("click", removeFilter);
-        $(document).on("click", "tr.filter .close", removeRecentlyAddedFilter);
-
-      });
 
       var query = $('#query-container').Query({
         removeFilter: function(event, data) {
@@ -337,10 +279,10 @@
     <tr class="filter">
       <td colspan="4">
         <div class="inner">
-          <h4><%= name %></h4>
+          <h4><%= name.replace(/_/, " ") %></h4>
           <div class="filter">
             <input type="text" placeholder="<%= placeholder %>" />
-            <a href="#" class="button candy_blue_button"><span>Apply filter</span></a>
+            <a href="#" class="button candy_blue_button" data-action="add_filter" data-filter="<%= name %>"><span>Apply filter</span></a>
           </div>
           <a href="#" class="close"></a>
         </div>

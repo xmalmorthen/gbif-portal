@@ -1,3 +1,50 @@
+function removeRecentlyAddedFilter(e) {
+  e.preventDefault();
+
+  var $li = $(this).parent().parent();
+
+  $li.fadeOut(250);
+}
+
+function removeFilter(e) {
+  e.preventDefault();
+
+  var
+  $li = $(this).parent(),
+  $ul = $li.parent(),
+  $tr = $ul.parent().parent();
+
+  if ($ul.find("li").length == 1) {
+
+    $tr.fadeOut(250, function() {
+      $tr.find("ul").remove();
+    });
+
+  } else {
+
+    $(this).parent().slideUp(250, function() {
+      $(this).remove();
+    });
+
+  }
+}
+
+function addNewFilter(e) {
+  e.preventDefault();
+
+  var filter = $(this).attr("data-filter");
+  console.log(filter);
+
+}
+
+function addFilter(filter, placeholder) {
+  var $tr = $("tr.header");
+  var template = _.template($("#template-add-filter").html());
+  var $filter = $(template({ name: filter, placeholder: placeholder }));
+  $tr.after( $filter );
+  $filter.fadeIn(250);
+}
+
 $(function() {
 
   // HEADER MENU
@@ -23,6 +70,27 @@ $(function() {
     });
   });
 
+
+  // DROPDOWN
+
+  $(".dropdown .title").on("click", function(e) {
+    e.preventDefault();
+    $(this).parent().toggleClass("selected");
+  });
+
+  $(".dropdown-menu ul li a").on("click", function(e) {
+    e.preventDefault();
+
+    var
+    filter      = $(this).attr("data-filter"),
+    placeholder = $(this).attr("data-placeholder");
+    addFilter(filter, placeholder);
+  });
+
+  $("tr.filters .close").on("click", removeFilter);
+  $(document).on("click", "tr.filter .close", removeRecentlyAddedFilter);
+
+  $(document).on("click", "a.button[data-action:'add-new-filter']", addNewFilter);
 
   // GRAPHS
   $("div.graph li a, div.bargraph li a").on("click", function(e) {
