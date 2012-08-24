@@ -35,6 +35,10 @@
 
 <@common.article id="location" title="Geoposition" titleRight=titleRight! class="map">
   <#if showMap>
+
+  <div id="zoom_in" class="zoom_in"></div>
+  <div id="zoom_out" class="zoom_out"></div>
+
     <div id="map" latitude="${occ.latitude}" longitude="${occ.longitude}"></div>
     <div class="right">
       <h3>Locality</h3>

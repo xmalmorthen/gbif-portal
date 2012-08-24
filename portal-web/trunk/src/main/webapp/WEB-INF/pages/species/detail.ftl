@@ -212,7 +212,11 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
 <#if nub>
 <article class="map">
   <header></header>
+
+  <div id="zoom_in" class="zoom_in"></div>
+  <div id="zoom_out" class="zoom_out"></div>
   <div id="map" type="TAXON" key="${usage.key?c}"></div>
+
   <div class="content">
 
     <div class="header">
