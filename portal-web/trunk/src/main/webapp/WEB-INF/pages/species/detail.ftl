@@ -63,7 +63,7 @@
           <li>${v.vernacularName} <span class="small">${(v.language.interpreted)!}</span>
             <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
           </li>
-          <#if !vk_has_next && vk_index==3>
+          <#if !vk_has_next && vk_index==2>
             <li><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></li>
             <#break />
           </#if>
@@ -76,9 +76,9 @@
       <ul class="no_bottom">
         <#list usage.synonyms as syn>
           <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
-          <#-- only show 9 synonyms at max. If we have 10 (index=9) we know there are more to show -->
-          <#if !syn_has_next && syn_index==9>
-            <p><a class="more_link" href="<@s.url value='/species/${id?c}/synonyms'/>">see all</a></p>
+          <#-- only show 5 synonyms at max -->
+          <#if !syn_has_next && syn_index==4>
+            <li><a class="more_link" href="<@s.url value='/species/${id?c}/synonyms'/>">see all</a></li>
           </#if>
         </#list>
       </ul>
@@ -192,7 +192,7 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
 
       <dl>
       <#list rankEnum as r>
-        <dt>r</dt>
+        <dt><@s.text name="enum.rank.${r}"/></dt>
         <dd>
           <#if usage.getHigherRankKey(r)??>
             <#if usage.getHigherRankKey(r) == usage.key>
@@ -235,7 +235,7 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
         </div>
 
         <#--
-         TODO: implement when we can
+         TODO: implement counts of selected areas when we can
         <div class="big_number placeholder_temp">
           <span class="big_number">8,453</span>
           <a href="<@s.url value='/occurrence/search?q=holotype'/>">in the selected area</a>
@@ -255,79 +255,27 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
       </p>
         -->
 
-
-
-
-
-
-<#if (usage.distributions?size>0)>
-           <@common.article id="distribution" title="${usage.canonicalOrScientificName!} distribution">
-             <div class="left">
-               <div class="col">
-               <ul class="notes">
-                 <#list usage.distributions as d>
-                   <#if (d_index % 2) == 0>
-                     <div>
-                       <p class="no_bottom">
-                         <a href="#">${d.locationId!} ${(d.country.interpreted)!} ${d.locality!}</a>
-                         <@common.usageSource component=d showChecklistSource=nub />
-                       </p>
-
-                       <p class="note semi_bottom">${(d.lifeStage.interpreted)!} ${d.temporal!} ${(d.status.interpreted)!"Present"}
-                       <#if (d.threatStatus.interpreted)??><@s.text name="enum.threatstatus.${d.threatStatus.interpreted}"/></#if>
-                        ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}</p>
-                     </div>
-                   </#if>
-                 <#-- only show 10 distributions at max. If we have 10 (index=9) we know there are more to show -->
-                   <#if !d_has_next>
-                   </ul>
-                     <#if d_index==9>
-                       <p><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></p>
-                     </#if>
-                   </#if>
-                 </#list>
-               </div>
-
-               <div class="col">
-                 <ul class="notes">
-                   <#list usage.distributions as d>
-                     <#if (d_index % 2) == 1>
-                       <div>
-                         <p class="no_bottom">
-                           <a href="#">${d.locationId!} ${(d.country.interpreted)!} ${d.locality!} ${d.temporal!}</a>
-                           <@common.usageSource component=d showChecklistSource=nub />
-                         </p>
-
-                         <p class="note semi_bottom">${(d.lifeStage.interpreted)!} ${(d.status.interpreted)!"Present"} ${(d.threatStatus.interpreted)!} ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}</p>
-                       </div>
-                     </#if>
-                   </#list>
-                 </ul>
-               </div>
-             </div>
-
-             <div class="right">
-               <h3>References by continent</h3>
-               <ul class="placeholder_temp">
-                 <li>Europe <a class="number">200</a></li>
-                 <li>America <a class="number">32</a></li>
-                 <li>Asia <a class="number">152</a></li>
-               </ul>
-             </div>
-
-           </@common.article>
-         </#if>
-
-
-
-
-
-
-
-
+      <#if (usage.distributions?size>0)>
+        <h3>Distributions</h3>
+        <ul class="notes">
+        <#list usage.distributions as d>
+          <li>
+            ${d.locationId!} ${(d.country.interpreted)!} ${d.locality!}
+            <span class="note">
+              ${(d.lifeStage.interpreted)!} ${d.temporal!} ${(d.status.interpreted)!"Present"}
+              <#if (d.threatStatus.interpreted)??><@s.text name="enum.threatstatus.${d.threatStatus.interpreted}"/></#if>
+              ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}
+            </span>
+          </li>
+          <#-- only show 5 distributions at max -->
+          <#if !d_has_next && d_index==4>
+           <li><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></li>
+          </#if>
+        </#list>
+        </ul>
+      </#if>
 
     </div>
-
   </div>
   <footer></footer>
 </article>
@@ -377,7 +325,6 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
 
         <#if img1.description?has_content>
           <h3>Description</h3>
-
           <p>${common.limit(img1.description!img1.title!"",100)}
             <#if (img1.description?length>100) ><@common.popup message=img1.description title=img1.title!"Description"/></#if>
           </p>
@@ -385,24 +332,20 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
 
         <#if nub>
           <h3>Dataset</h3>
-
           <p><a href="<@s.url value='/species/${img1.usageKey}'/>">${(datasets.get(img1.datasetKey).title)!"???"}</a></p>
         </#if>
 
         <#if img1.publisher?has_content>
           <h3>Image publisher</h3>
-
           <p>${img1.publisher!"???"}</p>
         </#if>
 
         <#if (img1.creator!img1.created)?has_content>
           <h3>Photographer</h3>
-
           <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
         </#if>
 
         <h3>Copyright</h3>
-
         <p>${img1.license!"No license"}</p>
 
       </#if>
@@ -418,19 +361,15 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
         <ul class="notes">
           <#assign more=false/>
           <#list relatedDatasets as uuid>
-            <#if uuid_index==6>
-              <#assign more=true/>
-              <#break />
-            </#if>
             <li>
               <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">${(datasets.get(uuid).title)!uuid}</a>
             </li>
+            <#if uuid_has_next && uuid_index==6>
+              <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">see all ${relatedDatasets?size}</a></li>
+              <#break />
+            </#if>
           </#list>
         </ul>
-        <#if more>
-          <p><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">see
-            all</a></p>
-        </#if>
       </div>
 
       <div class="col">
@@ -438,40 +377,17 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
         <ul class="notes">
           <#assign more=false/>
           <#list related as rel>
-            <#if rel_index==6>
-              <#assign more=true/>
-              <#break />
-            </#if>
             <li><a href="<@s.url value='/species/${rel.key?c}'/>">${(datasets.get(rel.datasetKey).title)!"???"}</a>
               <span class="note">${rel.scientificName}</span>
             </li>
+            <#if rel_has_next && rel_index==6>
+              <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">see all ${related?size}</a></li>
+              <#break />
+            </#if>
           </#list>
         </ul>
-        <#if more>
-          <p><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">see
-            all</a></p>
-        </#if>
       </div>
     </div>
-
-    <div class="right">
-      <h3>By dataset type</h3>
-      <ul>
-        <li><a href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">${relatedDatasets?size}
-          occurrence datasets</a></li>
-        <li><a href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">${related?size} checklist
-          datasets</a></li>
-        <li><a href="<@s.url value='/dataset/search?q=${usage.canonicalOrScientificName!}'/>">external datasets</a></li>
-      </ul>
-      <h3>By checklist type</h3>
-      <ul class="placeholder_temp">
-        <li><a href="<@s.url value='/dataset/search?q=${usage.canonicalOrScientificName!}'/>">13 inventory</a></li>
-        <li><a href="<@s.url value='/dataset/search?q=${usage.canonicalOrScientificName!}'/>">3 taxonomic</a></li>
-        <li><a href="<@s.url value='/dataset/search?q=${usage.canonicalOrScientificName!}'/>">1 nomenclator</a></li>
-      </ul>
-
-    </div>
-
   </@common.article>
 </#if>
 
@@ -516,7 +432,7 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
               <#if ref.doi?has_content><br/>DOI:<a href="http://dx.doi.org/${ref.doi}">${ref.doi}</a></#if>
             </li>
             <#-- only show 8 references at max. If we have 8 (index=7) we know there are more to show -->
-            <#if ref_index==7>
+            <#if ref_has_next && ref_index==7>
               <li><a class="more_link" href="<@s.url value='/species/${id?c}/references'/>">see all</a></li>
               <#break />
             </#if>

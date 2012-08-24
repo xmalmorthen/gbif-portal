@@ -54,6 +54,7 @@ public class DetailAction extends UsageBaseAction {
   private final Pageable page10 = new PagingRequest(0, 10);
   private final Pageable page6 = new PagingRequest(0, 6);
   private final Pageable page4 = new PagingRequest(0, 4);
+  private final Pageable page1 = new PagingRequest(0, 1);
 
   private final Map<String, Integer> typeStatusCounts = new HashMap<String, Integer>();
 
@@ -75,12 +76,6 @@ public class DetailAction extends UsageBaseAction {
       loadDataset(uuid);
     }
     for (NameUsageComponent c : usage.getExternalLinks()) {
-      loadDataset(c.getDatasetKey());
-    }
-    for (NameUsageComponent c : usage.getImages()) {
-      loadDataset(c.getDatasetKey());
-    }
-    for (NameUsageComponent c : usage.getDescriptions()) {
       loadDataset(c.getDatasetKey());
     }
     for (NameUsageComponent c : usage.getDistributions()) {
@@ -130,11 +125,11 @@ public class DetailAction extends UsageBaseAction {
     // get references
     usage.setReferences(referenceService.listByUsage(id, page10).getResults());
     // get description content table
-    //usage.setDescriptions(descriptionService.listByUsage(id, getLocale(), page10).getResults());
+    usage.setDescriptions(descriptionService.listByUsage(id, getLocale(), page10).getResults());
     // get distributions
     usage.setDistributions(distributionService.listByUsage(id, page6).getResults());
-    // get images
-    usage.setImages(imageService.listByUsage(id, page20).getResults());
+    // get first image only
+    usage.setImages(imageService.listByUsage(id, page1).getResults());
     // get typeSpecimens
     usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
     // get species profiles
