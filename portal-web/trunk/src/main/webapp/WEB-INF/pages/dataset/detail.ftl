@@ -288,12 +288,13 @@
 
   <div id="zoom_in" class="zoom_in"></div>
   <div id="zoom_out" class="zoom_out"></div>
+
   <div id="map" type="DATASET" key="${dataset.key}"></div>
   
   <script>
     // create an array of the bounding boxes from the geographic coverages
     // we ignore anything that is global as that tells us very little
-    var bboxes = [
+    bboxes = [
     <#list dataset.geographicCoverages as geo>
        <#if geo.boundingBox?has_content && (!geo.boundingBox.isGlobalCoverage())>
          [${geo.boundingBox.minLatitude},${geo.boundingBox.maxLatitude},${geo.boundingBox.minLongitude},${geo.boundingBox.maxLongitude}],

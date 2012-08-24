@@ -49,7 +49,8 @@ $(function() {
       });
 
       setupZoom(map);
-      
+      bboxes = null;
+
       // draw the bounding boxes should they exist (for example from a geographic coverage in the dataset)
       if (bboxes != null) {
         // bboxes have minLat,maxLat,minLng,maxLng
@@ -63,9 +64,9 @@ $(function() {
             // Some small boxes don't show, so provide a marker
             L.marker([box[0] + ((box[1]-box[0])/2), box[2] + ((box[3]-box[2])/2)]).addTo(map);
       	  }
-      	  
+
       	});
-      }      
+      }
 
       L.control.layers(baseLayers, overlays).addTo(map);
 

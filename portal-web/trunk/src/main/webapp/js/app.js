@@ -75,6 +75,8 @@ function addFilter(filter, placeholder) {
 
 $(function() {
 
+  $(".photo_gallery").bindSlideshow();
+
   // HEADER MENU
   var $nav = $("header #top nav");
 

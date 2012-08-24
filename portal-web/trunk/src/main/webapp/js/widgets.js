@@ -1446,20 +1446,80 @@ $.fn.bindDialogPopover = function(opt) {
   });
 };
 
+
+
+
+/*
+* =========
+* SLIDESHOW
+* =========
+*/
+
 $.fn.bindSlideshow = function(opt) {
   var $this = $(this);
 
-  var photoWidth = 627;
-  var currentPhoto = 0;
-  var transitionSpeed = 500;
-  var easingMethod = "easeOutQuart";
+  var
+  photoWidth       = 627,
+  currentPhoto     = 0,
+  transitionSpeed  = 500,
+  easingMethod     = "easeOutQuart",
 
-  var num_of_photos = $this.find("div.photos > img").length;
-  var downloads = $this.find("div.download a");
+  num_of_photos    = $this.find(".photos li").length,
+  downloads        = $this.find("div.download a"),
 
-  var $previous_button = $this.find(".previous_slide");
-  var $next_button = $this.find(".next_slide");
-  var $slideshow = $this.find('.slideshow');
+  $previous_button = $this.find(".previous_slide"),
+  $next_button     = $this.find(".next_slide"),
+  $slideshow       = $this.find('.slideshow'),
+
+
+  id               = $slideshow.attr("data-id");
+
+  console.log(num_of_photos);
+  var url = "http://cache.gbif.org/checklistbank-ws/name_usage/" + id + "/images";
+
+console.log(url);
+
+$.ajax({ url: url, dataType:"jsonp", success: function(data) {
+  console.log('success', data);
+  var images = data.results;
+
+  var $photos = $slideshow.find(".photos");
+
+  num_of_photos    = images.length;
+  $photos.css("width", num_of_photos * photoWidth);
+
+var n = 0;
+  _.each(images, function(i) {
+
+  n++;
+
+    $photos.append("<li><div class='spinner'/></div><img id='photo_"+n+"'src='" + i.image + "' /></li>");
+
+    var $img = $photos.find("#photo_" + n);
+
+    $img.on("load", function() {
+
+      var
+      $li    = $img.parent();
+      width  = parseInt($(this).parent().css("width"), 10),
+      height = parseInt($(this).parent().css("height"), 10),
+      h      = parseInt($(this).css("height"), 10),
+      w      = parseInt($(this).css("width"), 10);
+
+      $li.find(".spinner").fadeOut(100, function() { $(this).remove(); });
+
+      $img.css("top", height/2 - h/2 );
+      $img.css("left", 627/2 - w/2 );
+      $img.fadeIn(250);
+
+    });
+
+
+  });
+
+}, error: function() {
+  console.log('error');
+}});
 
   // The previous button is disabled by default
   $previous_button.addClass("disabled");
@@ -1473,7 +1533,7 @@ $.fn.bindSlideshow = function(opt) {
     if (currentPhoto > 0) {
       $next_button.removeClass("disabled");
 
-      $slideshow.scrollTo('-=' + photoWidth + 'px', transitionSpeed, {easing:easingMethod, axis:'x'});
+      $slideshow.scrollTo('-=' + photoWidth + 'px', transitionSpeed, { easing:easingMethod, axis:'x'} );
       $(downloads[currentPhoto]).parent().hide();
       currentPhoto--;
       $(downloads[currentPhoto]).parent().show();
@@ -1489,7 +1549,7 @@ $.fn.bindSlideshow = function(opt) {
     if (currentPhoto < num_of_photos) {
       $previous_button.removeClass("disabled");
 
-      $slideshow.scrollTo('+=' + photoWidth + 'px', transitionSpeed, {easing:easingMethod, axis:'x'});
+      $slideshow.scrollTo('+=' + photoWidth + 'px', transitionSpeed, { easing:easingMethod, axis:'x' });
       $(downloads[currentPhoto]).parent().hide();
       currentPhoto++;
       $(downloads[currentPhoto]).parent().show();
@@ -1500,6 +1560,12 @@ $.fn.bindSlideshow = function(opt) {
     }
   });
 };
+
+
+
+
+
+
 
 
 /*
