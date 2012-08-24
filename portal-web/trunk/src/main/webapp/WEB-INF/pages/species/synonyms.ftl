@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Synonyms of ${usage.canonicalOrScientificName!}</title>
-  <meta name="menu" content="species"/>
+
 </head>
 <body class="species">
 

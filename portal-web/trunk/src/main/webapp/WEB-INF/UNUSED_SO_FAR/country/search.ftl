@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>Country Search Results for ${q!}</title>
-  <meta name="menu" content="species"/>
+
 </head>
 <body class="search">
 

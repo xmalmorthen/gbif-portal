@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Dataset Search Results for ${q!}</title>
-  <meta name="menu" content="dataset"/>
+
   <content tag="extra_scripts">
     <script type="text/javascript" src="<@s.url value='/js/facets.js'/>">
     </script>

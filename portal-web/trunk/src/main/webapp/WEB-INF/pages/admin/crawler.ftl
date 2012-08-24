@@ -43,7 +43,7 @@ $(document).ready(function() {
   </script>
 
   </content>
-  <meta name="menu" content="occurrences"/>
+
 </head>
 <body class="dataset">
 

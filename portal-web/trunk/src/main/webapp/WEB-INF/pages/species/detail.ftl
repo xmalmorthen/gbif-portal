@@ -3,7 +3,7 @@
 <html>
 <head>
   <title>${usage.scientificName} - Checklist View</title>
-  <meta name="menu" content="species"/>
+
 <#if nub>
   <content tag="extra_scripts">
     <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
@@ -33,108 +33,116 @@
       Remember that you can also check the
       <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view on ${usage.canonicalOrScientificName!}</a>.
     </#if>
-    <br/>You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
-    submitted by the data publisher.
+    <br/>
+    <#if usage.origin! == "SOURCE">
+      You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
+      submitted by the data publisher.
+    <#else>
+      This record has been created during indexing and did not explicitly exist in the source data as such.
+      It was created as <@s.text name="enum.origin.${usage.origin}"/>.
+    </#if>
+
   </p>
 </@common.notice>
 </#if>
 
 <@common.article id="overview" title="Overview">
 <div class="left">
-  <ul class="thumbs_list">
-  <#list usage.images as img>
-    <#if img_index==3 || !img_has_next>
-      <#assign lastClass="last"/>
-    </#if>
-    <li class="${lastClass!""}">
-      <a href="#" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a>
-    </li>
-    <#if img_index==3><#break></#if>
-  </#list>
-  </ul>
 
   <div class="col">
-    <h3>Taxonomic Status</h3>
-    <p>
-    ${(usage.taxonomicStatus.interpreted)!"Unknown"}
-    <#if usage.synonym>
-      of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
+    <h3>Full Name</h3>
+    <p>${usage.scientificName}</p>
+
+    <#if (vernacularNames?size>0)>
+      <h3>Common names</h3>
+      <ul>
+        <#assign more=false/>
+        <#list vernacularNames?keys as vk>
+          <#assign names=vernacularNames.get(vk)/>
+          <#assign v=names[0]/>
+          <li>${v.vernacularName} <span class="small">${(v.language.interpreted)!}</span>
+            <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
+          </li>
+          <#if !vk_has_next && vk_index==3>
+            <li><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></li>
+            <#break />
+          </#if>
+        </#list>
+      </ul>
     </#if>
-    </p>
 
-  <#if (usage.nomenclaturalStatus.interpreted)?has_content>
-    <h3>Nomenclatural Status</h3>
-    <p>${usage.nomenclaturalStatus.interpreted}</p>
-  </#if>
-
-  <#if usage.isExtinct()??>
-    <h3>Extinction Status</h3>
-    <p>${usage.isExtinct()?string("Extinct","Living")}</p>
-  </#if>
-
-  <#if (usage.livingPeriods?size>0)>
-    <h3>Living Period</h3>
-    <p><#list usage.livingPeriods as p>${p}<#if p_has_next>; </#if></#list></p>
-  </#if>
-
-  <#if usage.isMarine()?? || usage.isTerrestrial()?? || (usage.habitats?size>0)>
-    <h3>Habitat</h3>
-    <p>
-      <#if usage.isMarine()??><#if usage.isMarine()>Marine<#else>Non Marine</#if>;</#if>
-      <#if usage.isTerrestrial()??><#if usage.isTerrestrial()>Terrestrial<#else>Non Terrestrial</#if>;</#if>
-      <#list usage.habitats as h>${h}<#if t_has_next>; </#if></#list>
-    </p>
-  </#if>
-
-  <#if (usage.threatStatus?size>0)>
-    <h3>Threat Status</h3>
-    <p><#list usage.threatStatus as t><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#list></p>
-  </#if>
-  </div>
-
-  <div class="col">
     <#if (usage.synonyms?size>0)>
       <h3>Synonyms</h3>
       <ul class="no_bottom">
         <#list usage.synonyms as syn>
           <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
-        <#-- only show 9 synonyms at max. If we have 10 (index=9) we know there are more to show -->
+          <#-- only show 9 synonyms at max. If we have 10 (index=9) we know there are more to show -->
           <#if !syn_has_next && syn_index==9>
             <p><a class="more_link" href="<@s.url value='/species/${id?c}/synonyms'/>">see all</a></p>
           </#if>
         </#list>
       </ul>
     </#if>
+
+  </div>
+
+  <div class="col">
+    <#if usage.publishedIn?has_content>
+      <h3>Published In</h3>
+      <p>${usage.publishedIn}</p>
+    </#if>
+
+    <h3>Taxonomic Status</h3>
+    <p>
+      ${(usage.taxonomicStatus.interpreted)!"Unknown"}
+      <#if usage.synonym>
+        of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
+      </#if>
+    </p>
+
+    <#if basionym?has_content>
+      <h3>Original Name</h3>
+      <p><a href="<@s.url value='/species/${basionym.key?c}'/>">${basionym.scientificName}</a></p>
+    </#if>
+
+    <#if (usage.nomenclaturalStatus.interpreted)?has_content>
+      <h3>Nomenclatural Status</h3>
+      <p>${usage.nomenclaturalStatus.interpreted}</p>
+    </#if>
+
+    <#if usage.isExtinct()??>
+      <h3>Extinction Status</h3>
+      <p>${usage.isExtinct()?string("Extinct","Living")}</p>
+    </#if>
+
+    <#if (usage.livingPeriods?size>0)>
+      <h3>Living Period</h3>
+      <p><#list usage.livingPeriods as p>${p}<#if p_has_next>; </#if></#list></p>
+    </#if>
+
+    <#if usage.isMarine()?? || usage.isTerrestrial()?? || (usage.habitats?size>0)>
+      <h3>Habitat</h3>
+      <p>
+        <#if usage.isMarine()??><#if usage.isMarine()>Marine<#else>Non Marine</#if>;</#if>
+        <#if usage.isTerrestrial()??><#if usage.isTerrestrial()>Terrestrial<#else>Non Terrestrial</#if>;</#if>
+        <#list usage.habitats as h>${h}<#if t_has_next>; </#if></#list>
+      </p>
+    </#if>
+
+    <#if (usage.threatStatus?size>0)>
+      <h3>Threat Status</h3>
+      <p><#list usage.threatStatus as t><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#list></p>
+    </#if>
+
   </div>
 </div>
 
 <div class="right">
-<#if (vernacularNames?size>0)>
-  <h3>Common names</h3>
-  <ul>
-    <#assign more=false/>
-    <#list vernacularNames?keys as vk>
-      <#assign names=vernacularNames.get(vk)/>
-      <#assign v=names[0]/>
-      <li>${v.vernacularName} <span
-              class="small">${(v.language.interpreted)!}</span> <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
-      </li>
-      <#if vk_index==8>
-        <#assign more=true/>
-        <#break />
-      </#if>
-    </#list>
-  </ul>
-
-  <#if more>
-    <p><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></p>
+  <#if usage.images?has_content>
+  <#assign img=usage.images[0]>
+    <a href="#" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a>
   </#if>
-</#if>
 
-<#if basionym?has_content>
-  <h3>Original Name</h3>
-  <p><a href="<@s.url value='/species/${basionym.key?c}'/>">${basionym.scientificName}</a></p>
-</#if>
 
   <h3>External Links</h3>
   <ul>
@@ -146,9 +154,11 @@
       </#if>
     </a></li>
   </#list>
+    <#-- TODO link to EOL once we have their archive
   <#if usage.nubKey??>
     <li><a href="http://eol.org/gbif/${usage.nubKey?c}" title="EOL">EOL</a></li>
   </#if>
+  -->
     <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
 
   <#if (usage.lsids?size>0)>
@@ -168,42 +178,40 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
 </#assign>
 <@common.article id="taxonomy" title=title class="taxonomies">
     <div class="left">
-      <div id="taxonomicBrowser">
-        <div class="breadcrumb">
-        <#if usage??>
-          <li spid="-1" cid="${usage.datasetKey}"><a href="#">All</a></li>
-          <#assign classification=usage.higherClassificationMap />
-          <#list classification?keys as key>
-            <li spid="${key?c}"><a href="#">${classification.get(key)}</a></li>
-          </#list>
-          <li class="last" spid="${usage.key?c}">${usage.canonicalOrScientificName!"???"}</li>
-          <#else>
-            <li spid="-1" cid="${id}"><a href="#">All</a></li>
-        </#if>
-        </div>
-        <div class="inner">
-          <div class="sp">
-            <ul>
-            </ul>
-          </div>
-        </div>
+      <div id="taxonomicChildren">
+        <ul>
+        </ul>
         <div class="loadingTaxa"><span></span></div>
       </div>
     </div>
 
     <div class="right">
-
       <h3>Taxonomic classification
         <div class="extended">[<a href="<@s.url value='/species/${id?c}/classification'/>">extended</a>]</div>
       </h3>
 
-      <div class="big_number">
-      <#if (usage.rank.interpreted)?? && usage.rank.interpreted.isSpeciesOrBelow()>
-        <span>${usage.numDescendants}</span> Infraspecies
-      <#else>
-        <span>${usage.numSpecies}</span> Species
+      <dl>
+      <#list rankEnum as r>
+        <dt>r</dt>
+        <dd>
+          <#if usage.getHigherRankKey(r)??>
+            <#if usage.getHigherRankKey(r) == usage.key>
+              ${usage.canonicalOrScientificName}
+            <#else>
+              <a href="<@s.url value='/species/${usage.getHigherRankKey(r)?c}'/>">${usage.getHigherRank(r)}</a>
+            </#if>
+          <#elseif (usage.getNumByRank(r)>0)>
+            <a href="<@s.url value='/species/search/?rank=${r}&higherTaxonKey=${usage.key?c}'/>">${usage.getNumByRank(r)}</a>
+          <#else>
+            ---
+          </#if>
+        </dd>
+      </#list>
+
+      <#if usage.accordingTo?has_content>
+        <h3>According to</h3>
+        <p>${usage.accordingTo}</p>
       </#if>
-      </div>
 
     </div>
 </@common.article>
@@ -225,29 +233,99 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
           <span>${usage.numOccurrences!0}</span>
           <a href="<@s.url value='/occurrence/search?nubKey=${usage.key?c}'/>">occurrences</a>
         </div>
+
+        <#--
+         TODO: implement when we can
         <div class="big_number placeholder_temp">
           <span class="big_number">8,453</span>
           <a href="<@s.url value='/occurrence/search?q=holotype'/>">in the selected area</a>
         </div>
+        -->
       </div>
     </div>
 
     <div class="right">
+        <#--
+         TODO: implement when we can and move distributions to somewhere else?
       <h3>Visualize</h3>
-
       <p class="maptype">
         <a href="#" title="occurrence" class="selected">occurrence</a>
         | <a class="placeholder_temp" href="#" title="diversity">diversity</a>
         | <a class="placeholder_temp" href="#" title="distribution">distribution</a>
       </p>
+        -->
 
-      <h3>Download</h3>
-      <ul class="placeholder_temp">
-        <li class="download"><a href="#" title="One Degree cell density">One Degree cell density <abbr
-                title="Keyhole Markup Language">(KML)</abbr></a></li>
-        <li class="download"><a href="#" title="Placemarks">Placemarks <abbr
-                title="Keyhole Markup Language">(KML)</abbr></a></li>
-      </ul>
+
+
+
+
+
+<#if (usage.distributions?size>0)>
+           <@common.article id="distribution" title="${usage.canonicalOrScientificName!} distribution">
+             <div class="left">
+               <div class="col">
+               <ul class="notes">
+                 <#list usage.distributions as d>
+                   <#if (d_index % 2) == 0>
+                     <div>
+                       <p class="no_bottom">
+                         <a href="#">${d.locationId!} ${(d.country.interpreted)!} ${d.locality!}</a>
+                         <@common.usageSource component=d showChecklistSource=nub />
+                       </p>
+
+                       <p class="note semi_bottom">${(d.lifeStage.interpreted)!} ${d.temporal!} ${(d.status.interpreted)!"Present"}
+                       <#if (d.threatStatus.interpreted)??><@s.text name="enum.threatstatus.${d.threatStatus.interpreted}"/></#if>
+                        ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}</p>
+                     </div>
+                   </#if>
+                 <#-- only show 10 distributions at max. If we have 10 (index=9) we know there are more to show -->
+                   <#if !d_has_next>
+                   </ul>
+                     <#if d_index==9>
+                       <p><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></p>
+                     </#if>
+                   </#if>
+                 </#list>
+               </div>
+
+               <div class="col">
+                 <ul class="notes">
+                   <#list usage.distributions as d>
+                     <#if (d_index % 2) == 1>
+                       <div>
+                         <p class="no_bottom">
+                           <a href="#">${d.locationId!} ${(d.country.interpreted)!} ${d.locality!} ${d.temporal!}</a>
+                           <@common.usageSource component=d showChecklistSource=nub />
+                         </p>
+
+                         <p class="note semi_bottom">${(d.lifeStage.interpreted)!} ${(d.status.interpreted)!"Present"} ${(d.threatStatus.interpreted)!} ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}</p>
+                       </div>
+                     </#if>
+                   </#list>
+                 </ul>
+               </div>
+             </div>
+
+             <div class="right">
+               <h3>References by continent</h3>
+               <ul class="placeholder_temp">
+                 <li>Europe <a class="number">200</a></li>
+                 <li>America <a class="number">32</a></li>
+                 <li>Asia <a class="number">152</a></li>
+               </ul>
+             </div>
+
+           </@common.article>
+         </#if>
+
+
+
+
+
+
+
+
+
     </div>
 
   </div>
@@ -426,105 +504,33 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
   </@common.article>
 </#if>
 
-<#if (usage.distributions?size>0)>
-  <@common.article id="distribution" title="${usage.canonicalOrScientificName!} distribution">
-    <div class="left">
-      <div class="col">
-      <ul class="notes">
-        <#list usage.distributions as d>
-          <#if (d_index % 2) == 0>
-            <div>
-              <p class="no_bottom">
-                <a href="#">${d.locationId!} ${(d.country.interpreted)!} ${d.locality!}</a>
-                <@common.usageSource component=d showChecklistSource=nub />
-              </p>
-
-              <p class="note semi_bottom">${(d.lifeStage.interpreted)!} ${d.temporal!} ${(d.status.interpreted)!"Present"}
-              <#if (d.threatStatus.interpreted)??><@s.text name="enum.threatstatus.${d.threatStatus.interpreted}"/></#if>
-               ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}</p>
-            </div>
-          </#if>
-        <#-- only show 10 distributions at max. If we have 10 (index=9) we know there are more to show -->
-          <#if !d_has_next>
-          </ul>
-            <#if d_index==9>
-              <p><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></p>
-            </#if>
-          </#if>
-        </#list>
-      </div>
-
-      <div class="col">
-        <ul class="notes">
-          <#list usage.distributions as d>
-            <#if (d_index % 2) == 1>
-              <div>
-                <p class="no_bottom">
-                  <a href="#">${d.locationId!} ${(d.country.interpreted)!} ${d.locality!} ${d.temporal!}</a>
-                  <@common.usageSource component=d showChecklistSource=nub />
-                </p>
-
-                <p class="note semi_bottom">${(d.lifeStage.interpreted)!} ${(d.status.interpreted)!"Present"} ${(d.threatStatus.interpreted)!} ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}</p>
-              </div>
-            </#if>
-          </#list>
-        </ul>
-      </div>
-    </div>
-
-    <div class="right">
-      <h3>References by continent</h3>
-      <ul class="placeholder_temp">
-        <li>Europe <a class="number">200</a></li>
-        <li>America <a class="number">32</a></li>
-        <li>Asia <a class="number">152</a></li>
-      </ul>
-    </div>
-
-  </@common.article>
-</#if>
-
 <#if usage.publishedIn?has_content || usage.accordingTo?has_content || (usage.references?size>0)>
   <@common.article id="references" title="Academic references">
     <div class="left">
-      <#if usage.publishedIn?has_content>
-        <h3>Published In</h3>
-
-        <p>${usage.publishedIn}</p>
-      </#if>
-
-      <#if usage.accordingTo?has_content>
-        <h3>According to</h3>
-
-        <p>${usage.accordingTo}</p>
-      </#if>
-
-      <h3>Review date</h3>
-
-      <p class="placeholder_temp">Oct 28, 2003</p>
-
       <#if (usage.references?size>0)>
         <h3>Bibliography</h3>
-        <#list usage.references as ref>
-          <p>
-            <#if ref.link?has_content><a href="${ref.link}">${ref.citation}</a><#else>${ref.citation}</#if>
-            <#if ref.doi?has_content><br/>DOI:<a href="http://dx.doi.org/${ref.doi}">${ref.doi}</a></#if>
-          </p>
-        <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
-          <#if ref_index==7>
-            <p><a class="more_link" href="<@s.url value='/species/${id?c}/references'/>">see all</a></p>
-            <#break />
-          </#if>
-        </#list>
+        <ul>
+          <#list usage.references as ref>
+            <li>
+              <#if ref.link?has_content><a href="${ref.link}">${ref.citation}</a><#else>${ref.citation}</#if>
+              <#if ref.doi?has_content><br/>DOI:<a href="http://dx.doi.org/${ref.doi}">${ref.doi}</a></#if>
+            </li>
+            <#-- only show 8 references at max. If we have 8 (index=7) we know there are more to show -->
+            <#if ref_index==7>
+              <li><a class="more_link" href="<@s.url value='/species/${id?c}/references'/>">see all</a></li>
+              <#break />
+            </#if>
+          </#list>
+        </ul>
       </#if>
     </div>
 
     <div class="right">
-      <h3>References by type</h3>
-      <ul class="placeholder_temp">
-        <li>Nomenclature <a class="number">3</a></li>
-        <li>Taxonomy <a class="number">6</a></li>
-        <li>Genetics <a class="number">2</a></li>
+      <h3>External Sources</h3>
+      <ul>
+        <#if usage.canonical??>
+          <li><a href="http://www.biodiversitylibrary.org/name/${usage.canonical?replace(' ','_')}">Biodiveristy Heritage Library</a></li>
+        </#if>
       </ul>
     </div>
 
@@ -552,6 +558,16 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
   <@common.notice title="Further information">
   <p>There may be more details available about this name usage in the
     <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a> of the record
+  </p>
+  </@common.notice>
+<#elseif usage.origin??>
+  <@common.notice title="Source information">
+  <p>This backbone name usage exists because
+    <#if usage.origin == "SOURCE" && usage.sourceId??>
+      at least one <a href="<@s.url value='/species/${usage.sourceId}'/>">source name usage</a> exists for that name.
+    <#else>
+      <@s.text name="enum.origin.${usage.origin}"/>.
+    </#if>
   </p>
   </@common.notice>
 </#if>

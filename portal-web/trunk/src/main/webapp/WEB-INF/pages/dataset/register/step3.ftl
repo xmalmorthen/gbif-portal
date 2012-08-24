@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>Dataset registration (3/3) - GBIF</title>
-  <meta name="menu" content="datasets"/>
+
 </head>
 <body class="dataset">
 

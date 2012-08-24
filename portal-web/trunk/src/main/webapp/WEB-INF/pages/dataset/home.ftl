@@ -2,7 +2,7 @@
   <head>
     <title>Dataset - GBIF</title>
     <meta name="gmap" content="true"/>
-    <meta name="menu" content="datasets"/>
+
   </head>
   <body class="dataset">
 

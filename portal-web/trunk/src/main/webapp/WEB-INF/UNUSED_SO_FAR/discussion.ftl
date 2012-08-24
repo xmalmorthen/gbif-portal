@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>Dataset discussion - GBIF</title>
-  <meta name="menu" content="datasets"/>
+
 </head>
 <body>
 

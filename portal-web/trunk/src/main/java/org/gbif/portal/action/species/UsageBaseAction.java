@@ -100,6 +100,10 @@ public class UsageBaseAction extends BaseAction {
     return "";
   }
 
+  public boolean isNub() {
+    return usage.isNub();
+  }
+
   public DatasetMetrics getMetrics() {
     return metrics;
   }

@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Occurrence Search Results</title>
-    <meta name="menu" content="occurrences"/>
+
     <content tag="extra_scripts">
     <!--<link rel="stylesheet" href="<@s.url value='/css/occ_table.css?v=2'/>"/>  -->
     <script type="text/javascript" src="<@s.url value='/js/custom/jquery.gbif.filters.js'/>"></script>

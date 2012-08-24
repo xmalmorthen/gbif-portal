@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>${usage.canonicalOrScientificName!} - Complete Classification</title>
-  <meta name="menu" content="species"/>
+
 </head>
 <body class="species">
 

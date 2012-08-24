@@ -3,7 +3,6 @@
   <excludes file="${decorators-file}"/>
 
   <!--
--->
   <page-parsers>
     <parser content-type="text/html"
             class="com.opensymphony.module.sitemesh.parser.HTMLPageParser"/>
@@ -15,4 +14,5 @@
       <param name="config" value="${decorators-file}"/>
     </mapper>
   </decorator-mappers>
+-->
 </sitemesh>

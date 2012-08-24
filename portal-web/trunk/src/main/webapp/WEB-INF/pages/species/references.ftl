@@ -3,7 +3,7 @@
 <html>
 <head>
   <title>Vernacular Names for ${usage.canonicalOrScientificName!}</title>
-  <meta name="menu" content="species"/>
+
 </head>
 <body class="species">
 

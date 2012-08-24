@@ -36,7 +36,9 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private static final String NUB_KEY_PARAM = "nubKey";
   private static final long serialVersionUID = -3736915206911951300L;
 
-  private Integer nubKey;
+  private Integer nubKeyFilter;
+  private Integer higherTaxonKeyFilter;
+  private Rank rankFiler;
 
   // injected
   private final NameUsageService usageService;
@@ -94,14 +96,14 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    * @return the nubKey
    */
   public Integer getNubKey() {
-    return nubKey;
+    return nubKeyFilter;
   }
 
   @Override
   public Multimap<String, String> getRequestParameters() {
     Multimap<String, String> params = HashMultimap.create();
-    if (nubKey != null) {
-      params.put(NUB_KEY_PARAM, nubKey.toString());
+    if (nubKeyFilter != null) {
+      params.put(NUB_KEY_PARAM, nubKeyFilter.toString());
     }
     return params;
   }
@@ -210,7 +212,25 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    * @param nubKey the nubKey to set
    */
   public void setNubKey(Integer nubKey) {
-    this.nubKey = nubKey;
+    this.nubKeyFilter = nubKey;
+  }
+
+  /**
+   * Request parameter for filtering results by higher taxon key.
+   *
+   * @param taxonKey the higher taxon key to filter search with
+   */
+  public void setHigherTaxonKey(Integer taxonKey) {
+    this.higherTaxonKeyFilter = taxonKey;
+  }
+
+  /**
+   * Request parameter for filtering results by rank.
+   *
+   * @param rank to set a filter for
+   */
+  public void setRank(Rank rank) {
+    this.rankFiler = rank;
   }
 
   @Override

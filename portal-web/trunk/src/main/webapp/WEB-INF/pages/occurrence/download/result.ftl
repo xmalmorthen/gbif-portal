@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>Occurrences - GBIF</title>
-  <meta name="menu" content="occurrences"/>
+
 </head>
 <body class="dataset">
 

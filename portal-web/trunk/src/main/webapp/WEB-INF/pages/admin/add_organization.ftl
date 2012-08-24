@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Add Organization - GBIF</title>
-  <meta name="menu" content="datasets"/>
+
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/custom/contact_form.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/custom/endpoint_form.js'/>"></script>

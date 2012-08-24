@@ -50,7 +50,9 @@ public class DetailAction extends UsageBaseAction {
   private List<UUID> relatedDatasets = Lists.newArrayList();
 
   // various pagesizes used
+  private final Pageable page20 = new PagingRequest(0, 20);
   private final Pageable page10 = new PagingRequest(0, 10);
+  private final Pageable page6 = new PagingRequest(0, 6);
   private final Pageable page4 = new PagingRequest(0, 4);
 
   private final Map<String, Integer> typeStatusCounts = new HashMap<String, Integer>();
@@ -120,19 +122,19 @@ public class DetailAction extends UsageBaseAction {
 
 
     // get synonyms
-    PagingResponse<NameUsage> synonymResponse = usageService.listSynonyms(id, getLocale(), page10);
+    PagingResponse<NameUsage> synonymResponse = usageService.listSynonyms(id, getLocale(), page6);
     usage.setSynonyms(synonymResponse.getResults());
 
     // get vernacular names
-    usage.setVernacularNames(vernacularNameService.listByUsage(id, page10).getResults());
+    usage.setVernacularNames(vernacularNameService.listByUsage(id, page4).getResults());
     // get references
     usage.setReferences(referenceService.listByUsage(id, page10).getResults());
-    // get descriptions
-    usage.setDescriptions(descriptionService.listByUsage(id, getLocale(), page10).getResults());
+    // get description content table
+    //usage.setDescriptions(descriptionService.listByUsage(id, getLocale(), page10).getResults());
     // get distributions
-    usage.setDistributions(distributionService.listByUsage(id, page10).getResults());
+    usage.setDistributions(distributionService.listByUsage(id, page6).getResults());
     // get images
-    usage.setImages(imageService.listByUsage(id, page10).getResults());
+    usage.setImages(imageService.listByUsage(id, page20).getResults());
     // get typeSpecimens
     usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
     // get species profiles
@@ -185,10 +187,6 @@ public class DetailAction extends UsageBaseAction {
 
   public List<NameUsage> getRelated() {
     return related;
-  }
-
-  public boolean isNub() {
-    return usage.isNub();
   }
 
   private static Integer nullSafeMax(Integer a, Integer b) {

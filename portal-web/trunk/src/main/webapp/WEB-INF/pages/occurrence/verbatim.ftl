@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Occurrence detail - GBIF</title>
-  <meta name="menu" content="occurrences"/>
+
 </head>
 <body class="stats">
 

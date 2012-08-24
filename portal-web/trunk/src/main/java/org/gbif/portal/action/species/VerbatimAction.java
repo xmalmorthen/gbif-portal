@@ -1,21 +1,32 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.portal.action.BaseAction;
+import org.gbif.api.exception.NotFoundException;
+import org.gbif.checklistbank.api.model.VerbatimNameUsage;
 
-public class VerbatimAction extends BaseAction {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-  private Integer id;
+public class VerbatimAction extends UsageBaseAction {
+  private static final Logger LOG = LoggerFactory.getLogger(VerbatimAction.class);
+
+  private VerbatimNameUsage verbatim;
 
   @Override
   public String execute() {
+
+    loadUsage();
+
+    try {
+      verbatim = usageService.getVerbatim(id);
+    } catch (Exception e) {
+      LOG.error("Cant load verbatim data", e);
+      throw new NotFoundException();
+    }
+
     return SUCCESS;
   }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
-
-  public Integer getId() {
-    return id;
+  public VerbatimNameUsage getVerbatim() {
+    return verbatim;
   }
 }

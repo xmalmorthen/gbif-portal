@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>Species Search</title>
-  <meta name="menu" content="species"/> 
+
   <content tag="extra_scripts">
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>

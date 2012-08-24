@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>Dataset registration (2/3) - GBIF</title>
-  <meta name="menu" content="datasets"/>
+
   <content tag="extra_scripts">
     <script type="text/javascript">
     $(function() {
