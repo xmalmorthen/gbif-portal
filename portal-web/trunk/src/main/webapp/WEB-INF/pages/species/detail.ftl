@@ -201,7 +201,7 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
               <a href="<@s.url value='/species/${usage.getHigherRankKey(r)?c}'/>">${usage.getHigherRank(r)}</a>
             </#if>
           <#elseif (usage.getNumByRank(r)>0)>
-            <a href="<@s.url value='/species/search/?rank=${r}&higherTaxonKey=${usage.key?c}'/>">${usage.getNumByRank(r)}</a>
+            <a href="<@s.url value='/species/search/?rank=${r.ordinal()}&highertaxon=${usage.key?c}'/>">${usage.getNumByRank(r)}</a>
           <#else>
             ---
           </#if>

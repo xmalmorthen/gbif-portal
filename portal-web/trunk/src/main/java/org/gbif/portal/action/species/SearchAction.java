@@ -37,8 +37,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   private static final long serialVersionUID = -3736915206911951300L;
 
   private Integer nubKeyFilter;
-  private Integer higherTaxonKeyFilter;
-  private Rank rankFiler;
 
   // injected
   private final NameUsageService usageService;
@@ -213,24 +211,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
    */
   public void setNubKey(Integer nubKey) {
     this.nubKeyFilter = nubKey;
-  }
-
-  /**
-   * Request parameter for filtering results by higher taxon key.
-   *
-   * @param taxonKey the higher taxon key to filter search with
-   */
-  public void setHigherTaxonKey(Integer taxonKey) {
-    this.higherTaxonKeyFilter = taxonKey;
-  }
-
-  /**
-   * Request parameter for filtering results by rank.
-   *
-   * @param rank to set a filter for
-   */
-  public void setRank(Rank rank) {
-    this.rankFiler = rank;
   }
 
   @Override
