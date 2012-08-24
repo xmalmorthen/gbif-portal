@@ -33,7 +33,7 @@
 </content>
 
 <content tag="tabs">
-  <ul>
+  <ul class="highlighted">
     <li<#if (tab!"")=="info"> class='selected'<#elseif (tab!"")=="info-verbatim"> class='selected highlighted'</#if>>
       <a href="<@s.url value='/occurrence/${id?c}'/>" title="Information"><span>Information</span></a>
     </li>
