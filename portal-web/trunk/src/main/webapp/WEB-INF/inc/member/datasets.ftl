@@ -34,9 +34,10 @@
 
  <article class="map">
   <header></header>
-  <div id="map"></div>
+
   <a href="#zoom_in" class="zoom_in"></a>
   <a href="#zoom_out" class="zoom_out"></a>
+  <div id="map"></div>
 
   <div class="content placeholder_temp">
 

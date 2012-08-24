@@ -285,6 +285,9 @@
 
 <article class="map">
   <header></header>
+
+  <div id="zoom_in" class="zoom_in"></div>
+  <div id="zoom_out" class="zoom_out"></div>
   <div id="map" type="DATASET" key="${dataset.key}"></div>
   
   <script>

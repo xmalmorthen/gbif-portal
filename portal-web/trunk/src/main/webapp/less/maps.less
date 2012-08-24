@@ -23,6 +23,24 @@
   .br { bottom: -1px; right: -1px; background-position: bottom right; }
 }
 
+#content article.map {
+
+  #map {
+    position: absolute;
+    top: -19px; left: 2px;
+    .size(627px, 423px);
+
+    z-index: 100000;
+  }
+
+  .content { height: 387px; } 
+
+  .right {
+    margin-left: 638px;
+    float: left;
+  }
+}
+
 body.mapfull #content {
   padding: 0;
 }
@@ -247,25 +265,6 @@ body.singlemap div#map {
   z-index: 10 !important;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 body.singlemap a.zoom_in {
   top: -13px;
 }
@@ -315,7 +314,7 @@ body.typesmap a.zoom_out {
   position: absolute;
   left: 8px;
   .size(28px);
-  z-index: 1000;
+  z-index: 200000;
 }
 
 .leaflet-control-layers-base { 
