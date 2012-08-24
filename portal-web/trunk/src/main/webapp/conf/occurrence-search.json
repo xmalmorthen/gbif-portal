@@ -62,7 +62,7 @@
             "decimalPrecision": 3,
             "integerPrecision": 3            
           }
-        }
+        }        
       ]
     },
     {
@@ -70,6 +70,23 @@
       "options":[
         {
           "id":3,
+          "name":"Dataset",
+          "description":"Enter a dataset name and click Add Filter. The filter will return records from the selected dataset.",
+          "renderer":"SelectAndTextbox",
+          "group":"Datasets",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              }
+            ],            
+            "size":"60",
+            "maxlength":120            
+          }
+        },
+        {
+          "id":4,
           "name":"Year",
           "description":"Enter a year and click Add Filter. The filter will return records from the year(s) that match the selection.",
           "renderer":"SelectAndTextbox",
@@ -104,7 +121,7 @@
           }
         },
         {
-          "id":4,
+          "id":5,
           "name":"Month",
           "description":"Enter a month and click Add Filter. The filter will return records from the month(s) that match the selection.",
           "renderer":"SelectSelect",          
@@ -134,7 +151,7 @@
       "group":"Other",
       "options":[        
         {
-          "id":5,
+          "id":6,
           "name":"Catalogue number",
           "description":"Enter a catalogue number. The filter will return records with the specified catalogue number.",
           "renderer":"SelectAndTextbox",
@@ -148,6 +165,27 @@
             "dataType":"numeric",
             "size":20,
             "maxlength":30
+          }
+        }
+      ]
+    },
+    {
+      "group":"Taxanomic",
+      "options":[        
+        {
+          "id":7,
+          "name":"Taxon",
+          "description":"Enter a taxon number. The filter will return records with the specified name.",
+          "renderer":"SelectAndTextbox",
+          "data":{
+            "predicate":[
+              {
+                "label":"Is",
+                "value":0
+              }
+            ],
+            "size":50,
+            "maxlength":100
           }
         }
       ]

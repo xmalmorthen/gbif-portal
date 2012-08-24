@@ -28,6 +28,8 @@ import static org.gbif.occurrencestore.api.service.search.Constants.LATITUDE_PAR
 import static org.gbif.occurrencestore.api.service.search.Constants.LONGITUDE_PARAM;
 import static org.gbif.occurrencestore.api.service.search.Constants.MONTH_PARAM;
 import static org.gbif.occurrencestore.api.service.search.Constants.YEAR_PARAM;
+import static org.gbif.occurrencestore.api.service.search.Constants.DATASET_KEY_PARAM;
+import static org.gbif.occurrencestore.api.service.search.Constants.HIGHER_TAXON_KEY_PARAM;
 
 /**
  * Search action class for occurrence search page.
@@ -39,9 +41,11 @@ public class SearchAction extends BaseAction {
   static {
     QUERY_FIELD_MAPPING.put("1", LATITUDE_PARAM);
     QUERY_FIELD_MAPPING.put("2", LONGITUDE_PARAM);
-    QUERY_FIELD_MAPPING.put("3", YEAR_PARAM);
-    QUERY_FIELD_MAPPING.put("4", MONTH_PARAM);
-    QUERY_FIELD_MAPPING.put("5", CATALOGUE_NUMBER_PARAM);
+    QUERY_FIELD_MAPPING.put("3", DATASET_KEY_PARAM);
+    QUERY_FIELD_MAPPING.put("4", YEAR_PARAM);
+    QUERY_FIELD_MAPPING.put("5", MONTH_PARAM);
+    QUERY_FIELD_MAPPING.put("6", CATALOGUE_NUMBER_PARAM);
+    QUERY_FIELD_MAPPING.put("7", HIGHER_TAXON_KEY_PARAM);
 
   }
 
