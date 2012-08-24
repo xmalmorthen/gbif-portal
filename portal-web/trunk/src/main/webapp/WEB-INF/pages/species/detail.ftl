@@ -317,7 +317,7 @@
       <div class="right">
         <#if img1?exists>
         <div class="controllers">
-          <h2>${common.limit(img1.title!usage.canonicalOrScientificName!"",38)}</h2>
+          <h2 class="title">${common.limit(img1.title!usage.canonicalOrScientificName!"",38)}</h2>
           <a class="previous_slide" href="#" title="Previous image"></a>
           <a class="next_slide" href="#" title="Next image"></a>
         </div>

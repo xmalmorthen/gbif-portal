@@ -1459,6 +1459,7 @@ $.fn.bindSlideshow = function(opt) {
   var $this = $(this);
 
   var
+  slideData        = [],
   photoWidth       = 627,
   currentPhoto     = 0,
   transitionSpeed  = 500,
@@ -1474,13 +1475,25 @@ $.fn.bindSlideshow = function(opt) {
 
   id               = $slideshow.attr("data-id");
 
-  console.log(num_of_photos);
-  var url = "http://cache.gbif.org/checklistbank-ws/name_usage/" + id + "/images";
+  function init()  {
+    var url = "http://cache.gbif.org/checklistbank-ws/name_usage/" + id + "/images";
 
-console.log(url);
+    $.ajax({ url: url, dataType:"jsonp", success: onSuccess });
+  }
 
-$.ajax({ url: url, dataType:"jsonp", success: function(data) {
-  console.log('success', data);
+function updateSlideshow(data) {
+
+  if (data.title) {
+    $this.find(".title").fadeOut(150, function() {
+      $this.find(".title").html(data.title);
+      $this.find(".title").fadeIn(150);
+    });
+  }
+}
+
+
+function onSuccess(data) {
+
   var images = data.results;
 
   var $photos = $slideshow.find(".photos");
@@ -1488,77 +1501,90 @@ $.ajax({ url: url, dataType:"jsonp", success: function(data) {
   num_of_photos    = images.length;
   $photos.css("width", num_of_photos * photoWidth);
 
-var n = 0;
-  _.each(images, function(i) {
+  var n = 0;
 
-  n++;
+  _.each(images, function(result) {
 
-    $photos.append("<li><div class='spinner'/></div><img id='photo_"+n+"'src='" + i.image + "' /></li>");
+    n++;
+
+    $photos.append("<li><div class='spinner'/></div><img id='photo_"+n+"'src='" + result.image + "' /></li>");
 
     var $img = $photos.find("#photo_" + n);
+
+    slideData.push(result);
 
     $img.on("load", function() {
 
       var
-      $li    = $img.parent();
-      width  = parseInt($(this).parent().css("width"), 10),
-      height = parseInt($(this).parent().css("height"), 10),
-      h      = parseInt($(this).css("height"), 10),
-      w      = parseInt($(this).css("width"), 10);
+      $li      = $img.parent();
+      liWidth  = parseInt($(this).parent().css("width"), 10),
+      liHeight = parseInt($(this).parent().css("height"), 10),
+      h        = parseInt($(this).css("height"), 10),
+      w        = parseInt($(this).css("width"), 10);
 
       $li.find(".spinner").fadeOut(100, function() { $(this).remove(); });
 
-      $img.css("top", height/2 - h/2 );
-      $img.css("left", 627/2 - w/2 );
+      $img.css("top", liHeight/2 - h/2 );
+      $img.css("left", liWidth/2 - w/2 );
       $img.fadeIn(250);
 
     });
-
-
   });
+}
 
-}, error: function() {
-  console.log('error');
-}});
+// The previous button is disabled by default
+$previous_button.addClass("disabled");
 
-  // The previous button is disabled by default
-  $previous_button.addClass("disabled");
+// Calculate the width of the slideshow
+$this.find(".photos").width(num_of_photos * photoWidth);
 
-  // Calculate the width of the slideshow
-  $this.find(".photos").width(num_of_photos * photoWidth);
+$previous_button.click(function(event) {
+  event.preventDefault();
 
-  $previous_button.click(function(event) {
-    event.preventDefault();
+  if (currentPhoto > 0) {
+    $next_button.removeClass("disabled");
 
-    if (currentPhoto > 0) {
-      $next_button.removeClass("disabled");
+    $slideshow.scrollTo('-=' + photoWidth + 'px', transitionSpeed, { easing:easingMethod, axis:'x'} );
+    $(downloads[currentPhoto]).parent().hide();
+    currentPhoto--;
+    $(downloads[currentPhoto]).parent().show();
 
-      $slideshow.scrollTo('-=' + photoWidth + 'px', transitionSpeed, { easing:easingMethod, axis:'x'} );
-      $(downloads[currentPhoto]).parent().hide();
-      currentPhoto--;
-      $(downloads[currentPhoto]).parent().show();
-
-      if (currentPhoto == 0) {
-        $previous_button.addClass("disabled");
-      }
+    if (slideData[currentPhoto]) {
+      updateSlideshow(slideData[currentPhoto]);
     }
-  });
 
-  $next_button.click(function(event) {
-    event.preventDefault();
-    if (currentPhoto < num_of_photos) {
-      $previous_button.removeClass("disabled");
-
-      $slideshow.scrollTo('+=' + photoWidth + 'px', transitionSpeed, { easing:easingMethod, axis:'x' });
-      $(downloads[currentPhoto]).parent().hide();
-      currentPhoto++;
-      $(downloads[currentPhoto]).parent().show();
-
-      if (currentPhoto >= num_of_photos) {
-        $next_button.addClass("disabled");
-      }
+    if (currentPhoto == 0) {
+      $previous_button.addClass("disabled");
     }
-  });
+  }
+});
+
+$next_button.click(function(event) {
+  event.preventDefault();
+
+  if ($next_button.hasClass("disabled")) return;
+
+  if (currentPhoto + 1 < num_of_photos) {
+    $previous_button.removeClass("disabled");
+
+
+    $slideshow.scrollTo('+=' + photoWidth + 'px', transitionSpeed, { easing:easingMethod, axis:'x' });
+    $(downloads[currentPhoto]).parent().hide();
+    currentPhoto++;
+    $(downloads[currentPhoto]).parent().show();
+
+    if (slideData[currentPhoto]) {
+      updateSlideshow(slideData[currentPhoto]);
+    }
+
+    if (currentPhoto >= num_of_photos) {
+      $next_button.addClass("disabled");
+    }
+  }
+});
+
+init();
+
 };
 
 
