@@ -31,9 +31,6 @@
     <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>>
       <a href="#" title="Activity"><span>Activity <sup>(2)</sup></span></a>
     </li>
-    <li<#if (tab!"")=="datasets"> class='selected highlighted'</#if>>
-      <a href="#" title="Datasets"><span>Datasets <sup>(12)</sup></span></a>
-    </li>
     <li<#if (tab!"")=="stats"> class='selected highlighted'</#if>>
       <a href="#" title="Stats"><span>Stats <sup>(2)</sup></span></a>
     </li>

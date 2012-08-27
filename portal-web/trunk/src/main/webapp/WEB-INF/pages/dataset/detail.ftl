@@ -173,10 +173,9 @@
     <#if dataset.homepage?has_content>
       <li><a href="<@s.url value='${dataset.homepage}'/>" title="Dataset homepage">Dataset homepage</a></li>
     </#if>
-    <li><a class="placeholder_temp" href="#" title="Author's blog">Author's blog</a></li>
-    <li><a class="placeholder_temp" href="#" title="Methodology">A discussion board over the methodology</a></li>
   </ul>
 
+  <#-- TODO: implement metadata download
   <h3>Metadata</h3>
   <ul>
     <li class="download, placeholder_temp">EML file <a class="placeholder_temp" href="#"><abbr>[ENG]</abbr></a> &middot;
@@ -185,6 +184,7 @@
                                                             href="#"><abbr>[ENG]</abbr></a> &middot; <a href="#"><abbr>[SPA]</abbr></a> &middot;<a
             href="#"><abbr>[GER]</abbr></a></li>
   </ul>
+  -->
 </div>
 
 </@common.article>

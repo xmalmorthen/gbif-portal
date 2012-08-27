@@ -10,11 +10,11 @@
 
   <h1>${common.limit(dataset.title, 36)}</h1>
 
-  <#if owningOrganization??>
-    <h3 class="separator">Dataset published by
-      <a href="<@s.url value='/member/${owningOrganization.key}'/>">${owningOrganization.title!"Unknown"}</a>
-    </h3>
-  </#if>
+  <h3 class="separator"><#if dataset.type??><@s.text name="enum.datasettype.${dataset.type}"/><#else>Dataset</#if>
+    <#if owningOrganization??>
+      published by <a href="<@s.url value='/member/${owningOrganization.key}'/>">${owningOrganization.title!"Unknown"}</a>
+    </#if>
+  </h3>
 
 <#if (dataset.tags?size>0 && dataset.keywordCollections?size>0)>
 <ul class="tags">
