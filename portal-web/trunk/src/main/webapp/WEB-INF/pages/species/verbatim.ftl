@@ -5,7 +5,7 @@
 </head>
 <body class="stats">
 
-<#assign tab="info"/>
+<#assign tab="info-verbatim"/>
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
 
 
