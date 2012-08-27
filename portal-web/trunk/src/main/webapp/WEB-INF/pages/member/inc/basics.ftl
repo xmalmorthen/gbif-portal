@@ -1,6 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
-  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/custom/contact_form.js'/>"></script>  
+<#if admin>
+  <script type="text/javascript" src="<@s.url value='/js/custom/contact_form.js'/>"></script>
+</#if>
 
   <h3>Full Title</h3>
   <p>${member.title}</p>
@@ -10,7 +11,7 @@
   <p>${member.description}</p>
 </#if>
 
-  <#assign parts = ["${member.address!}","${member.zip!}","${member.city!}","${member.country!}" ]>
+<#assign parts = ["${member.address!}","${member.zip!}","${member.city!}","${member.country!}" ]>
 <#if parts?has_content>
   <h3>Address</h3>
   <p>
@@ -33,7 +34,7 @@
           <button class="editContact" componentIndex="${c_index}" agentKey="${id}">EDIT</button>
           <img src="<@s.url value='/img/minus.png'/>">          
         </#if>
-          <@common.contact con=c />
+        <@common.contact con=c />
       </li>
      </#list>
     </ul>
