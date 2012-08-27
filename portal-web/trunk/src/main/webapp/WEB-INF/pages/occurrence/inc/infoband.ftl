@@ -14,11 +14,6 @@
 -->
 
 <content tag="infoband">
-  <ul class="breadcrumb">
-    <li><a href="#" title="Explore">Explore</a></li>
-    <li class="last"><a href="#" title="Occurrences">Occurrences</a></li>
-  </ul>
-
   <h1>${nub.canonicalOrScientificName!} · ${id?c}</h1>
 
   <h3><@s.text name="enum.basisofrecord.${occ.basisOfRecord!'UNKNOWN'}"/> of

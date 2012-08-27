@@ -33,6 +33,7 @@
     </div>
 </@common.article>
 
+<#if datasets?has_content>
 <@common.article id="datasets" title="Published Datasets">
   <div class="left">
       <ul class="notes">
@@ -51,6 +52,7 @@
       </ul>
   </div>
 </@common.article>
+</#if>
 
 
 </body>

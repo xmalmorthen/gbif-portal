@@ -17,9 +17,11 @@
 <#-- SUMMARY -->
 <@common.article id="taxonomic_coverage" title="Summary">
 <div class="left">
+  <h3>Full Title</h3>
+  <p>${dataset.title}</p>
+
   <#if dataset.description?has_content>
     <h3>Description</h3>
-
     <p>${dataset.description}</p>
   </#if>
 <#-- purpose doesn't exist yet -->

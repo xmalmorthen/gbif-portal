@@ -1,3 +1,4 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <#--
  THIS INCLUDE GENERATES THE INFOBAND AND TABS FOR A SPECIES PAGE
  to select a tab to be highlighted please assign on of the following to the freemarker variable "tab":
@@ -7,13 +8,11 @@
  <#assign tab="stats"/>
 -->
 <content tag="infoband">
-  <ul class="breadcrumb">
-    <li class="last">${((usage.rank.interpreted)!(usage.rank.verbatim)!"Unranked")?capitalize}</li>
-  </ul>
+  <h1>${common.limit(usage.scientificName, 36)}</h1>
 
-  <h1>${usage.scientificName}</h1>
-
-  <h3>according to <a href="<@s.url value='/dataset/${usage.datasetKey}'/>">${(dataset.title)!"???"}</a></h3>
+  <h3>${((usage.rank.interpreted)!(usage.rank.verbatim)!"Unranked")?capitalize}
+    according to <a href="<@s.url value='/dataset/${usage.datasetKey}'/>">${(dataset.title)!"???"}</a>
+  </h3>
 
   <h3>
   <#assign classification=usage.higherClassificationMap />

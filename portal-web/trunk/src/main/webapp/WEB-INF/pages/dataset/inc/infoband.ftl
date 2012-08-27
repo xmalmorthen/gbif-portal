@@ -7,20 +7,17 @@
  <#assign tab="discussion"/>
 -->
 <content tag="infoband">
-  <ul class="breadcrumb">
-    <li class="last"><a href="<@s.url value='/dataset'/>" title="Datasets">Datasets</a></li>
-  </ul>
 
-  <h1>${dataset.title}</h1>
+  <h1>${common.limit(dataset.title, 36)}</h1>
 
   <#if owningOrganization??>
-    <h3 class="separator">Published by
+    <h3 class="separator">Dataset published by
       <a href="<@s.url value='/member/${owningOrganization.key}'/>">${owningOrganization.title!"Unknown"}</a>
     </h3>
   </#if>
 
+<#if (dataset.tags?size>0 && dataset.keywordCollections?size>0)>
 <ul class="tags">
-<#if (dataset.tags?size>0)>
   <#list dataset.tags as tag>
     <#if (!tag.namespace?has_content) >
       <#if tag.predicate?has_content && tag.value?has_content>
@@ -32,8 +29,6 @@
       </#if>
     </#if>
   </#list>
-</#if>
-<#if (dataset.keywordCollections?size>0)>
   <#list dataset.keywordCollections as keyCol>
     <#if keyCol.thesaurus?has_content && keyCol.keywords?has_content>
       <#list keyCol.keywords as word>

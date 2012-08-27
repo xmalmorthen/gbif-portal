@@ -8,15 +8,13 @@
  <#assign tab="stats"/>
 -->
 <content tag="infoband">
-  <ul class="breadcrumb">
-    <li>${memberType}</li>
-  </ul>
 
-  <h1>${member.title!"???"}</h1>
+  <h1>${common.limit(member.title!"???", 36)}</h1>
 
-  <#if member.homepage??>
-    <h3 class="separator">More info at: <a href="${member.homepage}" target="_blank" title="Homepage">${member.homepage}</a></h3>
+  <h3 class="separator">${memberType?capitalize}<#if member.homepage?has_content>. More info at:
+    <a href="${member.homepage}" target="_blank" title="Homepage">${member.homepage}</a>
   </#if>
+  </h3>
 
   <ul class="tags">
     <#list member.tags as t>
