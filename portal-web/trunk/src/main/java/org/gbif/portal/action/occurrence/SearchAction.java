@@ -3,6 +3,7 @@ package org.gbif.portal.action.occurrence;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
 import org.gbif.occurrencestore.api.model.Occurrence;
+import org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter;
 import org.gbif.occurrencestore.api.service.OccurrenceSearchService;
 import org.gbif.occurrencestore.api.service.search.OccurrenceSearchRequest;
 import org.gbif.occurrencestore.download.api.model.predicate.Predicate;
@@ -23,13 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.CATALOGUE_NUMBER;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.DATASET_KEY;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.HIGHER_TAXON_KEY;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.LATITUDE;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.LONGITUDE;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.MONTH;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.YEAR;
 
 /**
  * Search action class for occurrence search page.
@@ -39,13 +33,17 @@ public class SearchAction extends BaseAction {
   // This is a placeholder to map from the JSON definition ID to the query field
   private static final Map<String, String> QUERY_FIELD_MAPPING = Maps.newHashMap();
   static {
-    QUERY_FIELD_MAPPING.put("1", LATITUDE.getParam());
-    QUERY_FIELD_MAPPING.put("2", LONGITUDE.getParam());
-    QUERY_FIELD_MAPPING.put("3", DATASET_KEY.getParam());
-    QUERY_FIELD_MAPPING.put("4", YEAR.getParam());
-    QUERY_FIELD_MAPPING.put("5", MONTH.getParam());
-    QUERY_FIELD_MAPPING.put("6", CATALOGUE_NUMBER.getParam());
-    QUERY_FIELD_MAPPING.put("7", HIGHER_TAXON_KEY.getParam());
+    QUERY_FIELD_MAPPING.put("1", OccurrenceSearchParameter.LATITUDE.getParam());
+    QUERY_FIELD_MAPPING.put("2", OccurrenceSearchParameter.LONGITUDE.getParam());
+    QUERY_FIELD_MAPPING.put("3", OccurrenceSearchParameter.DATASET_KEY.getParam());
+    QUERY_FIELD_MAPPING.put("4", OccurrenceSearchParameter.YEAR.getParam());
+    QUERY_FIELD_MAPPING.put("5", OccurrenceSearchParameter.MONTH.getParam());
+    QUERY_FIELD_MAPPING.put("6", OccurrenceSearchParameter.CATALOGUE_NUMBER.getParam());
+    QUERY_FIELD_MAPPING.put("7", OccurrenceSearchParameter.HIGHER_TAXON_KEY.getParam());
+    QUERY_FIELD_MAPPING.put("8", OccurrenceSearchParameter.COLLECTOR_NAME.getParam());
+    QUERY_FIELD_MAPPING.put("9", OccurrenceSearchParameter.BASIS_OF_RECORD.getParam());
+    QUERY_FIELD_MAPPING.put("10", OccurrenceSearchParameter.COUNTRY_CODE.getParam());
+    QUERY_FIELD_MAPPING.put("11", OccurrenceSearchParameter.DAY.getParam());
 
   }
 
