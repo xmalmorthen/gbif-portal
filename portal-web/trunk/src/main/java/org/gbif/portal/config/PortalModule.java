@@ -1,6 +1,7 @@
 package org.gbif.portal.config;
 
 import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
+import org.gbif.metrics.ws.client.guice.MetricsWsClientModule;
 import org.gbif.occurrence.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.occurrencestore.download.ws.client.guice.OccurrenceDownloadWsClientModule;
 import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
@@ -37,6 +38,9 @@ public class PortalModule extends AbstractModule {
 
       // bind the occurrence service
       install(new OccurrenceWsClientModule(properties));
+
+      // bind the metrics service
+      install(new MetricsWsClientModule(properties));
     } catch (IllegalArgumentException e) {
       this.addError(e);
     } catch (IOException e) {

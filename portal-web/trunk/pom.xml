@@ -56,6 +56,8 @@
     <occurrence-download.version>0.2</occurrence-download.version>
     <occurrence-api.version>0.2-SNAPSHOT</occurrence-api.version>
     <occurrence-ws-client.version>0.2-SNAPSHOT</occurrence-ws-client.version>
+    <metrics-api.version>0.2-SNAPSHOT</metrics-api.version>
+    <metrics-ws-client.version>0.2-SNAPSHOT</metrics-ws-client.version>
     <drupal-mybatis.version>0.2</drupal-mybatis.version>
 
     <freemarker.version>2.3.19</freemarker.version>
@@ -73,6 +75,7 @@
     <cas.version>3.2.1</cas.version>
     <xerces.version>2.9.1</xerces.version>
     <opensaml.version>1.1</opensaml.version>
+    <curator-framework.version>1.1.16</curator-framework.version>
   </properties>
 
   <scm>
@@ -280,6 +283,16 @@
       <version>${occurrence-ws-client.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.gbif.metrics</groupId>
+      <artifactId>metrics-api</artifactId>
+      <version>${metrics-api.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif.metrics</groupId>
+      <artifactId>metrics-ws-client</artifactId>
+      <version>${metrics-ws-client.version}</version>
+    </dependency>            
+    <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>drupal-mybatis</artifactId>
       <version>${drupal-mybatis.version}</version>
@@ -443,6 +456,11 @@
       <artifactId>bval-guice</artifactId>
       <version>${bval.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.netflix.curator</groupId>
+      <artifactId>curator-framework</artifactId>
+      <version>${curator-framework.version}</version>
+    </dependency> 
   </dependencies>
 
   <profiles>

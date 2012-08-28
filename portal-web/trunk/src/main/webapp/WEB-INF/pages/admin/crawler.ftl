@@ -52,14 +52,30 @@ $(document).ready(function() {
     <div class="content">
 
       <div class="header">
-        <div class="left">
           <h2>Crawling monitoring</h2>        
-        </div>
-        <div class="right">
-          <h3>Filters</h3>
-        </div>
       </div>
-        <div class="left">
+          <table class><tr><td>
+          <p /><br />
+          Hosting institution in node:<br/>
+          <@s.select name="hostingNodesList" value="'${(member!).endorsingNodeKey!}'" list="nodes" 
+            listKey="key" listValue="title" headerKey="" headerValue="Choose a node" cssClass="selectBox" label="ddd" labelposition="top"/>
+          <br />
+          Hosting institution:<br/>
+          <@s.select name="hostingPublisherList" value="'${(member!).endorsingNodeKey!}'"
+            headerKey="" headerValue="Choose a publisher" cssClass="selectBox"/>          
+          <br />    
+          Owning institution in node:<br/>         
+          <@s.select name="owningNodesList" value="'${(member!).endorsingNodeKey!}'" list="nodes" 
+            listKey="key" listValue="title" headerKey="" headerValue="Choose a node" cssClass="selectBox"/>
+          <br />
+          Owning institution:<br/>
+          <@s.select name="owningPublisherList" value="'${(member!).endorsingNodeKey!}'"
+            headerKey="" headerValue="Choose a publisher" cssClass="selectBox"/>     
+          </td><td>
+          <#list occurrenceEndpoints as endpoint>
+            <@s.checkbox label="name" name="name" value="name"/> ${endpoint}<br/>
+          </#list> 
+          </td></tr></table>
           <table id="table_id" class="display">
             <thead>
               <tr>
@@ -75,151 +91,21 @@ $(document).ready(function() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>BCRC</td>
-                <td>Archaea Collection in BCRC</td>
-                <td>340,000</td>
-                <td>340,000</td>
-                <td>340,000</td>
-                <td>0</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-              </tr>
-              <tr>
-                <td>Association for Nature Wolf</td>
-                <td>Bats of Poland</td>
-                <td>450,000</td>
-                <td>455,000</td>
-                <td>447,000</td>
-                <td>3000 <a href="#">[details]</a></td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-              </tr>
-              <tr>
-                <td>National Biodiversity Centre</td>
-                <td>Bees of Ireland</td>
-                <td>3,120</td>
-                <td>3,100</td>
-                <td>3,100</td>
-                <td>20 <a href="#">[details]</a></td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-              </tr>
-              <tr>
-                <td>Museum of Natural History</td>
-                <td>Collection of Coleoptera</td>
-                <td>N/A</td>
-                <td>5,500</td>
-                <td>5,000</td>
-                <td>250 <a href="#">[details]</a></td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-              </tr>
-              <tr>
-                <td>University of Warsaw</td>
-                <td>Herbarium BSG Vascular Plants</td>
-                <td>N/A</td>
-                <td>10,300</td>
-                <td>10,100</td>
-                <td>150 <a href="#">[details]</a></td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-              </tr>
-              <tr>
-                <td>Museum of Natural History</td>
-                <td>Collection of Coleoptera</td>
-                <td>N/A</td>
-                <td>5,500</td>
-                <td>5,000</td>
-                <td>250 <a href="#">[details]</a></td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-              </tr>
-              <tr>
-                <td>University of Warsaw</td>
-                <td>Herbarium BSG Vascular Plants</td>
-                <td>N/A</td>
-                <td>10,300</td>
-                <td>10,100</td>
-                <td>150 <a href="#">[details]</a></td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-              </tr>
-              <tr>
-                <td>Museum of Natural History</td>
-                <td>Collection of Coleoptera</td>
-                <td>N/A</td>
-                <td>5,500</td>
-                <td>5,000</td>
-                <td>250 <a href="#">[details]</a></td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-              </tr>
-              <tr>
-                <td>University of Warsaw</td>
-                <td>Herbarium BSG Vascular Plants</td>
-                <td>N/A</td>
-                <td>10,300</td>
-                <td>10,100</td>
-                <td>150 <a href="#">[details]</a></td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-              </tr>
-              <tr>
-                <td>Museum of Natural History</td>
-                <td>Collection of Coleoptera</td>
-                <td>N/A</td>
-                <td>5,500</td>
-                <td>5,000</td>
-                <td>250 <a href="#">[details]</a></td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-              </tr>
-              <tr>
-                <td>University of Warsaw</td>
-                <td>Herbarium BSG Vascular Plants</td>
-                <td>N/A</td>
-                <td>10,300</td>
-                <td>10,100</td>
-                <td>150 <a href="#">[details]</a></td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-                <td>2012-7-17</td>
-              </tr>
+              <#list metrics as ds>
+                <tr>
+                  <td><a href="${baseUrl}/organization/${ds.dataset.owningOrganizationKey!}">${ds.owningOrganizationName!}</a></td>
+                  <td><a href="${baseUrl}/dataset/${ds.dataset.key!}">${ds.dataset.title!}</a></td>
+                  <td>0</td>
+                  <td>${(ds.metrics.harvestedRecords)!"--"}</td>
+                  <td>${(ds.metrics.harvestedRecords)!"--"}</td>
+                  <td>${(ds.metrics.droppedRecords)!"--"}</td>
+                  <td>${(ds.metrics.harvestingStart)!"--"}</td>
+                  <td>${(ds.metrics.harvestingFinished)!"--"}</td>
+                  <td>${(ds.metrics.harvestingFinished)!"--"}</td>
+                </tr>
+              </#list>
             </tbody>
           </table>  
-        </div>
-        <div class="right">
-          Hosting institution in node:
-          <@s.select name="hostingNodesList" value="'${(member!).endorsingNodeKey!}'" list="nodes" 
-            listKey="key" listValue="title" headerKey="" headerValue="Choose a node" cssClass="selectBox"/>
-          <p /><br />
-          Hosting institution:
-          <@s.select name="hostingPublisherList" value="'${(member!).endorsingNodeKey!}'"
-            headerKey="" headerValue="Choose a publisher" cssClass="selectBox"/>          
-          <p /><br />    
-          Owning institution in node:          
-          <@s.select name="owningNodesList" value="'${(member!).endorsingNodeKey!}'" list="nodes" 
-            listKey="key" listValue="title" headerKey="" headerValue="Choose a node" cssClass="selectBox"/>
-          <p /><br />
-          Owning institution:
-          <@s.select name="owningPublisherList" value="'${(member!).endorsingNodeKey!}'"
-            headerKey="" headerValue="Choose a publisher" cssClass="selectBox"/>     
-          <p /><br />
-          <#list occurrenceEndpoints as endpoint>
-            <@s.checkbox label="name" name="name" value="name"/> ${endpoint}<br/>
-          </#list>
-        </div>
     </div>
     <footer></footer>
   </article>
