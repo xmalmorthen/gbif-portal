@@ -154,11 +154,9 @@
       </#if>
     </a></li>
   </#list>
-    <#-- TODO link to EOL once we have their archive
   <#if usage.nubKey??>
-    <li><a href="http://eol.org/gbif/${usage.nubKey?c}" title="EOL">EOL</a></li>
+    <li><a href="http://eol.org/search/?q=${usage.canonicalOrScientificName}" title="EOL">EOL</a></li>
   </#if>
-  -->
     <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
 
   <#if (usage.lsids?size>0)>
