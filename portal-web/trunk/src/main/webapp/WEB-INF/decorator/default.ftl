@@ -62,7 +62,7 @@
   <script src="<@s.url value='/js/vendor/modernizr-1.7.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
-
+  <script type="text/javascript" src="<@s.url value='/js/menu.js'/>"></script>
 
   ${head}
 

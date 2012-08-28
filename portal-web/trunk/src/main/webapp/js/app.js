@@ -75,32 +75,6 @@ function addFilter(filter, placeholder) {
 
 $(function() {
 
-  $(".photo_gallery").bindSlideshow();
-
-  // HEADER MENU
-  var $nav = $("header #top nav");
-
-  $nav.find("> ul div").on("mouseleave", function() {
-    $(this).hide();
-    $(this).parent().removeClass("selected");
-  });
-
-  $nav.find("> ul > li > a").on("mouseenter", function() {
-
-    $(this).parent().addClass("selected");
-    var $div = $(this).parent().find("div");
-    $div.show();
-
-    $nav.find("> ul div").each(function(i, e) {
-
-      if ($(e).attr("class") != $div.attr("class")) {
-        $(e).hide();
-        $(e).parent().removeClass("selected");
-      }
-    });
-  });
-
-
   // DROPDOWN
 
   $(".dropdown .title").on("click", function(e) {
@@ -117,11 +91,13 @@ $(function() {
     addFilter(filter, placeholder);
   });
 
-
   $(document).on("click", "tr.filters .close", removeFilter);
   $(document).on("click", "tr.filter .close", removeRecentlyAddedFilter);
 
   $(document).on("click", "a.button[data-action:'add-new-filter']", addNewFilter);
+
+  // PHOTO GALLERY
+  $(".photo_gallery").bindSlideshow();
 
   // GRAPHS
   $("div.graph li a, div.bargraph li a").on("click", function(e) {
