@@ -277,10 +277,21 @@
 
 <#if dataset.type?has_content && dataset.type == "CHECKLIST">
 <@common.article id="taxonomy" title="Browse Classification" class="taxonomies">
-<div class="left">
-  <#include "/WEB-INF/pages/species/inc/taxbrowser.ftl">
-</div>
-<div class="right">
+<div class="fullwidth">
+  <div id="taxonomicBrowser">
+    <div class="breadcrumb">
+      <ul>
+        <li spid="-1" cid="${id}"><a href="#">All</a></li>
+      </ul>
+    </div>
+    <div class="inner">
+      <div class="sp">
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div class="loadingTaxa"><span></span></div>
+  </div>
 </div>
 </@common.article>
 </#if>

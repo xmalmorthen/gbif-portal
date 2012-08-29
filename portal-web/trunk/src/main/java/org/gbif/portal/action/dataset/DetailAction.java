@@ -16,6 +16,7 @@ import org.gbif.registry.api.service.TechnicalInstallationService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -100,6 +101,10 @@ public class DetailAction extends DatasetBaseAction {
         }
       }
     }
+  }
+
+  public Map<String, String> getResourceBundleProperties() {
+    return getResourceBundleProperties("enum.rank.");
   }
 
 }

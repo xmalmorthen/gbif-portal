@@ -1819,7 +1819,7 @@ init();
   var // Public methods exposed to $.fn.taxonomicExplorer()
   methods = {}, level = 0, zIndex = 0, stop = false, stopBack = false, // Some nice default values
   defaults = {
-    width: 540,
+    width: 869,
     transitionSpeed:300,
     liHeight: 25
   };
@@ -1831,10 +1831,11 @@ init();
 
     return this.each(function() {
       var // The current <select> element
-      $this = $(this), $breadcrumb = false, // for paging
-      $limit = 45, $offset = 20, // We store lots of great stuff using jQuery data
+      $this = $(this),
+      $breadcrumb = false,
+      $limit = 45, $offset=20 // for paging
       data = $this.data(store) || {}, // This gets applied to the 'ps_container' element
-      id = $this.attr('id') || $this.attr('name'), // This gets updated to be equal to the longest <option> element
+      id = $this.attr('id'), // This gets updated to be equal to the longest <option> element
       width = settings.width || $this.outerWidth(), // The completed ps_container element
       $ps = false;
 
@@ -1849,7 +1850,6 @@ init();
 
       // Update the reference to $ps
       $ps = $("#" + id);
-      //$ps.prepend('<div class="breadcrumb"><li class="last">All</li></div>');
       $breadcrumb = $ps.find(".breadcrumb");
 
       // Save the updated $ps reference into our data object
@@ -1862,26 +1862,11 @@ init();
 
       $this.find('.inner').jScrollPane({ verticalDragMinHeight: 20});
 
-      // get the values from the breadcrumb. To check whether there are children available in the tax tree.
+      // No, display the root taxa.
       var $cid = $breadcrumb.find("li").attr("cid");
-      var $spid = $breadcrumb.find("li").last().attr("spid");
-
-      $offset = 0;
-      // is there a single usage selected yet?
-      if ($spid < 0) {
-        // No, display the root taxa.
-        $url = cfg.wsClb + "name_usage/root/" + $cid + "?offset=" + $offset + "&limit=" + $limit;
-        //create the tree with the root taxa
-        recreateTree($url);
-        //return the offset to its original index
-      } else {
-        // usage selected, load its children
-        $url = cfg.wsClb + "name_usage/" + $spid + "/children?offset=" + $offset + "&limit=" + $limit;
-        //create the tree with the usage children
-        recreateTree($url);
-      }
-      //return the offset to its original index
-      $offset = 20;
+      $url = cfg.wsClb + "name_usage/root/" + $cid + "?offset=0&limit=" + $limit;
+      //create the tree with the root taxa
+      recreateTree($url);
 
 
       $(".inner").scroll(function() {
@@ -1911,53 +1896,35 @@ init();
         }
       });
 
-      // Add the adjacent bars next to each taxonomic element
-      function addBar($li) {
-        var species = parseInt($li.attr("species"));
-        var children = parseInt($li.attr("children"));
-        var clase = "";
+      function addCommas(str) {
+          var amount = new String(str);
+          amount = amount.split("").reverse();
 
-        if (children > 0) {
-          $li.find("span:first").addClass('clickable');
-          clase = " clickable";
-        }
-
-        $li.find("span:first").after('<div class="bar' + clase + '" style="width:' + (species + 10) +
-        'px"><div class="count">' + species + '</div></div>');
-
-      $li.find("span:first").parent().hover(function() {
-        $li.find(".count:first").show();
-        $li.find("a:first").show();
-      }, function() {
-        $li.find(".count:first").hide();
-        $li.find("a:first").hide();
-      });
-      }
-
-      // Add the adjacent bars next to each taxonomic element
-      function addBars($ul) {
-        $ul.find("> li").each(function() {
-          addBar($(this));
-        })
+          var output = "";
+          for ( var i = 0; i <= amount.length-1; i++ ){
+              output = amount[i] + output;
+              if ((i+1) % 3 == 0 && (amount.length-1) !== i)output = ',' + output;
+          }
+          return output;
       }
 
       // render taxonomic tree
       function renderUsages($ps, data){
         $(data.results).each(function() {
-          $htmlContent = "<li species=\"" + this.numSpecies + "\" children=\"" + this.numChildren + "\">";
-          $htmlContent += "<span spid=\"" + this.key + "\" spname=\"" + this.canonicalOrScientificName + "\">";
-          $htmlContent += this.canonicalOrScientificName;
-          $htmlContent += "<span class=\"rank\">" + $i18nresources.getString("enum.rank." + (this.rank.interpreted || "unknown")) + "</span>";
-          $htmlContent += "</span>";
-          $htmlContent += "<a href=\"" + cfg.baseUrl + "/species/" + this.key + "\" style=\"display: none; \">see details</a></li>";
+          $htmlContent = '<li spid="' + this.key + '">';
+          $htmlContent += '<span class="sciname">' + this.canonicalOrScientificName + "</span>";
+          $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank.interpreted || "unknown")) + "</span>";
+          $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";
+          $htmlContent += '</span>';
+          $htmlContent += '<a href="' + cfg.baseUrl + "/species/" + this.key + '" style="display: none; ">see details</a></li>';
           $ps.find(".sp ul").append($htmlContent);
         })
-        //add the adjacent bars
-        addBars($ps.find(".sp ul"));
-      }
-      ;
-
-      addBars($ps.find("ul:first"));
+        $ps.find(".sp ul li").hover(function() {
+          $(this).find("a:first").show();
+        }, function() {
+          $(this).find("a:first").hide();
+        });
+      };
 
       // Function for recreating the taxonomic tree
       function recreateTree($wsUrl) {
@@ -1982,8 +1949,9 @@ init();
           $offset += $limit;
       }
 
-      // If the user clicks on a bar
-      $ps.find(".sp .clickable").live('click', function(e) {
+
+      // If the user clicks on a name in the list
+      $ps.find(".sp span.sciname").live('click', function(e) {
         e.preventDefault();
         //reset paging values
         $offset = 0;
@@ -1994,9 +1962,9 @@ init();
         $last_li.wrapInner('<a href="#"></a>');
 
         // get the id of the taxonomic element clicked and add it to the breadcrumb
-        var $spid = $(this).parent().find("span:first").attr("spid");
+        var $spid = $(this).parent().attr("spid");
         // get the name of the taxonomic element clicked and add it to the breadcrumb
-        var $spname = $(this).parent().find("span:first").attr("spname");
+        var $spname = $(this).text();
         // format HTML that will be appended to the breadcrumb
         var $item = '<li spid="' + $spid + '" class="last" style="opacity:0;">' + $spname + '</li>';
         $breadcrumb.append($item);
@@ -2035,9 +2003,8 @@ init();
           if ($spidBC < 0) {
             $htmlContent = "<li spid=\"-1\" cid=\"" + $cid + "\"><a href=\"#\">All</a></li>";
             $BC.html($htmlContent);
-          }
-          // show the normal classification breadcrumb
-          else {
+          } else {
+            // show the normal classification breadcrumb
             $.getJSON(cfg.wsClb + "name_usage/" + $spidBC + "?callback=?", function(data) {
               $htmlContent = "<li spid=\"-1\" cid=\"" + data.checklistKey + "\"><a href=\"#\">All</a></li>";
               $.each(data.higherClassificationMap, function(speciesId, speciesName) {

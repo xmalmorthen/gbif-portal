@@ -84,14 +84,6 @@ span.small {
   color: @cGray2;
 }
 
-#content article.taxonomies .content .left .sp ul li span.rank {
-  display: inline;
-  float: right;
-  width: 50px;
-  font-size: 11px;
-  color: #bbb;
-}
-
 span.number {
   font-family: "DINOT-Regular", sans-serif;
   color: @cGray4;
@@ -1945,6 +1937,13 @@ body.register footer {
   border-top: 1px solid #e0e0e0;
 }
 
+#content article .content .fullwidth {
+  float: left;
+  width: 869px;
+  padding-top: 25px;
+  border-top: 1px solid #e0e0e0;
+}
+
 #content article .content .right.no_border {
   border-top: none;
   padding-top: 0;
@@ -2223,6 +2222,17 @@ body.register footer {
   }
 }
 
+#content article .content .logo_holder {
+  background: no-repeat left top;
+  padding: 10px;
+  margin: 0 0 10px -2px;
+
+  .logo {
+    max-height: 93px;
+    max-width: 136px;
+  }
+}
+
 #content article.big div.content > .header {
   text-align: center;
   margin-bottom: 25px;
@@ -2356,6 +2366,10 @@ body.register footer {
   }
 }
 
+#content article .right .species_image img {
+  max-width: 230px;
+  max-height: 250px;
+}
 #content article .left.no-border,
 #content article .right.no-border { border: none; }
 

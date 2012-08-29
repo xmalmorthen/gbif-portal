@@ -202,10 +202,6 @@ public class DetailAction extends UsageBaseAction {
     return a + ", " + b;
   }
 
-  public Map<String, String> getResourceBundleProperties() {
-    return getResourceBundleProperties("enum.rank.");
-  }
-
   public List<UUID> getRelatedDatasets() {
     return relatedDatasets;
   }

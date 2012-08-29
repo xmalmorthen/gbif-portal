@@ -94,7 +94,7 @@
 
     <h3>Taxonomic Status</h3>
     <p>
-      ${(usage.taxonomicStatus.interpreted)!"Unknown"}
+      <@s.text name="enum.taxstatus.${(usage.taxonomicStatus.interpreted)!"UNKNOWN"}"/>
       <#if usage.synonym>
         of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
       </#if>
@@ -139,8 +139,10 @@
 
 <div class="right">
   <#if usage.images?has_content>
-  <#assign img=usage.images[0]>
-    <a href="#" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a>
+    <#assign img=usage.images[0]>
+    <div class="species_image">
+      <a href="#" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a>
+    </div>
   </#if>
 
 
@@ -328,9 +330,19 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
           </p>
         </#if>
 
-        <#if nub>
-          <h3>Dataset</h3>
-          <p><a href="<@s.url value='/species/${img1.usageKey}'/>">${(datasets.get(img1.datasetKey).title)!"???"}</a></p>
+        <#if nub || img1.link?has_content>
+        <h3>Source</h3>
+        <#assign imgTitle=common.limit( (datasets.get(img1.datasetKey).title!"???"), 28) />
+        <p>
+          <#if img1.link?has_content>
+            <a href="${img1.link}">${imgTitle}</a>
+          <#else>
+            ${imgTitle}
+          </#if>
+          <#if nub>
+            <span class="note">view <a href="<@s.url value='/species/${img1.usageKey?c}'/>">source usage</a></span>
+          </#if>
+        </p>
         </#if>
 
         <#if img1.publisher?has_content>

@@ -18,7 +18,7 @@
   <h3>
   <#assign classification=usage.higherClassificationMap />
   <#list classification?keys as key>
-    <a href="#">${classification.get(key)}</a><#if key_has_next>, </#if>
+    <a href="#">${classification.get(key)}</a><#if key_has_next> &#x203A; </#if>
   </#list>
   </h3>
 

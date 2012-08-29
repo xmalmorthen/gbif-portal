@@ -1,11 +1,10 @@
 @import "helpers";
 
-/* Taxonomies */
+/* Taxonomy browser widgets */
 
 #content article.taxonomies {
 
   .disable-selection();
-
 
   .header .left {
     h2 {
@@ -30,7 +29,7 @@
     }
   }
 
-  .content .left {
+  .content {
 
     div.inner {
       overflow: auto;
@@ -70,14 +69,12 @@
     }
 
     .sp {
-      width: 540px;
       overflow: hidden;
 
       ul {
         margin: 0;
         margin-top: 0;
         padding: 0;
-        width: 540px;
         position: relative;
 
         li {
@@ -87,58 +84,51 @@
           height: 20px;
           clear: both;
           overflow: hidden;
+          display: block;
 
-          span {
-            display: block;
-            width: 250px;
-            float: left;
-
-            .clickable {
-              color: #0099cc;
-              cursor: pointer;
-            }
+          .sciname {
+            font-size: 15px;
+            color: @cGray1;
+            padding-right: 20px;
+          }
+          .rank {
+            font-size: 11px;
+            color: @cGray3;
+            padding-right: 10px;
+          }
+          .count {
+            padding-right: 10px;
+            font-family: "DINOT-Regular", sans-serif;
+            font-size: 11px;
+            color: @cGray3;
           }
           a {
             display: none;
-            margin-left: 40px;
+            margin-left: 20px;
             font-size: 13px;
           }
-          .bar {
-            position: relative;
-            float: left;
-            height: 20px;
-            background: url("../img/green_bar.png") repeat-x center top;
-            .clickable {
-              cursor: pointer;
-              background-position: center bottom;
-            }
-            .count {
-              display: none;
-              float: right;
-              right: -40px;
-              padding-right: 10px;
-              font-family: "DINOT-Regular", sans-serif;
-              font-size: 18px;
-              color: @cGray2;
-              position: absolute;
-              bottom: 5px;
-            }
-          }
-
         }
-        ul {
-          display: none;
-          margin: 0 0 0 540px!important;
-          position: absolute;
-          top: 0;
-          background: #fff;
-        }
-
       }
     }
-  }
 
-  .content .right{
+    .left {
+      .sp {
+        width: 540px;
+        ul {
+          width: 540px;
+        }
+      }
+    }
+
+    .fullwidth{
+      .sp {
+        width: 869px;
+        ul {
+          width: 869px;
+        }
+      }
+    }
+
     dl {
       dt {
         float: left;
