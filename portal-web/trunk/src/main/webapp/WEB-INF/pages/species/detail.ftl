@@ -290,17 +290,22 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
       <#if (usage.distributions?size>0)>
         <h3>Distributions</h3>
         <ul class="notes">
+        <#assign skipped=0/>
         <#list usage.distributions as d>
-          <li>
-            ${d.locationId!} ${(d.country.interpreted)!} ${d.locality!}
-            <span class="note">
-              ${(d.lifeStage.interpreted)!} ${d.temporal!} ${(d.status.interpreted)!"Present"}
-              <#if (d.threatStatus.interpreted)??><@s.text name="enum.threatstatus.${d.threatStatus.interpreted}"/></#if>
-              ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}
-            </span>
-          </li>
+          <#if d.locationId?? || (d.country.interpreted)?? || d.locality?? >
+            <li>
+              ${d.locationId!} ${(d.country.interpreted)!} ${d.locality!}
+              <span class="note">
+                ${(d.lifeStage.interpreted)!} ${d.temporal!} ${(d.status.interpreted)!"Present"}
+                <#if (d.threatStatus.interpreted)??><@s.text name="enum.threatstatus.${d.threatStatus.interpreted}"/></#if>
+                ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}
+              </span>
+            </li>
+          <#else>
+            <#assign skipped=skipped+1/>
+          </#if>
           <#-- only show 5 distributions at max -->
-          <#if !d_has_next && d_index==4>
+          <#if !d_has_next && d_index==4+skipped>
            <li><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></li>
           </#if>
         </#list>
@@ -401,10 +406,10 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
       <div class="col">
         <h3>Occurrence datasets</h3>
         <ul class="notes">
-          <#assign more=false/>
           <#list relatedDatasets as uuid>
             <li>
-              <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">${(datasets.get(uuid).title)!uuid}</a>
+              <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">? occurrences</a>
+              <span class="note">in ${common.limit(datasets.get(uuid).title!, 50)}</span>
             </li>
             <#if uuid_has_next && uuid_index==6>
               <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">see all ${relatedDatasets?size}</a></li>
@@ -417,10 +422,9 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
       <div class="col">
         <h3>Checklists</h3>
         <ul class="notes">
-          <#assign more=false/>
           <#list related as rel>
-            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${(datasets.get(rel.datasetKey).title)!"???"}</a>
-              <span class="note">${rel.scientificName}</span>
+            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${rel.scientificName}</a>
+              <span class="note">in ${common.limit(datasets.get(rel.datasetKey).title!, 50)}</span>
             </li>
             <#if rel_has_next && rel_index==6>
               <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">see all ${related?size}</a></li>
@@ -462,8 +466,8 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
   </@common.article>
 </#if>
 
-<#if usage.publishedIn?has_content || usage.accordingTo?has_content || (usage.references?size>0)>
-  <@common.article id="references" title="Academic references">
+<#if (usage.references?size>0)>
+  <@common.article id="references" title="Bibliography">
     <div class="left">
       <#if (usage.references?size>0)>
         <h3>Bibliography</h3>
