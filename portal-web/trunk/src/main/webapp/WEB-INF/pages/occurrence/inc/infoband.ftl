@@ -10,13 +10,13 @@
 -->
 
 <content tag="infoband">
-  <h1>${nub.canonicalOrScientificName!} · ${id?c}</h1>
+  <h1>${(nub.canonicalOrScientificName)!"Unkown species"} · ${id?c}</h1>
 
   <h3><@s.text name="enum.basisofrecord.${occ.basisOfRecord!'UNKNOWN'}"/> of
     <#if occ.nubKey??>
       <a href="<@s.url value='/species/${occ.nubKey?c}'/>">${occ.scientificName}</a>
     <#else>
-      a name which cant be interpreted.
+      a name which cant be interpreted. <br/>
       Please see the <a href="<@s.url value='/occurrence/${id?c}/verbatim'/>">verbatim version</a> for source details
     </#if>
     from <a href="<@s.url value='/dataset/${dataset.key!}'/>">${dataset.title!"???"}</a> dataset.
