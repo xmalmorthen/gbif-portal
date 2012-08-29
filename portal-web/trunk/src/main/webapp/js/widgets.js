@@ -1896,18 +1896,6 @@ init();
         }
       });
 
-      function addCommas(str) {
-          var amount = new String(str);
-          amount = amount.split("").reverse();
-
-          var output = "";
-          for ( var i = 0; i <= amount.length-1; i++ ){
-              output = amount[i] + output;
-              if ((i+1) % 3 == 0 && (amount.length-1) !== i)output = ',' + output;
-          }
-          return output;
-      }
-
       // render taxonomic tree
       function renderUsages($ps, data){
         $(data.results).each(function() {

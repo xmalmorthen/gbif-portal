@@ -10,6 +10,38 @@
     <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
     <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
+    <script type="text/javascript">
+      // render taxonomic tree
+      var $taxoffset=0;
+
+      function renderUsages($ps, data){
+        $(data.results).each(function() {
+          $htmlContent = '<li spid="' + this.key + '">';
+          $htmlContent += '<span class="sciname"><a href="#">' + this.canonicalOrScientificName + "</a></span>";
+          $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank.interpreted || "unknown")) + "</span>";
+          $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";
+          $htmlContent += '</span></li>';
+          $ps.find(".sp ul").append($htmlContent);
+        })
+      };
+
+      // Function for loading and rendering children
+      function loadChildren($spid) {
+        $ps=$("#taxonomicChildren");
+        var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?offset=0" + $taxoffset + "&limit=25";
+        // show loading wheel
+        $ps.find(".loadingTaxa span").html("<img src='../img/taxbrowser-loader.gif'> Loading children ...").show();
+        //get the new list of children
+        $.getJSON($wsUrl + '&callback=?', function(data) {
+          renderUsages($ps, data);
+        });
+        $taxoffset += 25;
+      }
+
+      $(function() {
+        loadChildren(${id?c});
+      });
+    </script>
   </content>
 </#if>
 <#-- RDFa -->
@@ -94,7 +126,7 @@
 
     <h3>Taxonomic Status</h3>
     <p>
-      <@s.text name="enum.taxstatus.${(usage.taxonomicStatus.interpreted)!"UNKNOWN"}"/>
+      <@s.text name="enum.taxstatus.${(usage.taxonomicStatus.interpreted)!'UNKNOWN'}"/>
       <#if usage.synonym>
         of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
       </#if>
