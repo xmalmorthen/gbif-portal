@@ -4,12 +4,13 @@
 <head>
   <title>${usage.scientificName} - Checklist View</title>
 
-<#if nub>
   <content tag="extra_scripts">
+  <#if nub>
     <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
     <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
     <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
+  </#if>
     <script type="text/javascript">
       // render taxonomic tree
       var $taxoffset=0;
@@ -23,6 +24,8 @@
           $htmlContent += '</span></li>';
           $ps.find(".sp ul").append($htmlContent);
         })
+        // hide loading wheel
+        $ps.find(".loadingTaxa").fadeOut("slow");
       };
 
       // Function for loading and rendering children
@@ -43,7 +46,6 @@
       });
     </script>
   </content>
-</#if>
 <#-- RDFa -->
   <meta property="dwc:scientificName" content="${usage.scientificName!}"/>
   <meta property="dwc:kingdom" content="${usage.kingdom!}"/>
@@ -211,17 +213,17 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
 <@common.article id="taxonomy" title=title class="taxonomies">
     <div class="left">
       <div id="taxonomicChildren">
-        <ul>
-        </ul>
+        <div class="inner">
+          <div class="sp">
+            <ul>
+            </ul>
+          </div>
+        </div>
         <div class="loadingTaxa"><span></span></div>
       </div>
     </div>
 
     <div class="right">
-      <h3>Taxonomic classification
-        <div class="extended">[<a href="<@s.url value='/species/${id?c}/classification'/>">full</a>]</div>
-      </h3>
-
       <dl>
       <#list rankEnum as r>
         <dt><@s.text name="enum.rank.${r}"/></dt>
@@ -239,6 +241,7 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
           </#if>
         </dd>
       </#list>
+        <p><a href="<@s.url value='/species/${id?c}/classification'/>">complete classification</a></p>
 
       <#if usage.accordingTo?has_content>
         <h3>According to</h3>
