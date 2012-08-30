@@ -1872,8 +1872,7 @@ init();
       $(".inner").scroll(function() {
         if (($(".jspTrack").height() <= ( parseInt($(".jspDrag").css("top")) + $(".jspDrag").height() + 35)) &&
         stop == false) {
-          $ps.find(".loadingTaxa span").html("<img src=\"../img/taxbrowser-loader.gif\"> Loading more elements...")
-          .show();
+          $ps.find(".loadingTaxa").show();
           //set next paging values
           $spid = $ps.find(".breadcrumb li:last").attr("spid");
           var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?&offset=" + $offset + "&limit=" +
@@ -1888,7 +1887,6 @@ init();
             $ps.find(".sp").scrollTo("+=" + data.settings.width, data.settings.transitionSpeed,
               {axis: "x", onAfter: function() {
                 _resize($ps, $ps.find(".sp ul").find("> li").length, $this);
-                $ps.find(".loadingTaxa span").fadeOut("slow");
                 //increment offset
                 $offset += $limit;
               }});
@@ -1912,6 +1910,7 @@ init();
         }, function() {
           $(this).find("a:first").hide();
         });
+        $ps.find(".loadingTaxa").fadeOut("slow");
       };
 
       // Function for recreating the taxonomic tree

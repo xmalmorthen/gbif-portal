@@ -290,7 +290,7 @@
         </ul>
       </div>
     </div>
-    <div class="loadingTaxa"><span></span></div>
+    <div class="loadingTaxa"><span><img src="../img/taxbrowser-loader.gif"> Loading more elements...</span></div>
   </div>
 </div>
 </@common.article>

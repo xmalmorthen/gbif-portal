@@ -33,7 +33,7 @@
         $ps=$("#taxonomicChildren");
         var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?offset=0" + $taxoffset + "&limit=25";
         // show loading wheel
-        $ps.find(".loadingTaxa span").html("<img src='../img/taxbrowser-loader.gif'> Loading children ...").show();
+        $ps.find(".loadingTaxa").show();
         //get the new list of children
         $.getJSON($wsUrl + '&callback=?', function(data) {
           renderUsages($ps, data);
@@ -219,7 +219,7 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
             </ul>
           </div>
         </div>
-        <div class="loadingTaxa"><span></span></div>
+        <div class="loadingTaxa"><span><img src="../img/taxbrowser-loader.gif"> Loading more elements...</span></div>
       </div>
     </div>
 
