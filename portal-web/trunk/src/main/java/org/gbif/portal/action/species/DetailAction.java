@@ -45,7 +45,7 @@ public class DetailAction extends UsageBaseAction {
 
   private NameUsage basionym;
   // list of unique names listing all sources for each
-  private Map<String, List<VernacularName>> vernacularNames = Maps.newLinkedHashMap();
+  private final Map<String, List<VernacularName>> vernacularNames = Maps.newLinkedHashMap();
   private final List<NameUsage> related = new LinkedList<NameUsage>();
   private List<UUID> relatedDatasets = Lists.newArrayList();
 
@@ -57,7 +57,57 @@ public class DetailAction extends UsageBaseAction {
   private final Pageable page1 = new PagingRequest(0, 1);
 
   private final Map<String, Integer> typeStatusCounts = Maps.newHashMap();
-  private DescriptionToc descriptionToc = new DescriptionToc();
+  private final DescriptionToc descriptionToc = new DescriptionToc();
+
+  private static String nullSafeConcat(String a, String b) {
+    if (a == null) {
+      return b;
+    }
+    if (b == null) {
+      return a;
+    }
+    return a + ", " + b;
+  }
+
+  private static Integer nullSafeMax(Integer a, Integer b) {
+    if (a == null) {
+      return b;
+    }
+    if (b == null) {
+      return a;
+    }
+    return Math.max(a, b);
+  }
+
+  private static Boolean nullSafeOr(Boolean a, Boolean b) {
+    if (a == null) {
+      return b;
+    }
+    if (b == null) {
+      return a;
+    }
+    return a || b;
+  }
+
+  /**
+   * Iterate through all types and count the number of times each different
+   * typeStatus appears. Store this information in a map, key=typeStatus and value=count. This map is used in the .ftl
+   * to filter the TypeSpecimen.
+   */
+  public void calcTypeSpecimenFacets() {
+    for (TypeSpecimen ts : usage.getTypeSpecimens()) {
+      String typeStatus = Strings.emptyToNull(ts.getTypeStatus());
+      if (typeStatus != null) {
+        if (typeStatusCounts.containsKey(typeStatus)) {
+          int count = typeStatusCounts.get(typeStatus);
+          count++;
+          typeStatusCounts.put(typeStatus, count);
+        } else {
+          typeStatusCounts.put(typeStatus, 1);
+        }
+      }
+    }
+  }
 
   @Override
   public String execute() {
@@ -98,6 +148,54 @@ public class DetailAction extends UsageBaseAction {
     return SUCCESS;
   }
 
+  public NameUsage getBasionym() {
+    return basionym;
+  }
+
+  public DescriptionToc getDescriptionToc() {
+    return descriptionToc;
+  }
+
+  public List<NameUsage> getRelated() {
+    return related;
+  }
+
+  public List<UUID> getRelatedDatasets() {
+    return relatedDatasets;
+  }
+
+  public Map<String, String> getResourceBundleProperties() {
+    return getResourceBundleProperties("enum.rank.");
+  }
+
+  public Map<String, Integer> getTypeStatusCounts() {
+    return typeStatusCounts;
+  }
+
+  public Map<String, List<VernacularName>> getVernacularNames() {
+    return vernacularNames;
+  }
+
+  /**
+   * Filters duplicates from vernacular names.
+   */
+  private void distinctVernNames() {
+    for (VernacularName v : usage.getVernacularNames()) {
+      if (Strings.isNullOrEmpty(v.getVernacularName())) {
+        continue;
+      }
+      String lang = "";
+      if (v.getLanguage() != null && v.getLanguage().getInterpreted() != null) {
+        lang = v.getLanguage().getInterpreted().getIso2LetterCode();
+      }
+      String id = v.getVernacularName() + "||" + lang;
+      if (!vernacularNames.containsKey(id)) {
+        vernacularNames.put(id, Lists.<VernacularName>newArrayList());
+      }
+      vernacularNames.get(id).add(v);
+    }
+  }
+
   private void loadUsageDetails() {
     // basionym
     if (usage.getBasionymKey() != null) {
@@ -126,7 +224,7 @@ public class DetailAction extends UsageBaseAction {
     // get references
     usage.setReferences(referenceService.listByUsage(id, page10).getResults());
     // get description content table
-    for (Description d : descriptionService.listByUsage(id, getLocale(), page20).getResults()) {
+    for (Description d : descriptionService.listByUsage(id, page20).getResults()) {
       descriptionToc.addDescription(d);
     }
     // get distributions
@@ -137,91 +235,5 @@ public class DetailAction extends UsageBaseAction {
     usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
     // get species profiles
     usage.setSpeciesProfiles(speciesProfileService.listByUsage(id, page10).getResults());
-  }
-
-  /**
-   * Filters duplicates from vernacular names.
-   */
-  private void distinctVernNames() {
-    for (VernacularName v : usage.getVernacularNames()) {
-      if (Strings.isNullOrEmpty(v.getVernacularName())) {
-        continue;
-      }
-      String lang = "";
-      if (v.getLanguage() != null && v.getLanguage().getInterpreted() != null){
-        lang = v.getLanguage().getInterpreted().getIso2LetterCode();
-      }
-      String id = v.getVernacularName() + "||" + lang;
-      if (!vernacularNames.containsKey(id)) {
-        vernacularNames.put(id, Lists.<VernacularName>newArrayList());
-      }
-      vernacularNames.get(id).add(v);
-    }
-  }
-
-  /**
-   * Iterate through all types and count the number of times each different
-   * typeStatus appears. Store this information in a map, key=typeStatus and value=count. This map is used in the .ftl
-   * to filter the TypeSpecimen.
-   */
-  public void calcTypeSpecimenFacets() {
-    for (TypeSpecimen ts : usage.getTypeSpecimens()) {
-      String typeStatus = Strings.emptyToNull(ts.getTypeStatus());
-      if (typeStatus != null) {
-        if (typeStatusCounts.containsKey(typeStatus)) {
-          int count = typeStatusCounts.get(typeStatus);
-          count++;
-          typeStatusCounts.put(typeStatus, count);
-        } else {
-          typeStatusCounts.put(typeStatus, 1);
-        }
-      }
-    }
-  }
-
-  public NameUsage getBasionym() {
-    return basionym;
-  }
-
-  public List<NameUsage> getRelated() {
-    return related;
-  }
-
-  private static Integer nullSafeMax(Integer a, Integer b) {
-    if (a == null) return b;
-    if (b == null) return a;
-    return Math.max(a, b);
-  }
-
-  private static Boolean nullSafeOr(Boolean a, Boolean b) {
-    if (a == null) return b;
-    if (b == null) return a;
-    return a || b;
-  }
-
-  private static String nullSafeConcat(String a, String b) {
-    if (a == null) return b;
-    if (b == null) return a;
-    return a + ", " + b;
-  }
-
-  public Map<String, String> getResourceBundleProperties() {
-    return getResourceBundleProperties("enum.rank.");
-  }
-
-  public List<UUID> getRelatedDatasets() {
-    return relatedDatasets;
-  }
-
-  public Map<String, Integer> getTypeStatusCounts() {
-    return typeStatusCounts;
-  }
-
-  public Map<String, List<VernacularName>> getVernacularNames() {
-    return vernacularNames;
-  }
-
-  public DescriptionToc getDescriptionToc() {
-    return descriptionToc;
   }
 }

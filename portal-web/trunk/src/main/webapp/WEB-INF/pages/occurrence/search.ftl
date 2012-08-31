@@ -7,10 +7,44 @@
     <!--<link rel="stylesheet" href="<@s.url value='/css/occ_table.css?v=2'/>"/>  -->
     <script type="text/javascript" src="<@s.url value='/js/custom/jquery.gbif.filters.js'/>"></script>
     <script src='<@s.url value='/js/vendor/jquery.url.js'/>' type='text/javascript'></script>
-    <script>
+    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>
+    <script>     
+      
+      function applyOccurrenceFilters(){
+        var params = {};         
+        if($("#datasetKey").val()){
+          params['datasetKey'] = $("#datasetKey").val();            
+        }
+        if($("#nubKey").val()){
+          params['nubKey'] = $("#nubKey").val();
+        }        
+        var u = $.url();
+        
+        $("div .filter").find(":input[type=hidden]").each( function(idx,el){
+          if ($(el).attr("key") !== undefined) {
+            params[el.name] = $(el).attr("key");
+          } else {
+            params[el.name] = el.value;
+          }
+        })
+        window.location = "<@s.url value='/occurrence/search'/>?" + $.param(params);
+        return true;  // submit?
+      }
+      <#if filters.keySet().size() gt 0>  
+          var filtersFromRequest = new Object();        
+         <#list filters.keySet() as filterKey>
+           <#list filters.get(filterKey) as filterValue>
+             //the title is taken from the link that has the filterKey value as its data-filter attribute=
+             filtersFromRequest['${filterKey}']  = { title: $('a[data-filter="${filterKey}"]').attr('title'), value:'${action.getFilterTitle(filterKey,filterValue)}', key: '${filterValue}', paramName: '${filterKey}' };             
+           </#list>
+         </#list>
+      </#if>
+      
 
       $(function() {
-
+      
+      
       var query = $('#query-container').Query({
         removeFilter: function(event, data) {
           if(data.widget._filters.length == 0) {          
@@ -76,7 +110,7 @@
     <article class="ocurrence_results">
     <header></header>
 
-    <div class="content">
+    <div class="content" id="content">
 
       <table class="results">
 
@@ -95,13 +129,13 @@
               <div class="dropdown-menu filters">
                 <div class="tip"></div>
                 <ul>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="scientific_name">Scientific name</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="location">Location</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="collector">Collector</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="basis_of_record">Basis of record</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="dataset">Dataset</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="collection_date">Collection date</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="catalogue_number">Catalogue number</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="nubKey"  title="Scientific name" template-filter="template-scientific-name-filter" class="species_autosuggest">Scientific name</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="coordinate" title="Coordinate" template-filter="template-add-filter">Location</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="collectorName" title="Collector name" template-filter="template-add-filter">Collector</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="basisOfRecord" title="Basis Of Record" template-filter="template-add-filter">Basis of record</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="datasetKey" title="Dataset" template-filter="template-add-filter">Dataset</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="collectionDate" title="Collection date" template-filter="template-add-filter">Collection date</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="catalogueNumber" title="Catalogue number" template-filter="template-add-filter">Catalogue number</a></li>
                   <li class="divider"></li>
                   <li class="more"><a tabindex="-1" href="#">Need a different filter?</a></li>
                 </ul>
@@ -113,8 +147,7 @@
             </li>
           </ul>
         </td>
-      </tr>
-
+      </tr>      
       <#if searchResponse.count gt 0>
       <#list searchResponse.results as occ>
       <tr>
@@ -144,76 +177,8 @@
     </table>
 
     <div class="footer">
-      <a href="#" class="candy_white_button previous"><span>Previous page</span></a>
-      <div class="pagination">viewing page 2 of 31</div>
-      <a href="#" class="candy_white_button next"><span>Next page</span></a>
+     <@macro.pagination page=searchResponse url=currentUrl/>
     </div>
-
-    <!--
-    <div id='filter-container'></div>
-    <br>
-  
-    <#if searchResponse.count gt 0>
-    <div style="overflow: auto !important;"> 
-      <table id="tableResults" class="hor-minimalist-b">
-        <thead>
-          <tr>
-            <th>Scientific<br>name</th>
-            <th>Dataset</th>
-            <th>Institution<br>Code</th>
-            <th>Collection<br>Code</th>
-            <th>Catalogue<br>Number</th>
-            <th>Basis<br>of<br>Record</th>
-            <th>Year</th>
-            <th>Month</th>
-            <th>Coordinates</th>
-            <th>Country</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <#list searchResponse.results as occ>
-          <tr>
-            <td><#if occ.scientificName?has_content>${occ.scientificName}</#if></td>
-            <td><#if occ.datasetKey?has_content><a href="<@s.url value='/dataset/${occ.datasetKey}'/>">${action.getDatasetTitle(occ.datasetKey)!}</a></#if></td>
-            <td><#if occ.institutionCode?has_content>${occ.institutionCode!}</#if></td>
-            <td><#if occ.collectionCode?has_content>${occ.collectionCode!}</#if></td>
-            <td><#if occ.catalogNumber?has_content>${occ.catalogNumber!}</#if></td>
-            <td><#if occ.basisOfRecord?has_content>${occ.basisOfRecord!}</#if></td>
-            <td><#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}</#if></td>
-            <td><#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}</#if></td>
-            <td><#if occ.latitude?has_content>${occ.latitude!?c}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?c}<#else>-</#if></td>
-            <td><#if occ.isoCountryCode?has_content> ${occ.isoCountryCode!} </#if></td>
-            <td><a href="<@s.url value='/occurrence/${occ.key?c}'/>"><strong>View</strong></a></td>
-          </tr>
-          </#list>
-        </tbody>
-      </table>  
-    </div>        
-    <br>
-    <div class="footer">          
-      <@macro.pagination page=searchResponse url=currentUrl/>          
-    </div>        
-    </#if>                  
-  </div>
-
-  <div class="right">
-    <div id='query-container'></div>      
-    <input type="submit" value="Search" id="submit-button" style="display: none"/>
-
-    <div class="download">
-      <div class="dropdown">
-        <a href="#" class="title" title="Download description"><span>Download occurrences</span></a>
-        <ul>
-          <li><a href="#a"><span>Download occurrences</span></a></li>
-          <li><a href="#a"><span>Download placemarks</span></a></li>
-          <li class="last"><a href="#b"><span>Download metadata</span></a></li>
-        </ul>
-      </div>
-    </div>    
-    -->
-
-
   </div>  
   <footer></footer>    
   </article>
@@ -248,10 +213,25 @@
     <tr class="filter">
       <td colspan="4">
         <div class="inner">
-          <h4><%= name.replace(/_/, " ") %></h4>
+          <h4><%= title %></h4>
           <div class="filter">
-            <input type="text" placeholder="<%= placeholder %>" />
-            <a href="#" class="button candy_blue_button" data-action="add_filter" data-filter="<%= name %>"><span>Apply filter</span></a>
+            <input type="text" class="value" name="<%=name%>" placeholder="<%= placeholder %>" />
+            <a href="#" class="button candy_blue_button" data-action="add_filter" data-filter="<%= name %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
+          </div>
+          <a href="#" class="close"></a>
+        </div>
+      </td>
+    </tr>
+  </script>
+  
+  <script type="text/template" id="template-scientific-name-filter">
+    <tr class="filter">
+      <td colspan="4">
+        <div class="inner">
+          <h4><%= title %></h4>
+          <div class="filter">
+            <input type="text" name="<%=paramName%>" class="value species_autosuggest" placeholder="<%= placeholder %>" />
+            <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add_filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
           </div>
           <a href="#" class="close"></a>
         </div>
@@ -260,10 +240,10 @@
   </script>
 
   <script type="text/template" id="template-filter">
-    <li data-filter="dataset">
-    <h4><%= name %></h4>
-    <div class="filter"><a href="#"><%= title %></a></div>
-    <a href="#" class="close"></a>
+    <li>
+    <h4><%= title %></h4>
+    <div class="filter"><a href="#"><%= value %></a><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div>
+    <a href="#" class="close" close-function="applyOccurrenceFilters"></a>    
     </li>
   </script>
 
