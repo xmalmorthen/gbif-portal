@@ -139,7 +139,7 @@
       </#if>
       <#if titleRight?has_content>
         <div class="right">
-          <h2>${title}</h2>
+          <h2>${titleRight}</h2>
         </div>
       </#if>
     </div>

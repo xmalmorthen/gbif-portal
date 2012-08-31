@@ -3,6 +3,7 @@ package org.gbif.portal.action.species;
 import org.gbif.api.paging.Pageable;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
+import org.gbif.checklistbank.api.model.Description;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.NameUsageComponent;
 import org.gbif.checklistbank.api.model.TypeSpecimen;
@@ -15,7 +16,6 @@ import org.gbif.checklistbank.api.service.SpeciesProfileService;
 import org.gbif.checklistbank.api.service.TypeSpecimenService;
 import org.gbif.checklistbank.api.service.VernacularNameService;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +56,8 @@ public class DetailAction extends UsageBaseAction {
   private final Pageable page4 = new PagingRequest(0, 4);
   private final Pageable page1 = new PagingRequest(0, 1);
 
-  private final Map<String, Integer> typeStatusCounts = new HashMap<String, Integer>();
+  private final Map<String, Integer> typeStatusCounts = Maps.newHashMap();
+  private DescriptionToc descriptionToc = new DescriptionToc();
 
   @Override
   public String execute() {
@@ -125,7 +126,9 @@ public class DetailAction extends UsageBaseAction {
     // get references
     usage.setReferences(referenceService.listByUsage(id, page10).getResults());
     // get description content table
-    usage.setDescriptions(descriptionService.listByUsage(id, getLocale(), page10).getResults());
+    for (Description d : descriptionService.listByUsage(id, getLocale(), page20).getResults()) {
+      descriptionToc.addDescription(d);
+    }
     // get distributions
     usage.setDistributions(distributionService.listByUsage(id, page6).getResults());
     // get first image only
@@ -216,5 +219,9 @@ public class DetailAction extends UsageBaseAction {
 
   public Map<String, List<VernacularName>> getVernacularNames() {
     return vernacularNames;
+  }
+
+  public DescriptionToc getDescriptionToc() {
+    return descriptionToc;
   }
 }

@@ -41,8 +41,44 @@
         $taxoffset += 25;
       }
 
+      function loadDescription($descriptionKeys){
+        var keys = $descriptionKeys.split(' ');
+        // remove current description
+        $("#description div.inner").empty();
+        $.each(keys, function(index, k) {
+          var key = $.trim(k);
+          if (key) {
+            var $wsUrl = cfg.wsClb + "description/" + key;
+            $.getJSON($wsUrl + '?callback=?', function(data) {
+              $htmlContent = '<p id="descriptionSrc'+index+'" class="note"><strong>Source</strong>: </p>';
+              $htmlContent += "<h3>"+(data.type || "Description") +"</h3>";
+              $htmlContent += "<p>"+data.description+"</p><br/><br/>";
+              $("#description div.inner").append($htmlContent);
+              if (data.source) {
+                $("#descriptionSrc"+index).append(data.source);
+              } else {
+                <#if nub>
+                  $.getJSON(cfg.wsReg + "dataset/" + data.datasetKey + "?callback=?", function(dataset) {
+                    $("#descriptionSrc"+index).append(dataset.title);
+                  });
+                <#else>
+                  $("#descriptionSrc"+index).hide();
+                </#if>
+              }
+            });
+          }
+        })
+      }
+
       $(function() {
         loadChildren(${id?c});
+        var firstDescr = $("#description span.language:first");
+        if (firstDescr.length > 0) {
+          loadDescription(firstDescr.attr("descriptionKeys"));
+        };
+        $("#description span.language").click(function() {
+          loadDescription( $(this).attr("descriptionKeys") );
+        });
       });
     </script>
   </content>
@@ -207,10 +243,7 @@
 </div>
 </@common.article>
 
-<#assign title>
-Taxonomic classification <span class='subtitle'>According to <a href="<@s.url value='/dataset/${dataset.key}'/>">${dataset.title!}</a></span>
-</#assign>
-<@common.article id="taxonomy" title=title class="taxonomies">
+<@common.article id="taxonomy" title="Subordinate Taxa" titleRight="Classification" class="taxonomies">
     <div class="left">
       <div id="taxonomicChildren">
         <div class="inner">
@@ -241,7 +274,10 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
           </#if>
         </dd>
       </#list>
-        <p><a href="<@s.url value='/species/${id?c}/classification'/>">complete classification</a></p>
+        <dt>&nbsp;</dt>
+        <dd><a href="<@s.url value='/species/${id?c}/classification'/>">complete classification</a></dd>
+      </dl>
+      <br/>
 
       <#if usage.accordingTo?has_content>
         <h3>According to</h3>
@@ -321,19 +357,25 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
 </article>
 </#if>
 
-<#if usage.descriptions?has_content>
+<#if !descriptionToc.isEmpty()>
   <@common.article id="description" title='Description' class="">
     <div class="left">
-      <#assign d = usage.descriptions[0]>
-      <h3>${d.type!"Description"} <@common.usageSource component=d showChecklistSource=nub /></h3>
-      <p>${d.description!}</p>
+      <div class="inner">
+        <h3>Description</h3>
+        <p>bla bla bla</p>
+      </div>
     </div>
 
     <div class="right">
-      <h3>Content</h3>
+      <h3>Table of Content</h3>
       <ul class="no_bottom">
-        <#list usage.descriptions as d>
-          <li><a href="#'/>">${d.type!"Description"}</a> <span class="language">${d.language!}</span></li>
+        <#list descriptionToc.listTopics() as topic>
+          <li>${topic?capitalize}
+            <#assign entries=descriptionToc.listTopicEntries(topic) />
+            <#list entries?keys as lang>
+              <span class="language" descriptionKeys="<#list entries.get(lang) as did>${did?c} </#list>">${lang.getIso3LetterCode()?upper_case}</span>
+            </#list>
+          </li>
         </#list>
       </ul>
     </div>
@@ -412,7 +454,7 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
           <#list relatedDatasets as uuid>
             <li>
               <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">? occurrences</a>
-              <span class="note">in ${common.limit(datasets.get(uuid).title!, 50)}</span>
+              <span class="note">in ${common.limit(datasets.get(uuid).title!, 40)}</span>
             </li>
             <#if uuid_has_next && uuid_index==6>
               <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">see all ${relatedDatasets?size}</a></li>
@@ -427,7 +469,7 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
         <ul class="notes">
           <#list related as rel>
             <li><a href="<@s.url value='/species/${rel.key?c}'/>">${rel.scientificName}</a>
-              <span class="note">in ${common.limit(datasets.get(rel.datasetKey).title!, 50)}</span>
+              <span class="note">in ${common.limit(datasets.get(rel.datasetKey).title!, 40)}</span>
             </li>
             <#if rel_has_next && rel_index==6>
               <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">see all ${related?size}</a></li>
@@ -473,7 +515,6 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
   <@common.article id="references" title="Bibliography">
     <div class="left">
       <#if (usage.references?size>0)>
-        <h3>Bibliography</h3>
         <ul>
           <#list usage.references as ref>
             <li>
@@ -493,8 +534,8 @@ Taxonomic classification <span class='subtitle'>According to <a href="<@s.url va
     <div class="right">
       <h3>External Sources</h3>
       <ul>
-        <#if usage.canonical??>
-          <li><a href="http://www.biodiversitylibrary.org/name/${usage.canonical?replace(' ','_')}">Biodiveristy Heritage Library</a></li>
+        <#if usage.canonicalName??>
+          <li><a href="http://www.biodiversitylibrary.org/name/${usage.canonicalName?replace(' ','_')}">Biodiveristy Heritage Library</a></li>
         </#if>
       </ul>
     </div>

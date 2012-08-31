@@ -1,6 +1,7 @@
 package org.gbif.portal.action.species;
 
 import org.gbif.api.exception.NotFoundException;
+import org.gbif.api.exception.ServiceUnavailableException;
 import org.gbif.checklistbank.api.model.DatasetMetrics;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.checklistbank.api.model.NameUsageContainer;
@@ -54,7 +55,11 @@ public class UsageBaseAction extends BaseAction {
     usage = new NameUsageContainer(u);
     // load checklist
     dataset = datasetService.get(usage.getDatasetKey());
-    metrics = metricsService.get(usage.getDatasetKey());
+    try {
+      metrics = metricsService.get(usage.getDatasetKey());
+    } catch (ServiceUnavailableException e) {
+      LOG.error("Failed to load checklist metrics for dataset {}", usage.getDatasetKey());
+    }
   }
 
   /**
@@ -67,9 +72,14 @@ public class UsageBaseAction extends BaseAction {
     }
   }
 
-  protected void loadDataset(UUID checklistKey) {
-    if (!datasets.containsKey(checklistKey)) {
-      datasets.put(checklistKey, datasetService.get(checklistKey));
+  protected void loadDataset(UUID datasetKey) {
+    if (datasetKey!=null && !datasets.containsKey(datasetKey)) {
+      try {
+        datasets.put(datasetKey, datasetService.get(datasetKey));
+      } catch (ServiceUnavailableException e) {
+        LOG.error("Failed to load dataset with key {}", datasetKey);
+        datasets.put(datasetKey, null);
+      }
     }
   }
 
