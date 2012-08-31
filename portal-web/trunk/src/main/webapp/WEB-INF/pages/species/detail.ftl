@@ -12,10 +12,12 @@
     <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
   </#if>
     <script type="text/javascript">
-      // render taxonomic tree
-      var $taxoffset=0;
+      // taxonomic tree state
+      var $taxoffset= 0, loadedAllChildren=false;
 
       function renderUsages($ps, data){
+        // hide loading wheel
+        $ps.find(".loadingTaxa").fadeOut("slow");
         $(data.results).each(function() {
           $htmlContent = '<li spid="' + this.key + '">';
           $htmlContent += '<span class="sciname"><a href="#">' + this.canonicalOrScientificName + "</a></span>";
@@ -24,19 +26,18 @@
           $htmlContent += '</span></li>';
           $ps.find(".sp ul").append($htmlContent);
         })
-        // hide loading wheel
-        $ps.find(".loadingTaxa").fadeOut("slow");
       };
 
       // Function for loading and rendering children
-      function loadChildren($spid) {
+      function loadChildren() {
         $ps=$("#taxonomicChildren");
-        var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?offset=0" + $taxoffset + "&limit=25";
+        var $wsUrl = cfg.wsClb + "name_usage/${id?c}/children?offset=" + $taxoffset + "&limit=25";
         // show loading wheel
         $ps.find(".loadingTaxa").show();
         //get the new list of children
         $.getJSON($wsUrl + '&callback=?', function(data) {
           renderUsages($ps, data);
+          loadedAllChildren=data.endOfRecords;
         });
         $taxoffset += 25;
       }
@@ -71,7 +72,14 @@
       }
 
       $(function() {
-        loadChildren(${id?c});
+        loadChildren();
+        $("#taxonomicChildren .inner").scroll(function(){
+          var triggerHeight = $("#taxonomicChildren .sp").height() - $(this).height() - 100;
+          if (!loadedAllChildren && $("#taxonomicChildren .inner").scrollTop() > triggerHeight){
+            loadChildren();
+          }
+        });
+
         var firstDescr = $("#description span.language:first");
         if (firstDescr.length > 0) {
           loadDescription(firstDescr.attr("descriptionKeys"));
@@ -246,13 +254,13 @@
 <@common.article id="taxonomy" title="Subordinate Taxa" titleRight="Classification" class="taxonomies">
     <div class="left">
       <div id="taxonomicChildren">
+        <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif"></div>
         <div class="inner">
           <div class="sp">
             <ul>
             </ul>
           </div>
         </div>
-        <div class="loadingTaxa"><span><img src="../img/taxbrowser-loader.gif"> Loading more elements...</span></div>
       </div>
     </div>
 

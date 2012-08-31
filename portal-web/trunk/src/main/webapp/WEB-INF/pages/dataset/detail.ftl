@@ -284,13 +284,13 @@
         <li spid="-1" cid="${id}"><a href="#">All</a></li>
       </ul>
     </div>
+    <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif"></div>
     <div class="inner">
       <div class="sp">
         <ul>
         </ul>
       </div>
     </div>
-    <div class="loadingTaxa"><span><img src="../img/taxbrowser-loader.gif"> Loading more elements...</span></div>
   </div>
 </div>
 </@common.article>
