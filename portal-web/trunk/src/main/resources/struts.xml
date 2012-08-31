@@ -283,6 +283,10 @@
     <action name="crawler" class="org.gbif.portal.action.admin.CrawlerAction">
       <result>/WEB-INF/pages/admin/crawler.ftl</result>
     </action>    
+    
+    <action name="crawler/crawl/{id}" class="org.gbif.portal.action.admin.CrawlerAction" method="crawl">
+      <result>/WEB-INF/pages/admin/crawler.ftl</result>
+    </action>    
 
     <!-- ADD ENTITIES -->
     <action name="{1}/add" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddEntity">
@@ -303,10 +307,6 @@
       <result name="input">/WEB-INF/pages/admin/edit_{1}.ftl</result>
       <result name="success">/WEB-INF/pages/admin/success.ftl</result>
     </action>
-
-
-    <!-- ACTIONS FOR COMPONENTS -->
-    <!-- TODO: find a way to map the name of the entity to the name of the Action class. Right now it can't be done as mapping is case sensitive -->
 
     <!-- add component -->
     <!-- prepare -->

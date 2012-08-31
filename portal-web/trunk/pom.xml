@@ -58,6 +58,7 @@
     <occurrence-ws-client.version>0.2-SNAPSHOT</occurrence-ws-client.version>
     <metrics-api.version>0.2-SNAPSHOT</metrics-api.version>
     <metrics-ws-client.version>0.2-SNAPSHOT</metrics-ws-client.version>
+    <gbif-postal-service.version>0.1-SNAPSHOT</gbif-postal-service.version>    
     <drupal-mybatis.version>0.2</drupal-mybatis.version>
 
     <freemarker.version>2.3.19</freemarker.version>
@@ -290,7 +291,12 @@
       <groupId>org.gbif.metrics</groupId>
       <artifactId>metrics-ws-client</artifactId>
       <version>${metrics-ws-client.version}</version>
-    </dependency>            
+    </dependency>
+    <dependency>    
+      <groupId>org.gbif.common</groupId>
+      <artifactId>gbif-postal-service</artifactId>
+      <version>${gbif-postal-service.version}</version>
+    </dependency>                
     <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>drupal-mybatis</artifactId>
