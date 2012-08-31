@@ -19,8 +19,9 @@
         // hide loading wheel
         $ps.find(".loadingTaxa").fadeOut("slow");
         $(data.results).each(function() {
+          var speciesLink = "<@s.url value='/species/'/>" + this.key;
           $htmlContent = '<li spid="' + this.key + '">';
-          $htmlContent += '<span class="sciname"><a href="#">' + this.canonicalOrScientificName + "</a></span>";
+          $htmlContent += '<span class="sciname"><a href="'+speciesLink+'">' + this.canonicalOrScientificName + "</a></span>";
           $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank.interpreted || "unknown")) + "</span>";
           $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";
           $htmlContent += '</span></li>';
