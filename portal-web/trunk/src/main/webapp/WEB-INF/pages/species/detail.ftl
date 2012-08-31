@@ -23,7 +23,9 @@
           $htmlContent = '<li spid="' + this.key + '">';
           $htmlContent += '<span class="sciname"><a href="'+speciesLink+'">' + this.canonicalOrScientificName + "</a></span>";
           $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank.interpreted || "unknown")) + "</span>";
-          $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";
+          if (this.numDescendants>0) {
+            $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";
+          }
           $htmlContent += '</span></li>';
           $ps.find(".sp ul").append($htmlContent);
         })
@@ -377,6 +379,7 @@
 
     <div class="right">
       <h3>Table of Content</h3>
+      <br/>
       <ul class="no_bottom">
         <#list descriptionToc.listTopics() as topic>
           <li>${topic?capitalize}

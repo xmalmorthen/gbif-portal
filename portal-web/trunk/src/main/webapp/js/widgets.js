@@ -1900,7 +1900,9 @@ init();
           $htmlContent = '<li spid="' + this.key + '">';
           $htmlContent += '<span class="sciname">' + this.canonicalOrScientificName + "</span>";
           $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank.interpreted || "unknown")) + "</span>";
-          $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";
+          if (this.numDescendants>0) {
+            $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";
+          }
           $htmlContent += '</span>';
           $htmlContent += '<a href="' + cfg.baseUrl + "/species/" + this.key + '" style="display: none; ">see details</a></li>';
           $ps.find(".sp ul").append($htmlContent);
