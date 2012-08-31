@@ -210,7 +210,7 @@
 
     <#if (usage.threatStatus?size>0)>
       <h3>Threat Status</h3>
-      <p><#list usage.threatStatus as t><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#list></p>
+      <p><#list usage.threatStatus as t><#if t?has_content><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#if></#list></p>
     </#if>
 
   </div>
@@ -236,9 +236,9 @@
     </a></li>
   </#list>
   <#if usage.nubKey??>
-    <li><a href="http://eol.org/search/?q=${usage.canonicalOrScientificName}" title="EOL">EOL</a></li>
+    <li><a target="_blank" href="http://eol.org/search/?q=${usage.canonicalOrScientificName}" title="EOL">EOL</a></li>
   </#if>
-    <li><a href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
+    <li><a target="_blank" href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
 
   <#if (usage.lsids?size>0)>
     <li><@common.popover linkTitle="LSID" popoverTitle="Life Science Identifier">
@@ -544,7 +544,7 @@
       <h3>External Sources</h3>
       <ul>
         <#if usage.canonicalName??>
-          <li><a href="http://www.biodiversitylibrary.org/name/${usage.canonicalName?replace(' ','_')}">Biodiveristy Heritage Library</a></li>
+          <li><a target="_blank" href="http://www.biodiversitylibrary.org/name/${usage.canonicalName?replace(' ','_')}">Biodiveristy Heritage Library</a></li>
         </#if>
       </ul>
     </div>
