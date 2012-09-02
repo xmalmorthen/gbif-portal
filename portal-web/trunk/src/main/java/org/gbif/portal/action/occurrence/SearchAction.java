@@ -118,6 +118,7 @@ public class SearchAction extends BaseAction {
    * Gets the displayable value of filter parameter.
    */
   public String getFilterTitle(String filterKey, String filterValue) {
+// Removed by Tim, because this method does not exist, and this appears to be half done dev code
 // OccurrenceSearchParameter parameter = OccurrenceSearchParameter.getByParam(filterKey);
 // if (parameter != null) {
 // if (parameter == OccurrenceSearchParameter.NUB_KEY) {
