@@ -73,7 +73,8 @@ public class SearchAction extends BaseAction {
   private final NameUsageService nameUsageService;
 
   @Inject
-  public SearchAction(OccurrenceSearchService occurrenceSearchService, DatasetService datasetService, NameUsageService nameUsageService) {
+  public SearchAction(OccurrenceSearchService occurrenceSearchService, DatasetService datasetService,
+    NameUsageService nameUsageService) {
     this.pagingRequest = new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
     this.occurrenceSearchService = occurrenceSearchService;
     this.datasetService = datasetService;
@@ -118,13 +119,12 @@ public class SearchAction extends BaseAction {
    * Gets the displayable value of filter parameter.
    */
   public String getFilterTitle(String filterKey, String filterValue) {
-// Removed by Tim, because this method does not exist, and this appears to be half done dev code
-// OccurrenceSearchParameter parameter = OccurrenceSearchParameter.getByParam(filterKey);
-// if (parameter != null) {
-// if (parameter == OccurrenceSearchParameter.NUB_KEY) {
-// return nameUsageService.get(Integer.parseInt(filterValue), null).getScientificName();
-// }
-// }
+    OccurrenceSearchParameter parameter = OccurrenceSearchParameter.getByParam(filterKey);
+    if (parameter != null) {
+      if (parameter == OccurrenceSearchParameter.NUB_KEY) {
+        return nameUsageService.get(Integer.parseInt(filterValue), null).getScientificName();
+      }
+    }
     return filterValue;
   }
 
@@ -145,6 +145,22 @@ public class SearchAction extends BaseAction {
 
 
   /**
+   * @param filters the filters to set
+   */
+  public void setFilter(Multimap<String, String> filters) {
+    this.filters = filters;
+  }
+
+
+  /**
+   * @param offset the offset to set
+   * @see PagingRequest#setOffset(long)
+   */
+  public void setOffset(long offset) {
+    pagingRequest.setOffset(offset);
+  }
+
+  /**
    * Reads the filters from the request parameters.
    * The format of filter parameters is : OccurrenceSearchParameter.getParam*().
    */
@@ -157,22 +173,6 @@ public class SearchAction extends BaseAction {
         }
       }
     }
-  }
-
-
-  /**
-   * @param filters the filters to set
-   */
-  public void setFilter(Multimap<String, String> filters) {
-    this.filters = filters;
-  }
-
-  /**
-   * @param offset the offset to set
-   * @see PagingRequest#setOffset(long)
-   */
-  public void setOffset(long offset) {
-    pagingRequest.setOffset(offset);
   }
 
 }
