@@ -22,21 +22,25 @@
         var u = $.url();
         
         $("div .filter").find(":input[type=hidden]").each( function(idx,el){
+          if(params[el.name] == null){
+             params[el.name] = new Array();
+          }
           if ($(el).attr("key") !== undefined) {
-            params[el.name] = $(el).attr("key");
+            params[el.name].push($(el).attr("key"));
           } else {
-            params[el.name] = el.value;
+            params[el.name].push(el.value);
           }
         })
-        window.location = "<@s.url value='/occurrence/search'/>?" + $.param(params);
+        window.location = "<@s.url value='/occurrence/search'/>?" + $.param(params,true);
         return true;  // submit?
       }
       <#if filters.keySet().size() gt 0>  
           var filtersFromRequest = new Object();        
          <#list filters.keySet() as filterKey>
+            filtersFromRequest['${filterKey}'] = new Array();
            <#list filters.get(filterKey) as filterValue>
              //the title is taken from the link that has the filterKey value as its data-filter attribute=
-             filtersFromRequest['${filterKey}']  = { title: $('a[data-filter="${filterKey}"]').attr('title'), value:'${action.getFilterTitle(filterKey,filterValue)}', key: '${filterValue}', paramName: '${filterKey}' };             
+             filtersFromRequest['${filterKey}'].push({ title: $('a[data-filter="${filterKey}"]').attr('title'), value:'${action.getFilterTitle(filterKey,filterValue)}', key: '${filterValue}', paramName: '${filterKey}' });             
            </#list>
          </#list>
       </#if>

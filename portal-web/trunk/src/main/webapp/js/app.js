@@ -112,9 +112,11 @@ $(function() {
   
   if(typeof(filtersFromRequest) != 'undefined' && filtersFromRequest != null){    
     template = _.template($("#template-filter").html());    
-    $.each(filtersFromRequest, function(key,filter){
-      $filter  = $(template({title: filter.title, key: filter.key, value: filter.value, paramName: filter.paramName }));
-      addFilterItem($filter);
+    $.each(filtersFromRequest, function(key,filterValues){
+      $.each(filterValues, function(idx,filter) {
+        $filter  = $(template({title: filter.title, key: filter.key, value: filter.value, paramName: filter.paramName }));
+        addFilterItem($filter);
+      });
     });    
   }
 
