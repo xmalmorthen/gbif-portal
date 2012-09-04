@@ -11,7 +11,6 @@ package org.gbif.portal.action.dataset;
 import org.gbif.registry.api.model.Contact;
 import org.gbif.registry.api.model.Organization;
 import org.gbif.registry.api.model.TechnicalInstallation;
-import org.gbif.registry.api.service.OrganizationService;
 import org.gbif.registry.api.service.TechnicalInstallationService;
 
 import java.util.ArrayList;
@@ -26,14 +25,9 @@ public class DetailAction extends DatasetBaseAction {
 
   private static final Logger LOG = LoggerFactory.getLogger(DetailAction.class);
 
-  // detail
-  private Organization owningOrganization;
   private Organization hostingOrganization;
   private List<Contact> preferredContacts;
   private List<Contact> otherContacts;
-
-  @Inject
-  private OrganizationService organizationService;
 
   @Inject
   private TechnicalInstallationService technicalInstallationService;
@@ -45,12 +39,10 @@ public class DetailAction extends DatasetBaseAction {
     // are there preferred (primary) contacts
     separateContacts(dataset.getContacts());
 
-    // gets the owning organization
-    owningOrganization = organizationService.get(dataset.getOwningOrganizationKey());
     if (dataset.getTechnicalInstallationKey() != null) {
       TechnicalInstallation technicalInstallation = technicalInstallationService.get(dataset.getTechnicalInstallationKey());
       if (technicalInstallation.getHostingOrganizationKey().equals(dataset.getOwningOrganizationKey())) {
-        hostingOrganization = owningOrganization;
+        hostingOrganization = getOwningOrganization();
       } else {
         hostingOrganization = organizationService.get(technicalInstallation.getHostingOrganizationKey());
       }
@@ -60,13 +52,6 @@ public class DetailAction extends DatasetBaseAction {
 
   public List<Contact> getOtherContacts() {
     return otherContacts;
-  }
-
-  /**
-   * @return the dataset's owningOrganization
-   */
-  public Organization getOwningOrganization() {
-    return owningOrganization;
   }
 
   public List<Contact> getPreferredContacts() {

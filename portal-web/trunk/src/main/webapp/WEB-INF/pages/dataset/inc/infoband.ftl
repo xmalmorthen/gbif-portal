@@ -1,10 +1,16 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <#--
  THIS INCLUDE GENERATES THE INFOBAND AND TABS FOR A DATASET PAGE
  to select a tab to be highlighted please assign on of the following to the freemarker variable "tab":
 
  <#assign tab="info"/>
+ <#assign tab="constituents"/>
  <#assign tab="activity"/>
  <#assign tab="discussion"/>
+
+ To use highlighted tabs please set:
+ <#assign hl="highlighted" />
+
 -->
 <content tag="infoband">
 
@@ -67,14 +73,17 @@
 
 
 <content tag="tabs">
-  <ul>
-    <li<#if (tab!"")=="info"> class='selected'</#if>>
+  <ul class="${hl!}">
+    <li<#if (tab!"")=="info"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/dataset/${id!}'/>" title="Information"><span>Information</span></a>
     </li>
-    <li<#if (tab!"")=="activity"> class='selected'</#if>>
+    <li<#if (tab!"")=="constituents"> class='selected ${hl!}'</#if>>
+      <a href="#" title="Constituents"><span>Constituents</span></a>
+    </li>
+    <li<#if (tab!"")=="activity"> class='selected ${hl!}'</#if>>
       <a href="#" title="Activity"><span>Activity <sup>(2)</sup></span></a>
     </li>
-    <li<#if (tab!"")=="discussion"> class='selected'</#if>>
+    <li<#if (tab!"")=="discussion"> class='selected ${hl!}'</#if>>
       <a href="#" title="Discussion"><span>Discussion <sup>(5)</sup></span></a>
     </li>
   </ul>

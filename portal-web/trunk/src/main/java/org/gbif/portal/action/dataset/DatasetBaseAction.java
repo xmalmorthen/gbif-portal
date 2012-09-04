@@ -5,7 +5,9 @@ import org.gbif.checklistbank.api.model.DatasetMetrics;
 import org.gbif.checklistbank.api.service.DatasetMetricsService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.registry.api.model.Dataset;
+import org.gbif.registry.api.model.Organization;
 import org.gbif.registry.api.service.DatasetService;
+import org.gbif.registry.api.service.OrganizationService;
 
 import java.util.UUID;
 
@@ -25,6 +27,10 @@ public class DatasetBaseAction extends BaseAction {
   protected DatasetService datasetService;
   @Inject
   protected DatasetMetricsService metricsService;
+  // detail
+  protected Organization owningOrganization;
+  @Inject
+  protected OrganizationService organizationService;
 
   protected void loadDetail() {
     LOG.debug("Fetching detail for dataset id [{}]", id);
@@ -37,6 +43,9 @@ public class DatasetBaseAction extends BaseAction {
       LOG.error("No dataset found with id {}", id);
       throw new NotFoundException();
     }
+
+    // gets the owning organization
+    owningOrganization = organizationService.get(dataset.getOwningOrganizationKey());
 
     // get metrics
     try {
@@ -76,5 +85,12 @@ public class DatasetBaseAction extends BaseAction {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  /**
+   * @return the dataset's owningOrganization
+   */
+  public Organization getOwningOrganization() {
+    return owningOrganization;
   }
 }

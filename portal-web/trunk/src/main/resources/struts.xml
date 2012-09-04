@@ -136,6 +136,10 @@
       <result>/WEB-INF/pages/dataset/register/step3.ftl</result>
     </action>
 
+    <action name="{id}/constituents" class="org.gbif.portal.action.dataset.ConstituentsAction">
+      <result>/WEB-INF/pages/dataset/constituents.ftl</result>
+    </action>
+
     <!-- {id} matches anything but "/" -->
     <action name="{id}" class="org.gbif.portal.action.dataset.DetailAction">
       <result>/WEB-INF/pages/dataset/detail.ftl</result>
