@@ -88,14 +88,14 @@
       <div id="logo">
         <a href="<@s.url value='/'/>" class="logo"><img src="<@s.url value='/img/header/logo.png'/>"/></a>
 
-        <h1><a href="<@s.url value='/'/>" title="DATA.GBIF.ORG">DATA.GBIF.ORG</a></h1>
+        <h1><a href="<@s.url value='/'/>" title="GBIF.ORG">GBIF.ORG</a></h1>
         <span>Free and open access to biodiversity data</span>
       </div>
 
       <nav>
       <ul>
         <li>
-        <a href="#" title="GBIF Data">GBIF Data</a>
+        <a href="#" title="Data">Data</a>
 
         <div class="data">
           <a href="#"></a>
@@ -116,7 +116,7 @@
         </li> 
 
         <li>
-        <a href="#" title="GBIF Community">GBIF Community</a> 
+        <a href="#" title="Community">Community</a> 
 
         <div class="community">
           <a href="#"></a>
