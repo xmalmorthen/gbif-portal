@@ -48,9 +48,9 @@ function addNewFilter(e) {
   //Autocompletes store the selected key in "key" attribute
   if (input.attr("key") !== undefined) {
     key = input.attr("key"); 
-  }
-  
+  }  
   $filter  = $(template({title: title, value: value, paramName: filter, key: key }));
+  
   addFilterItem($filter);
 
   // Removes the filter selector and add the filter
@@ -80,10 +80,10 @@ function addFilterItem($filter){
   $filter.fadeIn(250);
 }
 
-function addFilter(title, filter, placeholder, templateID) {
+function addFilter(title, filter, placeholder, templateID,inputClasses) {
   var $tr = $("tr.header");
   var template = _.template($("#" + templateID).html());
-  var $filter = $(template({title:title, paramName: filter, placeholder: placeholder }));
+  var $filter = $(template({title:title, paramName: filter, placeholder: placeholder, inputClasses: inputClasses }));
   $tr.after( $filter );
   $filter.fadeIn(250);  
 }
@@ -105,9 +105,18 @@ $(function() {
     filter      = $(this).attr("data-filter"),
     placeholder = $(this).attr("data-placeholder"),
     templateFilter = $(this).attr("template-filter"),
+    inputClasses = $(this).attr("input-classes"),
     title = $(this).attr("title");    
-    addFilter(title,filter, placeholder,templateFilter);
-    $(':input.species_autosuggest').speciesAutosuggest(cfg.wsClbSuggest + "/entities", 4, null, "#content",false);
+    addFilter(title,filter, placeholder,templateFilter,inputClasses);    
+    $(':input.collector_name_autosuggest').each( function(idx,el){
+      $(el).termsAutosuggest(cfg.wsOccCollectorNameSearch, "#content");
+    });
+    $(':input.catalogue_number_autosuggest').each( function(idx,el){
+      $(el).termsAutosuggest(cfg.wsOccCatalogueNumberSearch, "#content");
+    });
+    $(':input.species_autosuggest').each( function(idx,el){
+      $(el).speciesAutosuggest(cfg.wsClbSuggest + "/entities", 4, null, "#content",false);
+    });    
   });
   
   if(typeof(filtersFromRequest) != 'undefined' && filtersFromRequest != null){    

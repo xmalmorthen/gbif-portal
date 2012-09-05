@@ -9,6 +9,9 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.gbif.occurrencestore.api.service.search.Constants.CATALOGUE_NUMBER_PATH;
+import static org.gbif.occurrencestore.api.service.search.Constants.COLLECTOR_NAME_PATH;
+
 /**
  * Simple configuration bean to pass the guice binded properties on to the rendering layer.
  * When adding or modifying entries please also adjust the decorator default.ftl.
@@ -28,47 +31,22 @@ public class Config {
   private String wsRegSearch;
   private String wsOcc;
   private String wsOccSearch;
+  private String wsOccCollectorNameSearch;
+  private String wsOccCatalogueNumberSearch;
   private String wsClbSuggest;
   private String tileServerBaseUrl;
-
-  
-  public String getTileServerBaseUrl() {
-    return tileServerBaseUrl;
-  }
-
-  
-  public void setTileServerBaseUrl(String tileServerBaseUrl) {
-    this.tileServerBaseUrl = tileServerBaseUrl;
-  }
-
-  /**
-   * Reads the property as a URL, and will optionally force a trailing slash as required by
-   * http://dev.gbif.org/issues/browse/POR-260
-   */
-  private static String getPropertyUrl(Properties properties, String propName, boolean forceTrailingSlash) {
-    String value = null;
-    try {
-      value = properties.getProperty(propName);
-      value = (forceTrailingSlash && !value.endsWith("/")) ? value + "/" : value; 
-      URI uri = URI.create(value);
-      return uri.toString();
-    } catch (Exception e) {
-      throw new ConfigurationException(value + " is no valid URL for property " + propName
-                                       + ". Please configure application.properties appropriately!", e);
-    }
-  }
 
   /**
    * To safeguard against configuration issues, this ensures that trailing slashes exist where required.
    * A future enhancement would be for those not to be required by the depending components, but currently
-   * this is the state of affairs.  This does at least help guard against incorrect use in the property 
-   * files. 
+   * this is the state of affairs. This does at least help guard against incorrect use in the property
+   * files.
    */
   public static Config buildFromProperties() {
     Config cfg = new Config();
     try {
       Properties properties = PropertiesUtil.loadProperties(APPLICATION_PROPERTIES);
-      
+
       // prefer system variable if existing, required (e.g.) by selenim
       try {
         URI uri = URI.create(System.getProperty(SERVERNAME));
@@ -88,6 +66,8 @@ public class Config {
       cfg.wsRegSearch = getPropertyUrl(properties, "registry.search.ws.url", true);
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
       cfg.wsOccSearch = getPropertyUrl(properties, "occurrence.search.ws.url", true);
+      cfg.wsOccCatalogueNumberSearch = cfg.wsOccSearch + CATALOGUE_NUMBER_PATH;
+      cfg.wsOccCollectorNameSearch = cfg.wsOccSearch + COLLECTOR_NAME_PATH;
       cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
     } catch (IOException e) {
       throw new ConfigurationException("application.properties cannot be read", e);
@@ -95,16 +75,39 @@ public class Config {
     return cfg;
   }
 
-  public String getServerName() {
-    return serverName;
+  /**
+   * Reads the property as a URL, and will optionally force a trailing slash as required by
+   * http://dev.gbif.org/issues/browse/POR-260
+   */
+  private static String getPropertyUrl(Properties properties, String propName, boolean forceTrailingSlash) {
+    String value = null;
+    try {
+      value = properties.getProperty(propName);
+      value = (forceTrailingSlash && !value.endsWith("/")) ? value + "/" : value;
+      URI uri = URI.create(value);
+      return uri.toString();
+    } catch (Exception e) {
+      throw new ConfigurationException(value + " is no valid URL for property " + propName
+        + ". Please configure application.properties appropriately!", e);
+    }
   }
+
+
+  public String getCas() {
+    return cas;
+  }
+
 
   public String getDrupal() {
     return drupal;
   }
 
-  public String getCas() {
-    return cas;
+  public String getServerName() {
+    return serverName;
+  }
+
+  public String getTileServerBaseUrl() {
+    return tileServerBaseUrl;
   }
 
   public String getWsClb() {
@@ -123,6 +126,20 @@ public class Config {
     return wsOcc;
   }
 
+  /**
+   * @return the wsOccCatalogueNumberSearch
+   */
+  public String getWsOccCatalogueNumberSearch() {
+    return wsOccCatalogueNumberSearch;
+  }
+
+  /**
+   * @return the wsOccCollectorNameSearch
+   */
+  public String getWsOccCollectorNameSearch() {
+    return wsOccCollectorNameSearch;
+  }
+
   public String getWsOccSearch() {
     return wsOccSearch;
   }
@@ -133,5 +150,9 @@ public class Config {
 
   public String getWsRegSearch() {
     return wsRegSearch;
+  }
+
+  public void setTileServerBaseUrl(String tileServerBaseUrl) {
+    this.tileServerBaseUrl = tileServerBaseUrl;
   }
 }

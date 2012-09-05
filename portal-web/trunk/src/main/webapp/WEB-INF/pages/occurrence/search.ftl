@@ -25,7 +25,7 @@
           if(params[el.name] == null){
              params[el.name] = new Array();
           }
-          if ($(el).attr("key") !== undefined) {
+          if ($(el).attr("key") != null && $(el).attr("key").length > 0) {
             params[el.name].push($(el).attr("key"));
           } else {
             params[el.name].push(el.value);
@@ -133,13 +133,13 @@
               <div class="dropdown-menu filters">
                 <div class="tip"></div>
                 <ul>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="nubKey"  title="Scientific name" template-filter="template-scientific-name-filter" class="species_autosuggest">Scientific name</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="nubKey"  title="Scientific name" template-filter="template-add-filter" input-classes="value species_autosuggest">Scientific name</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="coordinate" title="Coordinate" template-filter="template-add-filter">Location</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="collectorName" title="Collector name" template-filter="template-add-filter">Collector</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="collectorName" title="Collector name" template-filter="template-add-filter" input-classes="value collector_name_autosuggest">Collector</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="basisOfRecord" title="Basis Of Record" template-filter="template-add-filter">Basis of record</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="datasetKey" title="Dataset" template-filter="template-add-filter">Dataset</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="collectionDate" title="Collection date" template-filter="template-add-filter">Collection date</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="catalogueNumber" title="Catalogue number" template-filter="template-add-filter">Catalogue number</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="catalogueNumber" title="Catalogue number" template-filter="template-add-filter" input-classes="value catalogue_number_autosuggest">Catalogue number</a></li>
                   <li class="divider"></li>
                   <li class="more"><a tabindex="-1" href="#">Need a different filter?</a></li>
                 </ul>
@@ -212,29 +212,13 @@
 
 
   <!-- Filter templates -->
-
   <script type="text/template" id="template-add-filter">
     <tr class="filter">
       <td colspan="4">
         <div class="inner">
           <h4><%= title %></h4>
           <div class="filter">
-            <input type="text" class="value" name="<%=name%>" placeholder="<%= placeholder %>" />
-            <a href="#" class="button candy_blue_button" data-action="add_filter" data-filter="<%= name %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
-          </div>
-          <a href="#" class="close"></a>
-        </div>
-      </td>
-    </tr>
-  </script>
-  
-  <script type="text/template" id="template-scientific-name-filter">
-    <tr class="filter">
-      <td colspan="4">
-        <div class="inner">
-          <h4><%= title %></h4>
-          <div class="filter">
-            <input type="text" name="<%=paramName%>" class="value species_autosuggest" placeholder="<%= placeholder %>" />
+            <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />
             <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add_filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
           </div>
           <a href="#" class="close"></a>
