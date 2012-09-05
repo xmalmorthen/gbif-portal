@@ -31,12 +31,12 @@
         <div class="result">
           <h2>
             <a href="<@s.url value='/species/${u.key?c}'/>"><strong>${u.scientificName}</strong></a>
-            <span class="note"><@s.text name='enum.rank.${(u.rank.interpreted)!"UNRANKED"}'/></span>
+            <span class="note"><@s.text name='enum.rank.${u.rank!"UNRANKED"}'/></span>
           </h2>
           <#if usage.nub>
             <p>according to ${u.accordingTo!u.origin!}</p>
           </#if>
-          <div class="footer">${(u.taxonomicStatus.interpreted)!} ${(u.nomenclaturalStatus.interpreted)!}</div>
+          <div class="footer">${u.taxonomicStatus!} ${u.nomenclaturalStatus!}</div>
         </div>
       </#list>
 

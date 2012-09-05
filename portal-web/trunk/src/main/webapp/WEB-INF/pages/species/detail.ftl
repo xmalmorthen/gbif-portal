@@ -22,7 +22,7 @@
           var speciesLink = "<@s.url value='/species/'/>" + this.key;
           $htmlContent = '<li spid="' + this.key + '">';
           $htmlContent += '<span class="sciname"><a href="'+speciesLink+'">' + this.canonicalOrScientificName + "</a></span>";
-          $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank.interpreted || "unknown")) + "</span>";
+          $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank || "unknown")) + "</span>";
           if (this.numDescendants>0) {
             $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";
           }
@@ -141,7 +141,7 @@
         <#list vernacularNames?keys as vk>
           <#assign names=vernacularNames.get(vk)/>
           <#assign v=names[0]/>
-          <li>${v.vernacularName} <span class="small">${(v.language.interpreted)!}</span>
+          <li>${v.vernacularName} <span class="small">${v.language!}</span>
             <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
           </li>
           <#if !vk_has_next && vk_index==2>
@@ -175,7 +175,7 @@
 
     <h3>Taxonomic Status</h3>
     <p>
-      <@s.text name="enum.taxstatus.${(usage.taxonomicStatus.interpreted)!'UNKNOWN'}"/>
+      <@s.text name="enum.taxstatus.${usage.taxonomicStatus!'UNKNOWN'}"/>
       <#if usage.synonym>
         of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
       </#if>
@@ -186,9 +186,9 @@
       <p><a href="<@s.url value='/species/${basionym.key?c}'/>">${basionym.scientificName}</a></p>
     </#if>
 
-    <#if (usage.nomenclaturalStatus.interpreted)?has_content>
+    <#if usage.nomenclaturalStatus?has_content>
       <h3>Nomenclatural Status</h3>
-      <p>${usage.nomenclaturalStatus.interpreted}</p>
+      <p>${usage.nomenclaturalStatus}</p>
     </#if>
 
     <#if usage.isExtinct()??>
@@ -342,13 +342,13 @@
         <ul class="notes">
         <#assign skipped=0/>
         <#list usage.distributions as d>
-          <#if d.locationId?? || (d.country.interpreted)?? || d.locality?? >
+          <#if d.locationId?? || d.country?? || d.locality?? >
             <li>
-              ${d.locationId!} ${(d.country.interpreted)!} ${d.locality!}
+              ${d.locationId!} ${d.country!} ${d.locality!}
               <span class="note">
-                ${(d.lifeStage.interpreted)!} ${d.temporal!} ${(d.status.interpreted)!"Present"}
-                <#if (d.threatStatus.interpreted)??><@s.text name="enum.threatstatus.${d.threatStatus.interpreted}"/></#if>
-                ${(d.establishmentMeans.interpreted)!} ${(d.appendixCites.interpreted)!}
+                ${d.lifeStage!} ${d.temporal!} ${d.status!"Present"}
+                <#if d.threatStatus??><@s.text name="enum.threatstatus.${d.threatStatus}"/></#if>
+                ${d.establishmentMeans!} ${d.appendixCites!}
               </span>
             </li>
           <#else>

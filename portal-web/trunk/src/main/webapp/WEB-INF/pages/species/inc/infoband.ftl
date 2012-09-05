@@ -11,7 +11,7 @@
 <content tag="infoband">
   <h1>${common.limit(usage.scientificName, 36)}</h1>
 
-  <h3>${((usage.rank.interpreted)!(usage.rank.verbatim)!"Unranked")?capitalize}
+  <h3>${(usage.rank!"Unranked")?capitalize}
     according to <a href="<@s.url value='/dataset/${usage.datasetKey}'/>">${(dataset.title)!"???"}</a>
   </h3>
 
@@ -27,7 +27,7 @@
     <div class="content">
       <ul>
         <li><h4>${usage.numOccurrences}</h4>Occurrences</li>
-        <#if usage.rank.interpreted.isSpeciesOrBelow()>
+        <#if usage.rank.isSpeciesOrBelow()>
           <li class="last"><h4>${usage.numDescendants}</h4>Infraspecies</li>
         <#else>
           <li class="last"><h4>${usage.numSpecies}</h4>Species</li>

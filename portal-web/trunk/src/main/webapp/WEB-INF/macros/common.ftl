@@ -116,7 +116,7 @@
   <#if c.identifier?has_content><a href="${c.identifier}">${c.text!c.identifier}</a><#else>${c.text!}</#if>
 </#macro>
 
-<#macro enum enum>
+<#macro enumParagraph enum>
   <#if enum.interpreted?has_content>
   <p>${enum.interpreted?string}</p>
     <#else>

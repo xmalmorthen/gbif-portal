@@ -29,20 +29,20 @@
       <div class="left">
       <#list page.results as item>
         <div class="result">
-          <h2><strong>${item.locality!item.locationId!(item.country.interpreted)!(item.country.verbatim)!"Unknown"}</strong>
+          <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong>
             <span class="note">${item.status!"Present"}</span>
             <@common.usageSource component=item showChecklistSource=usage.nub />
           </h2>
 
           <div class="footer">
-          ${item.locationId!} ${(item.country.interpreted)!(item.country.verbatim)!} ${item.locality!}
+          ${item.locationId!} ${item.country!} ${item.locality!}
           </div>
           <div class="footer">
           ${item.lifeStage!} ${item.temporal!} <#if item.startDayOfYear?? || item.endDayOfYear??>Days of the
             year: ${item.startDayOfYear!}-${item.endDayOfYear!}</#if>
           </div>
           <div class="footer">
-          ${(item.threatStatus.interpreted)!(item.threatStatus.verbatim)!} ${(item.establishmentMeans.interpreted)!(item.establishmentMeans.verbatim)!} ${(item.appendixCites.interpreted)!}
+          ${item.threatStatus!} ${item.establishmentMeans} ${item.appendixCites!}
           </div>
         </div>
       </#list>

@@ -68,7 +68,7 @@
 
   <#if dataset.language?has_content>
     <h3>Language of Data</h3>
-  <@common.enum dataset.dataLanguage />
+    <@common.enumParagraph dataset.dataLanguage />
   </#if>
 
   <#if (preferredContacts?size>0) >

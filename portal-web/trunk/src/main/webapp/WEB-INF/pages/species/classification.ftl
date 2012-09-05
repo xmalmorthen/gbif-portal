@@ -34,7 +34,7 @@
         <#assign indent = 30 />
         <#list parents as p>
           <li>
-            <span class="taxon_level">${(p.rank.interpreted)!(p.rank.verbatim)!}</span>
+            <span class="taxon_level">${p.rank!}</span>
             <span class="separator" style="width:${indent}px"></span>
             <a href="<@s.url value='/species/${p.key?c}'/>">${p.scientificName!"???"}</a>
           </li>
