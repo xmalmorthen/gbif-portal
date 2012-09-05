@@ -8,6 +8,7 @@
  */
 package org.gbif.portal.action;
 
+import org.gbif.api.model.vocabulary.Language;
 import org.gbif.api.search.Facet;
 import org.gbif.api.search.SearchResponse;
 import org.gbif.api.search.SearchService;
@@ -118,7 +119,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     // adds parameters processed by subclasses
     searchRequest.addParameter(getRequestParameters());
     // adds the language
-    searchRequest.setLanguage(getLocale().getLanguage());
+    Language lang = Language.fromIsoCode(getLocale().getLanguage());
+    searchRequest.setLanguage(lang);
     // issues the search operation
     searchResponse = searchService.search(searchRequest);
     // initializes the elements required by the UI
