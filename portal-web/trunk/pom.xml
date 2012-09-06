@@ -291,11 +291,6 @@
       <groupId>org.gbif.metrics</groupId>
       <artifactId>metrics-ws-client</artifactId>
       <version>${metrics-ws-client.version}</version>
-    </dependency>
-    <dependency>    
-      <groupId>org.gbif.common</groupId>
-      <artifactId>gbif-postal-service</artifactId>
-      <version>${gbif-postal-service.version}</version>
     </dependency>                
     <dependency>
       <groupId>org.gbif</groupId>
