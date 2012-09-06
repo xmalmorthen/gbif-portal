@@ -59,36 +59,6 @@ public class DetailAction extends UsageBaseAction {
   private final Map<String, Integer> typeStatusCounts = Maps.newHashMap();
   private final DescriptionToc descriptionToc = new DescriptionToc();
 
-  private static String nullSafeConcat(String a, String b) {
-    if (a == null) {
-      return b;
-    }
-    if (b == null) {
-      return a;
-    }
-    return a + ", " + b;
-  }
-
-  private static Integer nullSafeMax(Integer a, Integer b) {
-    if (a == null) {
-      return b;
-    }
-    if (b == null) {
-      return a;
-    }
-    return Math.max(a, b);
-  }
-
-  private static Boolean nullSafeOr(Boolean a, Boolean b) {
-    if (a == null) {
-      return b;
-    }
-    if (b == null) {
-      return a;
-    }
-    return a || b;
-  }
-
   /**
    * Iterate through all types and count the number of times each different
    * typeStatus appears. Store this information in a map, key=typeStatus and value=count. This map is used in the .ftl

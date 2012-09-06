@@ -312,7 +312,7 @@
     <div class="header">
       <div class="right">
         <div class="big_number">
-          <span>${usage.numOccurrences!0}</span>
+          <span>${numOccurrences}</span>
           <a href="<@s.url value='/occurrence/search?nubKey=${usage.key?c}'/>">occurrences</a>
         </div>
 

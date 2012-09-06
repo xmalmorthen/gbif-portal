@@ -28,7 +28,7 @@
   <div class="box">
     <div class="content">
       <ul>
-        <li><h4>${usage.numOccurrences}</h4>Occurrences</li>
+        <li><h4>${numOccurrences}</h4>Occurrences</li>
         <#if usage.rank.isSpeciesOrBelow()>
           <li class="last"><h4>${usage.numDescendants}</h4>Infraspecies</li>
         <#else>
@@ -46,7 +46,7 @@
   <#if tabhl!false>
     <#assign hl="highlighted" />
   </#if>
-  <ul class="${hl}">
+  <ul class="${hl!}">
     <li<#if tab=="info"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/species/${id?c}'/>" title="Information"><span>Information</span></a>
     </li>

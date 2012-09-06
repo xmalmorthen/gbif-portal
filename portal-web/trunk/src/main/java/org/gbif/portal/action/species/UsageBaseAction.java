@@ -35,6 +35,7 @@ public class UsageBaseAction extends BaseAction {
   protected NameUsageContainer usage;
   protected Dataset dataset;
   protected DatasetMetrics metrics;
+  private int numOccurrences;
   protected Map<UUID, Dataset> datasets = new HashMap<UUID, Dataset>();
 
   /**
@@ -60,6 +61,8 @@ public class UsageBaseAction extends BaseAction {
     } catch (ServiceUnavailableException e) {
       LOG.error("Failed to load checklist metrics for dataset {}", usage.getDatasetKey());
     }
+    // TODO: get occurrence metrics
+    numOccurrences = -99;
   }
 
   /**
@@ -116,5 +119,9 @@ public class UsageBaseAction extends BaseAction {
 
   public DatasetMetrics getMetrics() {
     return metrics;
+  }
+
+  public int getNumOccurrences() {
+    return numOccurrences;
   }
 }
