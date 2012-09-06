@@ -30,7 +30,7 @@ public class DescriptionToc {
     // default as english
     Language lang = Language.ENGLISH;
     if (description.getLanguage() != null) {
-      Language l = Language.fromIsoCode(description.getLanguage());
+      Language l = description.getLanguage();
       if (l != null) {
         lang = l;
       }

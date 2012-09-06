@@ -16,50 +16,48 @@
     </div>
   </div>
 
-  <article class="results light_pane">
+  <article class="results">
     <header></header>
     <div class="content">
 
       <div class="header">
         <div class="left">
-          <h2>Datasets with "${usage.canonicalOrScientificName!}"</h2>
+          <h2><@s.text name="enum.datasettype.${type!'UNKNOWN'}"/>s with "${usage.canonicalOrScientificName!}"</h2>
         </div>
       </div>
 
       <div class="fullwidth">
 
-      <#list page.results as item>
+      <#list results as item>
+        <#assign ds = item.dataset/>
         <div class="result">
           <h2><strong>
-            <#if item.type=="CHECKLIST">
-              <a href="<@s.url value='/species/${relatedUsages[item_index].key?c}'/>">
+            <#if ds.type=="CHECKLIST">
+              <a title="${ds.title!}" href="<@s.url value='/species/${item.usage.key?c}'/>">
             <#else>
-              <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${item.key}'/>">
+              <a title="${ds.title!}" href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${ds.key}'/>">
             </#if>
-            ${common.limit(item.title!, 100)}</a>
+            ${common.limit(ds.title!, 100)}</a>
             </strong>
           </h2>
 
           <div class="footer">
-            <@s.text name="enum.datasettype.${item.type!'UNKNOWN'}"/> with
-          <#if item.type=="CHECKLIST">
-            ${relatedUsages[item_index].scientificName}
+            <@s.text name="enum.datasettype.${ds.type!'UNKNOWN'}"/>
+          <#if ds.type=="CHECKLIST">
+            including <em>${item.usage.scientificName}</em>
           <#else>
-            99 occurrences of ${usage.canonicalOrScientificName!}
+            with ${item.numOccurrences} records of <em>${usage.canonicalOrScientificName!}</em>
           </#if>
           </div>
 
-          <#if item.citation?has_content>
+          <#if ds.citation?has_content>
             <div class="footer">
-                <@common.citation item.citation/>
+                <@common.citation ds.citation/>
             </div>
           </#if>
+
         </div>
       </#list>
-
-        <div class="footer">
-        <@paging.pagination page=page url=currentUrl/>
-        </div>
 
       </div>
 

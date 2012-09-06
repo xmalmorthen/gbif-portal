@@ -1,11 +1,10 @@
 package org.gbif.portal.action.species;
 
 import org.gbif.api.model.vocabulary.DatasetType;
-import org.gbif.api.paging.PagingRequest;
-import org.gbif.api.paging.PagingResponse;
 import org.gbif.checklistbank.api.model.NameUsage;
 import org.gbif.registry.api.model.Dataset;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -14,22 +13,46 @@ import com.google.common.collect.Lists;
 
 public class DatasetAction extends UsageBaseAction {
 
-  private long offset = 0;
   private DatasetType type;
-  private PagingResponse<Dataset> page;
-  private List<NameUsage>  relatedUsages;
+  private List<DatasetResult> results = Lists.newArrayList();
+
+  public class DatasetResult implements Comparable<DatasetResult>{
+    private Dataset dataset;
+    private Integer numOccurrences;
+    private NameUsage usage;
+
+    public DatasetResult(Dataset dataset, Integer numOccurrences, NameUsage usage) {
+      this.dataset = dataset;
+      this.numOccurrences = numOccurrences;
+      this.usage = usage;
+    }
+
+    public Dataset getDataset() {
+      return dataset;
+    }
+
+    public Integer getNumOccurrences() {
+      return numOccurrences;
+    }
+
+    public NameUsage getUsage() {
+      return usage;
+    }
+
+    @Override
+    public int compareTo(DatasetResult that) {
+      if ( this == that ) return 0;
+      return dataset.getTitle().toLowerCase().compareTo(that.getDataset().getTitle().toLowerCase());
+    }
+  }
 
   @Override
   public String execute() {
     loadUsage();
 
 
-    page = new PagingResponse<Dataset>();
-    page.setResults(Lists.<Dataset>newArrayList());
-
     if (type == null || type == DatasetType.CHECKLIST) {
-      PagingRequest p = new PagingRequest(offset, 25);
-      relatedUsages = usageService.listRelated(usage.getNubKey(), getLocale());
+      List<NameUsage> relatedUsages = usageService.listRelated(usage.getNubKey(), getLocale());
       // remove nub usage itself
       Iterator<NameUsage> iter = relatedUsages.iterator();
       while (iter.hasNext()){
@@ -37,8 +60,9 @@ public class DatasetAction extends UsageBaseAction {
           iter.remove();
         }
       }
+
       for (NameUsage u : relatedUsages) {
-        page.getResults().add(datasetService.get(u.getDatasetKey()));
+        results.add(new DatasetResult(datasetService.get(u.getDatasetKey()), null, u));
       }
     }
 
@@ -46,16 +70,15 @@ public class DatasetAction extends UsageBaseAction {
       List<UUID> relatedDatasets = usageService.listRelatedOccurrenceDatasets(usage.getNubKey());
 
       for (UUID uuid : relatedDatasets) {
-        page.getResults().add(datasetService.get(uuid));
-        page.setLimit(relatedDatasets.size() + 1);
+        //TODO: populate occurrences via metrics API
+        results.add(new DatasetResult(datasetService.get(uuid), -99, null));
       }
     }
 
-    return SUCCESS;
-  }
+    // sort results alphabetically
+    Collections.sort(results);
 
-  public void setOffset(long offset) {
-    this.offset = offset;
+    return SUCCESS;
   }
 
   public DatasetType getType() {
@@ -66,11 +89,7 @@ public class DatasetAction extends UsageBaseAction {
     this.type = type;
   }
 
-  public PagingResponse<Dataset> getPage() {
-    return page;
-  }
-
-  public List<NameUsage> getRelatedUsages() {
-    return relatedUsages;
+  public List<DatasetResult> getResults() {
+    return results;
   }
 }

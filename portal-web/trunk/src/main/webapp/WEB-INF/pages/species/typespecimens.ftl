@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <article class="results light_pane">
+  <article class="results">
     <header></header>
     <div class="content">
 

@@ -34,8 +34,7 @@
           </h2>
 
 
-          <h3 class="separator">
-          </h3>
+          <h3 class="separator"> </h3>
 
           <div class="footer">
             <#if d.type??><@s.text name="enum.datasettype.${d.type}"/><#else>Dataset</#if>
