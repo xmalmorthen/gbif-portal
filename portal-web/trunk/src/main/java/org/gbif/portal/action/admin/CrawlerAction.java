@@ -2,8 +2,6 @@ package org.gbif.portal.action.admin;
 
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
-import org.gbif.common.messaging.MessagingService;
-import org.gbif.common.messaging.api.StartCrawlMessage;
 import org.gbif.metrics.api.model.DatasetMetrics;
 import org.gbif.metrics.api.service.MetricsService;
 import org.gbif.portal.action.BaseAction;
@@ -16,7 +14,6 @@ import org.gbif.registry.api.service.DatasetService;
 import org.gbif.registry.api.service.NodeService;
 import org.gbif.registry.api.service.OrganizationService;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -39,9 +36,6 @@ public class CrawlerAction extends BaseAction {
   @Inject
   protected OrganizationService organizationWsClient;
 
-  @Inject
-  protected MessagingService service;
-
   protected String orgHost;
   protected String orgOwn;
   protected String id;
@@ -55,17 +49,7 @@ public class CrawlerAction extends BaseAction {
   }
 
   public void crawl() {
-    try {
-      service.declareAllExchangesFromRegistry();
-    } catch (IOException e1) {
-      e1.printStackTrace();
-    }
-    StartCrawlMessage message = new StartCrawlMessage(UUID.fromString(id));
-    try {
-      service.send(message);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    // TODO: call the scheduling-service ws
   }
 
   public List<CrawlJob> getMetrics() {
