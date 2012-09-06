@@ -3,10 +3,11 @@
 <html>
 <head>
   <title>Vernacular Names for ${usage.canonicalOrScientificName!}</title>
-
 </head>
+
 <body class="species">
 
+<#assign tabhl=true />
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
 
   <div class="back">
@@ -23,10 +24,9 @@
         <div class="left">
           <h2>${page.count!""} References for "${usage.canonicalOrScientificName!}"</h2>
         </div>
-        <div class="right"><h3>Statistics</h3></div>
       </div>
 
-      <div class="left">
+      <div class="fullwidth">
 
         <#list page.results as item>
         <div class="result">
@@ -52,15 +52,6 @@
           <@paging.pagination page=page url=currentUrl/>
         </div>
 
-      </div>
-
-      <div class="right placeholder_temp">
-        <h3>Reference Type</h3>
-        <ul>
-          <li>Nomenclature <a class="number">3</a></li>
-          <li>Taxonomy <a class="number">6</a></li>
-          <li>Genetics <a class="number">2</a></li>
-        </ul>
       </div>
 
     </div>

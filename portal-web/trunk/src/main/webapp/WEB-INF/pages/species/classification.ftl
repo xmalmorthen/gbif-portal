@@ -1,17 +1,17 @@
 <html>
 <head>
   <title>${usage.canonicalOrScientificName!} - Complete Classification</title>
-
 </head>
+
 <body class="species">
 
-
 <#assign tab="info"/>
+<#assign tabhl=true />
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
 
   <div class="back">
     <div class="content">
-      <a href="<@s.url value='/species/${id!}'/>" title="Back to species overview">Back to species overview</a>
+      <a href="<@s.url value='/species/${id?c}'/>" title="Back to species overview">Back to species overview</a>
     </div>
   </div>
 
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="left">
+      <div class="fullwidth">
         <ul class="classification">
         <#assign indent = 30 />
         <#list parents as p>
@@ -41,19 +41,6 @@
           <#assign indent = indent + 10 />
         </#list>
         </ul>
-      </div>
-
-      <div class="right">
-        <div class="refine placeholder_temp">
-          <h3>Download</h3>
-          <ul>
-            <li class="download"><a href="#" title="Classification">Classification<abbr title="Comma separated values">(CSV)</abbr></a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="download">
-        </div>
       </div>
 
     </div>

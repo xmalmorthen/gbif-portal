@@ -222,7 +222,7 @@
   <#if usage.images?has_content>
     <#assign img=usage.images[0]>
     <div class="species_image">
-      <a href="#" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a>
+      <a href="#images" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a>
     </div>
   </#if>
 
@@ -458,15 +458,15 @@
 </#if>
 
 <#if usage.nubKey??>
-  <@common.article id="appearsin" title="Appears in">
+  <@common.article id="appearsin" title="${usage.canonicalOrScientificName} appears in">
     <div class="left">
       <div class="col">
         <h3>Occurrence datasets</h3>
         <ul class="notes">
           <#list relatedDatasets as uuid>
             <li>
-              <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">? occurrences</a>
-              <span class="note">in ${common.limit(datasets.get(uuid).title!, 40)}</span>
+              <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">${common.limit(datasets.get(uuid).title!, 38)}</a>
+              <span class="note"> in 99 occurrences</span>
             </li>
             <#if uuid_has_next && uuid_index==6>
               <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">see all ${relatedDatasets?size}</a></li>
@@ -480,8 +480,8 @@
         <h3>Checklists</h3>
         <ul class="notes">
           <#list related as rel>
-            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${rel.scientificName}</a>
-              <span class="note">in ${common.limit(datasets.get(rel.datasetKey).title!, 40)}</span>
+            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${common.limit(datasets.get(rel.datasetKey).title!, 38)}</a>
+              <span class="note">as ${rel.scientificName}</span>
             </li>
             <#if rel_has_next && rel_index==6>
               <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">see all ${related?size}</a></li>

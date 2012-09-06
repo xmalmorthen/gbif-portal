@@ -3,10 +3,11 @@
 <html>
 <head>
   <title>Datasets with ${usage.canonicalOrScientificName!}</title>
-
 </head>
+
 <body class="species">
 
+<#assign tabhl=true />
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
 
   <div class="back">
@@ -23,10 +24,9 @@
         <div class="left">
           <h2>Datasets with "${usage.canonicalOrScientificName!}"</h2>
         </div>
-        <div class="right"><h3>Statistics</h3></div>
       </div>
 
-      <div class="left">
+      <div class="fullwidth">
 
       <#list page.results as item>
         <div class="result">
@@ -36,23 +36,24 @@
             <#else>
               <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${item.key}'/>">
             </#if>
-            ${item.title!}</a>
+            ${common.limit(item.title!, 100)}</a>
             </strong>
           </h2>
 
           <div class="footer">
+            <@s.text name="enum.datasettype.${item.type!'UNKNOWN'}"/> with
           <#if item.type=="CHECKLIST">
-            ${relatedUsages[item_index].scientificName},
+            ${relatedUsages[item_index].scientificName}
+          <#else>
+            99 occurrences of ${usage.canonicalOrScientificName!}
           </#if>
-            ${item.type},
-            ${item.networkOfOrigin} network
           </div>
 
-          <div class="footer">
-            <#if item.citation?has_content>
-              <@common.citation item.citation/>
-            </#if>
-          </div>
+          <#if item.citation?has_content>
+            <div class="footer">
+                <@common.citation item.citation/>
+            </div>
+          </#if>
         </div>
       </#list>
 
@@ -60,15 +61,6 @@
         <@paging.pagination page=page url=currentUrl/>
         </div>
 
-      </div>
-
-      <div class="right placeholder_temp">
-        <h3>Dataset Type</h3>
-        <ul>
-          <li>Nomenclature <a class="number">3</a></li>
-          <li>Taxonomy <a class="number">6</a></li>
-          <li>Genetics <a class="number">2</a></li>
-        </ul>
       </div>
 
     </div>

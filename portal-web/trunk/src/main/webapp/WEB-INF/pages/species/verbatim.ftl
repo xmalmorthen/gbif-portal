@@ -3,9 +3,11 @@
 <head>
   <title>Verbatim Name Usage Data</title>
 </head>
+
 <body class="stats">
 
-<#assign tab="info-verbatim"/>
+<#assign tab="info"/>
+<#assign tabhl=true />
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
 
 

@@ -3,10 +3,11 @@
 <html>
 <head>
   <title>Distributions for ${usage.canonicalOrScientificName!}</title>
-
 </head>
+
 <body class="species">
 
+<#assign tabhl=true />
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
 
   <div class="back">
@@ -23,10 +24,9 @@
         <div class="left">
           <h2>${page.count!} Distributions for "${usage.canonicalOrScientificName!}"</h2>
         </div>
-        <div class="right"><h3>Statistics</h3></div>
       </div>
 
-      <div class="left">
+      <div class="fullwidth">
       <#list page.results as item>
         <div class="result">
           <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong>
@@ -46,18 +46,10 @@
           </div>
         </div>
       </#list>
+
         <div class="footer">
         <@paging.pagination page=page url=currentUrl/>
         </div>
-      </div>
-
-      <div class="right placeholder_temp">
-        <h3>References by continent</h3>
-        <ul>
-          <li>Europe <a class="number">200</a></li>
-          <li>America <a class="number">32</a></li>
-          <li>Asia <a class="number">152</a></li>
-        </ul>
       </div>
     </div>
 

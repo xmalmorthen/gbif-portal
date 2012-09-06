@@ -4,9 +4,11 @@
  to select a tab to be highlighted please assign on of the following to the freemarker variable "tab":
 
  <#assign tab="info"/>
- <#assign tab="info-verbatim"/>
  <#assign tab="activity"/>
  <#assign tab="stats"/>
+
+ To show yellow tabs instead of default grey ones please assign:
+  <#assign tabhl=true />
 -->
 <content tag="infoband">
   <h1>${common.limit(usage.scientificName, 36)}</h1>
@@ -41,19 +43,17 @@
 </content>
 
 <content tag="tabs">
-  <#if !tab??><#assign tab="" /></#if>
-  <#assign hl="" />
-  <#if tab=="info-verbatim">
+  <#if tabhl!false>
     <#assign hl="highlighted" />
   </#if>
   <ul class="${hl}">
-    <li<#if tab=="info" || tab=="info-verbatim"> class='selected ${hl}'</#if>>
+    <li<#if tab=="info"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/species/${id?c}'/>" title="Information"><span>Information</span></a>
     </li>
-    <li<#if tab=="activity"> class='selected ${hl}'</#if>>
+    <li<#if tab=="activity"> class='selected ${hl!}'</#if>>
       <a href="#" title="Activity"><span>Activity <sup>(2)</sup></span></a>
     </li>
-    <li<#if tab=="stats"> class='selected ${hl}'</#if>>
+    <li<#if tab=="stats"> class='selected ${hl!}'</#if>>
       <a href="#" title="Stats"><span>Stats <sup>(2)</sup></span></a>
     </li>
   </ul>

@@ -2,10 +2,11 @@
 <html>
 <head>
   <title>Synonyms of ${usage.canonicalOrScientificName!}</title>
-
 </head>
+
 <body class="species">
 
+<#assign tabhl=true />
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
 
   <div class="back">
@@ -22,10 +23,9 @@
         <div class="left">
           <h2>${page.count!} Synonyms for "${usage.canonicalOrScientificName!}"</h2>
         </div>
-        <div class="right"><h3>Statistics</h3></div>
       </div>
 
-      <div class="left">
+      <div class="fullwidth">
 
       <#list page.results as u>
         <div class="result">
@@ -44,15 +44,6 @@
         <@paging.pagination page=page url=currentUrl/>
         </div>
 
-      </div>
-
-      <div class="right placeholder_temp">
-        <h3>Type of synonym</h3>
-        <ul>
-          <li>Synonym <a class="number">10</a></li>
-          <li>Heterotypic <a class="number">4</a></li>
-          <li>Homotypic <a class="number">1</a></li>
-        </ul>
       </div>
 
     </div>

@@ -4,10 +4,11 @@
 <html>
 <head>
   <title>Type Specimens for ${usage.canonicalOrScientificName!}</title>
-
 </head>
+
 <body class="species">
 
+<#assign tabhl=true />
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
 
   <div class="back">
@@ -24,9 +25,9 @@
         <div class="left">
           <h2>${page.count!} Type Specimens for "${usage.canonicalOrScientificName!}"</h2>
         </div>
-        <div class="right"><h3>Statistics</h3></div>
       </div>
-      <div class="left">
+
+      <div class="fullwidth">
 
       <#list page.results as item>
         <@specimenRecord.record ts=item showAsSearchResult=true />
@@ -34,15 +35,6 @@
         <div class="footer">
         <@paging.pagination page=page url=currentUrl/>
         </div>
-      </div>
-
-      <div class="right placeholder_temp">
-        <h3>Type</h3>
-        <ul>
-          <li>Holotype <a class="number">1</a></li>
-          <li>Isotype <a class="number">4</a></li>
-          <li>Lectotype <a class="number">2</a></li>
-        </ul>
       </div>
 
     </div>

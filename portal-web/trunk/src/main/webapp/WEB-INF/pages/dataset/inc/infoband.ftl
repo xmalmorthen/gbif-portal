@@ -8,15 +8,16 @@
  <#assign tab="activity"/>
  <#assign tab="discussion"/>
 
- To use highlighted tabs please set:
- <#assign hl="highlighted" />
+ To show yellow tabs instead of default grey ones please assign:
+  <#assign tabhl=true />
 
 -->
 <content tag="infoband">
 
   <h1>${common.limit(dataset.title, 36)}</h1>
 
-  <h3 class="separator"><#if dataset.type??><@s.text name="enum.datasettype.${dataset.type}"/><#else>Dataset</#if>
+  <h3 class="separator">
+    <@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/>
     <#if owningOrganization??>
       published by <a href="<@s.url value='/organization/${owningOrganization.key}'/>">${owningOrganization.title!"Unknown"}</a>
     </#if>
@@ -73,6 +74,9 @@
 
 
 <content tag="tabs">
+  <#if tabhl!false>
+    <#assign hl="highlighted" />
+  </#if>
   <ul class="${hl!}">
     <li<#if (tab!"")=="info"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/dataset/${id!}'/>" title="Information"><span>Information</span></a>

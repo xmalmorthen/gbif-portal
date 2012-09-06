@@ -185,8 +185,8 @@ public class DetailAction extends UsageBaseAction {
         continue;
       }
       String lang = "";
-      if (v.getLanguage() != null && v.getLanguage().getInterpreted() != null) {
-        lang = v.getLanguage().getInterpreted().getIso2LetterCode();
+      if (v.getLanguage() != null && v.getLanguage() != null) {
+        lang = v.getLanguage().getIso2LetterCode();
       }
       String id = v.getVernacularName() + "||" + lang;
       if (!vernacularNames.containsKey(id)) {

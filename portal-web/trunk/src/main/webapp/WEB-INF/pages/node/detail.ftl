@@ -31,7 +31,8 @@
         <#list organizations as org>
           <li>
             <a href="<@s.url value='/organization/${org.key}'/>">${org.title!"???"}</a>
-            <span class="note">An organization <#if org.city?? || org.country??>from <@common.cityAndCountry org/></#if> with ${org.numDatasets!"?"} published datasets</span>
+            <span class="note">An organization <#if org.city?? || org.country??>from <@common.cityAndCountry org/></#if>
+             with ${org.numDatasets!0} published datasets</span>
           </li>
         </#list>
         <#if more>
