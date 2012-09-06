@@ -1472,13 +1472,13 @@ $.fn.bindSlideshow = function(opt) {
   $next_button     = $this.find(".next_slide"),
   $slideshow       = $this.find('.slideshow'),
 
-
-  id               = $slideshow.attr("data-id");
+  id               = $slideshow.attr("usageKey");
 
   function init()  {
-    var url = "http://cache.gbif.org/checklistbank-ws/name_usage/" + id + "/images";
-
-    $.ajax({ url: url, dataType:"jsonp", success: onSuccess });
+    if (id) {
+      var url = cfg.wsClb + "name_usage/" + id + "/images";
+      $.ajax({ url: url, dataType:"jsonp", success: onSuccess });
+    }
   }
 
 function updateSlideshow(data) {

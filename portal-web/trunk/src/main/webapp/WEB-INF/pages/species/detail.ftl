@@ -344,7 +344,8 @@
         <#list usage.distributions as d>
           <#if d.locationId?? || d.country?? || d.locality?? >
             <li>
-              ${d.locationId!} ${d.country!} ${d.locality!}
+              <#if d.country??>${d.country}</#if>
+              ${d.locationId!} ${d.locality!}
               <span class="note">
                 ${d.lifeStage!} ${d.temporal!} ${d.status!"Present"}
                 <#if d.threatStatus??><@s.text name="enum.threatstatus.${d.threatStatus}"/></#if>
@@ -396,7 +397,7 @@
 
 <#if (usage.images?size>0)>
   <@common.article id="images" class="photo_gallery">
-    <div class="slideshow">
+    <div class="slideshow" usageKey="${id?c}">
       <div class="photos">
         <#list usage.images as img>
           <#if img.image??>
@@ -458,14 +459,15 @@
 </#if>
 
 <#if usage.nubKey??>
-  <@common.article id="appearsin" title="${usage.canonicalOrScientificName} appears in">
-    <div class="left">
+  <@common.article id="appearsin" title="Appears in">
+    <div class="fullwidth">
       <div class="col">
         <h3>Occurrence datasets</h3>
         <ul class="notes">
           <#list relatedDatasets as uuid>
+            <#assign title=datasets.get(uuid).title! />
             <li>
-              <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">${common.limit(datasets.get(uuid).title!, 38)}</a>
+              <a title="${title}" href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">${common.limit(title, 55)}</a>
               <span class="note"> in 99 occurrences</span>
             </li>
             <#if uuid_has_next && uuid_index==6>
@@ -480,7 +482,8 @@
         <h3>Checklists</h3>
         <ul class="notes">
           <#list related as rel>
-            <li><a href="<@s.url value='/species/${rel.key?c}'/>">${common.limit(datasets.get(rel.datasetKey).title!, 38)}</a>
+            <#assign title=datasets.get(rel.datasetKey).title! />
+            <li><a title="${title}" href="<@s.url value='/species/${rel.key?c}'/>">${common.limit(title, 55)}</a>
               <span class="note">as ${rel.scientificName}</span>
             </li>
             <#if rel_has_next && rel_index==6>
@@ -556,7 +559,7 @@
 </#if>
 
 <@common.article id="legal" title="Usage & legal issues" class="mono_line">
-    <div class="left">
+    <div class="fullwidth">
       <#assign rights = usage.rights!dataset.intellectualRights! />
       <#if rights?has_content>
         <h3>Usage rights</h3>
