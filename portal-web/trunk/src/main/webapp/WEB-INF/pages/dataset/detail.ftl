@@ -296,6 +296,8 @@
 </@common.article>
 </#if>
 
+
+<#if dataset.geographicCoverages?has_content>
 <article class="map">
   <header></header>
 
@@ -321,16 +323,16 @@
         <div class="right"><h2>Geographic Coverages</h2></div>
       </div>
 	  <div class="right">
+      <div class="inner">
         <#list dataset.geographicCoverages as geo>
-            <#assign extended_desc_len = 150>
-            <p>${common.limit(geo.description!"",extended_desc_len)}
-              <#if (geo.description?length>extended_desc_len) ><@common.popup message=geo.description title="Description"/></#if>
-            </p>
+          <p>${geo.description!}</p>
         </#list>
+      </div>
 	  </div>
   </div>
   <footer></footer>
 </article>
+</#if>
 
 
 <#-- PROJECT -->

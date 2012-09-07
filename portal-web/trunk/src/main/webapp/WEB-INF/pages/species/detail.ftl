@@ -344,7 +344,7 @@
         <#list usage.distributions as d>
           <#if d.locationId?? || d.country?? || d.locality?? >
             <li>
-              <#if d.country??>${d.country}</#if>
+              <#if d.country??>${d.country.title}</#if>
               ${d.locationId!} ${d.locality!}
               <span class="note">
                 ${d.lifeStage!} ${d.temporal!} ${d.status!"Present"}
