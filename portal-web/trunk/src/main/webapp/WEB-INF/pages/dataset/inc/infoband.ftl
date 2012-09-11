@@ -81,9 +81,11 @@
     <li<#if (tab!"")=="info"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/dataset/${id!}'/>" title="Information"><span>Information</span></a>
     </li>
-    <li<#if (tab!"")=="constituents"> class='selected ${hl!}'</#if>>
-      <a href="#" title="Constituents"><span>Constituents</span></a>
-    </li>
+    <#if dataset.hasConstituents()>
+      <li<#if (tab!"")=="constituents"> class='selected ${hl!}'</#if>>
+        <a href="#" title="Constituents"><span>Constituents</span></a>
+      </li>
+    </#if>
     <li<#if (tab!"")=="activity"> class='selected ${hl!}'</#if>>
       <a href="#" title="Activity"><span>Activity <sup>(2)</sup></span></a>
     </li>

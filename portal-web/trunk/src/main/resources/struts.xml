@@ -352,6 +352,32 @@
 
   </package>
 
+
+  <package name="newsroom" namespace="/newsroom" extends="default">
+    <default-action-ref name=""/>
+
+    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/newsroom/home.ftl</result>
+    </action>
+
+    <action name="news" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/newsroom/news/home.ftl</result>
+    </action>
+
+    <action name="news/{id}" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/newsroom/news/detail.ftl</result>
+    </action>
+
+    <action name="uses" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/newsroom/uses/home.ftl</result>
+    </action>
+
+    <action name="uses/{id}" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/newsroom/uses/detail.ftl</result>
+    </action>
+
+  </package>
+
   <!--
    ###
    ### UNIMPLEMENRTED PARTS WHICH MIGHT BE MOVED TO DRUPAL

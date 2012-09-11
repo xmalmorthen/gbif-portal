@@ -143,7 +143,7 @@
         <div class="about">
           <a href="#"></a>
           <ul>
-            <li><a href="${cfg.drupal}/news">News</a></li>
+            <li><a href="<@s.url value='/newsroom'/>">News</a></li>
             <li class="divider"></li>
             <li><a href="#">Key partners</a></li>
             <li><a href="#">Mission</a></li>
