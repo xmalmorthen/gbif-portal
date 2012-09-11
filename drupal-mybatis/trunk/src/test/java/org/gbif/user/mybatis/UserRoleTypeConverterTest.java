@@ -1,6 +1,6 @@
 package org.gbif.user.mybatis;
 
-import org.gbif.api.model.vocabulary.UserRole;
+import org.gbif.api.vocabulary.UserRole;
 
 import org.junit.Test;
 

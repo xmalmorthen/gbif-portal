@@ -1,7 +1,7 @@
 package org.gbif.user.mybatis;
 
 import org.gbif.api.exception.ServiceUnavailableException;
-import org.gbif.api.model.vocabulary.UserRole;
+import org.gbif.api.vocabulary.UserRole;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

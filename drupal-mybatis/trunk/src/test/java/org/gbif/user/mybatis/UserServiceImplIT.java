@@ -1,8 +1,8 @@
 package org.gbif.user.mybatis;
 
-import org.gbif.api.model.User;
-import org.gbif.api.model.vocabulary.UserRole;
-import org.gbif.api.service.UserService;
+import org.gbif.api.model.common.User;
+import org.gbif.api.service.common.UserService;
+import org.gbif.api.vocabulary.UserRole;
 
 import org.junit.Assert;
 import org.junit.Rule;

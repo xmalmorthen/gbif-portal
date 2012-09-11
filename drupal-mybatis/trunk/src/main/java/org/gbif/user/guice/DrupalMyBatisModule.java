@@ -1,6 +1,6 @@
 package org.gbif.user.guice;
 
-import org.gbif.api.service.UserService;
+import org.gbif.api.service.common.UserService;
 import org.gbif.service.guice.PrivateServiceModule;
 
 import java.util.Properties;
@@ -11,7 +11,7 @@ public class DrupalMyBatisModule extends PrivateServiceModule {
 
   /**
    * Uses the given properties to configure the service.
-   *
+   * 
    * @param properties to use
    */
   public DrupalMyBatisModule(Properties properties) {

@@ -1,6 +1,6 @@
 package org.gbif.user.mybatis;
 
-import org.gbif.api.model.User;
+import org.gbif.api.model.common.User;
 
 public interface UserMapper {
 

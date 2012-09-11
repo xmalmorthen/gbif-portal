@@ -8,6 +8,7 @@ package org.gbif.user.util;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Strings;
