@@ -526,7 +526,7 @@
   </#if>
 
   <#if (dataset.bibliographicCitations?size>0)>
-    <h3>Bibliographic Citations</h3>
+    <h3>References</h3>
     <#list dataset.bibliographicCitations as ref>
       <p><@common.citation ref/></p>
     <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
@@ -542,16 +542,21 @@
 
 <#-- LEGAL -->
 <@common.article id="legal" title="Dataset usage & legal issues" class="mono_line">
-<div class="left">
+<div class="fullwidth">
   <#if dataset.intellectualRights?has_content>
     <h3>Usage rights</h3>
     <p>${dataset.intellectualRights}</p>
   </#if>
 
-  <h3>How to cite it</h3>
-  <p>${dataset.title!"???"} (accessed through GBIF data portal, <a href="${baseUrl}/dataset/${dataset.key}"
-                                                                   title="${dataset.title!}">${baseUrl}
-    /dataset/${dataset.key}</a>, ${.now?date})</p>
+  <h3>How to cite</h3>
+  <p>
+    <#if dataset.citation??>
+      <@common.citation dataset.citation />
+    <#else>
+      missing, see <a href="http://dev.gbif.org/issues/browse/REG-229">REG-229</a>
+    </#if>
+  </p>
+
 </div>
 </@common.article>
 

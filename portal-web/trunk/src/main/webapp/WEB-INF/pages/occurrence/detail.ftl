@@ -280,19 +280,24 @@ Identification details <span class='subtitle'>According to <a href="<@s.url valu
 -->
 
 <@common.article id="legal" title="Usage & legal issues" class="mono_line">
-    <div class="left">
+    <div class="fullwidth">
       <#assign rights = occ.rights!dataset.intellectualRights! />
       <#if rights?has_content>
         <h3>Usage rights</h3>
         <p>${rights}</p>
       </#if>
 
-      <#if occ.citation?has_content || dataset.citation??>
-        <h3>HOW TO CITE IT</h3>
-        <p>
-          <#if occ.citation?has_content>${occ.citation} <#else> <@common.citation dataset.citation /></#if>
-        </p>
-      </#if>
+      <h3>How to cite</h3>
+      <p>
+        <#if occ.citation?has_content>
+          ${occ.citation}
+        <#elseif dataset.citation??>
+          <@common.citation dataset.citation />
+        <#else>
+          missing, see <a href="http://dev.gbif.org/issues/browse/REG-229">REG-229</a>
+        </#if>
+      </p>
+
     </div>
 </@common.article>
 

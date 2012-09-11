@@ -566,12 +566,16 @@
         <p>${rights}</p>
       </#if>
 
-      <#if usage.citation?has_content || dataset.citation??>
-        <h3>HOW TO CITE IT</h3>
+        <h3>How to cite</h3>
         <p>
-          <#if usage.citation?has_content>${usage.citation} <#else> <@common.citation dataset.citation /></#if>
+          <#if usage.citation?has_content>
+            ${usage.citation}
+          <#elseif dataset.citation??>
+            <@common.citation dataset.citation />
+          <#else>
+            missing, see <a href="http://dev.gbif.org/issues/browse/REG-229">REG-229</a>
+          </#if>
         </p>
-      </#if>
     </div>
 </@common.article>
 
