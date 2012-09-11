@@ -31,7 +31,7 @@
 
       <div class="fullwidth">
         <ul class="classification">
-        <#assign indent = 30 />
+        <#assign indent = 20 />
         <#list parents as p>
           <li>
             <span class="taxon_level">${p.rank!}</span>
