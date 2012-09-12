@@ -68,34 +68,34 @@
       
         <ul>
           <li>
-          <a href="#">
+          <a href="<@s.url value='/newsroom/uses/1'/>">
             <img src="http://placehold.it/270x170" />
           </a>
-          <a href="#" class="title">Vampire bats and cattle risks</a>
+          <a href="<@s.url value='/newsroom/uses/1'/>" class="title">Vampire bats and cattle risks</a>
           <p>Research using data downloaded via GBIF has forecast the potential spread of cattle rabies carried by vampire bats in the Americas, both under present conditions and under future climate change scenarios.</p>
           <div class="ocurrences">984 occurrence records used</div>
           </li>
 
           <li>
-          <a href="#">
+          <a href="<@s.url value='/newsroom/uses/2'/>">
             <img src="http://placehold.it/270x170" />
           </a>
-          <a href="#" class="title">Vampire bats and cattle risks</a>
+          <a href="<@s.url value='/newsroom/uses/2'/>" class="title">Vampire bats and cattle risks</a>
           <p>Research using data downloaded via GBIF has forecast the potential spread of cattle rabies carried by vampire bats in the Americas, both under present conditions and under future climate change scenarios.</p>
           <div class="ocurrences">984 occurrence records used</div>
           </li>
 
           <li class="last">
-          <a href="#">
+          <a href="<@s.url value='/newsroom/uses/3'/>">
             <img src="http://placehold.it/270x170" />
           </a>
-          <a href="#" class="title">Vampire bats and cattle risks</a>
+          <a href="<@s.url value='/newsroom/uses/3'/>" class="title">Vampire bats and cattle risks</a>
           <p>Research using data downloaded via GBIF has forecast the potential spread of cattle rabies carried by vampire bats in the Americas, both under present conditions and under future climate change scenarios.</p>
           <div class="ocurrences">984 occurrence records used</div>
           </li>
         </ul>
 
-        <a href="#" class="candy_white_button more_news next lft"><span>More data use news</span></a>
+        <a href="<@s.url value='/newsroom/uses'/>" class="candy_white_button more_news next lft"><span>More data use news</span></a>
         
       
       </div>
@@ -123,28 +123,28 @@
 
           <li>
           <h4 class="date">DEC 15TH 2011</h4>
-          <a href="#" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
+          <a href="<@s.url value='/newsroom/news/1'/>" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
           <p>A landmark conference has agreed key priorities for harnessing the power of information technologies and social networks to understand better the workings of life on Earth. </p>
-          <a href="#" class="read_more">Read more</a>
+          <a href="<@s.url value='/newsroom/news/1'/>" class="read_more">Read more</a>
           </li>
 
           <li>
           <h4 class="date">DEC 15TH 2011</h4>
-          <a href="#" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
+          <a href="<@s.url value='/newsroom/news/2'/>" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
           <p>A landmark conference has agreed key priorities for harnessing the power of information technologies and social networks to understand better the workings of life on Earth. </p>
-          <a href="#" class="read_more">Read more</a>
+          <a href="<@s.url value='/newsroom/news/2'/>" class="read_more">Read more</a>
           </li>
 
           <li>
           <h4 class="date">DEC 15TH 2011</h4>
-          <a href="#" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
+          <a href="<@s.url value='/newsroom/news/3'/>" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
           <p>A landmark conference has agreed key priorities for harnessing the power of information technologies and social networks to understand better the workings of life on Earth. </p>
-          <a href="#" class="read_more">Read more</a>
+          <a href="<@s.url value='/newsroom/news/3'/>" class="read_more">Read more</a>
           </li>
 
         </ul>
 
-        <a href="#" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
+        <a href="<@s.url value='/newsroom/news'/>" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
       </div>
 
       <div class="right">
