@@ -95,14 +95,9 @@
   </#if>
 
   <h3>Dataset Type</h3>
-  <#if dataset.type?has_content>
-    <p><@s.text name="enum.datasettype.${dataset.type}"/></a></p>
-    <#else>
-      <p>Unknown</p>
-  </#if>
+  <p><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/></a></p>
 
   <h3>Publication Date</h3>
-
   <p>${(dataset.pubDate?date)!"Unkown"}</p>
 
   <h3>Published by</h3>
@@ -378,11 +373,6 @@
     <ul class="team">
       <#list otherContacts as ap>
         <li><@common.contact con=ap /></li>
-      <#-- only show 3 references at max. If we have 3 (index=2) we know there are more to show -->
-        <#if ap_index==2>
-          <p><a class="more_link, placeholder_temp" href="">see all</a></p>
-          <#break />
-        </#if>
       </#list>
     </ul>
   </#if>
@@ -398,36 +388,32 @@
 
   <#if sd.studyExtent?has_content>
     <h3>Study extent</h3>
-
     <p>${sd.studyExtent}</p>
   </#if>
 
   <#if sd.sampling?has_content>
     <h3>Sampling description</h3>
-
     <p>${sd.sampling}</p>
   </#if>
 
   <#if sd.qualityControl?has_content>
     <h3>Quality control</h3>
-
     <p>${sd.qualityControl}</p>
   </#if>
 
   <#if sd.methodSteps?has_content>
     <h3>Method Steps</h3>
-    <ul>
+    <ul class="notes">
       <#list sd.methodSteps as step>
-        <h4>Method Step ${step_index+1}</h4>
-        <#if step.title?has_content>
-          <li>Title: ${step.title}</li>
-        </#if>
+       <li>
+        <#if step.title?has_content> ${step.title} <#else> #${step_index+1} </#if>
         <#if step.description?has_content>
-          <li>Description: ${step.description}</li>
+          <span class="note">${step.description}</span>
         </#if>
         <#if step.instrumentation?has_content>
-          <li>Instrumentation: ${step.instrumentation}</li>
+          <span class="note">Instrumentation: ${step.instrumentation}</span>
         </#if>
+       </li>
       </#list>
     </ul>
   </#if>
@@ -438,25 +424,21 @@
     <#list dataset.collections as col>
       <#if col.collectionName?has_content>
         <h3>Collection name</h3>
-
         <p>${col.collectionName}</p>
       </#if>
 
       <#if col.collectionIdentifier?has_content>
         <h3>Collection Identifier</h3>
-
         <p>${col.collectionIdentifier}</p>
       </#if>
 
       <#if col.parentCollectionIdentifier?has_content>
         <h3>Parent Collection Identifier</h3>
-
         <p>${col.parentCollectionIdentifier}</p>
       </#if>
 
       <#if col.specimenPreservationMethod?has_content>
         <h3>Specimen Preservation method</h3>
-
         <p><@s.text name="enum.preservationmethodtype.${col.specimenPreservationMethod}"/></a></p>
       </#if>
 
@@ -465,11 +447,9 @@
         <ul>
           <#list col.curatorialUnits as unit>
             <#if unit.typeVerbatim?has_content && unit.lower!=0 && unit.upper!=0>
-              <h4>Count range</h4>
-              <li>${unit.typeVerbatim!""}: between ${unit.lower} and ${unit.upper}</li>
-              <#elseif unit.typeVerbatim?has_content && unit.count!=0>
-                <h4>Count with uncertainty</h4>
-                <li>${unit.typeVerbatim!""}: ${unit.count} ± ${unit.deviation!""}</li>
+              <li>${unit.lower} - ${unit.upper} ${unit.typeVerbatim?lower_case}</li>
+            <#elseif unit.typeVerbatim?has_content && unit.count!=0>
+              <li>${unit.count} <#if unit.deviation?has_content> ± ${unit.deviation}</#if> ${unit.typeVerbatim?lower_case}</li>
             </#if>
           </#list>
         </ul>
@@ -516,24 +496,14 @@
 </#if>
 
 <#-- CITATIONS -->
-<#if ( dataset.citation?has_content && (dataset.citation.identifier?has_content || dataset.citation.text?has_content)) || dataset.bibliographicCitations?has_content >
-<@common.article id="references" title="Citations">
-<div class="left">
-  <#if dataset.citation.identifier?has_content || dataset.citation.text?has_content>
-    <h3>Citation</h3>
-
-    <p><@common.citation dataset.citation/></p>
-  </#if>
-
+<#if dataset.bibliographicCitations?has_content >
+<@common.article id="references" title="References">
+<div class="fullwidth">
   <#if (dataset.bibliographicCitations?size>0)>
-    <h3>References</h3>
     <#list dataset.bibliographicCitations as ref>
-      <p><@common.citation ref/></p>
-    <#-- only show 9 references at max. If we have 10 (index=9) we know there are more to show -->
-      <#if ref_index==7>
-        <p><a class="more_link, placeholder_temp" href="">see all</a></p>
-        <#break />
-      </#if>
+      <p>
+        <@common.citation ref/>
+      </p>
     </#list>
   </#if>
 </div>
