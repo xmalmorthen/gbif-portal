@@ -1,17 +1,24 @@
 package org.gbif.portal.model;
 
-import org.gbif.metrics.api.model.DatasetMetrics;
-import org.gbif.registry.api.model.Dataset;
+import org.gbif.api.model.metrics.DatasetMetrics;
+import org.gbif.api.model.registry.Dataset;
 
 /**
  * Object that aggregates all the information needed to be displayed for a single
- * crawl job. 
+ * crawl job.
  */
 public class CrawlJob {
 
   private DatasetMetrics metrics;
   private Dataset dataset;
   private String owningOrganizationName;
+
+  /**
+   * @return the dataset
+   */
+  public Dataset getDataset() {
+    return dataset;
+  }
 
   /**
    * @return the metrics
@@ -21,17 +28,10 @@ public class CrawlJob {
   }
 
   /**
-   * @param metrics the metrics to set
+   * @return the owningOrganizationName
    */
-  public void setMetrics(DatasetMetrics metrics) {
-    this.metrics = metrics;
-  }
-
-  /**
-   * @return the dataset
-   */
-  public Dataset getDataset() {
-    return dataset;
+  public String getOwningOrganizationName() {
+    return owningOrganizationName;
   }
 
   /**
@@ -42,10 +42,10 @@ public class CrawlJob {
   }
 
   /**
-   * @return the owningOrganizationName
+   * @param metrics the metrics to set
    */
-  public String getOwningOrganizationName() {
-    return owningOrganizationName;
+  public void setMetrics(DatasetMetrics metrics) {
+    this.metrics = metrics;
   }
 
   /**

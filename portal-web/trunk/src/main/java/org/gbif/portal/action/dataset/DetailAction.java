@@ -8,10 +8,10 @@
  */
 package org.gbif.portal.action.dataset;
 
-import org.gbif.registry.api.model.Contact;
-import org.gbif.registry.api.model.Organization;
-import org.gbif.registry.api.model.TechnicalInstallation;
-import org.gbif.registry.api.service.TechnicalInstallationService;
+import org.gbif.api.model.registry.Contact;
+import org.gbif.api.model.registry.Organization;
+import org.gbif.api.model.registry.TechnicalInstallation;
+import org.gbif.api.service.registry.TechnicalInstallationService;
 
 import java.util.ArrayList;
 import java.util.List;

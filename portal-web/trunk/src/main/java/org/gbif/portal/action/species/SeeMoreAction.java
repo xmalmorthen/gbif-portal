@@ -1,9 +1,9 @@
 package org.gbif.portal.action.species;
 
+import org.gbif.api.model.checklistbank.NameUsageComponent;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
-import org.gbif.checklistbank.api.model.NameUsageComponent;
-import org.gbif.checklistbank.api.service.NameUsageComponentService;
+import org.gbif.api.service.checklistbank.NameUsageComponentService;
 
 import java.util.HashSet;
 import java.util.Set;

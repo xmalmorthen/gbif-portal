@@ -1,8 +1,8 @@
 package org.gbif.portal.action.member;
 
 import org.gbif.api.exception.NotFoundException;
-import org.gbif.registry.api.model.WritableMember;
-import org.gbif.registry.api.service.NetworkEntityService;
+import org.gbif.api.model.registry.WritableMember;
+import org.gbif.api.service.registry.NetworkEntityService;
 
 import java.util.UUID;
 

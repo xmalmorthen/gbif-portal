@@ -1,8 +1,8 @@
 package org.gbif.portal.action.network;
 
+import org.gbif.api.model.registry.Network;
+import org.gbif.api.service.registry.NetworkService;
 import org.gbif.portal.action.AdminBaseAction;
-import org.gbif.registry.api.model.Network;
-import org.gbif.registry.api.service.NetworkService;
 
 import java.util.UUID;
 

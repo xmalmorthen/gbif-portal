@@ -1,7 +1,7 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.checklistbank.api.model.Reference;
-import org.gbif.checklistbank.api.service.ReferenceService;
+import org.gbif.api.model.checklistbank.Reference;
+import org.gbif.api.service.checklistbank.ReferenceService;
 
 import com.google.inject.Inject;
 
@@ -12,4 +12,3 @@ public class ReferenceAction extends SeeMoreAction<Reference> {
     super(service);
   }
 }
-

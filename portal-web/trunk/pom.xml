@@ -46,20 +46,15 @@
 
     <!-- dependency versions -->
     <dwc-api.version>1.2-SNAPSHOT</dwc-api.version>
-    <gbif-common-api.version>0.4-SNAPSHOT</gbif-common-api.version>
-    <checklistbank-api.version>0.3-SNAPSHOT</checklistbank-api.version>
+    <gbif-api.version>0.1-SNAPSHOT</gbif-api.version>
     <checklistbank-ws-client.version>0.3-SNAPSHOT</checklistbank-ws-client.version>
-    <registry-api.version>0.3-SNAPSHOT</registry-api.version>
     <registry-ws-client.version>0.3-SNAPSHOT</registry-ws-client.version>
-    <occurrence-download-api.version>0.2</occurrence-download-api.version>
-    <occurrence-download-ws-client.version>0.2</occurrence-download-ws-client.version>
-    <occurrence-download.version>0.2</occurrence-download.version>
-    <occurrence-api.version>0.2-SNAPSHOT</occurrence-api.version>
+    <occurrence-download-ws-client.version>0.3-SNAPSHOT</occurrence-download-ws-client.version>
+    <occurrence-download.version>0.3-SNAPSHOT</occurrence-download.version>
     <occurrence-ws-client.version>0.2-SNAPSHOT</occurrence-ws-client.version>
-    <metrics-api.version>0.2-SNAPSHOT</metrics-api.version>
     <metrics-ws-client.version>0.2-SNAPSHOT</metrics-ws-client.version>
     <gbif-postal-service.version>0.1-SNAPSHOT</gbif-postal-service.version>    
-    <drupal-mybatis.version>0.2</drupal-mybatis.version>
+    <drupal-mybatis.version>0.3-SNAPSHOT</drupal-mybatis.version>
 
     <freemarker.version>2.3.19</freemarker.version>
     <guice.version>3.0</guice.version>
@@ -233,13 +228,8 @@
     </dependency>
     <dependency>
       <groupId>org.gbif</groupId>
-      <artifactId>gbif-common-api</artifactId>
-      <version>${gbif-common-api.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gbif.checklistbank</groupId>
-      <artifactId>checklistbank-api</artifactId>
-      <version>${checklistbank-api.version}</version>
+      <artifactId>gbif-api</artifactId>
+      <version>${gbif-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gbif.checklistbank</groupId>
@@ -254,18 +244,8 @@
     </dependency>
     <dependency>
       <groupId>org.gbif.registry</groupId>
-      <artifactId>registry-api</artifactId>
-      <version>${registry-api.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gbif.registry</groupId>
       <artifactId>registry-ws-client</artifactId>
       <version>${registry-ws-client.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gbif.occurrence.download</groupId>
-      <artifactId>occurrence-download-api</artifactId>
-      <version>${occurrence-download-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gbif.occurrence.download</groupId>
@@ -274,18 +254,8 @@
     </dependency>
     <dependency>
       <groupId>org.gbif.occurrence</groupId>
-      <artifactId>occurrence-api</artifactId>
-      <version>${occurrence-api.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gbif.occurrence</groupId>
       <artifactId>occurrence-ws-client</artifactId>
       <version>${occurrence-ws-client.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gbif.metrics</groupId>
-      <artifactId>metrics-api</artifactId>
-      <version>${metrics-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gbif.metrics</groupId>

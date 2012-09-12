@@ -1,6 +1,7 @@
 package org.gbif.portal.config;
 
 import java.security.Principal;
+
 import javax.servlet.http.HttpSession;
 
 import com.google.inject.Inject;

@@ -1,7 +1,7 @@
 package org.gbif.portal.action.species;
 
 import org.gbif.api.exception.NotFoundException;
-import org.gbif.checklistbank.api.model.VerbatimNameUsage;
+import org.gbif.api.model.checklistbank.VerbatimNameUsage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

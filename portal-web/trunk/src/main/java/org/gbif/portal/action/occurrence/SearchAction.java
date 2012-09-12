@@ -1,15 +1,15 @@
 package org.gbif.portal.action.occurrence;
 
+import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
-import org.gbif.checklistbank.api.service.NameUsageService;
+import org.gbif.api.service.checklistbank.NameUsageService;
+import org.gbif.api.service.registry.DatasetService;
 import org.gbif.occurrencestore.api.model.Occurrence;
 import org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter;
 import org.gbif.occurrencestore.api.service.OccurrenceSearchService;
 import org.gbif.occurrencestore.api.service.search.OccurrenceSearchRequest;
 import org.gbif.portal.action.BaseAction;
-import org.gbif.registry.api.model.Dataset;
-import org.gbif.registry.api.service.DatasetService;
 
 import java.util.Map;
 

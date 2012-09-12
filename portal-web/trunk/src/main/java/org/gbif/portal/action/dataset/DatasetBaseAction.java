@@ -1,13 +1,13 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.api.exception.NotFoundException;
-import org.gbif.checklistbank.api.model.DatasetMetrics;
-import org.gbif.checklistbank.api.service.DatasetMetricsService;
+import org.gbif.api.model.checklistbank.DatasetMetrics;
+import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Organization;
+import org.gbif.api.service.checklistbank.DatasetMetricsService;
+import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.BaseAction;
-import org.gbif.registry.api.model.Dataset;
-import org.gbif.registry.api.model.Organization;
-import org.gbif.registry.api.service.DatasetService;
-import org.gbif.registry.api.service.OrganizationService;
 
 import java.util.UUID;
 
@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DatasetBaseAction extends BaseAction {
+
   private static final Logger LOG = LoggerFactory.getLogger(DatasetBaseAction.class);
 
   protected String id;
@@ -31,6 +32,37 @@ public class DatasetBaseAction extends BaseAction {
   protected Organization owningOrganization;
   @Inject
   protected OrganizationService organizationService;
+
+  public Dataset getDataset() {
+    return dataset;
+  }
+
+  public DatasetService getDatasetService() {
+    return datasetService;
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public UUID getKey() {
+    return key;
+  }
+
+  public Dataset getMember() {
+    return dataset;
+  }
+
+  public DatasetMetrics getMetrics() {
+    return metrics;
+  }
+
+  /**
+   * @return the dataset's owningOrganization
+   */
+  public Organization getOwningOrganization() {
+    return owningOrganization;
+  }
 
   protected void loadDetail() {
     LOG.debug("Fetching detail for dataset id [{}]", id);
@@ -60,37 +92,7 @@ public class DatasetBaseAction extends BaseAction {
     }
   }
 
-  public String getId() {
-    return id;
-  }
-
-  public UUID getKey() {
-    return key;
-  }
-
-  public Dataset getDataset() {
-    return dataset;
-  }
-  public Dataset getMember() {
-    return dataset;
-  }
-
-  public DatasetMetrics getMetrics() {
-    return metrics;
-  }
-
-  public DatasetService getDatasetService() {
-    return datasetService;
-  }
-
   public void setId(String id) {
     this.id = id;
-  }
-
-  /**
-   * @return the dataset's owningOrganization
-   */
-  public Organization getOwningOrganization() {
-    return owningOrganization;
   }
 }

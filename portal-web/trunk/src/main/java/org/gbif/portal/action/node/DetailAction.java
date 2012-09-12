@@ -1,11 +1,11 @@
 package org.gbif.portal.action.node;
 
+import org.gbif.api.model.registry.Node;
+import org.gbif.api.model.registry.Organization;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
+import org.gbif.api.service.registry.NodeService;
 import org.gbif.portal.action.member.MemberBaseAction;
-import org.gbif.registry.api.model.Node;
-import org.gbif.registry.api.model.Organization;
-import org.gbif.registry.api.service.NodeService;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import com.google.inject.Inject;
 
 public class DetailAction extends MemberBaseAction<Node> {
 
-  private NodeService nodeService;
+  private final NodeService nodeService;
 
   private List<Organization> organizations;
   private boolean more;

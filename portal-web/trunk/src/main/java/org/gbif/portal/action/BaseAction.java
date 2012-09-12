@@ -3,7 +3,7 @@ package org.gbif.portal.action;
 import org.gbif.api.model.User;
 import org.gbif.api.model.vocabulary.Kingdom;
 import org.gbif.api.model.vocabulary.Rank;
-import org.gbif.checklistbank.api.model.vocabulary.Extension;
+import org.gbif.api.vocabulary.Extension;
 import org.gbif.portal.config.Config;
 import org.gbif.portal.config.Constants;
 
@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.UUID;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,74 +26,50 @@ import org.apache.struts2.util.ServletContextAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.gbif.checklistbank.api.Constants.NUB_TAXONOMY_KEY;
+public abstract class BaseAction extends ActionSupport implements SessionAware, ServletRequestAware, ServletContextAware {
 
-public abstract class BaseAction extends ActionSupport
-  implements SessionAware, ServletRequestAware, ServletContextAware {
   private static final Logger LOG = LoggerFactory.getLogger(BaseAction.class);
   protected Map<String, Object> session;
   protected HttpServletRequest request;
   protected ServletContext ctx;
-  private static final List<Kingdom> KINGDOMS = ImmutableList.of(
-    Kingdom.ANIMALIA,
-    Kingdom.ARCHAEA,
-    Kingdom.BACTERIA,
-    Kingdom.CHROMISTA,
-    Kingdom.FUNGI,
-    Kingdom.PLANTAE,
-    Kingdom.PROTOZOA,
-    Kingdom.VIRUSES,
-    Kingdom.INCERTAE_SEDIS
-  );
+  private static final List<Kingdom> KINGDOMS = ImmutableList.of(Kingdom.ANIMALIA, Kingdom.ARCHAEA, Kingdom.BACTERIA, Kingdom.CHROMISTA,
+    Kingdom.FUNGI, Kingdom.PLANTAE, Kingdom.PROTOZOA, Kingdom.VIRUSES, Kingdom.INCERTAE_SEDIS);
 
   @Inject
   private Config cfg;
 
-  @Override
-  public void setServletRequest(HttpServletRequest request) {
-    this.request = request;
-  }
-
-  protected HttpServletRequest getServletRequest() {
-    return request;
-  }
-
-  @Override
-  public void setServletContext(ServletContext context){
-    this.ctx = context;
-  }
-
-  @Override
-  public void setSession(Map<String, Object> session) {
-    this.session = session;
-  }
-
   /**
-   * @return true if an admin user is logged in.
+   * Checks whether a string starts with any of the prefixes specified
+   * 
+   * @return true if string matches against any prefix. false otherwise.
    */
-  public boolean isAdmin(){
-    return getCurrentUser()!=null && getCurrentUser().isAdmin();
-  }
-
-  /**
-   * @return the currently logged in user.
-   */
-  public User getCurrentUser(){
-    return (User) session.get(Constants.SESSION_USER);
+  private static boolean containsPrefix(String propertyKey, String[] prefixes) {
+    if (propertyKey != null) {
+      for (String prefix : prefixes) {
+        if (propertyKey.startsWith(prefix)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   /**
    * Returns the application's base url
-   *
+   * 
    * @return the base url
-   */  
+   */
   public String getBaseUrl() {
     return cfg.getServerName() + ctx.getContextPath();
   }
 
+  public Config getCfg() {
+    return cfg;
+  }
+
   /**
    * Returns the absolute url to the current page.
-   *
+   * 
    * @return the absolute url
    */
   public String getCurrentUrl() {
@@ -104,21 +81,33 @@ public abstract class BaseAction extends ActionSupport
     return currentUrl.toString();
   }
 
-  public Config getCfg() {
-    return cfg;
+  /**
+   * @return the currently logged in user.
+   */
+  public User getCurrentUser() {
+    return (User) session.get(Constants.SESSION_USER);
   }
 
-  /**
-   * @return The HTTP session which may be null
-   */
-  protected Map<String, Object> getSession() {
-    return session;
+  public List<Extension> getExtensionEnum() {
+    return Lists.newArrayList(Extension.values());
+  }
+
+  public List<Kingdom> getKingdomEnum() {
+    return KINGDOMS;
+  }
+
+  public UUID getNubDatasetKey() {
+    return org.gbif.api.model.checklistbank.Constants.NUB_TAXONOMY_KEY;
+  }
+
+  public List<Rank> getRankEnum() {
+    return Rank.LINNEAN_RANKS;
   }
 
   /**
    * Returns a map representing properties from the resource bundle but just those
    * properties whose keys match one or more of the given prefixes.
-   *
+   * 
    * @return a map which the matched properties
    */
   public Map<String, String> getResourceBundleProperties(String... prefix) {
@@ -140,36 +129,41 @@ public abstract class BaseAction extends ActionSupport
     return bundleProps;
   }
 
-  /**
-   * Checks whether a string starts with any of the prefixes specified
-   *
-   * @return true if string matches against any prefix. false otherwise.
-   */
-  private static boolean containsPrefix(String propertyKey, String[] prefixes) {
-    if (propertyKey != null) {
-      for (String prefix : prefixes) {
-        if (propertyKey.startsWith(prefix)) {
-          return true;
-        }
-      }
-    }
-    return false;
+  protected HttpServletRequest getServletRequest() {
+    return request;
   }
 
-  public List<Kingdom> getKingdomEnum() {
-    return KINGDOMS;
+  /**
+   * @return The HTTP session which may be null
+   */
+  protected Map<String, Object> getSession() {
+    return session;
   }
-  public List<Rank> getRankEnum() {
-    return Rank.LINNEAN_RANKS;
-  }
-  public List<Extension> getExtensionEnum() {
-    return Lists.newArrayList(Extension.values());
-  }
+
   public Rank getSpeciesRank() {
     return Rank.SPECIES;
   }
-  public UUID getNubDatasetKey() {
-    return NUB_TAXONOMY_KEY;
+
+  /**
+   * @return true if an admin user is logged in.
+   */
+  public boolean isAdmin() {
+    return getCurrentUser() != null && getCurrentUser().isAdmin();
+  }
+
+  @Override
+  public void setServletContext(ServletContext context) {
+    this.ctx = context;
+  }
+
+  @Override
+  public void setServletRequest(HttpServletRequest request) {
+    this.request = request;
+  }
+
+  @Override
+  public void setSession(Map<String, Object> session) {
+    this.session = session;
   }
 
 }

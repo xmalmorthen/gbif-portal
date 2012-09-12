@@ -1,7 +1,7 @@
 package org.gbif.portal.action.species;
 
+import org.gbif.api.model.checklistbank.Description;
 import org.gbif.api.model.vocabulary.Language;
-import org.gbif.checklistbank.api.model.Description;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,8 @@ import com.google.common.collect.Maps;
  * the DescriptionService to feed the ToC with full descriptions.
  */
 public class DescriptionToc {
-  private Map<String, Map<Language, List<Integer>>> descriptionToc = Maps.newTreeMap();
+
+  private final Map<String, Map<Language, List<Integer>>> descriptionToc = Maps.newTreeMap();
 
   public void addDescription(Description description) {
     String topic = "general";
@@ -41,11 +42,8 @@ public class DescriptionToc {
     descriptionToc.get(topic).get(lang).add(description.getKey());
   }
 
-  /**
-   * @return list of all topics available in this toc
-   */
-  public List<String> listTopics() {
-    return Lists.newArrayList(descriptionToc.keySet());
+  public boolean isEmpty() {
+    return descriptionToc.isEmpty();
   }
 
   /**
@@ -58,7 +56,10 @@ public class DescriptionToc {
     return Maps.newHashMap();
   }
 
-  public boolean isEmpty() {
-    return descriptionToc.isEmpty();
+  /**
+   * @return list of all topics available in this toc
+   */
+  public List<String> listTopics() {
+    return Lists.newArrayList(descriptionToc.keySet());
   }
 }

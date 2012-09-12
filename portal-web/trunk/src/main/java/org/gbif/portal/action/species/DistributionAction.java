@@ -1,7 +1,7 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.checklistbank.api.model.Distribution;
-import org.gbif.checklistbank.api.service.DistributionService;
+import org.gbif.api.model.checklistbank.Distribution;
+import org.gbif.api.service.checklistbank.DistributionService;
 
 import com.google.inject.Inject;
 

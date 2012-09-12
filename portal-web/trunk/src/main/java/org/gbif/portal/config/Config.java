@@ -9,8 +9,8 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.gbif.occurrencestore.api.service.search.Constants.CATALOGUE_NUMBER_PATH;
-import static org.gbif.occurrencestore.api.service.search.Constants.COLLECTOR_NAME_PATH;
+import static org.gbif.api.model.occurrence.search.Constants.CATALOGUE_NUMBER_PATH;
+import static org.gbif.api.model.occurrence.search.Constants.COLLECTOR_NAME_PATH;
 
 /**
  * Simple configuration bean to pass the guice binded properties on to the rendering layer.

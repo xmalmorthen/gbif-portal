@@ -1,6 +1,6 @@
 package org.gbif.portal.model.converter;
 
-import org.gbif.registry.api.model.Tag;
+import org.gbif.api.model.registry.Tag;
 
 import java.util.Map;
 

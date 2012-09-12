@@ -1,10 +1,10 @@
 package org.gbif.portal.action.species;
 
+import org.gbif.api.model.checklistbank.Constants;
+import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.vocabulary.Rank;
-import org.gbif.checklistbank.api.Constants;
-import org.gbif.checklistbank.api.model.DatasetMetrics;
-import org.gbif.checklistbank.api.model.vocabulary.Extension;
-import org.gbif.checklistbank.api.service.DatasetMetricsService;
+import org.gbif.api.service.checklistbank.DatasetMetricsService;
+import org.gbif.api.vocabulary.Extension;
 import org.gbif.portal.action.BaseAction;
 
 import com.google.inject.Inject;
@@ -36,19 +36,19 @@ public class HomeAction extends BaseAction {
     return nubMetrics;
   }
 
-  public Integer getNumSpecies() {
-    return numSpecies;
+  public Integer getNumCommonNames() {
+    return numCommonNames;
   }
 
   public Integer getNumInfraSpecies() {
     return numInfraSpecies;
   }
 
-  public Integer getNumCommonNames() {
-    return numCommonNames;
-  }
-
   public Integer getNumLanguages() {
     return numLanguages;
+  }
+
+  public Integer getNumSpecies() {
+    return numSpecies;
   }
 }

@@ -1,7 +1,7 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.checklistbank.api.model.VernacularName;
-import org.gbif.checklistbank.api.service.VernacularNameService;
+import org.gbif.api.model.checklistbank.VernacularName;
+import org.gbif.api.service.checklistbank.VernacularNameService;
 
 import com.google.inject.Inject;
 

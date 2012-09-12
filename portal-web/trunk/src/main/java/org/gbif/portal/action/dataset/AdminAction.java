@@ -1,11 +1,11 @@
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Organization;
 import org.gbif.api.paging.PagingResponse;
+import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.AdminBaseAction;
-import org.gbif.registry.api.model.Dataset;
-import org.gbif.registry.api.model.Organization;
-import org.gbif.registry.api.service.DatasetService;
-import org.gbif.registry.api.service.OrganizationService;
 
 import java.util.List;
 import java.util.UUID;

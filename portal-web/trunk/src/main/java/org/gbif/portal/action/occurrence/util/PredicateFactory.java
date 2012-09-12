@@ -3,6 +3,7 @@
  */
 package org.gbif.portal.action.occurrence.util;
 
+import org.gbif.api.model.registry.geospatial.BoundingBox;
 import org.gbif.occurrencestore.download.api.model.predicate.ConjunctionPredicate;
 import org.gbif.occurrencestore.download.api.model.predicate.DisjunctionPredicate;
 import org.gbif.occurrencestore.download.api.model.predicate.EqualsPredicate;
@@ -10,7 +11,6 @@ import org.gbif.occurrencestore.download.api.model.predicate.GreaterThanPredicat
 import org.gbif.occurrencestore.download.api.model.predicate.LessThanPredicate;
 import org.gbif.occurrencestore.download.api.model.predicate.Predicate;
 import org.gbif.occurrencestore.download.api.model.predicate.SimplePredicate;
-import org.gbif.registry.api.model.geospatial.BoundingBox;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,8 +1,8 @@
 package org.gbif.portal.action.network;
 
+import org.gbif.api.model.registry.Network;
+import org.gbif.api.service.registry.NetworkService;
 import org.gbif.portal.action.member.MemberBaseAction;
-import org.gbif.registry.api.model.Network;
-import org.gbif.registry.api.service.NetworkService;
 
 public class DetailAction extends MemberBaseAction<Network> {
 

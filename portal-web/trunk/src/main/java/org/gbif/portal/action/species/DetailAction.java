@@ -1,20 +1,20 @@
 package org.gbif.portal.action.species;
 
+import org.gbif.api.model.checklistbank.Description;
+import org.gbif.api.model.checklistbank.NameUsage;
+import org.gbif.api.model.checklistbank.NameUsageComponent;
+import org.gbif.api.model.checklistbank.TypeSpecimen;
+import org.gbif.api.model.checklistbank.VernacularName;
 import org.gbif.api.paging.Pageable;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
-import org.gbif.checklistbank.api.model.Description;
-import org.gbif.checklistbank.api.model.NameUsage;
-import org.gbif.checklistbank.api.model.NameUsageComponent;
-import org.gbif.checklistbank.api.model.TypeSpecimen;
-import org.gbif.checklistbank.api.model.VernacularName;
-import org.gbif.checklistbank.api.service.DescriptionService;
-import org.gbif.checklistbank.api.service.DistributionService;
-import org.gbif.checklistbank.api.service.ImageService;
-import org.gbif.checklistbank.api.service.ReferenceService;
-import org.gbif.checklistbank.api.service.SpeciesProfileService;
-import org.gbif.checklistbank.api.service.TypeSpecimenService;
-import org.gbif.checklistbank.api.service.VernacularNameService;
+import org.gbif.api.service.checklistbank.DescriptionService;
+import org.gbif.api.service.checklistbank.DistributionService;
+import org.gbif.api.service.checklistbank.ImageService;
+import org.gbif.api.service.checklistbank.ReferenceService;
+import org.gbif.api.service.checklistbank.SpeciesProfileService;
+import org.gbif.api.service.checklistbank.TypeSpecimenService;
+import org.gbif.api.service.checklistbank.VernacularNameService;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -76,6 +76,26 @@ public class DetailAction extends UsageBaseAction {
           typeStatusCounts.put(typeStatus, 1);
         }
       }
+    }
+  }
+
+  /**
+   * Filters duplicates from vernacular names.
+   */
+  private void distinctVernNames() {
+    for (VernacularName v : usage.getVernacularNames()) {
+      if (Strings.isNullOrEmpty(v.getVernacularName())) {
+        continue;
+      }
+      String lang = "";
+      if (v.getLanguage() != null && v.getLanguage() != null) {
+        lang = v.getLanguage().getIso2LetterCode();
+      }
+      String id = v.getVernacularName() + "||" + lang;
+      if (!vernacularNames.containsKey(id)) {
+        vernacularNames.put(id, Lists.<VernacularName>newArrayList());
+      }
+      vernacularNames.get(id).add(v);
     }
   }
 
@@ -144,26 +164,6 @@ public class DetailAction extends UsageBaseAction {
 
   public Map<String, List<VernacularName>> getVernacularNames() {
     return vernacularNames;
-  }
-
-  /**
-   * Filters duplicates from vernacular names.
-   */
-  private void distinctVernNames() {
-    for (VernacularName v : usage.getVernacularNames()) {
-      if (Strings.isNullOrEmpty(v.getVernacularName())) {
-        continue;
-      }
-      String lang = "";
-      if (v.getLanguage() != null && v.getLanguage() != null) {
-        lang = v.getLanguage().getIso2LetterCode();
-      }
-      String id = v.getVernacularName() + "||" + lang;
-      if (!vernacularNames.containsKey(id)) {
-        vernacularNames.put(id, Lists.<VernacularName>newArrayList());
-      }
-      vernacularNames.get(id).add(v);
-    }
   }
 
   private void loadUsageDetails() {

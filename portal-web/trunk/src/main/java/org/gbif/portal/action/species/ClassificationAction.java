@@ -1,6 +1,6 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.checklistbank.api.model.NameUsage;
+import org.gbif.api.model.checklistbank.NameUsage;
 
 import java.util.List;
 

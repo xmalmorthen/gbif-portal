@@ -8,9 +8,9 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
-import org.gbif.registry.api.model.Dataset;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

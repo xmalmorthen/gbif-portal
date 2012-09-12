@@ -1,18 +1,18 @@
 package org.gbif.portal.action.admin;
 
+import org.gbif.api.model.metrics.DatasetMetrics;
+import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Node;
+import org.gbif.api.model.registry.Organization;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
-import org.gbif.metrics.api.model.DatasetMetrics;
-import org.gbif.metrics.api.service.MetricsService;
+import org.gbif.api.service.metrics.MetricsService;
+import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.service.registry.OrganizationService;
+import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.model.CrawlJob;
-import org.gbif.registry.api.model.Dataset;
-import org.gbif.registry.api.model.Node;
-import org.gbif.registry.api.model.Organization;
-import org.gbif.registry.api.model.vocabulary.EndpointType;
-import org.gbif.registry.api.service.DatasetService;
-import org.gbif.registry.api.service.NodeService;
-import org.gbif.registry.api.service.OrganizationService;
 
 import java.util.List;
 import java.util.Set;
@@ -40,16 +40,16 @@ public class CrawlerAction extends BaseAction {
   protected String orgOwn;
   protected String id;
 
-  private List<CrawlJob> crawlJobs = Lists.newArrayList();
+  private final List<CrawlJob> crawlJobs = Lists.newArrayList();
 
+
+  public void crawl() {
+    // TODO: call the scheduling-service ws
+  }
 
   @Override
   public String execute() {
     return SUCCESS;
-  }
-
-  public void crawl() {
-    // TODO: call the scheduling-service ws
   }
 
   public List<CrawlJob> getMetrics() {
@@ -113,6 +113,13 @@ public class CrawlerAction extends BaseAction {
   }
 
   /**
+   * @param id the id to set
+   */
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  /**
    * @param orgHost the orgHost to set
    */
   public void setOrgHost(String orgHost) {
@@ -124,12 +131,5 @@ public class CrawlerAction extends BaseAction {
    */
   public void setOrgOwn(String orgOwn) {
     this.orgOwn = orgOwn;
-  }
-
-  /**
-   * @param id the id to set
-   */
-  public void setId(String id) {
-    this.id = id;
   }
 }

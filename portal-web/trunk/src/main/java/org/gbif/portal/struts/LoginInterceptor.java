@@ -6,6 +6,7 @@ import org.gbif.portal.config.Constants;
 
 import java.security.Principal;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.inject.Inject;

@@ -8,11 +8,11 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.model.registry.search.DatasetFacetParameter;
+import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.service.registry.DatasetSearchService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.BaseFacetedSearchAction;
-import org.gbif.registry.api.model.search.DatasetFacetParameter;
-import org.gbif.registry.api.model.search.DatasetSearchResult;
-import org.gbif.registry.api.service.DatasetSearchService;
-import org.gbif.registry.api.service.OrganizationService;
 
 import java.util.UUID;
 

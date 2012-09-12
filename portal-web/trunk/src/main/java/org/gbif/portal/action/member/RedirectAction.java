@@ -1,12 +1,12 @@
 package org.gbif.portal.action.member;
 
 import org.gbif.api.exception.NotFoundException;
+import org.gbif.api.model.registry.WritableMember;
+import org.gbif.api.service.registry.NetworkService;
+import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.service.registry.OrganizationService;
+import org.gbif.api.service.registry.TechnicalInstallationService;
 import org.gbif.portal.action.BaseAction;
-import org.gbif.registry.api.model.WritableMember;
-import org.gbif.registry.api.service.NetworkService;
-import org.gbif.registry.api.service.NodeService;
-import org.gbif.registry.api.service.OrganizationService;
-import org.gbif.registry.api.service.TechnicalInstallationService;
 
 import java.util.UUID;
 

@@ -1,8 +1,8 @@
 package org.gbif.portal.action.species;
 
+import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.paging.PagingRequest;
 import org.gbif.api.paging.PagingResponse;
-import org.gbif.checklistbank.api.model.NameUsage;
 
 public class SynonymsAction extends UsageBaseAction {
 

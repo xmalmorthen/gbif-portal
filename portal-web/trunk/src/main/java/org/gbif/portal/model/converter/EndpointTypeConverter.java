@@ -1,6 +1,6 @@
 package org.gbif.portal.model.converter;
 
-import org.gbif.registry.api.model.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.EndpointType;
 
 import java.util.Map;
 

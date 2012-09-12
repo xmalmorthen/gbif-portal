@@ -1,14 +1,15 @@
 package org.gbif.portal.action.organization;
 
+import org.gbif.api.model.registry.Node;
+import org.gbif.api.model.registry.Organization;
 import org.gbif.api.paging.PagingResponse;
+import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.AdminBaseAction;
-import org.gbif.registry.api.model.Node;
-import org.gbif.registry.api.model.Organization;
-import org.gbif.registry.api.service.NodeService;
-import org.gbif.registry.api.service.OrganizationService;
 
 import java.util.List;
 import java.util.UUID;
+
 import javax.validation.Valid;
 
 import com.google.inject.Inject;
@@ -21,6 +22,26 @@ public class AdminAction extends AdminBaseAction<OrganizationService, Organizati
   @Valid
   Organization member;
 
+  public String addEntity() {
+    // first persist the WritableOrganization entity
+    // UUID organisationKey = wsClient.create(member);
+    // createMembers(organisationKey);
+    return SUCCESS;
+  }
+
+  public String editEntity() {
+    // TODO: add logic required to edit the organization fields (calling WS client)
+    return SUCCESS;
+  }
+
+  @Override
+  public Organization getEntity() {
+    // TODO: for some reason if I create an abstract method on AdminBaseAction called getMember and
+    // its overriden in this action class, struts returns a null 'member' object when called from the FTLs.
+    // need to check further on this.
+    return getMember();
+  }
+
   /**
    * @return the organization.
    */
@@ -30,17 +51,6 @@ public class AdminAction extends AdminBaseAction<OrganizationService, Organizati
       member = loadMember(id);
     }
     return member;
-  }
-
-  protected Organization loadMember(UUID id) {
-    return wsClient.get(id);
-  }
-
-  /**
-   * @param member the organization to set.
-   */
-  public void setMember(Organization member) {
-    this.member = member;
   }
 
   public List<Node> getNodes() {
@@ -64,27 +74,18 @@ public class AdminAction extends AdminBaseAction<OrganizationService, Organizati
     return null;
   }
 
-  public String editEntity() {
-    // TODO: add logic required to edit the organization fields (calling WS client)
-    return SUCCESS;
-  }
-
-  public String addEntity() {
-    // first persist the WritableOrganization entity
-    // UUID organisationKey = wsClient.create(member);
-    // createMembers(organisationKey);
-    return SUCCESS;
-  }
-
   public Organization getSessionOrganization() {
     return (Organization) session.get("organization");
   }
 
-  @Override
-  public Organization getEntity() {
-    // TODO: for some reason if I create an abstract method on AdminBaseAction called getMember and
-    // its overriden in this action class, struts returns a null 'member' object when called from the FTLs.
-    // need to check further on this.
-    return getMember();
+  protected Organization loadMember(UUID id) {
+    return wsClient.get(id);
+  }
+
+  /**
+   * @param member the organization to set.
+   */
+  public void setMember(Organization member) {
+    this.member = member;
   }
 }
