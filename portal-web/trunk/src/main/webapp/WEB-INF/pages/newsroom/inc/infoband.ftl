@@ -7,12 +7,13 @@
  <#assign tab="news"/>
  <#assign tab="uses"/>
 -->
+
 <content tag="infoband">
   <h1>GBIF Newsroom</h1>
   <h3>Latest news about GBIF's activities, use of data, events and oppertunities</h3>
 
   <#if (tab!"")=="home">
-    <div class="box">
+    <div class="box newsletter">
       <div class="content">
         <ul>
           <li><h4>GBits, the GBIF newsletter</h4></li>
