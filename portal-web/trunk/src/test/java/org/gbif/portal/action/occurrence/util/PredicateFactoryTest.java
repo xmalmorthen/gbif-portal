@@ -1,10 +1,10 @@
 package org.gbif.portal.action.occurrence.util;
 
-import org.gbif.occurrencestore.download.api.model.predicate.ConjunctionPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.DisjunctionPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.EqualsPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.GreaterThanPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.Predicate;
+import org.gbif.api.model.occurrence.predicate.ConjunctionPredicate;
+import org.gbif.api.model.occurrence.predicate.DisjunctionPredicate;
+import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
+import org.gbif.api.model.occurrence.predicate.GreaterThanPredicate;
+import org.gbif.api.model.occurrence.predicate.Predicate;
 
 import java.util.HashMap;
 import java.util.Iterator;

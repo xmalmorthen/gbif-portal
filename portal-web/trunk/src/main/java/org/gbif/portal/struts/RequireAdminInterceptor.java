@@ -1,6 +1,6 @@
 package org.gbif.portal.struts;
 
-import org.gbif.api.model.User;
+import org.gbif.api.model.common.User;
 import org.gbif.portal.config.Constants;
 
 import java.util.Map;

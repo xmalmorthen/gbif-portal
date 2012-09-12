@@ -1,6 +1,6 @@
 package org.gbif.portal.model.converter;
 
-import org.gbif.api.model.vocabulary.InterpretedEnum;
+import org.gbif.api.model.common.InterpretedEnum;
 import org.gbif.api.vocabulary.ContactType;
 
 import java.util.Map;

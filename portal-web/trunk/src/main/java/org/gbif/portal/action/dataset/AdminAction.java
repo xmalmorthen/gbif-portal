@@ -1,8 +1,8 @@
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Organization;
-import org.gbif.api.paging.PagingResponse;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.AdminBaseAction;

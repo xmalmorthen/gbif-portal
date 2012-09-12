@@ -8,9 +8,9 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.model.common.paging.PagingRequest;
+import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
-import org.gbif.api.paging.PagingRequest;
-import org.gbif.api.paging.PagingResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,12 +33,12 @@ public class ConstituentsAction extends DatasetBaseAction {
     return SUCCESS;
   }
 
-  public void setOffset(long offset) {
-    this.offset = offset;
-  }
-
   public PagingResponse<Dataset> getPage() {
     return page;
+  }
+
+  public void setOffset(long offset) {
+    this.offset = offset;
   }
 
 }

@@ -3,14 +3,14 @@
  */
 package org.gbif.portal.action.occurrence.util;
 
+import org.gbif.api.model.occurrence.predicate.ConjunctionPredicate;
+import org.gbif.api.model.occurrence.predicate.DisjunctionPredicate;
+import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
+import org.gbif.api.model.occurrence.predicate.GreaterThanPredicate;
+import org.gbif.api.model.occurrence.predicate.LessThanPredicate;
+import org.gbif.api.model.occurrence.predicate.Predicate;
+import org.gbif.api.model.occurrence.predicate.SimplePredicate;
 import org.gbif.api.model.registry.geospatial.BoundingBox;
-import org.gbif.occurrencestore.download.api.model.predicate.ConjunctionPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.DisjunctionPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.EqualsPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.GreaterThanPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.LessThanPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.Predicate;
-import org.gbif.occurrencestore.download.api.model.predicate.SimplePredicate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -139,8 +139,7 @@ public class PredicateFactory {
   public static final String BYPASS_PARAM_HOSTING_ORG = "hostingOrgKey";
   public static final String BYPASS_PARAM_COUNTRY_ISO = "countryISO";
   private static final Map<String, Integer> BYPASS_PARAM_TO_SUBJECT = ImmutableMap.of(BYPASS_PARAM_NUB, 1,
-    BYPASS_PARAM_DATASET, 2,
-    BYPASS_PARAM_COUNTRY_ISO, 4);
+    BYPASS_PARAM_DATASET, 2, BYPASS_PARAM_COUNTRY_ISO, 4);
 
   private static final Logger LOG = LoggerFactory.getLogger(PredicateFactory.class);
 

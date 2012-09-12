@@ -8,10 +8,10 @@
  */
 package org.gbif.portal.action;
 
-import org.gbif.api.model.vocabulary.Language;
-import org.gbif.api.search.Facet;
-import org.gbif.api.search.SearchResponse;
-import org.gbif.api.search.SearchService;
+import org.gbif.api.model.common.search.Facet;
+import org.gbif.api.model.common.search.SearchResponse;
+import org.gbif.api.service.common.SearchService;
+import org.gbif.api.vocabulary.Language;
 import org.gbif.portal.model.FacetInstance;
 
 import java.util.ArrayList;
@@ -103,7 +103,8 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   /**
    * Executes the default action behavior.
    * The steps taken on this method are:
-   * - Creates a {@link org.gbif.api.search.SearchRequest} using the current {@link org.gbif.api.search.SearchRequest} instance
+   * - Creates a {@link org.gbif.api.search.SearchRequest} using the current {@link org.gbif.api.search.SearchRequest}
+   * instance
    * - Adds the search pattern to the request by invoking this.getQ().
    * - Executes the search operation using the {@link SearchService}.
    * - Stores the response in the {@link SearchResponse} instance.
@@ -148,12 +149,59 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     return facetFound;
   }
 
+  private Enum<F> findFacetEnum(String param) {
+    if (com.google.common.base.Strings.isNullOrEmpty(param)) {
+      return null;
+    }
+    for (Enum<F> fEnum : facetEnum.getEnumConstants()) {
+      // recognize facets by enum name
+      String pname = fEnum.name().toLowerCase();
+      if (param.equalsIgnoreCase(pname)) {
+        return fEnum;
+      }
+    }
+    return null;
+  }
+
   /**
    * Gets the instance of the current object.
    * This helps to expose public methods to the web templates.
    */
   public BaseAction getAction() {
     return this;
+  }
+
+  /**
+   * Translates current url query parameter values via the translateFacetValue method.
+   * 
+   * @return current url with translated values
+   */
+  @Override
+  public String getCurrentUrl() {
+    StringBuffer currentUrl = request.getRequestURL();
+    if (request.getQueryString() != null) {
+      boolean first = true;
+      for (String p : querySplitter.split(request.getQueryString())) {
+        Iterator<String> kvIter = paramSplitter.split(p).iterator();
+        String key = kvIter.next();
+        String val = kvIter.next();
+        // potentially translate facet values
+        Enum<F> facet = findFacetEnum(key);
+        if (facet != null) {
+          val = translateFacetValue(facet, val);
+        }
+        if (first) {
+          currentUrl.append("?");
+        } else {
+          currentUrl.append("&");
+        }
+        currentUrl.append(key);
+        currentUrl.append("=");
+        currentUrl.append(val);
+        first = false;
+      }
+    }
+    return currentUrl.toString();
   }
 
   /**
@@ -188,6 +236,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     return facet;
   }
 
+
   /**
    * Holds the list of values selected in the user interface.
    * For accessing this field the user interface should be able to referencing map data types.
@@ -205,7 +254,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   public int getMaxFacets() {
     return MAX_FACETS;
   }
-
 
   /**
    * Analyze the request to determine if parameters should be added from the request parameters.
@@ -347,21 +395,6 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     }
   }
 
-  /**
-   * Optional hook for concrete search actions to define custom translations of facet filter values
-   * before they are send to the search service.
-   * For example to enable a simple checklist=nub filter without the need to know the real nub UUID.
-   * The values will NOT be translated for the UI and request parameters, only for the search and title lookup service!
-   *
-   * This method can be overriden to modify the returned value, by default it keeps it as it is.
-   * @param facet the value belongs to
-   * @param value the value to translate or return as is
-   */
-  protected String translateFacetValue(Enum<F> facet, String value) {
-    // dont do anything by default
-    return value;
-  }
-
   private List<FacetInstance> toFacetInstance(List<Facet.Count> counts) {
     List<FacetInstance> instances = Lists.newArrayList();
     for (Facet.Count c : counts) {
@@ -374,48 +407,17 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   }
 
   /**
-   * Translates current url query parameter values via the translateFacetValue method.
-   * @return current url with translated values
+   * Optional hook for concrete search actions to define custom translations of facet filter values
+   * before they are send to the search service.
+   * For example to enable a simple checklist=nub filter without the need to know the real nub UUID.
+   * The values will NOT be translated for the UI and request parameters, only for the search and title lookup service!
+   * This method can be overriden to modify the returned value, by default it keeps it as it is.
+   * 
+   * @param facet the value belongs to
+   * @param value the value to translate or return as is
    */
-  @Override
-  public String getCurrentUrl(){
-    StringBuffer currentUrl = request.getRequestURL();
-    if (request.getQueryString() != null) {
-      boolean first = true;
-      for (String p : querySplitter.split(request.getQueryString())){
-        Iterator<String> kvIter = paramSplitter.split(p).iterator();
-        String key = kvIter.next();
-        String val = kvIter.next();
-        // potentially translate facet values
-        Enum<F> facet = findFacetEnum(key);
-        if (facet != null){
-          val = translateFacetValue(facet, val);
-        }
-        if (first) {
-          currentUrl.append("?");
-        } else {
-          currentUrl.append("&");
-        }
-        currentUrl.append(key);
-        currentUrl.append("=");
-        currentUrl.append(val);
-        first = false;
-      }
-    }
-    return currentUrl.toString();
-  }
-
-  private Enum<F> findFacetEnum(String param){
-    if (com.google.common.base.Strings.isNullOrEmpty(param)){
-      return null;
-    }
-    for (Enum<F> fEnum : facetEnum.getEnumConstants()) {
-      // recognize facets by enum name
-      String pname = fEnum.name().toLowerCase();
-      if (param.equalsIgnoreCase(pname)) {
-        return fEnum;
-      }
-    }
-    return null;
+  protected String translateFacetValue(Enum<F> facet, String value) {
+    // dont do anything by default
+    return value;
   }
 }

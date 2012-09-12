@@ -1,6 +1,6 @@
 package org.gbif.portal.model.converter;
 
-import org.gbif.api.model.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.IdentifierType;
 
 import java.util.Map;
 

@@ -1,8 +1,8 @@
 package org.gbif.portal.action.organization;
 
+import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
-import org.gbif.api.paging.PagingResponse;
 import org.gbif.api.service.registry.NodeService;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.AdminBaseAction;

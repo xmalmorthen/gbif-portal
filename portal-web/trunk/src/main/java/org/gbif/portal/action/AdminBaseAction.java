@@ -5,12 +5,12 @@ import org.gbif.api.model.registry.Endpoint;
 import org.gbif.api.model.registry.Identifier;
 import org.gbif.api.model.registry.NetworkEntityComponents;
 import org.gbif.api.model.registry.Tag;
-import org.gbif.api.model.vocabulary.Country;
-import org.gbif.api.model.vocabulary.IdentifierType;
-import org.gbif.api.model.vocabulary.Language;
 import org.gbif.api.service.registry.NetworkEntityService;
 import org.gbif.api.vocabulary.ContactType;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.IdentifierType;
+import org.gbif.api.vocabulary.Language;
 
 import java.util.ArrayList;
 import java.util.HashMap;

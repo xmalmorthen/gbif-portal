@@ -1,6 +1,6 @@
 package org.gbif.portal.model.converter;
 
-import org.gbif.api.model.vocabulary.Country;
+import org.gbif.api.vocabulary.Country;
 
 import java.util.Map;
 

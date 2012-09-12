@@ -1,8 +1,8 @@
 package org.gbif.portal.action.occurrence;
 
-import org.gbif.occurrencestore.download.api.model.Download;
-import org.gbif.occurrencestore.download.api.model.predicate.Predicate;
-import org.gbif.occurrencestore.download.api.service.DownloadService;
+import org.gbif.api.model.occurrence.Download;
+import org.gbif.api.model.occurrence.predicate.Predicate;
+import org.gbif.api.service.occurrence.DownloadService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.util.PredicateFactory;
 

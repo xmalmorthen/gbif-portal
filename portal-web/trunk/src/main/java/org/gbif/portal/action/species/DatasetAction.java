@@ -2,7 +2,7 @@ package org.gbif.portal.action.species;
 
 import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.model.registry.Dataset;
-import org.gbif.api.model.vocabulary.DatasetType;
+import org.gbif.api.vocabulary.DatasetType;
 
 import java.util.Collections;
 import java.util.Iterator;

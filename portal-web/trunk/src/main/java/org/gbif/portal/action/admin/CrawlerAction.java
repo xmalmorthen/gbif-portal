@@ -1,11 +1,11 @@
 package org.gbif.portal.action.admin;
 
+import org.gbif.api.model.common.paging.PagingRequest;
+import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.metrics.DatasetMetrics;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
-import org.gbif.api.paging.PagingRequest;
-import org.gbif.api.paging.PagingResponse;
 import org.gbif.api.service.metrics.MetricsService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.NodeService;

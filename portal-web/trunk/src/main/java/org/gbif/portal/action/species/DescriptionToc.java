@@ -1,7 +1,7 @@
 package org.gbif.portal.action.species;
 
 import org.gbif.api.model.checklistbank.Description;
-import org.gbif.api.model.vocabulary.Language;
+import org.gbif.api.vocabulary.Language;
 
 import java.util.List;
 import java.util.Map;

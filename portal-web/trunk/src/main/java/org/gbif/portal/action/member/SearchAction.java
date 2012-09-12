@@ -1,7 +1,7 @@
 package org.gbif.portal.action.member;
 
+import org.gbif.api.model.common.search.SearchResponse;
 import org.gbif.api.model.registry.Organization;
-import org.gbif.api.search.SearchResponse;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.BaseSearchAction;
 

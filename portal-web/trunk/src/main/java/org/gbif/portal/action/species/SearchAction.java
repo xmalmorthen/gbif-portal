@@ -11,12 +11,12 @@ package org.gbif.portal.action.species;
 import org.gbif.api.model.checklistbank.Constants;
 import org.gbif.api.model.checklistbank.search.NameUsageFacetParameter;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
-import org.gbif.api.model.vocabulary.Rank;
-import org.gbif.api.model.vocabulary.ThreatStatus;
 import org.gbif.api.service.checklistbank.NameUsageSearchService;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
+import org.gbif.api.vocabulary.ThreatStatus;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 
 import java.util.UUID;

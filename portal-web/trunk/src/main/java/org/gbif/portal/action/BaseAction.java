@@ -1,9 +1,9 @@
 package org.gbif.portal.action;
 
-import org.gbif.api.model.User;
-import org.gbif.api.model.vocabulary.Kingdom;
-import org.gbif.api.model.vocabulary.Rank;
+import org.gbif.api.model.common.User;
 import org.gbif.api.vocabulary.Extension;
+import org.gbif.api.vocabulary.Kingdom;
+import org.gbif.api.vocabulary.Rank;
 import org.gbif.portal.config.Config;
 import org.gbif.portal.config.Constants;
 

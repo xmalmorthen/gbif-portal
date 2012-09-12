@@ -1,6 +1,7 @@
 package org.gbif.portal.model;
 
-import org.gbif.api.search.Facet;
+import org.gbif.api.model.common.search.Facet;
+
 
 /**
  * Extended facet count with an additional optional title field
@@ -14,6 +15,10 @@ public class FacetInstance extends Facet.Count {
   public FacetInstance() {
   }
 
+  public FacetInstance(Facet.Count c) {
+    super(c.getName(), c.getCount());
+  }
+
   public FacetInstance(String name) {
     super(name, null);
   }
@@ -21,10 +26,6 @@ public class FacetInstance extends Facet.Count {
   public FacetInstance(String name, String title, Long count) {
     super(name, count);
     this.title = title;
-  }
-
-  public FacetInstance(Facet.Count c) {
-    super(c.getName(), c.getCount());
   }
 
   /**

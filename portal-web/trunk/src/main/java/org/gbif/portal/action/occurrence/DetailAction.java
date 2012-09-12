@@ -1,10 +1,10 @@
 package org.gbif.portal.action.occurrence;
 
+import org.gbif.api.model.occurrence.VerbatimOccurrence;
 import org.gbif.api.model.registry.Organization;
+import org.gbif.api.service.occurrence.VerbatimOccurrenceService;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.dwc.terms.DwcTerm;
-import org.gbif.occurrencestore.api.model.VerbatimOccurrence;
-import org.gbif.occurrencestore.api.service.VerbatimOccurrenceService;
 
 import java.util.Map;
 import java.util.TreeMap;

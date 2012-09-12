@@ -1,13 +1,13 @@
 package org.gbif.portal.action.occurrence.util.search;
 
-import org.gbif.occurrencestore.download.api.model.predicate.CompoundPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.ConjunctionPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.DisjunctionPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.EqualsPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.GreaterThanPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.LessThanPredicate;
-import org.gbif.occurrencestore.download.api.model.predicate.Predicate;
-import org.gbif.occurrencestore.download.api.model.predicate.SimplePredicate;
+import org.gbif.api.model.occurrence.predicate.CompoundPredicate;
+import org.gbif.api.model.occurrence.predicate.ConjunctionPredicate;
+import org.gbif.api.model.occurrence.predicate.DisjunctionPredicate;
+import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
+import org.gbif.api.model.occurrence.predicate.GreaterThanPredicate;
+import org.gbif.api.model.occurrence.predicate.LessThanPredicate;
+import org.gbif.api.model.occurrence.predicate.Predicate;
+import org.gbif.api.model.occurrence.predicate.SimplePredicate;
 import org.gbif.portal.action.occurrence.util.PredicateFactory.BetweenPredicate;
 import org.gbif.portal.action.occurrence.util.PredicateFactory.BoundingBoxPredicate;
 
@@ -70,7 +70,8 @@ public class WsSearchVisitor {
   }
 
   public void visit(BoundingBoxPredicate predicate) {
-    params.put(predicate.getKey(),
+    params.put(
+      predicate.getKey(),
       BOUNDING_BOX_OPERATOR.replaceAll(VMIN_LAT, Double.toString(predicate.getValue().getMinLatitude()))
         .replaceAll(VMIN_LON, Double.toString(predicate.getValue().getMinLongitude()))
         .replaceAll(VMAX_LAT, Double.toString(predicate.getValue().getMaxLatitude()))
@@ -97,6 +98,27 @@ public class WsSearchVisitor {
     visitPatternPredicate(predicate, LESS_THAN_OPERATOR);
   }
 
+  private void visit(Object object) throws QueryBuildingException {
+    Method method = null;
+    try {
+      method = getClass().getMethod("visit", new Class[] {object.getClass()});
+    } catch (NoSuchMethodException e) {
+      LOG.warn("Visit method could not be found. That means a Predicate has been passed in that is unknown to this "
+        + "class", e);
+      throw new IllegalArgumentException("Unknown Predicate", e);
+    }
+    try {
+      method.invoke(this, object);
+    } catch (IllegalAccessException e) {
+      LOG.error("This should never happen as all our methods are public and missing methods should have been caught "
+        + "before. Probably a programming error", e);
+      throw new RuntimeException("Programming error", e);
+    } catch (InvocationTargetException e) {
+      LOG.info("Exception thrown while building the Hive Download", e);
+      throw new QueryBuildingException(e);
+    }
+  }
+
   /**
    * Builds a list of predicates joined by 'op' statements.
    * The final statement will look like this:
@@ -115,30 +137,6 @@ public class WsSearchVisitor {
 
   public void visitPatternPredicate(SimplePredicate predicate, String op) {
     params.put(predicate.getKey(), op.replaceAll(V_PLACE_HOLDER, predicate.getValue()));
-  }
-
-  private void visit(Object object) throws QueryBuildingException {
-    Method method = null;
-    try {
-      method = getClass().getMethod("visit", new Class[] {object.getClass()});
-    } catch (NoSuchMethodException e) {
-      LOG
-        .warn(
-          "Visit method could not be found. That means a Predicate has been passed in that is unknown to this "
-            + "class",
-          e);
-      throw new IllegalArgumentException("Unknown Predicate", e);
-    }
-    try {
-      method.invoke(this, object);
-    } catch (IllegalAccessException e) {
-      LOG.error("This should never happen as all our methods are public and missing methods should have been caught "
-        + "before. Probably a programming error", e);
-      throw new RuntimeException("Programming error", e);
-    } catch (InvocationTargetException e) {
-      LOG.info("Exception thrown while building the Hive Download", e);
-      throw new QueryBuildingException(e);
-    }
   }
 
 }

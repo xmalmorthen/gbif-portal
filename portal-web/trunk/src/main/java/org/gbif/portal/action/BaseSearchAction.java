@@ -11,15 +11,15 @@
  */
 package org.gbif.portal.action;
 
-import org.gbif.api.paging.PagingRequest;
-import org.gbif.api.paging.PagingResponse;
-import org.gbif.api.search.SearchRequest;
-import org.gbif.api.search.SearchResponse;
+import org.gbif.api.model.common.paging.PagingRequest;
+import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.model.common.search.SearchRequest;
+import org.gbif.api.model.common.search.SearchResponse;
 
 import com.google.common.base.Strings;
 
-import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
-import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
 
 
 /**
@@ -78,7 +78,8 @@ public abstract class BaseSearchAction<T> extends BaseAction {
     int newSize = firstHlEndTag - firstHlBeginTag;
     if (firstHlBeginTag >= 0 && firstHlEndTag >= 0) {
       int textLenght = text.length();
-      firstHlEndTag = Math.min(firstHlEndTag + ((newSize > MAX_LONG_HL_FIELD) ? 0 : (MAX_LONG_HL_FIELD - newSize)), textLenght);
+      firstHlEndTag =
+        Math.min(firstHlEndTag + ((newSize > MAX_LONG_HL_FIELD) ? 0 : (MAX_LONG_HL_FIELD - newSize)), textLenght);
       trimmedHLText = text.substring(firstHlBeginTag, firstHlEndTag);
       if (firstHlBeginTag > 0) {
         trimmedHLText = MORE_TEXT_MARKER + trimmedHLText;

@@ -1,14 +1,14 @@
 package org.gbif.portal.action.occurrence;
 
+import org.gbif.api.model.common.paging.PagingRequest;
+import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.model.occurrence.Occurrence;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
 import org.gbif.api.model.registry.Dataset;
-import org.gbif.api.paging.PagingRequest;
-import org.gbif.api.paging.PagingResponse;
 import org.gbif.api.service.checklistbank.NameUsageService;
+import org.gbif.api.service.occurrence.OccurrenceSearchService;
 import org.gbif.api.service.registry.DatasetService;
-import org.gbif.occurrencestore.api.model.Occurrence;
-import org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter;
-import org.gbif.occurrencestore.api.service.OccurrenceSearchService;
-import org.gbif.occurrencestore.api.service.search.OccurrenceSearchRequest;
 import org.gbif.portal.action.BaseAction;
 
 import java.util.Map;
@@ -20,19 +20,19 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
-import static org.gbif.api.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.BASIS_OF_RECORD;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.CATALOGUE_NUMBER;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.COLLECTOR_NAME;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.COUNTRY_CODE;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.DATASET_KEY;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.DAY;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.HIGHER_TAXON_KEY;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.LATITUDE;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.LONGITUDE;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.MONTH;
-import static org.gbif.occurrencestore.api.model.constants.OccurrenceSearchParameter.YEAR;
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
+import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.BASIS_OF_RECORD;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.CATALOGUE_NUMBER;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COLLECTOR_NAME;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY_CODE;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DAY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.HIGHER_TAXON_KEY;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LATITUDE;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LONGITUDE;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MONTH;
+import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.YEAR;
 
 /**
  * Search action class for occurrence search page.
@@ -145,22 +145,6 @@ public class SearchAction extends BaseAction {
 
 
   /**
-   * @param filters the filters to set
-   */
-  public void setFilter(Multimap<String, String> filters) {
-    this.filters = filters;
-  }
-
-
-  /**
-   * @param offset the offset to set
-   * @see PagingRequest#setOffset(long)
-   */
-  public void setOffset(long offset) {
-    pagingRequest.setOffset(offset);
-  }
-
-  /**
    * Reads the filters from the request parameters.
    * The format of filter parameters is : OccurrenceSearchParameter.getParam*().
    */
@@ -173,6 +157,22 @@ public class SearchAction extends BaseAction {
         }
       }
     }
+  }
+
+
+  /**
+   * @param filters the filters to set
+   */
+  public void setFilter(Multimap<String, String> filters) {
+    this.filters = filters;
+  }
+
+  /**
+   * @param offset the offset to set
+   * @see PagingRequest#setOffset(long)
+   */
+  public void setOffset(long offset) {
+    pagingRequest.setOffset(offset);
   }
 
 }
