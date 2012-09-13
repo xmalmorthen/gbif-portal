@@ -29,10 +29,10 @@
       <a href="<@s.url value='/${memberType?lower_case}/${id}'/>" title="Information"><span>Information</span></a>
     </li>
     <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>>
-      <a href="#" title="Activity"><span>Activity <sup>(2)</sup></span></a>
+      <a href="#" title="Activity"><span>Activity</span></a>
     </li>
     <li<#if (tab!"")=="stats"> class='selected highlighted'</#if>>
-      <a href="#" title="Stats"><span>Stats <sup>(2)</sup></span></a>
+      <a href="#" title="Stats"><span>Stats</span></a>
     </li>
   </ul>
 </content>

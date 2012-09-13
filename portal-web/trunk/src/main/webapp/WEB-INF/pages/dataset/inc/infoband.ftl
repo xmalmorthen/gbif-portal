@@ -87,10 +87,10 @@
       </li>
     </#if>
     <li<#if (tab!"")=="activity"> class='selected ${hl!}'</#if>>
-      <a href="#" title="Activity"><span>Activity <sup>(2)</sup></span></a>
+      <a href="#" title="Activity"><span>Activity</span></a>
     </li>
     <li<#if (tab!"")=="discussion"> class='selected ${hl!}'</#if>>
-      <a href="#" title="Discussion"><span>Discussion <sup>(5)</sup></span></a>
+      <a href="#" title="Discussion"><span>Discussion</span></a>
     </li>
   </ul>
 </content>
