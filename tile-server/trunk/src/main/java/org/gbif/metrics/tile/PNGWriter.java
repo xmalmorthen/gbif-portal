@@ -118,13 +118,13 @@ public class PNGWriter {
     Map<Integer, Integer> merged = Maps.newHashMap();
     // no layers specified, so flatten the grids into 1
     if (layers == null || layers.length == 0) {
-// for (Entry<Layer, Map<Integer, Integer>> e : grids.entrySet()) {
-// for (Entry<Integer, Integer> e1 : e.getValue().entrySet()) {
-// Integer i = merged.get(e1.getKey());
-// i = (i == null) ? e1.getValue() : i + e1.getValue();
-// merged.put(e1.getKey(), i);
-// }
-// }
+      for (Entry<Layer, Map<Integer, Integer>> e : grids.entrySet()) {
+        for (Entry<Integer, Integer> e1 : e.getValue().entrySet()) {
+          Integer i = merged.get(e1.getKey());
+          i = (i == null) ? e1.getValue() : i + e1.getValue();
+          merged.put(e1.getKey(), i);
+        }
+      }
     } else {
       // extract and merge only the layers requested
       for (Layer l : layers) {
