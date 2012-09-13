@@ -133,10 +133,10 @@
         <#if idt.type?has_content>
           <#if idt.type == "LSID" || idt.type == "URL">
             <li><a href="${idt.identifier}">${common.limit(idt.identifier!"",max_show_length)}</a></li>
-            <#elseif idt.type == "UNKNOWN">
-              <li>${common.limit(idt.identifier!"",max_show_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
-            <#else>
-              <li><a href="${idt.identifier}"><@s.text name="enum.identifiertype.${idt.type}"/></a></li>
+          <#elseif idt.type == "UNKNOWN">
+            <li>${common.limit(idt.identifier!"",max_show_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
+          <#else>
+            <li><a href="${idt.identifier}"><@s.text name="enum.identifiertype.${idt.type}"/></a></li>
           </#if>
           <#else>
             <li>${common.limit(idt.identifier!"",max_show_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>

@@ -38,7 +38,6 @@
       <div class="header">
         <div class="left">
           <h2>${searchResponse.count!} results for "${q!}"</h2>
-          <#-- <a href="#" class="sort" title="Sort by relevance">Sort by relevance <span class="more"></span></a> -->
         </div>
         <div class="right"><h3>Refine your search</h3></div>
       </div>
@@ -47,18 +46,14 @@
       <div class="left">
       <#list searchResponse.results as dataset>
         <div class="result searchResult">
-          <h2><a href="<@s.url value='/dataset/${dataset.key!}'/>"
-                 title="${dataset.title!}"><strong>${dataset.title!}</strong></a>
+          <h2>
+            <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${dataset.title!}"><strong>${dataset.title!}</strong></a>
           </h2>
 
-          <p>Type <span>${dataset.type!"Unknown"}</span>, published by
-            <a href="<@s.url value='/member/${dataset.owningOrganizationKey!}'/>"
-               title="${dataset.owningOrganizationTitle!}">
-              <strong>${dataset.owningOrganizationTitle!"Unknown"}</strong></a> in <span
-                    class="placeholder_temp">1983</span>
-          </p>
+          <p><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/> with -99 occurrences.</p>
 
-          <div class="placeholder_temp footer"><p>201.456 occurrences | covering Europe, Asia, Africa and Oceania</p>
+          <div class="footer">
+            <p>Published by <a href="<@s.url value='/organization/${dataset.owningOrganizationKey!}'/>" title="${dataset.owningOrganizationTitle!}">${dataset.owningOrganizationTitle!"Unknown"}</a></p>
           </div>
         </div>
       </#list>
