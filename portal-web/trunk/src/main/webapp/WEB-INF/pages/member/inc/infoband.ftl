@@ -9,7 +9,7 @@
 -->
 <content tag="infoband">
 
-  <h1>${common.limit(member.title!"???", 36)}</h1>
+  <h1>${common.limit(member.title!"???", 50)}</h1>
 
   <h3 class="separator">${memberType?capitalize}<#if member.homepage?has_content>. More info at:
     <a href="${member.homepage}" target="_blank" title="Homepage">${member.homepage}</a>
