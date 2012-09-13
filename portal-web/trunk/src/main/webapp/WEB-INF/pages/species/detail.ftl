@@ -230,20 +230,27 @@
   <h3>External Links</h3>
   <ul>
   <#list usage.externalLinks as i>
-    <li><a href="${i.identifierLink}" title="${i.title!i.type!}">
-      <#if i.title?has_content>${i.title}
-      <#else>
-      ${common.limit( datasets.get(i.datasetKey).title ,30)}
+    <#if i.title?has_content || i.datasetKey?has_content>
+    <li>
+      <#if i.identifierLink?has_content>
+        <a href="${i.identifierLink}" title="${i.title!i.type!}">
       </#if>
-    </a></li>
+        <#if i.title?has_content>${i.title}
+        <#else>
+        ${common.limit( datasets.get(i.datasetKey).title ,30)}
+        </#if>
+      <#if i.identifierLink?has_content>
+        </a>
+      </#if>
+    </li>
+    </#if>
   </#list>
   <#if usage.nubKey??>
-    <li><a target="_blank" href="http://eol.org/search/?q=${usage.canonicalOrScientificName}" title="EOL">EOL</a></li>
+    <li><a target="_blank" href="http://eol.org/search/?q=${usage.canonicalOrScientificName}" title="Encyclopedia of Life">Encyclopedia of Life</a></li>
   </#if>
-    <li><a target="_blank" href="http://ecat-dev.gbif.org/usage/${usage.key?c}" title="ECAT Portal">ECAT Portal</a></li>
 
   <#if (usage.lsids?size>0)>
-    <li><@common.popover linkTitle="LSID" popoverTitle="Life Science Identifier">
+    <li><@common.popover linkTitle="Life Science Identifier" popoverTitle="Life Science Identifier">
       <#list usage.lsids as i>
         <p><a href='${i.identifierLink}'>${i.identifier}</a></p><br/>
       </#list></@common.popover>
