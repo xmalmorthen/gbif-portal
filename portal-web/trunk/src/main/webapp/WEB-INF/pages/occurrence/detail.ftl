@@ -95,7 +95,7 @@
 
       <h3>Dataset</h3>
       <p>
-        <a href="<@s.url value='/organization/${dataset.key}'/>" title="">${dataset.title}</a>
+        <a href="<@s.url value='/dataset/${dataset.key}'/>" title="">${dataset.title}</a>
       </p>
 
       <#if occ.institutionCode??>
