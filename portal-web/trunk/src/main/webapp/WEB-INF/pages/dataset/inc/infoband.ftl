@@ -50,9 +50,7 @@
 <div class="box">
   <div class="content">
     <ul>
-      <li><h4>${(metrics.countIndexed)!"?"}</h4>Occurrences</li>
-      <li><h4>${(metrics.countByRank(speciesRank))!"?"}</h4>Species</li>
-      <li class="last"><h4>${(metrics.countDistinctNames)!"?"}</h4>Taxa</li>
+      <li class="last"><h4>${(metrics.countIndexed)!"?"}</h4>Occurrences</li>
     </ul>
     <a href="<@s.url value='/occurrence/search/?datasetKey=${id!}'/>" title="View occurrences" class="candy_blue_button"><span>View occurrences</span></a>
   </div>
