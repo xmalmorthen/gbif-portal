@@ -1,17 +1,20 @@
 package org.gbif.metrics.tile;
 
 import org.gbif.metrics.cube.tile.density.DensityTile;
+import org.gbif.metrics.cube.tile.density.Layer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
+import com.google.common.collect.Maps;
 import com.google.common.io.Closeables;
 
 /**
@@ -108,6 +111,36 @@ public class PNGWriter {
     return colorIndex;
   }
 
+  /**
+   * Returns a merged Map from the named grids, or all if the layers is not supplied.
+   */
+  private static Map<Integer, Integer> mergedGrid(Map<Layer, Map<Integer, Integer>> grids, Layer... layers) {
+    Map<Integer, Integer> merged = Maps.newHashMap();
+    // no layers specified, so flatten the grids into 1
+    if (layers == null || layers.length == 0) {
+// for (Entry<Layer, Map<Integer, Integer>> e : grids.entrySet()) {
+// for (Entry<Integer, Integer> e1 : e.getValue().entrySet()) {
+// Integer i = merged.get(e1.getKey());
+// i = (i == null) ? e1.getValue() : i + e1.getValue();
+// merged.put(e1.getKey(), i);
+// }
+// }
+    } else {
+      // extract and merge only the layers requested
+      for (Layer l : layers) {
+        Map<Integer, Integer> grid = grids.get(l);
+        if (grid != null) {
+          for (Entry<Integer, Integer> e : grid.entrySet()) {
+            Integer i = merged.get(e.getKey());
+            i = (i == null) ? e.getValue() : i + e.getValue();
+            merged.put(e.getKey(), i);
+          }
+        }
+      }
+    }
+    return merged;
+  }
+
   private static void paint(byte[] r, byte[] g, byte[] b, byte[] a, byte rc, byte gc, byte bc, byte alpha, int index) {
     if (index >= 0 && index < r.length) {
       r[index] = rc;
@@ -120,9 +153,9 @@ public class PNGWriter {
   /**
    * Writes the tile to the stream as a PNG.
    */
-  public static void write(DensityTile tile, OutputStream out) throws IOException {
+  public static void write(DensityTile tile, OutputStream out, Layer... layers) throws IOException {
     // don't waste time setting up PNG if no data
-    if (tile != null && !tile.cells().isEmpty()) {
+    if (tile != null && !tile.layers().isEmpty()) {
 
       // arrays for the RGB and alpha channels
       byte[] r = new byte[DensityTile.TILE_SIZE * DensityTile.TILE_SIZE];
@@ -132,7 +165,8 @@ public class PNGWriter {
 
       // paint the pixels for each cell in the tile
       int cellsPerRow = DensityTile.TILE_SIZE / tile.getClusterSize();
-      for (Entry<Integer, Integer> e : tile.cells().entrySet()) {
+      Map<Integer, Integer> cells = mergedGrid(tile.layers(), layers);
+      for (Entry<Integer, Integer> e : cells.entrySet()) {
         int cellId = e.getKey();
         int offsetX = tile.getClusterSize() * (cellId % cellsPerRow);
         int offsetY = tile.getClusterSize() * (cellId / cellsPerRow);

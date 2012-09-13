@@ -61,9 +61,10 @@
       DataCube and HBase.  Mixing certain versions reports inconsistency issues.
     -->
     <!--  slf4j.version>1.5.8</slf4j.version> -->
+    <gbif-api.version>0.1-SNAPSHOT</gbif-api.version>
     <slf4j.version>1.6.4</slf4j.version> 
     <logback.version>1.0.6</logback.version>
-    <cube.version>0.1-SNAPSHOT</cube.version>
+    <cube.version>0.2-SNAPSHOT</cube.version>
     <servlet-api.version>2.4</servlet-api.version>
     <guice.version>3.0</guice.version>
     <metrics.version>2.1.2</metrics.version>
@@ -98,9 +99,14 @@
       <version>${slf4j.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-api</artifactId>
+      <version>${gbif-api.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.gbif.metrics</groupId>
       <artifactId>cube</artifactId>
-      <version>0.1</version>
+      <version>${cube.version}</version>
       <!--  Brought in transitively from HBase.  We ship this to logback below. -->
       <exclusions>
         <exclusion>

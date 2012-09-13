@@ -2,6 +2,7 @@ package org.gbif.metrics.tile.guice;
 
 import org.gbif.metrics.cube.tile.density.DensityCube;
 import org.gbif.metrics.cube.tile.density.DensityTile;
+import org.gbif.metrics.cube.tile.density.Layer;
 import org.gbif.metrics.cube.tile.io.TileContentType;
 import org.gbif.metrics.cube.tile.point.PointCube;
 import org.gbif.metrics.cube.tile.point.PointTile;
@@ -116,7 +117,7 @@ public class InMemoryTileModule extends AbstractModule {
       if (!line.contains("N")) { // ignore nulls
         String[] atoms = tab.split(line.replaceAll("\"", ""));
         for (DensityTile.Builder b : densityBuilders) {
-          b.collect(Double.parseDouble(atoms[0]), Double.parseDouble(atoms[1]), Integer.parseInt(atoms[2]));
+          b.collect(Layer.OBS_NO_YEAR, Double.parseDouble(atoms[0]), Double.parseDouble(atoms[1]), Integer.parseInt(atoms[2]));
         }
         for (PointTile.Builder b : pointBuilders) {
           // NOTE: we're just using the count as the id here as a quick test. Need a new CSV?
