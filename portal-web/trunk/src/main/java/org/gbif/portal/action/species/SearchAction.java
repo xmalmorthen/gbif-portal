@@ -44,7 +44,8 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   private Function<String, String> getChecklistTitle;
   private Function<String, String> getHigherTaxaTitle;
-  private Function<String, String> getBooleanTitle;
+  private Function<String, String> getExtinctTitle;
+  private Function<String, String> getMarineTitle;
   private Function<String, String> getTaxStatusTitle;
   private Function<String, String> getRankTitle;
   private Function<String, String> getThreatStatusTitle;
@@ -78,10 +79,10 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     lookupFacetTitles(NameUsageFacetParameter.RANK, getRankTitle);
 
     // replace extinct boolean values
-    lookupFacetTitles(NameUsageFacetParameter.EXTINCT, getBooleanTitle);
+    lookupFacetTitles(NameUsageFacetParameter.EXTINCT, getExtinctTitle);
 
     // replace marine boolean values
-    lookupFacetTitles(NameUsageFacetParameter.MARINE, getBooleanTitle);
+    lookupFacetTitles(NameUsageFacetParameter.MARINE, getMarineTitle);
 
     // replace threat status keys values
     lookupFacetTitles(NameUsageFacetParameter.THREAT, getThreatStatusTitle);
@@ -113,6 +114,16 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       || getFacets().get(NameUsageFacetParameter.CHECKLIST).size() != 1;
   }
 
+
+  private String getBooleanTitle(String resourceEntry, String value) {
+    if (Strings.emptyToNull(value) == null) {
+      return null;
+    }
+    if ("true".equalsIgnoreCase(value)) {
+      return getText(resourceEntry).toLowerCase();
+    }
+    return getText("not") + " " + getText(resourceEntry).toLowerCase();
+  }
   /**
    * Initializes the getTitle* functions: getChecklistTitle and getHigherTaxaTitle.
    * Because we need the non static resource bundle lookup method getText() these methods
@@ -141,14 +152,17 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
       }
     };
 
-    getBooleanTitle = new Function<String, String>() {
-
+    getExtinctTitle = new Function<String, String>() {
       @Override
       public String apply(String name) {
-        if (Strings.emptyToNull(name) == null) {
-          return null;
-        }
-        return getText("enum.boolean." + name.toLowerCase());
+        return getBooleanTitle("search.facet.EXTINCT", name);
+      }
+    };
+
+    getMarineTitle = new Function<String, String>() {
+      @Override
+      public String apply(String name) {
+        return getBooleanTitle("search.facet.MARINE", name);
       }
     };
 
