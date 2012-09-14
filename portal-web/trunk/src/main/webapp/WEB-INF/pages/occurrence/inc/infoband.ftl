@@ -10,7 +10,7 @@
 -->
 
 <content tag="infoband">
-  <h1>${(nub.canonicalOrScientificName)!"Unkown species"} · ${id?c}</h1>
+  <h1>Occurrence ID: ${id?c}</h1>
 
   <h3><@s.text name="enum.basisofrecord.${occ.basisOfRecord!'UNKNOWN'}"/> of
     <#if occ.nubKey??>
