@@ -37,7 +37,6 @@
          see http://en.wikipedia.org/wiki/Fish#Taxonomy
          MISSING FROM THESE FISH FILTERS ARE THE FOLLOWING, WHICH ARE NOT IN COL:
           - Placodermi
-
         -->
         <li><a href="<@s.url value='/species/search?q=&checklist=nub&highertaxon=119&highertaxon=120&highertaxon=121&highertaxon=204&highertaxon=238&highertaxon=239&highertaxon=4853178&highertaxon=3238258&highertaxon=4836892&highertaxon=4815623'/>" title="Fishes">Fishes</a></li>
         <li><a href="<@s.url value='/species/search?q=&checklist=nub&highertaxon=797'/>" title="Butterflies">Butterflies</a></li>
@@ -54,10 +53,6 @@
     </div>
     <footer></footer>
   </article>
-
-  <p class="advice">Looking for something more specific? Use our <a href="#" title="advance filtering">advanced
-    filtering</a> or the <a href="#" title="taxonomic browser">taxonomic browser</a>.
-  </p>
 
 </body>
 </html>
