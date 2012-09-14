@@ -90,6 +90,13 @@
         $("#description span.language").click(function() {
           loadDescription( $(this).attr("descriptionKeys") );
         });
+        // adjust description height to ToC
+        var tocHeight = $("#description div.right").height() - 5;
+        console.debug(tocHeight);
+        if (tocHeight > 350) {
+          $("#description div.inner").height(tocHeight);
+        }
+
       });
     </script>
   </content>
