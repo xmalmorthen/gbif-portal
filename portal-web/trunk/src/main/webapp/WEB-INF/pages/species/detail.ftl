@@ -208,12 +208,10 @@
       <p><#list usage.livingPeriods as p>${p}<#if p_has_next>; </#if></#list></p>
     </#if>
 
-    <#if usage.isMarine()?? || usage.isTerrestrial()?? || (usage.habitats?size>0)>
+    <#if habitats?has_content>
       <h3>Habitat</h3>
       <p>
-        <#if usage.isMarine()??><#if usage.isMarine()>Marine<#else>Non Marine</#if>;</#if>
-        <#if usage.isTerrestrial()??><#if usage.isTerrestrial()>Terrestrial<#else>Non Terrestrial</#if>;</#if>
-        <#list usage.habitats as h>${h}<#if t_has_next>; </#if></#list>
+        <#list habitats as h>${h}<#if h_has_next>, </#if></#list>
       </p>
     </#if>
 

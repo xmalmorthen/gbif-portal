@@ -58,6 +58,7 @@ public class DetailAction extends UsageBaseAction {
 
   private final Map<String, Integer> typeStatusCounts = Maps.newHashMap();
   private final DescriptionToc descriptionToc = new DescriptionToc();
+  private List<String> habitats = Lists.newArrayList();
 
   /**
    * Iterate through all types and count the number of times each different
@@ -109,6 +110,9 @@ public class DetailAction extends UsageBaseAction {
     // remove duplicates
     distinctVernNames();
 
+    // calc habitats
+    calcHabitats();
+
     // load checklist lookup map
     for (NameUsage u : related) {
       loadDataset(u.getDatasetKey());
@@ -136,6 +140,29 @@ public class DetailAction extends UsageBaseAction {
     calcTypeSpecimenFacets();
 
     return SUCCESS;
+  }
+
+  private void calcHabitats() {
+    // add boolean flags first
+    addHabitatFlag(usage.isTerrestrial(), "terrestrial");
+    addHabitatFlag(usage.isMarine(), "marine");
+    addHabitatFlag(usage.isFreshwater(), "freshwater");
+    // now all other uncontrolled habitats
+    for (String h : usage.getHabitats()) {
+      habitats.add(h);
+    }
+  }
+
+  private void addHabitatFlag(Boolean flag, String flagName) {
+    if (flag != null) {
+      StringBuilder sb = new StringBuilder();
+      if (!flag) {
+        sb.append(getText("not"));
+        sb.append(" ");
+      }
+      sb.append(getText("enum.habitat."+flagName));
+      habitats.add(sb.toString());
+    }
   }
 
   public NameUsage getBasionym() {
@@ -205,5 +232,9 @@ public class DetailAction extends UsageBaseAction {
     usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
     // get species profiles
     usage.setSpeciesProfiles(speciesProfileService.listByUsage(id, page10).getResults());
+  }
+
+  public List<String> getHabitats() {
+    return habitats;
   }
 }
