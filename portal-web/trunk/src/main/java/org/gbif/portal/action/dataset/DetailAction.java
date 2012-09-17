@@ -41,9 +41,7 @@ public class DetailAction extends DatasetBaseAction {
 
     if (dataset.getTechnicalInstallationKey() != null) {
       TechnicalInstallation technicalInstallation = technicalInstallationService.get(dataset.getTechnicalInstallationKey());
-      if (technicalInstallation.getHostingOrganizationKey().equals(dataset.getOwningOrganizationKey())) {
-        hostingOrganization = getOwningOrganization();
-      } else {
+      if (!technicalInstallation.getHostingOrganizationKey().equals(dataset.getOwningOrganizationKey())) {
         hostingOrganization = organizationService.get(technicalInstallation.getHostingOrganizationKey());
       }
     }
@@ -61,7 +59,7 @@ public class DetailAction extends DatasetBaseAction {
   /**
    * @return the hostingOrganization
    */
-  protected Organization getHostingOrganization() {
+  public Organization getHostingOrganization() {
     return hostingOrganization;
   }
 
