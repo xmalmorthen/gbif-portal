@@ -71,6 +71,9 @@
       <result name="loginRequired">
         <param name="location">/WEB-INF/error/loginRequired.ftl</param>
       </result>
+      <result name="referentialIntegrity">
+        <param name="location">/WEB-INF/error/referentialIntegrity.ftl</param>
+      </result>
       <result name="unavailable">
         <param name="location">/WEB-INF/error/unavailable.ftl</param>
       </result>
@@ -85,6 +88,7 @@
       <exception-mapping exception="org.gbif.api.exception.NotFoundException" result="404"/>
       <exception-mapping exception="java.security.AccessControlException" result="401"/>
       <exception-mapping exception="org.gbif.api.exception.ServiceUnavailableException" result="unavailable"/>
+      <exception-mapping exception="org.gbif.portal.exception.ReferentialIntegrityException" result="referentialIntegrity"/>
       <exception-mapping exception="java.lang.Exception" result="error"/>
     </global-exception-mappings>
 

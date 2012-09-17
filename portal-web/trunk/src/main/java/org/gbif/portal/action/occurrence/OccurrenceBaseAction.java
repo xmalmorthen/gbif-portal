@@ -9,6 +9,7 @@ import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.occurrence.OccurrenceService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.exception.ReferentialIntegrityException;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -63,9 +64,15 @@ public class OccurrenceBaseAction extends BaseAction {
     }
     // load dataset
     dataset = datasetService.get(occ.getDatasetKey());
+    if (dataset == null) {
+      throw new ReferentialIntegrityException(Occurrence.class, id, "Missing dataset " + occ.getDatasetKey());
+    }
     // load name usage nub object
     if (occ.getNubKey() != null) {
       nub = usageService.get(occ.getNubKey(), getLocale());
+      if (nub == null) {
+        throw new ReferentialIntegrityException(Occurrence.class, id, "Missing nub usage " + occ.getNubKey());
+      }
     }
     // TODO: load metrics for occurrence once implemented
     metrics = null;

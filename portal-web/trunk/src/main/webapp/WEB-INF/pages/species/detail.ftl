@@ -237,14 +237,15 @@
   <h3>External Links</h3>
   <ul>
   <#list usage.externalLinks as i>
-    <#if i.title?has_content || i.datasetKey?has_content>
+    <#if i.title?has_content || (i.datasetKey?has_content && datasets.get(i.datasetKey)??)>
     <li>
       <#if i.identifierLink?has_content>
         <a href="${i.identifierLink}" title="${i.title!i.type!}">
       </#if>
-        <#if i.title?has_content>${i.title}
+        <#if i.title?has_content>
+          ${i.title}
         <#else>
-        ${common.limit( datasets.get(i.datasetKey).title ,30)}
+          ${common.limit( datasets.get(i.datasetKey).title ,30)}
         </#if>
       <#if i.identifierLink?has_content>
         </a>
@@ -478,13 +479,17 @@
       <div class="col">
         <h3>Occurrence datasets</h3>
         <ul class="notes">
+          <#assign counter=0 />
           <#list relatedDatasets as uuid>
-            <#assign title=datasets.get(uuid).title! />
-            <li>
-              <a title="${title}" href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">${common.limit(title, 55)}</a>
-              <span class="note"> in 99 occurrences</span>
-            </li>
-            <#if uuid_has_next && uuid_index==6>
+            <#if datasets.get(uuid)??>
+              <#assign counter=counter+1 />
+              <#assign title=datasets.get(uuid).title! />
+              <li>
+                <a title="${title}" href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">${common.limit(title, 55)}</a>
+                <span class="note"> in 99 occurrences</span>
+              </li>
+            </#if>
+            <#if uuid_has_next && counter==6>
               <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">see all ${relatedDatasets?size}</a></li>
               <#break />
             </#if>
@@ -495,12 +500,16 @@
       <div class="col">
         <h3>Checklists</h3>
         <ul class="notes">
+          <#assign counter=0 />
           <#list related as rel>
-            <#assign title=datasets.get(rel.datasetKey).title! />
-            <li><a title="${title}" href="<@s.url value='/species/${rel.key?c}'/>">${common.limit(title, 55)}</a>
-              <span class="note">as ${rel.scientificName}</span>
-            </li>
-            <#if rel_has_next && rel_index==6>
+            <#if datasets.get(rel.datasetKey)??>
+              <#assign counter=counter+1 />
+              <#assign title=datasets.get(rel.datasetKey).title! />
+              <li><a title="${title}" href="<@s.url value='/species/${rel.key?c}'/>">${common.limit(title, 55)}</a>
+                <span class="note">as ${rel.scientificName}</span>
+              </li>
+            </#if>
+            <#if rel_has_next && counter==6>
               <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">see all ${related?size}</a></li>
               <#break />
             </#if>

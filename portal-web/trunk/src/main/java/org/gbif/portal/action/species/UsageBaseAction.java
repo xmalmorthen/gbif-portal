@@ -10,6 +10,7 @@ import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.exception.ReferentialIntegrityException;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -112,6 +113,10 @@ public class UsageBaseAction extends BaseAction {
     usage = new NameUsageContainer(u);
     // load checklist
     dataset = datasetService.get(usage.getDatasetKey());
+    if (dataset == null) {
+      throw new ReferentialIntegrityException(NameUsage.class, id, "Missing dataset " + usage.getDatasetKey());
+    }
+
     try {
       metrics = metricsService.get(usage.getDatasetKey());
     } catch (ServiceUnavailableException e) {
