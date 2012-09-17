@@ -141,17 +141,16 @@
     <h3>Full Name</h3>
     <p>${usage.scientificName}</p>
 
-    <#if (vernacularNames?size>0)>
+    <#if vernacularNames?has_content>
       <h3>Common names</h3>
       <ul>
-        <#assign more=false/>
         <#list vernacularNames?keys as vk>
           <#assign names=vernacularNames.get(vk)/>
           <#assign v=names[0]/>
           <li>${v.vernacularName} <span class="small">${v.language!}</span>
             <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
           </li>
-          <#if !vk_has_next && vk_index==2>
+          <#if vk_has_next && vk_index==2>
             <li><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></li>
             <#break />
           </#if>
@@ -165,8 +164,9 @@
         <#list usage.synonyms as syn>
           <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
           <#-- only show 5 synonyms at max -->
-          <#if !syn_has_next && syn_index==4>
+          <#if syn_has_next && syn_index==4>
             <li><a class="more_link" href="<@s.url value='/species/${id?c}/synonyms'/>">see all</a></li>
+            <#break />
           </#if>
         </#list>
       </ul>
