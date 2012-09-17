@@ -49,7 +49,7 @@
       <div class="content">
         <div class="header">
           <div class="left">
-            <h2>${searchResponse.count!} results for "${q!}"</h2>
+            <h2>${searchResponse.count!} results <#if q?has_content>for &quot;${q}&quot;</#if></h2>
           <#-- <a href="#" class="sort" title="Sort by relevance">Sort by relevance <span class="more"></span></a> -->
           </div>
           <div class="right"><h3>Refine your search</h3></div>
