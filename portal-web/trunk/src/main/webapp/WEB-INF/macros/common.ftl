@@ -25,18 +25,16 @@
 </#macro>
 
 <#macro usageSources components popoverTitle="Sources" showSource=true showChecklistSource=true>
-  <#assign source="" />
-  <#list components as comp>
-    <#assign source>${source!}
-    <p>
-      <#if showSource>${comp.source!""}<br/></#if>
-      <#if showChecklistSource>
-        <a href='<@s.url value='/species/${comp.usageKey?c}'/>'>${(datasets.get(comp.datasetKey).title)!"???"}</a>
-      </#if>
-    </p><br/>
-    </#assign>
-  </#list>
-<a class="sourcePopup" title="${popoverTitle}" message="${source!}"></a>
+  <#assign source>
+    <#list components as comp>
+      <p>
+        <#if showSource>${comp.source!""}</#if>
+        <#if showSource && showChecklistSource><br/></#if>
+        <#if showChecklistSource><a href='<@s.url value='/species/${comp.usageKey?c}'/>'>${(datasets.get(comp.datasetKey).title)!"???"}</a></#if>
+      </p><br/>
+    </#list>
+  </#assign>
+  <a class="sourcePopup" title="${popoverTitle}" message="${source!}" remarks=""></a>
 </#macro>
 
 <#macro popup message remarks="" title="Source">
@@ -46,7 +44,7 @@
 </#macro>
 
 <#macro popover linkTitle popoverTitle>
-<a class="popover" title="${popoverTitle}" message="<#nested>">${linkTitle}</a>
+<a class="popover" title="${popoverTitle}" message="<#nested>" remarks="">${linkTitle}</a>
 </#macro>
 
 <#--
