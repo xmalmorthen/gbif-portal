@@ -11,6 +11,14 @@
 
 <#include "/WEB-INF/pages/member/inc/admin.ftl">
 
+
+<@common.notice title="Country pages in development">
+  <p>
+    This is a temporary, basic node page while richer country pages are
+    <a href="http://dev.gbif.org/wiki/display/PDES/Country+detail+page">under development</a>.
+  </p>
+</@common.notice>
+
 <@common.article id="information" title="Node Information">
     <div class="left">
       <#include "/WEB-INF/pages/member/inc/basics.ftl">
