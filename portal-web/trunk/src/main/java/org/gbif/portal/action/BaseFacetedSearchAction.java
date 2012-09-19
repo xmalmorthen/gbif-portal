@@ -14,7 +14,6 @@ import org.gbif.api.service.common.SearchService;
 import org.gbif.api.vocabulary.Language;
 import org.gbif.portal.model.FacetInstance;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -49,8 +48,9 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * Serial version
    */
   private static final long serialVersionUID = -1573017190241712345L;
-  private final Map<Enum<F>, List<FacetInstance>> facets = new HashMap<Enum<F>, List<FacetInstance>>();
+  private final Map<Enum<F>, List<FacetInstance>> facets = Maps.newHashMap();
   private final HashMap<String, List<FacetInstance>> facetCounts;
+  private final HashMap<String, Long> facetMinimumCount = Maps.newHashMap();
 
   /**
    * This constant restricts the maximum number of facet results to be displayed
@@ -268,23 +268,28 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
    * @return the selected facet counts if any
    */
   public Map<String, List<FacetInstance>> getSelectedFacetCounts() {
-    HashMap<String, List<FacetInstance>> selectedFacetCounts = new HashMap<String, List<FacetInstance>>();
+    HashMap<String, List<FacetInstance>> selectedFacetCounts = Maps.newHashMap();
     if (facetCounts != null) {
       for (String facet : facetCounts.keySet()) {
-        List<FacetInstance> selectedFacets = new ArrayList<FacetInstance>();
+        Long min = null;
+        List<FacetInstance> selectedFacets = Lists.newArrayList();
         for (FacetInstance facetInstance : facetCounts.get(facet)) {
+          if (facetInstance.getCount() != null && (min == null || facetInstance.getCount() < min)) {
+            min = facetInstance.getCount();
+          }
           if (isInFilter(facet, facetInstance.getName())) {
             selectedFacets.add(facetInstance);
           }
         }
         selectedFacetCounts.put(facet, selectedFacets);
+        facetMinimumCount.put(facet, min);
       }
     }
-    for (Enum<F> facet : this.facets.keySet()) {
-      for (FacetInstance facetInstance : this.facets.get(facet)) {
+    for (Enum<F> facet : facets.keySet()) {
+      for (FacetInstance facetInstance : facets.get(facet)) {
         boolean facetFound = existFacetByName(facetInstance, selectedFacetCounts.get(facet.name()));
         if (!facetFound) {
-          facetInstance.setCount(0L);
+          facetInstance.setCount(null);
           selectedFacetCounts.get(facet.name()).add(0, facetInstance);
         }
       }
@@ -303,7 +308,7 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
     if (response.getFacets() != null && !response.getFacets().isEmpty()) {// there are facets in the response
       for (Facet facet : response.getFacets()) {
         if (facet.getCounts() != null) {// the facet.Count are stored in the facetCounts field
-          this.facetCounts.put(facet.getField(), toFacetInstance(facet.getCounts()));
+          facetCounts.put(facet.getField(), toFacetInstance(facet.getCounts()));
         }
       }
     }
@@ -419,5 +424,9 @@ public abstract class BaseFacetedSearchAction<T, F extends Enum<F>> extends Base
   protected String translateFacetValue(Enum<F> facet, String value) {
     // dont do anything by default
     return value;
+  }
+
+  public HashMap<String, Long> getFacetMinimumCount() {
+    return facetMinimumCount;
   }
 }

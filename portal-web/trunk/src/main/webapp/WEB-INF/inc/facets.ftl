@@ -15,7 +15,8 @@ This include requires 2 arrays to be set:
         <#list selectedFacetCounts[facetName] as count>
           <#assign displayedFacets = displayedFacets + 1>
           <li>
-            <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
+            <#assign minCnt = "< " + facetMinimumCount[facetName] />
+            <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count!minCnt})
             <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" checked/>
             <input type="hidden" value="${count.name!}" class="facetKey"/>
           </li>
