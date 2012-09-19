@@ -17,6 +17,7 @@ import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.model.common.search.SearchResponse;
 
 import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
@@ -39,12 +40,7 @@ public abstract class BaseSearchAction<T> extends BaseAction {
   /**
    * Maximum # of characters shown in a highlighted field.
    */
-  private static final int MAX_LONG_HL_FIELD = 100;
-
-  /**
-   * This string is added before and after a highlighted text whose length is greater than MAX_LONG_HL_FIELD.
-   */
-  private static final String MORE_TEXT_MARKER = "...";
+  private static final int DEFAULT_HIGHLIGHT_TEXT_LENGTH = 110;
 
   public static final String HL_PRE = "<em class=\"gbifHl\">";
 
@@ -72,23 +68,24 @@ public abstract class BaseSearchAction<T> extends BaseAction {
    * @return a trimmed version of the highlighted text
    */
   public static String getHighlightedText(String text) {
-    String trimmedHLText = "";
-    int firstHlBeginTag = text.indexOf(HL_PRE);
-    int firstHlEndTag = text.indexOf(HL_POST) + HL_POST.length();
-    int newSize = firstHlEndTag - firstHlBeginTag;
-    if (firstHlBeginTag >= 0 && firstHlEndTag >= 0) {
-      int textLenght = text.length();
-      firstHlEndTag =
-        Math.min(firstHlEndTag + ((newSize > MAX_LONG_HL_FIELD) ? 0 : (MAX_LONG_HL_FIELD - newSize)), textLenght);
-      trimmedHLText = text.substring(firstHlBeginTag, firstHlEndTag);
-      if (firstHlBeginTag > 0) {
-        trimmedHLText = MORE_TEXT_MARKER + trimmedHLText;
-      }
-      if (firstHlEndTag < textLenght) {
-        trimmedHLText = trimmedHLText + MORE_TEXT_MARKER;
-      }
+    return getHighlightedText(text, DEFAULT_HIGHLIGHT_TEXT_LENGTH);
+  }
+
+  public static String getHighlightedText(String text, final int maxLength) {
+    final int firstHlBeginTag = text.indexOf(HL_PRE);
+    final int firstHlEndTag = text.indexOf(HL_POST) + HL_POST.length();
+    final int hlTextSize = firstHlEndTag - firstHlBeginTag;
+    // highlighted text larger than max length - return it all to keep highlighting tags intact
+    if (hlTextSize > maxLength) {
+      return text.substring(firstHlBeginTag, firstHlEndTag);
     }
-    return trimmedHLText;
+    // no highlighted text, return first bit
+    if (firstHlBeginTag < 0 || firstHlEndTag < 0) {
+      return StringUtils.abbreviate(text, 0, maxLength);
+    }
+    int sizeBefore = (maxLength - hlTextSize) / 3;
+    int start = Math.max(0, firstHlBeginTag - sizeBefore);
+    return StringUtils.abbreviate(text, start, maxLength);
   }
 
   /**

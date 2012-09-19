@@ -70,7 +70,7 @@ var GOD = (function() {
     document.documentElement.className = document.documentElement.className + ' ps_fouc';
   }
 
-  var // Public methods exposed to $.fn.sourcePopover()
+  var // Public methods exposed to $.fn.sourcePopoversourcePopover()
   methods = {}, // HTML template for the dropdowns
   templates = {
     main: [

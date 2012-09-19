@@ -185,7 +185,7 @@ $(function() {
 
   // Activate link popovers
   $("a.popover").each(function(idx, obj){
-    $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});
+    $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).parent().find(".message").html(),"remarks":$(obj).parent().find(".remarks").html()});
   });
 
   $("a.download")

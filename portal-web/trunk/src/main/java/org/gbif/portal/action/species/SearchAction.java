@@ -14,11 +14,14 @@ import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
 import org.gbif.api.service.checklistbank.NameUsageSearchService;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.vocabulary.Language;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.api.vocabulary.TaxonomicStatus;
 import org.gbif.api.vocabulary.ThreatStatus;
 import org.gbif.portal.action.BaseFacetedSearchAction;
+import org.gbif.portal.model.VernacularLocaleComparator;
 
+import java.util.Collections;
 import java.util.UUID;
 
 import com.google.common.base.Function;
@@ -58,6 +61,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     initGetTitleFunctions();
   }
 
+
   @Override
   public String execute() {
     searchRequest.setMultiSelectFacets(true);
@@ -65,6 +69,12 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     searchRequest.setHighlight(!getQ().isEmpty());
 
     super.execute();
+
+    // order vernacular names by current locale
+    VernacularLocaleComparator comparator = new VernacularLocaleComparator(Language.fromIsoCode(getLocale().getISO3Language()));
+    for (NameUsageSearchResult u : searchResponse.getResults()) {
+      Collections.sort(u.getVernacularNames(), comparator);
+    }
 
     // replace higher taxon ids in facets with real names
     lookupFacetTitles(NameUsageFacetParameter.HIGHERTAXON, getHigherTaxaTitle);

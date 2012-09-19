@@ -44,7 +44,11 @@
 </#macro>
 
 <#macro popover linkTitle popoverTitle>
-<a class="popover" title="${popoverTitle}" message="<#nested>" remarks="">${linkTitle}</a>
+  <a class="popover" title="${popoverTitle}" remarks="">${linkTitle}</a>
+  <div class="message" style="display: none;"><#nested></div>
+  <#if remarks?has_content>
+    <div class="remarks" style="display: none;">${remarks}</div>
+  </#if>
 </#macro>
 
 <#--

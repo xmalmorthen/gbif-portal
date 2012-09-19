@@ -1,3 +1,4 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <#import "/WEB-INF/macros/pagination.ftl" as macro>
 <html>
 <head>
@@ -9,11 +10,7 @@
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>
     <script>
-      $("#q").speciesAutosuggest(cfg.wsClbSuggest, 4, "#facetfilterCHECKLIST .facetKey", "#content", "canonicalName",
-              "checklistTitle");
-      $("a.moreDesc").each(function() {
-        $(this).sourcePopover({"title":"Description", "message":$(this).parent().next("div").text()})
-      });
+      $("#q").speciesAutosuggest(cfg.wsClbSuggest, 4, "#facetfilterCHECKLIST .facetKey", "#content", "canonicalName", "checklistTitle");
     </script>
   </content>
   <style type="text/css">
@@ -70,9 +67,15 @@
               <p>Accepted name <a href="<@s.url value='/species/${u.acceptedKey?c}'/>">${u.accepted!"???"}</a></p>
             </#if>
             <div class="footer">
-              <p>
+              <#assign vnames>
                 <#list u.vernacularNames as vn>${vn.vernacularName!}<#if vn_has_next> - </#if></#list>
-              </p>
+              </#assign>
+              <div>
+                ${common.limit(vnames ,100)}
+                <#if (vnames?length>100)>
+                  <@common.popover linkTitle="more" popoverTitle="Vernacular Names">${vnames}</@common.popover>
+                </#if>
+              </div>
 
               <p>
               <ul class="taxonomy">
@@ -89,13 +92,18 @@
               <#list u.descriptions as desc>
                 <#if desc.description?contains('<em class="gbifHl">')>
                   <#assign hlText=action.getHighlightedText(desc.description)/>
-                <p><strong>Description</strong> ${hlText}
-                  <#if (hlText?length < desc.description?length)>
-                    <a class="moreDesc" id="${u.key?c}Desc${desc_index?c}" title="Description" href="#"><img
-                            src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
-                    <div style="display: none;">${desc.description}</div>
-                  </#if>
-                  </p>
+                  <div>${hlText}
+                    <#-- show all descriptions with matches in popover -->
+                    <@common.popover linkTitle="more" popoverTitle="">
+                      <#list u.descriptions as d2>
+                        <#if d2.description?contains('<em class="gbifHl">')>
+                          <h3>${d2.type!"Description"}</h3>
+                          <p>${d2.description}</p>
+                        </#if>
+                      </#list>
+                    </@common.popover>
+                  </div>
+                  <#break />
                 </#if>
               </#list>
 

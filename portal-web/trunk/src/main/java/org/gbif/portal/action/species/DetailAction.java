@@ -16,7 +16,9 @@ import org.gbif.api.service.checklistbank.SpeciesProfileService;
 import org.gbif.api.service.checklistbank.TypeSpecimenService;
 import org.gbif.api.service.checklistbank.VernacularNameService;
 import org.gbif.api.vocabulary.Language;
+import org.gbif.portal.model.VernacularLocaleComparator;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -83,12 +85,12 @@ public class DetailAction extends UsageBaseAction {
   }
 
   /**
-   * Filters duplicates from vernacular names and puts current locale names before english before the rest at the top.
+   * Filters duplicates from vernacular names and sorts names based on language first.
    */
   private void distinctVernNames() {
-    List<String> local = Lists.newArrayList();
-    List<String> english = Lists.newArrayList();
-    LinkedHashMap<String, List<VernacularName>> nonTopNames = Maps.newLinkedHashMap();
+    // sort by language and then name
+    VernacularLocaleComparator comparator = new VernacularLocaleComparator(Language.fromIsoCode(getLocale().getISO3Language()));
+    Collections.sort(usage.getVernacularNames(), comparator);
 
     for (VernacularName v : usage.getVernacularNames()) {
       if (Strings.isNullOrEmpty(v.getVernacularName())) {
@@ -97,27 +99,12 @@ public class DetailAction extends UsageBaseAction {
       String id = v.getVernacularName() + "||";
       if (v.getLanguage() != null) {
         id = id + v.getLanguage().getIso2LetterCode();
-        if (v.getLanguage().getIso3LetterCode().equalsIgnoreCase(getLocale().getISO3Language())) {
-          local.add(id);
-        } else if (Language.ENGLISH == v.getLanguage()) {
-          english.add(id);
-        }
       }
-      if (!nonTopNames.containsKey(id)) {
-        nonTopNames.put(id, Lists.<VernacularName>newArrayList());
+      if (!vernacularNames.containsKey(id)) {
+        vernacularNames.put(id, Lists.<VernacularName>newArrayList());
       }
-      nonTopNames.get(id).add(v);
+      vernacularNames.get(id).add(v);
     }
-
-
-    // move current & english entries to top
-    for (final String id : local) {
-      vernacularNames.put(id, nonTopNames.remove(id));
-    }
-    for (final String id : english) {
-      vernacularNames.put(id, nonTopNames.remove(id));
-    }
-    vernacularNames.putAll(nonTopNames);
   }
 
   @Override
