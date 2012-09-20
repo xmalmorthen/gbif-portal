@@ -11,6 +11,49 @@ body.newsroom #content {
 
   article {
 
+    .right.pushedDown {
+      margin-top: 7em;
+      padding-top: 0;
+    }
+
+    h4 {
+      color: #666;
+      font-size: 18px;
+      text-transform: none;
+      margin-bottom: 1em;
+      line-height: 24px;
+      height: 48px;
+    }
+
+    .related {
+      padding: 20px;
+      display: inline-block;
+      position: relative;
+      width:924px;
+      left:-23px;
+      background:#E5F5FA;
+      color: #A2ACAF;
+      font-size: 13px;
+
+      ul {
+        list-style-type:disc;
+
+        li {
+          height: 1em;
+          margin-bottom: 0.5em;
+          margin-left: 1em;
+        }
+      }
+
+    }
+
+
+    h5 {
+      color: #333;
+      font-size: 13px;
+      padding: 1em 0;
+    }
+
     header { z-index: 10; }
 
     & > .content  {
@@ -46,8 +89,14 @@ body.newsroom #content {
         position: relative;
         left: -23px;
         width: 924px;
-        height:100%;
         border-top: 1px solid #AAA;
+        height: auto;
+
+        img {
+          display: inline-block;
+          float: left;
+          width: 100%;
+        }
       }
     }
 }
@@ -68,6 +117,19 @@ article.detail > .content {
     margin: 0 0 10px 0;
     color: #666666;
     font-size: 15px;
+
+
+    .minimap {
+      border: 1px solid #666;
+      display: inline-block;
+      height:auto;
+
+      img {
+        width:100%;
+        float:left;
+        display: inline-block;
+      }
+    }
 
     address {
       strong { color: #333; font-weight: bold; font-size: 15px; }
@@ -90,6 +152,12 @@ article.detail > .content {
     }
 
     .description { margin: 0; padding: 0; background:none; color: #666666; font-size:13px; }
+
+    &.location {
+      .description p {
+        font-size: 12px;
+      }
+    }
 
   }
 }
@@ -173,7 +241,7 @@ article.news > .content {
   ul li {
     padding: 20px 0;
     border-bottom: 1px solid #D8DCE1;
-    .date { margin: 0 0 7px 0; color: #999999; font-size: 13px; font-family: "DINOT-Regular", sans-serif;}
+    .date, .publisher { margin: 0 0 7px 0; color: #999999; font-size: 13px; font-family: "DINOT-Regular", sans-serif;}
     .title { display: block; margin: 0 0 5px 0; font-weight:bold; font-size: 19px; }
     p {
       margin: 0 0 5px 0;
