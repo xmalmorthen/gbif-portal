@@ -3,104 +3,46 @@
   <head>
     <title>Occurrence Search Results</title>
 
-    <content tag="extra_scripts">
-    <!--<link rel="stylesheet" href="<@s.url value='/css/occ_table.css?v=2'/>"/>  -->
-    <script type="text/javascript" src="<@s.url value='/js/custom/jquery.gbif.filters.js'/>"></script>
+    <content tag="extra_scripts">    
+    <link rel="stylesheet" href="<@s.url value='/css/combobox.css?v=2'/>"/>    
     <script src='<@s.url value='/js/vendor/jquery.url.js'/>' type='text/javascript'></script>
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>
-    <script>     
-      
-      function applyOccurrenceFilters(){
-        var params = {};         
-        if($("#datasetKey").val()){
-          params['datasetKey'] = $("#datasetKey").val();            
-        }
-        if($("#nubKey").val()){
-          params['nubKey'] = $("#nubKey").val();
-        }        
-        var u = $.url();
-        
-        $("div .filter").find(":input[type=hidden]").each( function(idx,el){
-          if(params[el.name] == null){
-             params[el.name] = new Array();
-          }
-          if ($(el).attr("key") != null && $(el).attr("key").length > 0) {
-            params[el.name].push($(el).attr("key"));
-          } else {
-            params[el.name].push(el.value);
-          }
-        })
-        window.location = "<@s.url value='/occurrence/search'/>?" + $.param(params,true);
-        return true;  // submit?
-      }
-      <#if filters.keySet().size() gt 0>  
-          var filtersFromRequest = new Object();        
+    <script type="text/javascript" src="<@s.url value='/js/terms_suggest.js'/>"></script>    
+    
+    <!--Maps-->
+    <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
+    <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/draw/leaflet.draw.css'/>" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
+    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/draw/leaflet.draw.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/occurrence_filters.js'/>"></script>
+    <script>                 
+      var filtersFromRequest = new Object();    
+      <#if filters.keySet().size() gt 0>                   
          <#list filters.keySet() as filterKey>
             filtersFromRequest['${filterKey}'] = new Array();
            <#list filters.get(filterKey) as filterValue>
              //the title is taken from the link that has the filterKey value as its data-filter attribute=
-             filtersFromRequest['${filterKey}'].push({ title: $('a[data-filter="${filterKey}"]').attr('title'), value:'${action.getFilterTitle(filterKey,filterValue)}', key: '${filterValue}', paramName: '${filterKey}' });             
+             if('${filterKey}' == 'date') {
+              value ='${action.getFilterTitle(filterKey,filterValue)}'.split('/');
+              year = "";
+              month = "";
+              if(value.length > 0) {
+                year = value[0];
+              }
+              if(value.length > 1) {
+                month = value[1];
+              }              
+              filtersFromRequest['${filterKey}'].push({ title: $('a[data-filter="${filterKey}"]').attr('title'), year:year, month:month, value: '${filterValue}', paramName: '${filterKey}' });
+             } else {
+              filtersFromRequest['${filterKey}'].push({ title: $('a[data-filter="${filterKey}"]').attr('title'), value:'${action.getFilterTitle(filterKey,filterValue)}', key: '${filterValue}', paramName: '${filterKey}' });
+             }             
            </#list>
          </#list>
       </#if>
-      
-
-      $(function() {
-      
-      
-      var query = $('#query-container').Query({
-        removeFilter: function(event, data) {
-          if(data.widget._filters.length == 0) {          
-            $('#submit-button').hide();
-            $('#searchTitle').hide();            
-          }
-          //if the filter is in the url the form is submitted again
-          if(window.location.href.indexOf('f['+data.idx+']') != -1){
-            $('#submit-button').click();
-          }         
-        }
+     $(document).ready(function() {  
+       var widgetManager = new OccurrenceWidgetManager("<@s.url value='/occurrence/search'/>?",filtersFromRequest,".dropdown-menu");      
       });
-
-      // subject container with event wiring to trigger changes on query
-      $('#filter-container').Filter({
-        json:"<@s.url value='/conf/occurrence-search.json'/>",
-        addFilter: function(event, data) {
-          query.Query("add", data.filter);
-          $('#submit-button').show();
-          $('#searchTitle').show();
-        }
-      });
-
-      $('#submit-button').click(function() {
-        // construct the query parameters again.  This will remove ALL
-        // parameters and reconstruct the URL with the new filter
-        // This might cause issues in the future, if other parameters are needed
-        // https://github.com/allmarkedup/jQuery-URL-Parser
-        var params = {};         
-        if($("#datasetKey").val()){
-          params['datasetKey'] = $("#datasetKey").val();            
-        }
-        if($("#nubKey").val()){
-          params['nubKey'] = $("#nubKey").val();
-        }        
-        var u = $.url();
-
-        var filterParams = query.Query("serialize");
-        var additionalParams = $.param(params);
-        if (additionalParams.length > 0){
-          if(filterParams.length > 0){
-            filterParams = filterParams + "&" + additionalParams;
-            }else{
-            filterParams = filterParams + "?" + additionalParams;
-          }
-        }
-        window.location = "<@s.url value='/occurrence/search'/>" + filterParams;
-        return true;  // submit?
-
-      });
-    });
-
     </script>
 
     </content>
@@ -133,16 +75,17 @@
               <div class="dropdown-menu filters">
                 <div class="tip"></div>
                 <ul>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="nubKey"  title="Scientific name" template-filter="template-add-filter" input-classes="value species_autosuggest">Scientific name</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="coordinate" title="Coordinate" template-filter="template-add-filter">Location</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="collectorName" title="Collector name" template-filter="template-add-filter" input-classes="value collector_name_autosuggest">Collector</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="basisOfRecord" title="Basis Of Record" template-filter="template-add-filter">Basis of record</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="datasetKey" title="Dataset" template-filter="template-add-filter">Dataset</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="collectionDate" title="Collection date" template-filter="template-add-filter">Collection date</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="catalogueNumber" title="Catalogue number" template-filter="template-add-filter" input-classes="value catalogue_number_autosuggest">Catalogue number</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="nubKey"  title="Scientific name" template-filter="template-add-filter" input-classes="value species_autosuggest" class="filter-control">Scientific name</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="bbox" title="Bounding Box" template-filter="map-template-filter" class="filter-control">Location</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="collectorName" title="Collector name" template-filter="template-add-filter" input-classes="value collector_name_autosuggest" class="filter-control">Collector</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="basisOfRecord" title="Basis Of Record" template-filter="template-basis-of-record-filter" class="filter-control">Basis of record</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="datasetKey" title="Dataset" template-filter="template-add-filter" class="filter-control">Dataset</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="date" title="Collection date" template-filter="template-add-date-filter" class="filter-control">Collection date</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="catalogueNumber" title="Catalogue number" template-filter="template-add-filter" input-classes="value catalogue_number_autosuggest" class="filter-control">Catalogue number</a></li>
                   <li class="divider"></li>
                   <li class="more"><a tabindex="-1" href="#">Need a different filter?</a></li>
                 </ul>
+                <input type="hidden" id="nubTaxonomyKey" value="${nubTaxonomyKey}"/>
               </div>
 
             </div>
@@ -169,10 +112,11 @@
             <#if occ.latitude?has_content>${occ.latitude!?c}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?c}<#else>-</#if>
           </div>
         </td>
-        <td class="kind">Specimen</td>
+        <td class="kind">${action.getFilterTitle('basisOfRecord',occ.basisOfRecord)!}</td>
         <td class="date">
-          <#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}</#if>
-          <#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}</#if>
+          <#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}<#else>-</#if>     
+          /    
+          <#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}<#else>-</#if>
         </td>
       </tr>
       </#list>
@@ -193,7 +137,7 @@
   <div class="content">
 
     <div class="header">
-      <h2>Download 213,212 occurrences for your search</h2>
+      <h2>Download ${searchResponse.count} occurrences for your search</h2>
       <span> Or refine it using the <a href="#">advanced search</a></span>
     </div>
 
@@ -212,6 +156,90 @@
 
 
   <!-- Filter templates -->
+  <script type="text/template" id="template-add-date-filter">
+    <tr class="filter">
+      <td colspan="4">
+        <div class="inner">          
+          <div class="filter">
+          <h4><%= title %></h4>
+            <table>
+              <tr>
+                <td style="border: 0px none !important;"><h4>from</h4>
+                  <span>
+                    <label for="monthMin">Month</label>
+                    <select name="monthMin" class="selectbox">
+                      <option value="0">-</option>
+                      <option value="1">January</option>
+                      <option value="2">February</option>
+                      <option value="3">March</option>
+                      <option value="4">April</option>
+                      <option value="5">May</option>
+                      <option value="6">June</option>
+                      <option value="7">July</option>
+                      <option value="8">August</option>
+                      <option value="9">September</option>
+                      <option value="10">October</option>
+                      <option value="11">November</option>
+                      <option value="12">December</option>
+                    </select>
+                    <label for="yearMin">Year</label>
+                    <input type="text" name="yearMin" size="10" maxlength="4" style="width: 50px !important; padding: 6px !important;"/>
+                  </span>
+                </td>
+                <td style="border: 0px none !important;"><h4>to</h4>
+                  <label for="monthMax">Month</label>
+                  <select name="monthMax">
+                    <option value="0">-</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                  </select>
+                  <label for="yearMax">Year</label>
+                  <input type="text" name="yearMax" size="10" maxlength="4" style="width: 50px !important; padding: 6px !important;"/>
+                </td>
+              </tr>              
+              </tr>
+            </table>              
+            <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-date-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
+          </div>
+          <a href="#" class="close"></a>
+        </div>
+      </td>
+    </tr>
+  </script>
+  
+  
+  <script type="text/template" id="template-basis-of-record-filter">
+    <tr class="filter">
+      <td colspan="4">
+        <div class="inner">
+          <h4><%= title %></h4>
+          <div class="filter">
+            <span>              
+              <select name="basisOfRecord" multiple="multiple">
+                <#list basisOfRecords as basisOfRecord>
+                  <option value="${basisOfRecord}">${action.getFilterTitle('basisOfRecord',basisOfRecord)}</option>
+                </#list> 
+              </select>              
+            </span>
+            <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-date-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
+          </div>
+          <a href="#" class="close"></a>
+        </div>
+      </td>
+    </tr>
+  </script>
+  
+  
   <script type="text/template" id="template-add-filter">
     <tr class="filter">
       <td colspan="4">
@@ -219,7 +247,8 @@
           <h4><%= title %></h4>
           <div class="filter">
             <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />
-            <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add_filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
+            <span style="display:none" class="erroMsg">Please enter a value</span>
+            <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
           </div>
           <a href="#" class="close"></a>
         </div>
@@ -231,7 +260,23 @@
     <li>
     <h4><%= title %></h4>
     <div class="filter"><a href="#"><%= value %></a><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div>
-    <a href="#" class="close" close-function="applyOccurrenceFilters"></a>    
+    <a href="#" class="close"></a>    
+    </li>
+  </script>
+  
+  <script type="text/template" id="template-bbox-filter">
+    <li>
+    <h4><%= title %></h4>
+    <div class="filter"><a href="#"><%= label %></a><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div>
+    <a href="#" class="close"></a>    
+    </li>
+  </script>
+  
+  <script type="text/template" id="template-date-filter">
+    <li>
+    <h4><%= title %></h4>
+    <div class="filter"><a href="#"><%= label %></a><input name="date" type="hidden" value="<%= value %>"/></div>
+    <a href="#" class="close"></a>    
     </li>
   </script>
 
@@ -241,6 +286,40 @@
         <ul class="filters"></ul>
       </td>
     </tr>
+  </script>
+    
+  <script type="text/template" id="map-template-filter">
+     <tr class="filter">
+      <td colspan="4">
+        <div class="inner">  
+          <h4>Location</h4>  
+          <div class="inner">                      
+              <table width="100%">                
+                <tr>    
+                  <td valign="top"> 
+                    <div id="zoom_in" class="map_widget_zoom_in"/>
+                    <div id="zoom_out" class="map_widget_zoom_out"/>                    
+                    <div id="map" class="map_widget"/>                  
+                  </td>
+                   <td valign="top">                    
+                      <span>
+                        <input name="minLatitude" id="minLatitude" type="text" size="10" style="width:60px;"/>
+                        <input name="minLongitude" id="minLongitude" type="text" size="10" style="width:60px;"/>
+                      </span>
+                      <br>
+                      <span>
+                        <input name="maxLatitude" id="maxLatitude" type="text" size="10" style="width:60px;"/>
+                        <input name="maxLongitude" id="maxLongitude" type="text" size="10" style="width:60px;"/>
+                      </span>
+                      <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply filter</span></a>
+                  </td>
+                </tr>                                 
+              </table>         
+           </div>                            
+          <a href="#" class="close"></a>     
+        </div>
+       </td>
+     </tr>
   </script>
 
   <!-- /Filter templates -->

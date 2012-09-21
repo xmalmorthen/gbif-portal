@@ -1,5 +1,6 @@
 package org.gbif.portal.action.occurrence;
 
+import org.gbif.api.model.checklistbank.Constants;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.occurrence.Occurrence;
@@ -9,12 +10,12 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.occurrence.OccurrenceSearchService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.portal.action.BaseAction;
 
-import java.util.Map;
+import java.util.Arrays;
 
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -22,39 +23,12 @@ import org.slf4j.LoggerFactory;
 
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.BASIS_OF_RECORD;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.CATALOGUE_NUMBER;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COLLECTOR_NAME;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.COUNTRY_CODE;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DATASET_KEY;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.DAY;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.HIGHER_TAXON_KEY;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LATITUDE;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.LONGITUDE;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.MONTH;
-import static org.gbif.api.model.occurrence.search.OccurrenceSearchParameter.YEAR;
 
 /**
  * Search action class for occurrence search page.
  */
 public class SearchAction extends BaseAction {
 
-  // This is a placeholder to map from the JSON definition ID to the query field
-  private static final Map<String, String> QUERY_FIELD_MAPPING = Maps.newHashMap();
-  static {
-    QUERY_FIELD_MAPPING.put("1", LATITUDE.getParam());
-    QUERY_FIELD_MAPPING.put("2", LONGITUDE.getParam());
-    QUERY_FIELD_MAPPING.put("3", DATASET_KEY.getParam());
-    QUERY_FIELD_MAPPING.put("4", YEAR.getParam());
-    QUERY_FIELD_MAPPING.put("5", MONTH.getParam());
-    QUERY_FIELD_MAPPING.put("6", CATALOGUE_NUMBER.getParam());
-    QUERY_FIELD_MAPPING.put("7", HIGHER_TAXON_KEY.getParam());
-    QUERY_FIELD_MAPPING.put("8", COLLECTOR_NAME.getParam());
-    QUERY_FIELD_MAPPING.put("9", BASIS_OF_RECORD.getParam());
-    QUERY_FIELD_MAPPING.put("10", COUNTRY_CODE.getParam());
-    QUERY_FIELD_MAPPING.put("11", DAY.getParam());
-
-  }
 
   private static final long serialVersionUID = 4064512946598688405L;
 
@@ -100,6 +74,10 @@ public class SearchAction extends BaseAction {
   }
 
 
+  public BasisOfRecord[] getBasisOfRecords() {
+    return BasisOfRecord.values();
+  }
+
   /**
    * Gets the title of a data set byt its key.
    */
@@ -123,10 +101,21 @@ public class SearchAction extends BaseAction {
     if (parameter != null) {
       if (parameter == OccurrenceSearchParameter.NUB_KEY) {
         return nameUsageService.get(Integer.parseInt(filterValue), null).getScientificName();
+      } else if (parameter == OccurrenceSearchParameter.BASIS_OF_RECORD) {
+        return filterValue;
       }
     }
     return filterValue;
   }
+
+
+  /**
+   * Gets the NUB key value.
+   */
+  public String getNubTaxonomyKey() {
+    return Constants.NUB_TAXONOMY_KEY.toString();
+  }
+
 
   /**
    * Gets the offset value.
@@ -135,7 +124,6 @@ public class SearchAction extends BaseAction {
     return pagingRequest.getOffset();
   }
 
-
   /**
    * @return the response
    */
@@ -143,6 +131,28 @@ public class SearchAction extends BaseAction {
     return searchResponse;
   }
 
+  /**
+   * @param filters the filters to set
+   */
+  public void setFilter(Multimap<String, String> filters) {
+    this.filters = filters;
+  }
+
+
+  /**
+   * @param offset the offset to set
+   * @see PagingRequest#setOffset(long)
+   */
+  public void setOffset(long offset) {
+    pagingRequest.setOffset(offset);
+  }
+
+  /**
+   * Checks is the parameters accepts range query.
+   */
+  private boolean isRangeParameter(OccurrenceSearchParameter param) {
+    return (param == OccurrenceSearchParameter.BOUNDING_BOX || param == OccurrenceSearchParameter.DATE);
+  }
 
   /**
    * Reads the filters from the request parameters.
@@ -153,26 +163,14 @@ public class SearchAction extends BaseAction {
       String[] values = this.request.getParameterValues(occParam.getParam());
       if (values != null) {
         for (String paramValue : values) {
-          filters.put(occParam.getParam(), paramValue);
+          if (!isRangeParameter(occParam) && paramValue.contains(",")) {
+            filters.putAll(occParam.getParam(), Arrays.asList(paramValue.split(",")));
+          } else {
+            filters.put(occParam.getParam(), paramValue);
+          }
         }
       }
     }
-  }
-
-
-  /**
-   * @param filters the filters to set
-   */
-  public void setFilter(Multimap<String, String> filters) {
-    this.filters = filters;
-  }
-
-  /**
-   * @param offset the offset to set
-   * @see PagingRequest#setOffset(long)
-   */
-  public void setOffset(long offset) {
-    pagingRequest.setOffset(offset);
   }
 
 }

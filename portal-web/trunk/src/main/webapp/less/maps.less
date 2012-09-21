@@ -326,3 +326,26 @@ body.typesmap a.zoom_out {
   padding: 3px; 
   input[type="radio"] { margin: 0 3px 0 0; }
 }
+
+#map.map_widget {  
+  position: relative !important;
+  top: -55px !important;
+  margin-bottom: 2px !important;
+  height:250px !important;
+  width:400px !important;
+}
+
+.map_widget_zoom {  
+  position: relative !important;
+  top: 1px !important;
+}
+
+.map_widget_zoom_in {
+  .zoom_in;
+  .map_widget_zoom
+}
+
+.map_widget_zoom_out {
+  .zoom_out; 
+  .map_widget_zoom 
+}

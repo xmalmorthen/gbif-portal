@@ -1,0 +1,492 @@
+/*
+ * Copyright 2011 Global Biodiversity Information Facility (GBIF)
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Occurrence filters module.
+ * Implements functionality for widgets that follow the structure of templates: 
+ * - template-add-filter: simple filter with 1 input.
+ * - template-add-date-filter: occurrence date widget.
+ * - map-template-filter: bounding box widget filter.
+ * 
+ *  Every time a filter is applied/closed a request is sent to the targetUrl parameter.
+ *  Parameter "filters" contains a list of predefined filters that would be displayed as applied filters.
+ *  The filters parameter must have the form: { title,value, year (valid for date filter only), month (valid for date filter only), key, paramName }
+ *  
+ */
+
+var OccurrenceWidget = (function ($,_) {  
+  
+  function isBlank(str) {
+    return (!str || /^\s*$/.test(str));
+  };
+  
+  var InnerOccurrenceWidget = function () {        
+  };
+  
+  InnerOccurrenceWidget.prototype = {
+      
+      /**
+       * Default constructor.
+       */
+      constructor: InnerOccurrenceWidget,
+      
+      init: function(options){
+        this.appliedFilters = new Array();
+        this.widgetContainer = options.widgetContainer;
+        this.isBound = false;
+        this.id = null;
+        this.filterElement = null;
+        //this.bindToControl(control);
+        this.onApplyFilterEvent = options.onApplyFilter;
+        this.bindingsExecutor = options.bindingsExecutor;
+      },
+      
+      isBlank : isBlank,
+      
+      getId : function() {
+         return this.id;
+      },
+      
+      setId : function(id) {
+        this.id = id;
+     },
+     
+     getAppliedFilters : function(){return this.appliedFilters;},
+      
+     open : function(){    
+        if (!this.isVisible()) {
+          this.filterElement.fadeIn(250);
+        }
+      },
+      
+      isCreated : function(){
+        return (this.filterElement)
+      },
+      
+      close : function(){      
+        this.filterElement.fadeOut(250);
+      },
+      
+      isVisible : function(){
+        return ($(this.filterElement).is(':visible'));
+      },
+      
+      applyFilter : function(filter) {
+        this.addAppliedFilter(filter);
+        this.onApplyFilterEvent.call();
+      },
+      
+      addAppliedFilter :function(filter){
+        this.appliedFilters.push(filter);
+      },
+      
+      bindToControl: function(control) {
+        if(!this.getId()){                    
+          this.setId($(control).attr("data-filter"));   
+          var widget = this;
+          $(control).on("click", function(e) {
+            e.preventDefault();                                  
+            widget.addFilter(this);
+          });
+        }
+      },
+      
+      addFilter : function(control) {
+        if (!this.isCreated()) {
+          this.createHTMLWidget(control);
+        }
+        this.open(); 
+      },
+      
+      createHTMLWidget : function(control){        
+        var          
+        placeholder = $(control).attr("data-placeholder"),
+        templateFilter = $(control).attr("template-filter"),
+        inputClasses = $(control).attr("input-classes") || {},
+        title = $(control).attr("title");
+        var template = _.template($("#" + templateFilter).html());
+        this.filterElement = $(template({title:title, paramName: this.getId(), placeholder: placeholder, inputClasses: inputClasses }));
+        this.widgetContainer.after(this.filterElement); 
+        this.executeAdditionalBindings();
+        this.bindCloseControl();
+        this.bindApplyControl();     
+      },
+      
+      executeAdditionalBindings : function(){this.bindingsExecutor.call();},
+     
+      bindCloseControl : function () {
+        var self = this;
+        this.filterElement.find(".close").click(function(e) {
+          e.preventDefault();
+          self.close();
+        });
+      },
+      
+      removeFilter :function(filter) {        
+        for(i = 0; i < this.appliedFilters.length; i++){
+          if(this.appliedFilters[i].value == filter.value){
+            if(this.appliedFilters[i].key && (this.appliedFilters[i].key == filter.key)){
+              this.appliedFilters.splice(i,1);
+              return;
+            } else {
+              this.appliedFilters.splice(i,1);
+              return;
+            }
+          }
+        }
+      },
+      
+      bindApplyControl : function() {
+        var self = this;
+        this.filterElement.find("a.button[data-action]").click( function(e){          
+          //gets the value of the input field            
+          var input = self.filterElement.find(":input[name=" + self.id + "]:first");                    
+          var value = input.val();            
+          if(!isBlank(value)){            
+            var key = "";
+            //Autocompletes store the selected key in "key" attribute
+            if (input.attr("key") !== undefined) {
+              key = input.attr("key"); 
+            }
+            self.applyFilter({value: value, key:key});            
+            self.close();
+          }
+        });  
+      }      
+  }
+  
+  return InnerOccurrenceWidget;
+})(jQuery,_);
+
+var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
+   var InnerOccurrenceDateWidget = function () {        
+   }; 
+   InnerOccurrenceDateWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
+   InnerOccurrenceDateWidget.prototype.bindApplyControl = function() {
+        var self = this;
+        this.filterElement.find("a.button[data-action]").click( function(e) { 
+        e.preventDefault();   
+        var monthMin = self.filterElement.find(":input[name=monthMin]:first").val();
+        var yearMin  =  self.filterElement.find(":input[name=yearMin]:first").val();
+        var monthMax = self.filterElement.find(":input[name=monthMax]:first").val();
+        var yearMax  =  self.filterElement.find(":input[name=yearMax]:first").val();
+        var value = "";
+        if(yearMin != "-1" || monthMin != "-"){
+          value = monthMin + "/" + yearMin;
+        }
+        if(yearMax != "-1" || monthMax != "-"){
+          if(!self.isBlank(value)){
+            value = value + ",";
+          }
+          value = value + monthMax + "/" + yearMax;
+        }
+        self.applyFilter({value: value, monthMin: monthMin, yearMin: yearMin, monthMax: monthMax, yearMax: yearMax});
+        self.close();
+        })
+     };   
+  return InnerOccurrenceDateWidget;
+})(jQuery,_,OccurrenceWidget);
+
+
+var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
+  var InnerOccurrenceLocationWidget = function () {        
+  }; 
+  InnerOccurrenceLocationWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
+  InnerOccurrenceLocationWidget.prototype.bindApplyControl = function() {
+       var self = this;
+       this.filterElement.find("a.button[data-action]").click( function(e) { 
+       e.preventDefault();          
+       var minLat = self.filterElement.find(":input[name=minLatitude]:first").val();
+       var minLng = self.filterElement.find(":input[name=minLongitude]:first").val();
+       var maxLat = self.filterElement.find(":input[name=maxLatitude]:first").val();
+       var maxLng = self.filterElement.find(":input[name=maxLongitude]:first").val();                        
+       var value = minLat + ',' + minLng + ',' + maxLat + ',' + maxLng;       
+       self.applyFilter({value: value, key: ''});       
+       self.close();
+       })
+    };   
+ return InnerOccurrenceLocationWidget;
+})(jQuery,_,OccurrenceWidget);
+
+var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
+  
+  var InnerOccurrenceFilterWidget = function(templateId,closeEvent, occurrenceWidget){
+    this.template = _.template($("#"+ templateId).html());
+    this.onCloseEvent = closeEvent;
+    this.occurrenceWidget = occurrenceWidget;
+  };
+   
+  InnerOccurrenceFilterWidget.prototype = {
+     constructor : InnerOccurrenceFilterWidget, 
+     
+     applyFilter : function(filter) {
+       var htmlFilter  = $(this.template(filter));
+       this.addFilterItem(htmlFilter);
+     },
+     
+    /**
+     * Utility function that adds filter to the list of applied filters.
+     */
+    addFilterItem : function(htmlFilter) {
+      var $tr = $("tr.header");
+      $filters = $("tr.filters");
+      if ($filters.length > 0) {
+        var
+        $tr      = $("tr.filters td ul");
+        $tr.prepend( htmlFilter );
+      } else {
+        var
+        containerTemplate = _.template($("#template-filter-container").html()),
+        $filterContainer  = $(containerTemplate());
+        $tr.after($filterContainer);
+        $("tr.filter").after( $filterContainer );
+        $filterContainer.find("ul").prepend( htmlFilter );
+      }
+      htmlFilter.fadeIn(250);
+      this.bindCloseEvent(htmlFilter);
+    },
+    
+    removeFilter : function(htmlFilter){
+      var input = htmlFilter.find(":input[type=hidden]");      
+      this.occurrenceWidget.removeFilter({key:input.attr("key"), value:input.val()});
+    },
+    
+    bindCloseEvent : function(htmlFilter){
+      var self = this;
+      htmlFilter.find(".close").click(function(e){
+        e.preventDefault();
+        var
+        $li = $(this).parent(),
+        $ul = $li.parent(),
+        $tr = $ul.parent().parent();
+
+        if ($ul.find("li").length == 1) {
+          $tr.fadeOut(250, function() {
+           $(this).remove();
+          });
+        } else {
+          $(this).parent().slideUp(250, function() {
+            $(this).remove();
+          });
+        }            
+        $li.remove();
+        self.removeFilter(htmlFilter);
+        self.onCloseEvent.call();
+      });
+    }
+  }
+  
+  return InnerOccurrenceFilterWidget;
+  
+})(jQuery,_,OccurrenceWidget);
+
+var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
+  
+  var widgets;
+  var filterWidgets;
+  var targetUrl;
+  
+  function getWidgetById(id) {
+    for (i=0;i < widgets.length;i++) {
+      if(widgets[i].getId() == id){ return widgets[i];}
+    }
+    return;
+  };
+  
+  var InnerOccurrenceWidgetManager = function(targetUrlValue,filters,controlSelector){
+    widgets = new Array();
+    filterWidgets = new Array();
+    targetUrl = targetUrlValue;
+    this.bindToWidgetsControl(controlSelector);
+    this.initialize(filters);    
+  };
+  
+  InnerOccurrenceWidgetManager.prototype = {                 
+      
+      constructor : InnerOccurrenceWidgetManager,           
+      
+      getWidgets : function(){ return widgets;},
+      
+      /**
+       * Binds the filter rendering to a click event of HTML element.
+       */
+      bindToWidgetsControl : function(element) {
+        var self = this;
+        var widgetContainer = $("tr.header");
+        this.targetUrl = targetUrl;
+        $(element).find('.filter-control').each( function(idx,control){
+          var filterName = $(control).attr("data-filter");
+          var newWidget;
+          if(filterName == "nubKey"){
+            newWidget = new OccurrenceWidget();
+            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindSpeciesAutosuggest});
+          }else if (filterName == "collectorName") {
+            newWidget = new OccurrenceWidget();
+            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCollectorNameAutosuggest});            
+          }else if (filterName == "catalogueNumber") {
+            newWidget = new OccurrenceWidget();
+            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCatalogueNumberAutosuggest});            
+          }else if (filterName == "bbox") {
+            newWidget = new OccurrenceLocationWidget();
+            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindMap});            
+          }else if (filterName == "date") {
+            newWidget = new OccurrenceDateWidget();
+            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});            
+          }else {
+            newWidget = new OccurrenceWidget();
+            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});                      
+          }
+          newWidget.bindToControl(control);
+          widgets.push(newWidget);
+        });       
+      },      
+      bindSpeciesAutosuggest: function(){
+        $(':input.species_autosuggest').each( function(idx,el){
+          $(el).speciesAutosuggest(cfg.wsClbSuggest + "/entities", 4, "#nubTaxonomyKey[value]", "#content",false);
+        });   
+      },
+      
+      bindSpeciesAutosuggest: function(){
+        $(':input.species_autosuggest').each( function(idx,el){
+          $(el).speciesAutosuggest(cfg.wsClbSuggest + "/entities", 4, "#nubTaxonomyKey[value]", "#content",false);
+        });   
+      },
+      
+      bindCollectorNameAutosuggest : function(){        
+        $(':input.collector_name_autosuggest').each( function(idx,el){
+          $(el).termsAutosuggest(cfg.wsOccCollectorNameSearch, "#content",4);
+        });        
+      },
+      
+      bindCatalogueNumberAutosuggest : function(){                
+        $(':input.catalogue_number_autosuggest').each( function(idx,el){
+          $(el).termsAutosuggest(cfg.wsOccCatalogueNumberSearch, "#content",4);
+        });
+      },
+      
+      /**
+       * Binds/initializes the map widget.
+       */
+      bindMap : function() {
+        var CONFIG = { // global config var
+            minZoom: 0,
+            maxZoom: 14,
+            center: [0, 0],
+            defaultZoom: 1
+          };
+        var // see http://maps.cloudmade.com/editor for the styles - 69341 is named GBIF Original  
+        cmAttr = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',  
+        cmUrl  = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png';
+
+        var    
+          minimal   = L.tileLayer(cmUrl, {styleId: 997,   attribution: cmAttr});
+
+        var map = L.map('map', {
+        center: CONFIG.center,
+        zoom: CONFIG.defaultZoom,
+        layers: [minimal],
+        zoomControl: false
+        });
+        
+        setupZoom(map);
+        
+        var drawControl = new L.Control.Draw({
+          position: 'topright',
+          polygon: false,
+          circle: false,
+          marker:false,
+          polyline:false
+        });
+        map.addControl(drawControl);    
+            
+        var drawnItems = new L.LayerGroup();
+        map.on('draw:rectangle-created', function (e) {
+          drawnItems.clearLayers();
+          drawnItems.addLayer(e.rect);
+          var coords = e.rect.getLatLngs();
+          $("#minLatitude").val(coords[1].lat);
+          $("#minLongitude").val(coords[1].lng);
+          $("#maxLatitude").val(coords[3].lat);
+          $("#maxLongitude").val(coords[3].lng);    
+          
+          L.marker([coords[1].lat, coords[1].lng]).addTo(map);
+          L.marker([coords[3].lat, coords[3].lng]).addTo(map);
+        });
+        
+        map.addLayer(drawnItems);
+      },
+      
+      /**
+       * Function that applies the selected filters issuing a request to target url.
+       */
+      applyOccurrenceFilters : function(){
+        var params = {};         
+        if($("#datasetKey").val()){
+          params['datasetKey'] = $("#datasetKey").val();            
+        }
+        if($("#nubKey").val()){
+          params['nubKey'] = $("#nubKey").val();
+        }        
+        var u = $.url();
+        
+        for(wi=0; wi < widgets.length; wi++) {
+          var widgetFilters = widgets[wi].getAppliedFilters();
+          for(fi=0; fi < widgetFilters.length; fi++){
+            var filter = widgetFilters[fi];
+            var filterId = widgets[wi].getId(); 
+            if(params[filterId] == null){
+              params[filterId] = new Array();
+            }
+            if (filter.key != null && filter.key.length > 0) {
+              params[filterId].push(filter.key);
+            } else {
+              params[filterId].push(filter.value);              
+            }                      
+          }          
+        }                
+        window.location = targetUrl + $.param(params,true);
+        return true;  // submit?
+      },     
+      
+      /**
+       * Initializes the state of the module and renders the previously applued filters contained in filter field.
+       */
+      initialize: function(filters){
+        var self = this;
+        if(typeof(filters) != 'undefined' && filters != null){              
+          $.each(filters, function(key,filterValues){
+            $.each(filterValues, function(idx,filter) {
+              var templateId = "template-filter";
+              if(filter.paramName == 'date') {
+                var values = filter.value.split(',');
+                if(values.length > 0){
+                  filter.label = values[0] + " TO " + values[1];
+                }
+                templateId = "template-date-filter";
+              }else if(filter.paramName == 'bbox') {
+                var values = filter.value.split(',');
+                filter.label = values[0] + ',' + values[1] + " TO " + values[2] + ',' + values[3];
+                templateId = "template-bbox-filter";
+              }
+              var occWidget = getWidgetById(filter.paramName);
+              occWidget.addAppliedFilter({key:filter.key,value:filter.value})
+              var filterWidget = new OccurrenceFilterWidget(templateId,self.applyOccurrenceFilters,occWidget);
+              filterWidgets.push(filterWidget);
+              filterWidget.applyFilter(filter);
+            });
+          });    
+        }        
+      },
+  }
+  return InnerOccurrenceWidgetManager;
+})(jQuery,_,OccurrenceWidget);
