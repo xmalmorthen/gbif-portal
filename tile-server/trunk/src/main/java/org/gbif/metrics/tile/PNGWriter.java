@@ -58,16 +58,6 @@ public class PNGWriter {
   private static final byte COMPRESSION_DEFLATE = 0;
   private static final byte FILTER_NONE = 0;
   private static final byte INTERLACE_NONE = 0;
-  // These arrays are always used together, so need to be indexed the same way.
-  // 0xFFFABA00,
-  // 0xFFFAB000,
-  // 0xFFFC5D0E,
-  // 0xFFFD3F16,
-  // 0xFFFC3117,
-  // 0xFFFE091F
-  private static byte[] R = {(byte) 0xFA, (byte) 0xFA, (byte) 0xFC, (byte) 0xFD, (byte) 0xFC, (byte) 0xFE};
-  private static byte[] G = {(byte) 0xBA, (byte) 0xB0, (byte) 0x5D, (byte) 0x3F, (byte) 0x31, (byte) 0x09};
-  private static byte[] B = {(byte) 0x00, (byte) 0x00, (byte) 0x0E, (byte) 0x16, (byte) 0x17, (byte) 0x1F};
 
   // This has to come after the rest of the static initialized fields
   static {
@@ -86,29 +76,6 @@ public class PNGWriter {
     } finally {
       Closeables.closeQuietly(baos);
     }
-  }
-
-  /**
-   * Determines the color based on the density given.
-   * We will consider making this configurable in the future.
-   * 
-   * @param count to use in lookup
-   * @return the color index to use
-   */
-  private static int getColorIndex(int count) {
-    int colorIndex = 0;
-    if (10 < count && count <= 99) {
-      colorIndex = 1;
-    } else if (100 <= count && count <= 999) {
-      colorIndex = 2;
-    } else if (1000 <= count && count <= 9999) {
-      colorIndex = 3;
-    } else if (10000 <= count && count <= 99999) {
-      colorIndex = 4;
-    } else if (100000 <= count) {
-      colorIndex = 5;
-    }
-    return colorIndex;
   }
 
   /**
