@@ -13,7 +13,7 @@
 </head>
 <body>
   	<form>
-	Base URL <input size="50" id="url" value="http://staging.gbif.org:8080/tile-server"/> 
+	Base URL <input size="50" id="url" value="http://cache.gbif.org/tile-server"/> 
 	<select id="type"><option>TAXON</option><option>COUNTRY</option></select> 
 	Key <input size="36" id="key" value="1"/> 
 	<input type="submit" id="refresh" value="Refresh"/>
@@ -43,8 +43,18 @@
 	  <b>Misc.</b></br>
 	  <input type="checkbox" class="layer" id="LIVING" checked/> Living <br/>
 	  <input type="checkbox" class="layer" id="FOSSIL" checked/> Fossil <br/>
-	  
-	  
+	  <br/>
+	  <b>Colors.</b></br>
+	  <input type="radio" name='palette' class="color" id="yellows_reds" checked/> Yellows / Reds <br/>
+	  <input type="radio" name='palette' class="color" id="blues"/> Blues <br/>
+	  <input type="radio" name='palette' class="color" id="greens"/> Greens <br/>
+	  <input type="radio" name='palette' class="color" id="greys"/> Greys <br/>
+	  <input type="radio" name='palette' class="color" id="oranges"/> Oranges <br/>
+	  <input type="radio" name='palette' class="color" id="purples"/> Purples <br/>
+	  <input type="radio" name='palette' class="color" id="reds"/> Reds <br/>
+	  <input type="radio" name='palette' class="color" id="custom"/> User defined ruleset: <br/>
+	  <textarea rows="6" id="colorset">0,100,#FF0000FF|100,100000,#00FF00FF|100000,,#0000FFFF</textarea><br/>
+	  <input type="button" id="refresh" value="refresh" onclick="javascript:update()"/>
 	</div>
 	<div style="float:left; padding-left:20px">
 	  <b>Specimens</b></br>
@@ -83,12 +93,14 @@
 	  <input type="button" id="toggleOth" value="toggle"/>
 	</div>	
 	
+	
+	
 	<script>
 	    
 
-		var gbifUrl='http://staging.gbif.org:8080/tile-server/density/tile?key=1&x={x}&y={y}&z={z}&type=TAXON&layer=OBS_NO_YEAR&layer=OBS_PRE_1900&layer=OBS_1900_1910&layer=OBS_1910_1920&layer=OBS_1920_1930&layer=OBS_1930_1940&layer=OBS_1940_1950&layer=OBS_1950_1960&layer=OBS_1960_1970&layer=OBS_1970_1980&layer=OBS_1980_1990&layer=OBS_1990_2000&layer=OBS_2000_2010&layer=OBS_2010_2020&layer=LIVING&layer=FOSSIL&layer=SP_NO_YEAR&layer=SP_PRE_1900&layer=SP_1900_1910&layer=SP_1910_1920&layer=SP_1920_1930&layer=SP_1930_1940&layer=SP_1940_1950&layer=SP_1950_1960&layer=SP_1960_1970&layer=SP_1970_1980&layer=SP_1980_1990&layer=SP_1990_2000&layer=SP_2000_2010&layer=SP_2010_2020&layer=OTH_NO_YEAR&layer=OTH_PRE_1900&layer=OTH_1900_1910&layer=OTH_1910_1920&layer=OTH_1920_1930&layer=OTH_1930_1940&layer=OTH_1940_1950&layer=OTH_1950_1960&layer=OTH_1960_1970&layer=OTH_1970_1980&layer=OTH_1980_1990&layer=OTH_1990_2000&layer=OTH_2000_2010&layer=OTH_2010_2020';	
+		var gbifUrl='http://cache.gbif.org/tile-server/density/tile?key=1&x={x}&y={y}&z={z}&type=TAXON&layer=OBS_NO_YEAR&layer=OBS_PRE_1900&layer=OBS_1900_1910&layer=OBS_1910_1920&layer=OBS_1920_1930&layer=OBS_1930_1940&layer=OBS_1940_1950&layer=OBS_1950_1960&layer=OBS_1960_1970&layer=OBS_1970_1980&layer=OBS_1980_1990&layer=OBS_1990_2000&layer=OBS_2000_2010&layer=OBS_2010_2020&layer=LIVING&layer=FOSSIL&layer=SP_NO_YEAR&layer=SP_PRE_1900&layer=SP_1900_1910&layer=SP_1910_1920&layer=SP_1920_1930&layer=SP_1930_1940&layer=SP_1940_1950&layer=SP_1950_1960&layer=SP_1960_1970&layer=SP_1970_1980&layer=SP_1980_1990&layer=SP_1990_2000&layer=SP_2000_2010&layer=SP_2010_2020&layer=OTH_NO_YEAR&layer=OTH_PRE_1900&layer=OTH_1900_1910&layer=OTH_1910_1920&layer=OTH_1920_1930&layer=OTH_1930_1940&layer=OTH_1940_1950&layer=OTH_1950_1960&layer=OTH_1960_1970&layer=OTH_1970_1980&layer=OTH_1980_1990&layer=OTH_1990_2000&layer=OTH_2000_2010&layer=OTH_2010_2020&palette=reds_yellows';	
 		// create the tile layer with correct attribution
-
+		
 		var gbifAttrib='GBIF contributors';
 		var gbif = new L.TileLayer(gbifUrl, {minZoom: 0, maxZoom: 14, attribution: gbifAttrib});		
 	    var cmAttr = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
@@ -164,8 +176,21 @@ function update() {
     }
   });
   
+  var palette = "";
+  $.each($('.color'), function(i,d) {
+    if (d.checked) {
+      if (d.id == "custom") {
+         palette="&colors=" + encodeURIComponent($('#colorset').val());
+      } else {
+        palette ="&palette=" + d.id;
+      }
+      
+    }
+  });
+  
+  
     window.location.hash = $("#type").val() + "-" + $("#key").val();
-    gbifUrl=$("#url").val() + '/density/tile?key=' + $("#key").val() + '&x={x}&y={y}&z={z}&type=' + $("#type").val() + layers;    
+    gbifUrl=$("#url").val() + '/density/tile?key=' + $("#key").val() + '&x={x}&y={y}&z={z}&type=' + $("#type").val() + layers + palette;    
     console.log(gbifUrl);
     gbif.setUrl(gbifUrl);
 
@@ -173,6 +198,10 @@ function update() {
 
 
 $('.layer').click(function(event) {
+  update();
+});  
+
+$('.color').click(function(event) {
   update();
 });  
 

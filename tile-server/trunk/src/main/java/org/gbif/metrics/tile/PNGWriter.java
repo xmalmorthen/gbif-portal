@@ -153,7 +153,8 @@ public class PNGWriter {
   /**
    * Writes the tile to the stream as a PNG.
    */
-  public static void write(DensityTile tile, OutputStream out, Layer... layers) throws IOException {
+  public static void write(DensityTile tile, OutputStream out, DensityColorPalette palette, Layer... layers)
+    throws IOException {
     // don't waste time setting up PNG if no data
     if (tile != null && !tile.layers().isEmpty()) {
 
@@ -173,13 +174,13 @@ public class PNGWriter {
 
         // determine the starting draw position
         int cellStart = (offsetY * DensityTile.TILE_SIZE) + (offsetX);
-        int colorIndex = getColorIndex(e.getValue());
 
         // for the number of rows in the cell
         for (int i = 0; i < tile.getClusterSize(); i++) {
           // paint the cells pixel by pixel
           for (int j = cellStart; j < cellStart + tile.getClusterSize(); j++) {
-            paint(r, g, b, a, R[colorIndex], G[colorIndex], B[colorIndex], (byte) 0xFF, j);
+            paint(r, g, b, a, palette.red(e.getValue()), palette.green(e.getValue()), palette.blue(e.getValue()),
+              palette.alpha(e.getValue()), j);
           }
           cellStart += DensityTile.TILE_SIZE;
         }

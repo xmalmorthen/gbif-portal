@@ -33,13 +33,15 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
   private final Logger LOG = LoggerFactory.getLogger(DensityTileRenderer.class);
   private static final long serialVersionUID = 8681716273998041332L;
   // allow monitoring of cube lookup, rendering speed and the throughput per second
-  private final Timer renderTimer = Metrics.newTimer(DensityTileRenderer.class, "renderDuration", TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
+  private final Timer renderTimer = Metrics.newTimer(DensityTileRenderer.class, "renderDuration",
+    TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
   private final Meter requests = Metrics.newMeter(DensityTileRenderer.class, "requests", "requests", TimeUnit.SECONDS);
 
   @Inject
   public DensityTileRenderer(DataCubeIo<DensityTile> cubeIo) {
     super(cubeIo);
   }
+
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -65,7 +67,19 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
             LOG.debug("No layers returned, merging all layers");
           }
 
-          PNGWriter.write(tile.get(), resp.getOutputStream(), l.toArray(new Layer[] {}));
+          // determine if there is a named palette
+          DensityColorPalette p = DensityColorPaletteFactory.YELLOWS_REDS;
+          String paletteName = req.getParameter("palette");
+          if (paletteName != null) {
+            try {
+              p = NamedPalette.valueOf(paletteName).getPalette();
+            } catch (Exception e) {
+            }
+          } else if (req.getParameter("colors") != null) {
+            p = DensityColorPaletteFactory.build(req.getParameter("colors"));
+          }
+
+          PNGWriter.write(tile.get(), resp.getOutputStream(), p, l.toArray(new Layer[] {}));
         } finally {
           context.stop();
         }
