@@ -25,7 +25,7 @@ sub vcl_recv {
     if (!client.ip ~ purge) {
       error 405 "Not allowed.";
     } else {
-      #2.1 purge_url(req.url);
+      purge_url(req.url);
       error 200 "Purged.";
     }
   }
@@ -83,15 +83,15 @@ sub vcl_recv {
 
 sub vcl_fetch {
   if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE") && (beresp.status < 400)) {
-    #2.1 purge_url("/(staging|latest)/(node|organization|network|technical_installation|dataset|graph|contact|endpoint|identifier)/*");
-    #2.1  return (pass);
-    return (hit_for_pass);
+    purge_url("/(staging|latest)/(node|organization|network|technical_installation|dataset|graph|contact|endpoint|identifier)/*");
+    return (pass);
+    #vcl3 return (hit_for_pass);
   }
   
   # dont cache redirects or errors - especially for staging errors can be temporary only
   if ( beresp.status >= 300 ) {
-    #2.1  return (pass);
-    return (hit_for_pass);
+    return (pass);
+    #vcl3 return (hit_for_pass);
   }
 
   # cache for 12h
