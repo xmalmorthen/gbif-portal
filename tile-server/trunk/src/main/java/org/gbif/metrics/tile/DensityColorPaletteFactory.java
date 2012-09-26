@@ -53,7 +53,7 @@ public class DensityColorPaletteFactory {
     "#FEE5D9", "#FCBBA1", "#FC9272", "#FB6A4A", "#DE2D26", "#A50F15");
   // The classical yellow to red GBIF have been using for years
   public static final DensityColorPalette YELLOWS_REDS = defaultFrom(
-    "#FABA00", "#FAB000", "#FC5D0E", "#FD3F16", "#FC3117", "#FE091F");
+    "#FFFF00", "#FFCC00", "#FF9900", "#FF6600", "#FF3300", "#CC0000");
   
   
   
