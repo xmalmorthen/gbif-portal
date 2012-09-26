@@ -356,6 +356,12 @@
 
   </package>
 
+  <package name="developer" namespace="/developer" extends="default">
+    <default-action-ref name="maps"/>
+    <action name="maps" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/developer/api/maps.ftl</result>
+    </action>
+  </package>
 
   <package name="newsroom" namespace="/newsroom" extends="default">
     <default-action-ref name=""/>
