@@ -113,14 +113,12 @@ $(document).ready(function() {
               <tr>
                 <th>Data publisher</th>
                 <th>Dataset</th>
-                <th>Target count</th>
-                <th>Max harvested</th>
-                <th>Harvested</th>
-                <th>Dropped</th>
-                <th>Start</th>
-                <th>Last</th>
-                <th>Next</th>
-                <th>Crawl?</th>
+                <th>Started crawling</th>
+                <th>Finished Crawling</th>
+                <th>Crawl context</th>
+                <th>Pages crawled</th>
+                <th>Pages fragmented</th>
+                <th>Fragments processed</th>
               </tr>
             </thead>
             <tbody>

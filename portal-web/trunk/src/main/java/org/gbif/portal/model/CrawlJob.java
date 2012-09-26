@@ -1,7 +1,9 @@
 package org.gbif.portal.model;
 
-import org.gbif.api.model.metrics.DatasetMetrics;
+import org.gbif.api.model.metrics.DatasetCrawlMetrics;
 import org.gbif.api.model.registry.Dataset;
+
+import java.util.Map;
 
 /**
  * Object that aggregates all the information needed to be displayed for a single
@@ -9,9 +11,10 @@ import org.gbif.api.model.registry.Dataset;
  */
 public class CrawlJob {
 
-  private DatasetMetrics metrics;
+  private DatasetCrawlMetrics metrics;
   private Dataset dataset;
   private String owningOrganizationName;
+  private Map<String, String> properties;
 
   /**
    * @return the dataset
@@ -23,7 +26,7 @@ public class CrawlJob {
   /**
    * @return the metrics
    */
-  public DatasetMetrics getMetrics() {
+  public DatasetCrawlMetrics getCrawlMetrics() {
     return metrics;
   }
 
@@ -44,7 +47,7 @@ public class CrawlJob {
   /**
    * @param metrics the metrics to set
    */
-  public void setMetrics(DatasetMetrics metrics) {
+  public void setMetrics(DatasetCrawlMetrics metrics) {
     this.metrics = metrics;
   }
 
@@ -53,5 +56,19 @@ public class CrawlJob {
    */
   public void setOwningOrganizationName(String owningOrganizationName) {
     this.owningOrganizationName = owningOrganizationName;
+  }
+
+  /**
+   * @return the properties.
+   */
+  public Map<String, String> getProperties() {
+    return properties;
+  }
+
+  /**
+   * @param properties the properties to set.
+   */
+  public void setProperties(Map<String, String> properties) {
+    this.properties = properties;
   }
 }

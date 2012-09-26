@@ -2,7 +2,7 @@ package org.gbif.portal.action.admin;
 
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.metrics.DatasetMetrics;
+import org.gbif.api.model.metrics.DatasetCrawlMetrics;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
@@ -52,8 +52,13 @@ public class CrawlerAction extends BaseAction {
     return SUCCESS;
   }
 
+  /**
+   * Returns a list of metrics of a group of datasets.
+   * 
+   * @return list of metrics
+   */
   public List<CrawlJob> getMetrics() {
-    List<DatasetMetrics> metricsList = Lists.newArrayList();
+    List<DatasetCrawlMetrics> metricsList = Lists.newArrayList();
     PagingResponse<Dataset> filteredDatasets = new PagingResponse<Dataset>(0, 50);
     UUID organizationKey = null;
     if (!Strings.isNullOrEmpty(orgHost)) {
@@ -75,7 +80,7 @@ public class CrawlerAction extends BaseAction {
     // calculate the metrics for each dataset
     if (filteredDatasets.getResults() != null) {
       for (Dataset dataset : filteredDatasets.getResults()) {
-        metricsList.add(metricsWsClient.getDatasetMetrics(dataset.getKey()));
+        metricsList.add(metricsWsClient.getDatasetMetrics(UUID.fromString(dataset.getKey())));
       }
     } else {
       // no filter was applied, just gets the current datasets being crawled
@@ -85,9 +90,9 @@ public class CrawlerAction extends BaseAction {
     CrawlJob job;
     Dataset dataset;
     Organization organization;
-    for (DatasetMetrics dm : metricsList) {
+    for (DatasetCrawlMetrics dm : metricsList) {
       job = new CrawlJob();
-      dataset = datasetWsClient.get(dm.getKey());
+      dataset = datasetWsClient.get(dm.getDatasetKey());
 
       organization = organizationWsClient.get(dataset.getOwningOrganizationKey());
       job.setMetrics(dm);
