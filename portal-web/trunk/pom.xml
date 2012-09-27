@@ -431,15 +431,14 @@
   <profiles>
     <profile>
       <!--
-        for JAWA deployment
-        Using the api.gbif.org/dev services
+        configured to use the api.gbif.org/dev services and nerf/staging drupal.
         All settings exist but we need these passwords from somewhere else:
 
           <drupal.db.password>
           <application.secret>
 
       -->
-      <id>jawa</id>
+      <id>gbif-api</id>
       <properties>
         <devMode>false</devMode>
         <notDevMode>true</notDevMode>
