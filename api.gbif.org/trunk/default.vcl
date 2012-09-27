@@ -54,7 +54,7 @@ sub vcl_recv {
       set req.url = regsub(req.url, "^/map", "/tile-server");
 
     } else if ( req.url ~ "^/occurrence/metrics") {
-      set req.url = regsub(req.url, "^/occurrence/metrics", "/metrics-ws/occurrence");
+      set req.url = regsub(req.url, "^/", "/metrics-ws/");
 
     } else if ( req.url ~ "^/occurrence") {
       set req.url = regsub(req.url, "^/", "/occurrence-ws/");
@@ -64,7 +64,7 @@ sub vcl_recv {
       set req.url = regsub(req.url, "^/dataset/metrics", "/checklistbank-ws/dataset_metrics");
 
     } else if ( req.url ~ "^/dataset/crawl") {
-      set req.url = regsub(req.url, "^/dataset/crawl", "/metrics-ws/crawl");
+      set req.url = regsub(req.url, "^/", "/metrics-ws/");
 
     } else if ( req.url ~ "^/dataset/search") {
       set req.url = regsub(req.url, "^/dataset/", "/registry-search-ws/");
