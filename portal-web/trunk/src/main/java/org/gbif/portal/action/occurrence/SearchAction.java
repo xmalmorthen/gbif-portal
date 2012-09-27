@@ -46,6 +46,11 @@ public class SearchAction extends BaseAction {
 
   private final NameUsageService nameUsageService;
 
+  /**
+   * Constant that contains the prefix of a key to get a Basis of record name from the resource bundle file.
+   */
+  private static final String BASIS_OF_RECORD_KEY = "enum.basisofrecord.";
+
   @Inject
   public SearchAction(OccurrenceSearchService occurrenceSearchService, DatasetService datasetService,
     NameUsageService nameUsageService) {
@@ -102,7 +107,7 @@ public class SearchAction extends BaseAction {
       if (parameter == OccurrenceSearchParameter.NUB_KEY) {
         return nameUsageService.get(Integer.parseInt(filterValue), null).getScientificName();
       } else if (parameter == OccurrenceSearchParameter.BASIS_OF_RECORD) {
-        return filterValue;
+        return this.getText(BASIS_OF_RECORD_KEY + filterValue);
       }
     }
     return filterValue;

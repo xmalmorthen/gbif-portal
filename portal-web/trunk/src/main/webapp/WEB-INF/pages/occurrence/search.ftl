@@ -108,7 +108,7 @@
 
           <div class="footer">Published by <#if occ.datasetKey?has_content>${action.getDatasetTitle(occ.datasetKey)!}</#if></div>
         </td>
-        <td class="country"><#if occ.isoCountryCode?has_content><div class="country">${occ.isoCountryCode!}</div></#if>
+        <td class="country"><#if occ.country?has_content><div class="country">${occ.country.title!}</div></#if>
           <div class="coordinates">
             <#if occ.latitude?has_content>${occ.latitude!?c}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?c}<#else>-</#if>
           </div>
