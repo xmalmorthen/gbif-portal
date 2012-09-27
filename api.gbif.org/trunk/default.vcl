@@ -38,7 +38,7 @@ sub vcl_recv {
     error 404 "Not found";
   }
   
-  if (req.url ~ "^/nub_match"){
+  if (req.url ~ "^/match_nub"){
     set req.http.host="balancer.gbif.org";
     set req.backend = balancer;
     set req.url = regsub(req.url, "^/match_nub", "/ws-nub/nub");
