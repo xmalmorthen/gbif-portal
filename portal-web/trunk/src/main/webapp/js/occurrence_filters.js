@@ -11,6 +11,7 @@
  * limitations under the License.
  */
 
+var FADE_TIME = 250;
 /**
  * Occurrence filters module.
  * Implements functionality for widgets that follow the structure of templates: 
@@ -23,7 +24,6 @@
  *  The filters parameter must have the form: { title,value, year (valid for date filter only), month (valid for date filter only), key, paramName }
  *  
  */
-
 var OccurrenceWidget = (function ($,_) {  
   
   function isBlank(str) {
@@ -65,7 +65,8 @@ var OccurrenceWidget = (function ($,_) {
       
      open : function(){    
         if (!this.isVisible()) {
-          this.filterElement.fadeIn(250);
+          this.filterElement.fadeIn(FADE_TIME);
+          this.showAppliedFilters();
         }
       },
       
@@ -74,7 +75,7 @@ var OccurrenceWidget = (function ($,_) {
       },
       
       close : function(){      
-        this.filterElement.fadeOut(250);
+        this.filterElement.fadeOut(FADE_TIME);
       },
       
       isVisible : function(){
@@ -101,6 +102,24 @@ var OccurrenceWidget = (function ($,_) {
         }
       },
       
+      showAppliedFilters : function() {
+        if(this.filterElement != null) {
+          var appliedFilters = this.filterElement.find(".appliedFilters");
+          appliedFilters.empty();
+          var filtersContainer = appliedFilters.append("<ul style='list-style: none;'></ul>"); 
+          var templateFilter = _.template($("#template-applied-filter").html());
+          var self = this;
+          for(var i=0; i < this.appliedFilters.length; i++) {
+            var currentFilter = this.appliedFilters[i];
+            var newFilter = filtersContainer.append($(templateFilter({title:currentFilter.value, paramName: this.getId(), key: currentFilter.key, value: currentFilter.value})));          
+            newFilter.find(".closeFilter").click(function(e){
+              self.removeFilter(currentFilter);
+              self.showAppliedFilters();
+            });
+          }
+        }
+      },
+      
       addFilter : function(control) {
         if (!this.isCreated()) {
           this.createHTMLWidget(control);
@@ -113,13 +132,15 @@ var OccurrenceWidget = (function ($,_) {
         placeholder = $(control).attr("data-placeholder"),
         templateFilter = $(control).attr("template-filter"),
         inputClasses = $(control).attr("input-classes") || {},
-        title = $(control).attr("title");
-        var template = _.template($("#" + templateFilter).html());
+        title = $(control).attr("title"),
+        template = _.template($("#" + templateFilter).html());
+        
         this.filterElement = $(template({title:title, paramName: this.getId(), placeholder: placeholder, inputClasses: inputClasses }));
-        this.widgetContainer.after(this.filterElement); 
-        this.executeAdditionalBindings();
+        this.widgetContainer.after(this.filterElement);         
         this.bindCloseControl();
+        this.bindAddFilterControl();
         this.bindApplyControl();     
+        this.executeAdditionalBindings();
       },
       
       executeAdditionalBindings : function(){this.bindingsExecutor.call();},
@@ -133,13 +154,15 @@ var OccurrenceWidget = (function ($,_) {
       },
       
       removeFilter :function(filter) {        
-        for(i = 0; i < this.appliedFilters.length; i++){
+        for(var i = 0; i < this.appliedFilters.length; i++){
           if(this.appliedFilters[i].value == filter.value){
             if(this.appliedFilters[i].key && (this.appliedFilters[i].key == filter.key)){
               this.appliedFilters.splice(i,1);
+              this.showAppliedFilters();
               return;
             } else {
               this.appliedFilters.splice(i,1);
+              this.showAppliedFilters();
               return;
             }
           }
@@ -148,9 +171,32 @@ var OccurrenceWidget = (function ($,_) {
       
       bindApplyControl : function() {
         var self = this;
-        this.filterElement.find("a.button[data-action]").click( function(e){          
+        this.filterElement.find("a.button[data-action]").click( function(e){
+          if(self.filterElement.find(".addFilter").size() == 0) { //has and addFilter control
+            //gets the value of the input field            
+            var input = self.filterElement.find(":input[name=" + self.id + "]:first");                    
+            var value = input.val();            
+            if(!isBlank(value)){            
+              var key = "";
+              //Autocompletes store the selected key in "key" attribute
+              if (input.attr("key") !== undefined) {
+                key = input.attr("key"); 
+              }
+              self.applyFilter({value: value, key:key});            
+              self.close();
+            }
+          }else {
+            self.onApplyFilterEvent.call();
+          }
+        });  
+      },      
+      
+      
+      bindAddFilterControl : function() {
+        var self = this;
+        this.filterElement.find(".addFilter").click( function(e){          
           //gets the value of the input field            
-          var input = self.filterElement.find(":input[name=" + self.id + "]:first");                    
+          var input = self.filterElement.find(":input[type='text'][name=" + self.id + "]:first");                    
           var value = input.val();            
           if(!isBlank(value)){            
             var key = "";
@@ -158,8 +204,9 @@ var OccurrenceWidget = (function ($,_) {
             if (input.attr("key") !== undefined) {
               key = input.attr("key"); 
             }
-            self.applyFilter({value: value, key:key});            
-            self.close();
+            self.addAppliedFilter({value: value, key:key});            
+            self.showAppliedFilters();
+            input.val('');
           }
         });  
       }      
@@ -172,28 +219,30 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
    var InnerOccurrenceDateWidget = function () {        
    }; 
    InnerOccurrenceDateWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
-   InnerOccurrenceDateWidget.prototype.bindApplyControl = function() {
+   InnerOccurrenceDateWidget.prototype.bindAddFilterControl = function() {
         var self = this;
-        this.filterElement.find("a.button[data-action]").click( function(e) { 
+        this.filterElement.find(".addFilter").click( function(e) { 
         e.preventDefault();   
         var monthMin = self.filterElement.find(":input[name=monthMin]:first").val();
         var yearMin  =  self.filterElement.find(":input[name=yearMin]:first").val();
         var monthMax = self.filterElement.find(":input[name=monthMax]:first").val();
         var yearMax  =  self.filterElement.find(":input[name=yearMax]:first").val();
         var value = "";
-        if(yearMin != "-1" || monthMin != "-"){
+        if(!self.isBlank(yearMin) && monthMin != "0"){
           value = monthMin + "/" + yearMin;
         }
-        if(yearMax != "-1" || monthMax != "-"){
+        if(!self.isBlank(yearMax) && monthMax != "0"){
           if(!self.isBlank(value)){
             value = value + ",";
           }
           value = value + monthMax + "/" + yearMax;
         }
-        self.applyFilter({value: value, monthMin: monthMin, yearMin: yearMin, monthMax: monthMax, yearMax: yearMax});
-        self.close();
+        if(!self.isBlank(value)) {
+          self.addAppliedFilter({value: value, monthMin: monthMin, yearMin: yearMin, monthMax: monthMax, yearMax: yearMax});
+          self.showAppliedFilters();
+         }
         })
-     };   
+     };       
   return InnerOccurrenceDateWidget;
 })(jQuery,_,OccurrenceWidget);
 
@@ -202,20 +251,44 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
   var InnerOccurrenceLocationWidget = function () {        
   }; 
   InnerOccurrenceLocationWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
-  InnerOccurrenceLocationWidget.prototype.bindApplyControl = function() {
+  InnerOccurrenceLocationWidget.prototype.bindAddFilterControl = function() {
        var self = this;
-       this.filterElement.find("a.button[data-action]").click( function(e) { 
+       this.filterElement.find(".addFilter").click( function(e) { 
        e.preventDefault();          
        var minLat = self.filterElement.find(":input[name=minLatitude]:first").val();
        var minLng = self.filterElement.find(":input[name=minLongitude]:first").val();
        var maxLat = self.filterElement.find(":input[name=maxLatitude]:first").val();
-       var maxLng = self.filterElement.find(":input[name=maxLongitude]:first").val();                        
-       var value = minLat + ',' + minLng + ',' + maxLat + ',' + maxLng;       
-       self.applyFilter({value: value, key: ''});       
-       self.close();
+       var maxLng = self.filterElement.find(":input[name=maxLongitude]:first").val();
+       if(!self.isBlank(minLat) && !self.isBlank(minLng) && !self.isBlank(maxLat) && !self.isBlank(maxLng)){
+         var value = minLat + ',' + minLng + ',' + maxLat + ',' + maxLng;         
+         self.filterElement.find(":input").val('');
+         self.addAppliedFilter({value: value, key: ''});       
+         self.showAppliedFilters();
+        }
        })
-    };   
+    };      
  return InnerOccurrenceLocationWidget;
+})(jQuery,_,OccurrenceWidget);
+
+
+var OccurrenceBasisOfRecordWidget = (function ($,_,OccurrenceWidget) {
+  var InnerOccurrenceBasisOfRecordWidget = function () {        
+  }; 
+  InnerOccurrenceBasisOfRecordWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
+  InnerOccurrenceBasisOfRecordWidget.prototype.showAppliedFilters = function() {
+      if(this.filterElement != null) {
+         var self = this;
+         this.filterElement.find("select[name='basisOfRecord'] > option").each( function() {
+           $(this).removeAttr("selected");
+           for(var i=0; i < self.appliedFilters.length; i++) {
+             if(self.appliedFilters[i].value == $(this).val() && $(this).attr("selected") == undefined) {
+               $(this).attr("selected","selected");
+             }
+            }
+         });
+      }
+    };   
+ return InnerOccurrenceBasisOfRecordWidget;
 })(jQuery,_,OccurrenceWidget);
 
 var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
@@ -224,6 +297,7 @@ var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
     this.template = _.template($("#"+ templateId).html());
     this.onCloseEvent = closeEvent;
     this.occurrenceWidget = occurrenceWidget;
+    this.filters = new Array();
   };
    
   InnerOccurrenceFilterWidget.prototype = {
@@ -234,27 +308,31 @@ var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
        this.addFilterItem(htmlFilter);
      },
      
-    /**
-     * Utility function that adds filter to the list of applied filters.
-     */
-    addFilterItem : function(htmlFilter) {
-      var $tr = $("tr.header");
-      $filters = $("tr.filters");
-      if ($filters.length > 0) {
-        var
-        $tr      = $("tr.filters td ul");
-        $tr.prepend( htmlFilter );
-      } else {
-        var
-        containerTemplate = _.template($("#template-filter-container").html()),
-        $filterContainer  = $(containerTemplate());
-        $tr.after($filterContainer);
-        $("tr.filter").after( $filterContainer );
-        $filterContainer.find("ul").prepend( htmlFilter );
-      }
-      htmlFilter.fadeIn(250);
-      this.bindCloseEvent(htmlFilter);
-    },
+     addFilter : function(filter){
+       this.filters.push(filter);
+     },
+     
+     getOccurrenceWidget : function(){
+       return this.occurrenceWidget;
+     },
+     
+     
+     init : function(){
+       var tableHeader = $("table.results tr.header");
+       var filtersContainer = $("table.results tr.filters td ul");      
+       if (filtersContainer.length == 0 && this.filters.length > 0) {       
+         var containerTemplate = _.template($("#template-filter-container").html());
+         tableHeader.after($(containerTemplate())); 
+         filtersContainer = $("table.results tr.filters td ul");
+       }
+       if (this.filters.length > 0) {
+         var htmlFilter  = $(this.template({title: this.filters[0].title,paramName: this.filters[0].paramName,filters: this.filters}));          
+         $(filtersContainer).append(htmlFilter);
+         htmlFilter.fadeIn(FADE_TIME);
+         this.bindCloseEvent(htmlFilter);
+       }
+     },
+     
     
     removeFilter : function(htmlFilter){
       var input = htmlFilter.find(":input[type=hidden]");      
@@ -263,25 +341,27 @@ var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
     
     bindCloseEvent : function(htmlFilter){
       var self = this;
-      htmlFilter.find(".close").click(function(e){
-        e.preventDefault();
-        var
-        $li = $(this).parent(),
-        $ul = $li.parent(),
-        $tr = $ul.parent().parent();
-
-        if ($ul.find("li").length == 1) {
-          $tr.fadeOut(250, function() {
-           $(this).remove();
-          });
-        } else {
-          $(this).parent().slideUp(250, function() {
-            $(this).remove();
-          });
-        }            
-        $li.remove();
-        self.removeFilter(htmlFilter);
-        self.onCloseEvent.call();
+      htmlFilter.find(".closeFilter").each(function(idx,element){      
+          $(element).click(function(e){
+            e.preventDefault();
+            var
+            filterContainer = $(this).parent(),
+            li = filterContainer.parent();
+            filterContainer.fadeOut(FADE_TIME, function(){            
+                self.removeFilter(filterContainer);
+                $(this).remove();
+                if(li.find("div.filter").length == 0){
+                  var ul = li.parent();
+                  li.remove();
+                  if(ul.find("li").length == 0) { // element about to be removed was the last one
+                    //Removes the parent tr element
+                    ul.parent().remove();
+                  }
+                }
+                //call the onCloseEvent if any
+                self.onCloseEvent.call();
+          });        
+        });
       });
     }
   }
@@ -292,16 +372,40 @@ var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
 
 var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
   
+  var filterTemplate = "template-filter"; // template names for applied filters
   var widgets;
   var filterWidgets;
   var targetUrl;
   
   function getWidgetById(id) {
-    for (i=0;i < widgets.length;i++) {
+    for (var i=0;i < widgets.length;i++) {
       if(widgets[i].getId() == id){ return widgets[i];}
     }
     return;
   };
+  
+  function getFilterWidgetById(id) {
+    for (var i=0;i < filterWidgets.length;i++) {
+      if(filterWidgets[i].getOccurrenceWidget().getId() == id){ return filterWidgets[i];}
+    }
+    return;
+  };
+  
+  function formatLabelByFilter(filter) {
+    var label = filter.label;
+    if(filter.paramName == 'date') {
+      var values = filter.value.split(',');
+      if(values.length > 0){
+        label = values[0] + " TO " + values[1];
+      }                
+    }else if(filter.paramName == 'bbox') {
+      var values = filter.value.split(',');
+      label = values[0] + ',' + values[1] + " TO " + values[2] + ',' + values[3];                
+    }
+    return label;
+  };
+  
+  
   
   var InnerOccurrenceWidgetManager = function(targetUrlValue,filters,controlSelector){
     widgets = new Array();
@@ -342,7 +446,11 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           }else if (filterName == "date") {
             newWidget = new OccurrenceDateWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});            
-          }else {
+          }else if (filterName == "basisOfRecord") {
+            newWidget = new OccurrenceBasisOfRecordWidget();
+            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});              
+          }                  
+          else {
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});                      
           }
@@ -395,11 +503,11 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
         center: CONFIG.center,
         zoom: CONFIG.defaultZoom,
         layers: [minimal],
-        zoomControl: false
+        zoomControl: true
         });
-        
-        setupZoom(map);
-        
+         
+        var drawnItems = new L.LayerGroup();
+        map.addLayer(drawnItems);
         var drawControl = new L.Control.Draw({
           position: 'topright',
           polygon: false,
@@ -407,9 +515,8 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           marker:false,
           polyline:false
         });
-        map.addControl(drawControl);    
-            
-        var drawnItems = new L.LayerGroup();
+       map.addControl(drawControl); 
+       
         map.on('draw:rectangle-created', function (e) {
           drawnItems.clearLayers();
           drawnItems.addLayer(e.rect);
@@ -417,13 +524,8 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           $("#minLatitude").val(coords[1].lat);
           $("#minLongitude").val(coords[1].lng);
           $("#maxLatitude").val(coords[3].lat);
-          $("#maxLongitude").val(coords[3].lng);    
-          
-          L.marker([coords[1].lat, coords[1].lng]).addTo(map);
-          L.marker([coords[3].lat, coords[3].lng]).addTo(map);
+          $("#maxLongitude").val(coords[3].lng);                        
         });
-        
-        map.addLayer(drawnItems);
       },
       
       /**
@@ -439,9 +541,9 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
         }        
         var u = $.url();
         
-        for(wi=0; wi < widgets.length; wi++) {
+        for(var wi=0; wi < widgets.length; wi++) {
           var widgetFilters = widgets[wi].getAppliedFilters();
-          for(fi=0; fi < widgetFilters.length; fi++){
+          for(var fi=0; fi < widgetFilters.length; fi++){
             var filter = widgetFilters[fi];
             var filterId = widgets[wi].getId(); 
             if(params[filterId] == null){
@@ -457,36 +559,35 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
         window.location = targetUrl + $.param(params,true);
         return true;  // submit?
       },     
+     
+      initFilterWidgets : function(){
+        for(var i=0; i < filterWidgets.length; i++){          
+          filterWidgets[i].init();
+        }
+      },
       
       /**
-       * Initializes the state of the module and renders the previously applued filters contained in filter field.
+       * Initializes the state of the module and renders the previously applied filters.
        */
       initialize: function(filters){
-        var self = this;
+        var self = this;                
         if(typeof(filters) != 'undefined' && filters != null){              
           $.each(filters, function(key,filterValues){
-            $.each(filterValues, function(idx,filter) {
-              var templateId = "template-filter";
-              if(filter.paramName == 'date') {
-                var values = filter.value.split(',');
-                if(values.length > 0){
-                  filter.label = values[0] + " TO " + values[1];
-                }
-                templateId = "template-date-filter";
-              }else if(filter.paramName == 'bbox') {
-                var values = filter.value.split(',');
-                filter.label = values[0] + ',' + values[1] + " TO " + values[2] + ',' + values[3];
-                templateId = "template-bbox-filter";
-              }
+            $.each(filterValues, function(idx,filter) {              
+              filter.label = formatLabelByFilter(filter);              
               var occWidget = getWidgetById(filter.paramName);
-              occWidget.addAppliedFilter({key:filter.key,value:filter.value})
-              var filterWidget = new OccurrenceFilterWidget(templateId,self.applyOccurrenceFilters,occWidget);
-              filterWidgets.push(filterWidget);
-              filterWidget.applyFilter(filter);
+              occWidget.addAppliedFilter({key:filter.key,value:filter.value})     
+              var filterWidget = getFilterWidgetById(filter.paramName);
+              if(filterWidget == undefined){
+                filterWidget = new OccurrenceFilterWidget(filterTemplate,self.applyOccurrenceFilters,occWidget);
+                filterWidgets.push(filterWidget);
+              } 
+              filterWidget.addFilter(filter);              
             });
-          });    
+          });
+          this.initFilterWidgets();
         }        
-      },
+      }
   }
   return InnerOccurrenceWidgetManager;
 })(jQuery,_,OccurrenceWidget);

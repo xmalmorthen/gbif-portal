@@ -4,7 +4,12 @@
     * @param wsServiceUrl url to the search/suggest service
     * @param appendToElement parent element of generated widget
     */
-   $.fn.termsAutosuggest = function(wsServiceUrl,appendToElement,limit) {
+$.extend($.ui.autocomplete.prototype, 
+         {highlight: function(value, term) {
+              return value.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + term.replace(/([\^\$\(\)\[\]\{\}\*\.\+\?\|\\])/gi, "\\$1") + ")(?![^<>]*>)(?![^&;]+;)", "gi"), "<strong>$1</strong>");
+          }
+    }); 
+$.fn.termsAutosuggest = function(wsServiceUrl,appendToElement,limit) {
       //reference to the widget
       var $this = $(this);
       //jquery ui autocomplete widget creation

@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="<@s.url value='/css/combobox.css?v=2'/>"/>    
     <script src='<@s.url value='/js/vendor/jquery.url.js'/>' type='text/javascript'></script>
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/terms_suggest.js'/>"></script>    
+    <script type="text/javascript" src="<@s.url value='/js/terms_suggest.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>
     
     <!--Maps-->
     <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
@@ -122,8 +123,7 @@
       </#list>
       </#if>                  
 
-    </table>
-
+    </table>    
     <div class="footer">
      <@macro.pagination page=searchResponse url=currentUrl/>
     </div>
@@ -151,7 +151,7 @@
     </div>
 
   </div>
-  <footer></footer>
+  <footer></footer>  
   </article>
 
 
@@ -205,12 +205,14 @@
                   </select>
                   <label for="yearMax">Year</label>
                   <input type="text" name="yearMax" size="10" maxlength="4" style="width: 50px !important; padding: 6px !important;"/>
+                  <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">
                 </td>
+                <td style="border: 0px none !important;"><div class="appliedFilters"></div></td>
               </tr>              
               </tr>
             </table>              
             <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-date-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
-          </div>
+          </div>          
           <a href="#" class="close"></a>
         </div>
       </td>
@@ -246,10 +248,18 @@
         <div class="inner">
           <h4><%= title %></h4>
           <div class="filter">
-            <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />
-            <span style="display:none" class="erroMsg">Please enter a value</span>
+            <table width="100%">                
+                <tr> 
+                  <td style="border: 0px none !important;">
+                    <div class="appliedFilters"></div>
+                    <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />
+                    <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">
+                    <span style="display:none" class="erroMsg">Please enter a value</span>
+                  </td>                  
+                </tr>
+             </table>            
             <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
-          </div>
+          </div>          
           <a href="#" class="close"></a>
         </div>
       </td>
@@ -257,29 +267,20 @@
   </script>
 
   <script type="text/template" id="template-filter">
-    <li>
+    <li id="filter-<%=paramName%>">
     <h4><%= title %></h4>
-    <div class="filter"><a href="#"><%= value %></a><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div>
-    <a href="#" class="close"></a>    
+    <% _.each(filters, function(filter) { %>
+        <div class="filter"><%= filter.value %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a href="#" class="closeFilter"></a></div>        
+      <% }); %>            
     </li>
   </script>
   
-  <script type="text/template" id="template-bbox-filter">
-    <li>
-    <h4><%= title %></h4>
-    <div class="filter"><a href="#"><%= label %></a><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div>
-    <a href="#" class="close"></a>    
+  <script type="text/template" id="template-applied-filter">
+    <li style="list-style: none;">    
+    <div><div style="float:left;"><%= value %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div><a href="#" class="closeFilter" style="float:left;"></a></div>       
     </li>
   </script>
-  
-  <script type="text/template" id="template-date-filter">
-    <li>
-    <h4><%= title %></h4>
-    <div class="filter"><a href="#"><%= label %></a><input name="date" type="hidden" value="<%= value %>"/></div>
-    <a href="#" class="close"></a>    
-    </li>
-  </script>
-
+ 
   <script type="text/template" id="template-filter-container">
     <tr class="filters">
       <td colspan="4">
@@ -290,32 +291,39 @@
     
   <script type="text/template" id="map-template-filter">
      <tr class="filter">
-      <td colspan="4">
+      <td colspan="4">        
         <div class="inner">  
           <h4>Location</h4>  
-          <div class="inner">                      
+          <div>                                                        
               <table width="100%">                
                 <tr>    
-                  <td valign="top"> 
-                    <div id="zoom_in" class="map_widget_zoom_in"/>
-                    <div id="zoom_out" class="map_widget_zoom_out"/>                    
-                    <div id="map" class="map_widget"/>                  
+                  <td style="border: 0px none !important;width: 500px !important;">                                    
+                     <div id="map" class="map_widget"/>                 
                   </td>
-                   <td valign="top">                    
+                   <td valign="top" style="border: 0px none !important;">    
+                      <h4>Bounding box from</h4>   
+                      <br>            
                       <span>
                         <input name="minLatitude" id="minLatitude" type="text" size="10" style="width:60px;"/>
                         <input name="minLongitude" id="minLongitude" type="text" size="10" style="width:60px;"/>
                       </span>
-                      <br>
+                      <br>             
+                      <h4>To</h4>
+                      <br>         
                       <span>
                         <input name="maxLatitude" id="maxLatitude" type="text" size="10" style="width:60px;"/>
                         <input name="maxLongitude" id="maxLongitude" type="text" size="10" style="width:60px;"/>
                       </span>
-                      <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply filter</span></a>
+                      <br>
+                      <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">                      
+                      <br>                                            
+                      <div class="appliedFilters"></div>
+                      <br>                      
                   </td>
                 </tr>                                 
               </table>         
-           </div>                            
+           </div>         
+           <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply filter</span></a>         
           <a href="#" class="close"></a>     
         </div>
        </td>
