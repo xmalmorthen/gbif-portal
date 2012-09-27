@@ -8,11 +8,6 @@ backend balancer {
   .port = "http";     
 }       
 
-backend staging {
-  .host = "staging.gbif.org";
-  .port = "8080";
-}
-
 acl purge {
   "localhost";
   "192.38.28.0"/25;
@@ -31,14 +26,10 @@ sub vcl_recv {
   }
 
   # first check API versions
-  if ( req.url ~ "^/latest/") {
+  if ( req.url ~ "^/dev/") {
     set req.http.host="jawa.gbif.org";
     set req.backend = jawa;
-    set req.url = regsub(req.url, "^/latest/", "/");
-  } else if ( req.url ~ "^/staging/") {
-    set req.http.host="staging.gbif.org";
-    set req.backend = staging;
-    set req.url = regsub(req.url, "^/staging/", "/");
+    set req.url = regsub(req.url, "^/dev/", "/");
   } else {
     error 404 "API version not existing";
   }
@@ -63,10 +54,17 @@ sub vcl_recv {
       set req.url = regsub(req.url, "^/map", "/tile-server");
 
     } else if ( req.url ~ "^/occurrence/metrics") {
-      set req.url = regsub(req.url, "^/occurrence/metrics", "/metrics-ws/");
+      set req.url = regsub(req.url, "^/occurrence/metrics", "/metrics-ws/occurrence");
 
     } else if ( req.url ~ "^/occurrence") {
       set req.url = regsub(req.url, "^/", "/occurrence-ws/");
+
+    } else if ( req.url ~ "^/dataset/metrics") {
+      # not existing yet for all datasets - use checklist service for now
+      set req.url = regsub(req.url, "^/dataset/metrics", "/checklistbank-ws/dataset_metrics");
+
+    } else if ( req.url ~ "^/dataset/crawl") {
+      set req.url = regsub(req.url, "^/dataset/crawl", "/metrics-ws/crawl");
 
     } else if ( req.url ~ "^/dataset/search") {
       set req.url = regsub(req.url, "^/dataset/", "/registry-search-ws/");
@@ -83,7 +81,7 @@ sub vcl_recv {
 
 sub vcl_fetch {
   if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE") && (beresp.status < 400)) {
-    purge_url("/(staging|latest)/(node|organization|network|technical_installation|dataset|graph|contact|endpoint|identifier)/*");
+    purge_url("/dev/(node|organization|network|technical_installation|dataset|graph|contact|endpoint|identifier)/*");
     return (pass);
     #vcl3 return (hit_for_pass);
   }
