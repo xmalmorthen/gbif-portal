@@ -80,49 +80,6 @@
 		
       </script>
     </content>
-
-    <style>
-<#-- TODO: move this to LESS!!! -->
-strong {
-  font-weight: bolder;
-}
-
-code {
-  font-family: courier;
-  margin-left: 10px;
-  padding: 10px 0px 10px 10px;
-  border-left: 2px solid #EEEEEE;
-  font-size: 14px;
-  color: #999999;
-  display: inline-block;
-}
-
-table.bor_time {
-  border: 1px solid #EEEEEE;
-}      
-table.bor_time tr.separator {
-  border-top: 1px solid #EEEEEE;
-}
-table.bor_time td {
-  padding: 0px 5px 0px 5px;
-  text-align: center;
-  vertical-align: baseline;
-}      
-table.color td {
-  width: 25px;
-}
-
-span#urlTemplate {
-  word-wrap:break-word;
-  font-family: courier;
-}
-
-table.params td {
-  padding: 5px;
-  border: 1px solid #EEEEEE;
-}
-    </style>
-    
   </head>
 
   <body class="search">
@@ -147,6 +104,9 @@ table.params td {
           <p>
             The mapping api is a <a href="http://www.opengeospatial.org/standards/wmts">web map tile service</a>  
             making it trivial to visualize GBIF content on interactive maps, and overlay content from other sources.
+          </p>
+          <p>
+            <code>Developers familiar with tile mapping services should jump straight to the <a href="#preview">preview functionality</a></code>
           </p>
           <p>
             The following features are supported:
@@ -256,8 +216,16 @@ table.params td {
             </ul>
           </p>
           <p>
-            The quickest way to experiment with this is to use the <a href="#preview">preview functionality</a>.  The specification for the layers are provided.  
-            <strong>This is a multivalue field so it is expected that several layers are requested in any single URL</strong>
+            The quickest way to experiment with this is to use the <a href="#preview">preview functionality</a>.  The specification for the layers are provided below.  
+            <ul class="simple">
+              <li>This is a <strong>multivalue field</strong> so it is expected that several layers are requested in any single URL</li>
+              <li>
+                Should <strong>no layers be specified, a sensible default is provided</strong>.  This is to preserve backwards compatibility since layering was an additional feature, and considered
+                acceptable since a map with no layers makes little sense.  At present the default returns all layers, but could be subject to future change (e.g. should a layer of records
+                with known issues be added, it might not be included in the default)  
+              </li>
+            </ul>
+            
           </p>
           <p>  
             <table class="params">
@@ -309,7 +277,126 @@ table.params td {
         
         <div class="left">
           <p>
-            TODO: document this...
+            Styling the configured layer is controlled through either the <strong>&colors</strong> parameter or the <strong>&palette</strong> parameter.  If neither
+            are provided, a sensible default will be used, which may be subject to change without notice.  The quickest way to experiment with this is to use the <a href="#preview">preview functionality</a>.
+          </p>
+          <p>
+            The possible options for the <strong>palette</strong> are given:
+          </p>
+          <p>
+          
+            <table width="100%" class="params">
+              <tr>
+                <td/>
+                <td colspan="6" class="header">Record count</td>
+              </tr>
+              <tr>
+                <td/>
+                <td width="14%">0-10</td>
+                <td width="14%">10-100</td>
+                <td width="14%">100-1000</td>
+                <td width="14%">1000-10000</td>
+                <td width="14%">10000-100000</td>
+                <td width="14%">100000+</td>
+              </tr>
+              <tr>
+                <td>yellows_reds</td>
+                <td style="background-color:#FFFF00"></td>
+                <td style="background-color:#FFCC00"></td>
+                <td style="background-color:#FF9900"></td>
+                <td style="background-color:#FF6600"></td>
+                <td style="background-color:#FF3300"></td>
+                <td style="background-color:#CC0000"></td>
+              </tr>
+              <tr>
+                <td>blues</td>
+                <td style="background-color:#EFF3FF"></td>
+                <td style="background-color:#C6DBEF"></td>
+                <td style="background-color:#9ECAE1"></td>
+                <td style="background-color:#6BAED6"></td>
+                <td style="background-color:#3182BD"></td>
+                <td style="background-color:#08519C"></td>
+              </tr>
+              <tr>
+                <td>greens</td>
+                <td style="background-color:#EDF8E9"></td>
+                <td style="background-color:#C7E9C0"></td>
+                <td style="background-color:#A1D99B"></td>
+                <td style="background-color:#74C476"></td>
+                <td style="background-color:#31A354"></td>
+                <td style="background-color:#006D2C"></td>
+              </tr>
+              <tr>
+                <td>greys</td>
+                <td style="background-color:#F7F7F7"></td>
+                <td style="background-color:#D9D9D9"></td>
+                <td style="background-color:#BDBDBD"></td>
+                <td style="background-color:#969696"></td>
+                <td style="background-color:#636363"></td>
+                <td style="background-color:#252525"></td>
+              </tr>
+              <tr>
+                <td>oranges</td>
+                <td style="background-color:#FEEDDE"></td>
+                <td style="background-color:#FDD0A2"></td>
+                <td style="background-color:#FDAE6B"></td>
+                <td style="background-color:#FD8D3C"></td>
+                <td style="background-color:#E6550D"></td>
+                <td style="background-color:#A63603"></td>
+              </tr>
+              <tr>
+                <td>purples</td>
+                <td style="background-color:#F2F0F7"></td>
+                <td style="background-color:#DADAEB"></td>
+                <td style="background-color:#BCBDDC"></td>
+                <td style="background-color:#9E9AC8"></td>
+                <td style="background-color:#756BB1"></td>
+                <td style="background-color:#54278F"></td>
+              </tr>
+              <tr>
+                <td>reds</td>
+                <td style="background-color:#FEE5D9"></td>
+                <td style="background-color:#FCBBA1"></td>
+                <td style="background-color:#FC9272"></td>
+                <td style="background-color:#FB6A4A"></td>
+                <td style="background-color:#DE2D26"></td>
+                <td style="background-color:#A50F15"></td>
+              </tr>      
+            </table>  
+          </p>
+          <p>
+            Should you wish to style a map further, you may provide a color ruleset using the <strong>&colors</strong> parameter.
+            A ruleset is a pipe(|) separated series of rules, where each rule is comma (,) separated containing the min (optional and inclusive), max(optional and exclusive) 
+            and color to apply for the range.  Colors are in #RGBA format (red, green, blue, alpha with a preceding hash).  The ruleset must be
+            URL encoded (in javascript, the encodeURIComponent() provides this).  Thus, the format of the ruleset is given as:
+          </p>
+          <p>            
+            <code>
+              <strong>ruleset_expr:</strong></br/>
+              &nbsp;&nbsp;<strong>rule_expr</strong>[|rule_expr ...]<br/><br/>
+              <strong>rule_expr</strong></br/>
+              &nbsp;&nbsp;min,max,color
+            </code>
+          </p>
+          <p>
+            For example, suppose one wishes to define the following rules:
+          </p>
+          <p>
+            <ul class="simple">
+              <li>Where less than 100 records exist, use a transparent red (#FF000033)</li>
+              <li>Where 100-10000 records exist, use a transparent green (#00FF0033)</li>
+              <li>Where 10000 or more records exist, use a transparent blue (#0000FF33)</li>
+            </ul>
+          </p>
+          <p>The resultant ruleset (before encoding would be):</p>
+          <p>
+            <code>
+              ,100,#FF000033|100,10000,#00FF0033|10000,,#0000FF33
+            </code>
+          </p>
+          <p>
+            The <a href="#preview">preview functionality</a> allows you to test styles.
+            A very useful resource providing color advice for cartographers is <a href="http://colorbrewer2.org">colorbrewer2.org</a>.  
           </p>
         </div>
       </div>
@@ -468,7 +555,7 @@ table.params td {
                     <tr>
                       <td>&nbsp;<input type="radio" name='palette' class="color" id="custom"/></td>
                       <td colspan="6">
-                        <textarea rows="6" id="colorset">0,100,#FF000033|100,10000,#00FF0033|10000,,#0000FF33</textarea><br/>
+                        <textarea rows="6" id="colorset">,100,#FF000033|100,10000,#00FF0033|10000,,#0000FF33</textarea><br/>
 	                    <input type="button" class="refresh" value="Refresh"/>
 	                  </td>
                     </tr>
