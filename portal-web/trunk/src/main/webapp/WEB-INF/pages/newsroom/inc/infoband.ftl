@@ -13,14 +13,12 @@
   <h3>Latest news about GBIF's activities, use of data, events and oppertunities</h3>
 
   <#if (tab!"")=="home">
-    <div class="box newsletter">
-      <div class="content">
-        <ul>
-          <li><h4>GBits, the GBIF newsletter</h4></li>
-        </ul>
-        <a href="#" title="Download PDF" class="download candy_blue_button"><span>Download PDF</span></a>
-      </div>
-    </div>
+
+  <div class="infobox">
+    <h4>GBits, the GBIF newsletter</h4>
+    <a href="#" title="Download PDF" class="download candy_blue_button"><span>Download PDF</span></a>
+  </div>
+
   </#if>
 </content>
 
@@ -36,7 +34,7 @@
       <a href="<@s.url value='/newsroom/uses'/>" title="Uses of data"><span>Uses of data</span></a>
     </li>
     <li>
-      <a href="#" title="Oppertunities"><span>Oppertunities</span></a>
+      <a href="#" title="Opportunities"><span>Opportunities</span></a>
     </li>
     <li>
       <a href="#" title="Events"><span>Events</span></a>
