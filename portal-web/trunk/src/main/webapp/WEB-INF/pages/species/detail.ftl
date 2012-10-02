@@ -421,12 +421,10 @@
       </div>
     </div>
 
-  <#-- <a href="${img1.image}"><img src="${img.image!}"/></a> -->
-
     <div class="right">
       <#if img1?exists>
         <div class="controllers">
-          <h2>${common.limit(img1.title!usage.canonicalOrScientificName!"",38)}</h2>
+          <h2 class="title">${common.limit(img1.title!usage.canonicalOrScientificName!"",38)}</h2>
           <a class="previous_slide" href="#" title="Previous image"></a>
           <a class="next_slide" href="#" title="Next image"></a>
         </div>
@@ -448,7 +446,7 @@
             ${imgTitle}
           </#if>
           <#if nub>
-            <span class="note">view <a href="<@s.url value='/species/${img1.usageKey?c}'/>">source usage</a></span>
+            <span class="note">view <a class="source" data-baseurl="<@s.url value='/species/'/>" href="<@s.url value='/species/${img1.usageKey?c}'/>">source usage</a></span>
           </#if>
         </p>
         </#if>
@@ -610,7 +608,7 @@
   <@common.notice title="Source information">
   <p>This backbone name usage exists because
     <#if usage.origin == "SOURCE" && usage.sourceId??>
-      at least one <a href="<@s.url value='/species/${usage.sourceId}'/>">source name usage</a> exists for that name.
+      at least one <a class="source" data-baseurl="<@s.url value='/species/'/>" href="<@s.url value='/species/${usage.sourceId}'/>">source name usage</a> exists for that name.
     <#else>
       <@s.text name="enum.origin.${usage.origin}"/>.
     </#if>

@@ -5,7 +5,7 @@ $(function() {
   $(".dropdown .title").on("click", function(e) {
     e.preventDefault();
     $(this).parent().toggleClass("selected");
-  });  
+  });
 
   // PHOTO GALLERY
   $(".photo_gallery").bindSlideshow();

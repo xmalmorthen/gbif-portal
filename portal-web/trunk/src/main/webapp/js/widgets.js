@@ -1482,12 +1482,22 @@ $.fn.bindSlideshow = function(opt) {
   }
 
 function updateSlideshow(data) {
+console.log(data);
 
   if (data.title) {
     $this.find(".title").fadeOut(150, function() {
       $this.find(".title").html(data.title);
       $this.find(".title").fadeIn(150);
     });
+
+    var key = data.usageKey;
+
+    if (key) {
+      var url = $this.find(".source").attr("data-baseurl") + key;
+    console.log(key, $this, $this.find(".source"), url);
+      $this.find(".source").attr("href", url);
+    }
+
   }
 }
 
@@ -1569,6 +1579,7 @@ $next_button.click(function(event) {
 
 
     $slideshow.scrollTo('+=' + photoWidth + 'px', transitionSpeed, { easing:easingMethod, axis:'x' });
+
     $(downloads[currentPhoto]).parent().hide();
     currentPhoto++;
     $(downloads[currentPhoto]).parent().show();
