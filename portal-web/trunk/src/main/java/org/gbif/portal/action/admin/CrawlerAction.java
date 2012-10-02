@@ -21,8 +21,12 @@ import java.util.UUID;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CrawlerAction extends BaseAction {
+
+  private static final Logger LOG = LoggerFactory.getLogger(CrawlerAction.class);
 
   @Inject
   protected NodeService nodeWsClient;
@@ -65,14 +69,14 @@ public class CrawlerAction extends BaseAction {
       try {
         organizationKey = UUID.fromString(orgHost);
       } catch (IllegalArgumentException e) {
-        // TODO: send error, invalid UUID format
+        LOG.warn("Hosting organization parameter \"[{}]\" is not a valid UUID, ignoring parameter");
       }
       filteredDatasets = datasetWsClient.listHostedBy(organizationKey, new PagingRequest(0, 50));
     } else if (!Strings.isNullOrEmpty(orgOwn)) {
       try {
         organizationKey = UUID.fromString(orgOwn);
       } catch (IllegalArgumentException e) {
-        // TODO: send error, invalid UUID format
+        LOG.warn("Owning organization parameter \"[{}]\" is not a valid UUID, ignoring parameter");
       }
       filteredDatasets = datasetWsClient.listOwnedBy(organizationKey, new PagingRequest(0, 50));
     }
@@ -91,20 +95,24 @@ public class CrawlerAction extends BaseAction {
     Dataset dataset;
     Organization organization;
     for (DatasetCrawlMetrics dm : metricsList) {
-      job = new CrawlJob();
       dataset = datasetWsClient.get(dm.getDatasetKey());
-
-      organization = organizationWsClient.get(dataset.getOwningOrganizationKey());
-      job.setMetrics(dm);
-      job.setDataset(dataset);
-      job.setOwningOrganizationName(organization.getTitle());
-      crawlJobs.add(job);
+      // if the datasetKey does not exist in the GBIF Registry, don't add it to the crawled jobs list
+      if (dataset != null) {
+        job = new CrawlJob();
+        if (dataset != null) {
+          organization = organizationWsClient.get(dataset.getOwningOrganizationKey());
+          job.setOwningOrganizationName(organization.getTitle());
+        }
+        job.setMetrics(dm);
+        job.setDataset(dataset);
+        crawlJobs.add(job);
+      }
     }
     return crawlJobs;
   }
 
   public List<Node> getNodes() {
-    // TODO: PagingRequest returns 20 by default, should process all nodes to return the complete list.
+    // TODO: Build list of all available nodes.
     PagingResponse<Node> response = nodeWsClient.list(new PagingRequest(0, 50));
 
     if (response != null) {
