@@ -87,7 +87,7 @@
 
 
       </div>
-      <div class="related">
+      <div class="related footer">
         <h3>RELATED GBIF RESOURCES</h3>
         <ul>
           <li><a href="">652 published occurrences of white-tailed deer (Odocuileus virginianus)</a></li>
