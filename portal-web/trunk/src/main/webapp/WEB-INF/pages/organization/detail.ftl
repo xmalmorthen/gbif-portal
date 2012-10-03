@@ -3,7 +3,7 @@
 <head>
   <title>Organization Detail</title>
 </head>
-<body class="species">
+<body class="organization">
 
 
 <#assign tab="info"/>
