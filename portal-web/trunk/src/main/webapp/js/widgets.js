@@ -1156,10 +1156,11 @@ var linkPopover = (function() {
 
 
 var dialogPopover = (function() {
-  var displayed = false;
-  var el;
-  var transitionSpeed = 50;
 
+  var
+  el              = null,
+  displayed       = false,
+  transitionSpeed = 50;
 
   function toggle(e, event, div) {
     event.stopPropagation();
@@ -1168,10 +1169,16 @@ var dialogPopover = (function() {
     $popover = $(div);
 
     displayed ? hide() : show();
+
+    $popover.find(".scrollpane").jScrollPane({
+      showArrows: true
+    });
   }
 
   function getTopPosition() {
-    return (( $(window).height() - $popover.height()) / 2) + $(window).scrollTop() - 50;
+
+    return $(el).position().top;
+    //return (( $(window).height() - $popover.height()) / 2) + $(window).scrollTop() - 50;
   }
 
   function setupBindings() {

@@ -36,20 +36,24 @@ This include requires 2 arrays to be set:
         </#list>
         <#if seeAll>
           <li class="seeAllFacet">
-            <a class="seeAllLink" href="#">&nbsp;&nbsp;see all ...</a>
+            <a class="seeAllLink" href="#">See all...</a>
             <div class="infowindow dialogPopover" style="z-index:100000">
                 <div class="lheader"></div>
                 <span class="close"></span>
                 <div class="content">
                   <h2>Filter by <@s.text name="search.facet.${facetName}" /></h2>
-                 <ul>
-                   <#list facetCounts[facetName] as count>
-                  <li>
-                    <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
-                    <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>                
-                  </li>
-                  </#list>
-                 </ul>
+
+                 <div class="scrollpane">
+                   <ul>
+                     <#list facetCounts[facetName] as count>
+                    <li>
+                    <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" <#if (action.isInFilter(facetName,count.name))>checked</#if>>
+                     <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
+                    </li>
+                    </#list>
+                   </ul>
+                 </div>
+
                </div>
                <div class="lfooter"></div>
              </div>
