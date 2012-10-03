@@ -1482,7 +1482,6 @@ $.fn.bindSlideshow = function(opt) {
   }
 
 function updateSlideshow(data) {
-console.log(data);
 
   if (data.title) {
     $this.find(".title").fadeOut(150, function() {
@@ -1494,22 +1493,27 @@ console.log(data);
 
     if (key) {
       var url = $this.find(".source").attr("data-baseurl") + key;
-    console.log(key, $this, $this.find(".source"), url);
       $this.find(".source").attr("href", url);
     }
 
   }
 }
 
-
 function onSuccess(data) {
+
+console.log(data);
 
   var images = data.results;
 
   var $photos = $slideshow.find(".photos");
 
-  num_of_photos    = images.length;
+  num_of_photos = images.length;
+
   $photos.css("width", num_of_photos * photoWidth);
+
+  if (num_of_photos == 1) {
+    $this.find(".controller").hide();
+  }
 
   var n = 0;
 

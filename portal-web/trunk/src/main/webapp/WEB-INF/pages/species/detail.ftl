@@ -415,7 +415,7 @@
         <#list usage.images as img>
           <#if img.image??>
             <#if !img1?exists><#assign img1=img/></#if>
-            <img src="${img.image!}"/>
+            <!--<img src="${img.image!}"/>-->
           </#if>
         </#list>
       </div>
@@ -425,8 +425,8 @@
       <#if img1?exists>
         <div class="controllers">
           <h2 class="title">${common.limit(img1.title!usage.canonicalOrScientificName!"",38)}</h2>
-          <a class="previous_slide" href="#" title="Previous image"></a>
-          <a class="next_slide" href="#" title="Next image"></a>
+          <a class="controller previous_slide" href="#" title="Previous image"></a>
+          <a class="controller next_slide" href="#" title="Next image"></a>
         </div>
 
         <#if img1.description?has_content>
