@@ -208,13 +208,24 @@ article.slideshow > .content {
 
   .header .left .bullets {
     float: right;
+
     li {
       display: inline-block;
-      width: 10px; height: 10px;
-      background:red; *display: inline; *zoom: 1;
+      *display: inline; *zoom: 1;
+
+      a {
+        display:block;
+        width: 10px; height: 10px;
+        background: url(../img/slideshow-bullet.png) no-repeat;
+
+        &:hover { background: url(../img/slideshow-bullet-active.png) no-repeat; }
+
+      }
+
+      &.selected a { background: url(../img/slideshow-bullet-active.png) no-repeat; }
+
     }
   }
-
 
   & > .left {
     margin: 0;

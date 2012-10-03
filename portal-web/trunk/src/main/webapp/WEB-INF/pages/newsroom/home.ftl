@@ -22,10 +22,10 @@
         <div class="left">
           <h4>FEATURED</h4>
           <ul class="bullets">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
+            <li class="selected"><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
           </ul>
         </div>
       </div>
@@ -41,10 +41,11 @@
 
       <div class="right">
         <ul>
-          <li><img src="http://www.placehold.it/626x424" alt="" /></li>
-          <li><img src="http://www.placehold.it/626x424" alt="" /></li>
-          <li><img src="http://www.placehold.it/626x424" alt="" /></li>
-          <li><img src="http://www.placehold.it/626x424" alt="" /></li>
+          <li><img src="<@s.url value='/img/tmp/slide01.jpg'/>"></img></li>
+          <li><img src="<@s.url value='/img/tmp/slide02.jpg'/>"></img></li>
+          <li><img src="<@s.url value='/img/tmp/slide03.jpg'/>"></img></li>
+          <li><img src="<@s.url value='/img/tmp/slide04.jpg'/>"></img></li>
+          <li><img src="<@s.url value='/img/tmp/slide05.jpg'/>"></img></li>
         </ul>
       </div>
 
