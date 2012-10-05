@@ -250,11 +250,13 @@
           <div class="filter">
             <table width="100%">                
                 <tr> 
-                  <td style="border: 0px none !important;">
-                    <div class="appliedFilters"></div>
+                  <td style="border: 0px none !important;">                    
                     <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />
                     <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">
                     <span style="display:none" class="erroMsg">Please enter a value</span>
+                  </td>
+                  <td style="border: 0px none !important;">
+                    <div class="appliedFilters" style="width:400px; overflow-y: auto;clear:both;"></div>
                   </td>                  
                 </tr>
              </table>            
@@ -276,7 +278,7 @@
   </script>
   
   <script type="text/template" id="template-applied-filter">
-    <li style="list-style: none;">    
+    <li style="list-style: none;display:block;">    
     <div><div style="float:left;"><%= value %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div><a href="#" class="closeFilter" style="float:left;"></a></div>       
     </li>
   </script>

@@ -10,6 +10,7 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.occurrence.OccurrenceSearchService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.portal.action.BaseAction;
 
@@ -38,11 +39,11 @@ public class SearchAction extends BaseAction {
 
   private final DatasetService datasetService;
 
-  private final OccurrenceSearchRequest pagingRequest;
+  private final OccurrenceSearchRequest searchRequest;
 
   private PagingResponse<Occurrence> searchResponse;
 
-  private Multimap<String, String> filters = HashMultimap.create();
+  private Multimap<OccurrenceSearchParameter, String> filters = HashMultimap.create();
 
   private final NameUsageService nameUsageService;
 
@@ -54,7 +55,7 @@ public class SearchAction extends BaseAction {
   @Inject
   public SearchAction(OccurrenceSearchService occurrenceSearchService, DatasetService datasetService,
     NameUsageService nameUsageService) {
-    this.pagingRequest = new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
+    this.searchRequest = new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
     this.occurrenceSearchService = occurrenceSearchService;
     this.datasetService = datasetService;
     this.nameUsageService = nameUsageService;
@@ -64,10 +65,10 @@ public class SearchAction extends BaseAction {
   @Override
   public String execute() {
     LOG.debug("Exceuting query, params {}, limit {}, offset {}",
-      new Object[] {pagingRequest.getParams(), pagingRequest.getLimit(), pagingRequest.getOffset()});
+      new Object[] {searchRequest.getParameters(), searchRequest.getLimit(), searchRequest.getOffset()});
     readFiltersFromRequest();
-    pagingRequest.setParams(this.filters);
-    searchResponse = occurrenceSearchService.listOccurrences(pagingRequest);
+    searchRequest.setParameters(this.filters);
+    searchResponse = occurrenceSearchService.search(searchRequest);
     return SUCCESS;
   }
 
@@ -94,7 +95,7 @@ public class SearchAction extends BaseAction {
   /**
    * @return the filters
    */
-  public Multimap<String, String> getFilters() {
+  public Multimap<OccurrenceSearchParameter, String> getFilters() {
     return filters;
   }
 
@@ -102,9 +103,10 @@ public class SearchAction extends BaseAction {
    * Gets the displayable value of filter parameter.
    */
   public String getFilterTitle(String filterKey, String filterValue) {
-    OccurrenceSearchParameter parameter = OccurrenceSearchParameter.getByParam(filterKey);
+    OccurrenceSearchParameter parameter =
+      (OccurrenceSearchParameter) VocabularyUtils.lookupEnum(filterKey, OccurrenceSearchParameter.class);
     if (parameter != null) {
-      if (parameter == OccurrenceSearchParameter.NUB_KEY) {
+      if (parameter == OccurrenceSearchParameter.TAXON_KEY) {
         return nameUsageService.get(Integer.parseInt(filterValue), null).getScientificName();
       } else if (parameter == OccurrenceSearchParameter.BASIS_OF_RECORD) {
         return this.getText(BASIS_OF_RECORD_KEY + filterValue);
@@ -126,7 +128,7 @@ public class SearchAction extends BaseAction {
    * Gets the offset value.
    */
   public long getOffset() {
-    return pagingRequest.getOffset();
+    return searchRequest.getOffset();
   }
 
   /**
@@ -139,7 +141,7 @@ public class SearchAction extends BaseAction {
   /**
    * @param filters the filters to set
    */
-  public void setFilter(Multimap<String, String> filters) {
+  public void setFilter(Multimap<OccurrenceSearchParameter, String> filters) {
     this.filters = filters;
   }
 
@@ -149,7 +151,7 @@ public class SearchAction extends BaseAction {
    * @see PagingRequest#setOffset(long)
    */
   public void setOffset(long offset) {
-    pagingRequest.setOffset(offset);
+    searchRequest.setOffset(offset);
   }
 
   /**
@@ -164,14 +166,19 @@ public class SearchAction extends BaseAction {
    * The format of filter parameters is : OccurrenceSearchParameter.getParam*().
    */
   private void readFiltersFromRequest() {
-    for (OccurrenceSearchParameter occParam : OccurrenceSearchParameter.values()) {
-      String[] values = this.request.getParameterValues(occParam.getParam());
-      if (values != null) {
-        for (String paramValue : values) {
-          if (!isRangeParameter(occParam) && paramValue.contains(",")) {
-            filters.putAll(occParam.getParam(), Arrays.asList(paramValue.split(",")));
-          } else {
-            filters.put(occParam.getParam(), paramValue);
+    while (this.request.getParameterNames().hasMoreElements()) {
+      String parameter = (String) this.request.getParameterNames().nextElement();
+      OccurrenceSearchParameter occParameter =
+        (OccurrenceSearchParameter) VocabularyUtils.lookupEnum(parameter, OccurrenceSearchParameter.class);
+      if (occParameter != null) {
+        String[] values = this.request.getParameterValues(parameter);
+        if (values != null) {
+          for (String paramValue : values) {
+            if (!isRangeParameter(occParameter) && paramValue.contains(",")) {
+              filters.putAll(occParameter, Arrays.asList(paramValue.split(",")));
+            } else {
+              filters.put(occParameter, paramValue);
+            }
           }
         }
       }

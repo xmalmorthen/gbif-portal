@@ -26,13 +26,20 @@ var FADE_TIME = 250;
  */
 var OccurrenceWidget = (function ($,_) {  
   
+  /**
+   * Utility function that validates if the input string is empty.
+   */
   function isBlank(str) {
     return (!str || /^\s*$/.test(str));
   };
   
+  /**
+   * Inner object/function used for returning the OccurenceWidget instance.
+   */
   var InnerOccurrenceWidget = function () {        
   };
-  
+
+  //Prototype object extensions.
   InnerOccurrenceWidget.prototype = {
       
       /**
@@ -40,6 +47,11 @@ var OccurrenceWidget = (function ($,_) {
        */
       constructor: InnerOccurrenceWidget,
       
+      /**
+       * Initializes the widget.
+       * This function is not invoked during object construction to allow the executions of binding functions 
+       * that usually are not required during object construction. 
+       */
       init: function(options){
         this.appliedFilters = new Array();
         this.widgetContainer = options.widgetContainer;
@@ -51,6 +63,7 @@ var OccurrenceWidget = (function ($,_) {
         this.bindingsExecutor = options.bindingsExecutor;
       },
       
+      //IsBlank
       isBlank : isBlank,
       
       getId : function() {
@@ -106,12 +119,14 @@ var OccurrenceWidget = (function ($,_) {
         if(this.filterElement != null) {
           var appliedFilters = this.filterElement.find(".appliedFilters");
           appliedFilters.empty();
-          var filtersContainer = appliedFilters.append("<ul style='list-style: none;'></ul>"); 
+          var filtersContainer = $("<ul style='list-style: none;display:block;'></ul>"); 
+          appliedFilters.append(filtersContainer); 
           var templateFilter = _.template($("#template-applied-filter").html());
           var self = this;
           for(var i=0; i < this.appliedFilters.length; i++) {
             var currentFilter = this.appliedFilters[i];
-            var newFilter = filtersContainer.append($(templateFilter({title:currentFilter.value, paramName: this.getId(), key: currentFilter.key, value: currentFilter.value})));          
+            var newFilter = $(templateFilter({title:currentFilter.value, paramName: this.getId(), key: currentFilter.key, value: currentFilter.value}));
+            filtersContainer.append(newFilter);          
             newFilter.find(".closeFilter").click(function(e){
               self.removeFilter(currentFilter);
               self.showAppliedFilters();
@@ -194,22 +209,32 @@ var OccurrenceWidget = (function ($,_) {
       
       bindAddFilterControl : function() {
         var self = this;
-        this.filterElement.find(".addFilter").click( function(e){          
-          //gets the value of the input field            
-          var input = self.filterElement.find(":input[type='text'][name=" + self.id + "]:first");                    
-          var value = input.val();            
-          if(!isBlank(value)){            
-            var key = "";
-            //Autocompletes store the selected key in "key" attribute
-            if (input.attr("key") !== undefined) {
-              key = input.attr("key"); 
-            }
-            self.addAppliedFilter({value: value, key:key});            
-            self.showAppliedFilters();
-            input.val('');
+        var input = this.filterElement.find(":input[name=" + this.id + "]:first");
+        input.keyup(function(event){
+          if(event.keyCode == 13){
+            self.addFilterControlEvent(self, input);
           }
+        });
+
+        this.filterElement.find(".addFilter").click( function(e){          
+          self.addFilterControlEvent(self, input);
         });  
-      }      
+      },
+      
+      addFilterControlEvent : function (self,input){        
+        //gets the value of the input field            
+        var value = input.val();            
+        if(!isBlank(value)){            
+          var key = "";
+          //Autocompletes store the selected key in "key" attribute
+          if (input.attr("key") !== undefined) {
+            key = input.attr("key"); 
+          }
+          self.addAppliedFilter({value: value, key:key});            
+          self.showAppliedFilters();
+          input.val('');
+        }
+      }
   }
   
   return InnerOccurrenceWidget;
