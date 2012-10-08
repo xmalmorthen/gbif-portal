@@ -12,7 +12,6 @@ import org.gbif.api.model.common.search.Facet;
 import org.gbif.api.model.common.search.FacetedSearchRequest;
 import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.service.common.SearchService;
-import org.gbif.api.util.VocabularyUtils;
 import org.gbif.portal.model.FacetInstance;
 
 import java.util.Iterator;
@@ -112,7 +111,7 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
         String key = kvIter.next();
         String val = kvIter.next();
         // potentially translate facet values
-        P facet = (P) VocabularyUtils.lookupEnum(key, searchType);
+        P facet = getSearchParam(key);
         if (facet != null) {
           val = translateFilterValue(facet, val);
         }

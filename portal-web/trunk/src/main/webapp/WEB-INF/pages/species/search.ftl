@@ -31,8 +31,8 @@
 
     <form action="<@s.url value='/species/search'/>" method="GET" id="formSearch">
       <input id="q" type="text" name="q" value="${q!}"/>
-    <#list facets?keys as facetFilter>
-      <#list facets.get(facetFilter) as filterValue>
+    <#list facetFilters?keys as facetFilter>
+      <#list facetFilters.get(facetFilter) as filterValue>
         <input type="hidden" name="${facetFilter!?lower_case}" value="${filterValue.name!}" class="focus"/>
       </#list>
     </#list>

@@ -90,7 +90,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
 
     for (String p : params.keySet()) {
       // recognize facets by enum name
-      P param = (P) VocabularyUtils.lookupEnum(p, searchType);
+      P param = getSearchParam(p);
       if (param != null) {
         // filter found
         for (String v : params.get(p)) {
@@ -100,6 +100,17 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
     }
   }
 
+  /**
+   * @param name
+   * @return the search enum or null if it cant be converted
+   */
+  public P getSearchParam(String name) {
+    try {
+      return (P) VocabularyUtils.lookupEnum(name, searchType);
+    } catch (Exception e) {
+      return null;
+    }
+  }
   /**
    * Optional hook for concrete search actions to define custom translations of filter values
    * before they are send to the search service.
