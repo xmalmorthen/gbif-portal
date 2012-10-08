@@ -6,7 +6,7 @@ backend jawa {
 backend balancer {    
   .host = "130.226.238.134";       
   .port = "http";     
-}       
+}    
 
 acl purge {
   "localhost";
@@ -38,10 +38,14 @@ sub vcl_recv {
     error 404 "Not found";
   }
   
-  if (req.url ~ "^/lookup/name_usage"){
+  if (req.url ~ "^/lookup/"){
     set req.http.host="balancer.gbif.org";
     set req.backend = balancer;
-    set req.url = regsub(req.url, "^/lookup/name_usage", "/ws-nub/nub");
+    if (req.url ~ "^/lookup/name_usage"){
+      set req.url = regsub(req.url, "^/lookup/name_usage", "/ws-nub/nub");
+    } else if (req.url ~ "^/lookup/reverse_geocode"){
+      set req.url = regsub(req.url, "^/lookup/reverse_geocode", "/geocode-ws/reverse");
+    }
 
   } else {
     if ( req.url ~ "^/name_usage/search") {
