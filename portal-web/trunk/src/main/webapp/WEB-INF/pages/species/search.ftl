@@ -129,7 +129,7 @@
           </div>
 
         <#assign seeAllFacets = ["HIGHERTAXON","RANK","CHECKLIST"]>
-        <#assign facets= ["CHECKLIST","HIGHERTAXON","RANK","TAXSTATUS","EXTINCT","THREAT","MARINE"]>
+        <#assign facets= ["CHECKLIST","HIGHERTAXON","RANK","TAXSTATUS","EXTINCT","THREAT","HABITAT"]>
         <#include "/WEB-INF/inc/facets.ftl">
 
           <div class="last">

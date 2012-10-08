@@ -461,8 +461,6 @@
           The portal loads user data directly via mybatis from the drupal database, we therefore need these db settings.
         -->
         <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
-        <drupal.db.url>jdbc:mysql://nerf.gbif.org:3306/drupal_w2?useUnicode=true&amp;characterEncoding=UTF8&amp;characterSetResults=UTF8</drupal.db.url>
-        <drupal.db.username>drupw2sel</drupal.db.username>
         <!-- trusted application credentials -->
         <application.key>gbif.portal</application.key>
 

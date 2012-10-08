@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.UUID;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,8 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class BaseAction extends ActionSupport implements SessionAware, ServletRequestAware, ServletContextAware {
-
-  private static final Logger LOG = LoggerFactory.getLogger(BaseAction.class);
+  protected final Logger LOG = LoggerFactory.getLogger(getClass());
   protected Map<String, Object> session;
   protected HttpServletRequest request;
   protected ServletContext ctx;

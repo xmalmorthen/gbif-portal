@@ -1,6 +1,6 @@
 <#--
 This include requires 2 arrays to be set:
- facets: list of facet names just as the FacetParameter enums provide
+ facets: list of facet names just as the SearchParameter enums provide
  seeAllFacets: list of optional facets to always show completely, never via a popup
 -->
 <#list facets as facetName>
@@ -26,7 +26,7 @@ This include requires 2 arrays to be set:
             <#assign seeAll=true>
             <#break>
           </#if>
-          <#if !(action.isInFilter(facetName,count.name))>
+          <#if !(isInFilter(facetName,count.name))>
             <#assign displayedFacets = displayedFacets + 1>
             <li>
               <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})

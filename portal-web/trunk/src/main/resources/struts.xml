@@ -245,10 +245,6 @@
       <result>/WEB-INF/pages/member/home.ftl</result>
     </action>
 
-    <action name="search" class="org.gbif.portal.action.member.SearchAction">
-      <result>/WEB-INF/pages/member/search.ftl</result>
-    </action>
-
     <action name="{id}" class="org.gbif.portal.action.member.RedirectAction">
       <result type="redirect">${redirectUrl}</result>
     </action>

@@ -9,7 +9,8 @@
 package org.gbif.portal.action.species;
 
 import org.gbif.api.model.checklistbank.Constants;
-import org.gbif.api.model.checklistbank.search.NameUsageFacetParameter;
+import org.gbif.api.model.checklistbank.search.NameUsageSearchParameter;
+import org.gbif.api.model.checklistbank.search.NameUsageSearchRequest;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
 import org.gbif.api.service.checklistbank.NameUsageSearchService;
 import org.gbif.api.service.checklistbank.NameUsageService;
@@ -26,20 +27,15 @@ import java.util.UUID;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 
 /**
  * The action for all species search operations.
  */
-public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult, NameUsageFacetParameter> {
+public class SearchAction 
+  extends BaseFacetedSearchAction<NameUsageSearchResult, NameUsageSearchParameter, NameUsageSearchRequest> {
 
-  private static final String CHECKLIST_KEY_PARAM = "checklistKey";
-  private static final String NUB_KEY_PARAM = "nubKey";
   private static final long serialVersionUID = -3736915206911951300L;
-
-  private Integer nubKeyFilter;
 
   // injected
   private final NameUsageService usageService;
@@ -55,7 +51,7 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   @Inject
   public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService, DatasetService checklistService) {
-    super(nameUsageSearchService, NameUsageFacetParameter.class);
+    super(nameUsageSearchService, NameUsageSearchParameter.class, new NameUsageSearchRequest());
     this.usageService = usageService;
     this.checklistService = checklistService;
     initGetTitleFunctions();
@@ -64,9 +60,6 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
 
   @Override
   public String execute() {
-    searchRequest.setMultiSelectFacets(true);
-    // Turn off highlighting for empty query strings
-    searchRequest.setHighlight(!getQ().isEmpty());
 
     super.execute();
 
@@ -77,51 +70,35 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
     }
 
     // replace higher taxon ids in facets with real names
-    lookupFacetTitles(NameUsageFacetParameter.HIGHERTAXON, getHigherTaxaTitle);
+    lookupFacetTitles(NameUsageSearchParameter.HIGHERTAXON_KEY, getHigherTaxaTitle);
 
     // replace checklist key with labels
-    lookupFacetTitles(NameUsageFacetParameter.CHECKLIST, getChecklistTitle);
+    lookupFacetTitles(NameUsageSearchParameter.DATASET_KEY, getChecklistTitle);
 
     // replace taxonomic status keys with labels
-    lookupFacetTitles(NameUsageFacetParameter.TAXSTATUS, getTaxStatusTitle);
+    lookupFacetTitles(NameUsageSearchParameter.STATUS, getTaxStatusTitle);
 
     // replace rank keys with labels
-    lookupFacetTitles(NameUsageFacetParameter.RANK, getRankTitle);
+    lookupFacetTitles(NameUsageSearchParameter.RANK, getRankTitle);
 
     // replace extinct boolean values
-    lookupFacetTitles(NameUsageFacetParameter.EXTINCT, getExtinctTitle);
+    lookupFacetTitles(NameUsageSearchParameter.EXTINCT, getExtinctTitle);
 
     // replace marine boolean values
-    lookupFacetTitles(NameUsageFacetParameter.MARINE, getMarineTitle);
+    lookupFacetTitles(NameUsageSearchParameter.HABITAT, getMarineTitle);
 
     // replace threat status keys values
-    lookupFacetTitles(NameUsageFacetParameter.THREAT, getThreatStatusTitle);
+    lookupFacetTitles(NameUsageSearchParameter.THREAT, getThreatStatusTitle);
 
     return SUCCESS;
-  }
-
-  /**
-   * @return the nubKey
-   */
-  public Integer getNubKey() {
-    return nubKeyFilter;
-  }
-
-  @Override
-  public Multimap<String, String> getRequestParameters() {
-    Multimap<String, String> params = HashMultimap.create();
-    if (nubKeyFilter != null) {
-      params.put(NUB_KEY_PARAM, nubKeyFilter.toString());
-    }
-    return params;
   }
 
   /**
    * @return true if the checklist facet filter contains a single checklist only.
    */
   public boolean getShowAccordingTo() {
-    return getFacets() == null || !getFacets().containsKey(NameUsageFacetParameter.CHECKLIST)
-      || getFacets().get(NameUsageFacetParameter.CHECKLIST).size() != 1;
+    return getFacetFilters() == null || !getFacetFilters().containsKey(NameUsageSearchParameter.DATASET_KEY)
+      || getFacetFilters().get(NameUsageSearchParameter.DATASET_KEY).size() != 1;
   }
 
 
@@ -227,18 +204,9 @@ public class SearchAction extends BaseFacetedSearchAction<NameUsageSearchResult,
   }
 
 
-  /**
-   * Request parameter for filtering results by nubKey.
-   * 
-   * @param nubKey the nubKey to set
-   */
-  public void setNubKey(Integer nubKey) {
-    this.nubKeyFilter = nubKey;
-  }
-
   @Override
-  protected String translateFacetValue(Enum<NameUsageFacetParameter> facet, String value) {
-    if (NameUsageFacetParameter.CHECKLIST.equals(facet) && value != null) {
+  protected String translateFilterValue(NameUsageSearchParameter facet, String value) {
+    if (NameUsageSearchParameter.DATASET_KEY.equals(facet) && value != null) {
       return value.equalsIgnoreCase("nub") ? Constants.NUB_TAXONOMY_KEY.toString() : value;
     }
     return value;

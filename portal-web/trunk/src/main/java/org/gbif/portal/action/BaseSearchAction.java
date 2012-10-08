@@ -13,24 +13,30 @@ package org.gbif.portal.action;
 
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.model.common.search.SearchParameter;
 import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.model.common.search.SearchResponse;
+import org.gbif.api.service.common.SearchService;
+import org.gbif.api.util.VocabularyUtils;
+
+import java.util.Map;
 
 import com.google.common.base.Strings;
 import org.apache.commons.lang3.StringUtils;
 
-import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
-import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
-
 
 /**
  * Class that encapsulates the basic functionality of free text search and paginated navigation.
- * The class builds a {@link PagingRequest} at creation time, the {@link PagingResponse} not use directly by this
- * class, it should be used for specific instances.
+ * The class expects a {@link SearchRequest} at creation time and delegates the parsing of search parameters to the
+ * concrete subclass that needs to implement
+ * {@link #readFilterParams}.
  * 
  * @param <T> the content type of the results
+ * @param <P> the search parameter enum
+ * @param <R> the request type
  */
-public abstract class BaseSearchAction<T> extends BaseAction {
+public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R extends SearchRequest<P>>
+  extends BaseAction {
 
   /**
    * Generated serialVersionUID
@@ -41,22 +47,72 @@ public abstract class BaseSearchAction<T> extends BaseAction {
    * Maximum # of characters shown in a highlighted field.
    */
   private static final int DEFAULT_HIGHLIGHT_TEXT_LENGTH = 110;
-
   public static final String HL_PRE = "<em class=\"gbifHl\">";
-
   public static final String HL_POST = "</em>";
 
-  protected SearchResponse<T> searchResponse;
+  protected final Class<P> searchType;
+  protected final SearchService<T, P, R> searchService;
+  protected final R searchRequest;
 
-  protected SearchRequest searchRequest;
+  protected SearchResponse<T, P> searchResponse;
   protected String q;
 
   /**
    * Default constructor
    */
-  public BaseSearchAction() {
-    // Initialize the request
-    this.searchRequest = new SearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
+  public BaseSearchAction(SearchService<T, P, R> searchService, Class<P> searchType, R searchRequest) {
+    this.searchService = searchService;
+    this.searchType = searchType;
+    this.searchRequest = searchRequest;
+  }
+
+  @Override
+  public String execute() {
+    LOG.info("Search for [{}]", getQ());
+    // default query parameters
+    searchRequest.setQ(getQ());
+    // Turn off highlighting for empty query strings
+    searchRequest.setHighlight(!Strings.isNullOrEmpty(q));
+    // adds parameters processed by subclasses
+    readFilterParams();
+    // issues the search operation
+    searchResponse = searchService.search(searchRequest);
+    LOG.debug("Search for [{}] returned {} results", getQ(), searchResponse.getCount());
+    return SUCCESS;
+  }
+
+  /**
+   * Implement this method to parse the filter parameters from the request and populate the request parameters.
+   * Make sure that empty parameters are set too to filter null values!
+   */
+  public void readFilterParams() {
+    final Map<String, String[]> params = request.getParameterMap();
+
+    for (String p : params.keySet()) {
+      // recognize facets by enum name
+      P param = (P) VocabularyUtils.lookupEnum(p, searchType);
+      if (param != null) {
+        // filter found
+        for (String v : params.get(p)) {
+          searchRequest.addParameter(param, translateFilterValue(param, v));
+        }
+      }
+    }
+  }
+
+  /**
+   * Optional hook for concrete search actions to define custom translations of filter values
+   * before they are send to the search service.
+   * For example to enable a simple checklist=nub filter without the need to know the real nub UUID.
+   * The values will NOT be translated for the UI and request parameters, only for the search and title lookup service!
+   * This method can be overriden to modify the returned value, by default it keeps it as it is.
+   *
+   * @param param the filter parameter the value belongs to
+   * @param value the value to translate or return as is
+   */
+  protected String translateFilterValue(P param, String value) {
+    // dont do anything by default
+    return value;
   }
 
   /**
@@ -104,7 +160,7 @@ public abstract class BaseSearchAction<T> extends BaseAction {
    * @return the searchResponse
    * @see PagingResponse
    */
-  public SearchResponse<T> getSearchResponse() {
+  public SearchResponse<T, P> getSearchResponse() {
     return searchResponse;
   }
 

@@ -8,7 +8,8 @@
  */
 package org.gbif.portal.action.dataset;
 
-import org.gbif.api.model.registry.search.DatasetFacetParameter;
+import org.gbif.api.model.registry.search.DatasetSearchParameter;
+import org.gbif.api.model.registry.search.DatasetSearchRequest;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
 import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.OrganizationService;
@@ -18,23 +19,18 @@ import java.util.UUID;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, DatasetFacetParameter> {
+public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, DatasetSearchParameter, DatasetSearchRequest> {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
   private static final long serialVersionUID = 1488419402277401976L;
 
   private OrganizationService orgService;
   private Function<String, String> getOrgTitle;
 
   @Inject
-  public SearchAction(DatasetSearchService<DatasetSearchResult> datasetSearchService, OrganizationService orgService) {
-    super(datasetSearchService, DatasetFacetParameter.class);
+  public SearchAction(DatasetSearchService datasetSearchService, OrganizationService orgService) {
+    super(datasetSearchService, DatasetSearchParameter.class, new DatasetSearchRequest());
     this.orgService = orgService;
     initGetTitleFunctions();
   }
@@ -60,22 +56,14 @@ public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, D
 
   @Override
   public String execute() {
-    searchRequest.setMultiSelectFacets(true);
-    // Turn off highlighting for empty query strings
-    searchRequest.setHighlight(!getQ().isEmpty());
 
     super.execute();
 
     // replace organisation keys with real names
-    lookupFacetTitles(DatasetFacetParameter.HOSTING_ORG, getOrgTitle);
-    lookupFacetTitles(DatasetFacetParameter.OWNING_ORG, getOrgTitle);
+    lookupFacetTitles(DatasetSearchParameter.HOSTING_ORG, getOrgTitle);
+    lookupFacetTitles(DatasetSearchParameter.OWNING_ORG, getOrgTitle);
 
     return SUCCESS;
-  }
-
-  @Override
-  public Multimap<String, String> getRequestParameters() {
-    return HashMultimap.create();
   }
 
 }
