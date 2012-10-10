@@ -16,9 +16,6 @@ import org.gbif.api.service.checklistbank.NameUsageSearchService;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.vocabulary.Language;
-import org.gbif.api.vocabulary.Rank;
-import org.gbif.api.vocabulary.TaxonomicStatus;
-import org.gbif.api.vocabulary.ThreatStatus;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 import org.gbif.portal.model.VernacularLocaleComparator;
 
@@ -44,7 +41,7 @@ public class SearchAction
   private Function<String, String> getChecklistTitle;
   private Function<String, String> getHigherTaxaTitle;
   private Function<String, String> getExtinctTitle;
-  private Function<String, String> getMarineTitle;
+  private Function<String, String> getHabitatTitle;
   private Function<String, String> getTaxStatusTitle;
   private Function<String, String> getRankTitle;
   private Function<String, String> getThreatStatusTitle;
@@ -85,7 +82,7 @@ public class SearchAction
     lookupFacetTitles(NameUsageSearchParameter.EXTINCT, getExtinctTitle);
 
     // replace marine boolean values
-    lookupFacetTitles(NameUsageSearchParameter.HABITAT, getMarineTitle);
+    lookupFacetTitles(NameUsageSearchParameter.HABITAT, getHabitatTitle);
 
     // replace threat status keys values
     lookupFacetTitles(NameUsageSearchParameter.THREAT, getThreatStatusTitle);
@@ -102,8 +99,15 @@ public class SearchAction
   }
 
 
+  private String getEnumTitle(String resourceEntry, String value) {
+    if (Strings.isNullOrEmpty(value)) {
+      return null;
+    }
+    return getText("enum." + resourceEntry + "." + value);
+  }
+
   private String getBooleanTitle(String resourceEntry, String value) {
-    if (Strings.emptyToNull(value) == null) {
+    if (Strings.isNullOrEmpty(value)) {
       return null;
     }
     if ("true".equalsIgnoreCase(value)) {
@@ -146,7 +150,7 @@ public class SearchAction
       }
     };
 
-    getMarineTitle = new Function<String, String>() {
+    getHabitatTitle = new Function<String, String>() {
       @Override
       public String apply(String name) {
         return getBooleanTitle("search.facet.MARINE", name);
@@ -156,48 +160,24 @@ public class SearchAction
     getRankTitle = new Function<String, String>() {
 
       @Override
-      public String apply(String id) {
-        if (Strings.emptyToNull(id) == null) {
-          return null;
-        }
-        // this is the ordinal, replace with enum
-        Rank status = Rank.values()[Integer.parseInt(id)];
-        if (status != null) {
-          return getText("enum.rank." + status.name());
-        }
-        return null;
+      public String apply(String name) {
+        return getEnumTitle("rank", name);
       }
     };
 
     getTaxStatusTitle = new Function<String, String>() {
 
       @Override
-      public String apply(String id) {
-        if (Strings.emptyToNull(id) == null) {
-          return null;
-        }
-        // this is the ordinal, replace with enum
-        TaxonomicStatus status = TaxonomicStatus.values()[Integer.parseInt(id)];
-        if (status != null) {
-          return getText("enum.taxstatus." + status.name());
-        }
-        return null;
+      public String apply(String name) {
+        return getEnumTitle("taxstatus", name);
       }
     };
 
     getThreatStatusTitle = new Function<String, String>() {
 
       @Override
-      public String apply(String id) {
-        if (Strings.emptyToNull(id) == null) {
-          return null;
-        }
-        // this is the ordinal, replace with enum
-        ThreatStatus status = ThreatStatus.values()[Integer.parseInt(id)];
-        if (status != null) {
-          return getText("enum.threatstatus." + status.name());
-        }
-        return null;
+      public String apply(String name) {
+        return getEnumTitle("threatstatus", name);
       }
     };
 

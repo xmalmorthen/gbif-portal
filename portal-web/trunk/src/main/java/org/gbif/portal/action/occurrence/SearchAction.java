@@ -1,8 +1,6 @@
 package org.gbif.portal.action.occurrence;
 
 import org.gbif.api.model.checklistbank.Constants;
-import org.gbif.api.model.common.paging.PagingRequest;
-import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
@@ -12,15 +10,14 @@ import org.gbif.api.service.occurrence.OccurrenceSearchService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
-import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.action.BaseSearchAction;
 
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
@@ -28,24 +25,13 @@ import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFF
 /**
  * Search action class for occurrence search page.
  */
-public class SearchAction extends BaseAction {
-
+public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchParameter, OccurrenceSearchRequest> {
 
   private static final long serialVersionUID = 4064512946598688405L;
 
-  private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
-
-  private final OccurrenceSearchService occurrenceSearchService;
-
   private final DatasetService datasetService;
-
-  private final OccurrenceSearchRequest searchRequest;
-
-  private PagingResponse<Occurrence> searchResponse;
-
-  private Multimap<OccurrenceSearchParameter, String> filters = HashMultimap.create();
-
   private final NameUsageService nameUsageService;
+
 
   /**
    * Constant that contains the prefix of a key to get a Basis of record name from the resource bundle file.
@@ -55,30 +41,15 @@ public class SearchAction extends BaseAction {
   @Inject
   public SearchAction(OccurrenceSearchService occurrenceSearchService, DatasetService datasetService,
     NameUsageService nameUsageService) {
-    this.searchRequest = new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT);
-    this.occurrenceSearchService = occurrenceSearchService;
+    super(occurrenceSearchService, OccurrenceSearchParameter.class, new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT));
     this.datasetService = datasetService;
     this.nameUsageService = nameUsageService;
-    LOG.info("Action built!");
   }
 
   @Override
   public String execute() {
-    LOG.debug("Exceuting query, params {}, limit {}, offset {}",
-      new Object[] {searchRequest.getParameters(), searchRequest.getLimit(), searchRequest.getOffset()});
-    readFiltersFromRequest();
-    searchRequest.setParameters(this.filters);
-    searchResponse = occurrenceSearchService.search(searchRequest);
-    return SUCCESS;
+    return super.execute();
   }
-
-  /**
-   * Allows exposing the Action class to the jsp level.
-   */
-  public SearchAction getAction() {
-    return this;
-  }
-
 
   public BasisOfRecord[] getBasisOfRecords() {
     return BasisOfRecord.values();
@@ -86,17 +57,11 @@ public class SearchAction extends BaseAction {
 
   /**
    * Gets the title of a data set byt its key.
+   * TODO: should this not be cached? or be a prepopulated map like we have in other places like UsageBaseAction?
    */
   public String getDatasetTitle(String datasetKey) {
     Dataset dataset = datasetService.get(datasetKey);
     return dataset.getTitle();
-  }
-
-  /**
-   * @return the filters
-   */
-  public Multimap<OccurrenceSearchParameter, String> getFilters() {
-    return filters;
   }
 
   /**
@@ -109,7 +74,7 @@ public class SearchAction extends BaseAction {
       if (parameter == OccurrenceSearchParameter.TAXON_KEY) {
         return nameUsageService.get(Integer.parseInt(filterValue), null).getScientificName();
       } else if (parameter == OccurrenceSearchParameter.BASIS_OF_RECORD) {
-        return this.getText(BASIS_OF_RECORD_KEY + filterValue);
+        return getText(BASIS_OF_RECORD_KEY + filterValue);
       }
     }
     return filterValue;
@@ -123,37 +88,6 @@ public class SearchAction extends BaseAction {
     return Constants.NUB_TAXONOMY_KEY.toString();
   }
 
-
-  /**
-   * Gets the offset value.
-   */
-  public long getOffset() {
-    return searchRequest.getOffset();
-  }
-
-  /**
-   * @return the response
-   */
-  public PagingResponse<Occurrence> getSearchResponse() {
-    return searchResponse;
-  }
-
-  /**
-   * @param filters the filters to set
-   */
-  public void setFilter(Multimap<OccurrenceSearchParameter, String> filters) {
-    this.filters = filters;
-  }
-
-
-  /**
-   * @param offset the offset to set
-   * @see PagingRequest#setOffset(long)
-   */
-  public void setOffset(long offset) {
-    searchRequest.setOffset(offset);
-  }
-
   /**
    * Checks is the parameters accepts range query.
    */
@@ -162,27 +96,29 @@ public class SearchAction extends BaseAction {
   }
 
   /**
-   * Reads the filters from the request parameters.
-   * The format of filter parameters is : OccurrenceSearchParameter.getParam*().
+   * Adjusts the range parameters, splitting range values on commas.
    */
-  private void readFiltersFromRequest() {
-    while (this.request.getParameterNames().hasMoreElements()) {
-      String parameter = (String) this.request.getParameterNames().nextElement();
-      OccurrenceSearchParameter occParameter =
-        (OccurrenceSearchParameter) VocabularyUtils.lookupEnum(parameter, OccurrenceSearchParameter.class);
-      if (occParameter != null) {
-        String[] values = this.request.getParameterValues(parameter);
-        if (values != null) {
-          for (String paramValue : values) {
-            if (!isRangeParameter(occParameter) && paramValue.contains(",")) {
-              filters.putAll(occParameter, Arrays.asList(paramValue.split(",")));
-            } else {
-              filters.put(occParameter, paramValue);
-            }
+  @Override
+  public void readFilterParams() {
+    super.readFilterParams();
+    // adjust range parameters
+    for (OccurrenceSearchParameter p : searchRequest.getParameters().keySet()) {
+      if (isRangeParameter(p)){
+        List<String> newValues = Lists.newArrayList();
+        Collection<String> values = searchRequest.getParameters().get(p);
+        for (String val : values) {
+          for (String part : val.split(",")) {
+            newValues.add(part);
           }
         }
+        searchRequest.getParameters().removeAll(p);
+        searchRequest.getParameters().putAll(p, newValues);
       }
     }
   }
 
+  // this method is only a convenience one exposing the request filters so the ftl templates dont need to be adapted
+  public Multimap<OccurrenceSearchParameter, String> getFilters(){
+    return searchRequest.getParameters();
+  }
 }
