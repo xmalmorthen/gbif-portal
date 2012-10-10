@@ -21,7 +21,8 @@ import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 
-public class SearchAction extends BaseFacetedSearchAction<DatasetSearchResult, DatasetSearchParameter, DatasetSearchRequest> {
+public class SearchAction
+  extends BaseFacetedSearchAction<DatasetSearchResult, DatasetSearchParameter, DatasetSearchRequest> {
 
   private static final long serialVersionUID = 1488419402277401976L;
 

@@ -22,9 +22,9 @@
     <h2>Search datasets</h2>
     <form action="<@s.url value='/dataset/search'/>" method="GET" id="formSearch">
       <input type="text" name="q" value="${q!}" class="focus"/>
-      <#list facetFilters?keys as facetFilter>
-        <#list facetFilters.get(facetFilter) as filterValue>
-        <input type="hidden" name="${facetFilter!?lower_case}" value="${filterValue.name!}"/>
+      <#list searchRequest.parameters.asMap()?keys as p>
+        <#list searchRequest.parameters.get(p) as val>
+        <input type="hidden" name="${p}" value="${val!}"/>
         </#list>
       </#list>
     </form>

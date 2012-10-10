@@ -111,6 +111,13 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
       return null;
     }
   }
+  public P getSearchParam() {
+    try {
+      return (P) VocabularyUtils.lookupEnum("RANK", searchType);
+    } catch (Exception e) {
+      return null;
+    }
+  }
   /**
    * Optional hook for concrete search actions to define custom translations of filter values
    * before they are send to the search service.
@@ -124,6 +131,23 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
   protected String translateFilterValue(P param, String value) {
     // dont do anything by default
     return value;
+  }
+
+  /**
+   * Checks if a parameter value is already selected in the current request filters.
+   * Public method used by html templates.
+   *
+   * @param param the facet name according to
+   */
+  public boolean isInFilter(P param, String value) {
+    if (param != null && searchRequest.getParameters().containsKey(param)) {
+      for (String v : searchRequest.getParameters().get(param)) {
+        if (v.equals(value)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   /**
@@ -175,6 +199,9 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
     return searchResponse;
   }
 
+  public R getSearchRequest() {
+    return searchRequest;
+  }
 
   /**
    * @param offset the offset to set

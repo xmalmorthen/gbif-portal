@@ -208,28 +208,11 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
       // there are facets in the response
       for (Facet<P> facet : searchResponse.getFacets()) {
         if (facet.getCounts() != null) {// the facet.Count are stored in the facetCounts field
-          facetFilters.put(facet.getField(), toFacetInstance(facet.getCounts()));
+          //facetFilters.put(facet.getField(), toFacetInstance(facet.getCounts()));
           facetCounts.put(facet.getField(), toFacetInstance(facet.getCounts()));
         }
       }
     }
-  }
-
-  /**
-   * Checks if a facet value is already selected in the current selected filters.
-   * Public method used by the html templates.
-   * 
-   * @param facet the facet name according to
-   */
-  public boolean isInFilter(P facet, String facetKey) {
-    if (facet != null && facetFilters.containsKey(facet)) {
-      for (FacetInstance facetInstance : facetFilters.get(facet)) {
-        if (facetInstance.getName().equals(facetKey)) {
-          return true;
-        }
-      }
-    }
-    return false;
   }
 
   /**
@@ -245,7 +228,7 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
     Map<String, String> names = Maps.newHashMap();
 
     // filters
-    if (getFacetFilters().containsKey(facet)) {
+    if (facetFilters.containsKey(facet)) {
       for (FacetInstance fi : getFacetFilters().get(facet)) {
         if (names.containsKey(fi.getName())) {
           fi.setTitle(names.get(fi.getName()));
@@ -262,9 +245,9 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
     }
 
     // facet counts
-    if (getFacetCounts().containsKey(facet.name())) {
-      for (int idx = 0; idx < getFacetCounts().get(facet.name()).size(); idx++) {
-        FacetInstance c = getFacetCounts().get(facet.name()).get(idx);
+    if (facetCounts.containsKey(facet)) {
+      for (int idx = 0; idx < facetCounts.get(facet).size(); idx++) {
+        FacetInstance c = getFacetCounts().get(facet).get(idx);
         if (names.containsKey(c.getName())) {
           c.setTitle(names.get(c.getName()));
         } else {
