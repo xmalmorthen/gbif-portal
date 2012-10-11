@@ -21,6 +21,7 @@ public class Config {
   private static final Logger LOG = LoggerFactory.getLogger(Config.class);
   public static final String SERVERNAME = "servername";
   public static final String APPLICATION_PROPERTIES = "/application.properties";
+  public static final String SUGGEST_PATH = "suggest";
 
   private String cas;
   private String serverName;
@@ -61,7 +62,7 @@ public class Config {
       cfg.drupal = getPropertyUrl(properties, "drupal.url", false);
       cfg.wsClb = getPropertyUrl(properties, "checklistbank.ws.url", true);
       cfg.wsClbSearch = getPropertyUrl(properties, "checklistbank.search.ws.url", true);
-      cfg.wsClbSuggest = cfg.wsClbSearch + "search/suggest";
+      cfg.wsClbSuggest = cfg.wsClbSearch + SUGGEST_PATH;
       cfg.wsReg = getPropertyUrl(properties, "registry.ws.url", true);
       cfg.wsRegSearch = getPropertyUrl(properties, "registry.search.ws.url", true);
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);

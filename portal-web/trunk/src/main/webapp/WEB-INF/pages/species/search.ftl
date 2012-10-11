@@ -10,7 +10,7 @@
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>
     <script>
-      $("#q").speciesAutosuggest(cfg.wsClbSuggest, 4, "#facetfilterCHECKLIST .facetKey", "#content", "canonicalName", "checklistTitle");
+      $("#q").speciesAutosuggest(cfg.wsClbSuggest, 4, "#facetfilterCHECKLIST .facetKey", "#content");
     </script>
   </content>
   <style type="text/css">

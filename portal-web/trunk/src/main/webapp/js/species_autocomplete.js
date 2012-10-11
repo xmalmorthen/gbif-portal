@@ -16,7 +16,7 @@
 	   * @param chklstKeysElementsSelector jquery/css selector for get the values of checklists key/ can be null (assuming  a server side default)
 	   * @param appendToElement parent element of generated widget
 	   */
-	  $.fn.speciesAutosuggest = function(wsServiceUrl,limit,chklstKeysElementsSelector,appendToElement,simpleFormat) {
+	  $.fn.speciesAutosuggest = function(wsServiceUrl,limit,chklstKeysElementsSelector,appendToElement) {
 		   //reference to the widget
 		   $this = $(this);
 		   //jquery ui autocomplete widget creation
@@ -29,11 +29,8 @@
 							limit: limit,
 							checklistKey: ( chklstKeysElementsSelector ? $.map($(chklstKeysElementsSelector),function(elem){return elem.value;}).pop() : undefined) //if the selector is null, the parameter is not sent
 						},
-						success: function(data){//response the data sent by the web service
-						  if(simpleFormat){
-						    response(data);
-						  }else{
-						    response( $.map(data.results, function( item ) {
+						success: function(data){//response the data sent by the web service						 
+						    response( $.map(data, function( item ) {
 		              return {
 		                label: item.scientificName,
 		                value: item.scientificName,
@@ -41,8 +38,6 @@
 		                higherClassificationMap: item.higherClassificationMap
 		              }
 		            }));
-						    
-						  }
 						}
 					});
 				},
