@@ -29,7 +29,7 @@
     // activates higher taxon links
     $('.higherTaxonLink').click( function(event){
       event.preventDefault();
-      addFacet('highertaxon', $(this).attr('key'));
+      addFacet('highertaxon_key', $(this).attr('key'));
 	  });
 
     // toggle facet box

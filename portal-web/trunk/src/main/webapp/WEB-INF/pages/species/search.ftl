@@ -10,7 +10,7 @@
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>
     <script>
-      $("#q").speciesAutosuggest(cfg.wsClbSuggest, 4, "#facetfilterCHECKLIST .facetKey", "#content");
+      $("#q").speciesAutosuggest(cfg.wsClbSuggest, 4, "#facetfilterDATASET_KEY .facetKey", "#content");
     </script>
   </content>
   <style type="text/css">
@@ -125,11 +125,11 @@
 
           <div id="resetFacets" currentUrl="">
             <input id="resetFacetsButton" value="reset" type="button"/>
-            <input class="defaultFacet" type="hidden" name="checklist" value="nub"/>
+            <input class="defaultFacet" type="hidden" name="dataset_key" value="nub"/>
           </div>
 
-        <#assign seeAllFacets = ["HIGHERTAXON","RANK","CHECKLIST"]>
-        <#assign facets= ["CHECKLIST","HIGHERTAXON","RANK","TAXSTATUS","EXTINCT","THREAT","HABITAT"]>
+        <#assign seeAllFacets = ["HIGHERTAXON_KEY","RANK","DATASET_KEY"]>
+        <#assign facets= ["DATASET_KEY","HIGHERTAXON_KEY","RANK","STATUS","EXTINCT","THREAT","HABITAT"]>
         <#include "/WEB-INF/inc/facets.ftl">
 
           <div class="last">

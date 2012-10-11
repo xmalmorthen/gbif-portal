@@ -292,7 +292,7 @@
               <a href="<@s.url value='/species/${usage.getHigherRankKey(r)?c}'/>">${usage.getHigherRank(r)}</a>
             </#if>
           <#elseif (usage.getNumByRank(r)>0)>
-            <a href="<@s.url value='/species/search/?rank=${r.ordinal()}&highertaxon=${usage.key?c}'/>">${usage.getNumByRank(r)}</a>
+            <a href="<@s.url value='/species/search/?status=ACCEPTED&dataset_key=${usage.datasetKey}&rank=${r}&highertaxon_key=${usage.key?c}'/>">${usage.getNumByRank(r)}</a>
           <#else>
             ---
           </#if>
