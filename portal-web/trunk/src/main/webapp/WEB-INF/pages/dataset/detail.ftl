@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
     <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
     <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
+<#if dataset.geographicCoverages?has_content>
     <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
+</#if>
   </content>  
 </head>
 <body onload="initBB()" class="densitymap">

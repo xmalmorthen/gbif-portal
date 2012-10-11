@@ -1877,6 +1877,9 @@ init();
       // Save the updated $ps reference into our data object
       data.$ps = $ps;
       data.$breadcrumb = $breadcrumb;
+      // store the datasetKey
+      var $cid = $breadcrumb.find("li").attr("cid");
+      data.datasetKey = $cid;
 
       // Save the taxonomicExplorer data
       $this.data(store, data);
@@ -1885,7 +1888,6 @@ init();
       $this.find('.inner').jScrollPane({ verticalDragMinHeight: 20});
 
       // No, display the root taxa.
-      var $cid = $breadcrumb.find("li").attr("cid");
       $url = cfg.wsClb + "name_usage/root/" + $cid + "?offset=0&limit=" + $limit;
       //create the tree with the root taxa
       recreateTree($url);
@@ -1921,7 +1923,7 @@ init();
         $(data.results).each(function() {
           $htmlContent = '<li spid="' + this.key + '">';
           $htmlContent += '<span class="sciname">' + canonicalOrScientificName(this) + "</span>";
-          $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank.interpreted || "unknown")) + "</span>";
+          $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank || "unknown")) + "</span>";
           if (this.numDescendants>0) {
             $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";
           }
@@ -1978,7 +1980,7 @@ init();
         var $spname = $(this).text();
         // format HTML that will be appended to the breadcrumb
         var $item = '<li spid="' + $spid + '" class="last" style="opacity:0;">' + $spname + '</li>';
-        $breadcrumb.append($item);
+        $breadcrumb.find("ul").append($item);
         // make the new breadcrumb element appear with a slow transition
         $breadcrumb.find("li:last").animate({opacity:1}, data.settings.transitionSpeed);
         // url to call to recreate the taxonomic tree
@@ -1994,45 +1996,49 @@ init();
           //reset paging values
           $offset = 0;
 
-          var $BC = ($this).find(".breadcrumb");
-          var $ulBC = ($this).find(".sp ul");
+          var $BC = $breadcrumb.find("ul");
           var $spidBC = $(this).attr("spid");
-          var $cid = $(this).attr("cid");
           var $wsUrl = "";
           // url to call to recreate the taxonomic tree
           // if a user clicks ALL, the root tree of the checklist should be displayed
-          if ($spidBC < 0) {
-            $wsUrl = cfg.wsClb + "name_usage/root/" + $cid + "?offset=" + $offset + "&limit=" + $limit;
-          } else {
+          if ($spidBC) {
             $wsUrl = cfg.wsClb + "name_usage/" + $spidBC + "/children?offset=" + $offset + "&limit=" + $limit;
+          } else {
+            $wsUrl = cfg.wsClb + "name_usage/root/" + data.datasetKey + "?offset=" + $offset + "&limit=" + $limit;
           }
 
           //recreate the taxonomic tree
           recreateTree($wsUrl);
 
-          // user click on "ALL" element in the breadcrumb, just display "ALL" on the breadcrumb
-          if ($spidBC < 0) {
-            $htmlContent = "<li spid=\"-1\" cid=\"" + $cid + "\"><a href=\"#\">All</a></li>";
-            $BC.html($htmlContent);
-          } else {
-            // show the normal classification breadcrumb
+          // always display "ALL" in the beginning of the breadcrumb
+          $htmlContent = '<li class="last"><a href="#">All</a></li>';
+          if ($spidBC) {
+            // show the classification breadcrumb entries
             $.getJSON(cfg.wsClb + "name_usage/" + $spidBC + "?callback=?", function(data) {
-              $htmlContent = "<li spid=\"-1\" cid=\"" + data.checklistKey + "\"><a href=\"#\">All</a></li>";
-              $.each(data.higherClassificationMap, function(speciesId, speciesName) {
-                $htmlContent += "<li spid=\"" + speciesId + "\"><a href=\"#\">";
-                $htmlContent += speciesName;
-                $htmlContent += "</a></li>";
-              });
-              $htmlContent +=
-              "<li class=\"last\" style=\"opacity:1;\" spid=\"" + data.key + "\">" + data.canonicalOrScientificName +
-                "</li>";
+              $htmlContent += breadcrumbEntry(data, data.kingdomKey, data.kingdom);
+              $htmlContent += breadcrumbEntry(data, data.phylumKey, data.phylum);
+              $htmlContent += breadcrumbEntry(data, data.classKey, data.clazz);
+              $htmlContent += breadcrumbEntry(data, data.orderKey, data.order);
+              $htmlContent += breadcrumbEntry(data, data.familyKey, data.family);
+              $htmlContent += breadcrumbEntry(data, data.genusKey, data.genus);
+              $htmlContent += breadcrumbEntry(data, data.speciesKey, data.species);
+              $htmlContent += '<li class="last" style="opacity:1;" spid="' + data.key + '">' + canonicalOrScientificName(data) + '</li>';
               $BC.html($htmlContent);
             });
+          } else {
+            $BC.html($htmlContent);
           }
         }
       });
     });
   };
+
+  function breadcrumbEntry(usage, key, name){
+    if (key && usage.key!=key) {
+      return '<li spid="' + key + '"><a href="#">' + name + '</a></li>';
+    }
+    return '';
+  }
 
   // Build popover
   function _goto($ps, gotoLevel) {
@@ -2042,13 +2048,15 @@ init();
     // Calculate the number of pages we have to move
     var steps = level - gotoLevel;
 
+    console.debug("gotoLevel "+gotoLevel);
     if (gotoLevel == 0) { // if we're going to the first page
       $ps.find(".sp").scrollTo(0, steps * data.settings.transitionSpeed, {axis: "x", onAfter: function() {
 
         $breadcrumb.find("li").slice(1).animate({opacity:0}, 150, function() {
           $(this).remove();
 
-          $breadcrumb.html('<li class="last">All</a>');
+          console.debug("breadcrumb bad");
+          $breadcrumb.html('<li class="last level0">All</a>');
           stopBack = false;
         });
 
