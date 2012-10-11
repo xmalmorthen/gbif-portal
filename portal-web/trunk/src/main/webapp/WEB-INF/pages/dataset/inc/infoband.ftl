@@ -63,7 +63,7 @@
         <li><h4>${(metrics.getCountByRank(speciesRank))!"?"}</h4>Species</li>
         <li class="last"><h4>${(metrics.countIndexed)!"?"}</h4>Taxa</li>
       </ul>
-      <a href="<@s.url value='/species/search/?datasetKey=${id!}'/>" title="View species" class="candy_blue_button"><span>View species</span></a>
+      <a href="<@s.url value='/species/search/?dataset_key=${id!}'/>" title="View species" class="candy_blue_button"><span>View species</span></a>
     </div>
   </div>
 </#if>
