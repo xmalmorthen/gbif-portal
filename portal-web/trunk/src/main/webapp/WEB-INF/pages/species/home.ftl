@@ -29,19 +29,19 @@
       <div class="example">
 </div>
       <ul class="species">
-        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon=359'/>" title="Mammals">Mammals</a></li>
-        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon=212'/>" title="Birds">Birds</a></li>
-        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon=216'/>" title="Insects">Insects</a></li>
-        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon=358'/>" title="Reptiles">Reptiles</a></li>
+        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon_key=359'/>" title="Mammals">Mammals</a></li>
+        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon_key=212'/>" title="Birds">Birds</a></li>
+        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon_key=216'/>" title="Insects">Insects</a></li>
+        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon_key=358'/>" title="Reptiles">Reptiles</a></li>
         <#--
          see http://en.wikipedia.org/wiki/Fish#Taxonomy
          MISSING FROM THESE FISH FILTERS ARE THE FOLLOWING, WHICH ARE NOT IN COL:
           - Placodermi
         -->
-        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon=119&highertaxon=120&highertaxon=121&highertaxon=204&highertaxon=238&highertaxon=239&highertaxon=4853178&highertaxon=3238258&highertaxon=4836892&highertaxon=4815623'/>" title="Fishes">Fishes</a></li>
-        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon=797'/>" title="Butterflies">Butterflies</a></li>
-        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon=5'/>" title="Lizards">Fungi</a></li>
-        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon=49'/>" title="Lizards">Flowering Plants</a></li>
+        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon_key=119&highertaxon_key=120&highertaxon_key=121&highertaxon_key=204&highertaxon_key=238&highertaxon_key=239&highertaxon_key=4853178&highertaxon_key=3238258&highertaxon_key=4836892&highertaxon_key=4815623'/>" title="Fishes">Fishes</a></li>
+        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon_key=797'/>" title="Butterflies">Butterflies</a></li>
+        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon_key=5'/>" title="Lizards">Fungi</a></li>
+        <li><a href="<@s.url value='/species/search?q=&dataset_key=nub&highertaxon_key=49'/>" title="Lizards">Flowering Plants</a></li>
       </ul>
       <div class="results">
         <ul>
