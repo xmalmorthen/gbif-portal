@@ -326,7 +326,7 @@
       <div class="right">
         <div class="big_number">
           <span>${numOccurrences}</span>
-          <a href="<@s.url value='/occurrence/search?nubKey=${usage.key?c}'/>">occurrences</a>
+          <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}'/>">occurrences</a>
         </div>
 
         <#--
@@ -481,7 +481,7 @@
               <#assign counter=counter+1 />
               <#assign title=datasets.get(uuid).title! />
               <li>
-                <a title="${title}" href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${uuid}'/>">${common.limit(title, 55)}</a>
+                <a title="${title}" href="<@s.url value='/occurrence/search?taxon_key=${usage.nubKey?c}&dataset_key=${uuid}'/>">${common.limit(title, 55)}</a>
                 <span class="note"> in 99 occurrences</span>
               </li>
             </#if>
