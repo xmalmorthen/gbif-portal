@@ -21,7 +21,7 @@
         $(data.results).each(function() {
           var speciesLink = "<@s.url value='/species/'/>" + this.key;
           $htmlContent = '<li spid="' + this.key + '">';
-          $htmlContent += '<span class="sciname"><a href="'+speciesLink+'">' + this.canonicalOrScientificName + "</a></span>";
+          $htmlContent += '<span class="sciname"><a href="'+speciesLink+'">' + canonicalOrScientificName(this) + "</a></span>";
           $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank || "unknown")) + "</span>";
           if (this.numDescendants>0) {
             $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";

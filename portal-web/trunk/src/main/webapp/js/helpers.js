@@ -161,3 +161,14 @@ function setupZoom(map) {
 
   });
 }
+
+
+/**
+ * javascript version of NameUsage.getCanonicalOrScientificName()
+ */
+function canonicalOrScientificName(usage) {
+  if (usage.canonicalName) {
+    return usage.canonicalName;
+  }
+  return usage.scientificName;
+}

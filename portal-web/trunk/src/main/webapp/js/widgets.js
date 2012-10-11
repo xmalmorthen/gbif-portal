@@ -1920,7 +1920,7 @@ init();
       function renderUsages($ps, data){
         $(data.results).each(function() {
           $htmlContent = '<li spid="' + this.key + '">';
-          $htmlContent += '<span class="sciname">' + this.canonicalOrScientificName + "</span>";
+          $htmlContent += '<span class="sciname">' + canonicalOrScientificName(this) + "</span>";
           $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank.interpreted || "unknown")) + "</span>";
           if (this.numDescendants>0) {
             $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";
