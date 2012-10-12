@@ -57,7 +57,7 @@ sub vcl_recv {
     } else if ( req.url ~ "^/map") {
       set req.url = regsub(req.url, "^/map", "/tile-server");
 
-    } else if ( req.url ~ "^/occurrence/metrics") {
+    } else if ( req.url ~ "^/occurrence/count") {
       set req.url = regsub(req.url, "^/", "/metrics-ws/");
 
     } else if ( req.url ~ "^/occurrence") {
