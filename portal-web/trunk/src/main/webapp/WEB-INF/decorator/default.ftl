@@ -33,7 +33,7 @@
     cfg.wsOcc="${cfg.wsOcc!}";
     cfg.wsOccSearch="${cfg.wsOccSearch!}";
     cfg.tileServerBaseUrl="${cfg.tileServerBaseUrl!}";    
-    cfg.wsOccCatalogueNumberSearch = "${cfg.wsOccCatalogueNumberSearch!}";
+    cfg.wsOccCatalogNumberSearch = "${cfg.wsOccCatalogNumberSearch!}";
     cfg.wsOccCollectorNameSearch = "${cfg.wsOccCollectorNameSearch!}";
   </script>
   <#-- Load bundle properties. The action class can filter out which properties to show according to their key's prefixes -->

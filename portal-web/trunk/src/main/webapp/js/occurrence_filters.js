@@ -468,9 +468,9 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           }else if (filterName == "COLLECTOR_NAME") {
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCollectorNameAutosuggest});            
-          }else if (filterName == "CATALOGUE_NUMBER") {
+          }else if (filterName == "CATALOG_NUMBER") {
             newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCatalogueNumberAutosuggest});            
+            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCatalogNumberAutosuggest});            
           }else if (filterName == "BBOX") {
             newWidget = new OccurrenceLocationWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindMap});            
@@ -501,9 +501,9 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
         });        
       },
       
-      bindCatalogueNumberAutosuggest : function(){                
-        $(':input.catalogue_number_autosuggest').each( function(idx,el){
-          $(el).termsAutosuggest(cfg.wsOccCatalogueNumberSearch, "#content",4);
+      bindCatalogNumberAutosuggest : function(){                
+        $(':input.catalog_number_autosuggest').each( function(idx,el){
+          $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",4);
         });
       },
       

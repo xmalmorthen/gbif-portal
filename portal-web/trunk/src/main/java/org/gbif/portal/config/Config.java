@@ -9,7 +9,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.gbif.api.model.occurrence.search.Constants.CATALOGUE_NUMBER_PATH;
+import static org.gbif.api.model.occurrence.search.Constants.CATALOG_NUMBER_PATH;
 import static org.gbif.api.model.occurrence.search.Constants.COLLECTOR_NAME_PATH;
 
 /**
@@ -33,7 +33,7 @@ public class Config {
   private String wsOcc;
   private String wsOccSearch;
   private String wsOccCollectorNameSearch;
-  private String wsOccCatalogueNumberSearch;
+  private String wsOccCatalogNumberSearch;
   private String wsClbSuggest;
   private String tileServerBaseUrl;
 
@@ -67,7 +67,7 @@ public class Config {
       cfg.wsRegSearch = getPropertyUrl(properties, "registry.search.ws.url", true);
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
       cfg.wsOccSearch = getPropertyUrl(properties, "occurrence.search.ws.url", true);
-      cfg.wsOccCatalogueNumberSearch = cfg.wsOccSearch + CATALOGUE_NUMBER_PATH;
+      cfg.wsOccCatalogNumberSearch = cfg.wsOccSearch + CATALOG_NUMBER_PATH;
       cfg.wsOccCollectorNameSearch = cfg.wsOccSearch + COLLECTOR_NAME_PATH;
       cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
     } catch (IOException e) {
@@ -128,10 +128,10 @@ public class Config {
   }
 
   /**
-   * @return the wsOccCatalogueNumberSearch
+   * @return the wsOccCatalogNumberSearch
    */
-  public String getWsOccCatalogueNumberSearch() {
-    return wsOccCatalogueNumberSearch;
+  public String getWsOccCatalogNumberSearch() {
+    return wsOccCatalogNumberSearch;
   }
 
   /**

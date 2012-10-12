@@ -985,8 +985,8 @@
         },
         {
           "id":20,
-          "name":"Catalogue number",
-          "description":"Enter an catalogue number and 'is' or 'is like'. The filter will return records with the specified institution code.",
+          "name":"Catalog number",
+          "description":"Enter an catalog number and 'is' or 'is like'. The filter will return records with the specified institution code.",
           "renderer":"SelectAndTextbox",
           "data":{
             "predicate":[

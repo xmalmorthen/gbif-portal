@@ -152,8 +152,8 @@
       "options":[        
         {
           "id":6,
-          "name":"Catalogue number",
-          "description":"Enter a catalogue number. The filter will return records with the specified catalogue number.",
+          "name":"Catalog number",
+          "description":"Enter a catalog number. The filter will return records with the specified catalog number.",
           "renderer":"SelectAndTextbox",
           "data":{
             "predicate":[

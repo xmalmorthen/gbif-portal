@@ -30,7 +30,7 @@ public class PredicateFactoryTest {
     QUERY_FIELD_MAPPING.put("16", "i_month");
     QUERY_FIELD_MAPPING.put("18", "institution_code");
     QUERY_FIELD_MAPPING.put("19", "collection_code");
-    QUERY_FIELD_MAPPING.put("20", "catalogue_number");
+    QUERY_FIELD_MAPPING.put("20", "catalog_number");
   }
 
   @Test

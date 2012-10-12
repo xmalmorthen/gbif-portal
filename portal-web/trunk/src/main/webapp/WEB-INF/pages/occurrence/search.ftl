@@ -82,7 +82,7 @@
                   <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="BASIS_OF_RECORD" title="Basis Of Record" template-filter="template-basis-of-record-filter" class="filter-control">Basis of record</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="DATASET_KEY" title="Dataset" template-filter="template-add-filter" class="filter-control">Dataset</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="DATE" title="Collection date" template-filter="template-add-date-filter" class="filter-control">Collection date</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="CATALOGUE_NUMBER" title="Catalogue number" template-filter="template-add-filter" input-classes="value catalogue_number_autosuggest" class="filter-control">Catalogue number</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalog number..." data-filter="CATALOG_NUMBER" title="Catalog number" template-filter="template-add-filter" input-classes="value catalog_number_autosuggest" class="filter-control">Catalog number</a></li>
                   <li class="divider"></li>
                   <li class="more"><a tabindex="-1" href="#">Need a different filter?</a></li>
                 </ul>
@@ -102,7 +102,7 @@
         <td>
           <div class="header"> 
             <span class="code">${occ.key?c}</span> 
-            <#if occ.catalogNumber?has_content>· <span class="catalogue">Cat. ${occ.catalogNumber!}</span></#if>
+            <#if occ.catalogNumber?has_content>· <span class="catalog">Cat. ${occ.catalogNumber!}</span></#if>
           </div>
           <#if occ.scientificName?has_content><a href="<@s.url value='/occurrence/${occ.key?c}'/>">${occ.scientificName}</a></#if>
 
