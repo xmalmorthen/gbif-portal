@@ -5,23 +5,25 @@ This include requires 2 arrays to be set:
 -->
 <#list facets as facetName>
   <#assign facet = action.getSearchParam(facetName)>
+  <#assign minCnt = "< " + (facetMinimumCount.get(facet)!0) />
   <#assign displayedFacets = 0>
   <#assign seeAll = false>
 
-    <#if (facetCounts.get(facet)?has_content && facetCounts.get(facet)?size > 1)>
+    <#if (facetCounts.get(facet)?has_content && (selectedFacetCounts.get(facet)?has_content || facetCounts.get(facet)?size > 1))>
      <div class="refine">
       <h4><@s.text name="search.facet.${facetName}" /></h4>
       <div class="facet">
         <ul id="facetfilter${facetName}">
-        <#list selectedFacetCounts.get(facet) as count>
-          <#assign displayedFacets = displayedFacets + 1>
-          <li>
-            <#assign minCnt = "< " + facetMinimumCount.get(facet) />
-            <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count!minCnt})
-            <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" checked/>
-            <input type="hidden" value="${count.name!}" class="facetKey"/>
-          </li>
-        </#list>
+        <#if selectedFacetCounts.get(facet)?has_content>
+          <#list selectedFacetCounts.get(facet) as count>
+            <#assign displayedFacets = displayedFacets + 1>
+            <li>
+              <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count!minCnt})
+              <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" checked/>
+              <input type="hidden" value="${count.name!}" class="facetKey"/>
+            </li>
+          </#list>
+        </#if>
         <#list facetCounts.get(facet) as count>
           <#if seeAllFacets?seq_contains(facetName) && (displayedFacets > MaxFacets)>
             <#assign seeAll=true>
@@ -30,7 +32,7 @@ This include requires 2 arrays to be set:
           <#if !(action.isInFilter(facet,count.name))>
             <#assign displayedFacets = displayedFacets + 1>
             <li>
-              <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
+              <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count!minCnt})
               <input type="checkbox" value="&${facetName?lower_case}=${count.name!}"/>              
             </li>
           </#if>
@@ -49,7 +51,7 @@ This include requires 2 arrays to be set:
                      <#list facetCounts.get(facet) as count>
                     <li>
                     <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" <#if (action.isInFilter(facet,count.name))>checked</#if>>
-                     <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count})
+                     <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count!minCnt})
                     </li>
                     </#list>
                    </ul>

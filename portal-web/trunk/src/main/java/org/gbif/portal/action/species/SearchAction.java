@@ -94,8 +94,8 @@ public class SearchAction
    * @return true if the checklist facet filter contains a single checklist only.
    */
   public boolean getShowAccordingTo() {
-    return getFacetFilters() == null || !getFacetFilters().containsKey(NameUsageSearchParameter.DATASET_KEY)
-      || getFacetFilters().get(NameUsageSearchParameter.DATASET_KEY).size() != 1;
+    return !searchRequest.getParameters().containsKey(NameUsageSearchParameter.DATASET_KEY)
+      || searchRequest.getParameters().get(NameUsageSearchParameter.DATASET_KEY).size() != 1;
   }
 
 

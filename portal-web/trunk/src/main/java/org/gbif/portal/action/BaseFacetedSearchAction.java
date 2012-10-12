@@ -41,10 +41,9 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
   private static final Splitter querySplitter = Splitter.on("&").omitEmptyStrings();
   private static final Splitter paramSplitter = Splitter.on("=");
 
-  private final Map<P, List<FacetInstance>> facetFilters = Maps.newHashMap();
   private final Map<P, List<FacetInstance>> facetCounts = Maps.newHashMap();
   private final Map<P, Long> facetMinimumCount = Maps.newHashMap();
-
+  private final Map<P, List<FacetInstance>> selectedFacetCounts = Maps.newHashMap();
   /**
    * This constant restricts the maximum number of facet results to be displayed
    */
@@ -75,6 +74,8 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
     final String result = super.execute();
     // initializes the elements required by the UI
     initializeFacetsForUI();
+    initSelectedFacetCounts();
+    initMinCounts();
     // Remove selected facet filters that are not part of the response
     // removeNotShownFacetsFilters(searchResponse);
     return result;
@@ -83,17 +84,17 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
   /**
    * Searches for facetInstance.name in the list of FacetInstances.
    * 
-   * @param facetInstance to find
-   * @param facetInstances list of items to search
-   * @return true/false if the facetInstance.name exists in the facetInstances
+   * @param facet search parameter to find the value in
+   * @param name facet name to find
+   * @return the existing facet instance from the counts or null
    */
-  private boolean existFacetByName(FacetInstance facetInstance, List<FacetInstance> facetInstances) {
-    for (FacetInstance faceInstanceSelected : facetInstances) {
-      if (faceInstanceSelected.getName() != null && faceInstanceSelected.getName().equals(facetInstance.getName())) {
-        return true;
+  private FacetInstance findFacetInstanceByName(P facet, String name) {
+    for (FacetInstance fi : facetCounts.get(facet)) {
+      if (fi.getName() != null && fi.getName().equals(name)) {
+        return fi;
       }
     }
-    return false;
+    return null;
   }
 
   /**
@@ -145,56 +146,16 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
     return facetCounts;
   }
 
-  /**
-   * Holds the list of values selected in the user interface.
-   * For accessing this field the user interface should be able to referencing map data types.
-   * An example of usage of this field could be:
-   * <select id="RANK_FACET" name="facets['RANK']" multiple>
-   * In the previous example the selected elements of a "select" element will be stored as an array of String
-   * accessible using the key 'RANK'.
-   * 
-   * @return the facets selected values.
-   */
-  public Map<P, List<FacetInstance>> getFacetFilters() {
-    return facetFilters;
-  }
-
-  public int getMaxFacets() {
+   public int getMaxFacets() {
     return MAX_FACETS;
   }
 
   /**
-   * Gets (calculated field) the facet counts that were previously selected used
-   * 
+   * Gets the facet counts that are part of the current search request filter.
+   * Used in the facet UI.
    * @return the selected facet counts if any
    */
   public Map<P, List<FacetInstance>> getSelectedFacetCounts() {
-    Map<P, List<FacetInstance>> selectedFacetCounts = Maps.newHashMap();
-    if (facetCounts != null) {
-      for (P facet : facetCounts.keySet()) {
-        Long min = null;
-        List<FacetInstance> selectedFacets = Lists.newArrayList();
-        for (FacetInstance facetInstance : facetCounts.get(facet)) {
-          if (facetInstance.getCount() != null && (min == null || facetInstance.getCount() < min)) {
-            min = facetInstance.getCount();
-          }
-          if (isInFilter(facet, facetInstance.getName())) {
-            selectedFacets.add(facetInstance);
-          }
-        }
-        selectedFacetCounts.put(facet, selectedFacets);
-        facetMinimumCount.put(facet, min);
-      }
-    }
-    for (P facet : facetFilters.keySet()) {
-      for (FacetInstance facetInstance : facetFilters.get(facet)) {
-        boolean facetFound = existFacetByName(facetInstance, selectedFacetCounts.get(facet.name()));
-        if (!facetFound) {
-          facetInstance.setCount(null);
-          selectedFacetCounts.get(facet.name()).add(0, facetInstance);
-        }
-      }
-    }
     return selectedFacetCounts;
   }
 
@@ -215,6 +176,40 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
     }
   }
 
+  private void initMinCounts() {
+    if (!searchRequest.getParameters().isEmpty()) {
+      // calculate the minimum count for each facet
+      for (Facet<P> facet : searchResponse.getFacets()) {
+        Long min = null;
+        for (Facet.Count cnt: facet.getCounts()) {
+          if (cnt.getCount() != null && (min == null || cnt.getCount() < min)) {
+            min = cnt.getCount();
+          }
+        }
+        facetMinimumCount.put(facet.getField(), min);
+      }
+    }
+  }
+
+  private void initSelectedFacetCounts() {
+    if (!searchRequest.getParameters().isEmpty()) {
+      // convert request filters into facets instances
+      for (P facet : searchRequest.getParameters().keySet()) {
+        selectedFacetCounts.put(facet, Lists.<FacetInstance>newArrayList());
+        for (String filterValue : searchRequest.getParameters().get(facet)) {
+          FacetInstance facetInstance = findFacetInstanceByName(facet, filterValue);
+          if (facetInstance == null) {
+            facetInstance = new FacetInstance(filterValue);
+            facetInstance.setCount(null);
+            // also add them to the list of all counts so we will lookup titles
+            facetCounts.get(facet).add(facetInstance);
+          }
+          selectedFacetCounts.get(facet).add(facetInstance);
+        }
+      }
+    }
+  }
+
   /**
    * Utility function that sets facet titles.
    * The function uses a function parameter to accomplish this task.
@@ -226,24 +221,6 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
   protected void lookupFacetTitles(P facet, Function<String, String> getTitleFunction) {
     // "cache"
     Map<String, String> names = Maps.newHashMap();
-
-    // filters
-    if (facetFilters.containsKey(facet)) {
-      for (FacetInstance fi : getFacetFilters().get(facet)) {
-        if (names.containsKey(fi.getName())) {
-          fi.setTitle(names.get(fi.getName()));
-        } else {
-
-          try {
-            fi.setTitle(getTitleFunction.apply(fi.getName()));
-            names.put(fi.getName(), fi.getTitle());
-          } catch (Exception e) {
-            LOG.warn("Cannot lookup {} title for {}", new Object[] {facet.name(), fi.getName(), e});
-          }
-        }
-      }
-    }
-
     // facet counts
     if (facetCounts.containsKey(facet)) {
       for (int idx = 0; idx < facetCounts.get(facet).size(); idx++) {
