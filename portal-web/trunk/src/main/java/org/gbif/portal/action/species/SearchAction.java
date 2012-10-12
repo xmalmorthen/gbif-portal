@@ -9,6 +9,7 @@
 package org.gbif.portal.action.species;
 
 import org.gbif.api.model.checklistbank.Constants;
+import org.gbif.api.model.checklistbank.VernacularName;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchParameter;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchRequest;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
@@ -20,10 +21,14 @@ import org.gbif.portal.action.BaseFacetedSearchAction;
 import org.gbif.portal.model.VernacularLocaleComparator;
 
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 /**
@@ -55,6 +60,18 @@ public class SearchAction
   }
 
 
+  private void distinctVernacularNames(List<VernacularName> vernacularNames) {
+    Iterator<VernacularName> iter = vernacularNames.iterator();
+    Set<String> names = Sets.newHashSet();
+    while (iter.hasNext()) {
+      VernacularName vn = iter.next();
+      if (vn.getVernacularName() == null || names.contains(vn.getVernacularName().toLowerCase())) {
+        iter.remove();
+      }
+      names.add(vn.getVernacularName().toLowerCase());
+    }
+  }
+
   @Override
   public String execute() {
 
@@ -64,6 +81,8 @@ public class SearchAction
     VernacularLocaleComparator comparator = new VernacularLocaleComparator(Language.fromIsoCode(getLocale().getISO3Language()));
     for (NameUsageSearchResult u : searchResponse.getResults()) {
       Collections.sort(u.getVernacularNames(), comparator);
+      // distinct vernacular names by name alone
+      distinctVernacularNames(u.getVernacularNames());
     }
 
     // replace higher taxon ids in facets with real names
