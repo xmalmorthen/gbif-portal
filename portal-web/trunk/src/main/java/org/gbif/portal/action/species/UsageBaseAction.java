@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 public class UsageBaseAction extends BaseAction {
 
-  private static final Logger LOG = LoggerFactory.getLogger(UsageBaseAction.class);
+  protected final Logger LOG = LoggerFactory.getLogger(getClass());
 
   @Inject
   protected NameUsageService usageService;

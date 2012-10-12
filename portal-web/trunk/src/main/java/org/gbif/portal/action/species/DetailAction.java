@@ -54,6 +54,8 @@ public class DetailAction extends UsageBaseAction {
   private List<UUID> relatedDatasets = Lists.newArrayList();
 
   // various pagesizes used
+  private final Pageable page100 = new PagingRequest(0, 100);
+  private final Pageable page50 = new PagingRequest(0, 50);
   private final Pageable page20 = new PagingRequest(0, 20);
   private final Pageable page10 = new PagingRequest(0, 10);
   private final Pageable page6 = new PagingRequest(0, 6);
@@ -96,7 +98,7 @@ public class DetailAction extends UsageBaseAction {
       if (Strings.isNullOrEmpty(v.getVernacularName())) {
         continue;
       }
-      String id = v.getVernacularName() + "||";
+      String id = v.getVernacularName().toLowerCase() + "||";
       if (v.getLanguage() != null) {
         id = id + v.getLanguage().getIso2LetterCode();
       }
@@ -224,11 +226,11 @@ public class DetailAction extends UsageBaseAction {
     usage.setSynonyms(synonymResponse.getResults());
 
     // get vernacular names
-    usage.setVernacularNames(vernacularNameService.listByUsage(id, page20).getResults());
+    usage.setVernacularNames(vernacularNameService.listByUsage(id, page100).getResults());
     // get references
     usage.setReferences(referenceService.listByUsage(id, page10).getResults());
     // get description content table
-    for (Description d : descriptionService.listByUsage(id, page20).getResults()) {
+    for (Description d : descriptionService.listByUsage(id, page50).getResults()) {
       descriptionToc.addDescription(d);
     }
     // get distributions
@@ -238,7 +240,7 @@ public class DetailAction extends UsageBaseAction {
     // get typeSpecimens
     usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
     // get species profiles
-    usage.setSpeciesProfiles(speciesProfileService.listByUsage(id, page10).getResults());
+    usage.setSpeciesProfiles(speciesProfileService.listByUsage(id, page20).getResults());
   }
 
   public List<String> getHabitats() {

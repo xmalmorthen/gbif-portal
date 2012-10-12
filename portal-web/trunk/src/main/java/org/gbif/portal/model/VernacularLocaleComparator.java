@@ -40,4 +40,9 @@ public class VernacularLocaleComparator implements Comparator<VernacularName> {
 
     return v1.getVernacularName().compareToIgnoreCase(v2.getVernacularName());
   }
+
+  @Override
+  public String toString() {
+    return "VernacularLocaleComparator{" + locale + '}';
+  }
 }
