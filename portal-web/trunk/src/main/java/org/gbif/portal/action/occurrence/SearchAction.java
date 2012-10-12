@@ -12,10 +12,6 @@ import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.portal.action.BaseSearchAction;
 
-import java.util.Collection;
-import java.util.List;
-
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 
@@ -41,7 +37,8 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   @Inject
   public SearchAction(OccurrenceSearchService occurrenceSearchService, DatasetService datasetService,
     NameUsageService nameUsageService) {
-    super(occurrenceSearchService, OccurrenceSearchParameter.class, new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET, DEFAULT_PARAM_LIMIT));
+    super(occurrenceSearchService, OccurrenceSearchParameter.class, new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET,
+      DEFAULT_PARAM_LIMIT));
     this.datasetService = datasetService;
     this.nameUsageService = nameUsageService;
   }
@@ -64,6 +61,12 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return dataset.getTitle();
   }
 
+  // this method is only a convenience one exposing the request filters so the ftl templates dont need to be adapted
+  public Multimap<OccurrenceSearchParameter, String> getFilters() {
+    return searchRequest.getParameters();
+  }
+
+
   /**
    * Gets the displayable value of filter parameter.
    */
@@ -80,7 +83,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return filterValue;
   }
 
-
   /**
    * Gets the NUB key value.
    */
@@ -88,37 +90,4 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return Constants.NUB_TAXONOMY_KEY.toString();
   }
 
-  /**
-   * Checks is the parameters accepts range query.
-   */
-  private boolean isRangeParameter(OccurrenceSearchParameter param) {
-    return (param == OccurrenceSearchParameter.BOUNDING_BOX || param == OccurrenceSearchParameter.DATE);
-  }
-
-  /**
-   * Adjusts the range parameters, splitting range values on commas.
-   */
-  @Override
-  public void readFilterParams() {
-    super.readFilterParams();
-    // adjust range parameters
-    for (OccurrenceSearchParameter p : searchRequest.getParameters().keySet()) {
-      if (isRangeParameter(p)){
-        List<String> newValues = Lists.newArrayList();
-        Collection<String> values = searchRequest.getParameters().get(p);
-        for (String val : values) {
-          for (String part : val.split(",")) {
-            newValues.add(part);
-          }
-        }
-        searchRequest.getParameters().removeAll(p);
-        searchRequest.getParameters().putAll(p, newValues);
-      }
-    }
-  }
-
-  // this method is only a convenience one exposing the request filters so the ftl templates dont need to be adapted
-  public Multimap<OccurrenceSearchParameter, String> getFilters(){
-    return searchRequest.getParameters();
-  }
 }

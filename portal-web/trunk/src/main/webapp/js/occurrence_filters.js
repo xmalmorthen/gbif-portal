@@ -197,7 +197,13 @@ var OccurrenceWidget = (function ($,_) {
               if (input.attr("key") !== undefined) {
                 key = input.attr("key"); 
               }
-              self.applyFilter({value: value, key:key});            
+              if($.isArray(value)) {
+                for (var i = 0; i < value.length;i++) {
+                  self.applyFilter({value: value[i], key:key});
+                }
+              } else {
+                self.applyFilter({value: value, key:key});
+              }
               self.close();
             }
           }else {
@@ -456,22 +462,22 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
         $(element).find('.filter-control').each( function(idx,control){
           var filterName = $(control).attr("data-filter");
           var newWidget;
-          if(filterName == "nubKey"){
+          if(filterName == "TAXON_KEY"){
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindSpeciesAutosuggest});
-          }else if (filterName == "collectorName") {
+          }else if (filterName == "COLLECTOR_NAME") {
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCollectorNameAutosuggest});            
-          }else if (filterName == "catalogueNumber") {
+          }else if (filterName == "CATALOGUE_NUMBER") {
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCatalogueNumberAutosuggest});            
-          }else if (filterName == "bbox") {
+          }else if (filterName == "BBOX") {
             newWidget = new OccurrenceLocationWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindMap});            
-          }else if (filterName == "date") {
+          }else if (filterName == "DATE") {
             newWidget = new OccurrenceDateWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});            
-          }else if (filterName == "basisOfRecord") {
+          }else if (filterName == "BASIS_OF_RECORD") {
             newWidget = new OccurrenceBasisOfRecordWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});              
           }                  
@@ -485,16 +491,10 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
       },      
       bindSpeciesAutosuggest: function(){
         $(':input.species_autosuggest').each( function(idx,el){
-          $(el).speciesAutosuggest(cfg.wsClbSuggest + "/entities", 4, "#nubTaxonomyKey[value]", "#content",false);
+          $(el).speciesAutosuggest(cfg.wsClbSuggest, 4, "#nubTaxonomyKey[value]", "#content",false);
         });   
       },
-      
-      bindSpeciesAutosuggest: function(){
-        $(':input.species_autosuggest').each( function(idx,el){
-          $(el).speciesAutosuggest(cfg.wsClbSuggest + "/entities", 4, "#nubTaxonomyKey[value]", "#content",false);
-        });   
-      },
-      
+
       bindCollectorNameAutosuggest : function(){        
         $(':input.collector_name_autosuggest').each( function(idx,el){
           $(el).termsAutosuggest(cfg.wsOccCollectorNameSearch, "#content",4);
@@ -601,13 +601,15 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
             $.each(filterValues, function(idx,filter) {              
               filter.label = formatLabelByFilter(filter);              
               var occWidget = getWidgetById(filter.paramName);
-              occWidget.addAppliedFilter({key:filter.key,value:filter.value})     
-              var filterWidget = getFilterWidgetById(filter.paramName);
-              if(filterWidget == undefined){
-                filterWidget = new OccurrenceFilterWidget(filterTemplate,self.applyOccurrenceFilters,occWidget);
-                filterWidgets.push(filterWidget);
-              } 
-              filterWidget.addFilter(filter);              
+              if (occWidget != 'undefined') {
+                occWidget.addAppliedFilter({key:filter.key,value:filter.value})     
+                var filterWidget = getFilterWidgetById(filter.paramName);
+                if(filterWidget == undefined){
+                  filterWidget = new OccurrenceFilterWidget(filterTemplate,self.applyOccurrenceFilters,occWidget);
+                  filterWidgets.push(filterWidget);
+                } 
+                filterWidget.addFilter(filter);
+              }
             });
           });
           this.initFilterWidgets();

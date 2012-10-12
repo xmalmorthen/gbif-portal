@@ -76,13 +76,13 @@
               <div class="dropdown-menu filters">
                 <div class="tip"></div>
                 <ul>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="nubKey"  title="Scientific name" template-filter="template-add-filter" input-classes="value species_autosuggest" class="filter-control">Scientific name</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="bbox" title="Bounding Box" template-filter="map-template-filter" class="filter-control">Location</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="collectorName" title="Collector name" template-filter="template-add-filter" input-classes="value collector_name_autosuggest" class="filter-control">Collector</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="basisOfRecord" title="Basis Of Record" template-filter="template-basis-of-record-filter" class="filter-control">Basis of record</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="datasetKey" title="Dataset" template-filter="template-add-filter" class="filter-control">Dataset</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="date" title="Collection date" template-filter="template-add-date-filter" class="filter-control">Collection date</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="catalogueNumber" title="Catalogue number" template-filter="template-add-filter" input-classes="value catalogue_number_autosuggest" class="filter-control">Catalogue number</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="TAXON_KEY"  title="Scientific name" template-filter="template-add-filter" input-classes="value species_autosuggest" class="filter-control">Scientific name</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="BBOX" title="Bounding Box" template-filter="map-template-filter" class="filter-control">Location</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="COLLECTOR_NAME" title="Collector name" template-filter="template-add-filter" input-classes="value collector_name_autosuggest" class="filter-control">Collector</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="BASIS_OF_RECORD" title="Basis Of Record" template-filter="template-basis-of-record-filter" class="filter-control">Basis of record</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="DATASET_KEY" title="Dataset" template-filter="template-add-filter" class="filter-control">Dataset</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="DATE" title="Collection date" template-filter="template-add-date-filter" class="filter-control">Collection date</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="CATALOGUE_NUMBER" title="Catalogue number" template-filter="template-add-filter" input-classes="value catalogue_number_autosuggest" class="filter-control">Catalogue number</a></li>
                   <li class="divider"></li>
                   <li class="more"><a tabindex="-1" href="#">Need a different filter?</a></li>
                 </ul>
@@ -227,7 +227,7 @@
           <h4><%= title %></h4>
           <div class="filter">
             <span>              
-              <select name="basisOfRecord" multiple="multiple">
+              <select name="BASIS_OF_RECORD" multiple="multiple">
                 <#list basisOfRecords as basisOfRecord>
                   <option value="${basisOfRecord}">${action.getFilterTitle('basisOfRecord',basisOfRecord)}</option>
                 </#list> 
