@@ -482,7 +482,7 @@
               <#assign title=datasets.get(uuid).title! />
               <li>
                 <a title="${title}" href="<@s.url value='/occurrence/search?taxon_key=${usage.nubKey?c}&dataset_key=${uuid}'/>">${common.limit(title, 55)}</a>
-                <span class="note"> in 99 occurrences</span>
+                <span class="note"> in ${relatedDatasetsOccurrenceCounts.get(uuid)!0} occurrences</span>
               </li>
             </#if>
             <#if uuid_has_next && counter==6>

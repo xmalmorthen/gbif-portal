@@ -8,6 +8,9 @@ import org.gbif.api.model.checklistbank.VernacularName;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
+import org.gbif.api.model.metrics.cube.Dimension;
+import org.gbif.api.model.metrics.cube.OccurrenceCube;
+import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.service.checklistbank.DescriptionService;
 import org.gbif.api.service.checklistbank.DistributionService;
 import org.gbif.api.service.checklistbank.ImageService;
@@ -15,6 +18,7 @@ import org.gbif.api.service.checklistbank.ReferenceService;
 import org.gbif.api.service.checklistbank.SpeciesProfileService;
 import org.gbif.api.service.checklistbank.TypeSpecimenService;
 import org.gbif.api.service.checklistbank.VernacularNameService;
+import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.api.vocabulary.Language;
 import org.gbif.portal.model.VernacularLocaleComparator;
 
@@ -52,6 +56,8 @@ public class DetailAction extends UsageBaseAction {
   private final LinkedHashMap<String, List<VernacularName>> vernacularNames = Maps.newLinkedHashMap();
   private final List<NameUsage> related = new LinkedList<NameUsage>();
   private List<UUID> relatedDatasets = Lists.newArrayList();
+  // index to enable looking up how many occurrences of the taxon are in the dataset
+  private Map<UUID, Long> relatedDatasetsOccurrenceCounts = Maps.newHashMap();
 
   // various pagesizes used
   private final Pageable page100 = new PagingRequest(0, 100);
@@ -128,6 +134,19 @@ public class DetailAction extends UsageBaseAction {
     }
     for (UUID uuid : relatedDatasets) {
       loadDataset(uuid);
+      if (getDatasets().get(uuid) != null && DatasetType.OCCURRENCE == getDatasets().get(uuid).getType()) {
+        try {
+          // Populate the index for the number of occurrences for this taxon in the dataset
+          long count = occurrenceCubeService.get(
+            new ReadBuilder()
+              .at(OccurrenceCube.NUB_KEY, usage.getNubKey())
+              .at(OccurrenceCube.DATASET_KEY, uuid));
+          relatedDatasetsOccurrenceCounts.put(uuid,count);
+        } catch (Exception e) {
+          LOG.error("Unable to read occurrence cube for usage[" + usage.getKey() + "] dataset[" + usage.getDatasetKey()+ "]", e);
+        }
+        
+      }
     }
     for (NameUsageComponent c : usage.getExternalLinks()) {
       loadDataset(c.getDatasetKey());
@@ -245,5 +264,10 @@ public class DetailAction extends UsageBaseAction {
 
   public List<String> getHabitats() {
     return habitats;
+  }
+
+  
+  public Map<UUID, Long> getRelatedDatasetsOccurrenceCounts() {
+    return relatedDatasetsOccurrenceCounts;
   }
 }

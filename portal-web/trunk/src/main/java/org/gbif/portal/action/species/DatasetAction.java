@@ -1,6 +1,8 @@
 package org.gbif.portal.action.species;
 
 import org.gbif.api.model.checklistbank.NameUsage;
+import org.gbif.api.model.metrics.cube.OccurrenceCube;
+import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.vocabulary.DatasetType;
 
@@ -70,8 +72,17 @@ public class DatasetAction extends UsageBaseAction {
       List<UUID> relatedDatasets = usageService.listRelatedOccurrenceDatasets(usage.getNubKey());
 
       for (UUID uuid : relatedDatasets) {
-        //TODO: populate occurrences via metrics API
-        results.add(new DatasetResult(datasetService.get(uuid), -99, null));
+        int count = 0;
+        try {
+          // The occurrence dimensions are calculated for the dataset and the nub key 
+          count = (int) occurrenceCubeService.get(
+            new ReadBuilder()
+              .at(OccurrenceCube.DATASET_KEY, uuid)
+              .at(OccurrenceCube.NUB_KEY, usage.getKey()));
+        } catch (Exception e) {
+          LOG.error("Unable to read occurrence cube for usage[" + usage.getKey() + "] dataset[" + usage.getDatasetKey()+ "]", e);
+        }
+        results.add(new DatasetResult(datasetService.get(uuid), count, null));
       }
     }
 

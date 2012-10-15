@@ -5,9 +5,12 @@ import org.gbif.api.exception.ServiceUnavailableException;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.model.checklistbank.NameUsageContainer;
+import org.gbif.api.model.metrics.cube.OccurrenceCube;
+import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.checklistbank.NameUsageService;
+import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.exception.ReferentialIntegrityException;
@@ -31,12 +34,14 @@ public class UsageBaseAction extends BaseAction {
   protected DatasetService datasetService;
   @Inject
   protected DatasetMetricsService metricsService;
+  @Inject
+  protected CubeService occurrenceCubeService;
 
   protected Integer id;
   protected NameUsageContainer usage;
   protected Dataset dataset;
   protected DatasetMetrics metrics;
-  private int numOccurrences;
+  private long numOccurrences;
   protected Map<UUID, Dataset> datasets = new HashMap<UUID, Dataset>();
 
   public String getChecklistName(UUID key) {
@@ -62,7 +67,7 @@ public class UsageBaseAction extends BaseAction {
     return metrics;
   }
 
-  public int getNumOccurrences() {
+  public long getNumOccurrences() {
     return numOccurrences;
   }
 
@@ -122,8 +127,12 @@ public class UsageBaseAction extends BaseAction {
     } catch (ServiceUnavailableException e) {
       LOG.error("Failed to load checklist metrics for dataset {}", usage.getDatasetKey());
     }
-    // TODO: get occurrence metrics
-    numOccurrences = -99;
+    
+    try {
+      numOccurrences = occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.NUB_KEY, usage.getKey()));
+    } catch (ServiceUnavailableException e) {
+      LOG.error("Failed to load occurrence metrics for usage {}", usage.getKey());
+    }
   }
 
   public void setId(Integer id) {
