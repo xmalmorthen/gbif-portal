@@ -95,6 +95,11 @@ sub vcl_fetch {
     return (pass);
     #vcl3 return (hit_for_pass);
   }
+  
+  # do not cache changing metrics
+  if ( req.url ~ "^/metrics-ws") {
+    return (pass);
+  }  
 
   # cache for 12h
   set beresp.ttl = 12h;
