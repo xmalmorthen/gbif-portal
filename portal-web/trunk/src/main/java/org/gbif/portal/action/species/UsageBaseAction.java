@@ -131,7 +131,7 @@ public class UsageBaseAction extends BaseAction {
     try {
       numOccurrences = occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.NUB_KEY, usage.getKey()));
     } catch (ServiceUnavailableException e) {
-      LOG.error("Failed to load occurrence metrics for usage {}", usage.getKey());
+      LOG.error("Failed to load occurrence metrics for usage {}", usage.getKey(), e);
     }
   }
 

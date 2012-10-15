@@ -80,7 +80,7 @@ public class DatasetAction extends UsageBaseAction {
               .at(OccurrenceCube.DATASET_KEY, uuid)
               .at(OccurrenceCube.NUB_KEY, usage.getKey()));
         } catch (Exception e) {
-          LOG.error("Unable to read occurrence cube for usage[" + usage.getKey() + "] dataset[" + usage.getDatasetKey()+ "]", e);
+          LOG.error("Unable to read occurrence cube for usage[{}] dataset[{}]", new Object[]{usage.getKey(), usage.getDatasetKey()}, e);
         }
         results.add(new DatasetResult(datasetService.get(uuid), count, null));
       }
