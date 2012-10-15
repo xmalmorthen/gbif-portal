@@ -8,17 +8,23 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.model.metrics.cube.OccurrenceCube;
+import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry.search.DatasetSearchParameter;
 import org.gbif.api.model.registry.search.DatasetSearchRequest;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.OrganizationService;
+import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 
+import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 
 public class SearchAction
@@ -28,11 +34,16 @@ public class SearchAction
 
   private OrganizationService orgService;
   private Function<String, String> getOrgTitle;
+  private CubeService occurrenceCube;
+  
+  // Index of the record counts (occurrence or taxa)
+  private Map<String, Long> recordCounts = Maps.newHashMap();
 
   @Inject
-  public SearchAction(DatasetSearchService datasetSearchService, OrganizationService orgService) {
+  public SearchAction(DatasetSearchService datasetSearchService, OrganizationService orgService, CubeService occurrenceCube) {
     super(datasetSearchService, DatasetSearchParameter.class, new DatasetSearchRequest());
     this.orgService = orgService;
+    this.occurrenceCube = occurrenceCube;
     initGetTitleFunctions();
   }
 
@@ -54,17 +65,29 @@ public class SearchAction
       }
     };
   }
+  
+  
 
   @Override
   public String execute() {
-
     super.execute();
-
     // replace organisation keys with real names
     lookupFacetTitles(DatasetSearchParameter.HOSTING_ORG, getOrgTitle);
     lookupFacetTitles(DatasetSearchParameter.OWNING_ORG, getOrgTitle);
 
+    // populate counts
+    for (DatasetSearchResult dsr : getSearchResponse().getResults()) {
+      if (DatasetType.OCCURRENCE == dsr.getType()) {
+        UUID k = UUID.fromString(dsr.getKey());
+        Long count = occurrenceCube.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, k));
+        recordCounts.put(dsr.getKey(), count);
+      }
+    }
+    
     return SUCCESS;
   }
 
+  public Map<String, Long> getRecordCounts() {
+    return recordCounts;
+  }
 }

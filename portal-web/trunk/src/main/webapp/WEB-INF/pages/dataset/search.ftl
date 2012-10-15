@@ -50,7 +50,11 @@
             <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${dataset.title!}"><strong>${dataset.title!}</strong></a>
           </h2>
 
-          <p><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/> with -99 occurrences.</p>
+          <p><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/> 
+            <#if recordCounts.get(dataset.key)??>
+              with ${recordCounts.get(dataset.key)} records.
+            </#if>
+          </p>
 
           <div class="footer">
             <p>Published by <a href="<@s.url value='/organization/${dataset.owningOrganizationKey!}'/>" title="${dataset.owningOrganizationTitle!}">${dataset.owningOrganizationTitle!"Unknown"}</a></p>
