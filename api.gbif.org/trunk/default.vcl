@@ -60,6 +60,9 @@ sub vcl_recv {
     } else if ( req.url ~ "^/occurrence/count") {
       set req.url = regsub(req.url, "^/", "/metrics-ws/");
 
+    } else if ( req.url ~ "^/occurrence/search") {
+      set req.url = regsub(req.url, "^/occurrence", "/occurrence-ws");
+
     } else if ( req.url ~ "^/occurrence") {
       set req.url = regsub(req.url, "^/", "/occurrence-ws/");
 
