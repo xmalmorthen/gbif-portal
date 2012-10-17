@@ -111,7 +111,7 @@
         </td>
         <td class="country"><#if occ.country?has_content><div class="country">${occ.country.title!}</div></#if>
           <div class="coordinates">
-            <#if occ.latitude?has_content>${occ.latitude!?c}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?c}<#else>-</#if>
+            <#if occ.latitude?has_content>${occ.latitude!?string("0.00")}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?string("0.00")}<#else>-</#if>
           </div>
         </td>
         <td class="kind">${action.getFilterTitle('basisOfRecord',occ.basisOfRecord)!}</td>
