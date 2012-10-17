@@ -30,6 +30,7 @@
     cfg.wsClbSuggest="${cfg.wsClbSuggest!}";
     cfg.wsReg="${cfg.wsReg!}";
     cfg.wsRegSearch="${cfg.wsRegSearch!}";
+    cfg.wsRegSuggest="${cfg.wsRegSuggest!}";
     cfg.wsOcc="${cfg.wsOcc!}";
     cfg.wsOccSearch="${cfg.wsOccSearch!}";
     cfg.tileServerBaseUrl="${cfg.tileServerBaseUrl!}";    

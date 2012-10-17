@@ -10,13 +10,12 @@
 	  });	 
    
 	  /**
-	   * Species name Autosuggest widget.
+	   * Dataset title Autosuggest widget.
 	   * @param wsServiceUrl url to the search/suggest service
 	   * @param limit maximum elements expected/this can be overwritten by the server side implementation
-	   * @param chklstKeysElementsSelector jquery/css selector for get the values of checklists key/ can be null (assuming  a server side default)
 	   * @param appendToElement parent element of generated widget
 	   */
-	  $.fn.speciesAutosuggest = function(wsServiceUrl,limit,chklstKeysElementsSelector,appendToElement) {
+	  $.fn.datasetAutosuggest = function(wsServiceUrl,limit,appendToElement) {
 		   //reference to the widget
 		   var self = $(this);
 		   //jquery ui autocomplete widget creation
@@ -26,16 +25,14 @@
 						dataType: 'jsonp', //jsonp is the default
 						data: {
 							q: self.val(),
-							limit: limit,
-							checklistKey: ( chklstKeysElementsSelector ? $.map($(chklstKeysElementsSelector),function(elem){return elem.value;}).pop() : undefined) //if the selector is null, the parameter is not sent
+							limit: limit							
 						},
 						success: function(data){//response the data sent by the web service						 
 						    response( $.map(data, function( item ) {
-		              return {
-		                label: item.scientificName,
-		                value: item.scientificName,
-		                key: item.nubKey,
-		                higherClassificationMap: item.higherClassificationMap
+		              return {		                
+		                value: item.title,
+		                label: item.title,
+		                key: item.key
 		              }
 		            }));
 						}
@@ -74,21 +71,10 @@
     				  self.val( ui.item.value);
 							return false;
 						}
-			}).data( "autocomplete" )._renderItem = function( ul, item) { 
-		  var divHigherClassificationMap = "";
-		  if(typeof(item.higherClassificationMap) != 'undefined'){
-		    divHigherClassificationMap = "<div class='taxonMapAutoComplete'><ul>";
-		    $(item.higherClassificationMap).each(function(idx) {
-		      $.each(this,function(name,value) {
-		        divHigherClassificationMap += "<li>" + value + "</li>";
-		      });
-		    });
-		    divHigherClassificationMap += "</ul></div>";
-		  }
+			}).data( "autocomplete" )._renderItem = function( ul, item) { 		  
 			return $( "<li></li>" )
 			.data( "item.autocomplete", item )
-			.append("<a class='name'>" + this.highlight(item.value,self.val()) + "</a>")
-			.append(divHigherClassificationMap)
+			.append("<a class='name'>" + this.highlight(item.value,self.val()) + "</a>")			
 			.appendTo( ul );
 			//last line customizes the generated elements of the auto-complete widget by highlighting the results and adding new css class
 			};   

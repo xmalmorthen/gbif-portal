@@ -9,6 +9,7 @@
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/terms_suggest.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/dataset_autocomplete.js'/>"></script>
     
     <!--Maps-->
     <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
@@ -80,7 +81,7 @@
                   <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="BBOX" title="Bounding Box" template-filter="map-template-filter" class="filter-control">Location</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="COLLECTOR_NAME" title="Collector name" template-filter="template-add-filter" input-classes="value collector_name_autosuggest" class="filter-control">Collector</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="BASIS_OF_RECORD" title="Basis Of Record" template-filter="template-basis-of-record-filter" class="filter-control">Basis of record</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="DATASET_KEY" title="Dataset" template-filter="template-add-filter" class="filter-control">Dataset</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="DATASET_KEY" title="Dataset" template-filter="template-add-filter" input-classes="value dataset_autosuggest" class="filter-control">Dataset</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="DATE" title="Collection date" template-filter="template-add-date-filter" class="filter-control">Collection date</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a catalog number..." data-filter="CATALOG_NUMBER" title="Catalog number" template-filter="template-add-filter" input-classes="value catalog_number_autosuggest" class="filter-control">Catalog number</a></li>
                   <li class="divider"></li>
@@ -333,6 +334,14 @@
   </script>
 
   <!-- /Filter templates -->
-
+  <div class="infowindow" id="waitDialog">
+    <div class="light_box">
+      <div class="content" >
+        <h3>Processing request</h3>
+        <p>Wait while your request is processed...
+        <img src="<@s.url value='/img/ajax-loader.gif'/>"/></p>
+     </div>
+   </div>
+   </div>
 </body>
 </html>

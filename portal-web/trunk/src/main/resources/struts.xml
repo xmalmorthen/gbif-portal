@@ -153,10 +153,8 @@
   <!-- OCCURRENCES -->
   <package name="occurrence" namespace="/occurrence" extends="default">
     <!-- catches everything that doesn't match below! -->    
-    <default-action-ref name=""/>
-    
-    <action name="" class="org.gbif.portal.action.occurrence.SearchAction">
-      <result>/WEB-INF/pages/occurrence/search.ftl</result>
+     <action name="" class="org.gbif.portal.action.occurrence.HomeAction">
+      <result>/WEB-INF/pages/occurrence/home.ftl</result>
     </action>
 
     <action name="search" class="org.gbif.portal.action.occurrence.SearchAction">

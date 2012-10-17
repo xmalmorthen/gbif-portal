@@ -6,6 +6,11 @@
   <content tag="extra_scripts">
     <script type="text/javascript" src="<@s.url value='/js/facets.js'/>">
     </script>
+    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
+      <script type="text/javascript" src="<@s.url value='/js/dataset_autocomplete.js'/>"></script>
+      <script>
+        $("#q").datasetAutosuggest(cfg.wsRegSuggest,4,"#content");
+      </script>
   </content>
   <style type="text/css">
 #resetFacets{
@@ -21,7 +26,7 @@
   <content tag="infoband">
     <h2>Search datasets</h2>
     <form action="<@s.url value='/dataset/search'/>" method="GET" id="formSearch">
-      <input type="text" name="q" value="${q!}" class="focus"/>
+      <input type="text" name="q" id="q" value="${q!}" class="focus"/>
       <#list searchRequest.parameters.asMap()?keys as p>
         <#list searchRequest.parameters.get(p) as val>
         <input type="hidden" name="${p}" value="${val!}"/>

@@ -30,6 +30,8 @@ public class Config {
   private String wsClbSearch;
   private String wsReg;
   private String wsRegSearch;
+  private String wsRegSuggest;
+
   private String wsOcc;
   private String wsOccSearch;
   private String wsOccCollectorNameSearch;
@@ -65,6 +67,7 @@ public class Config {
       cfg.wsClbSuggest = cfg.wsClbSearch + SUGGEST_PATH;
       cfg.wsReg = getPropertyUrl(properties, "registry.ws.url", true);
       cfg.wsRegSearch = getPropertyUrl(properties, "registry.search.ws.url", true);
+      cfg.wsRegSuggest = cfg.wsRegSearch + SUGGEST_PATH;
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
       cfg.wsOccSearch = getPropertyUrl(properties, "occurrence.search.ws.url", true);
       cfg.wsOccCatalogNumberSearch = cfg.wsOccSearch + CATALOG_NUMBER_PATH;
@@ -152,6 +155,14 @@ public class Config {
   public String getWsRegSearch() {
     return wsRegSearch;
   }
+
+  /**
+   * @return the wsRegSuggest
+   */
+  public String getWsRegSuggest() {
+    return wsRegSuggest;
+  }
+
 
   public void setTileServerBaseUrl(String tileServerBaseUrl) {
     this.tileServerBaseUrl = tileServerBaseUrl;

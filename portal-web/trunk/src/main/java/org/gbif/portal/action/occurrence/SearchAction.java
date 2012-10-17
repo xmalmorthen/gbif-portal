@@ -43,29 +43,27 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     this.nameUsageService = nameUsageService;
   }
 
-  @Override
-  public String execute() {
-    return super.execute();
-  }
-
   public BasisOfRecord[] getBasisOfRecords() {
     return BasisOfRecord.values();
   }
 
   /**
-   * Gets the title of a data set byt its key.
-   * TODO: should this not be cached? or be a prepopulated map like we have in other places like UsageBaseAction?
+   * Gets the Dataset title, the key parameter is returned if either the Dataset doesn't exists or it
+   * doesn't have a title.
    */
-  public String getDatasetTitle(String datasetKey) {
-    Dataset dataset = datasetService.get(datasetKey);
-    return dataset.getTitle();
+  public String getDatasetTitle(String key) {
+    Dataset dataset = datasetService.get(key);
+    if (dataset != null && dataset.getTitle() != null) {
+      return dataset.getTitle();
+    }
+    return key;
   }
+
 
   // this method is only a convenience one exposing the request filters so the ftl templates dont need to be adapted
   public Multimap<OccurrenceSearchParameter, String> getFilters() {
     return searchRequest.getParameters();
   }
-
 
   /**
    * Gets the displayable value of filter parameter.
@@ -78,6 +76,8 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
         return nameUsageService.get(Integer.parseInt(filterValue), null).getScientificName();
       } else if (parameter == OccurrenceSearchParameter.BASIS_OF_RECORD) {
         return getText(BASIS_OF_RECORD_KEY + filterValue);
+      } else if (parameter == OccurrenceSearchParameter.DATASET_KEY) {
+        return getDatasetTitle(filterValue);
       }
     }
     return filterValue;

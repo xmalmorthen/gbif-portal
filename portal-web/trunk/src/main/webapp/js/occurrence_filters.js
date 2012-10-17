@@ -10,8 +10,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-var FADE_TIME = 250;
 /**
  * Occurrence filters module.
  * Implements functionality for widgets that follow the structure of templates: 
@@ -24,15 +22,23 @@ var FADE_TIME = 250;
  *  The filters parameter must have the form: { title,value, year (valid for date filter only), month (valid for date filter only), key, paramName }
  *  
  */
+
+//DEFAULT fade(in/out) time
+var FADE_TIME = 250;
+
+/**
+ * Base module that contains the base implementation for the occurrence widgets.
+ * Contains the implementation for the basic operations: create the HTML control, apply filters, show the applied filters and close/hide the widget.
+ */
 var OccurrenceWidget = (function ($,_) {  
-  
+
   /**
    * Utility function that validates if the input string is empty.
    */
   function isBlank(str) {
     return (!str || /^\s*$/.test(str));
   };
-  
+
   /**
    * Inner object/function used for returning the OccurenceWidget instance.
    */
@@ -41,12 +47,12 @@ var OccurrenceWidget = (function ($,_) {
 
   //Prototype object extensions.
   InnerOccurrenceWidget.prototype = {
-      
+
       /**
        * Default constructor.
        */
       constructor: InnerOccurrenceWidget,
-      
+
       /**
        * Initializes the widget.
        * This function is not invoked during object construction to allow the executions of binding functions 
@@ -58,90 +64,136 @@ var OccurrenceWidget = (function ($,_) {
         this.isBound = false;
         this.id = null;
         this.filterElement = null;
-        //this.bindToControl(control);
         this.onApplyFilterEvent = options.onApplyFilter;
         this.bindingsExecutor = options.bindingsExecutor;
       },
-      
+
       //IsBlank
       isBlank : isBlank,
-      
+
+      /**
+       * Gets the widget identifier.
+       * The id field should identify the widget in a page instance.
+       */
       getId : function() {
-         return this.id;
+        return this.id;
       },
-      
+
+      /**
+       * Sets the widget identifier.
+       */
       setId : function(id) {
         this.id = id;
-     },
-     
-     getAppliedFilters : function(){return this.appliedFilters;},
-      
-     open : function(){    
+      },
+
+      /**
+       * Returns the filters that have been applied  by the filter or by reading HTTP parameters. 
+       */
+      getAppliedFilters : function(){return this.appliedFilters;},
+
+      /**
+       * Shows the HTML widget.
+       */
+      open : function(){    
         if (!this.isVisible()) {
           this.filterElement.fadeIn(FADE_TIME);
           this.showAppliedFilters();
         }
       },
-      
+
+      /**
+       * Return true if the widget has been initialized.
+       */
       isCreated : function(){
         return (this.filterElement)
       },
-      
+
+      /**
+       * Closes (hides) the HTML widget.
+       */
       close : function(){      
         this.filterElement.fadeOut(FADE_TIME);
       },
-      
+
+      /**
+       * Determines if the widget is visible or not.
+       */
       isVisible : function(){
         return ($(this.filterElement).is(':visible'));
       },
-      
+
+      /**
+       * Adds the filter to the list of applied filters and executes the onApplyFilter event.
+       */
       applyFilter : function(filter) {
         this.addAppliedFilter(filter);
         this.onApplyFilterEvent.call();
       },
-      
-      addAppliedFilter :function(filter){
+
+      /**
+       * Adds a filter to the list of applied filters.
+       */
+      addAppliedFilter : function(filter) {
         this.appliedFilters.push(filter);
       },
-      
+
+      /**
+       * Binds the widget to an HTML element.
+       * The click event of the control parameters shows the widget.
+       */
       bindToControl: function(control) {
         if(!this.getId()){                    
           this.setId($(control).attr("data-filter"));   
           var widget = this;
           $(control).on("click", function(e) {
-            e.preventDefault();                                  
+            e.preventDefault();
             widget.addFilter(this);
           });
         }
       },
-      
+
+      /**
+       * Shows the filters that have been applied.
+       * The list of applied filters is shown in element with css class "appliedFilters". 
+       */
       showAppliedFilters : function() {
-        if(this.filterElement != null) {
+        if(this.filterElement != null) { //widget was created
           var appliedFilters = this.filterElement.find(".appliedFilters");
-          appliedFilters.empty();
+          //clears the HTML list of applied filters, the list is rebuilt each time this function is called
+          appliedFilters.empty(); 
+          //HTML element that will hold the list of filters
           var filtersContainer = $("<ul style='list-style: none;display:block;'></ul>"); 
           appliedFilters.append(filtersContainer); 
+          //gets the HTML template for applied filters
           var templateFilter = _.template($("#template-applied-filter").html());
           var self = this;
           for(var i=0; i < this.appliedFilters.length; i++) {
-            var currentFilter = this.appliedFilters[i];
+            var currentFilter = this.appliedFilters[i];            
             var newFilter = $(templateFilter({title:currentFilter.value, paramName: this.getId(), key: currentFilter.key, value: currentFilter.value}));
-            filtersContainer.append(newFilter);          
-            newFilter.find(".closeFilter").click(function(e){
+            //adds each applied filter to the list using the HTML template
+            filtersContainer.append(newFilter);   
+            //The click event of element with css class "closeFilter" handles the filter removing and applying the filters 
+            newFilter.find(".closeFilter").click( function(e) {
               self.removeFilter(currentFilter);
               self.showAppliedFilters();
             });
           }
         }
       },
-      
+
+      /**
+       * Creates the HTML widget if it was not created previously, then the widget is shown.
+       */
       addFilter : function(control) {
         if (!this.isCreated()) {
           this.createHTMLWidget(control);
         }
         this.open(); 
       },
-      
+
+      /**
+       * Utility function that renders/creates the HTML widget.
+       */
       createHTMLWidget : function(control){        
         var          
         placeholder = $(control).attr("data-placeholder"),
@@ -149,7 +201,7 @@ var OccurrenceWidget = (function ($,_) {
         inputClasses = $(control).attr("input-classes") || {},
         title = $(control).attr("title"),
         template = _.template($("#" + templateFilter).html());
-        
+
         this.filterElement = $(template({title:title, paramName: this.getId(), placeholder: placeholder, inputClasses: inputClasses }));
         this.widgetContainer.after(this.filterElement);         
         this.bindCloseControl();
@@ -157,9 +209,15 @@ var OccurrenceWidget = (function ($,_) {
         this.bindApplyControl();     
         this.executeAdditionalBindings();
       },
-      
+
+      /**
+       * Executes binding function bound during the object construction.
+       */
       executeAdditionalBindings : function(){this.bindingsExecutor.call();},
-     
+
+      /**
+       * Binds the close control to the close function.
+       */
       bindCloseControl : function () {
         var self = this;
         this.filterElement.find(".close").click(function(e) {
@@ -167,7 +225,10 @@ var OccurrenceWidget = (function ($,_) {
           self.close();
         });
       },
-      
+
+      /**
+       * Removes a filter that was applied previously and the re-display the list of applied filters.
+       */
       removeFilter :function(filter) {        
         for(var i = 0; i < this.appliedFilters.length; i++){
           if(this.appliedFilters[i].value == filter.value){
@@ -183,7 +244,11 @@ var OccurrenceWidget = (function ($,_) {
           }
         }
       },
-      
+
+      /**
+       * Binds a widget apply control.
+       * The apply control is used when the widgets handles several filters at a time and those should be applied in one call.
+       */
       bindApplyControl : function() {
         var self = this;
         this.filterElement.find("a.button[data-action]").click( function(e){
@@ -193,7 +258,7 @@ var OccurrenceWidget = (function ($,_) {
             var value = input.val();            
             if(!isBlank(value)){            
               var key = "";
-              //Autocompletes store the selected key in "key" attribute
+              //Auto-complete widgets store the selected key in "key" attribute
               if (input.attr("key") !== undefined) {
                 key = input.attr("key"); 
               }
@@ -211,8 +276,11 @@ var OccurrenceWidget = (function ($,_) {
           }
         });  
       },      
-      
-      
+
+      /**
+       * The add filter control, handler how each individual filter is added to the list of applied filters.
+       * The enter key, by default, adds/applies the filter.
+       */
       bindAddFilterControl : function() {
         var self = this;
         var input = this.filterElement.find(":input[name=" + this.id + "]:first");
@@ -221,18 +289,20 @@ var OccurrenceWidget = (function ($,_) {
             self.addFilterControlEvent(self, input);
           }
         });
-
         this.filterElement.find(".addFilter").click( function(e){          
           self.addFilterControlEvent(self, input);
         });  
       },
-      
+
+      /**
+       * Utility function that validates if the input value is valid (non-blank) and could be added to list of applied filters.
+       */
       addFilterControlEvent : function (self,input){        
         //gets the value of the input field            
         var value = input.val();            
         if(!isBlank(value)){            
           var key = "";
-          //Autocompletes store the selected key in "key" attribute
+          //Auto-complete stores the selected key in "key" attribute
           if (input.attr("key") !== undefined) {
             key = input.attr("key"); 
           }
@@ -242,186 +312,253 @@ var OccurrenceWidget = (function ($,_) {
         }
       }
   }
-  
+
   return InnerOccurrenceWidget;
 })(jQuery,_);
 
+/**
+ * Occurrence date widget. Allows specify single and range of dates.
+ */
 var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
-   var InnerOccurrenceDateWidget = function () {        
-   }; 
-   InnerOccurrenceDateWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
-   InnerOccurrenceDateWidget.prototype.bindAddFilterControl = function() {
-        var self = this;
-        this.filterElement.find(".addFilter").click( function(e) { 
-        e.preventDefault();   
-        var monthMin = self.filterElement.find(":input[name=monthMin]:first").val();
-        var yearMin  =  self.filterElement.find(":input[name=yearMin]:first").val();
-        var monthMax = self.filterElement.find(":input[name=monthMax]:first").val();
-        var yearMax  =  self.filterElement.find(":input[name=yearMax]:first").val();
-        var value = "";
-        if(!self.isBlank(yearMin) && monthMin != "0"){
-          value = monthMin + "/" + yearMin;
+  
+  var InnerOccurrenceDateWidget = function () {        
+  };
+  
+  //Inherits everything from the OccurrenceWidget module.
+  InnerOccurrenceDateWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
+  
+  //The bindAddFilterControl is re-defined, the define dates are validated and the applied.
+  InnerOccurrenceDateWidget.prototype.bindAddFilterControl = function() {
+    var self = this;
+    this.filterElement.find(".addFilter").click( function(e) { 
+      e.preventDefault();   
+      var monthMin = self.filterElement.find(":input[name=monthMin]:first").val();
+      var yearMin  =  self.filterElement.find(":input[name=yearMin]:first").val();
+      var monthMax = self.filterElement.find(":input[name=monthMax]:first").val();
+      var yearMax  =  self.filterElement.find(":input[name=yearMax]:first").val();
+      var value = "";
+      if(!self.isBlank(yearMin) && monthMin != "0"){
+        value = monthMin + "/" + yearMin;
+      }
+      if(!self.isBlank(yearMax) && monthMax != "0"){
+        if(!self.isBlank(value)){
+          value = value + ",";
         }
-        if(!self.isBlank(yearMax) && monthMax != "0"){
-          if(!self.isBlank(value)){
-            value = value + ",";
-          }
-          value = value + monthMax + "/" + yearMax;
-        }
-        if(!self.isBlank(value)) {
-          self.addAppliedFilter({value: value, monthMin: monthMin, yearMin: yearMin, monthMax: monthMax, yearMax: yearMax});
-          self.showAppliedFilters();
-         }
-        })
-     };       
+        value = value + monthMax + "/" + yearMax;
+      }
+      if(!self.isBlank(value)) {
+        self.addAppliedFilter({value: value, monthMin: monthMin, yearMin: yearMin, monthMax: monthMax, yearMax: yearMax});
+        self.showAppliedFilters();
+      }
+    })
+  };       
   return InnerOccurrenceDateWidget;
 })(jQuery,_,OccurrenceWidget);
 
-
+/**
+ * Location widget. Displays a map that allows select a range bounding box area.
+ */
 var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
   var InnerOccurrenceLocationWidget = function () {        
   }; 
+  //Inherits everything from the OccurrenceWidget module.
   InnerOccurrenceLocationWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
+  
+  /**
+   * The bindAddFilterControl function is re-defined to validate and process the coordinates. 
+   */
   InnerOccurrenceLocationWidget.prototype.bindAddFilterControl = function() {
-       var self = this;
-       this.filterElement.find(".addFilter").click( function(e) { 
-       e.preventDefault();          
-       var minLat = self.filterElement.find(":input[name=minLatitude]:first").val();
-       var minLng = self.filterElement.find(":input[name=minLongitude]:first").val();
-       var maxLat = self.filterElement.find(":input[name=maxLatitude]:first").val();
-       var maxLng = self.filterElement.find(":input[name=maxLongitude]:first").val();
-       if(!self.isBlank(minLat) && !self.isBlank(minLng) && !self.isBlank(maxLat) && !self.isBlank(maxLng)){
-         var value = minLat + ',' + minLng + ',' + maxLat + ',' + maxLng;         
-         self.filterElement.find(":input").val('');
-         self.addAppliedFilter({value: value, key: ''});       
-         self.showAppliedFilters();
-        }
-       })
-    };      
- return InnerOccurrenceLocationWidget;
+    var self = this;
+    this.filterElement.find(".addFilter").click( function(e) { 
+      e.preventDefault();          
+      var minLat = self.filterElement.find(":input[name=minLatitude]:first").val();
+      var minLng = self.filterElement.find(":input[name=minLongitude]:first").val();
+      var maxLat = self.filterElement.find(":input[name=maxLatitude]:first").val();
+      var maxLng = self.filterElement.find(":input[name=maxLongitude]:first").val();
+      if(!self.isBlank(minLat) && !self.isBlank(minLng) && !self.isBlank(maxLat) && !self.isBlank(maxLng)){
+        var value = minLat + ',' + minLng + ',' + maxLat + ',' + maxLng;         
+        self.filterElement.find(":input").val('');
+        self.addAppliedFilter({value: value, key: ''});       
+        self.showAppliedFilters();
+      }
+    })
+  };      
+  return InnerOccurrenceLocationWidget;
 })(jQuery,_,OccurrenceWidget);
 
 
+/**
+ * Basis of Record widget. Displays a multi-select list with the basis of record values.
+ */
 var OccurrenceBasisOfRecordWidget = (function ($,_,OccurrenceWidget) {
   var InnerOccurrenceBasisOfRecordWidget = function () {        
   }; 
+  //Inherits everything from OccurrenceWidget
   InnerOccurrenceBasisOfRecordWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
+  
+  /**
+   * Re-defines the showAppliedFilters function, iterates over the selection list to get the selected values and then show them as applied filters. 
+   */
   InnerOccurrenceBasisOfRecordWidget.prototype.showAppliedFilters = function() {
-      if(this.filterElement != null) {
-         var self = this;
-         this.filterElement.find("select[name='basisOfRecord'] > option").each( function() {
-           $(this).removeAttr("selected");
-           for(var i=0; i < self.appliedFilters.length; i++) {
-             if(self.appliedFilters[i].value == $(this).val() && $(this).attr("selected") == undefined) {
-               $(this).attr("selected","selected");
-             }
-            }
-         });
-      }
-    };   
- return InnerOccurrenceBasisOfRecordWidget;
+    if(this.filterElement != null) {
+      var self = this;
+      this.filterElement.find("select[name='basisOfRecord'] > option").each( function() {
+        $(this).removeAttr("selected");
+        for(var i=0; i < self.appliedFilters.length; i++) {
+          if(self.appliedFilters[i].value == $(this).val() && $(this).attr("selected") == undefined) {
+            $(this).attr("selected","selected");
+          }
+        }
+      });
+    }
+  };   
+  return InnerOccurrenceBasisOfRecordWidget;
 })(jQuery,_,OccurrenceWidget);
 
+/**
+ * Widget that holds and displays the filters that have been applied to a Occurrence filter(parameter).
+ * A filter can be removed and the refresh the results.
+ */
 var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
-  
+
+  /**
+   * Default constructor.
+   * templateId: id of the HTML template used by the widget.
+   * closeEvent: function that is executes every time a filter is removed.
+   * occurrenceWidget: an occurrence widget instance that handles the same filter type managed by the filter widget.
+   */
   var InnerOccurrenceFilterWidget = function(templateId,closeEvent, occurrenceWidget){
     this.template = _.template($("#"+ templateId).html());
     this.onCloseEvent = closeEvent;
     this.occurrenceWidget = occurrenceWidget;
     this.filters = new Array();
   };
-   
+
+  //Prototype definition
   InnerOccurrenceFilterWidget.prototype = {
-     constructor : InnerOccurrenceFilterWidget, 
-     
-     applyFilter : function(filter) {
-       var htmlFilter  = $(this.template(filter));
-       this.addFilterItem(htmlFilter);
-     },
-     
-     addFilter : function(filter){
-       this.filters.push(filter);
-     },
-     
-     getOccurrenceWidget : function(){
-       return this.occurrenceWidget;
-     },
-     
-     
-     init : function(){
-       var tableHeader = $("table.results tr.header");
-       var filtersContainer = $("table.results tr.filters td ul");      
-       if (filtersContainer.length == 0 && this.filters.length > 0) {       
-         var containerTemplate = _.template($("#template-filter-container").html());
-         tableHeader.after($(containerTemplate())); 
-         filtersContainer = $("table.results tr.filters td ul");
-       }
-       if (this.filters.length > 0) {
-         var htmlFilter  = $(this.template({title: this.filters[0].title,paramName: this.filters[0].paramName,filters: this.filters}));          
-         $(filtersContainer).append(htmlFilter);
-         htmlFilter.fadeIn(FADE_TIME);
-         this.bindCloseEvent(htmlFilter);
-       }
-     },
-     
-    
-    removeFilter : function(htmlFilter){
-      var input = htmlFilter.find(":input[type=hidden]");      
-      this.occurrenceWidget.removeFilter({key:input.attr("key"), value:input.val()});
-    },
-    
-    bindCloseEvent : function(htmlFilter){
-      var self = this;
-      htmlFilter.find(".closeFilter").each(function(idx,element){      
+      
+      //Object constructor
+      constructor : InnerOccurrenceFilterWidget, 
+
+      /**
+       * Adds a filter item to the list and then displays the filter in the UI. 
+       */
+      applyFilter : function(filter) {
+        var htmlFilter  = $(this.template(filter));
+        this.addFilterItem(htmlFilter);
+      },
+
+      /**
+       * Adds a filter to the list.
+       */
+      addFilter : function(filter){
+        this.filters.push(filter);
+      },
+
+      /**
+       * Gets the associated occurrence widget.
+       */
+      getOccurrenceWidget : function(){
+        return this.occurrenceWidget;
+      },
+
+      /**
+       * Initializes the widget. The filter is displayed in as a row in a HTML table identified by the selector "table.results tr.filters".
+       */
+      init : function(){
+        var tableHeader = $("table.results tr.header");
+        var filtersContainer = $("table.results tr.filters td ul");      
+        if (filtersContainer.length == 0 && this.filters.length > 0) {  
+          //creates the filter container if doesn't exist
+          var containerTemplate = _.template($("#template-filter-container").html());
+          tableHeader.after($(containerTemplate())); 
+          filtersContainer = $("table.results tr.filters td ul");
+        }
+        //Adds the filter to the container
+        if (this.filters.length > 0) {
+          var htmlFilter  = $(this.template({title: this.filters[0].title,paramName: this.filters[0].paramName,filters: this.filters}));          
+          $(filtersContainer).append(htmlFilter);
+          htmlFilter.fadeIn(FADE_TIME);
+          this.bindCloseEvent(htmlFilter);
+        }
+      },
+
+      /**
+       * Removes a filter from the list. The occurrence widget is modified by removing the filter.
+       */
+      removeFilter : function(htmlFilter){
+        var input = htmlFilter.find(":input[type=hidden]");      
+        this.occurrenceWidget.removeFilter({key:input.attr("key"), value:input.val()});
+      },
+
+      /**
+       * Binds the close/remove event to HTML element with the css class "closeFilter".
+       */
+      bindCloseEvent : function(htmlFilter){
+        var self = this;
+        htmlFilter.find(".closeFilter").each(function(idx,element){      
           $(element).click(function(e){
             e.preventDefault();
             var
             filterContainer = $(this).parent(),
             li = filterContainer.parent();
             filterContainer.fadeOut(FADE_TIME, function(){            
-                self.removeFilter(filterContainer);
-                $(this).remove();
-                if(li.find("div.filter").length == 0){
-                  var ul = li.parent();
-                  li.remove();
-                  if(ul.find("li").length == 0) { // element about to be removed was the last one
-                    //Removes the parent tr element
-                    ul.parent().remove();
-                  }
+              self.removeFilter(filterContainer);
+              $(this).remove();
+              if(li.find("div.filter").length == 0){
+                var ul = li.parent();
+                li.remove();
+                if(ul.find("li").length == 0) { // element about to be removed was the last one
+                  //Removes the parent tr element
+                  ul.parent().remove();
                 }
-                //call the onCloseEvent if any
-                self.onCloseEvent.call();
-          });        
+              }
+              //call the onCloseEvent if any
+              self.onCloseEvent.call();
+            });        
+          });
         });
-      });
-    }
+      }
   }
-  
+
   return InnerOccurrenceFilterWidget;
-  
+
 })(jQuery,_,OccurrenceWidget);
 
+/**
+ * Object that controls the creation and default behavior of OccurrenceWidget and OccurrenceFilterWidget instances.
+ * Manage how each filter widget should be bound to a occurrence widget instance, additionally controls what occurrence parameter is mapped to an specific widget.
+ * This object should be instantiated only once in a page (Singleton).
+ * 
+ */
 var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
-  
+
+  //All the fields are singleton variables
   var filterTemplate = "template-filter"; // template names for applied filters
   var widgets;
   var filterWidgets;
   var targetUrl;
-  
+
+  /**
+   * Gets a occurrence widget instance by its id field.
+   */
   function getWidgetById(id) {
     for (var i=0;i < widgets.length;i++) {
       if(widgets[i].getId() == id){ return widgets[i];}
     }
     return;
   };
-  
+
+  /**
+   * Gets an occurrence filter widget by the id of the occurrence widget associated.
+   */
   function getFilterWidgetById(id) {
     for (var i=0;i < filterWidgets.length;i++) {
       if(filterWidgets[i].getOccurrenceWidget().getId() == id){ return filterWidgets[i];}
     }
     return;
   };
-  
+
   function formatLabelByFilter(filter) {
     var label = filter.label;
     if(filter.paramName == 'date') {
@@ -435,9 +572,21 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
     }
     return label;
   };
-  
-  
-  
+
+  function getTopPosition(div) {
+    return (( $(window).height() - div.height()) / 2) + $(window).scrollTop() - 50;
+  };
+
+  function showWaitDialog(){
+    $('#waitDialog').css("top", getTopPosition($('#waitDialog')) + "px");
+    $('#waitDialog').fadeIn("medium", function() { hidden = false; });
+    $("body").append("<div id='lock_screen'></div>");
+    $("#lock_screen").height($(document).height());
+    $("#lock_screen").fadeIn("slow");
+  };
+
+
+
   var InnerOccurrenceWidgetManager = function(targetUrlValue,filters,controlSelector){
     widgets = new Array();
     filterWidgets = new Array();
@@ -445,13 +594,13 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
     this.bindToWidgetsControl(controlSelector);
     this.initialize(filters);    
   };
-  
+
   InnerOccurrenceWidgetManager.prototype = {                 
-      
+
       constructor : InnerOccurrenceWidgetManager,           
-      
+
       getWidgets : function(){ return widgets;},
-      
+
       /**
        * Binds the filter rendering to a click event of HTML element.
        */
@@ -465,6 +614,9 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           if(filterName == "TAXON_KEY"){
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindSpeciesAutosuggest});
+          }else if (filterName == "DATASET_KEY") {
+            newWidget = new OccurrenceWidget();
+            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindDatasetAutosuggest});            
           }else if (filterName == "COLLECTOR_NAME") {
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCollectorNameAutosuggest});            
@@ -494,19 +646,24 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           $(el).speciesAutosuggest(cfg.wsClbSuggest, 4, "#nubTaxonomyKey[value]", "#content",false);
         });   
       },
+      bindDatasetAutosuggest: function(){
+        $(':input.dataset_autosuggest').each( function(idx,el){
+          $(el).datasetAutosuggest(cfg.wsRegSuggest,4,"#content");
+        });   
+      },
 
       bindCollectorNameAutosuggest : function(){        
         $(':input.collector_name_autosuggest').each( function(idx,el){
           $(el).termsAutosuggest(cfg.wsOccCollectorNameSearch, "#content",4);
         });        
       },
-      
+
       bindCatalogNumberAutosuggest : function(){                
         $(':input.catalog_number_autosuggest').each( function(idx,el){
           $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",4);
         });
       },
-      
+
       /**
        * Binds/initializes the map widget.
        */
@@ -516,21 +673,21 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
             maxZoom: 14,
             center: [0, 0],
             defaultZoom: 1
-          };
+        };
         var // see http://maps.cloudmade.com/editor for the styles - 69341 is named GBIF Original  
         cmAttr = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',  
         cmUrl  = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png';
 
         var    
-          minimal   = L.tileLayer(cmUrl, {styleId: 997,   attribution: cmAttr});
+        minimal   = L.tileLayer(cmUrl, {styleId: 997,   attribution: cmAttr});
 
         var map = L.map('map', {
-        center: CONFIG.center,
-        zoom: CONFIG.defaultZoom,
-        layers: [minimal],
-        zoomControl: true
+          center: CONFIG.center,
+          zoom: CONFIG.defaultZoom,
+          layers: [minimal],
+          zoomControl: true
         });
-         
+
         var drawnItems = new L.LayerGroup();
         map.addLayer(drawnItems);
         var drawControl = new L.Control.Draw({
@@ -540,8 +697,8 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           marker:false,
           polyline:false
         });
-       map.addControl(drawControl); 
-       
+        map.addControl(drawControl); 
+
         map.on('draw:rectangle-created', function (e) {
           drawnItems.clearLayers();
           drawnItems.addLayer(e.rect);
@@ -552,11 +709,12 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           $("#maxLongitude").val(coords[3].lng);                        
         });
       },
-      
+
       /**
        * Function that applies the selected filters issuing a request to target url.
        */
       applyOccurrenceFilters : function(){
+        showWaitDialog();
         var params = {};         
         if($("#datasetKey").val()){
           params['datasetKey'] = $("#datasetKey").val();            
@@ -565,7 +723,7 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           params['nubKey'] = $("#nubKey").val();
         }        
         var u = $.url();
-        
+
         for(var wi=0; wi < widgets.length; wi++) {
           var widgetFilters = widgets[wi].getAppliedFilters();
           for(var fi=0; fi < widgetFilters.length; fi++){
@@ -583,14 +741,14 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
         }                
         window.location = targetUrl + $.param(params,true);
         return true;  // submit?
-      },     
-     
+      },    
+
       initFilterWidgets : function(){
         for(var i=0; i < filterWidgets.length; i++){          
           filterWidgets[i].init();
         }
       },
-      
+
       /**
        * Initializes the state of the module and renders the previously applied filters.
        */
