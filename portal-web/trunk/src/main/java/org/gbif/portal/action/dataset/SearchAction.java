@@ -8,11 +8,13 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry.search.DatasetSearchParameter;
 import org.gbif.api.model.registry.search.DatasetSearchRequest;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.OrganizationService;
@@ -35,15 +37,18 @@ public class SearchAction
   private OrganizationService orgService;
   private Function<String, String> getOrgTitle;
   private CubeService occurrenceCube;
-  
+  private DatasetMetricsService checklistMetricsService;
+
   // Index of the record counts (occurrence or taxa)
   private Map<String, Long> recordCounts = Maps.newHashMap();
 
   @Inject
-  public SearchAction(DatasetSearchService datasetSearchService, OrganizationService orgService, CubeService occurrenceCube) {
+  public SearchAction(DatasetSearchService datasetSearchService, OrganizationService orgService,
+    CubeService occurrenceCube, DatasetMetricsService checklistMetricsService) {
     super(datasetSearchService, DatasetSearchParameter.class, new DatasetSearchRequest());
     this.orgService = orgService;
     this.occurrenceCube = occurrenceCube;
+    this.checklistMetricsService = checklistMetricsService;
     initGetTitleFunctions();
   }
 
@@ -81,6 +86,11 @@ public class SearchAction
         UUID k = UUID.fromString(dsr.getKey());
         Long count = occurrenceCube.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, k));
         recordCounts.put(dsr.getKey(), count);
+      } else if (DatasetType.CHECKLIST == dsr.getType()) {
+        DatasetMetrics metrics = checklistMetricsService.get(UUID.fromString(dsr.getKey()));
+        if (metrics != null) {
+          recordCounts.put(dsr.getKey(), Long.valueOf(metrics.getCountIndexed()));
+        }
       }
     }
     
