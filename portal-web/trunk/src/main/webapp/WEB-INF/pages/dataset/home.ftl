@@ -26,9 +26,9 @@
       </form>
       <div class="results">
         <ul>
-          <li><a href="<@s.url value='/dataset/search?q=&type=OCCURRENCE'/>">18.392</a>occurrences dataset</li>
-          <li><a href="<@s.url value='/dataset/search?q=&type=CHECKLIST'/>">2.841</a>checklists</li>
-          <li class="last"><a href="<@s.url value='/dataset/search?q=&registered=false'/>">1.251</a>external datasets</li>
+          <li><a href="<@s.url value='/dataset/search?q=&type=OCCURRENCE'/>">${numOccurrenceDatasets}</a>occurrences dataset</li>
+          <li><a href="<@s.url value='/dataset/search?q=&type=CHECKLIST'/>">${numChecklistDatasets}</a>checklists</li>
+          <li class="last"><a href="<@s.url value='/dataset/search?q=&registered=false'/>">${numMetadataDatasets}</a>external datasets</li>
         </ul>
       </div>
     </div>
