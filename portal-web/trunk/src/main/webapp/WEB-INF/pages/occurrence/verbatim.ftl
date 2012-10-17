@@ -19,8 +19,8 @@
 
 <@common.notice title="Occurrence verbatim data">
   <p>This listing shows the orignal information as received by GBIF from the data publisher, without further
-    interpretation processing. Alternatively you can also view the raw XML
-    <a href="<@s.url value='/occurrence/${id?c}/raw'/>"></a>.
+    interpretation processing. Alternatively you can also view the
+    <a href="<@s.url value='/occurrence/${id?c}/fragment'/>">raw XML or JSON</a> (for dwc archives).
   </p>
 </@common.notice>
 

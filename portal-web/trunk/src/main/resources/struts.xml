@@ -177,6 +177,15 @@
       <result>/WEB-INF/pages/occurrence/verbatim.ftl</result>
     </action>
 
+    <action name="{id}/fragment" class="org.gbif.portal.action.occurrence.FragmentAction">
+      <result name="success" type="stream">
+        <param name="contentType">text/plain</param>
+        <param name="contentCharSet">UTF-8</param>
+        <param name="inputName">stream</param>
+        <param name="bufferSize">1024</param>
+      </result>
+    </action>
+
     <action name="{id}" class="org.gbif.portal.action.occurrence.DetailAction">
       <result>/WEB-INF/pages/occurrence/detail.ftl</result>
     </action>
