@@ -21,6 +21,7 @@ public class HomeAction extends BaseAction {
   private long numOccurrenceDatasets;
   private long numChecklistDatasets;
   private long numMetadataDatasets;
+  private long numDatasets;
   
   private final DatasetSearchService service;
   
@@ -34,6 +35,7 @@ public class HomeAction extends BaseAction {
     numOccurrenceDatasets = count(DatasetType.OCCURRENCE);
     numChecklistDatasets = count(DatasetType.CHECKLIST);
     numMetadataDatasets = count(DatasetType.METADATA);
+    numDatasets = numOccurrenceDatasets + numChecklistDatasets + numMetadataDatasets;
     return SUCCESS;
   }
 
@@ -60,5 +62,9 @@ public class HomeAction extends BaseAction {
   
   public long getNumMetadataDatasets() {
     return numMetadataDatasets;
+  }
+
+  public long getNumDatasets() {
+    return numDatasets;
   }
 }
