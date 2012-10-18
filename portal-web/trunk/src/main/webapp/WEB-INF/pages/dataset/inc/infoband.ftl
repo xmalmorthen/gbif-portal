@@ -52,7 +52,7 @@
     <ul>
       <li class="last"><h4>${(metrics.countIndexed)!"?"}</h4>Occurrences</li>
     </ul>
-    <a href="<@s.url value='/occurrence/search/?datasetKey=${id!}'/>" title="View occurrences" class="candy_blue_button"><span>View occurrences</span></a>
+    <a href="<@s.url value='/occurrence/search?datasetKey=${id!}'/>" title="View occurrences" class="candy_blue_button"><span>View occurrences</span></a>
   </div>
 </div>
 </#if>
