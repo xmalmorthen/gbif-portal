@@ -47,7 +47,7 @@ public class CrawlJob {
   /**
    * @param metrics the metrics to set
    */
-  public void setMetrics(DatasetCrawlMetrics metrics) {
+  public void setCrawlMetrics(DatasetCrawlMetrics metrics) {
     this.metrics = metrics;
   }
 

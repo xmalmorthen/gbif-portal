@@ -41,13 +41,13 @@
     });
   });    
     
-  $('#hostingPublisherList').change(function() {
+  $('#hostingButton').click(function() {
     $('#crawl_process').html("<img src='../img/ajax-loader.gif'/ height='15'> Wait while we retrieve the datasets...");
-    var url = '${baseUrl}/admin/crawler?orgHost=' + $("#hostingPublisherList").val();
+    var url = '${baseUrl}/admin/crawler?orgHost=' + $("#hostingPublisherList").val()+'&nodeHost=' + $("#hostingNodesList").val();
     window.location.href = url;
   });      
     
-  $('#owningPublisherList').change(function() {
+  $('#owningButton').click(function() {
     $('#crawl_process').html("<img src='../img/ajax-loader.gif'/ height='15'> Wait while we retrieve the datasets...");
     var url = '${baseUrl}/admin/crawler?orgOwn=' + $("#owningPublisherList").val();
     window.location.href = url;
@@ -74,7 +74,7 @@
 
 </head>
 <body class="dataset">
-  <article class="results light_pane">
+  <article class="results">
     <header></header>
     <div class="content">
       <div class="header">
@@ -103,15 +103,14 @@
         <@s.select name="owningPublisherList" value="'${(member!).endorsingNodeKey!}'"
           headerKey="" headerValue="Choose a publisher" disabled="true"/>
           
-        <p><button type="button" id="owningButton">Get results</button></p>
+        <p><p><button type="button" id="owningButton">Get results</button></p></p>
         
         <span id="crawl_process"></span>
       </td><td>
         <#list occurrenceEndpoints as endpoint>
-          <@s.checkbox label="name" name="name" value="name"/> ${endpoint}<br/>
+          <@s.checkbox label="name" name="name" value="name" disabled="true"/> ${endpoint}<br/>
         </#list> 
       </td></tr></table>
-
       <div>
         [ <a href="<@s.url value='crawler'/>">Show current crawls</a> ]
         <p />
@@ -119,11 +118,11 @@
         <table id="table_crawl" class="display">
           <thead>
             <tr>
-              <th>Data publisher</th>
+              <th>Publisher</th>
               <th>Dataset</th>
-              <th>Started crawling</th>
-              <th>Finished Crawling</th>
-              <th>Crawl context</th>
+              <th>Started</th>
+              <th>Finished</th>
+              <th>Context</th>
               <th>Pages crawled</th>
               <th>Pages fragmented</th>
               <th>Fragments processed</th>
@@ -135,12 +134,12 @@
               <tr>
                 <td><a href="${baseUrl}/organization/${(ds.dataset.owningOrganizationKey)!}">${ds.owningOrganizationName!}</a></td>
                 <td><a href="${baseUrl}/dataset/${(ds.dataset.key)!}">${(ds.dataset.title)!}</a></td>
-                <td>${(ds.metrics.startedCrawling)!"--"}</td>
-                <td>${(ds.metrics.finishedCrawling)!"--"}</td>
-                <td><a href="#" class="crawl_popup" content="${(ds.metrics.crawlContext)!"No crawl context available"}">View<div id="crawlContext"></div></a></td>
-                <td>${(ds.metrics.pagesCrawled)!"--"}</td>
-                <td>${(ds.metrics.pagesFragmented)!"--"}</td>
-                <td>${(ds.metrics.fragmentsProcessed)!"--"}</td>
+                <td>${(ds.crawlMetrics.startedCrawling)!"--"}</td>
+                <td>${(ds.crawlMetrics.finishedCrawling)!"--"}</td>
+                <td><a href="#" class="crawl_popup" content="${(ds.crawlMetrics.crawlContext)!"No crawl context available"}">View<div id="crawlContext"></div></a></td>
+                <td>${(ds.crawlMetrics.pagesCrawled)!"--"}</td>
+                <td>${(ds.crawlMetrics.pagesFragmented)!"--"}</td>
+                <td>${(ds.crawlMetrics.fragmentsProcessed)!"--"}</td>
                 <td><button type="button" class="crawl" id="${(ds.dataset.key)!}">Crawl me!</button></td>
               </tr>
             </#list>

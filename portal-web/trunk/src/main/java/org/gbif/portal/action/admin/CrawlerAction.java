@@ -24,28 +24,43 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The crawler action which uses the metrics-ws and diverse registry web services
+ * to display information on running/queued crawls and also to give the ability to the
+ * user to schedule and see progress of a new crawl job.
+ */
 public class CrawlerAction extends BaseAction {
 
   private static final Logger LOG = LoggerFactory.getLogger(CrawlerAction.class);
 
+  private NodeService nodeWsClient;
+
+  private MetricsService metricsWsClient;
+
+  private DatasetService datasetWsClient;
+
+  private OrganizationService organizationWsClient;
+
+  private String orgHost;
+  private String orgOwn;
+  private String nodeHost;
+  private String nodeOwn;
+  private String id;
+
+  /**
+   * @param nodeWsClient
+   * @param metricsWsClient
+   * @param datasetWsClient
+   * @param organizationWsClient
+   */
   @Inject
-  protected NodeService nodeWsClient;
-
-  @Inject
-  protected MetricsService metricsWsClient;
-
-  @Inject
-  protected DatasetService datasetWsClient;
-
-  @Inject
-  protected OrganizationService organizationWsClient;
-
-  protected String orgHost;
-  protected String orgOwn;
-  protected String id;
-
-  private final List<CrawlJob> crawlJobs = Lists.newArrayList();
-
+  private CrawlerAction(NodeService nodeWsClient, MetricsService metricsWsClient, DatasetService datasetWsClient,
+    OrganizationService organizationWsClient) {
+    this.nodeWsClient = nodeWsClient;
+    this.metricsWsClient = metricsWsClient;
+    this.datasetWsClient = datasetWsClient;
+    this.organizationWsClient = organizationWsClient;
+  }
 
   public void crawl() {
     // TODO: call the scheduling-service ws
@@ -63,27 +78,47 @@ public class CrawlerAction extends BaseAction {
    */
   public List<CrawlJob> getMetrics() {
     List<DatasetCrawlMetrics> metricsList = Lists.newArrayList();
-    PagingResponse<Dataset> filteredDatasets = new PagingResponse<Dataset>(0, 50);
+    List<Dataset> filteredDatasets = Lists.newArrayList();
     UUID organizationKey = null;
-    if (!Strings.isNullOrEmpty(orgHost)) {
+    UUID nodeKey = null;
+    if (!Strings.isNullOrEmpty(nodeHost) && Strings.isNullOrEmpty(orgHost)) {
+      try {
+        nodeKey = UUID.fromString(nodeHost);
+        filteredDatasets =
+          getHostedDatasetsFromOrganizations(nodeWsClient.listEndorsedBy(nodeKey, new PagingRequest(0, 50))
+            .getResults());
+      } catch (IllegalArgumentException e) {
+        LOG.warn("Hosting node parameter \"[{}]\" is not a valid UUID, ignoring parameter");
+      }
+    } else if (!Strings.isNullOrEmpty(nodeHost) && !Strings.isNullOrEmpty(orgHost)) {
       try {
         organizationKey = UUID.fromString(orgHost);
+        filteredDatasets = datasetWsClient.listOwnedBy(organizationKey, new PagingRequest(0, 50)).getResults();
       } catch (IllegalArgumentException e) {
         LOG.warn("Hosting organization parameter \"[{}]\" is not a valid UUID, ignoring parameter");
       }
-      filteredDatasets = datasetWsClient.listHostedBy(organizationKey, new PagingRequest(0, 50));
-    } else if (!Strings.isNullOrEmpty(orgOwn)) {
+    }
+
+    if (!Strings.isNullOrEmpty(nodeOwn) && Strings.isNullOrEmpty(orgOwn)) {
+      try {
+        nodeKey = UUID.fromString(nodeOwn);
+        filteredDatasets =
+          getOwnedDatasetsFromOrganizations(nodeWsClient.listEndorsedBy(nodeKey, new PagingRequest(0, 50)).getResults());
+      } catch (IllegalArgumentException e) {
+        LOG.warn("Owning node parameter \"[{}]\" is not a valid UUID, ignoring parameter");
+      }
+    } else if (!Strings.isNullOrEmpty(nodeOwn) && !Strings.isNullOrEmpty(orgOwn)) {
       try {
         organizationKey = UUID.fromString(orgOwn);
+        filteredDatasets = datasetWsClient.listOwnedBy(organizationKey, new PagingRequest(0, 50)).getResults();
       } catch (IllegalArgumentException e) {
         LOG.warn("Owning organization parameter \"[{}]\" is not a valid UUID, ignoring parameter");
       }
-      filteredDatasets = datasetWsClient.listOwnedBy(organizationKey, new PagingRequest(0, 50));
     }
 
     // calculate the metrics for each dataset
-    if (filteredDatasets.getResults() != null) {
-      for (Dataset dataset : filteredDatasets.getResults()) {
+    if (!filteredDatasets.isEmpty()) {
+      for (Dataset dataset : filteredDatasets) {
         metricsList.add(metricsWsClient.getDatasetMetrics(UUID.fromString(dataset.getKey())));
       }
     } else {
@@ -91,24 +126,64 @@ public class CrawlerAction extends BaseAction {
       metricsList.addAll(metricsWsClient.getDatasetMetricsList());
     }
 
+    return createCrawlJobs(metricsList);
+  }
+
+  /**
+   * Generates a list of {@link CrawlJob} given a list of {@link DatasetCrawlMetrics}. The crawl jobs is a consolidated
+   * list of values which are displayed to the user.
+   * 
+   * @param metrics the {@link DatasetCrawlMetrics} object which contains only metrics for a dataset
+   * @return a consolidated list of values for datasets which involve metrics and information from the GBIF Registry
+   */
+  private List<CrawlJob> createCrawlJobs(List<DatasetCrawlMetrics> metrics) {
+    List<CrawlJob> crawlJobs = Lists.newArrayList();
     CrawlJob job;
     Dataset dataset;
     Organization organization;
-    for (DatasetCrawlMetrics dm : metricsList) {
+    for (DatasetCrawlMetrics dm : metrics) {
       dataset = datasetWsClient.get(dm.getDatasetKey());
-      // if the datasetKey does not exist in the GBIF Registry, don't add it to the crawled jobs list
+      job = new CrawlJob();
+      // if the datasetKey does not exist in the GBIF Registry, don't add the dataset info to the crawl job
       if (dataset != null) {
-        job = new CrawlJob();
-        if (dataset != null) {
-          organization = organizationWsClient.get(dataset.getOwningOrganizationKey());
-          job.setOwningOrganizationName(organization.getTitle());
-        }
-        job.setMetrics(dm);
+        organization = organizationWsClient.get(dataset.getOwningOrganizationKey());
+        job.setOwningOrganizationName(organization.getTitle());
         job.setDataset(dataset);
+        job.setCrawlMetrics(dm);
         crawlJobs.add(job);
       }
     }
     return crawlJobs;
+  }
+
+  /**
+   * Returns a list of {@link Dataset} generated from traversing across a list of organizations.
+   * 
+   * @param organizations
+   * @return
+   */
+  private List<Dataset> getHostedDatasetsFromOrganizations(List<Organization> organizations) {
+    List<Dataset> filteredDatasets = Lists.newArrayList();
+    for (Organization organization : organizations) {
+      filteredDatasets.addAll(datasetWsClient.listHostedBy(organization.getKey(), new PagingRequest(0, 50))
+        .getResults());
+    }
+    return filteredDatasets;
+  }
+
+  /**
+   * Returns a list of {@link Dataset} generated from traversing across a list of organizations.
+   * 
+   * @param organizations
+   * @return
+   */
+  private List<Dataset> getOwnedDatasetsFromOrganizations(List<Organization> organizations) {
+    List<Dataset> filteredDatasets = Lists.newArrayList();
+    for (Organization organization : organizations) {
+      filteredDatasets
+        .addAll(datasetWsClient.listOwnedBy(organization.getKey(), new PagingRequest(0, 50)).getResults());
+    }
+    return filteredDatasets;
   }
 
   public List<Node> getNodes() {
@@ -144,5 +219,19 @@ public class CrawlerAction extends BaseAction {
    */
   public void setOrgOwn(String orgOwn) {
     this.orgOwn = orgOwn;
+  }
+
+  /**
+   * @param nodeHost the nodeHost to set
+   */
+  public void setNodeHost(String nodeHost) {
+    this.nodeHost = nodeHost;
+  }
+
+  /**
+   * @param nodeOwn the nodeOwn to set
+   */
+  public void setNodeOwn(String nodeOwn) {
+    this.nodeOwn = nodeOwn;
   }
 }
