@@ -26,6 +26,11 @@
 //DEFAULT fade(in/out) time
 var FADE_TIME = 250;
 
+// This is needed as a nasty way to address http://dev.gbif.org/issues/browse/POR-365
+// The map is not correctly displayed, and requires a map.invalidateSize(); to be fired
+// After the filter div is rendered.  Because of this the map scope is public.
+var map;
+
 /**
  * Base module that contains the base implementation for the occurrence widgets.
  * Contains the implementation for the basic operations: create the HTML control, apply filters, show the applied filters and close/hide the widget.
@@ -178,6 +183,10 @@ var OccurrenceWidget = (function ($,_) {
               self.showAppliedFilters();
             });
           }
+          
+          // This is needed to address http://dev.gbif.org/issues/browse/POR-365 
+          // The solution was found https://groups.google.com/forum/?fromgroups=#!topic/leaflet-js/KVm6OvaOU3o
+          if (map!=null) map.invalidateSize();
         }
       },
 
@@ -681,7 +690,7 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
         var    
         minimal   = L.tileLayer(cmUrl, {styleId: 997,   attribution: cmAttr});
 
-        var map = L.map('map', {
+        map = L.map('map', {
           center: CONFIG.center,
           zoom: CONFIG.defaultZoom,
           layers: [minimal],
