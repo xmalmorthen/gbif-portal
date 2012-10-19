@@ -51,10 +51,22 @@
         });
     		showWaitDialog();
     		$('input:hidden[value='+ this.value +']').remove();
-    		if(this.checked){    			
-    			location =  location + this.value;
-    		}else{    			
-    			location = location.replace(this.value,'');    			
+    		if(this.checked){
+    		  if(location.indexOf('?') == -1){ //Condition that checks if the facet is the first parameter
+    		    //If it is the first parameter the '&' is removed
+    		    location =  location + '?' + this.value.substring(1,this.value.length);
+    		  }else {
+    		    location =  location + this.value;    		    
+    		  }
+    		}else{
+    		  //2 replaces are done to remove patterns: '&PARAM=value' and 'PARAM=value'
+    		  //second case applies when the parameter is the first in the list
+    			location = location.replace(this.value,'');
+    			location = location.replace(this.value.substring(1,this.value.length),'');
+    			if (location.indexOf('?&') != -1){
+    			  var firstAmpPosition = location.indexOf('&');
+    			  location = location.substring(0,firstAmpPosition) + location.substring(firstAmpPosition + 1,location.length);
+    			}
     		}
     		window.location= location;
     	})

@@ -20,6 +20,7 @@ import java.util.Map;
 
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -82,22 +83,6 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
   }
 
   /**
-   * Searches for facetInstance.name in the list of FacetInstances.
-   * 
-   * @param facet search parameter to find the value in
-   * @param name facet name to find
-   * @return the existing facet instance from the counts or null
-   */
-  private FacetInstance findFacetInstanceByName(P facet, String name) {
-    for (FacetInstance fi : facetCounts.get(facet)) {
-      if (fi.getName() != null && fi.getName().equals(name)) {
-        return fi;
-      }
-    }
-    return null;
-  }
-
-  /**
    * Translates current url query parameter values via the translateFacetValue method.
    * 
    * @return current url with translated values
@@ -146,68 +131,22 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
     return facetCounts;
   }
 
-   public int getMaxFacets() {
+  public Map<P, Long> getFacetMinimumCount() {
+    return facetMinimumCount;
+  }
+
+  public int getMaxFacets() {
     return MAX_FACETS;
   }
 
   /**
    * Gets the facet counts that are part of the current search request filter.
    * Used in the facet UI.
+   * 
    * @return the selected facet counts if any
    */
   public Map<P, List<FacetInstance>> getSelectedFacetCounts() {
     return selectedFacetCounts;
-  }
-
-  /**
-   * By using the response object, this method initializes the facetCounts field.
-   * If the response object contains facets, iterates over the facets for copying the count information into the
-   * facetCounts (see {@link Facet.Count}) field.
-   */
-  private void initializeFacetsForUI() {
-    if (searchResponse.getFacets() != null && !searchResponse.getFacets().isEmpty()) {
-      // there are facets in the response
-      for (Facet<P> facet : searchResponse.getFacets()) {
-        if (facet.getCounts() != null) {// the facet.Count are stored in the facetCounts field
-          //facetFilters.put(facet.getField(), toFacetInstance(facet.getCounts()));
-          facetCounts.put(facet.getField(), toFacetInstance(facet.getCounts()));
-        }
-      }
-    }
-  }
-
-  private void initMinCounts() {
-    if (!searchRequest.getParameters().isEmpty()) {
-      // calculate the minimum count for each facet
-      for (Facet<P> facet : searchResponse.getFacets()) {
-        Long min = null;
-        for (Facet.Count cnt: facet.getCounts()) {
-          if (cnt.getCount() != null && (min == null || cnt.getCount() < min)) {
-            min = cnt.getCount();
-          }
-        }
-        facetMinimumCount.put(facet.getField(), min);
-      }
-    }
-  }
-
-  private void initSelectedFacetCounts() {
-    if (!searchRequest.getParameters().isEmpty()) {
-      // convert request filters into facets instances
-      for (P facet : searchRequest.getParameters().keySet()) {
-        selectedFacetCounts.put(facet, Lists.<FacetInstance>newArrayList());
-        for (String filterValue : searchRequest.getParameters().get(facet)) {
-          FacetInstance facetInstance = findFacetInstanceByName(facet, filterValue);
-          if (facetInstance == null) {
-            facetInstance = new FacetInstance(filterValue);
-            facetInstance.setCount(null);
-            // also add them to the list of all counts so we will lookup titles
-            facetCounts.get(facet).add(facetInstance);
-          }
-          selectedFacetCounts.get(facet).add(facetInstance);
-        }
-      }
-    }
   }
 
   /**
@@ -239,6 +178,75 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
     }
   }
 
+  /**
+   * Searches for facetInstance.name in the list of FacetInstances.
+   * 
+   * @param facet search parameter to find the value in
+   * @param name facet name to find
+   * @return the existing facet instance from the counts or null
+   */
+  private FacetInstance findFacetInstanceByName(P facet, String name) {
+    for (FacetInstance fi : facetCounts.get(facet)) {
+      if (fi.getName() != null && fi.getName().equals(name)) {
+        return fi;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * By using the response object, this method initializes the facetCounts field.
+   * If the response object contains facets, iterates over the facets for copying the count information into the
+   * facetCounts (see {@link Facet.Count}) field.
+   */
+  private void initializeFacetsForUI() {
+    if (searchResponse.getFacets() != null && !searchResponse.getFacets().isEmpty()) {
+      // there are facets in the response
+      for (Facet<P> facet : searchResponse.getFacets()) {
+        if (facet.getCounts() != null) {// the facet.Count are stored in the facetCounts field
+          // facetFilters.put(facet.getField(), toFacetInstance(facet.getCounts()));
+          facetCounts.put(facet.getField(), toFacetInstance(facet.getCounts()));
+        }
+      }
+    }
+  }
+
+  private void initMinCounts() {
+    if (!searchRequest.getParameters().isEmpty()) {
+      // calculate the minimum count for each facet
+      for (Facet<P> facet : searchResponse.getFacets()) {
+        Long min = null;
+        for (Facet.Count cnt : facet.getCounts()) {
+          if (cnt.getCount() != null && (min == null || cnt.getCount() < min)) {
+            min = cnt.getCount();
+          }
+        }
+        facetMinimumCount.put(facet.getField(), min);
+      }
+    }
+  }
+
+  private void initSelectedFacetCounts() {
+    if (!searchRequest.getParameters().isEmpty()) {
+      // convert request filters into facets instances
+      for (P facet : searchRequest.getParameters().keySet()) {
+        selectedFacetCounts.put(facet, Lists.<FacetInstance>newArrayList());
+        for (String filterValue : searchRequest.getParameters().get(facet)) {
+          if (!Strings.isNullOrEmpty(Strings.nullToEmpty(filterValue).trim())) {
+            FacetInstance facetInstance = findFacetInstanceByName(facet, filterValue);
+            if (facetInstance == null) {
+              facetInstance = new FacetInstance(filterValue);
+              facetInstance.setCount(null);
+              // also add them to the list of all counts so we will lookup titles
+              facetCounts.get(facet).add(facetInstance);
+            }
+            selectedFacetCounts.get(facet).add(facetInstance);
+          }
+        }
+      }
+    }
+  }
+
   private List<FacetInstance> toFacetInstance(List<Facet.Count> counts) {
     List<FacetInstance> instances = Lists.newArrayList();
     for (Facet.Count c : counts) {
@@ -248,9 +256,5 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
       }
     }
     return instances;
-  }
-
-  public Map<P, Long> getFacetMinimumCount() {
-    return facetMinimumCount;
   }
 }
