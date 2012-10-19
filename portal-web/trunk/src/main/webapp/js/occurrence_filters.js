@@ -568,34 +568,51 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
     return;
   };
 
+  /**
+   * According to the filter name the label is adjusted for the UI.
+   */
   function formatLabelByFilter(filter) {
     var label = filter.label;
     if(filter.paramName == 'date') {
       var values = filter.value.split(',');
-      if(values.length > 0){
+      if(values.length > 0) {
+        //Date ranges use the format date1 TO Date2
         label = values[0] + " TO " + values[1];
       }                
     }else if(filter.paramName == 'bbox') {
+      //Coordinates values in bounding boxes are separated by comma
       var values = filter.value.split(',');
       label = values[0] + ',' + values[1] + " TO " + values[2] + ',' + values[3];                
     }
     return label;
   };
 
+  /**
+   * Calculates visible position in the screen. The returned value of this function is used to display the "wait dialog" while a request is submitted to the server.
+   */
   function getTopPosition(div) {
     return (( $(window).height() - div.height()) / 2) + $(window).scrollTop() - 50;
   };
 
+  /**
+   * Displays the "wait dialog" while a request is submitted to the server.
+   */
   function showWaitDialog(){
+    //Sets the position
     $('#waitDialog').css("top", getTopPosition($('#waitDialog')) + "px");
+    //Shows the dialog
     $('#waitDialog').fadeIn("medium", function() { hidden = false; });
+    //Append the dialog to the html.body
     $("body").append("<div id='lock_screen'></div>");
+    //Locks the screen
     $("#lock_screen").height($(document).height());
     $("#lock_screen").fadeIn("slow");
   };
 
 
-
+  /**
+   * Default constructor for the widget manager.
+   */
   var InnerOccurrenceWidgetManager = function(targetUrlValue,filters,controlSelector){
     widgets = new Array();
     filterWidgets = new Array();
@@ -606,18 +623,26 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
 
   InnerOccurrenceWidgetManager.prototype = {                 
 
+      //Constructor
       constructor : InnerOccurrenceWidgetManager,           
 
+      /**
+       * Gets the list of widgets.
+       */
       getWidgets : function(){ return widgets;},
 
       /**
        * Binds the filter rendering to a click event of HTML element.
+       * Creates an occurrence widgets depending of its names, for example: if the paramater name "DATE" exists an OccurrenceDateWidget instance is created.
        */
       bindToWidgetsControl : function(element) {
         var self = this;
         var widgetContainer = $("tr.header");
         this.targetUrl = targetUrl;
-        $(element).find('.filter-control').each( function(idx,control){
+        //Iterates over all elements with class 'filter-control' in the current page
+        $(element).find('.filter-control').each( function(idx,control) {
+          //By examinig the attribute data-filter creates the corresponding OccurreWidget(or subtype) instance.
+          //Also the binding function is set as parameter, for instance: elf.bindSpeciesAutosuggest. When a binding function isn't needed a empty function is set:  function(){}.
           var filterName = $(control).attr("data-filter");
           var newWidget;
           if(filterName == "TAXON_KEY"){
@@ -642,7 +667,7 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
             newWidget = new OccurrenceBasisOfRecordWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});              
           }                  
-          else {
+          else { //By default creates a simple OccurrenceWidget with an empty binding function
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});                      
           }
@@ -650,23 +675,33 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           widgets.push(newWidget);
         });       
       },      
+      /**
+       * Binds the species auto-suggest widget used by the TAXON_KEY widget.
+       */
       bindSpeciesAutosuggest: function(){
         $(':input.species_autosuggest').each( function(idx,el){
           $(el).speciesAutosuggest(cfg.wsClbSuggest, 4, "#nubTaxonomyKey[value]", "#content",false);
         });   
       },
+      /**
+       * Binds the dataset title auto-suggest widget used by the DATASET_KEY widget.
+       */
       bindDatasetAutosuggest: function(){
         $(':input.dataset_autosuggest').each( function(idx,el){
           $(el).datasetAutosuggest(cfg.wsRegSuggest,4,"#content");
         });   
       },
-
+      /**
+       * Binds the collector name  auto-suggest widget used by the COLLECTOR_NAME widget.
+       */
       bindCollectorNameAutosuggest : function(){        
         $(':input.collector_name_autosuggest').each( function(idx,el){
           $(el).termsAutosuggest(cfg.wsOccCollectorNameSearch, "#content",4);
         });        
       },
-
+      /**
+       * Binds the catalog number  auto-suggest widget used by the CATALOG_NAME widget.
+       */
       bindCatalogNumberAutosuggest : function(){                
         $(':input.catalog_number_autosuggest').each( function(idx,el){
           $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",4);
@@ -674,7 +709,7 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
       },
 
       /**
-       * Binds/initializes the map widget.
+       * Binds the catalog number  auto-suggest widget used by the BBOX widget.
        */
       bindMap : function() {
         var CONFIG = { // global config var
@@ -720,7 +755,7 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
       },
 
       /**
-       * Function that applies the selected filters issuing a request to target url.
+       * Applies the selected filters by issuing a request to target url.
        */
       applyOccurrenceFilters : function(){
         showWaitDialog();
@@ -732,7 +767,8 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           params['nubKey'] = $("#nubKey").val();
         }        
         var u = $.url();
-
+        
+        //Collect the filter values
         for(var wi=0; wi < widgets.length; wi++) {
           var widgetFilters = widgets[wi].getAppliedFilters();
           for(var fi=0; fi < widgetFilters.length; fi++){
@@ -747,11 +783,15 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
               params[filterId].push(filter.value);              
             }                      
           }          
-        }                
+        }       
+        //redirects the window to the target
         window.location = targetUrl + $.param(params,true);
         return true;  // submit?
       },    
 
+      /**
+       * Iterates over all the "filter widgets" and executes on each one the init() function.
+       */
       initFilterWidgets : function(){
         for(var i=0; i < filterWidgets.length; i++){          
           filterWidgets[i].init();
@@ -762,13 +802,14 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
        * Initializes the state of the module and renders the previously applied filters.
        */
       initialize: function(filters){
-        var self = this;                
+        var self = this;  
+        //The filters parameter could be null or undefined when none filter has been interpreted from the HTTP request 
         if(typeof(filters) != 'undefined' && filters != null){              
           $.each(filters, function(key,filterValues){
             $.each(filterValues, function(idx,filter) {              
               filter.label = formatLabelByFilter(filter);              
               var occWidget = getWidgetById(filter.paramName);
-              if (occWidget != 'undefined') {
+              if (occWidget != 'undefined') { //If the parameter doesn't exist avoids the initialization
                 occWidget.addAppliedFilter({key:filter.key,value:filter.value})     
                 var filterWidget = getFilterWidgetById(filter.paramName);
                 if(filterWidget == undefined){
