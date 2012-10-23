@@ -291,7 +291,9 @@
       <result>/WEB-INF/pages/admin/home.ftl</result>
     </action>
     
-    <action name="crawler" class="org.gbif.portal.action.admin.CrawlerAction">
+    <action name="crawler" class="org.gbif.portal.action.admin.CrawlerAction">   
+    <!-- TODO: Overriding the adminStack - Remove this portalStack interceptor when the UI goes live -->
+    <interceptor-ref name="portalStack" />
       <result>/WEB-INF/pages/admin/crawler.ftl</result>
     </action>    
     
