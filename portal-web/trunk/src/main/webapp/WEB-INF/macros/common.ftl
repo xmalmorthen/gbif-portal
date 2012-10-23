@@ -55,26 +55,29 @@
 	Construct a Contact. Parameter is the actual contact object.
 -->
 <#macro contact con>
-<strong><h4>${con.firstName!} ${con.lastName!}</h4></strong>
-  <#if con.organizationName?has_content>
-  <h4 class="position">${con.organizationName!}</h4>
-  </#if>
-<#-- TODO: change enum as this displays something like "POINT_OF_CONTACT" -->
+<div class="contact">
   <#if con.type?has_content>
+   <div class="contactType">
     <#if con.type.interpreted?has_content>
-    <h4 class="position"><@s.text name="enum.contacttype.${con.type.interpreted}"/></h4>
-      <#elseif con.type.verbatim?has_content>
-      <h4 class="position verbatim_temp">${con.type.verbatim?string!}</h4>
+      <@s.text name="enum.contacttype.${con.type.interpreted}"/>
+    <#elseif con.type.verbatim?has_content>
+      ${con.type.verbatim?string!}
     </#if>
+   </div>
   </#if>
-
-  <#if con.position?has_content>
-  <h4 class="position">${con.position!}</h4>
+   <div class="contactName">
+    ${con.firstName!} ${con.lastName!}
+   </div>
+  <#if con.position?has_content || con.organizationName?has_content>
+   <div>
+    ${con.position!}
+    <#if con.position?has_content && con.organizationName?has_content> at </#if>
+    ${con.organizationName!}
+   </div>
   </#if>
-
-<address>
+ <address>
   <!-- remember Contact.Country is an Enum, and we want to display the title (ie. Great Britain, not the code GB) -->
-  <#assign props = ["${con.address!}","${con.city!}", "${con.province!}", "${con.postalCode!}", "${con.country!title!}" ]>
+  <#assign props = ["${con.address!}","${con.city!}", "${con.province!}", "${con.postalCode!}", "${(con.country.title)!}" ]>
   <#list props as k>
     <#if k?has_content>
     ${k}<#if k_has_next>, </#if>
@@ -87,7 +90,8 @@
   <#if con.phone?has_content>
   ${con.phone!}
   </#if>
-</address>
+ </address>
+</div>
 </#macro>
 
 <#--
