@@ -17,6 +17,7 @@ import org.gbif.portal.model.FacetInstance;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
@@ -41,6 +42,9 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
   private static final long serialVersionUID = -1573017190241712345L;
   private static final Splitter querySplitter = Splitter.on("&").omitEmptyStrings();
   private static final Splitter paramSplitter = Splitter.on("=");
+
+  // network entity title lookup by their uuid key. Can be used for organizations, networks, nodes or datasets
+  protected Map<UUID, String> titles = Maps.newHashMap();
 
   private final Map<P, List<FacetInstance>> facetCounts = Maps.newHashMap();
   private final Map<P, Long> facetMinimumCount = Maps.newHashMap();
@@ -256,5 +260,9 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
       }
     }
     return instances;
+  }
+
+  public Map<UUID, String> getTitles() {
+    return titles;
   }
 }

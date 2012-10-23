@@ -17,6 +17,7 @@ import org.gbif.api.model.registry.search.DatasetSearchResult;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetSearchService;
+import org.gbif.api.service.registry.NetworkService;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.portal.action.BaseFacetedSearchAction;
@@ -35,7 +36,9 @@ public class SearchAction
   private static final long serialVersionUID = 1488419402277401976L;
 
   private OrganizationService orgService;
+  private NetworkService networkService;
   private Function<String, String> getOrgTitle;
+  private Function<String, String> getNetworkTitle;
   private CubeService occurrenceCube;
   private DatasetMetricsService checklistMetricsService;
 
@@ -44,9 +47,10 @@ public class SearchAction
 
   @Inject
   public SearchAction(DatasetSearchService datasetSearchService, OrganizationService orgService,
-    CubeService occurrenceCube, DatasetMetricsService checklistMetricsService) {
+    CubeService occurrenceCube, DatasetMetricsService checklistMetricsService, NetworkService networkService) {
     super(datasetSearchService, DatasetSearchParameter.class, new DatasetSearchRequest());
     this.orgService = orgService;
+    this.networkService = networkService;
     this.occurrenceCube = occurrenceCube;
     this.checklistMetricsService = checklistMetricsService;
     initGetTitleFunctions();
@@ -60,9 +64,23 @@ public class SearchAction
 
       @Override
       public String apply(String key) {
-        if (Strings.emptyToNull(key) != null) {
+        if (!Strings.isNullOrEmpty(key)) {
           try {
             return orgService.get(UUID.fromString(key)).getTitle();
+          } catch (Exception e) {
+          }
+        }
+        return null;
+      }
+    };
+
+    getNetworkTitle = new Function<String, String>() {
+
+      @Override
+      public String apply(String key) {
+        if (!Strings.isNullOrEmpty(key)) {
+          try {
+            return networkService.get(UUID.fromString(key)).getTitle();
           } catch (Exception e) {
           }
         }
@@ -79,6 +97,7 @@ public class SearchAction
     // replace organisation keys with real names
     lookupFacetTitles(DatasetSearchParameter.HOSTING_ORG, getOrgTitle);
     lookupFacetTitles(DatasetSearchParameter.OWNING_ORG, getOrgTitle);
+    lookupFacetTitles(DatasetSearchParameter.NETWORK_ORIGIN, getNetworkTitle);
 
     // populate counts
     for (DatasetSearchResult dsr : getSearchResponse().getResults()) {
@@ -92,8 +111,18 @@ public class SearchAction
           recordCounts.put(dsr.getKey(), Long.valueOf(metrics.getCountIndexed()));
         }
       }
+      // load network titles
+      if (dsr.getNetworkOfOriginKey() != null && !titles.containsKey(dsr.getNetworkOfOriginKey())) {
+        try {
+          titles.put(dsr.getNetworkOfOriginKey(), networkService.get(dsr.getNetworkOfOriginKey()).getTitle());
+        } catch (Exception e) {
+          LOG.error("Failed to load network title with key {}", dsr.getNetworkOfOriginKey());
+          titles.put(dsr.getNetworkOfOriginKey(), null);
+        }
+      }
     }
-    
+
+
     return SUCCESS;
   }
 
