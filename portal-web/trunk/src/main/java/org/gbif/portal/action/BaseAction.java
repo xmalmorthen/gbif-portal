@@ -95,7 +95,7 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
   }
 
   public UUID getNubDatasetKey() {
-    return org.gbif.api.model.checklistbank.Constants.NUB_TAXONOMY_KEY;
+    return org.gbif.api.model.Constants.NUB_TAXONOMY_KEY;
   }
 
   public List<Rank> getRankEnum() {

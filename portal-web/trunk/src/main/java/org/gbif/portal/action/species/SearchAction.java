@@ -8,7 +8,7 @@
  */
 package org.gbif.portal.action.species;
 
-import org.gbif.api.model.checklistbank.Constants;
+import org.gbif.api.model.Constants;
 import org.gbif.api.model.checklistbank.VernacularName;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchParameter;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchRequest;

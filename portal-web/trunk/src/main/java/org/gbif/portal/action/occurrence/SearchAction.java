@@ -1,6 +1,6 @@
 package org.gbif.portal.action.occurrence;
 
-import org.gbif.api.model.checklistbank.Constants;
+import org.gbif.api.model.Constants;
 import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;

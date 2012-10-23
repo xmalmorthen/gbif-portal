@@ -1,6 +1,6 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.api.model.checklistbank.Constants;
+import org.gbif.api.model.Constants;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.vocabulary.Extension;
