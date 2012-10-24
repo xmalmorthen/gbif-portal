@@ -589,11 +589,16 @@
         <p>
           <#if usage.citation?has_content>
             ${usage.citation}
-          <#elseif dataset.citation??>
-            <@common.citation dataset.citation />
           <#else>
-            missing, see <a href="http://dev.gbif.org/issues/browse/REG-229">REG-229</a>
+            ${usage.scientificName} In:
+            <#if dataset.citation??>
+              <@common.citation dataset.citation />
+            <#else>
+              missing, see <a href="http://dev.gbif.org/issues/browse/REG-229">REG-229</a>
+            </#if>
           </#if>
+          <br/>
+          Accessed via ${currentUrl} on ${.now?date?iso_utc}
         </p>
     </div>
 </@common.article>
