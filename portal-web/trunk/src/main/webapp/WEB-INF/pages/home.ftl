@@ -4,6 +4,55 @@
   </head>
   <body class="home">
 
+    <article class="search">
+
+    <header></header>
+
+    <div class="content">
+
+      <ul>
+        <li>
+        <h3>Enables biodiversity data sharing and re-use</h3>
+        <ul>
+          <li><a href="#">Why publish your data?</a></li>
+          <li><a href="#">How to publish your data</a></li>
+          <li><a href="#">Data from citizen scientists</a></li>
+        </ul>
+        </li>
+
+        <li>
+        <h3>Supports biodiversity research</h3>
+        <ul>
+          <li><a href="#">Why publish your data?</a></li>
+          <li><a href="#">How to publish your data</a></li>
+          <li><a href="#">Data from citizen scientists</a></li>
+        </ul>
+        </li>
+
+        <li>
+        <h3>Collaborates as a global community</h3>
+        <ul>
+          <li><a href="#">Why publish your data?</a></li>
+          <li><a href="#">How to publish your data</a></li>
+          <li><a href="#">Data from citizen scientists</a></li>
+        </ul>
+        </li>
+
+      </ul>
+    </div>
+    <div class="footer">
+
+      <form action="/member/search">
+        <span class="input_text">
+          <input type="text" name="q" placeholder="Search names,countries..." class="focus">
+        </span>
+        <button type="submit" class="search_button"><span>Search</span></button>
+      </form>
+
+    </div>
+    <footer></footer>
+    </article>
+
     <article class="latest-news">
 
     <header></header>
