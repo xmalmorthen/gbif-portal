@@ -187,12 +187,16 @@ public class CrawlerAction extends BaseAction {
   }
 
   public List<Node> getNodes() {
-    // TODO: Build list of all available nodes.
+    /*
+    TODO: We don't need to load a list of nodes right now, as the use of the Crawler UI
+    is for inspecting the crawling process instead of scheduling new crawls.
+    
     PagingResponse<Node> response = nodeWsClient.list(new PagingRequest(0, 50));
 
     if (response != null) {
       return response.getResults();
     }
+    */
     return null;
   }
 
