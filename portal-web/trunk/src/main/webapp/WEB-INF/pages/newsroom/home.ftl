@@ -33,9 +33,9 @@
       <div class="left">
         <h2>GBIF Finland pioneers digitization ‘assembly line’</h2>
         <p>
-          Digitarium, the digitization centre for the Finnish Museum of Natural History and University of Eastern Finland is building an assembly line for mass digitization.  The idea is to accelerate the process of turning plant and insect specimens into digital data, unlocking centuries of knowledge for universal access.  
+        Digitarium, the digitization centre for the Finnish Museum of Natural History and University of Eastern Finland is building an assembly line for mass digitization.  The idea is to accelerate the process of turning plant and insect specimens into digital data, unlocking centuries of knowledge for universal access.  
         </p>
-  
+
         <a href="#" class="read_more">Read more</a>
       </div>
 
@@ -66,11 +66,11 @@
       </div>
 
       <div class="inner">
-      
+
         <ul>
           <li>
           <a href="<@s.url value='/newsroom/uses/1'/>">
-            <img src="http://placehold.it/270x170" />
+            <img src="<@s.url value='/img/dummies/batdummy.jpg'/>" />
           </a>
           <a href="<@s.url value='/newsroom/uses/1'/>" class="title">Vampire bats and cattle risks</a>
           <p>Research using data downloaded via GBIF has forecast the potential spread of cattle rabies carried by vampire bats in the Americas, both under present conditions and under future climate change scenarios.</p>
@@ -79,7 +79,7 @@
 
           <li>
           <a href="<@s.url value='/newsroom/uses/2'/>">
-            <img src="http://placehold.it/270x170" />
+            <img src="<@s.url value='/img/dummies/aphdummy.jpg'/>" />
           </a>
           <a href="<@s.url value='/newsroom/uses/2'/>" class="title">Vampire bats and cattle risks</a>
           <p>Research using data downloaded via GBIF has forecast the potential spread of cattle rabies carried by vampire bats in the Americas, both under present conditions and under future climate change scenarios.</p>
@@ -88,7 +88,7 @@
 
           <li class="last">
           <a href="<@s.url value='/newsroom/uses/3'/>">
-            <img src="http://placehold.it/270x170" />
+            <img src="<@s.url value='/img/dummies/ecodummy.jpg'/>" />
           </a>
           <a href="<@s.url value='/newsroom/uses/3'/>" class="title">Vampire bats and cattle risks</a>
           <p>Research using data downloaded via GBIF has forecast the potential spread of cattle rabies carried by vampire bats in the Americas, both under present conditions and under future climate change scenarios.</p>
@@ -97,8 +97,8 @@
         </ul>
 
         <a href="<@s.url value='/newsroom/uses'/>" class="candy_white_button more_news next lft"><span>More data use news</span></a>
-        
-      
+
+
       </div>
 
 
@@ -119,51 +119,51 @@
 
       <div class="content">
         <div class="left">
-      
-        <ul>
 
-          <li>
-          <h4 class="date">DEC 15TH 2011</h4>
-          <a href="<@s.url value='/newsroom/news/1'/>" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
-          <p>A landmark conference has agreed key priorities for harnessing the power of information technologies and social networks to understand better the workings of life on Earth. </p>
-          <a href="<@s.url value='/newsroom/news/1'/>" class="read_more">Read more</a>
-          </li>
+          <ul>
 
-          <li>
-          <h4 class="date">DEC 15TH 2011</h4>
-          <a href="<@s.url value='/newsroom/news/2'/>" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
-          <p>A landmark conference has agreed key priorities for harnessing the power of information technologies and social networks to understand better the workings of life on Earth. </p>
-          <a href="<@s.url value='/newsroom/news/2'/>" class="read_more">Read more</a>
-          </li>
+            <li>
+            <h4 class="date">DEC 15TH 2011</h4>
+            <a href="<@s.url value='/newsroom/news/1'/>" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
+            <p>A landmark conference has agreed key priorities for harnessing the power of information technologies and social networks to understand better the workings of life on Earth. </p>
+            <a href="<@s.url value='/newsroom/news/1'/>" class="read_more">Read more</a>
+            </li>
 
-          <li>
-          <h4 class="date">DEC 15TH 2011</h4>
-          <a href="<@s.url value='/newsroom/news/3'/>" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
-          <p>A landmark conference has agreed key priorities for harnessing the power of information technologies and social networks to understand better the workings of life on Earth. </p>
-          <a href="<@s.url value='/newsroom/news/3'/>" class="read_more">Read more</a>
-          </li>
+            <li>
+            <h4 class="date">DEC 15TH 2011</h4>
+            <a href="<@s.url value='/newsroom/news/2'/>" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
+            <p>A landmark conference has agreed key priorities for harnessing the power of information technologies and social networks to understand better the workings of life on Earth. </p>
+            <a href="<@s.url value='/newsroom/news/2'/>" class="read_more">Read more</a>
+            </li>
 
-        </ul>
+            <li>
+            <h4 class="date">DEC 15TH 2011</h4>
+            <a href="<@s.url value='/newsroom/news/3'/>" class="title">Conference targets priorities for biodiversity ‘intelligence’</a>
+            <p>A landmark conference has agreed key priorities for harnessing the power of information technologies and social networks to understand better the workings of life on Earth. </p>
+            <a href="<@s.url value='/newsroom/news/3'/>" class="read_more">Read more</a>
+            </li>
 
-        <a href="<@s.url value='/newsroom/news'/>" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
-      </div>
+          </ul>
 
-      <div class="right">
-        <div class="subscribe">
-          <h3>GBITS NEWSLETTER</h3>
-          <p>Keep up to date with the latest GBIF news by signing up to GBits</p>
+          <a href="<@s.url value='/newsroom/news'/>" class="candy_white_button more_news next lft"><span>More GBIF news</span></a>
+        </div>
 
-          <form action="">
-            <span class="input_text">
-              <input type="text" name="q" placeholder="Enter your email" />
-            </span>
-          </form>
+        <div class="right">
+          <div class="subscribe">
+            <h3>GBITS NEWSLETTER</h3>
+            <p>Keep up to date with the latest GBIF news by signing up to GBits</p>
 
-          <a href="" class="candy_blue_button"><span>Sign up</span></a>
+            <form action="">
+              <div class="input_text">
+                <input type="text" name="q" placeholder="Enter your email" />
+              </div>
+            </form>
+
+            <a href="" class="candy_blue_button"><span>Sign up</span></a>
+
+          </div>
 
         </div>
-      
-      </div>
       </div>
 
 
