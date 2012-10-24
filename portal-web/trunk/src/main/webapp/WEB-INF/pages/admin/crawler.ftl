@@ -134,8 +134,8 @@
               <tr>
                 <td><a href="${baseUrl}/organization/${(ds.dataset.owningOrganizationKey)!}">${ds.owningOrganizationName!}</a></td>
                 <td><a href="${baseUrl}/dataset/${(ds.dataset.key)!}">${(ds.dataset.title)!}</a></td>
-                <td>${(ds.crawlMetrics.startedCrawling)!"--"}</td>
-                <td>${(ds.crawlMetrics.finishedCrawling)!"--"}</td>
+                <td>${(ds.crawlMetrics.startedCrawling?datetime)!"--"}</td>
+                <td>${(ds.crawlMetrics.finishedCrawling?datetime)!"--"}</td>
                 <td><a href="#" class="crawl_popup" content="${(ds.crawlMetrics.crawlContext)!"No crawl context available"}">View<div id="crawlContext"></div></a></td>
                 <td>${(ds.crawlMetrics.pagesCrawled)!"--"}</td>
                 <td>${(ds.crawlMetrics.pagesFragmented)!"--"}</td>
