@@ -18,7 +18,7 @@ This include requires 2 arrays to be set:
           <#list selectedFacetCounts.get(facet) as count>
             <#assign displayedFacets = displayedFacets + 1>
             <li>
-              <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count!minCnt})
+              <a href="#" title="${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,30)}</a> (${count.count!minCnt})
               <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" checked/>
               <input type="hidden" value="${count.name!}" class="facetKey"/>
             </li>
@@ -32,7 +32,7 @@ This include requires 2 arrays to be set:
           <#if !(action.isInFilter(facet,count.name))>
             <#assign displayedFacets = displayedFacets + 1>
             <li>
-              <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count!minCnt})
+              <a href="#" title="${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,30)}</a> (${count.count!minCnt})
               <input type="checkbox" value="&${facetName?lower_case}=${count.name!}"/>              
             </li>
           </#if>

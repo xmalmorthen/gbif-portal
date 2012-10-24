@@ -77,7 +77,9 @@ public class DatasetBaseAction extends BaseAction {
     }
 
     // gets the owning organization
-    owningOrganization = organizationService.get(dataset.getOwningOrganizationKey());
+    if (dataset.getOwningOrganizationKey() != null) {
+      owningOrganization = organizationService.get(dataset.getOwningOrganizationKey());
+    }
 
     // get metrics
     try {
