@@ -2,11 +2,14 @@
   <head>
     <title>GBIF Data Portal - Home</title>
   </head>
+
   <body class="home">
 
+    <div class="container">
     <article class="search">
 
-    <header></header>
+    <header>
+    </header>
 
     <div class="content">
 
@@ -213,6 +216,7 @@
   </div>
   <footer></footer>
   </article>
+</div>
 
 </body>
 </html>

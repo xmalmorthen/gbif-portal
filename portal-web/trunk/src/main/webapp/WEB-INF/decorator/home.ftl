@@ -88,10 +88,20 @@
       </div>
 
       <div id="logo">
-        <a href="<@s.url value='/'/>" class="logo"><img src="<@s.url value='/img/header/logo.png'/>"/></a>
+        <a href="<@s.url value='/'/>" class="logo"></a>
+      </div>
 
-        <h1><a href="<@s.url value='/'/>" title="GBIF.ORG">GBIF.ORG</a></h1>
-        <span>Free and open access to biodiversity data</span>
+      <div class="info">
+        <h1>Global Biodiversity Information Facility</h1>
+        <h2>Free and open access to biodiversity data</h2>
+
+        <ul class="counters">
+          <li><strong>377,177,914</strong> Occurrences</li>
+          <li><strong>1,022,246</strong> Species</li>
+          <li><strong>10,028</strong> Datasets</li>
+          <li><strong>419</strong> Data publishers</li>
+        </ul>
+
       </div>
 
       <nav>
