@@ -101,6 +101,14 @@
 
   <h3>Publication Date</h3>
   <p>${(dataset.pubDate?date)!"Unkown"}</p>
+  
+  <h3>Constituent of</h3>
+  <#if parentDataset??>
+    <p><a href="<@s.url value='/dataset/${parentDataset.key}'/>"
+          title="${parentDataset.title!"Unknown"}">${parentDataset.title!"Unknown"}</a></p>
+    <#else>
+      <p>Unknown</p>
+  </#if>
 
   <!-- Only show network of origin, if there was no owning organization, as is case for external datasets -->
   <#if owningOrganization??>
@@ -532,6 +540,27 @@
 
 </div>
 </@common.article>
+
+<#if constituentDatasets?has_content>
+<@common.article id="datasets" title="Constituent Datasets">
+  <div class="left">
+      <ul class="notes">
+        <#list constituentDatasets as d>
+          <li>
+            <a href="<@s.url value='/dataset/${d.key}'/>">${d.title!"???"}</a>
+            <span class="note">A ${d.subtype!} <@s.text name="enum.datasettype.${d.type!}"/>
+              <#if d.pubDate??>${d.pubDate?date?string.medium}</#if></span>
+          </li>
+        </#list>
+        <#if moreConstituents>
+          <li>
+            <a class="more_link" href="<@s.url value='/dataset/${member.key}/constituents'/>">see all</a>
+          </li>
+        </#if>
+      </ul>
+  </div>
+</@common.article>
+</#if>
 
 </body>
 </html>

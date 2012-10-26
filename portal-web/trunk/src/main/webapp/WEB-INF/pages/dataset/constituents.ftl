@@ -1,4 +1,5 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
+<#import "/WEB-INF/macros/network_entity/dataset.ftl" as entity>
 <html>
 <head>
   <title>${dataset.title!"???"} - Dataset detail</title>
@@ -15,38 +16,24 @@
     </div>
   </div>
 
-  <article class="results light_pane">
+  <article class="results">
     <header></header>
     <div class="content">
 
       <div class="header">
         <div class="left">
-          <h2>${page.count!} Constituents of "${dataset.title!"???"}"</h2>
+          <h2>${page.count!} Constituent datasets for "${member.title!}"</h2>
         </div>
       </div>
 
-      <div class="left">
+      <div class="fullwidth">
 
-      <#list page.results as d>
-        <div class="result">
-          <h2>
-            <a href="<@s.url value='/dataset/${d.key}'/>"><strong>${d.title!"???"}</strong></a>
-          </h2>
-
-
-          <h3 class="separator"> </h3>
-
-          <div class="footer">
-            <#if d.type??><@s.text name="enum.datasettype.${d.type}"/><#else>Dataset</#if>
-            published by <a href="<@s.url value='/organization/${d.owningOrganizationKey}'/>">TODO:???</a>
-          </div>
-        </div>
+      <#list page.results as item>
+        <@entity.record dataset=item/>
       </#list>
-
         <div class="footer">
         <@paging.pagination page=page url=currentUrl/>
         </div>
-
       </div>
 
     </div>

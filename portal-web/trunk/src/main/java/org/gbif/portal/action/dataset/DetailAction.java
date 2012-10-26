@@ -8,7 +8,10 @@
  */
 package org.gbif.portal.action.dataset;
 
+import org.gbif.api.model.common.paging.PagingRequest;
+import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Contact;
+import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.TechnicalInstallation;
 import org.gbif.api.service.registry.TechnicalInstallationService;
@@ -26,8 +29,11 @@ public class DetailAction extends DatasetBaseAction {
   private static final Logger LOG = LoggerFactory.getLogger(DetailAction.class);
 
   private Organization hostingOrganization;
+  private Dataset parentDataset;
   private List<Contact> preferredContacts;
   private List<Contact> otherContacts;
+  private List<Dataset> constituentDatasets;
+  private boolean moreConstituents;
 
   @Inject
   private TechnicalInstallationService technicalInstallationService;
@@ -45,6 +51,14 @@ public class DetailAction extends DatasetBaseAction {
         hostingOrganization = organizationService.get(technicalInstallation.getHostingOrganizationKey());
       }
     }
+    // load the parentDataset if any
+    if (dataset.getParentDatasetKey() != null) {
+      parentDataset = datasetService.get(dataset.getParentDatasetKey());
+    }
+    // load first 10 constituent datasets
+    PagingResponse<Dataset> constituentResponse = datasetService.listConstituents(key, new PagingRequest(0, 10));
+    constituentDatasets = constituentResponse.getResults();
+    moreConstituents = !constituentResponse.isEndOfRecords();
     return SUCCESS;
   }
 
@@ -54,6 +68,18 @@ public class DetailAction extends DatasetBaseAction {
 
   public List<Contact> getPreferredContacts() {
     return preferredContacts;
+  }
+
+  public List<Dataset> getConstituentDatasets() {
+    return constituentDatasets;
+  }
+
+  public boolean isMoreConstituents() {
+    return moreConstituents;
+  }
+
+  public Dataset getParentDataset() {
+    return parentDataset;
   }
 
   /**
