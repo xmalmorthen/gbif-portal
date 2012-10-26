@@ -20,27 +20,36 @@ body.home {
     #top {
       background:none;
       .content {
+
         nav > ul > li > a { 
           color: #fff; 
           text-shadow:none;
+        font-family: "DINOT-Regular", Sans-Serif;
           background:url(../img/header/tip_down_white.png) no-repeat right 7px;
         }
+
         nav > ul > li.selected > a { 
           color: #09C;
           text-shadow:none;
           background:url(../img/header/tip_up.png) no-repeat right 7px;
         }
+
+        nav ul li.search {
+          form { display:none; }  
+        }
+
       }
     }
 
     .info {
+
       position:absolute;
       top: 120px;
       left: 70px;
 
       h1 {
         width: 500px;
-        margin: 0 0 7px 0;
+        margin: 0 0 8px 0;
 
         font-size:48px;
         font-family: "DINOT-Regular", Sans-Serif;
@@ -51,7 +60,7 @@ body.home {
 
       h2 {
         font-size:20px;
-        font-family: "DINOT-Medium", Sans-Serif;
+        font-family: "DINOT-Regular", Sans-Serif;
         color: #333333;
         text-shadow:none;
       }
@@ -349,15 +358,17 @@ body.home #content article.featured {
         li {
           padding: 0;
           margin: 0;
-          width: 270px;
+          width: 269px;
 
           margin: 0 28px 0 0;
           background:#fff;
           list-style:none;
 
           display: inline-block; *display: inline; *zoom: 1;
+          vertical-align: top;
 
           &.last { margin-right: 0; }
+          &:last-child { margin-right: 0; }
 
           img { margin: 0 0 15px 0; }
 

@@ -47,7 +47,7 @@
 
       <form action="/member/search">
         <span class="input_text">
-          <input type="text" name="q" placeholder="Search names,countries..." class="focus">
+          <input type="text" name="q" placeholder="Search GBIF for species, datasets or countries" class="focus">
         </span>
         <button type="submit" class="search_button"><span>Search</span></button>
       </form>
