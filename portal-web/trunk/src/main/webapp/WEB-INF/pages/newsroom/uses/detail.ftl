@@ -34,19 +34,11 @@
         <h5>SUMMARY</h5>
 
         <p>In this paper, a team from Mexico proposed and tested a new system of estimating the relative abundance of a species based only on data about where it occurs, combined with models of the ecological niche it occupies.</p>
-
         <p>Field research in two regions of Central Mexico on the white-tailed deer, a popular game species, were combined with occurrence records of the species obtained through GBIF and its Mexican partner Conabio.</p>
-
         <p>The researchers used these data to generate a model of the predicted range of the deer based on a set of nine environmental variables (an ecological niche model).</p>
-
         <p>For each pixel within the area of environmental suitability for the species, the “distance to the niche centroid” (DNC) was calculated - a multi-dimensional value representing how close any location is to the optimal set of conditions for the deer.</p>
-
         <p>This value was used to predict the density of deer across the two regions, and was found to correlate significantly with measures of actual density from the field studies.</p>
-
         <p>The authors suggest this could be a valuable tool for sustainable management and conservation of white-tailed deer and other species by estimating relative population density even when records of abundance are not available. </p>
-
-
-
       </div>
 
       <div class="right pushedDown">
@@ -80,13 +72,12 @@
 
         </ul>
       </div>
-      <div class="left">
+
+      <div class="left citation">
         <h3>CITATION INFORMATION</h3>
-
         <p>Yañez-Arenas, C. et al., 2012. <a href="#">Modelling geographic patterns of population density of the white-tailed deer in central Mexico by implementing ecological niche theory. </a> Oikos, online (March). [Accesed June 4, 2012]</p>
-
-
       </div>
+
       <div class="related footer">
         <h3>RELATED GBIF RESOURCES</h3>
         <ul>

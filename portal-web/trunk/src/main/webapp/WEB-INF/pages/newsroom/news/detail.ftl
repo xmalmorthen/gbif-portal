@@ -80,7 +80,7 @@
           </li>
 
           <li>
-          <a href="#"><img src="http://placehold.it/232x180" alt="" /></a>
+          <a href="#"><img src="<@s.url value='/img/tmp/insects.png'/>" /></a>
           <span class="description">Brown marmorated stink bugs</span>
           </li>
         </ul>

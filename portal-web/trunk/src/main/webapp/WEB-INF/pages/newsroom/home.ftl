@@ -31,7 +31,17 @@
           title: "Title2", 
           description: "Description",
           src: "<@s.url value='/img/tmp/slide03.jpg'/>"
-        } ];
+        }, { 
+          title: "Title3", 
+          description: "Description",
+          src: "<@s.url value='/img/tmp/slide04.jpg'/>"
+        }, { 
+          title: "Title4", 
+          description: "Description",
+          src: "<@s.url value='/img/tmp/slide05.jpg'/>"
+        }
+
+      ];
 
       $(".slideshow").bindArticleSlideshow(slides);
 
