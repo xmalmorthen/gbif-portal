@@ -41,9 +41,10 @@ $.fn.bindArticleSlideshow = function(slides) {
 
     if (slides[currentPhoto]) {
       $data.fadeOut(150, function() {
+
         $title.html(slides[currentPhoto].title);
         $description.html(slides[currentPhoto].description);
-        $description.attr("href", slides[currentPhoto].url);
+        $link.attr("href", slides[currentPhoto].url);
 
         $data.fadeIn(150);
 
@@ -202,20 +203,6 @@ function onSuccess(data) {
 init();
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*

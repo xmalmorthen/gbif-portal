@@ -156,35 +156,40 @@
     <script type="text/javascript">
       $(function() {
 
-      var slides = [
-        { 
-          title: "GBIF Finland pioneers digitization ‘assembly line’",
-          description: "Digitarium, the digitization centre for the Finnish Museum of Natural History and University of Eastern Finland is building an assembly line for mass digitization.  The idea is to accelerate the process of turning plant and insect specimens into digital data, unlocking centuries of knowledge for universal access.",
-          src: "<@s.url value='/img/tmp/slide01.jpg'/>"
-        }, { 
-          title: "Title", 
-          description: "Description",
-          src: "<@s.url value='/img/tmp/slide02.jpg'/>"
-        }, { 
-          title: "Title2", 
-          description: "Description",
-          src: "<@s.url value='/img/tmp/slide03.jpg'/>"
-        }, { 
-          title: "Title3", 
-          description: "Description",
-          src: "<@s.url value='/img/tmp/slide04.jpg'/>"
-        }, { 
-          title: "Title4", 
-          description: "Description",
-          src: "<@s.url value='/img/tmp/slide05.jpg'/>"
-        }
+        var slides = [
+          { 
+            title: "GBIF Finland pioneers digitization ‘assembly line’",
+            description: "Digitarium, the digitization centre for the Finnish Museum of Natural History and University of Eastern Finland is building an assembly line for mass digitization.  The idea is to accelerate the process of turning plant and insect specimens into digital data, unlocking centuries of knowledge for universal access.",
+            src: "<@s.url value='/img/tmp/slide01.jpg'/>",
+            url: "http://www.url.com/1"
+          }, { 
+            title: "Title", 
+            description: "Description",
+            src: "<@s.url value='/img/tmp/slide02.jpg'/>",
+            url: "http://www.url.com/2"
+          }, { 
+            title: "Title2", 
+            description: "Description",
+            src: "<@s.url value='/img/tmp/slide03.jpg'/>",
+            url: "http://www.url.com/3"
+          }, { 
+            title: "Title3", 
+            description: "Description",
+            src: "<@s.url value='/img/tmp/slide04.jpg'/>",
+            url: "http://www.url.com/4"
+          }, { 
+            title: "Title4", 
+            description: "Description",
+            src: "<@s.url value='/img/tmp/slide05.jpg'/>",
+            url: "http://www.url.com/5"
+          }
 
-      ];
+        ];
 
-      $(".slideshow").bindArticleSlideshow(slides);
+        $(".slideshow").bindArticleSlideshow(slides);
 
       });
-    
+
     </script>
 
   </body>
