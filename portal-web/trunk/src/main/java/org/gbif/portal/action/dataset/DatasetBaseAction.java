@@ -3,9 +3,11 @@ package org.gbif.portal.action.dataset;
 import org.gbif.api.exception.NotFoundException;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Network;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.NetworkService;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.BaseAction;
 
@@ -30,8 +32,12 @@ public class DatasetBaseAction extends BaseAction {
   protected DatasetMetricsService metricsService;
   // detail
   protected Organization owningOrganization;
+  // detail
+  protected Network networkOfOrigin;
   @Inject
   protected OrganizationService organizationService;
+  @Inject
+  protected NetworkService networkService;
 
   public Dataset getDataset() {
     return dataset;
@@ -64,6 +70,13 @@ public class DatasetBaseAction extends BaseAction {
     return owningOrganization;
   }
 
+  /**
+   * @return the Dataset's Network of origin.
+   */
+  public Network getNetworkOfOrigin() {
+    return networkOfOrigin;
+  }
+
   protected void loadDetail() {
     LOG.debug("Fetching detail for dataset id [{}]", id);
     if (Strings.isNullOrEmpty(id)) {
@@ -79,6 +92,11 @@ public class DatasetBaseAction extends BaseAction {
     // gets the owning organization
     if (dataset.getOwningOrganizationKey() != null) {
       owningOrganization = organizationService.get(dataset.getOwningOrganizationKey());
+    }
+
+    // get the network of origin
+    if (dataset.getNetworkOfOriginKey() != null) {
+      networkOfOrigin = networkService.get(dataset.getNetworkOfOriginKey());
     }
 
     // get metrics

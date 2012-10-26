@@ -106,7 +106,10 @@
   <#if owningOrganization??>
     <p><a href="<@s.url value='/organization/${owningOrganization.key}'/>"
           title="${owningOrganization.title!"Unknown"}">${owningOrganization.title!"Unknown"}</a></p>
-    <#else>
+  <#elseif networkOfOrigin??>
+    <p><a href="<@s.url value='/network/${networkOfOrigin.key}'/>"
+          title="${networkOfOrigin.title!"Unknown"}">${networkOfOrigin.title!"Unknown"}</a></p>
+  <#else>
       <p>Unknown</p>
   </#if>
 
