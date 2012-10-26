@@ -15,7 +15,7 @@
     <#assign tab="home"/>
     <#include "/WEB-INF/pages/newsroom/inc/infoband.ftl">
 
-    <article class="slideshow">
+    <article data-options="autoplay" class="slideshow">
     <header></header>
     <div class="content">
       <div class="header">
@@ -36,11 +36,11 @@
 
       <div class="right">
         <ul class="photos">
-          <li id="photo_1" class="selected"><img src="<@s.url value='/img/tmp/slide01.jpg'/>"></img></li>
-          <li id="photo_2"><img src="<@s.url value='/img/tmp/slide02.jpg'/>"></img></li>
-          <li id="photo_3"><img src="<@s.url value='/img/tmp/slide03.jpg'/>"></img></li>
-          <li id="photo_4"><img src="<@s.url value='/img/tmp/slide04.jpg'/>"></img></li>
-          <li id="photo_5"><img src="<@s.url value='/img/tmp/slide05.jpg'/>"></img></li>
+          <li class="selected"><img src="<@s.url value='/img/tmp/slide01.jpg'/>"></img></li>
+          <li><img src="<@s.url value='/img/tmp/slide02.jpg'/>"></img></li>
+          <li><img src="<@s.url value='/img/tmp/slide03.jpg'/>"></img></li>
+          <li><img src="<@s.url value='/img/tmp/slide04.jpg'/>"></img></li>
+          <li><img src="<@s.url value='/img/tmp/slide05.jpg'/>"></img></li>
         </ul>
       </div>
 
