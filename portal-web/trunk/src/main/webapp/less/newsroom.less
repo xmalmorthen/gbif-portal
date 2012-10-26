@@ -373,7 +373,11 @@ article.data-use-news > .content {
         border-bottom: 0;
 
         li {
+          width: 269px;
           vertical-align:top;
+
+          &.last { margin-right: 0; }
+          &:last-child { margin-right: 0; }
         }
       }
     }
@@ -391,7 +395,7 @@ article.data-use-news > .content {
       li {
         padding: 0;
         margin: 0;
-        width: 270px;
+        width: 269px;
 
         margin: 0 28px 0 0;
         background:#fff;
@@ -400,6 +404,7 @@ article.data-use-news > .content {
         display: inline-block; *display: inline; *zoom: 1;
 
         &.last { margin-right: 0; }
+        &:last-child { margin-right: 0; }
 
         img { margin: 0 0 20px 0; }
 
