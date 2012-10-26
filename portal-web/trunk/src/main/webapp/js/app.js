@@ -10,10 +10,6 @@ $(function() {
   // PHOTO GALLERY
   $(".photo_gallery").bindSlideshow();
 
-  // ARTICLE SLIDESHOW
-  $(".slideshow").bindArticleSlideshow();
-
-
   // GRAPHS
   $("div.graph li a, div.bargraph li a").on("click", function(e) {
     e.preventDefault();

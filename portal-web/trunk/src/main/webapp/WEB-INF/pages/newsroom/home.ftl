@@ -15,6 +15,30 @@
     <#assign tab="home"/>
     <#include "/WEB-INF/pages/newsroom/inc/infoband.ftl">
 
+    <script type="text/javascript">
+      $(function() {
+
+      var slides = [
+        { 
+          title: "GBIF Finland pioneers digitization ‘assembly line’",
+          description: "Digitarium, the digitization centre for the Finnish Museum of Natural History and University of Eastern Finland is building an assembly line for mass digitization.  The idea is to accelerate the process of turning plant and insect specimens into digital data, unlocking centuries of knowledge for universal access.",
+          src: "<@s.url value='/img/tmp/slide01.jpg'/>"
+        }, { 
+          title: "Title", 
+          description: "Description",
+          src: "<@s.url value='/img/tmp/slide02.jpg'/>"
+        }, { 
+          title: "Title2", 
+          description: "Description",
+          src: "<@s.url value='/img/tmp/slide03.jpg'/>"
+        } ];
+
+      $(".slideshow").bindArticleSlideshow(slides);
+
+      });
+    
+    </script>
+
     <article data-options="autoplay" class="slideshow">
     <header></header>
     <div class="content">
@@ -25,23 +49,10 @@
         </div>
       </div>
 
-      <div class="left">
-        <h2>GBIF Finland pioneers digitization ‘assembly line’</h2>
-        <p>
-        Digitarium, the digitization centre for the Finnish Museum of Natural History and University of Eastern Finland is building an assembly line for mass digitization.  The idea is to accelerate the process of turning plant and insect specimens into digital data, unlocking centuries of knowledge for universal access.  
-        </p>
+      <div class="left data"></div>
 
-        <a href="#" class="read_more">Read more</a>
-      </div>
-
-      <div class="right">
-        <ul class="photos">
-          <li class="selected"><img src="<@s.url value='/img/tmp/slide01.jpg'/>"></img></li>
-          <li><img src="<@s.url value='/img/tmp/slide02.jpg'/>"></img></li>
-          <li><img src="<@s.url value='/img/tmp/slide03.jpg'/>"></img></li>
-          <li><img src="<@s.url value='/img/tmp/slide04.jpg'/>"></img></li>
-          <li><img src="<@s.url value='/img/tmp/slide05.jpg'/>"></img></li>
-        </ul>
+      <div class="right"> 
+        <ul class="photos"></ul>
       </div>
 
     </div>

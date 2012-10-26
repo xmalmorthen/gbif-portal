@@ -1,8 +1,9 @@
-$.fn.bindArticleSlideshow = function(opt) {
+$.fn.bindArticleSlideshow = function(slides) {
+
   var $this = $(this);
 
   var
-  currentPhoto     = 1,
+  currentPhoto     = 0,
   duration         = 5000,
   transitionSpeed  = 500,
   easingMethod     = "easeOutQuart",
@@ -11,10 +12,22 @@ $.fn.bindArticleSlideshow = function(opt) {
 
   options          = null,
   $bullets         = $this.find(".bullets"),
+  $data            = $this.find(".data"),
   $photos          = $this.find('.photos'),
-  num_of_photos    = $photos.find("li").length;
+  num_of_photos    = slides.length;
 
   function init()  {
+
+    $title       = $data.append("<h2 />");
+    $description = $data.append("<p />");
+    $link        = $data.append('<a href="#" class="read_more">Read more</a>');
+
+    $title       = $data.find("h2");
+    $description = $data.find("p");
+    $link        = $data.find('a');
+
+    loadContent();
+
     setupPhotos();
     addBullets();
     bindBullets();
@@ -22,6 +35,21 @@ $.fn.bindArticleSlideshow = function(opt) {
     options = $this.attr("data-options");
 
     if (options == "autoplay") play();
+  }
+
+  function loadContent() {
+
+    if (slides[currentPhoto]) {
+      $data.fadeOut(150, function() {
+        $title.html(slides[currentPhoto].title);
+        $description.html(slides[currentPhoto].description);
+        $description.attr("href", slides[currentPhoto].url);
+
+        $data.fadeIn(150);
+
+      });
+    }
+
   }
 
   function play() {
@@ -36,8 +64,8 @@ $.fn.bindArticleSlideshow = function(opt) {
 
     currentPhoto++;
 
-    if (currentPhoto > num_of_photos) {
-      currentPhoto = 1;
+    if (currentPhoto >= num_of_photos) {
+      currentPhoto = 0;
     }
 
     selectBullet(currentPhoto);
@@ -46,8 +74,12 @@ $.fn.bindArticleSlideshow = function(opt) {
   }
 
   function setupPhotos() {
-    for (var i = 1; i <= num_of_photos; i++) {
-      $photos.find("li:nth-child(" + i + ")").attr("id", "photo_" + i);
+    for (var i = 0; i <= num_of_photos - 1; i++) {
+      var $photo = $("<li><img /></li>");
+      $photo.find("img").attr("src", slides[i].src);
+      if (i == 0) $photo.addClass("selected");
+      $photos.append($photo);
+      $photo.attr("id", "photo_" + i);
     }
   }
 
@@ -57,7 +89,9 @@ $.fn.bindArticleSlideshow = function(opt) {
 
   function onClick(e) {
     var $e    = $(e.target);
-    var index = $e.parent().index() + 1;
+    var index = $e.parent().index();
+
+    currentPhoto = index;
 
     stop();
 
@@ -67,18 +101,20 @@ $.fn.bindArticleSlideshow = function(opt) {
 
   function selectBullet(index) {
     $bullets.find("li").removeClass("selected");
-    $bullets.find("li:nth-child(" + index + ")").addClass("selected");
+    $bullets.find("li:nth-child(" + (index + 1) + ")").addClass("selected");
   }
 
   function gotoPhoto(index) {
 
     var $selectedPhoto = $photos.find("li.selected");
-    var $clickedPhoto  = $photos.find("li:nth-child(" + index + ")");
+    var $clickedPhoto  = $photos.find("li:nth-child(" + (index + 1) + ")");
 
     if ( $selectedPhoto.attr("id") != $clickedPhoto.attr("id") ) {
       $selectedPhoto.fadeOut(250, function() {
         $(this).removeClass("selected");
       });
+
+      loadContent();
 
       $clickedPhoto.fadeIn(250, function() {
         $(this).addClass("selected");
