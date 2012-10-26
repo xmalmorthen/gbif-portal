@@ -21,12 +21,7 @@
       <div class="header">
         <div class="left">
           <h4>FEATURED</h4>
-          <ul class="bullets">
-            <li class="selected"><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-          </ul>
+          <ul class="bullets"></ul>
         </div>
       </div>
 
@@ -40,12 +35,12 @@
       </div>
 
       <div class="right">
-        <ul>
-          <li><img src="<@s.url value='/img/tmp/slide01.jpg'/>"></img></li>
-          <li><img src="<@s.url value='/img/tmp/slide02.jpg'/>"></img></li>
-          <li><img src="<@s.url value='/img/tmp/slide03.jpg'/>"></img></li>
-          <li><img src="<@s.url value='/img/tmp/slide04.jpg'/>"></img></li>
-          <li><img src="<@s.url value='/img/tmp/slide05.jpg'/>"></img></li>
+        <ul class="photos">
+          <li id="photo_1" class="selected"><img src="<@s.url value='/img/tmp/slide01.jpg'/>"></img></li>
+          <li id="photo_2"><img src="<@s.url value='/img/tmp/slide02.jpg'/>"></img></li>
+          <li id="photo_3"><img src="<@s.url value='/img/tmp/slide03.jpg'/>"></img></li>
+          <li id="photo_4"><img src="<@s.url value='/img/tmp/slide04.jpg'/>"></img></li>
+          <li id="photo_5"><img src="<@s.url value='/img/tmp/slide05.jpg'/>"></img></li>
         </ul>
       </div>
 

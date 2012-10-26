@@ -1,3 +1,145 @@
+$.fn.bindArticleSlideshow = function(opt) {
+  var $this = $(this);
+
+  var
+  slideData        = [],
+  photoWidth       = 627,
+  currentPhoto     = 0,
+  transitionSpeed  = 500,
+  easingMethod     = "easeOutQuart",
+
+  $bullets         = $this.find(".bullets"),
+  $photos          = $this.find('.photos'),
+  num_of_photos    = $photos.find("li").length;
+
+  function init()  {
+    addBullets();
+    bindBullets();
+  }
+
+  function bindBullets() {
+    $bullets.find("a").on("click", gotoPhoto);
+  }
+
+  function gotoPhoto(e) {
+    var $e    = $(e.target);
+    var index = $e.parent().index() + 1;
+    var $selectedPhoto = $photos.find("li.selected");
+    var $clickedPhoto = $photos.find("li:nth-child(" + index + ")");
+
+    $bullets.find("li").removeClass("selected");
+    $(e.target).parent().addClass("selected");
+
+    if ( $selectedPhoto.attr("id") != $clickedPhoto.attr("id") ) {
+      $selectedPhoto.fadeOut(250, function() {
+        $(this).removeClass("selected");
+      });
+
+      $clickedPhoto.fadeIn(250, function() {
+        $(this).addClass("selected");
+      });
+    }
+
+  }
+
+
+
+  function addBullets() {
+
+    for (var i = 0; i < num_of_photos; i++) {
+      if (i == 0) {
+        $bullets.append('<li class="selected"><a href="#"></a></li>');
+      } else {
+        $bullets.append('<li><a href="#"></a></li>');
+      }
+
+    }
+
+  }
+
+function updateSlideshow(data) {
+
+  if (data.title) {
+    $this.find(".title").fadeOut(150, function() {
+      $this.find(".title").html(data.title);
+      $this.find(".title").fadeIn(150);
+    });
+
+    var key = data.usageKey;
+
+    if (key) {
+      var url = $this.find(".source").attr("data-baseurl") + key;
+      $this.find(".source").attr("href", url);
+    }
+
+  }
+}
+
+function onSuccess(data) {
+
+  var images = data.results;
+
+  var $photos = $slideshow.find(".photos");
+
+  num_of_photos = images.length;
+
+  $photos.css("width", num_of_photos * photoWidth);
+
+  if (num_of_photos == 1) {
+    $this.find(".controller").hide();
+  }
+
+  var n = 0;
+
+  _.each(images, function(result) {
+
+    n++;
+
+    $photos.append("<li><div class='spinner'/></div><img id='photo_"+n+"'src='" + result.image + "' /></li>");
+
+    var $img = $photos.find("#photo_" + n);
+
+    slideData.push(result);
+
+    $img.on("load", function() {
+
+      var
+      $li      = $img.parent();
+      liWidth  = parseInt($(this).parent().css("width"), 10),
+      liHeight = parseInt($(this).parent().css("height"), 10),
+      h        = parseInt($(this).css("height"), 10),
+      w        = parseInt($(this).css("width"), 10);
+
+      $li.find(".spinner").fadeOut(100, function() { $(this).remove(); });
+
+      $img.css("top", liHeight/2 - h/2 );
+      $img.css("left", liWidth/2 - w/2 );
+      $img.fadeIn(250);
+
+    });
+  });
+}
+
+
+init();
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 * GOD sees everything
 */
@@ -1507,8 +1649,6 @@ function updateSlideshow(data) {
 }
 
 function onSuccess(data) {
-
-console.log(data);
 
   var images = data.results;
 
