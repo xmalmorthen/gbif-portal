@@ -46,7 +46,7 @@
         </#list>
         <#if more>
           <li>
-            <a class="more_link" href="<@s.url value='/dataset/search?owningOrganisationKey=${member.key}'/>">see all</a>
+            <a class="more_link" href="<@s.url value='/organization/${member.key}/datasets'/>">see all</a>
           </li>
         </#if>
       </ul>
