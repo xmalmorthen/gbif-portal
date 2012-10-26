@@ -102,15 +102,15 @@
   <h3>Publication Date</h3>
   <p>${(dataset.pubDate?date)!"Unkown"}</p>
 
-  <h3>Published by</h3>
+  <!-- Only show network of origin, if there was no owning organization, as is case for external datasets -->
   <#if owningOrganization??>
+    <h3>Published by</h3>
     <p><a href="<@s.url value='/organization/${owningOrganization.key}'/>"
           title="${owningOrganization.title!"Unknown"}">${owningOrganization.title!"Unknown"}</a></p>
   <#elseif networkOfOrigin??>
+    <h3>Originates from</h3>
     <p><a href="<@s.url value='/network/${networkOfOrigin.key}'/>"
           title="${networkOfOrigin.title!"Unknown"}">${networkOfOrigin.title!"Unknown"}</a></p>
-  <#else>
-      <p>Unknown</p>
   </#if>
 
   <!-- Only show hosting organization if it's different from owning / publishing org -->
