@@ -29,7 +29,7 @@
 
       <div class="left">
         <h4 class="subheader">A novel use of occurrence data could help to design better policies for conserving and sustainably managing wildlife species.</h4>
-        <img class="mainImage" src="/img/dummies/bigdeerdummy.jpg"></img>
+        <img class="mainImage" src="<@s.url value='/img/dummies/bigdeerdummy.jpg'/>"></img>
 
         <h5>SUMMARY</h5>
 
@@ -51,7 +51,7 @@
           <li class="location">
           <h5>PROJECT LOCATION</h5>
             <div class="minimap">
-              <img src="/img/dummies/minimapdummy.png"></img>
+              <img src="<@s.url value='/img/dummies/minimapdummy.png'/>"></img>
             </div>
             <span class="description">
               <p>Instituto. de Ecología, Veracruz, México</p>
