@@ -73,10 +73,10 @@
 
       <div class="featured">
         <h3>Featured story</h3>
-        <a href="#" class="title">GBIF Finland demonstrates digitization ‘assembly line’</a>
+        <a href="<@s.url value='/newsroom/news/1'/>" class="title">GBIF Finland demonstrates digitization ‘assembly line’</a>
         <img src="<@s.url value='/img/dummies/aphdummy.jpg'/>" />
         <p>The Digitarium project has built a conveyor belt system to help speed up the process of converting plant and inscts specimens into digital data.</p>
-        <a href="#" class="read-more">Read more</a>
+        <a href="<@s.url value='/newsroom/news/1'/>" class="read-more">Read more</a>
       </div>
 
       <div class="latest">
@@ -164,8 +164,8 @@
         <ul>
           <li>
           <h3>Featured data use</h3>
-          <a href="/newsroom/uses/1" class="title">Vampire bats and cattle risks</a>
-          <a href="/newsroom/uses/1">
+          <a href="<@s.url value='/newsroom/uses/1'/>" class="title">Vampire bats and cattle risks</a>
+          <a href="<@s.url value='/newsroom/uses/1'/>">
             <img src="<@s.url value='/img/dummies/batdummy.jpg'/>" />
           </a>
           <p>Research using data downloaded via GBIF has forecast the potential spread of cattle rabies carried by vampire bats in the Americas, both under present conditions and under future climate change scenarios. </p>
@@ -173,8 +173,8 @@
 
           <li>
           <h3>Featured data use</h3>
-          <a href="/newsroom/uses/2" class="title">Atlas of velvet spiders</a>
-          <a href="/newsroom/uses/2">
+          <a href="<@s.url value='/newsroom/uses/1'/>" class="title">Atlas of velvet spiders</a>
+          <a href="<@s.url value='/newsroom/uses/1'/>">
             <img src="<@s.url value='/img/dummies/aphdummy.jpg'/>" />
           </a>
         </a>
@@ -183,8 +183,8 @@
 
         <li class="last">
         <h3>Featured data use</h3>
-        <a href="/newsroom/uses/3" class="title">Avian Knowledge Network</a>
-        <a href="/newsroom/uses/3">
+        <a href="<@s.url value='/newsroom/uses/1'/>" class="title">Avian Knowledge Network</a>
+        <a href="<@s.url value='/newsroom/uses/1'/>">
           <img src="<@s.url value='/img/dummies/ecodummy.jpg'/>" />
         </a>
         <p>The Avian Knowledge Network publishes over 100 million bird records from all over the world, to the GBIF network, through eight datasets including eBird, the Macaulay sound and video libraries, and the Great Backyard Bird Count.</p>
