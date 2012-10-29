@@ -1,3 +1,4 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <#--
 This include requires 2 arrays to be set:
  facets: list of facet names just as the SearchParameter enums provide

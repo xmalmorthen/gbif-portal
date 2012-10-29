@@ -32,8 +32,7 @@ public class DetailAction extends DatasetBaseAction {
   private Dataset parentDataset;
   private List<Contact> preferredContacts;
   private List<Contact> otherContacts;
-  private List<Dataset> constituentDatasets;
-  private boolean moreConstituents;
+  private PagingResponse<Dataset> constituents;
 
   @Inject
   private TechnicalInstallationService technicalInstallationService;
@@ -55,10 +54,11 @@ public class DetailAction extends DatasetBaseAction {
     if (dataset.getParentDatasetKey() != null) {
       parentDataset = datasetService.get(dataset.getParentDatasetKey());
     }
-    // load first 10 constituent datasets
-    PagingResponse<Dataset> constituentResponse = datasetService.listConstituents(key, new PagingRequest(0, 10));
-    constituentDatasets = constituentResponse.getResults();
-    moreConstituents = !constituentResponse.isEndOfRecords();
+    // try to load first 10 constituent datasets
+    if (key != null) {
+      constituents = datasetService.listConstituents(key, new PagingRequest(0, 10));
+    }
+
     return SUCCESS;
   }
 
@@ -68,14 +68,6 @@ public class DetailAction extends DatasetBaseAction {
 
   public List<Contact> getPreferredContacts() {
     return preferredContacts;
-  }
-
-  public List<Dataset> getConstituentDatasets() {
-    return constituentDatasets;
-  }
-
-  public boolean isMoreConstituents() {
-    return moreConstituents;
   }
 
   public Dataset getParentDataset() {
@@ -89,6 +81,9 @@ public class DetailAction extends DatasetBaseAction {
     return hostingOrganization;
   }
 
+  public PagingResponse<Dataset> getConstituents() {
+    return constituents;
+  }
 
   /**
    * Iterate over the list of dataset contacts. Divide them into two lists:

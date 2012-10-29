@@ -96,18 +96,14 @@
     </div>
   </#if>
 
-  <h3>Dataset Type</h3>
-  <p><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/></a></p>
+  <#if dataset.pubDate?has_content>
+    <h3>Publication Date</h3>
+    <p>${(dataset.pubDate?date)}</p>
+  </#if>
 
-  <h3>Publication Date</h3>
-  <p>${(dataset.pubDate?date)!"Unkown"}</p>
-  
-  <h3>Constituent of</h3>
   <#if parentDataset??>
-    <p><a href="<@s.url value='/dataset/${parentDataset.key}'/>"
-          title="${parentDataset.title!"Unknown"}">${parentDataset.title!"Unknown"}</a></p>
-    <#else>
-      <p>Unknown</p>
+    <h3>Constituent of</h3>
+    <p><a href="<@s.url value='/dataset/${parentDataset.key}'/>" title="${parentDataset.title!"Unknown"}">${parentDataset.title!"Unknown"}</a></p>
   </#if>
 
   <!-- Only show network of origin, if there was no owning organization, as is case for external datasets -->
@@ -174,12 +170,12 @@
     </ul>
   </#if>
 
-  <h3>External Links</h3>
-  <ul>
-    <#if dataset.homepage?has_content>
+  <#if dataset.homepage?has_content>
+    <h3>External Links</h3>
+    <ul>
       <li><a href="<@s.url value='${dataset.homepage}'/>" title="Dataset homepage">Dataset homepage</a></li>
-    </#if>
-  </ul>
+    </ul>
+  </#if>
 
   <#-- TODO: implement metadata download
   <h3>Metadata</h3>
@@ -197,7 +193,7 @@
 
 
 <#-- TAXONOMIC COVERAGE -->
-<#if metrics?? && (dataset.taxonomicCoverages?size>0)>
+<#if metrics?? || (dataset.taxonomicCoverages?size>0)>
  <@common.article id="taxonomic_coverage" title="Taxonomic Coverage">
  <div class="left">
   <#if (dataset.taxonomicCoverages?size>0)>
@@ -541,18 +537,18 @@
 </div>
 </@common.article>
 
-<#if constituentDatasets?has_content>
+<#if constituents?has_content>
 <@common.article id="datasets" title="Constituent Datasets">
   <div class="left">
       <ul class="notes">
-        <#list constituentDatasets as d>
+        <#list constituents.result as d>
           <li>
             <a href="<@s.url value='/dataset/${d.key}'/>">${d.title!"???"}</a>
             <span class="note">A ${d.subtype!} <@s.text name="enum.datasettype.${d.type!}"/>
               <#if d.pubDate??>${d.pubDate?date?string.medium}</#if></span>
           </li>
         </#list>
-        <#if moreConstituents>
+        <#if !constituents.isEndOfRecords()>
           <li>
             <a class="more_link" href="<@s.url value='/dataset/${member.key}/constituents'/>">see all</a>
           </li>

@@ -23,25 +23,11 @@
     </#if>
   </h3>
 
-<#if (dataset.tags?size>0 && dataset.keywordCollections?size>0)>
+<#assign keywords=dataset.keywords />
+<#if keywords?has_content>
 <ul class="tags">
-  <#list dataset.tags as tag>
-    <#if (!tag.namespace?has_content) >
-      <#if tag.predicate?has_content && tag.value?has_content>
-        <li><a href="#" title="${tag.predicate}">${tag.predicate}=${tag.value}</a></li>
-      <#elseif tag.predicate?has_content>
-        <li><a href="#" title="${tag.predicate}">${tag.predicate}</a></li>
-      <#elseif tag.value?has_content>
-        <li><a href="#" title="${tag.value}">${tag.value}</a></li>
-      </#if>
-    </#if>
-  </#list>
-  <#list dataset.keywordCollections as keyCol>
-    <#if keyCol.thesaurus?has_content && keyCol.keywords?has_content>
-      <#list keyCol.keywords as word>
-        <li><a href="#" title="${word}">${word}</a></li>
-      </#list>
-    </#if>
+  <#list keywords as k>
+      <li><a href="#" title="${k}">${k}</a></li>
   </#list>
 </ul>
 </#if>
