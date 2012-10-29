@@ -20,9 +20,10 @@ import org.gbif.api.service.common.SearchService;
 import org.gbif.api.util.VocabularyUtils;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Strings;
-import org.apache.commons.lang3.StringUtils;
 
 
 /**
@@ -46,9 +47,11 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
   /**
    * Maximum # of characters shown in a highlighted field.
    */
-  private static final int DEFAULT_HIGHLIGHT_TEXT_LENGTH = 110;
+  private static final String abrevMarker = "…";
   public static final String HL_PRE = "<em class=\"gbifHl\">";
   public static final String HL_POST = "</em>";
+  private static final Pattern HL_MATCHER = Pattern.compile(HL_PRE + "([^<>]*)" + HL_POST, Pattern.CASE_INSENSITIVE);
+  private static final int HL_MARKER_LENGTH = HL_PRE.length() + HL_POST.length();
 
   protected final Class<P> searchType;
   protected final SearchService<T, P, R> searchService;
@@ -151,32 +154,99 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
   }
 
   /**
+   * Takes a highlighted text and returns the given number of initial characters, not counting html tags
+   * and making sure we always keep html tags intact and closed.
+   *
+   * @param highlightedText the highlighted text to be abbreviated
+   * @return the beginning of the highlighted text up to a given number of characters
+   */
+  public static String limitHighlightedText(String highlightedText, int max) {
+    StringBuffer sb = new StringBuffer();
+
+    Matcher m = HL_MATCHER.matcher(highlightedText);
+    int matched = 0;
+    boolean appendTail = true;
+    while (m.find()) {
+      m.appendReplacement(sb, "");
+      int currLength = sb.length() - matched * HL_MARKER_LENGTH;
+      int hlLength = m.group(1).length();
+      if (currLength + hlLength < max) {
+        sb.append(m.group());
+        matched++;
+      } else {
+        sb.append(abrevMarker);
+        appendTail = false;
+        break;
+      }
+    }
+    if (appendTail) {
+      m.appendTail(sb);
+    }
+
+    return abbreviate(sb.toString(), max + matched * HL_MARKER_LENGTH);
+  }
+
+  private static String abbreviate(String str, int maxWidth) {
+    if (str == null) {
+        return null;
+    }
+    if (maxWidth < 2) {
+        throw new IllegalArgumentException("Minimum abbreviation width is 2");
+    }
+    if (str.length() <= maxWidth) {
+        return str;
+    }
+    return str.substring(0, maxWidth - 1) + abrevMarker;
+  }
+
+  /**
+   * Takes a highlighted text and removes all tags used for highlighting.
+   *
+   * @param highlightedText the highlighted text to be cleaned
+   * @return a cleaned plain text version of the highlighted text
+   */
+  public static String removeHighlighting(String highlightedText) {
+    return highlightedText.replaceAll(HL_PRE, "").replaceAll(HL_POST, "");
+  }
+
+  /**
+   * Used by UI to determine if a text is highlighted.
+   * @param text
+   * @return
+   */
+  public static boolean isHighlightedText(String text) {
+    return text.contains(HL_PRE);
+  }
+
+  /**
    * Takes a highlighted text and trimmed it to show the first highlighted term.
    * The text is found using the HL_PRE and HL_POST tags.
    * Ensure that at least the whole term is shown or else MAX_LONG_HL_FIELD are displayed.
-   * 
+   *
    * @param text highlighted text to be trimmed.
+   * @param maxLength maximum length of resulting string, ignoring the highlighting tags
    * @return a trimmed version of the highlighted text
    */
-  public static String getHighlightedText(String text) {
-    return getHighlightedText(text, DEFAULT_HIGHLIGHT_TEXT_LENGTH);
-  }
-
   public static String getHighlightedText(String text, final int maxLength) {
     final int firstHlBeginTag = text.indexOf(HL_PRE);
     final int firstHlEndTag = text.indexOf(HL_POST) + HL_POST.length();
-    final int hlTextSize = firstHlEndTag - firstHlBeginTag;
-    // highlighted text larger than max length - return it all to keep highlighting tags intact
-    if (hlTextSize > maxLength) {
-      return text.substring(firstHlBeginTag, firstHlEndTag);
+    final int hlTextSize = firstHlEndTag - firstHlBeginTag - HL_MARKER_LENGTH;
+    // already smaller
+    if (text.length() <= maxLength) {
+      return text;
     }
     // no highlighted text, return first bit
     if (firstHlBeginTag < 0 || firstHlEndTag < 0) {
-      return StringUtils.abbreviate(text, 0, maxLength);
+      return abbreviate(text, maxLength);
+    }
+    // highlighted text larger than max length - return it all to keep highlighting tags intact
+    if (hlTextSize >= maxLength) {
+      return text.substring(firstHlBeginTag, firstHlEndTag);
     }
     int sizeBefore = (maxLength - hlTextSize) / 3;
     int start = Math.max(0, firstHlBeginTag - sizeBefore);
-    return StringUtils.abbreviate(text, start, maxLength);
+    final String leftLimited = start==0 ? text : abrevMarker + text.substring(start + (sizeBefore > 0 ? 1 : 0) );
+    return limitHighlightedText(leftLimited, maxLength);
   }
 
   /**

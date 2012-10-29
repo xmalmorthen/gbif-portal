@@ -71,7 +71,7 @@
                 <#list u.vernacularNames as vn>${vn.vernacularName!}<#if vn_has_next> - </#if></#list>
               </#assign>
               <div>
-                ${common.limit(vnames ,100)}
+                ${action.limitHighlightedText(vnames ,92)}
                 <#if (vnames?length>100)>
                   <@common.popover linkTitle="more" popoverTitle="Vernacular Names">${vnames}</@common.popover>
                 </#if>
@@ -90,13 +90,14 @@
               </p>
 
               <#list u.descriptions as desc>
-                <#if desc.description?contains('<em class="gbifHl">')>
-                  <#assign hlText=action.getHighlightedText(desc.description)/>
-                  <div>${hlText}
+                <#if action.isHighlightedText(desc.description)>
+                  <#assign hlText=action.getHighlightedText(desc.description, 92)/>
+                  <div>
+                    ${hlText}
                     <#-- show all descriptions with matches in popover -->
                     <@common.popover linkTitle="more" popoverTitle="">
                       <#list u.descriptions as d2>
-                        <#if d2.description?contains('<em class="gbifHl">')>
+                        <#if action.isHighlightedText(d2.description)>
                           <h3>${d2.type!"Description"}</h3>
                           <p>${d2.description}</p>
                         </#if>

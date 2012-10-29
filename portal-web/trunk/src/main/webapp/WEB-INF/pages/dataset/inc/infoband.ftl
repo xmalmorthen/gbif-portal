@@ -27,7 +27,9 @@
 <#if keywords?has_content>
 <ul class="tags">
   <#list keywords as k>
-      <li><a href="#" title="${k}">${k}</a></li>
+      <li>
+        <a href="<@s.url value='/dataset/search?q=${k}'/>">${k}</a>
+      </li>
   </#list>
 </ul>
 </#if>

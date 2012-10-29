@@ -52,7 +52,7 @@
       <#list searchResponse.results as dataset>
         <div class="result searchResult">
           <h2>
-            <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${dataset.title!}"><strong>${dataset.title!}</strong></a>
+            <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${action.removeHighlighting(dataset.title!)}"><strong>${action.limitHighlightedText(dataset.title!, 125)}</strong></a>
           </h2>
 
           <p><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/> 
