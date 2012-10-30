@@ -537,7 +537,7 @@
 </div>
 </@common.article>
 
-<#if constituents?has_content>
+<#if (constituents.results)?has_content>
 <@common.article id="datasets" title="Constituent Datasets">
   <div class="left">
       <ul class="notes">
