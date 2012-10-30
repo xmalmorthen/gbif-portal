@@ -6,6 +6,7 @@
   <body class="home">
 
     <div class="container">
+
     <article class="search">
 
     <header>
@@ -205,7 +206,6 @@
 
   <footer></footer>
   </article>
-
 
 
   <article class="next_news">

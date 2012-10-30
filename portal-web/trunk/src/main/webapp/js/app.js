@@ -32,7 +32,7 @@ $(function() {
     e.preventDefault();
   });
 
-  $("nav").on("mouseleave", function(e) {
+  $("body.home nav").on("mouseleave", function(e) {
     e.preventDefault();
     e.stopPropagation();
     $("li.search form").animate({ width: 10, opacity: 0}, 250, function() {
@@ -41,7 +41,7 @@ $(function() {
 
   });
 
-  $("a[data-action='show-search']").on("mouseover", function(e) {
+  $("body.home a[data-action='show-search']").on("mouseover", function(e) {
     e.preventDefault();
     e.stopPropagation();
     $(this).fadeOut(150, function() {
