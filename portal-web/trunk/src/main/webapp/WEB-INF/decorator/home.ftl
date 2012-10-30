@@ -166,6 +166,7 @@
         </li>
 
         <li class="search">
+        <a href="#" data-action="show-search" class="search"></a>
         <form href="<@s.url value='/dataset/search'/>" method="GET">
           <span class="input_text">
             <input type="text" name="q"/>

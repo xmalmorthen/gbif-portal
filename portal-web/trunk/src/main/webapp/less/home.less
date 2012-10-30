@@ -21,10 +21,17 @@ body.home {
       background:none;
       .content {
 
+        nav {
+          right: 15px;
+          top: 30px;
+          padding-top: 20px;
+          padding-right: 40px;
+          padding-bottom: 40px;
+        }
         nav > ul > li > a { 
           color: #fff; 
           text-shadow:none;
-        font-family: "DINOT-Regular", Sans-Serif;
+          font-family: "DINOT-Regular", Sans-Serif;
           background:url(../img/header/tip_down_white.png) no-repeat right 7px;
         }
 
@@ -35,7 +42,21 @@ body.home {
         }
 
         nav ul li.search {
-          form { display:none; }  
+          a.search {
+            position:absolute;
+            top: 11px;
+            display: block;
+            padding: 0;
+            width: 14px; 
+            height: 14px;
+
+            background:url(../img/header/magnifier.png) no-repeat;
+          }
+
+          form { 
+            opacity: 0;
+            width: 10px;
+          }  
         }
 
       }

@@ -32,6 +32,26 @@ $(function() {
     e.preventDefault();
   });
 
+  $("nav").on("mouseleave", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $("li.search form").animate({ width: 10, opacity: 0}, 250, function() {
+      $("a[data-action='show-search']").fadeIn(150);
+    });
+
+  });
+
+  $("a[data-action='show-search']").on("mouseover", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    $(this).fadeOut(150, function() {
+      $(this).parent().find("form").animate({ width: 180, opacity: 1}, 250, function() {
+        $(this).find("input").focus();
+      });
+    });
+
+  });
+
   $('div.graph').each(function(index) {
     $(this).find('ul li .value').each(function(index) {
       var width = $(this).parents("div").attr("class").replace(/graph /, "");
