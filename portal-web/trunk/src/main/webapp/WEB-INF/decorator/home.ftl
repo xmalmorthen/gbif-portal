@@ -116,12 +116,12 @@
             <li><a href="<@s.url value='/dataset'/>"><@s.text name="menu.dataset"/></a></li>
             <li><a href="<@s.url value='/species'/>"><@s.text name="menu.species"/></a></li>
             <li class="divider"></li>
-            <li><a href="#">Themes</a></li>
-            <li><a href="#">Statistics</a></li>
-            <li><a href="#">GBIF Data usage</a></li>
+            <li><a class="placeholder_temp" href="#">Themes</a></li>
+            <li><a class="placeholder_temp" href="#">Statistics</a></li>
+            <li><a class="placeholder_temp" href="#">GBIF Data usage</a></li>
             <li class="divider"></li>
-            <li><a href="#">Publish your data</a></li>
-            <li><a href="#">Publishing workflow</a></li>
+            <li><a class="placeholder_temp" href="#">Publish your data</a></li>
+            <li><a class="placeholder_temp" href="#">Publishing workflow</a></li>
           </ul>
         </div>
 
@@ -131,17 +131,17 @@
         <a href="#" title="Community">Community</a> 
 
         <div class="community">
-          <a href="#"></a>
+          <a class="placeholder_temp" href="#"></a>
           <ul>
-            <li><a href="#">Regions</a></li>
-            <li><a href="#">Countries</a></li>
-            <li><a href="#">Participant organizations</a></li>
-            <li><a href="#">Data publishers</a></li>
+            <li><a class="placeholder_temp" href="#">Regions</a></li>
+            <li><a class="placeholder_temp" href="#">Countries</a></li>
+            <li><a class="placeholder_temp" href="#">Participant organizations</a></li>
+            <li><a class="placeholder_temp" href="#">Data publishers</a></li>
             <li class="divider"></li>
-            <li><a href="#">Capacity bulding</a></li>
-            <li><a href="#">Training</a></li>
-            <li><a href="#">BIF building</a></li>
-            <li><a href="#">Whitepages</a></li>
+            <li><a class="placeholder_temp" href="#">Capacity bulding</a></li>
+            <li><a class="placeholder_temp" href="#">Training</a></li>
+            <li><a class="placeholder_temp" href="#">BIF building</a></li>
+            <li><a class="placeholder_temp" href="#">Whitepages</a></li>
           </ul>
         </div>
 
@@ -155,11 +155,11 @@
           <ul>
             <li><a href="<@s.url value='/newsroom'/>">News</a></li>
             <li class="divider"></li>
-            <li><a href="#">Key partners</a></li>
-            <li><a href="#">Mission</a></li>
-            <li><a href="#">Governance details</a></li>
-            <li><a href="#">Work programs</a></li>
-            <li><a href="#">Key facts</a></li>
+            <li><a class="placeholder_temp" href="#">Key partners</a></li>
+            <li><a class="placeholder_temp" href="#">Mission</a></li>
+            <li><a class="placeholder_temp" href="#">Governance details</a></li>
+            <li><a class="placeholder_temp" href="#">Work programs</a></li>
+            <li><a class="placeholder_temp" href="#">Key facts</a></li>
           </ul>
         </div>
 
