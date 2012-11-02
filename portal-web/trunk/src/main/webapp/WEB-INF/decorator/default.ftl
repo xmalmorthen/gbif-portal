@@ -89,12 +89,16 @@
         </#if>
       </div>
 
+    <#if page.properties["page.logo_header"]?has_content>
+      ${page.properties["page.logo_header"]}
+    <#else>
       <div id="logo">
         <a href="<@s.url value='/'/>" class="logo"><img src="<@s.url value='/img/header/logo.png'/>"/></a>
 
         <h1><a href="<@s.url value='/'/>" title="GBIF.ORG">GBIF.ORG</a></h1>
         <span>Free and open access to biodiversity data</span>
       </div>
+    </#if>
 
       <nav>
       <ul>

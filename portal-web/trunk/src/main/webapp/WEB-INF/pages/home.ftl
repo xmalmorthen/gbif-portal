@@ -3,6 +3,24 @@
     <title>GBIF Data Portal - Home</title>
   </head>
 
+  <content tag="logo_header">
+    <div id="logo">
+      <a href="<@s.url value='/'/>" class="logo"></a>
+    </div>
+
+    <div class="info">
+      <h1>Global Biodiversity Information Facility</h1>
+      <h2>Free and open access to biodiversity data</h2>
+
+      <ul class="counters">
+        <li><strong>377,177,914</strong> Occurrences</li>
+        <li><strong>1,022,246</strong> Species</li>
+        <li><strong>10,028</strong> Datasets</li>
+        <li><strong>419</strong> Data publishers</li>
+      </ul>
+    </div>
+  </content>
+
   <body class="home">
 
     <div class="container">

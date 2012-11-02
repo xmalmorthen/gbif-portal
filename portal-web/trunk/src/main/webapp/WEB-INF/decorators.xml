@@ -9,9 +9,6 @@
     <pattern>/admin/*/delete/*</pattern>   
     <pattern>/admin/*/edit/*</pattern>       
   </excludes>
-  <decorator name="home" page="home.ftl">
-    <pattern>/</pattern>
-  </decorator>
   <decorator name="default" page="default.ftl">
     <pattern>/*</pattern>
   </decorator>
