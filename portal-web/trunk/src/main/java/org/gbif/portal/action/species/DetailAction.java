@@ -8,7 +8,6 @@ import org.gbif.api.model.checklistbank.VernacularName;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.metrics.cube.Dimension;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.service.checklistbank.DescriptionService;
@@ -253,7 +252,7 @@ public class DetailAction extends UsageBaseAction {
       descriptionToc.addDescription(d);
     }
     // get distributions
-    usage.setDistributions(distributionService.listByUsage(id, page6).getResults());
+    usage.setDistributions(distributionService.listByUsage(id, page10).getResults());
     // get first image only
     usage.setImages(imageService.listByUsage(id, page1).getResults());
     // get typeSpecimens

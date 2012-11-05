@@ -29,21 +29,23 @@
       <div class="fullwidth">
       <#list page.results as item>
         <div class="result">
-          <h2><strong>${item.locality!item.locationId!item.country!"Unknown"}</strong>
-            <span class="note">${item.status!"Present"}</span>
+          <h2><strong><#if item.country??>${item.country.title}</#if> ${item.locality!} ${item.locationId!}</strong>
+            <span class="note"><@s.text name='enum.occurrencestatus.${item.status!"PRESENT"}'/></span>
             <@common.usageSource component=item showChecklistSource=usage.nub />
           </h2>
-
-          <div class="footer">
-          ${item.locationId!} ${item.country!} ${item.locality!}
-          </div>
-          <div class="footer">
-          ${item.lifeStage!} ${item.temporal!} <#if item.startDayOfYear?? || item.endDayOfYear??>Days of the
-            year: ${item.startDayOfYear!}-${item.endDayOfYear!}</#if>
-          </div>
-          <div class="footer">
-          ${item.threatStatus!} ${item.establishmentMeans} ${item.appendixCites!}
-          </div>
+          <#if item.lifeStage?? || item.temporal?? || item.startDayOfYear?? || item.endDayOfYear??>
+            <div class="footer">
+              ${item.lifeStage!} ${item.temporal!}
+              <#if item.startDayOfYear?? || item.endDayOfYear??>Days of the year: ${item.startDayOfYear!}-${item.endDayOfYear!}</#if>
+            </div>
+          </#if>
+          <#if item.threatStatus?? || item.establishmentMeans?? || item.appendixCites??>
+            <div class="footer">
+              <#if item.establishmentMeans??><@s.text name='enum.establishmentmeans.${item.establishmentMeans}'/></#if>
+              <#if item.threatStatus??><@s.text name="enum.threatstatus.${item.threatStatus}"/></#if>
+              <#if item.appendixCites??>Cites: ${item.appendixCites}</#if>
+            </div>
+          </#if>
         </div>
       </#list>
 

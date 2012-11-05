@@ -360,9 +360,10 @@
               <#if d.country??>${d.country.title}</#if>
               ${d.locationId!} ${d.locality!}
               <span class="note">
-                ${d.lifeStage!} ${d.temporal!} ${d.status!"Present"}
+                ${d.lifeStage!} ${d.temporal!} <@s.text name='enum.occurrencestatus.${d.status!"PRESENT"}'/>
                 <#if d.threatStatus??><@s.text name="enum.threatstatus.${d.threatStatus}"/></#if>
-                ${d.establishmentMeans!} ${d.appendixCites!}
+                <#if d.establishmentMeans??><@s.text name='enum.establishmentmeans.${d.establishmentMeans}'/></#if>
+                <#if d.appendixCites??>Cites ${d.appendixCites}</#if>
               </span>
             </li>
           <#else>
@@ -380,6 +381,36 @@
   </div>
   <footer></footer>
 </article>
+<#else>
+
+  <@common.article id="distribution" title="Distribution Range">
+    <div class="fullwidth">
+      <ul class="notes">
+        <#assign skipped=0/>
+        <#list usage.distributions as d>
+          <#if d.locationId?? || d.country?? || d.locality?? >
+            <li>
+              <#if d.country??>${d.country.title}</#if>
+              ${d.locationId!} ${d.locality!}
+              <span class="note">
+                ${d.lifeStage!} ${d.temporal!} <@s.text name='enum.occurrencestatus.${d.status!"PRESENT"}'/>
+                <#if d.threatStatus??><@s.text name="enum.threatstatus.${d.threatStatus}"/></#if>
+                <#if d.establishmentMeans??><@s.text name='enum.establishmentmeans.${d.establishmentMeans}'/></#if>
+                <#if d.appendixCites??>Cites ${d.appendixCites}</#if>
+              </span>
+            </li>
+          <#else>
+            <#assign skipped=skipped+1/>
+          </#if>
+          <#-- only show 8 distributions at max -->
+          <#if d_has_next && d_index==7+skipped>
+           <li><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></li>
+            <#break />
+          </#if>
+        </#list>
+      </ul>
+    </div>
+  </@common.article>
 </#if>
 
 <#if !descriptionToc.isEmpty()>
