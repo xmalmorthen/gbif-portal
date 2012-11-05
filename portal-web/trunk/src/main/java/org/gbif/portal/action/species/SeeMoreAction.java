@@ -39,7 +39,9 @@ public class SeeMoreAction<T extends NameUsageComponent> extends UsageBaseAction
   }
 
   public void setOffset(long offset) {
-    this.offset = offset;
+    if (offset >= 0) {
+      this.offset = offset;
+    }
   }
 
   public PagingResponse<T> getPage() {

@@ -40,6 +40,8 @@ public class OwnedDatasetAction extends MemberBaseAction<Organization> {
   }
 
   public void setOffset(long offset) {
-    this.offset = offset;
+    if (offset >= 0) {
+      this.offset = offset;
+    }
   }
 }

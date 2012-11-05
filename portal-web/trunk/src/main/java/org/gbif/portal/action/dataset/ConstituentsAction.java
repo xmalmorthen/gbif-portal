@@ -38,7 +38,8 @@ public class ConstituentsAction extends DatasetBaseAction {
   }
 
   public void setOffset(long offset) {
-    this.offset = offset;
+    if (offset >= 0) {
+      this.offset = offset;
+    }
   }
-
 }

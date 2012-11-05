@@ -39,6 +39,8 @@ public class EndorsedOrganizationAction extends MemberBaseAction<Node> {
   }
 
   public void setOffset(long offset) {
-    this.offset = offset;
+    if (offset >= 0) {
+      this.offset = offset;
+    }
   }
 }

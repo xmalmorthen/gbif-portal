@@ -19,8 +19,10 @@ public class SynonymsAction extends UsageBaseAction {
     return SUCCESS;
   }
 
-  public void setOffset(int offset) {
-    this.offset = offset;
+  public void setOffset(long offset) {
+    if (offset >= 0) {
+      this.offset = offset;
+    }
   }
 
   public PagingResponse<NameUsage> getPage() {
