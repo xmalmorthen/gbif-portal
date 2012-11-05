@@ -16,10 +16,13 @@
   </#if>
   </h3>
 
+
   <ul class="tags">
-    <#list member.tags as t>
-      <li<#if !t_has_next> class="last"</#if>><a href="#" title="${t.toKeyword()}">${t.toKeyword()}</a></li>
-    </#list>
+  <#list member.tags as t>
+    <#if t?? && !t.namespace?has_content>
+      <li<#if !t_has_next> class="last"</#if>><a href="#" title="${t!}">${t!}</a></li>
+    </#if>
+  </#list>
   </ul>
 </content>
 

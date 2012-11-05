@@ -92,7 +92,7 @@
 
   <#if dataset.logoURL?has_content>
     <div class="logo_holder">
-      <img class="logo" src="<@s.url value='${dataset.logoURL}'/>"/>
+      <img src="<@s.url value='${dataset.logoURL}'/>"/>
     </div>
   </#if>
 
