@@ -450,7 +450,6 @@
         <registry.ws.url>http://api.gbif.org/dev/</registry.ws.url>
         <registry.search.ws.url>http://api.gbif.org/dev/dataset/</registry.search.ws.url>
         <occurrence.ws.url>http://api.gbif.org/dev/</occurrence.ws.url>
-        <occurrence.search.ws.url>http://api.gbif.org/dev/occurrence/search</occurrence.search.ws.url>
         <occurrencedownload.ws.url>http://jawa.gbif.org:8080/occurrence-download-ws/</occurrencedownload.ws.url>
         <tile-server.url>http://api.gbif.org/dev/map</tile-server.url>
         <metrics.ws.url>http://api.gbif.org/dev/</metrics.ws.url>

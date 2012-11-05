@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import static org.gbif.api.model.occurrence.search.Constants.CATALOG_NUMBER_PATH;
 import static org.gbif.api.model.occurrence.search.Constants.COLLECTOR_NAME_PATH;
+import static org.gbif.api.model.occurrence.search.Constants.SEARCH_PATH;
 
 /**
  * Simple configuration bean to pass the guice binded properties on to the rendering layer.
@@ -69,7 +70,7 @@ public class Config {
       cfg.wsRegSearch = getPropertyUrl(properties, "registry.search.ws.url", true);
       cfg.wsRegSuggest = cfg.wsRegSearch + SUGGEST_PATH;
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
-      cfg.wsOccSearch = getPropertyUrl(properties, "occurrence.search.ws.url", true);
+      cfg.wsOccSearch = cfg.wsOcc + SEARCH_PATH;
       cfg.wsOccCatalogNumberSearch = cfg.wsOccSearch + CATALOG_NUMBER_PATH;
       cfg.wsOccCollectorNameSearch = cfg.wsOccSearch + COLLECTOR_NAME_PATH;
       cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
