@@ -1,12 +1,34 @@
 backend jawa {    
   .host = "130.226.238.239";       
-  .port = "8080";     
+  .port = "8080";   
+  .connect_timeout = 60s;
+  .first_byte_timeout = 60s;
+  .between_bytes_timeout = 60s;  
 }
 
-backend balancer {    
-  .host = "130.226.238.134";       
-  .port = "http";     
-}    
+backend boma {
+  .host = "192.38.28.83";    
+  .port = "8080";   
+  .connect_timeout = 60s;
+  .first_byte_timeout = 60s;
+  .between_bytes_timeout = 60s; 
+}
+
+#backend mogo {
+#  .host = "130.226.238.242";    
+#  .port = "8080";   
+#  .connect_timeout = 60s;
+#  .first_byte_timeout = 60s;
+#  .between_bytes_timeout = 60s; 
+#}
+
+#backend balancer {    
+#  .host = "130.226.238.134";     
+#  .port = "http";
+#  .connect_timeout = 60s;
+#  .first_byte_timeout = 60s;
+#  .between_bytes_timeout = 60s; 
+#}    
 
 acl purge {
   "localhost";
@@ -39,8 +61,10 @@ sub vcl_recv {
   }
   
   if (req.url ~ "^/lookup/"){
-    set req.http.host="balancer.gbif.org";
-    set req.backend = balancer;
+#    set req.http.host="balancer.gbif.org";
+#    set req.backend = balancer;
+    set req.http.host="boma.gbif.org";
+    set req.backend = boma;
     if (req.url ~ "^/lookup/name_usage"){
       set req.url = regsub(req.url, "^/lookup/name_usage", "/ws-nub/nub");
     } else if (req.url ~ "^/lookup/reverse_geocode"){
