@@ -11,11 +11,11 @@
   <p>${member.description}</p>
 </#if>
 
-<#assign parts = ["${member.address!}","${member.zip!}","${member.city!}","${member.country!}" ]>
-<#if parts?has_content>
+<#assign all = member.address!"" + member.zip!"" + member.city!"" + member.country!"" >
+<#if all?has_content>
   <h3>Address</h3>
   <p>
-  <#list parts as k>
+  <#list [member.address!, member.zip!, member.city!, member.country!] as k>
     <#if k?has_content>
     ${k}<#if k_has_next>, </#if>
     </#if>
