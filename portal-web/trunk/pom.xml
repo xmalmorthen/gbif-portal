@@ -66,7 +66,7 @@
     <selenium.version>2.24.1</selenium.version>
     <servletapi.version>2.5</servletapi.version>
     <slf4j.version>1.6.5</slf4j.version>
-    <struts.version>2.3.4</struts.version>
+    <struts.version>2.3.4.1</struts.version>
     <bval.version>0.4</bval.version>
     <cas.version>3.2.1</cas.version>
     <xerces.version>2.9.1</xerces.version>

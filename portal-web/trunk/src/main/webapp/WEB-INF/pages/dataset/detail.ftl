@@ -365,9 +365,11 @@
       <h3>Project Personnel</h3>
       <ul class="team">
         <#list proj.contacts as per>
-          <li>
-          <@common.contact con=per />
-          </li>
+          <li> <@common.contact con=per /> </li>
+          <#if per_has_next && per_index==3>
+            <li> <a class="more_link" href="<@s.url value='/dataset/${dataset.key}/contacts'/>">see all</a> </li>
+            <#break />
+          </#if>
         </#list>
       </ul>
     </#if>
@@ -380,6 +382,10 @@
     <ul class="team">
       <#list otherContacts as ap>
         <li><@common.contact con=ap /></li>
+        <#if ap_has_next && ap_index==3>
+          <li> <a class="more_link" href="<@s.url value='/dataset/${dataset.key}/contacts'/>">see all</a> </li>
+          <#break />
+        </#if>
       </#list>
     </ul>
   </#if>

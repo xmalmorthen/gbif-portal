@@ -94,6 +94,28 @@
 </div>
 </#macro>
 
+<#-- Creates a 2 column list of contacts-->
+<#macro contactList contacts>
+<div class="col">
+  <ul class="team">
+    <#list contacts as c>
+      <#if c_index%2==0>
+        <li><@contact con=c /></li>
+      </#if>
+    </#list>
+  </ul>
+</div>
+<div class="col">
+  <ul class="team">
+    <#list contacts as c>
+      <#if c_index%2==1>
+        <li><@contact con=c /></li>
+      </#if>
+    </#list>
+  </ul>
+</div>
+</#macro>
+
 <#--
 	Construct a Endpoint. Parameter is the actual endpoint object.
 -->

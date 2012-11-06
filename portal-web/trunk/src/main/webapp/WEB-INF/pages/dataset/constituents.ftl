@@ -2,7 +2,7 @@
 <#import "/WEB-INF/macros/network_entity/dataset.ftl" as entity>
 <html>
 <head>
-  <title>${dataset.title!"???"} - Dataset detail</title>
+  <title>${dataset.title!"???"} - Constituents</title>
 </head>
 <body class="species">
 
@@ -22,7 +22,7 @@
 
       <div class="header">
         <div class="left">
-          <h2>${page.count!} Constituent datasets for "${member.title!}"</h2>
+          <h2>${page.count!} Constituent datasets for "${dataset.title!}"</h2>
         </div>
       </div>
 
