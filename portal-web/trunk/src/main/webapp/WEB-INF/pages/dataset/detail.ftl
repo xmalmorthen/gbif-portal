@@ -177,16 +177,16 @@
     </ul>
   </#if>
 
-  <#-- TODO: implement metadata download
-  <h3>Metadata</h3>
-  <ul>
-    <li class="download, placeholder_temp">EML file <a class="placeholder_temp" href="#"><abbr>[ENG]</abbr></a> &middot;
-      <a href="#"><abbr>[SPA]</abbr></a> &middot; <a href="#"><abbr>[GER]</abbr></a></li>
-    <li class="download, placeholder_temp">ISO 1939 file <a class="placeholder_temp"
-                                                            href="#"><abbr>[ENG]</abbr></a> &middot; <a href="#"><abbr>[SPA]</abbr></a> &middot;<a
-            href="#"><abbr>[GER]</abbr></a></li>
-  </ul>
+  <h3>Metadata Documents</h3>
+  <#--
+  TODO: CAN WE PROVIDE VARIOUS LANGUAGES ???
+    <abbr>[ENG]</abbr></a> &middot; <a href="#"><abbr>[SPA]</abbr></a> &middot; <a href="#"><abbr>[GER]</abbr>
   -->
+  <ul>
+    <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/eml">GBIF EML</a></li>
+    <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/document">Original Source</a></li>
+  </ul>
+
 </div>
 
 </@common.article>
