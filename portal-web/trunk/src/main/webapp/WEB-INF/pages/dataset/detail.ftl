@@ -29,42 +29,33 @@
 <#-- purpose doesn't exist yet -->
   <#if dataset.purpose?has_content>
     <h3>Purpose</h3>
-
     <p>${dataset.purpose}</p>
   </#if>
 <#-- additionalInformation doesn't exist yet -->
   <#if dataset.additionalInfo?has_content>
     <h3>Additional Information</h3>
-
     <p>${dataset.additionalInfo}</p>
   </#if>
 
   <#if dataset.temporalCoverages?has_content>
     <h3>Temporal coverages</h3>
-    <#list dataset.temporalCoverages as cov>
-      <#if cov.type?has_content && cov.type=="FORMATION_PERIOD">
-        <h4>Formation period (verbatim)</h4>
-
-        <p>${cov.period!""}</p>
-        <#elseif cov.type?has_content && cov.type =="LIVING_TIME_PERIOD">
-          <h4>Living time period (verbatim)</h4>
-
-          <p>${cov.period!""}</p>
+    <ul>
+      <#list dataset.temporalCoverages as cov>
+        <li>
+        <#if cov.type?has_content && cov.period?has_content>
+          <strong><@s.text name="enum.verbatimtimeperiodtype.${cov.type}"/></strong>: ${cov.period}
         <#elseif cov.date?has_content>
-          <h4>Single date</h4>
-
-          <p>${cov.date?date}</p>
-        <#elseif cov.start?has_content && cov.start?has_content>
-          <h4>Date range</h4>
-
-          <p>${cov.start?date} - ${cov.end?date}</p>
-      </#if>
-    </#list>
+          <strong>Single date</strong>: ${cov.date?date}
+        <#elseif cov.start?has_content && cov.end?has_content>
+          <strong>Date range</strong>: ${cov.start?date} - ${cov.end?date}
+        </#if>
+        </li>
+      </#list>
+    </ul>
   </#if>
 
   <#if dataset.metadataLanguage?has_content>
     <h3>Language of Metadata</h3>
-
     <p>${dataset.metadataLanguage}</p>
   </#if>
 
@@ -178,10 +169,6 @@
   </#if>
 
   <h3>Metadata Documents</h3>
-  <#--
-  TODO: CAN WE PROVIDE VARIOUS LANGUAGES ???
-    <abbr>[ENG]</abbr></a> &middot; <a href="#"><abbr>[SPA]</abbr></a> &middot; <a href="#"><abbr>[GER]</abbr>
-  -->
   <ul>
     <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/eml">GBIF EML</a></li>
     <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/document">Original Source</a></li>
@@ -196,46 +183,26 @@
 <#if metrics?? || (dataset.taxonomicCoverages?size>0)>
  <@common.article id="taxonomic_coverage" title="Taxonomic Coverage">
  <div class="left">
-  <#if (dataset.taxonomicCoverages?size>0)>
-  <#-- descriptions -->
     <#list dataset.taxonomicCoverages as cov>
       <#if cov.description?has_content>
         <p>${cov.description}</p>
+        <p>
+        <#list cov.coverages as tax>
+          <#if tax.scientificName?has_content || tax.commonName?has_content >
+            <a href="<@s.url value='/species/search?q=${tax.scientificName!tax.commonName}'/>">
+              <#if tax.scientificName?has_content>
+                ${tax.scientificName} <#if tax.commonName?has_content>(${tax.commonName})</#if>
+              <#else>
+                ${tax.commonName}
+              </#if>
+            <a/>
+            <#if tax_has_next>, </#if>
+          </#if>
+        </#list>
+        </p>
+        <br/>
       </#if>
     </#list>
-  <#-- keywords -->
-    <#assign more=false/>
-    <ul class="three_cols">
-      <#list dataset.taxonomicCoverages as cov>
-        <#if more>
-          <#break />
-        </#if>
-        <#if cov.coverages?has_content>
-          <#list cov.coverages as innerCov>
-            <#if (innerCov.scientificName?has_content || innerCov.commonName?has_content)>
-              <li>
-                <a href="<@s.url value='/species/search?q=${innerCov.scientificName!innerCov.commonName}'/>">
-                  <#if innerCov.scientificName?has_content>
-                  ${innerCov.scientificName} <#if innerCov.commonName?has_content>(${innerCov.commonName})</#if>
-                    <#else>
-                    ${innerCov.commonName}
-                  </#if>
-                  <a/>
-              </li>
-            </#if>
-            <#if innerCov_index==8>
-              <#assign more=true/>
-              <#break />
-            </#if>
-          </#list>
-          <#if more>
-            <p><span>The complete list has ${cov.coverages?size} elements.</span></p>
-          </#if>
-        </#if>
-      </#list>
-      <p><a href="#" class="download" title="Download all the elments">&nbsp;Download them all</a>.</p>
-    </ul>
-  </#if>
  </div>
 
  <div class="right">
@@ -345,19 +312,16 @@
     <#assign proj=dataset.project />
     <#if proj.studyAreaDescription?has_content>
       <h3>Study area description</h3>
-
       <p>${proj.studyAreaDescription}</p>
     </#if>
 
     <#if proj.designDescription?has_content>
       <h3>Design description</h3>
-
       <p>${proj.designDescription}</p>
     </#if>
 
     <#if proj.funding?has_content>
       <h3>Funding</h3>
-
       <p>${proj.funding}</p>
     </#if>
 
@@ -482,25 +446,21 @@
 
     <#if dd.charset?has_content>
       <h4>Character Set</h4>
-
       <p>${dd.charset}</p>
     </#if>
 
     <#if dd.format?has_content>
       <h4>Data Format</h4>
-
       <p>${dd.format}</p>
     </#if>
 
     <#if dd.formatVersion?has_content>
       <h4>Data Format Version</h4>
-
       <p>${dd.formatVersion}</p>
     </#if>
 
     <#if dd.url?has_content>
       <h4>Download URL</h4>
-
       <p><a href="${dd.url}">${dd.url}</a></p>
     </#if>
   </#list>
