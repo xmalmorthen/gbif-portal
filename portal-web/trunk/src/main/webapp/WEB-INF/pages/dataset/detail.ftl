@@ -43,11 +43,11 @@
       <#list dataset.temporalCoverages as cov>
         <li>
         <#if cov.type?has_content && cov.period?has_content>
-          <strong><@s.text name="enum.verbatimtimeperiodtype.${cov.type}"/></strong>: ${cov.period}
+          <@s.text name="enum.verbatimtimeperiodtype.${cov.type}"/>: ${cov.period}
         <#elseif cov.date?has_content>
-          <strong>Single date</strong>: ${cov.date?date}
+          Single date: ${cov.date?date}
         <#elseif cov.start?has_content && cov.end?has_content>
-          <strong>Date range</strong>: ${cov.start?date} - ${cov.end?date}
+          Date range: ${cov.start?date} - ${cov.end?date}
         </#if>
         </li>
       </#list>
@@ -143,28 +143,42 @@
     </ul>
   </#if>
 
-  <#if dataset.endpoints?has_content>
-    <h3>Online Services</h3>
+  <#if dataset.homepage?has_content || links?has_content>
+    <h3>Links</h3>
     <ul>
-      <#list dataset.endpoints as point>
-        <#if point.type?has_content && point.url?has_content>
+      <#if dataset.homepage?has_content>
+      <li><a href="<@s.url value='${dataset.homepage}'/>" title="Dataset homepage">Dataset homepage</a></li>
+      </#if>
+      <#list links as p>
+        <#if p.url?has_content>
           <li>
-            <a href="<@s.url value='${point.url}'/>" title="${point.type} endpoint">
-            <@s.text name="enum.endpointtype.${point.type}"/>
-              <#if point.type=="EML">
-            <@common.popup message="This is a link to the original metadata document. The metadata may be different from the version that is displayed if it has been updated since the time the dataset was last indexed." title="Warning"/>
-            </#if>
-            </a>
+            <a href="<@s.url value='${p.url}'/>" title="<@s.text name='enum.endpointtype.${p.type}'/>"><@s.text name="enum.endpointtype.${p.type}"/></a>
           </li>
         </#if>
       </#list>
+
     </ul>
   </#if>
 
-  <#if dataset.homepage?has_content>
-    <h3>External Links</h3>
+  <#-- DATA DESCRIPTIONS -->
+  <#if dataset.dataDescriptions?has_content || dataLinks?has_content>
+    <h3>External Data</h3>
     <ul>
-      <li><a href="<@s.url value='${dataset.homepage}'/>" title="Dataset homepage">Dataset homepage</a></li>
+    <#list dataLinks as p>
+      <#if p.url?has_content>
+        <li>
+          <a href="${p.url}" title="<@s.text name='enum.endpointtype.${p.type}'/>"><@s.text name="enum.endpointtype.${p.type}"/></a>
+        </li>
+      </#if>
+    </#list>
+    <#list dataset.dataDescriptions as dd>
+      <li>
+        <a href="${dd.url}">${dd.name!dd.url}</a>
+        <#if dd.format?has_content || dd.charset?has_content>
+          <div class="note">${dd.format!} ${dd.formatVersion!}<#if dd.format?has_content && dd.charset?has_content>&middot;</#if> ${dd.charset!}</div>
+        </#if>
+      </li>
+    </#list>
     </ul>
   </#if>
 
@@ -172,6 +186,16 @@
   <ul>
     <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/eml">GBIF EML</a></li>
     <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/document">Original Source</a></li>
+    <#list metaLinks as p>
+      <#if p.url?has_content>
+        <li>
+          <a href="${p.url}" title="<@s.text name='enum.endpointtype.${p.type}'/>"><@s.text name="enum.endpointtype.${p.type}"/></a>
+          <#if p.type=="EML">
+            <@common.popup message="This is a link to the original metadata document. The metadata may be different from the version that is displayed if it has been updated since the time the dataset was last indexed." title="Warning"/>
+          </#if>
+        </li>
+      </#if>
+    </#list>
   </ul>
 
 </div>
@@ -427,37 +451,6 @@
       </#if>
     </#list>
   </#if>
-</div>
-</@common.article>
-</#if>
-
-<#-- DATA DESCRIPTIONS -->
-<#if dataset.dataDescriptions?has_content>
-<@common.article id="data_descriptions" title="Related Data">
-<div class="left">
-  <#list dataset.dataDescriptions as dd>
-    <h3>${dd.name!"Data object"}</h3>
-
-    <#if dd.charset?has_content>
-      <h4>Character Set</h4>
-      <p>${dd.charset}</p>
-    </#if>
-
-    <#if dd.format?has_content>
-      <h4>Data Format</h4>
-      <p>${dd.format}</p>
-    </#if>
-
-    <#if dd.formatVersion?has_content>
-      <h4>Data Format Version</h4>
-      <p>${dd.formatVersion}</p>
-    </#if>
-
-    <#if dd.url?has_content>
-      <h4>Download URL</h4>
-      <p><a href="${dd.url}">${dd.url}</a></p>
-    </#if>
-  </#list>
 </div>
 </@common.article>
 </#if>

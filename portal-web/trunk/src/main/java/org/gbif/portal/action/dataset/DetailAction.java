@@ -12,14 +12,17 @@ import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Contact;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Endpoint;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.TechnicalInstallation;
 import org.gbif.api.service.registry.TechnicalInstallationService;
+import org.gbif.api.vocabulary.EndpointType;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +35,9 @@ public class DetailAction extends DatasetBaseAction {
   private Dataset parentDataset;
   private List<Contact> preferredContacts;
   private List<Contact> otherContacts;
+  private List<Endpoint> links = Lists.newArrayList();
+  private List<Endpoint> dataLinks = Lists.newArrayList();
+  private List<Endpoint> metaLinks = Lists.newArrayList();
   private PagingResponse<Dataset> constituents;
 
   @Inject
@@ -43,6 +49,8 @@ public class DetailAction extends DatasetBaseAction {
 
     // are there preferred (primary) contacts
     separateContacts(dataset.getContacts());
+
+    setLinks();
 
     if (dataset.getTechnicalInstallationKey() != null) {
       TechnicalInstallation technicalInstallation = technicalInstallationService.get(dataset.getTechnicalInstallationKey());
@@ -60,6 +68,21 @@ public class DetailAction extends DatasetBaseAction {
     }
 
     return SUCCESS;
+  }
+
+  /**
+   * Takes all endpoints and splits them into data, metadata and other links.
+   */
+  private void setLinks() {
+    for (Endpoint p : dataset.getEndpoints()) {
+      if (EndpointType.DATA_CODES.contains(p.getType())) {
+        dataLinks.add(p);
+      } else if (EndpointType.METADATA_CODES.contains(p.getType())) {
+        metaLinks.add(p);
+      } else {
+        links.add(p);
+      }
+    }
   }
 
   public List<Contact> getOtherContacts() {
@@ -111,4 +134,15 @@ public class DetailAction extends DatasetBaseAction {
     return getResourceBundleProperties("enum.rank.");
   }
 
+  public List<Endpoint> getLinks() {
+    return links;
+  }
+
+  public List<Endpoint> getDataLinks() {
+    return dataLinks;
+  }
+
+  public List<Endpoint> getMetaLinks() {
+    return metaLinks;
+  }
 }
