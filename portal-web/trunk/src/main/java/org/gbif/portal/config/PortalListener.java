@@ -70,10 +70,10 @@ public class PortalListener extends GuiceServletContextListener {
 
       // CAS (do not CASify CSS, fonts, JS etc)
       String excludeRegEx = "/(?!js|conf|css|img|fonts).*";
-      filterRegex(excludeRegEx).through(SingleSignOutFilter.class);
-      filterRegex(excludeRegEx).through(AuthenticationFilter.class, params);
-      filterRegex(excludeRegEx).through(Cas20ProxyReceivingTicketValidationFilter.class, params);
-      filterRegex(excludeRegEx).through(HttpServletRequestWrapperFilter.class);
+//      filterRegex(excludeRegEx).through(SingleSignOutFilter.class);
+//      filterRegex(excludeRegEx).through(AuthenticationFilter.class, params);
+//      filterRegex(excludeRegEx).through(Cas20ProxyReceivingTicketValidationFilter.class, params);
+//      filterRegex(excludeRegEx).through(HttpServletRequestWrapperFilter.class);
 
       // Struts2
       filter("/*").through(StrutsPrepareFilter.class);
