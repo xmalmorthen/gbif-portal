@@ -61,10 +61,10 @@ sub vcl_recv {
     set req.backend = jawa;
     set req.url = regsub(req.url, "^/dev/", "/");
 
-  } else if (req.url ~ "^/portal/") {
+  } else if (req.url ~ "^/portal") {
     set req.http.host="staging.gbif.org";
     set req.backend = staging;
-    set req.url = regsub(req.url, "^/portal/", "/portal-web-dynamic/");
+    set req.url = regsub(req.url, "^/portal", "/portal-web-dynamic");
     return (lookup);
 
   } else {
