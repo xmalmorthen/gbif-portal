@@ -189,14 +189,8 @@
         <p>
         <#list cov.coverages as tax>
           <#if tax.scientificName?has_content || tax.commonName?has_content >
-            <a href="<@s.url value='/species/search?q=${tax.scientificName!tax.commonName}'/>">
-              <#if tax.scientificName?has_content>
-                ${tax.scientificName} <#if tax.commonName?has_content>(${tax.commonName})</#if>
-              <#else>
-                ${tax.commonName}
-              </#if>
-            <a/>
-            <#if tax_has_next>, </#if>
+            <#-- Keep the following as 1 line otherwise whitespace appears after each name. For some reason the right trim Freemarker directive does not work with the if else conditions -->
+            <a href="<@s.url value='/species/search?q=${tax.scientificName!tax.commonName}'/>"><#if tax.scientificName?has_content>${tax.scientificName}<#if tax.commonName?has_content>(${tax.commonName})</#if><#else>${tax.commonName}</#if><a/><#if tax_has_next>, </#if>
           </#if>
         </#list>
         </p>
