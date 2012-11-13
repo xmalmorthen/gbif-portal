@@ -14,6 +14,14 @@ backend boma {
   .between_bytes_timeout = 60s; 
 }
 
+backend staging {
+  .host = "130.226.238.148";    
+  .port = "8080";   
+  .connect_timeout = 60s;
+  .first_byte_timeout = 60s;
+  .between_bytes_timeout = 60s; 
+}
+
 #backend mogo {
 #  .host = "130.226.238.242";    
 #  .port = "8080";   
@@ -52,6 +60,13 @@ sub vcl_recv {
     set req.http.host="jawa.gbif.org";
     set req.backend = jawa;
     set req.url = regsub(req.url, "^/dev/", "/");
+
+  } else if (req.url ~ "^/portal/") {
+    set req.http.host="staging.gbif.org";
+    set req.backend = staging;
+    set req.url = regsub(req.url, "^/portal/", "/portal-web-dynamic/");
+    return (lookup);
+
   } else {
     error 404 "API version not existing";
   }
