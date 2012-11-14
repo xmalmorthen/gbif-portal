@@ -57,7 +57,6 @@ sub vcl_recv {
 
   # first check API versions
   if ( req.url ~ "^/dev/") {
-    set req.http.host="jawa.gbif.org";
     set req.backend = jawa;
     set req.url = regsub(req.url, "^/dev/", "/");
 
@@ -74,9 +73,6 @@ sub vcl_recv {
   }
   
   if (req.url ~ "^/lookup/"){
-#    set req.http.host="balancer.gbif.org";
-#    set req.backend = balancer;
-    set req.http.host="boma.gbif.org";
     set req.backend = boma;
     if (req.url ~ "^/lookup/name_usage"){
       set req.url = regsub(req.url, "^/lookup/name_usage", "/ws-nub/nub");
@@ -92,6 +88,7 @@ sub vcl_recv {
       set req.url = regsub(req.url, "^/", "/checklistbank-ws/");
 
     } else if ( req.url ~ "^/map") {
+      set req.backend = staging;
       set req.url = regsub(req.url, "^/map", "/tile-server");
 
     } else if ( req.url ~ "^/occurrence/count") {
