@@ -204,24 +204,29 @@
 
 
 <#-- TAXONOMIC COVERAGE -->
-<#if metrics?? || (dataset.taxonomicCoverages?size>0)>
- <@common.article id="taxonomic_coverage" title="Taxonomic Coverage">
- <div class="left">
-    <#list dataset.taxonomicCoverages as cov>
-      <#if cov.description?has_content>
-        <p>${cov.description}</p>
+<#if metrics?? || (organizedCoverages?size>0) >
+  <@common.article id="taxonomic_coverage" title="Taxonomic Coverage">
+  <div class="left">
+    <div class="scrollable">
+      <#list organizedCoverages as ocs>
         <p>
-        <#list cov.coverages as tax>
-          <#if tax.scientificName?has_content || tax.commonName?has_content >
-            <#-- Keep the following as 1 line otherwise whitespace appears after each name. For some reason the right trim Freemarker directive does not work with the if else conditions -->
-            <a href="<@s.url value='/species/search?q=${tax.scientificName!tax.commonName}'/>"><#if tax.scientificName?has_content>${tax.scientificName}<#if tax.commonName?has_content>(${tax.commonName})</#if><#else>${tax.commonName}</#if><a/><#if tax_has_next>, </#if>
-          </#if>
-        </#list>
+        ${ocs.description}
         </p>
-        <br/>
-      </#if>
-    </#list>
- </div>
+        <p>
+          <#list ocs.coverages as oc>
+            <ul class="three_cols">
+              <li>${oc.rank}</li>
+            </ul>
+            <ul class="two_cols">
+              <#list oc.displayableNames as dis>
+                <a href="<@s.url value='/species/search?q=${dis.scientificName!dis.commonName}'/>">${dis.displayName}</a>
+              </#list>
+            </ul>
+          </#list>
+        </p>
+      </#list>
+    </div>
+  </div>
 
  <div class="right">
  <#if metrics??>

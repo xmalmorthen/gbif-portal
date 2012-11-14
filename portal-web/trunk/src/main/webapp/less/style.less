@@ -1737,6 +1737,12 @@ body.register footer {
   padding: 11px 0 4px 7px;
 }
 
+// Scrollable section
+#content article .content div.scrollable {
+  height:442px;
+  overflow:auto;
+}
+
 #content article .content .light_box.contact .content ul {
   float: left;
   margin: 0 45px 0 0;
@@ -2137,6 +2143,7 @@ body.register footer {
     &.three_cols {
      display: inline-block;
      margin: 6px 0 25px 0;
+     vertical-align:text-top;
      width: 195px;
 
      li {
@@ -2145,6 +2152,19 @@ body.register footer {
      }
 
    }
+
+    &.two_cols {
+      display: inline-block;
+      margin: 6px 0 25px 0;
+      vertical-align:text-top;
+      width: 380px;
+
+      li {
+        padding-left: 0;
+        background: none;
+      }
+
+    }
 
    &.no_bullets {
      display: inline-block;

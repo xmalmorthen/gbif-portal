@@ -5,16 +5,25 @@ import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Network;
 import org.gbif.api.model.registry.Organization;
+import org.gbif.api.model.registry.taxonomic.TaxonomicCoverage;
+import org.gbif.api.model.registry.taxonomic.TaxonomicCoverages;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.NetworkService;
 import org.gbif.api.service.registry.OrganizationService;
+import org.gbif.api.vocabulary.Rank;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.action.dataset.util.DisplayableTaxonomicCoverage;
+import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverage;
+import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverages;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +47,8 @@ public class DatasetBaseAction extends BaseAction {
   protected OrganizationService organizationService;
   @Inject
   protected NetworkService networkService;
+  // for conveniently displaying the dataset's TaxonomicCoverages in freemarker template
+  private List<OrganizedTaxonomicCoverages> organizedCoverages;
 
   public Dataset getDataset() {
     return dataset;
@@ -77,6 +88,13 @@ public class DatasetBaseAction extends BaseAction {
     return networkOfOrigin;
   }
 
+  /**
+   * @return the Dataset's taxonomic coverages organized by rank
+   */
+  public List<OrganizedTaxonomicCoverages> getOrganizedCoverages() {
+    return organizedCoverages;
+  }
+
   protected void loadDetail() {
     LOG.debug("Fetching detail for dataset id [{}]", id);
     if (Strings.isNullOrEmpty(id)) {
@@ -110,9 +128,96 @@ public class DatasetBaseAction extends BaseAction {
     } catch (Exception e) {
       LOG.warn("Cant get metrics for dataset {}", key, e);
     }
+
+    // construct organized list of TaxonomicCoverages for simple display in UI
+    if (dataset.getTaxonomicCoverages() != null) {
+      organizedCoverages = constructOrganizedTaxonomicCoverages(dataset.getTaxonomicCoverages());
+    }
   }
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  /**
+   * Takes a list of the resource's TaxonomicCoverages, and for each one, creates a new OrganizedTaxonomicCoverage
+   * that gets added to this class' list of OrganizedTaxonomicCoverage.
+   *
+   * @param coverages list of resource's OrganizedTaxonomicCoverage
+   */
+  List<OrganizedTaxonomicCoverages> constructOrganizedTaxonomicCoverages(List<TaxonomicCoverages> coverages) {
+    List<OrganizedTaxonomicCoverages> organizedCoverages = new ArrayList<OrganizedTaxonomicCoverages>();
+    for (TaxonomicCoverages coverage : coverages) {
+      OrganizedTaxonomicCoverages organizedCoverage = new OrganizedTaxonomicCoverages();
+      organizedCoverage.setDescription(coverage.getDescription());
+      organizedCoverage.setCoverages(setOrganizedTaxonomicCoverages(coverage.getCoverages()));
+      organizedCoverages.add(organizedCoverage);
+    }
+    return organizedCoverages;
+  }
+
+  /**
+   * This method iterates through a list of TaxonomicCoverage, and groups them all by rank. For each unique rank
+   * represented in the list, there will be 1 OrganizedTaxonomicCoverage, that has a list of
+   * DisplayableTaxonomicCoverage. A DisplayableTaxonomicCoverage is basically the same as TaxonomicCoverage, only that
+   * it has a field called display name. The display name is the way the TaxonomicCoverage should be showin in the UI.
+   *
+   * @param coverages list of TaxonomicCoverages' TaxonomicCoverage
+   *
+   * @return list of OrganizedTaxonomicCoverage (one for each unique rank represented in the list of
+   *         TaxonomicCoverage), or an empty list if none were added
+   */
+  private List<OrganizedTaxonomicCoverage> setOrganizedTaxonomicCoverages(List<TaxonomicCoverage> coverages) {
+    List<OrganizedTaxonomicCoverage> organizedTaxonomicCoveragesList = new ArrayList<OrganizedTaxonomicCoverage>();
+
+    for (Rank rank : Rank.values()) {
+      // initiate a new OrganizedTaxonomicCoverage for each rank
+      OrganizedTaxonomicCoverage organizedCoverage = new OrganizedTaxonomicCoverage();
+      organizedCoverage.setRank(rank.name());
+      // iterate through all coverages, and match all with same rank
+      for (TaxonomicCoverage coverage : coverages) {
+        // proceed if non-null display name created (meaning coverage has at least a scientific name)
+        String displayName = createDisplayNameForCoverage(coverage);
+        if (!Strings.isNullOrEmpty(displayName)) {
+          Rank interpreted = coverage.getRank().getInterpreted();
+          // if the ranks match..
+          if (interpreted != null && rank.name().equalsIgnoreCase(interpreted.name())) {
+            // add DisplayableTaxonomicCoverage into OrganizedTaxonomicCoverage
+            DisplayableTaxonomicCoverage displayable = new DisplayableTaxonomicCoverage(coverage);
+            displayable.setDisplayName(displayName);
+            organizedCoverage.getDisplayableNames().add(displayable);
+          }
+        }
+      }
+      // add to list if OrganizedTaxonomicCoverage contained at least one DisplayableTaxonomicCoverage
+      if (organizedCoverage.getDisplayableNames().size() > 0) {
+        organizedTaxonomicCoveragesList.add(organizedCoverage);
+      }
+    }
+    // return list
+    return organizedTaxonomicCoveragesList;
+  }
+
+  /**
+   * Construct the display name from TaxonomicCoverage's scientific name and common name properties. It will look like:
+   * scientific name (common name) provided both properties are not null. Otherwise, it will be either the scientific
+   * name or common name by themselves.
+   *
+   * @return constructed display name or an empty string if none could be constructed
+   */
+  private String createDisplayNameForCoverage(TaxonomicCoverage coverage) {
+    String combined = null;
+    if (coverage != null) {
+      String scientificName = StringUtils.trimToNull(coverage.getScientificName());
+      String commonName = StringUtils.trimToNull(coverage.getCommonName());
+      if (scientificName != null && commonName != null) {
+        combined = scientificName + " (" + commonName + ")";
+      } else if (scientificName != null) {
+        combined = scientificName;
+      } else if (commonName != null) {
+        combined = commonName;
+      }
+    }
+    return combined;
   }
 }
