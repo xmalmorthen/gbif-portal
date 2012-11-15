@@ -366,7 +366,7 @@
 <div class="right">
   <#if (otherContacts?size>0) >
     <h3>Associated parties</h3>
-    <ul class="team">
+    <ul>
       <#list otherContacts as ap>
         <li><@common.contact con=ap /></li>
         <#if ap_has_next && ap_index==3>
