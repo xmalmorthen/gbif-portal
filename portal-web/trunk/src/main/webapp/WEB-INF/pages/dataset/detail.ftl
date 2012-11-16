@@ -464,13 +464,15 @@
 <#if dataset.bibliographicCitations?has_content >
 <@common.article id="references" title="References">
 <div class="fullwidth">
-  <#if (dataset.bibliographicCitations?size>0)>
-    <#list dataset.bibliographicCitations as ref>
-      <p>
-        <@common.citation ref/>
-      </p>
-    </#list>
-  </#if>
+  <div class="scrollable">
+    <#if (dataset.bibliographicCitations?size>0)>
+      <#list dataset.bibliographicCitations as ref>
+        <p>
+          <@common.citation ref/>
+        </p>
+      </#list>
+    </#if>
+  </div>
 </div>
 </@common.article>
 </#if>
