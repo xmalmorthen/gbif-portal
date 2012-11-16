@@ -369,7 +369,7 @@
     <ul>
       <#list otherContacts as ap>
         <li><@common.contact con=ap /></li>
-        <#if ap_has_next && ap_index==3>
+        <#if ap_has_next && ap_index==2>
           <li> <a class="more_link" href="<@s.url value='/dataset/${dataset.key}/contacts'/>">see all</a> </li>
           <#break />
         </#if>
