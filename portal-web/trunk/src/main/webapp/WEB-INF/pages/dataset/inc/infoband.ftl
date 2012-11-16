@@ -15,8 +15,11 @@
 <content tag="infoband">
 
   <h1>${common.limit(dataset.title, 36)}</h1>
-
+<#if keywords?has_content>
   <h3 class="separator">
+<#else>
+<h3>
+</#if>
     <@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/>
     <#if owningOrganization??>
       published by <a href="<@s.url value='/organization/${owningOrganization.key}'/>">${owningOrganization.title!"Unknown"}</a>
