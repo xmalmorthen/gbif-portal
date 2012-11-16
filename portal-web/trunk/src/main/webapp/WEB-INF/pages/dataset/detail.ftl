@@ -59,7 +59,7 @@
     <p>${dataset.metadataLanguage}</p>
   </#if>
 
-  <#if dataset.language?has_content>
+  <#if dataset.dataLanguage?has_content>
     <h3>Language of Data</h3>
     <@common.enumParagraph dataset.dataLanguage />
   </#if>
@@ -129,15 +129,20 @@
     <ul>
       <#list dataset.identifiers as idt>
         <#if idt.type?has_content>
-          <#if idt.type == "LSID" || idt.type == "URL">
-            <li><a href="${idt.identifier}">${common.limit(idt.identifier!"",max_show_length)}</a></li>
+          <#-- if there is a type, there is the possibility of an interpreted link -->
+          <#if idt.identifierLink?has_content>
+            <li><a href="${idt.identifierLink}">${common.limit(idt.identifierLink!"",max_show_length)}</a></li>
+            <li class="note_bottom_padded"><@s.text name="enum.identifiertype.${idt.type}"/></li>
           <#elseif idt.type == "UNKNOWN">
-            <li>${common.limit(idt.identifier!"",max_show_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
+            <li>${common.limit(idt.identifier!"",max_show_length)}</li>
+            <li class="note_bottom_padded">Alternate Identifier</li>
           <#else>
-            <li><a href="${idt.identifier}"><@s.text name="enum.identifiertype.${idt.type}"/></a></li>
+            <li><a href="${idt.identifier}">${common.limit(idt.identifier!"",max_show_length)}</a></li>
+            <li class="note_bottom_padded"><@s.text name="enum.identifiertype.${idt.type}"/></li>
           </#if>
-          <#else>
-            <li>${common.limit(idt.identifier!"",max_show_length)}<@common.popup message=idt.identifier title="Alternate Identifier"/></li>
+        <#else>
+          <li>${common.limit(idt.identifier!"",max_show_length)}</li>
+          <li class="note_bottom_padded">Alternate Identifier</li>
         </#if>
       </#list>
     </ul>
@@ -175,7 +180,7 @@
       <li>
         <a href="${dd.url}">${dd.name!dd.url}</a>
         <#if dd.format?has_content || dd.charset?has_content>
-          <div class="note">${dd.format!} ${dd.formatVersion!}<#if dd.format?has_content && dd.charset?has_content>&middot;</#if> ${dd.charset!}</div>
+          <div class="note_bottom_padded">${dd.format!} ${dd.formatVersion!}<#if dd.format?has_content && dd.charset?has_content>&middot;</#if> ${dd.charset!}</div>
         </#if>
       </li>
     </#list>
