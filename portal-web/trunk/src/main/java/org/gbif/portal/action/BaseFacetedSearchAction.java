@@ -190,9 +190,12 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
    * @return the existing facet instance from the counts or null
    */
   private FacetInstance findFacetInstanceByName(P facet, String name) {
-    for (FacetInstance fi : facetCounts.get(facet)) {
-      if (fi.getName() != null && fi.getName().equals(name)) {
-        return fi;
+    List<FacetInstance> fis = facetCounts.get(facet);
+    if (fis != null) {
+      for (FacetInstance fi : fis) {
+        if (fi.getName() != null && fi.getName().equals(name)) {
+          return fi;
+        }
       }
     }
     return null;
@@ -242,6 +245,9 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
               facetInstance = new FacetInstance(filterValue);
               facetInstance.setCount(null);
               // also add them to the list of all counts so we will lookup titles
+              if (!facetCounts.containsKey(facet)) {
+                facetCounts.put(facet, Lists.<FacetInstance>newArrayList());
+              }
               facetCounts.get(facet).add(facetInstance);
             }
             selectedFacetCounts.get(facet).add(facetInstance);
