@@ -206,7 +206,8 @@
 <#-- TAXONOMIC COVERAGE -->
 <#if metrics?? || (organizedCoverages?size>0) >
   <@common.article id="taxonomic_coverage" title="Taxonomic Coverage">
-  <div class="left">
+  <#-- If there are no metrics (right sidebar) let the taxonomic coverage section take the full width -->
+  <div <#if !metrics??> class="fullwidth" <#else> class="left" </#if> >
     <div class="scrollable">
       <#list organizedCoverages as ocs>
         <p>
@@ -217,7 +218,8 @@
             <ul class="three_cols">
               <li>${oc.rank}</li>
             </ul>
-            <ul class="two_cols">
+            <#-- If there are no metrics (right sidebar) let the displayable names column expand the full width -->
+            <ul <#if !metrics??> class="four_cols" <#else> class="two_cols" </#if> >
               <#list oc.displayableNames as dis>
                 <a href="<@s.url value='/species/search?q=${dis.scientificName!dis.commonName}'/>">${dis.displayName}</a>
               </#list>
