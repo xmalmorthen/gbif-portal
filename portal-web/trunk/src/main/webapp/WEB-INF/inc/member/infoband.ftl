@@ -15,7 +15,12 @@
   <h1>${member.title!"???"}</h1>
 
   <#if member.homepage??>
-    <h3 class="separator">More info at: <a href="${member.homepage}" target="_blank" title="Homepage">${member.homepage}</a></h3>
+    <#list member.tags as t>
+  <h3 class="separator">
+<#else>
+<h3>
+</#if>
+    More info at: <a href="${member.homepage}" target="_blank" title="Homepage">${member.homepage}</a></h3>
   </#if>
 
   <ul class="tags">
