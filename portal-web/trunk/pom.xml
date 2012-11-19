@@ -169,6 +169,7 @@
               <compress>true</compress>
               <includes>
                 <include>style.less</include>
+                <include>print.less</include>
                 <include>crawl-table.less</include>
                 <include>google.less</include>
                 <include>leaflet.ie.less</include>

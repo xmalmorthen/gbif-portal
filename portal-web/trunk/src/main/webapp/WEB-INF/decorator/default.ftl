@@ -62,6 +62,9 @@
   <#-- Uncomment if you are specifically targeting less enabled mobile browsers
   <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
 
+  <link rel="stylesheet" type="text/css" media="print" href="css/print.css">  
+
+
   <script src="<@s.url value='/js/vendor/modernizr-1.7.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
