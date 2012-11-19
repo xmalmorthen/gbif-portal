@@ -15,6 +15,7 @@
 <content tag="infoband">
 
   <h1>${common.limit(dataset.title, 36)}</h1>
+<#assign keywords=dataset.keywords />
 <#if keywords?has_content>
   <h3 class="separator">
 <#else>
