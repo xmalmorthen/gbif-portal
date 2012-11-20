@@ -4,6 +4,7 @@ import org.gbif.portal.action.ActionTestUtil;
 
 import com.google.inject.Injector;
 import com.opensymphony.xwork2.Action;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -11,6 +12,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class DetailActionTest {
 
+  @Ignore("http://dev.gbif.org/issues/browse/POR-397")
   @Test
   public void test() {
     Injector injector = ActionTestUtil.initTestInjector();

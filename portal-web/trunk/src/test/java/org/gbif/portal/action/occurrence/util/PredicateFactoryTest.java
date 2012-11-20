@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -85,7 +86,7 @@ public class PredicateFactoryTest {
     assertEquals("10.00", gp.getValue());
   }
 
-
+  @Ignore("http://dev.gbif.org/issues/browse/POR-396")
   @Test
   public void testBypass() {
     PredicateFactory pf = new PredicateFactory(QUERY_FIELD_MAPPING);

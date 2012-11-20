@@ -19,26 +19,10 @@ import static org.gbif.api.model.occurrence.search.Constants.SEARCH_PATH;
  */
 public class Config {
 
+  public static final String APPLICATION_PROPERTIES = "application.properties";
   private static final Logger LOG = LoggerFactory.getLogger(Config.class);
   public static final String SERVERNAME = "servername";
-  public static final String APPLICATION_PROPERTIES = "/application.properties";
   public static final String SUGGEST_PATH = "suggest";
-
-  private String cas;
-  private String serverName;
-  private String drupal;
-  private String wsClb;
-  private String wsClbSearch;
-  private String wsReg;
-  private String wsRegSearch;
-  private String wsRegSuggest;
-
-  private String wsOcc;
-  private String wsOccSearch;
-  private String wsOccCollectorNameSearch;
-  private String wsOccCatalogNumberSearch;
-  private String wsClbSuggest;
-  private String tileServerBaseUrl;
 
   /**
    * To safeguard against configuration issues, this ensures that trailing slashes exist where required.
@@ -96,6 +80,24 @@ public class Config {
         + ". Please configure application.properties appropriately!", e);
     }
   }
+
+  private String cas;
+  private String drupal;
+  private String serverName;
+  private String tileServerBaseUrl;
+  private String wsClb;
+  private String wsClbSearch;
+
+  private String wsClbSuggest;
+  private String wsOcc;
+  private String wsOccCatalogNumberSearch;
+  private String wsOccCollectorNameSearch;
+  private String wsOccSearch;
+  private String wsReg;
+
+  private String wsRegSearch;
+
+  private String wsRegSuggest;
 
 
   public String getCas() {
