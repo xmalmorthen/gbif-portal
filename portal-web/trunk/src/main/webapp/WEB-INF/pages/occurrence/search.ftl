@@ -4,7 +4,7 @@
     <title>Occurrence Search Results</title>
 
     <content tag="extra_scripts">    
-    <link rel="stylesheet" href="<@s.url value='/css/combobox.css?v=2'/>"/>    
+<!--    <link rel="stylesheet" href="<@s.url value='/css/combobox.css?v=2'/>"/>    -->
     <script src='<@s.url value='/js/vendor/jquery.url.js'/>' type='text/javascript'></script>
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/terms_suggest.js'/>"></script>
@@ -165,10 +165,10 @@
           <h4><%= title %></h4>
             <table>
               <tr>
-                <td style="border: 0px none !important;"><h4>from</h4>
+                <td class="date-filter" style="border: 0px none !important;"><h4>from</h4>
                   <span>
-                    <label for="monthMin">Month</label>
-                    <select name="monthMin" class="selectbox">
+                    
+                    <select name="monthMin" class="date-dropdown">
                       <option value="0">-</option>
                       <option value="1">January</option>
                       <option value="2">February</option>
@@ -183,13 +183,14 @@
                       <option value="11">November</option>
                       <option value="12">December</option>
                     </select>
-                    <label for="yearMin">Year</label>
+                    
+ 					<label for="yearMax">Year</label>
                     <input type="text" name="yearMin" size="10" maxlength="4" style="width: 50px !important; padding: 6px !important;"/>
                   </span>
                 </td>
-                <td style="border: 0px none !important;"><h4>to</h4>
-                  <label for="monthMax">Month</label>
-                  <select name="monthMax">
+                <td class="date-filter" style="border: 0px none !important;"><h4>to</h4>
+                  
+                  <select name="monthMax" class="date-dropdown">
                     <option value="0">-</option>
                     <option value="1">January</option>
                     <option value="2">February</option>
@@ -204,7 +205,8 @@
                     <option value="11">November</option>
                     <option value="12">December</option>
                   </select>
-                  <label for="yearMax">Year</label>
+
+ 				<label for="yearMax">Year</label>
                   <input type="text" name="yearMax" size="10" maxlength="4" style="width: 50px !important; padding: 6px !important;"/>
                   <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">
                 </td>

@@ -61,8 +61,7 @@
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all"/>
   <#-- Uncomment if you are specifically targeting less enabled mobile browsers
   <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
-
-  <link rel="stylesheet" type="text/css" media="print" href="css/print.css">  
+  <link rel="stylesheet" type="text/css" media="print" href="/css/print.css">  
 
 
   <script src="<@s.url value='/js/vendor/modernizr-1.7.min.js'/>"></script>
@@ -277,6 +276,7 @@
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->
+  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.dropkick-1.0.0.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/autocomplete.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.uniform.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/mousewheel.js'/>"></script>

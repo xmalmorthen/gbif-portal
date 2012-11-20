@@ -183,7 +183,9 @@ var OccurrenceWidget = (function ($,_) {
               self.showAppliedFilters();
             });
           }
-          
+
+          $('.date-dropdown').dropkick(); // adds custom dropdowns
+
           // This is needed to address http://dev.gbif.org/issues/browse/POR-365 
           // The solution was found https://groups.google.com/forum/?fromgroups=#!topic/leaflet-js/KVm6OvaOU3o
           if (map!=null) map.invalidateSize();
