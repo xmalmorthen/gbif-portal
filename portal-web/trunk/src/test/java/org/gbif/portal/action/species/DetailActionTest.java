@@ -64,7 +64,6 @@ public class DetailActionTest extends StrutsJUnit4TestCase<DetailAction> {
 
     Map<String, List<VernacularName>> result = action.getVernacularNames();
     assertEquals(4, result.size());
-    System.out.println(result);
     assertNotNull(result.get("a||ab")); // note that is lowercase
     assertEquals(2, result.get("a||ab").size());
   }
