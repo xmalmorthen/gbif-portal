@@ -4453,7 +4453,8 @@ em.gbifHl {
 }
 
 #content article.download_ocurrences {
-
+	z-index: 10;
+	
   .content { background: url("../img/boxes/box_light_blue.png") repeat-y; }
   header   { background: url("../img/boxes/box_light_blue_top.png") no-repeat left top; }
   footer   { background: url("../img/boxes/box_light_blue_bottom.png") no-repeat left top; }
@@ -4484,7 +4485,7 @@ em.gbifHl {
 }
 
 #content article.ocurrence_results {
-
+	z-index:1000;
   .content { padding: 0; }
 
   .content  > .footer {
@@ -4599,14 +4600,14 @@ em.gbifHl {
 
             background: none;
 
-            position:relative;
+           
           }
         }
 
         .dropdown-menu.filters {
 
-          top: 25px;
-          left: -78px;
+          top: 30px;
+          right: -38px;
 
           ul { padding: 10px 0 0 0; }
 
