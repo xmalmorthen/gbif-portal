@@ -1,12 +1,11 @@
 package org.gbif.portal.action.admin;
 
 import org.gbif.api.model.common.paging.PagingRequest;
-import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.metrics.DatasetCrawlMetrics;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
-import org.gbif.api.service.metrics.MetricsService;
+import org.gbif.api.service.crawler.CrawlerDetailService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.NodeService;
 import org.gbif.api.service.registry.OrganizationService;
@@ -35,7 +34,7 @@ public class CrawlerAction extends BaseAction {
 
   private NodeService nodeWsClient;
 
-  private MetricsService metricsWsClient;
+  private CrawlerDetailService crawlerWsClient;
 
   private DatasetService datasetWsClient;
 
@@ -54,10 +53,10 @@ public class CrawlerAction extends BaseAction {
    * @param organizationWsClient
    */
   @Inject
-  private CrawlerAction(NodeService nodeWsClient, MetricsService metricsWsClient, DatasetService datasetWsClient,
+  private CrawlerAction(NodeService nodeWsClient, CrawlerDetailService crawlerWsClient, DatasetService datasetWsClient,
     OrganizationService organizationWsClient) {
     this.nodeWsClient = nodeWsClient;
-    this.metricsWsClient = metricsWsClient;
+    this.crawlerWsClient = crawlerWsClient;
     this.datasetWsClient = datasetWsClient;
     this.organizationWsClient = organizationWsClient;
   }
