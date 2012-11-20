@@ -55,8 +55,8 @@ public class Config {
       cfg.wsRegSuggest = cfg.wsRegSearch + SUGGEST_PATH;
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
       cfg.wsOccSearch = cfg.wsOcc + SEARCH_PATH;
-      cfg.wsOccCatalogNumberSearch = cfg.wsOccSearch + CATALOG_NUMBER_PATH;
-      cfg.wsOccCollectorNameSearch = cfg.wsOccSearch + COLLECTOR_NAME_PATH;
+      cfg.wsOccCatalogNumberSearch = cfg.wsOccSearch + "/" + CATALOG_NUMBER_PATH;
+      cfg.wsOccCollectorNameSearch = cfg.wsOccSearch + "/" + COLLECTOR_NAME_PATH;
       cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
     } catch (IOException e) {
       throw new ConfigurationException("application.properties cannot be read", e);
