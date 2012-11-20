@@ -24,6 +24,24 @@ public class Config {
   public static final String SERVERNAME = "servername";
   public static final String SUGGEST_PATH = "suggest";
 
+  private String cas;
+
+  private String drupal;
+
+  private String serverName;
+  private String tileServerBaseUrl;
+  private String wsClb;
+  private String wsClbSearch;
+  private String wsClbSuggest;
+  private String wsOcc;
+
+  private String wsOccCatalogNumberSearch;
+  private String wsOccCollectorNameSearch;
+  private String wsOccSearch;
+  private String wsReg;
+  private String wsRegSearch;
+  private String wsRegSuggest;
+
   /**
    * To safeguard against configuration issues, this ensures that trailing slashes exist where required.
    * A future enhancement would be for those not to be required by the depending components, but currently
@@ -55,8 +73,9 @@ public class Config {
       cfg.wsRegSuggest = cfg.wsRegSearch + SUGGEST_PATH;
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
       cfg.wsOccSearch = cfg.wsOcc + SEARCH_PATH;
-      cfg.wsOccCatalogNumberSearch = cfg.wsOccSearch + "/" + CATALOG_NUMBER_PATH;
-      cfg.wsOccCollectorNameSearch = cfg.wsOccSearch + "/" + COLLECTOR_NAME_PATH;
+      // TODO: ugly patch, the path occurrence should be moved to the api/common project
+      cfg.wsOccCatalogNumberSearch = cfg.wsOcc + "occurrence/" + SEARCH_PATH + "/" + CATALOG_NUMBER_PATH;
+      cfg.wsOccCollectorNameSearch = cfg.wsOcc + "occurrence/" + SEARCH_PATH + "/" + COLLECTOR_NAME_PATH;
       cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
     } catch (IOException e) {
       throw new ConfigurationException("application.properties cannot be read", e);
@@ -80,24 +99,6 @@ public class Config {
         + ". Please configure application.properties appropriately!", e);
     }
   }
-
-  private String cas;
-  private String drupal;
-  private String serverName;
-  private String tileServerBaseUrl;
-  private String wsClb;
-  private String wsClbSearch;
-
-  private String wsClbSuggest;
-  private String wsOcc;
-  private String wsOccCatalogNumberSearch;
-  private String wsOccCollectorNameSearch;
-  private String wsOccSearch;
-  private String wsReg;
-
-  private String wsRegSearch;
-
-  private String wsRegSuggest;
 
 
   public String getCas() {
