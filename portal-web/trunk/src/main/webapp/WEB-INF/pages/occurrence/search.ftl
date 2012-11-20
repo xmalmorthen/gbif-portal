@@ -229,6 +229,14 @@
         <div class="inner">
           <h4><%= title %></h4>
           <div class="filter">
+
+			<ul class="basis-of-record">
+				<li><a href="#">Specimen</a></li>
+				<li class="selected"><a href="#">Living Specimen</a></li>
+				<li><a href="#">Observation</a></li>
+				<li><a href="#">Human Observation</a></li>
+			</ul>
+
             <span>              
               <select name="BASIS_OF_RECORD" multiple="multiple">
                 <#list basisOfRecords as basisOfRecord>
