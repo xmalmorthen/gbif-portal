@@ -866,6 +866,64 @@ The id #content is used for forcing precedence over other style definitions.
   font-size: 12px;
 }
 
+
+
+
+#content ul.ui-autocomplete.big li.ui-menu-item {
+  padding: 7px 11px;
+  width:203px; 
+  height: 60px;
+  cursor: pointer;
+  text-align: left;
+
+  background: url("../img/autocomplete_bkg_big.png") no-repeat -226px -12px;
+  &:hover {
+    height: 60px;
+    background-position: -226px -104px;
+    border: none;
+  }
+}
+
+
+#content ul.ui-autocomplete.big li.ui-menu-item.unique {
+  padding: 20px 11px 7px 11px;
+  height: 61px;
+  background: url("../img/autocomplete_bkg_big.png") no-repeat -678px top;
+
+  &:hover {
+    background: url("../img/autocomplete_bkg_big.png") no-repeat -678px -90px;
+    border: none;
+  }
+}
+
+
+#content ul.ui-autocomplete.big li.ui-menu-item.first {
+  padding-top: 20px;
+  height: 60px;
+  background: url("../img/autocomplete_bkg_big.png") no-repeat left top;
+
+  &:hover {
+    padding-top: 20px;
+    height: 60px;
+    background: url("../img/autocomplete_bkg_big.png") no-repeat left -90px;
+    border: none;
+  }
+}
+
+
+#content ul.ui-autocomplete.big li.ui-menu-item.last {
+  height: 62px;
+  background: url("../img/autocomplete_bkg_big.png") no-repeat -452px -12px;
+  border: none;
+  &:hover {
+    height: 62px;
+    background: url("../img/autocomplete_bkg_big.png") no-repeat -452px -102px;
+    border: none;
+  }
+}
+
+
+
 #content span.autocomplete {
   float: left;
   height: 22px;
