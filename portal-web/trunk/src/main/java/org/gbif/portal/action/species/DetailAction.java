@@ -7,9 +7,6 @@ import org.gbif.api.model.checklistbank.TypeSpecimen;
 import org.gbif.api.model.checklistbank.VernacularName;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingRequest;
-import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.metrics.cube.OccurrenceCube;
-import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.service.checklistbank.DescriptionService;
 import org.gbif.api.service.checklistbank.DistributionService;
 import org.gbif.api.service.checklistbank.ImageService;
@@ -17,135 +14,106 @@ import org.gbif.api.service.checklistbank.ReferenceService;
 import org.gbif.api.service.checklistbank.SpeciesProfileService;
 import org.gbif.api.service.checklistbank.TypeSpecimenService;
 import org.gbif.api.service.checklistbank.VernacularNameService;
-import org.gbif.api.vocabulary.DatasetType;
+import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
 import org.gbif.api.vocabulary.Language;
 import org.gbif.portal.model.VernacularLocaleComparator;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.SortedMap;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 
+/**
+ * Populates the models for the detail page of any taxon.
+ * This is done sequentially, on the assumption that the content is well suited to page level caching.
+ */
 public class DetailAction extends UsageBaseAction {
 
-  @Inject
-  private VernacularNameService vernacularNameService;
-  @Inject
-  private ReferenceService referenceService;
+  private static final long serialVersionUID = -737170459644474553L;
+
+  // only some species have a differing original name (a basionym)
+  @Nullable
+  private NameUsage basionym;
+
   @Inject
   private DescriptionService descriptionService;
   @Inject
+  private DistributionService distributionService;
+  @Inject
   private ImageService imageService;
   @Inject
-  private DistributionService distributionService;
+  private OccurrenceDatasetIndexService occurrenceDatasetService;
   @Inject
   private SpeciesProfileService speciesProfileService;
   @Inject
   private TypeSpecimenService typeSpecimenService;
+  @Inject
+  private ReferenceService referenceService;
+  @Inject
+  private VernacularNameService vernacularNameService;
 
-  private NameUsage basionym;
-  // list of unique names listing all sources for each
-  private final LinkedHashMap<String, List<VernacularName>> vernacularNames = Maps.newLinkedHashMap();
-  private final List<NameUsage> related = new LinkedList<NameUsage>();
-  private List<UUID> relatedDatasets = Lists.newArrayList();
-  // index to enable looking up how many occurrences of the taxon are in the dataset
-  private Map<UUID, Long> relatedDatasetsOccurrenceCounts = Maps.newHashMap();
+  // Custom sorting of names current locale, then preferring English, then using the name
+  private final VernacularLocaleComparator vernacularLocaleComparator = new VernacularLocaleComparator(
+    Language.fromIsoCode(getLocale().getISO3Language()));
 
-  // various pagesizes used
-  private final Pageable page100 = new PagingRequest(0, 100);
-  private final Pageable page50 = new PagingRequest(0, 50);
-  private final Pageable page20 = new PagingRequest(0, 20);
-  private final Pageable page10 = new PagingRequest(0, 10);
-  private final Pageable page6 = new PagingRequest(0, 6);
-  private final Pageable page4 = new PagingRequest(0, 4);
-  private final Pageable page1 = new PagingRequest(0, 1);
-
-  private final Map<String, Integer> typeStatusCounts = Maps.newHashMap();
+  // Empty collections are created to safeguard against NPE in freemarker templates
   private final DescriptionToc descriptionToc = new DescriptionToc();
-  private List<String> habitats = Lists.newArrayList();
+  private final List<String> habitats = Lists.newArrayList();
+  private final List<NameUsage> related = Lists.newArrayList();
+  private final Map<String, Integer> typeStatusCounts = Maps.newHashMap();
+  private SortedMap<UUID, Integer> occurrenceDatasetCounts = Maps.newTreeMap(); // not final, since replaced
+  private final LinkedHashMap<String, List<VernacularName>> vernacularNames = Maps.newLinkedHashMap();
+
+
+  // various page sizes used
+  private final Pageable page1 = new PagingRequest(0, 1);
+  private final Pageable page6 = new PagingRequest(0, 6);
+  private final Pageable page10 = new PagingRequest(0, 10);
+  private final Pageable page20 = new PagingRequest(0, 20);
+  private final Pageable page50 = new PagingRequest(0, 50);
+  private final Pageable page100 = new PagingRequest(0, 100);
+
+  private final static Joiner HABITAT_JOINER = Joiner.on(" ");
+  private final static Joiner VERNACULAR_JOINER = Joiner.on("").skipNulls();
+
 
   /**
-   * Iterate through all types and count the number of times each different
-   * typeStatus appears. Store this information in a map, key=typeStatus and value=count. This map is used in the .ftl
-   * to filter the TypeSpecimen.
+   * Should flag be present, then the habitat named by the flagName is appended to the habitats.
    */
-  public void calcTypeSpecimenFacets() {
-    for (TypeSpecimen ts : usage.getTypeSpecimens()) {
-      String typeStatus = Strings.emptyToNull(ts.getTypeStatus());
-      if (typeStatus != null) {
-        if (typeStatusCounts.containsKey(typeStatus)) {
-          int count = typeStatusCounts.get(typeStatus);
-          count++;
-          typeStatusCounts.put(typeStatus, count);
-        } else {
-          typeStatusCounts.put(typeStatus, 1);
-        }
-      }
+  @VisibleForTesting
+  void appendHabitat(Boolean flag, String flagName) {
+    if (flag != null) {
+      String s = (flag) ?
+        getText(flagName) :
+        HABITAT_JOINER.join(getText("not"), getText(flagName));
+      habitats.add(s);
     }
   }
 
   /**
-   * Filters duplicates from vernacular names and sorts names based on language first.
+   * Populates the model objects sequentially.
    */
-  private void distinctVernNames() {
-    // sort by language and then name
-    VernacularLocaleComparator comparator = new VernacularLocaleComparator(Language.fromIsoCode(getLocale().getISO3Language()));
-    Collections.sort(usage.getVernacularNames(), comparator);
-
-    for (VernacularName v : usage.getVernacularNames()) {
-      if (Strings.isNullOrEmpty(v.getVernacularName())) {
-        continue;
-      }
-      String id = v.getVernacularName().toLowerCase() + "||";
-      if (v.getLanguage() != null) {
-        id = id + v.getLanguage().getIso2LetterCode();
-      }
-      if (!vernacularNames.containsKey(id)) {
-        vernacularNames.put(id, Lists.<VernacularName>newArrayList());
-      }
-      vernacularNames.get(id).add(v);
-    }
-  }
-
   @Override
   public String execute() {
     loadUsage();
-
-    // load usage details
     loadUsageDetails();
-
-    // remove duplicates
-    distinctVernNames();
-
-    // calc habitats
-    calcHabitats();
-
-    // load checklist lookup map
+    populateVernacularNames();
+    populateHabitats();
     for (NameUsage u : related) {
       loadDataset(u.getDatasetKey());
-    }
-    for (UUID uuid : relatedDatasets) {
-      loadDataset(uuid);
-      if (getDatasets().get(uuid) != null && DatasetType.OCCURRENCE == getDatasets().get(uuid).getType()) {
-        try {
-          // Populate the index for the number of occurrences for this taxon in the dataset
-          long count = occurrenceCubeService.get(
-            new ReadBuilder()
-              .at(OccurrenceCube.NUB_KEY, usage.getNubKey())
-              .at(OccurrenceCube.DATASET_KEY, uuid));
-          relatedDatasetsOccurrenceCounts.put(uuid,count);
-        } catch (Exception e) {
-          LOG.error("Unable to read occurrence cube for usage[" + usage.getKey() + "] dataset[" + usage.getDatasetKey()+ "]", e);
-        }
-        
-      }
     }
     for (NameUsageComponent c : usage.getExternalLinks()) {
       loadDataset(c.getDatasetKey());
@@ -162,111 +130,148 @@ public class DetailAction extends UsageBaseAction {
     for (NameUsageComponent c : usage.getVernacularNames()) {
       loadDataset(c.getDatasetKey());
     }
-
-    // calc typeSpecimen typestatus counts
-    calcTypeSpecimenFacets();
-
+    for (Entry<UUID, Integer> e : occurrenceDatasetCounts.entrySet()) {
+      loadDataset(e.getKey());
+    }
+    populateTypeSpecimenFacets();
     return SUCCESS;
   }
 
-  private void calcHabitats() {
-    // add boolean flags first
-    addHabitatFlag(usage.isTerrestrial(), "terrestrial");
-    addHabitatFlag(usage.isMarine(), "marine");
-    addHabitatFlag(usage.isFreshwater(), "freshwater");
-    // now all other uncontrolled habitats
+  /**
+   * @return the usage representing the basionym or null since only some species have a differing original name
+   */
+  @Nullable
+  public NameUsage getBasionym() {
+    return basionym;
+  }
+
+  @NotNull
+  public DescriptionToc getDescriptionToc() {
+    return descriptionToc;
+  }
+
+  @NotNull
+  public List<String> getHabitats() {
+    return habitats;
+  }
+
+  @NotNull
+  public SortedMap<UUID, Integer> getOccurrenceDatasetCounts() {
+    return occurrenceDatasetCounts;
+  }
+
+  @NotNull
+  public List<NameUsage> getRelated() {
+    return related;
+  }
+
+  @NotNull
+  public Map<UUID, Integer> getRelatedDatasetsOccurrenceCounts() {
+    return occurrenceDatasetCounts;
+  }
+
+  @NotNull
+  public Map<String, String> getResourceBundleProperties() {
+    return getResourceBundleProperties("enum.rank.");
+  }
+
+  @NotNull
+  public Map<String, Integer> getTypeStatusCounts() {
+    return typeStatusCounts;
+  }
+
+  @NotNull
+  public Map<String, List<VernacularName>> getVernacularNames() {
+    return vernacularNames;
+  }
+
+  /**
+   * Performs service calls fleshing out the usage model object.
+   */
+  private void loadUsageDetails() {
+    if (usage.getBasionymKey() != null) {
+      basionym = usageService.get(usage.getBasionymKey(), getLocale());
+    }
+    if (usage.getNubKey() != null) {
+      List<NameUsage> relatedResponse = usageService.listRelated(usage.getNubKey(), getLocale());
+      for (NameUsage u : relatedResponse) {
+        // skip oneself
+        if (!u.getKey().equals(usage.getKey())) {
+          related.add(u);
+        }
+      }
+      occurrenceDatasetCounts = occurrenceDatasetService.occurrenceDatasetsForNubKey(usage.getNubKey());
+    }
+    usage.setSynonyms(usageService.listSynonyms(id, getLocale(), page6).getResults());
+    usage.setVernacularNames(vernacularNameService.listByUsage(id, page100).getResults());
+    usage.setReferences(referenceService.listByUsage(id, page10).getResults());
+    usage.setDistributions(distributionService.listByUsage(id, page10).getResults());
+    usage.setImages(imageService.listByUsage(id, page1).getResults()); // first only
+    usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
+    usage.setSpeciesProfiles(speciesProfileService.listByUsage(id, page20).getResults());
+    for (Description d : descriptionService.listByUsage(id, page50).getResults()) {
+      descriptionToc.addDescription(d);
+    }
+  }
+
+  /**
+   * Populates the habitats first using the boolean flags associated with the usage, and then appending any others.
+   */
+  private void populateHabitats() {
+    appendHabitat(usage.isTerrestrial(), "enum.habitat.terrestrial");
+    appendHabitat(usage.isMarine(), "enum.habitat.marine");
+    appendHabitat(usage.isFreshwater(), "enum.habitat.freshwater");
     for (String h : usage.getHabitats()) {
       habitats.add(h);
     }
   }
 
-  private void addHabitatFlag(Boolean flag, String flagName) {
-    if (flag != null) {
-      StringBuilder sb = new StringBuilder();
-      if (!flag) {
-        sb.append(getText("not"));
-        sb.append(" ");
+  /**
+   * Iterate through all types and count the number of times each different typeStatus appears. Store this information
+   * in a map, key=typeStatus and value=count. This map is used in the .ftl to filter the TypeSpecimen.
+   */
+  private void populateTypeSpecimenFacets() {
+    for (TypeSpecimen ts : usage.getTypeSpecimens()) {
+      String typeStatus = Strings.emptyToNull(ts.getTypeStatus());
+      if (typeStatus != null) {
+        int count = typeStatusCounts.containsKey(typeStatus) ? typeStatusCounts.get(typeStatus) : 1;
+        typeStatusCounts.put(typeStatus, count);
       }
-      sb.append(getText("enum.habitat."+flagName));
-      habitats.add(sb.toString());
     }
   }
 
-  public NameUsage getBasionym() {
-    return basionym;
-  }
+  /**
+   * Populates the index of vernacular names.
+   * This is a sorted map keyed on the name + language(optional) and order by name and by the rules imposed by
+   * {@link #vernacularLocaleComparator}
+   */
+  @VisibleForTesting
+  void populateVernacularNames() {
+    List<VernacularName> source = usage.getVernacularNames();
+    vernacularNames.clear();
+    // total ordering of the names, which is then respected in the sorted map
+    for (VernacularName name : Ordering.from(vernacularLocaleComparator).immutableSortedCopy(source)) {
 
-  public DescriptionToc getDescriptionToc() {
-    return descriptionToc;
-  }
-
-  public List<NameUsage> getRelated() {
-    return related;
-  }
-
-  public List<UUID> getRelatedDatasets() {
-    return relatedDatasets;
-  }
-
-  public Map<String, String> getResourceBundleProperties() {
-    return getResourceBundleProperties("enum.rank.");
-  }
-
-  public Map<String, Integer> getTypeStatusCounts() {
-    return typeStatusCounts;
-  }
-
-  public Map<String, List<VernacularName>> getVernacularNames() {
-    return vernacularNames;
-  }
-
-  private void loadUsageDetails() {
-    // basionym
-    if (usage.getBasionymKey() != null) {
-      basionym = usageService.get(usage.getBasionymKey(), getLocale());
-    }
-
-    // get non nub related usages & occ datasets
-    if (usage.getNubKey() != null) {
-      List<NameUsage> relatedResponse = usageService.listRelated(usage.getNubKey(), getLocale());
-      for (NameUsage u : relatedResponse) {
-        // ignore this usage
-        if (!u.getKey().equals(usage.getKey())) {
-          related.add(u);
-        }
+      // skip those that can't be displayed
+      if (Strings.isNullOrEmpty(name.getVernacularName())) {
+        continue;
       }
-      relatedDatasets = usageService.listRelatedOccurrenceDatasets(usage.getNubKey());
+
+      // The names are keyed using name||language where language might be null
+      String languageCode = (name.getLanguage() == null) ? null : name.getLanguage().getIso2LetterCode();
+      String key = VERNACULAR_JOINER
+        .join(
+          name.getVernacularName().toLowerCase(),
+          "||",
+          languageCode);
+
+      // Add to our map index
+      List<VernacularName> values = vernacularNames.get(key);
+      if (values == null) {
+        values = Lists.newArrayList();
+        vernacularNames.put(key, values);
+      }
+      values.add(name);
     }
-
-
-    // get synonyms
-    PagingResponse<NameUsage> synonymResponse = usageService.listSynonyms(id, getLocale(), page6);
-    usage.setSynonyms(synonymResponse.getResults());
-
-    // get vernacular names
-    usage.setVernacularNames(vernacularNameService.listByUsage(id, page100).getResults());
-    // get references
-    usage.setReferences(referenceService.listByUsage(id, page10).getResults());
-    // get description content table
-    for (Description d : descriptionService.listByUsage(id, page50).getResults()) {
-      descriptionToc.addDescription(d);
-    }
-    // get distributions
-    usage.setDistributions(distributionService.listByUsage(id, page10).getResults());
-    // get first image only
-    usage.setImages(imageService.listByUsage(id, page1).getResults());
-    // get typeSpecimens
-    usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
-    // get species profiles
-    usage.setSpeciesProfiles(speciesProfileService.listByUsage(id, page20).getResults());
-  }
-
-  public List<String> getHabitats() {
-    return habitats;
-  }
-
-  
-  public Map<UUID, Long> getRelatedDatasetsOccurrenceCounts() {
-    return relatedDatasetsOccurrenceCounts;
   }
 }

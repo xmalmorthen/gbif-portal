@@ -501,23 +501,23 @@
 </#if>
 
 <#if usage.nubKey??>
-  <@common.article id="appearsin" title="Appears in">
+  <@common.article id="appearsin" title="Appears in tim">
     <div class="fullwidth">
       <div class="col">
         <h3>Occurrence datasets</h3>
         <ul class="notes">
           <#assign counter=0 />
-          <#list relatedDatasets as uuid>
+          <#list occurrenceDatasetCounts?keys as uuid>
             <#if datasets.get(uuid)??>
               <#assign counter=counter+1 />
               <#assign title=datasets.get(uuid).title! />
               <li>
                 <a title="${title}" href="<@s.url value='/occurrence/search?taxon_key=${usage.nubKey?c}&dataset_key=${uuid}'/>">${common.limit(title, 55)}</a>
-                <span class="note"> in ${relatedDatasetsOccurrenceCounts.get(uuid)!0} occurrences</span>
+                <span class="note"> in ${occurrenceDatasetCounts.get(uuid)!0} occurrences</span>
               </li>
             </#if>
             <#if uuid_has_next && counter==6>
-              <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">see all ${relatedDatasets?size}</a></li>
+              <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">see all ${occurrenceDatasetCounts?size}</a></li>
               <#break />
             </#if>
           </#list>
