@@ -18,7 +18,9 @@ import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverage;
 import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverages;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.base.Strings;
@@ -170,22 +172,31 @@ public class DatasetBaseAction extends BaseAction {
   private List<OrganizedTaxonomicCoverage> setOrganizedTaxonomicCoverages(List<TaxonomicCoverage> coverages) {
     List<OrganizedTaxonomicCoverage> organizedTaxonomicCoveragesList = new ArrayList<OrganizedTaxonomicCoverage>();
 
-    for (Rank rank : Rank.values()) {
+    // create Rank name list, made from Rank vocab names + uninterpreted rank names discovered from coverages list
+    List<String> rankNames = createRankNameList(coverages);
+
+    for (String rankName : rankNames) {
       // initiate a new OrganizedTaxonomicCoverage for each rank
       OrganizedTaxonomicCoverage organizedCoverage = new OrganizedTaxonomicCoverage();
-      organizedCoverage.setRank(rank.name());
+      organizedCoverage.setRank(rankName);
       // iterate through all coverages, and match all with same rank
       for (TaxonomicCoverage coverage : coverages) {
-        // proceed if non-null display name created (meaning coverage has at least a scientific name)
-        String displayName = createDisplayNameForCoverage(coverage);
-        if (!Strings.isNullOrEmpty(displayName)) {
-          Rank interpreted = coverage.getRank().getInterpreted();
-          // if the ranks match..
-          if (interpreted != null && rank.name().equalsIgnoreCase(interpreted.name())) {
-            // add DisplayableTaxonomicCoverage into OrganizedTaxonomicCoverage
-            DisplayableTaxonomicCoverage displayable = new DisplayableTaxonomicCoverage(coverage);
-            displayable.setDisplayName(displayName);
-            organizedCoverage.getDisplayableNames().add(displayable);
+        // proceed if rank is not null
+        if (coverage.getRank() != null) {
+          // create display name
+          String displayName = createDisplayNameForCoverage(coverage);
+          // proceed if display name created (meaning coverage has at least a scientific name)
+          if (!Strings.isNullOrEmpty(displayName)) {
+            // if the interpreted rank or the verbatim rank matches..
+            Rank interpreted = coverage.getRank().getInterpreted();
+            String verbatim = coverage.getRank().getVerbatim();
+            if ((interpreted != null && rankName.equalsIgnoreCase(interpreted.name())) || (verbatim != null && rankName
+              .equalsIgnoreCase(verbatim))) {
+              // add DisplayableTaxonomicCoverage into OrganizedTaxonomicCoverage
+              DisplayableTaxonomicCoverage displayable = new DisplayableTaxonomicCoverage(coverage);
+              displayable.setDisplayName(displayName);
+              organizedCoverage.getDisplayableNames().add(displayable);
+            }
           }
         }
       }
@@ -196,6 +207,46 @@ public class DatasetBaseAction extends BaseAction {
     }
     // return list
     return organizedTaxonomicCoveragesList;
+  }
+
+  /**
+   * Create the complete list of Rank names from the complete list of Rank names coming from the Rank vocabulary, plus
+   * the list of uninterpreted Rank names used in the incoming list of TaxonomicCoverage. Each name must be in upper
+   * case.
+   *
+   * @param coverages TaxonomicCoverage list
+   * @return complete list of Rank names taking into consideration any uninterpreted Rank names from incoming list
+   */
+  private List<String> createRankNameList(List<TaxonomicCoverage> coverages) {
+    // collect all uninterpreted rank names
+    Set<String> uninterpreted = new HashSet<String>();
+    for (TaxonomicCoverage cov : coverages) {
+      if (cov.getRank() != null) {
+        Rank interpreted = cov.getRank().getInterpreted();
+        String verbatim = cov.getRank().getVerbatim();
+        if (interpreted == null && verbatim != null) {
+          if (!uninterpreted.contains(verbatim)) {
+            // add uninterpreted name, in upper case
+            uninterpreted.add(verbatim.toUpperCase());
+          }
+        }
+      }
+    }
+
+    // collect all Rank names from vocabulary
+    List<String> rankNames = new ArrayList<String>();
+    for (Rank rank: Rank.values()) {
+      // add name, in upper case
+      rankNames.add(rank.name().toUpperCase());
+    }
+
+    // add all uninterpreted rank names
+    if (!uninterpreted.isEmpty()) {
+      rankNames.addAll(uninterpreted);
+    }
+
+    // return complete list
+    return rankNames;
   }
 
   /**

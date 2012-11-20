@@ -226,7 +226,7 @@
             <#-- If there are no metrics (right sidebar) let the displayable names column expand the full width -->
             <ul <#if !metrics??> class="four_cols" <#else> class="two_cols" </#if> >
               <#list oc.displayableNames as dis>
-                <a href="<@s.url value='/species/search?q=${dis.scientificName!dis.commonName}'/>">${dis.displayName}</a>
+                <a href="<@s.url value='/species/search?q=${dis.scientificName!dis.commonName}'/>">${dis.displayName}</a><#if dis_has_next>, </#if>
               </#list>
             </ul>
           </#list>

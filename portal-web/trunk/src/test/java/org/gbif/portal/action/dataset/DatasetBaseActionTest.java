@@ -56,16 +56,20 @@ public class DatasetBaseActionTest {
     coverage_2_2.setScientificName("Pteridophyta");
     coverage_2_2.setRank(new InterpretedEnum("phylum", Rank.PHYLUM));
 
+    TaxonomicCoverage coverage_2_3 = new TaxonomicCoverage();
+    coverage_2_3.setScientificName("Pteridophyta");
+    coverage_2_3.setRank(new InterpretedEnum("FEYELUM", null));
+
     List<TaxonomicCoverage> coverageList2 = new ArrayList<TaxonomicCoverage>();
     coverageList2.add(coverage_2_1);
     coverageList2.add(coverage_2_2);
+    coverageList2.add(coverage_2_3);
 
     coverages2.setCoverages(coverageList2);
     coverages2.setDescription("Coverages #2 description");
 
     // add 2 coverages to list
     coveragesList.add(coverages2);
-    coveragesList.add(coverages1);
 
     // return organized coverages
     List<OrganizedTaxonomicCoverages> organizedCoverages = action.constructOrganizedTaxonomicCoverages(coveragesList);
@@ -88,9 +92,18 @@ public class DatasetBaseActionTest {
 
     // assert some things about 2nd coverages
     assertEquals("Coverages #2 description", organizedCoverages.get(1).getDescription());
+    // assert there is an OrganizedTaxonomicCoverage for each unique Rank encountered in TaxonomicCoverage list
+    assertEquals(2, organizedCoverages.get(1).getCoverages().size());
 
-    OrganizedTaxonomicCoverage organizedCoverage2 = organizedCoverages.get(1).getCoverages().get(0);
-    assertEquals(2, organizedCoverage2.getDisplayableNames().size());
+    // check OrganizedTaxonomicCoverage
+    OrganizedTaxonomicCoverage organizedCoverage2_1 = organizedCoverages.get(1).getCoverages().get(0);
+    assertEquals(2, organizedCoverage2_1.getDisplayableNames().size());
+    assertEquals("PHYLUM", organizedCoverages.get(1).getCoverages().get(0).getRank());
+
+    // check OrganizedTaxonomicCoverage for verbatim, uninterpreted Rank called FEYELUM
+    OrganizedTaxonomicCoverage organizedCoverage2_2 = organizedCoverages.get(1).getCoverages().get(1);
+    assertEquals(1, organizedCoverage2_2.getDisplayableNames().size());
+    assertEquals("FEYELUM", organizedCoverage2_2.getRank());
   }
 
 }
