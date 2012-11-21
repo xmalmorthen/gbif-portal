@@ -29,6 +29,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.sun.jersey.api.client.UniformInterfaceException;
 
 public class SearchAction
   extends BaseFacetedSearchAction<DatasetSearchResult, DatasetSearchParameter, DatasetSearchRequest> {
@@ -106,7 +107,14 @@ public class SearchAction
         Long count = occurrenceCube.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, k));
         recordCounts.put(dsr.getKey(), count);
       } else if (DatasetType.CHECKLIST == dsr.getType()) {
-        DatasetMetrics metrics = checklistMetricsService.get(UUID.fromString(dsr.getKey()));
+        DatasetMetrics metrics = null;
+        //  Catch client response status 204, Equal to no content
+        try {
+          metrics = checklistMetricsService.get(UUID.fromString(dsr.getKey()));
+        } catch (UniformInterfaceException e) {
+          LOG.debug("Checklist metrics not found for dataset with key {}", dsr.getKey());
+        }
+
         if (metrics != null) {
           recordCounts.put(dsr.getKey(), Long.valueOf(metrics.getCountIndexed()));
         }
