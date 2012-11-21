@@ -53,9 +53,9 @@
   <meta name="author" content="GBIF">
   <#-- Mobile viewport optimized: j.mp/bplateviewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <#-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
-  <link rel="shortcut icon" href="<@s.url value='/favicon.ico'/>">
-  <link rel="apple-touch-icon" href="<@s.url value='/apple-touch-icon.png'/>">
+  <link rel="shortcut icon" href="<@s.url value='/img/favicon/favicon_32x32.ico'/>">
+  <#-- Replace apple-touch-icon.png as per issue http://dev.gbif.org/issues/browse/POR-403 Without a proper path Struts2 configuration exception is thrown-->
+  <link rel="apple-touch-icon" href="<@s.url value='/img/favicon/favicon_32x32.ico'/>">
   <#-- CSS: implied media="all" -->
   <link rel="stylesheet" href="<@s.url value='/css/style.css?v=2'/>"/>
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all"/>
