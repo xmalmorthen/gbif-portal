@@ -4831,3 +4831,38 @@ em.gbifHl {
     background: none;
   }
 }
+
+.numbered-pagination {
+	padding: 10px;
+	list-style: none;
+	width: 800px;
+	height: 20px;
+	text-align: center;
+    li {
+	  margin-right: 10px;
+	  display: inline-block;
+      a {
+	    text-decoration: none;
+	    color: #717171;
+	    font: bold 20px Arial, sans-serif;
+	    text-shadow: 0px 1px white;
+	    padding: 5px 15px;
+	    border-radius: 3px;
+	    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.35);
+	    background: #f9f9f9;
+        &:hover {
+          box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.55);
+          background: #fff;
+        }
+        &.current {
+          color: white;
+          text-shadow: 0px 1px #3f789f;
+          box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.8);
+          background: @cLink;
+          &:active { box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.5), 0px 1px 1px 0px rgba(255,255,255,1) !important; }
+          &:hover { box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.9); background: #99cefc; }
+        }
+        &:active { box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.5), 0px 1px 1px 0px rgba(255,255,255,1) !important;}
+	  }
+	}
+}
