@@ -291,6 +291,11 @@
           <artifactId>commons-logging</artifactId>
           <groupId>commons-logging</groupId>
         </exclusion>
+        <!-- excluding it as it causes conflicts with the latest httpclient version -->
+        <exclusion>
+          <artifactId>httpclient</artifactId>
+          <groupId>org.apache.httpcomponents</groupId>
+        </exclusion>        
       </exclusions>
     </dependency>
     <!-- Google -->
@@ -375,6 +380,11 @@
           <artifactId>commons-logging</artifactId>
           <groupId>commons-logging</groupId>
         </exclusion>
+        <!-- excluding it as it causes conflicts with the latest httpclient version -->
+        <exclusion>
+          <artifactId>httpclient</artifactId>
+          <groupId>org.apache.httpcomponents</groupId>
+        </exclusion>        
       </exclusions>
     </dependency>
     <dependency>
