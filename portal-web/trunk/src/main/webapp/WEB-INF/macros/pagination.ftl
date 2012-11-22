@@ -9,7 +9,7 @@ If the page.count does not exist (is null), it renders the simple pagination (wi
   <#if page.count??>
     <#-- do not show pagination at all if count is less or equal to the total limit -->
     <#if (page.count > page.limit)>
-      <@numberedPagination page url 5 5/>
+      <@numberedPagination page url 3 3/>
     </#if>
   <#else>
     <@simplepagination page url/>
@@ -80,8 +80,13 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
   <#--   
     Variables needed throughout the process.
    -->
-  <#-- Total number of pages for the resultset --> 
-  <#assign totalPages = (page.count/page.limit)?ceiling >
+  <#-- Total number of pages for the resultset -->
+  <#if (page.offset/page.limit!=0) >
+    <#assign totalPages = (page.count/page.limit)?ceiling+1 >
+  <#else>
+    <#assign totalPages = (page.count/page.limit) >
+  </#if>  
+  
   <#-- Temp variable to keep count of the offset of the next page link to render -->
   <#assign newOffset = page.offset>
   <#-- Temp variable to keep count of the amount of page links that have been already rendered -->
@@ -248,9 +253,9 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
 <#function getFullUrl stripUrl offset limit>
 	<#assign fullUrl = "">
 		<#if stripUrl?contains("?")>
-			<#assign fullUrl = stripUrl+"&offset="+offset>
+			<#assign fullUrl = stripUrl+"&offset="+offset?c>
 		<#else>
-			<#assign fullUrl = stripUrl+"?offset="+offset>
+			<#assign fullUrl = stripUrl+"?offset="+offset?c>
 		</#if>
 	<#return fullUrl>	
 </#function>
