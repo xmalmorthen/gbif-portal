@@ -131,18 +131,18 @@
         <#if idt.type?has_content>
           <#-- if there is a type, there is the possibility of an interpreted link -->
           <#if idt.identifierLink?has_content>
-            <li><a href="${idt.identifierLink}">${common.limit(idt.identifierLink!"",max_show_length)}</a></li>
-            <li class="note_bottom_padded"><@s.text name="enum.identifiertype.${idt.type}"/></li>
+            <li><a href="${idt.identifierLink}"><@s.text name="enum.identifiertype.${idt.type}"/></a></li>
+            <li class="note_bottom_padded">${common.limit(idt.identifierLink!"",max_show_length)}</li>
           <#elseif idt.type == "UNKNOWN">
-            <li>${common.limit(idt.identifier!"",max_show_length)}</li>
-            <li class="note_bottom_padded">Alternate Identifier</li>
+            <li>Alternate Identifier</li>
+            <li class="note_bottom_padded">${common.limit(idt.identifier!"",max_show_length)}</li>
           <#else>
-            <li><a href="${idt.identifier}">${common.limit(idt.identifier!"",max_show_length)}</a></li>
-            <li class="note_bottom_padded"><@s.text name="enum.identifiertype.${idt.type}"/></li>
+            <li><a href="${idt.identifier}"><@s.text name="enum.identifiertype.${idt.type}"/></a></li>
+            <li class="note_bottom_padded">${common.limit(idt.identifier!"",max_show_length)}</li>
           </#if>
         <#else>
-          <li>${common.limit(idt.identifier!"",max_show_length)}</li>
-          <li class="note_bottom_padded">Alternate Identifier</li>
+          <li>Alternate Identifier</li>
+          <li class="note_bottom_padded">${common.limit(idt.identifier!"",max_show_length)}</li>
         </#if>
       </#list>
     </ul>
