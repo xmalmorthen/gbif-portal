@@ -24,6 +24,8 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Provides the basic structure and functionality for: free text search, paginated navigation and faceting navigation.
@@ -39,6 +41,7 @@ import com.google.common.collect.Maps;
 public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParameter, R extends FacetedSearchRequest<P>>
   extends BaseSearchAction<T, P, R> {
 
+  private static final Logger LOG = LoggerFactory.getLogger(BaseFacetedSearchAction.class);
   private static final long serialVersionUID = -1573017190241712345L;
   private static final Splitter querySplitter = Splitter.on("&").omitEmptyStrings();
   private static final Splitter paramSplitter = Splitter.on("=");

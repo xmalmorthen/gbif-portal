@@ -33,26 +33,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ * A base action for common dataset pages.
+ * TODO: This will be removed as there is no need for such hierarchy.
  */
+@SuppressWarnings("serial")
 public class DatasetBaseAction extends BaseAction {
 
   private static final Logger LOG = LoggerFactory.getLogger(DatasetBaseAction.class);
-
-  /**
-   * @return true only if the string has content when trimmed
-   */
-  private static boolean hasNonWhitespace(final String s) {
-    return !Strings.isNullOrEmpty(s) && !s.trim().isEmpty();
-  }
-
   protected String id;
   protected UUID key;
   protected Dataset dataset;
   protected DatasetMetrics metrics;
   protected Organization owningOrganization;
   protected Network networkOfOrigin;
-
   private List<OrganizedTaxonomicCoverages> organizedCoverages = Lists.newArrayList();
 
   @Inject
@@ -63,6 +56,13 @@ public class DatasetBaseAction extends BaseAction {
   protected OrganizationService organizationService;
   @Inject
   protected NetworkService networkService;
+
+  /**
+   * @return true only if the string has content when trimmed
+   */
+  private static boolean hasNonWhitespace(final String s) {
+    return !Strings.isNullOrEmpty(s) && !s.trim().isEmpty();
+  }
 
   /**
    * Takes a list of the resource's TaxonomicCoverages, and for each one, creates a new OrganizedTaxonomicCoverage

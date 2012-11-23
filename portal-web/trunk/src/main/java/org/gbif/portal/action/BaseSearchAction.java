@@ -24,26 +24,24 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * Class that encapsulates the basic functionality of free text search and paginated navigation.
  * The class expects a {@link SearchRequest} at creation time and delegates the parsing of search parameters to the
- * concrete subclass that needs to implement
- * {@link #readFilterParams}.
+ * concrete subclass that needs to implement {@link #readFilterParams}.
  * 
  * @param <T> the content type of the results
  * @param <P> the search parameter enum
  * @param <R> the request type
  */
+@SuppressWarnings("serial")
 public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R extends SearchRequest<P>>
   extends BaseAction {
 
-  /**
-   * Generated serialVersionUID
-   */
-  private static final long serialVersionUID = -3731894129684841108L;
-
+  private static final Logger LOG = LoggerFactory.getLogger(BaseSearchAction.class);
   /**
    * Maximum # of characters shown in a highlighted field.
    */
@@ -56,7 +54,6 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
   protected final Class<P> searchType;
   protected final SearchService<T, P, R> searchService;
   protected final R searchRequest;
-
   protected SearchResponse<T, P> searchResponse;
   protected String q;
 
@@ -114,6 +111,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
       return null;
     }
   }
+
   public P getSearchParam() {
     try {
       return (P) VocabularyUtils.lookupEnum("RANK", searchType);
@@ -121,13 +119,14 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
       return null;
     }
   }
+
   /**
    * Optional hook for concrete search actions to define custom translations of filter values
    * before they are send to the search service.
    * For example to enable a simple checklist=nub filter without the need to know the real nub UUID.
    * The values will NOT be translated for the UI and request parameters, only for the search and title lookup service!
    * This method can be overriden to modify the returned value, by default it keeps it as it is.
-   *
+   * 
    * @param param the filter parameter the value belongs to
    * @param value the value to translate or return as is
    */
@@ -139,7 +138,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
   /**
    * Checks if a parameter value is already selected in the current request filters.
    * Public method used by html templates.
-   *
+   * 
    * @param param the facet name according to
    */
   public boolean isInFilter(P param, String value) {
@@ -156,7 +155,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
   /**
    * Takes a highlighted text and returns the given number of initial characters, not counting html tags
    * and making sure we always keep html tags intact and closed.
-   *
+   * 
    * @param highlightedText the highlighted text to be abbreviated
    * @return the beginning of the highlighted text up to a given number of characters
    */
@@ -188,20 +187,20 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
 
   private static String abbreviate(String str, int maxWidth) {
     if (str == null) {
-        return null;
+      return null;
     }
     if (maxWidth < 2) {
-        throw new IllegalArgumentException("Minimum abbreviation width is 2");
+      throw new IllegalArgumentException("Minimum abbreviation width is 2");
     }
     if (str.length() <= maxWidth) {
-        return str;
+      return str;
     }
     return str.substring(0, maxWidth - 1) + abrevMarker;
   }
 
   /**
    * Takes a highlighted text and removes all tags used for highlighting.
-   *
+   * 
    * @param highlightedText the highlighted text to be cleaned
    * @return a cleaned plain text version of the highlighted text
    */
@@ -211,6 +210,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
 
   /**
    * Used by UI to determine if a text is highlighted.
+   * 
    * @param text
    * @return
    */
@@ -222,7 +222,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
    * Takes a highlighted text and trimmed it to show the first highlighted term.
    * The text is found using the HL_PRE and HL_POST tags.
    * Ensure that at least the whole term is shown or else MAX_LONG_HL_FIELD are displayed.
-   *
+   * 
    * @param text highlighted text to be trimmed.
    * @param maxLength maximum length of resulting string, ignoring the highlighting tags
    * @return a trimmed version of the highlighted text
@@ -245,7 +245,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
     }
     int sizeBefore = (maxLength - hlTextSize) / 3;
     int start = Math.max(0, firstHlBeginTag - sizeBefore);
-    final String leftLimited = start==0 ? text : abrevMarker + text.substring(start + (sizeBefore > 0 ? 1 : 0) );
+    final String leftLimited = start == 0 ? text : abrevMarker + text.substring(start + (sizeBefore > 0 ? 1 : 0));
     return limitHighlightedText(leftLimited, maxLength);
   }
 

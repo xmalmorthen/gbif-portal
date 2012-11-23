@@ -30,21 +30,23 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.sun.jersey.api.client.UniformInterfaceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("serial")
 public class SearchAction
   extends BaseFacetedSearchAction<DatasetSearchResult, DatasetSearchParameter, DatasetSearchRequest> {
 
-  private static final long serialVersionUID = 1488419402277401976L;
-
-  private OrganizationService orgService;
-  private NetworkService networkService;
+  private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
+  private final OrganizationService orgService;
+  private final NetworkService networkService;
   private Function<String, String> getOrgTitle;
   private Function<String, String> getNetworkTitle;
-  private CubeService occurrenceCube;
-  private DatasetMetricsService checklistMetricsService;
+  private final CubeService occurrenceCube;
+  private final DatasetMetricsService checklistMetricsService;
 
   // Index of the record counts (occurrence or taxa)
-  private Map<String, Long> recordCounts = Maps.newHashMap();
+  private final Map<String, Long> recordCounts = Maps.newHashMap();
 
   @Inject
   public SearchAction(DatasetSearchService datasetSearchService, OrganizationService orgService,
@@ -89,8 +91,7 @@ public class SearchAction
       }
     };
   }
-  
-  
+
 
   @Override
   public String execute() {
@@ -108,7 +109,7 @@ public class SearchAction
         recordCounts.put(dsr.getKey(), count);
       } else if (DatasetType.CHECKLIST == dsr.getType()) {
         DatasetMetrics metrics = null;
-        //  Catch client response status 204, Equal to no content
+        // Catch client response status 204, Equal to no content
         try {
           metrics = checklistMetricsService.get(UUID.fromString(dsr.getKey()));
         } catch (UniformInterfaceException e) {

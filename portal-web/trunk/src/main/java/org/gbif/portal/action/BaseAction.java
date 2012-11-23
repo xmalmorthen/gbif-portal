@@ -17,15 +17,20 @@ import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * A base class that provides utility accession to
+ * A base class that provides accession to utilities
  */
 @SuppressWarnings("serial")
 public abstract class BaseAction extends ActionSupport
   implements SessionAware, ServletRequestAware, ServletContextAware {
+
+  protected Map<String, Object> session;
+  protected HttpServletRequest request;
+  protected ServletContext ctx;
+
+  @Inject
+  private Config cfg;
 
   /**
    * Simple utility to assert that an object is found.
@@ -35,8 +40,7 @@ public abstract class BaseAction extends ActionSupport
    * @param errorMessageArgs The arguments suitable for the error template
    * @throws NotFoundException Only when o is null
    */
-  protected static void checkNotNull(Object o, String errorMessageTemplate, Object... errorMessageArgs)
-    throws NotFoundException {
+  protected static void checkNotNull(Object o, String errorMessageTemplate, Object... errorMessageArgs) {
     if (o == null) {
       throw new NotFoundException(String.format(errorMessageTemplate, errorMessageArgs));
     }
@@ -58,13 +62,6 @@ public abstract class BaseAction extends ActionSupport
     return false;
   }
 
-  protected final Logger LOG = LoggerFactory.getLogger(getClass());
-  protected Map<String, Object> session;
-  protected HttpServletRequest request;
-  protected ServletContext ctx;
-
-  @Inject
-  private Config cfg;
 
   /**
    * Returns the application's base url. Exposed to simplify freemarker.
