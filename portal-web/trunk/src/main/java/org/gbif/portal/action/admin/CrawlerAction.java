@@ -118,13 +118,11 @@ public class CrawlerAction extends BaseAction {
     // calculate the metrics for each dataset
     if (!filteredDatasets.isEmpty()) {
       for (Dataset dataset : filteredDatasets) {
-        // TODO: re-establish line below as soon as the crawler-ws-client is committed and functional
-        // metricsList.add(metricsWsClient.getDatasetMetrics(UUID.fromString(dataset.getKey())));
+        metricsList.add(crawlerWsClient.getCrawlMetrics(UUID.fromString(dataset.getKey())));
       }
     } else {
       // no filter was applied, just gets the current datasets being crawled
-      // TODO: re-establish line below as soon as the crawler-ws-client is committed and functional
-      // metricsList.addAll(metricsWsClient.getDatasetMetricsList());
+      metricsList.addAll(crawlerWsClient.getCrawlMetricsList());
     }
 
     return createCrawlJobs(metricsList);
