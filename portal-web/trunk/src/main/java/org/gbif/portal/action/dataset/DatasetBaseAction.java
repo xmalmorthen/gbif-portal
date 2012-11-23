@@ -18,39 +18,97 @@ import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverage;
 import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverages;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ */
 public class DatasetBaseAction extends BaseAction {
 
   private static final Logger LOG = LoggerFactory.getLogger(DatasetBaseAction.class);
+
+  /**
+   * @return true only if the string has content when trimmed
+   */
+  private static boolean hasNonWhitespace(final String s) {
+    return !Strings.isNullOrEmpty(s) && !s.trim().isEmpty();
+  }
 
   protected String id;
   protected UUID key;
   protected Dataset dataset;
   protected DatasetMetrics metrics;
+  protected Organization owningOrganization;
+  protected Network networkOfOrigin;
+
+  private List<OrganizedTaxonomicCoverages> organizedCoverages = Lists.newArrayList();
+
   @Inject
   protected DatasetService datasetService;
   @Inject
   protected DatasetMetricsService metricsService;
-  // detail
-  protected Organization owningOrganization;
-  // detail
-  protected Network networkOfOrigin;
   @Inject
   protected OrganizationService organizationService;
   @Inject
   protected NetworkService networkService;
-  // for conveniently displaying the dataset's TaxonomicCoverages in freemarker template
-  private List<OrganizedTaxonomicCoverages> organizedCoverages;
+
+  /**
+   * Takes a list of the resource's TaxonomicCoverages, and for each one, creates a new OrganizedTaxonomicCoverage
+   * that gets added to this class' list of OrganizedTaxonomicCoverage.
+   * 
+   * @param coverages list of resource's OrganizedTaxonomicCoverage
+   */
+  @VisibleForTesting
+  List<OrganizedTaxonomicCoverages> constructOrganizedTaxonomicCoverages(List<TaxonomicCoverages> coverages) {
+    List<OrganizedTaxonomicCoverages> organizedCoverages = new ArrayList<OrganizedTaxonomicCoverages>();
+    for (TaxonomicCoverages coverage : coverages) {
+      OrganizedTaxonomicCoverages organizedCoverage = new OrganizedTaxonomicCoverages();
+      organizedCoverage.setDescription(coverage.getDescription());
+      organizedCoverage.setCoverages(setOrganizedTaxonomicCoverages(coverage.getCoverages()));
+      organizedCoverages.add(organizedCoverage);
+    }
+    return organizedCoverages;
+  }
+
+  /**
+   * Construct the display name from TaxonomicCoverage's scientific name and common name properties. It will look like:
+   * scientific name (common name) provided both properties are not null. Otherwise, it will be either the scientific
+   * name or common name by themselves.
+   * 
+   * @return constructed display name or an empty string if none could be constructed
+   */
+  private String createDisplayNameForCoverage(TaxonomicCoverage coverage) {
+    String combined = null;
+    if (coverage != null) {
+
+      String scientificName = hasNonWhitespace(coverage.getScientificName()) ?
+        CharMatcher.WHITESPACE.trimFrom(coverage.getScientificName()) : null;
+
+      String commonName = hasNonWhitespace(coverage.getCommonName()) ?
+        CharMatcher.WHITESPACE.trimFrom(coverage.getCommonName()) : null;
+
+      if (!Strings.isNullOrEmpty(scientificName) && !Strings.isNullOrEmpty(commonName)) {
+        combined = scientificName + " (" + commonName + ")";
+      } else if (scientificName != null) {
+        combined = Strings.emptyToNull(scientificName);
+      } else if (commonName != null) {
+        combined = Strings.emptyToNull(commonName);
+      }
+    }
+    return Strings.nullToEmpty(combined);
+  }
 
   public Dataset getDataset() {
     return dataset;
@@ -76,16 +134,6 @@ public class DatasetBaseAction extends BaseAction {
     return metrics;
   }
 
-  /**
-   * @return the dataset's owningOrganization
-   */
-  public Organization getOwningOrganization() {
-    return owningOrganization;
-  }
-
-  /**
-   * @return the Dataset's Network of origin.
-   */
   public Network getNetworkOfOrigin() {
     return networkOfOrigin;
   }
@@ -97,44 +145,62 @@ public class DatasetBaseAction extends BaseAction {
     return organizedCoverages;
   }
 
+  public Organization getOwningOrganization() {
+    return owningOrganization;
+  }
+
+  /**
+   * Exposed to simplify Freemarker.
+   */
+  public Rank getSpeciesRank() {
+    return Rank.SPECIES;
+  }
+
   protected void loadDetail() {
-    LOG.debug("Fetching detail for dataset id [{}]", id);
     if (Strings.isNullOrEmpty(id)) {
-      throw new NotFoundException();
+      throw new NotFoundException("No identifier provided to load the dataset");
     }
-
     dataset = datasetService.get(id);
-    if (dataset == null) {
-      LOG.error("No dataset found with id {}", id);
-      throw new NotFoundException();
-    }
+    checkNotNull(dataset, "No dataset found with id {}", id);
 
-    // gets the owning organization
-    if (dataset.getOwningOrganizationKey() != null) {
-      owningOrganization = organizationService.get(dataset.getOwningOrganizationKey());
-    }
+    owningOrganization =
+      dataset.getOwningOrganizationKey() != null ? organizationService.get(dataset.getOwningOrganizationKey())
+        : owningOrganization;
 
-    // get the network of origin
-    if (dataset.getNetworkOfOriginKey() != null) {
-      networkOfOrigin = networkService.get(dataset.getNetworkOfOriginKey());
-    }
+    networkOfOrigin =
+      dataset.getNetworkOfOriginKey() != null ? networkService.get(dataset.getNetworkOfOriginKey())
+        : networkOfOrigin;
 
-    // get metrics
+    organizedCoverages =
+      dataset.getTaxonomicCoverages() != null ? constructOrganizedTaxonomicCoverages(dataset.getTaxonomicCoverages())
+        : organizedCoverages;
+
     try {
       key = UUID.fromString(id);
       metrics = metricsService.get(key);
-    } catch (NotFoundException e) {
-      LOG.warn("Cant get metrics for dataset {}", key, e);
     } catch (IllegalArgumentException e) {
       // ignore external datasets without a uuid
     } catch (Exception e) {
       LOG.warn("Cant get metrics for dataset {}", key, e);
     }
+  }
 
-    // construct organized list of TaxonomicCoverages for simple display in UI
-    if (dataset.getTaxonomicCoverages() != null) {
-      organizedCoverages = constructOrganizedTaxonomicCoverages(dataset.getTaxonomicCoverages());
+  /**
+   * Produces a list of rank names comprising the distinct uppercase values from the union of the {@link Rank} values
+   * and the provided coverages.
+   */
+  @VisibleForTesting
+  List<String> newRankList(List<TaxonomicCoverage> coverages) {
+    LinkedHashSet<String> s = Sets.newLinkedHashSet();
+    for (Rank rank : Rank.values()) {
+      s.add(rank.name().toUpperCase());
     }
+    for (TaxonomicCoverage cov : coverages) {
+      if (cov.getRank() != null && hasNonWhitespace(cov.getRank().getVerbatim())) {
+        s.add(cov.getRank().getVerbatim().toUpperCase().trim());
+      }
+    }
+    return ImmutableList.<String>copyOf(s);
   }
 
   public void setId(String id) {
@@ -142,30 +208,12 @@ public class DatasetBaseAction extends BaseAction {
   }
 
   /**
-   * Takes a list of the resource's TaxonomicCoverages, and for each one, creates a new OrganizedTaxonomicCoverage
-   * that gets added to this class' list of OrganizedTaxonomicCoverage.
-   *
-   * @param coverages list of resource's OrganizedTaxonomicCoverage
-   */
-  List<OrganizedTaxonomicCoverages> constructOrganizedTaxonomicCoverages(List<TaxonomicCoverages> coverages) {
-    List<OrganizedTaxonomicCoverages> organizedCoverages = new ArrayList<OrganizedTaxonomicCoverages>();
-    for (TaxonomicCoverages coverage : coverages) {
-      OrganizedTaxonomicCoverages organizedCoverage = new OrganizedTaxonomicCoverages();
-      organizedCoverage.setDescription(coverage.getDescription());
-      organizedCoverage.setCoverages(setOrganizedTaxonomicCoverages(coverage.getCoverages()));
-      organizedCoverages.add(organizedCoverage);
-    }
-    return organizedCoverages;
-  }
-
-  /**
    * This method iterates through a list of TaxonomicCoverage, and groups them all by rank. For each unique rank
    * represented in the list, there will be 1 OrganizedTaxonomicCoverage, that has a list of
    * DisplayableTaxonomicCoverage. A DisplayableTaxonomicCoverage is basically the same as TaxonomicCoverage, only that
    * it has a field called display name. The display name is the way the TaxonomicCoverage should be showin in the UI.
-   *
+   * 
    * @param coverages list of TaxonomicCoverages' TaxonomicCoverage
-   *
    * @return list of OrganizedTaxonomicCoverage (one for each unique rank represented in the list of
    *         TaxonomicCoverage), or an empty list if none were added
    */
@@ -173,7 +221,7 @@ public class DatasetBaseAction extends BaseAction {
     List<OrganizedTaxonomicCoverage> organizedTaxonomicCoveragesList = new ArrayList<OrganizedTaxonomicCoverage>();
 
     // create Rank name list, made from Rank vocab names + uninterpreted rank names discovered from coverages list
-    List<String> rankNames = createRankNameList(coverages);
+    List<String> rankNames = newRankList(coverages);
 
     for (String rankName : rankNames) {
       // initiate a new OrganizedTaxonomicCoverage for each rank
@@ -207,68 +255,5 @@ public class DatasetBaseAction extends BaseAction {
     }
     // return list
     return organizedTaxonomicCoveragesList;
-  }
-
-  /**
-   * Create the complete list of Rank names from the complete list of Rank names coming from the Rank vocabulary, plus
-   * the list of uninterpreted Rank names used in the incoming list of TaxonomicCoverage. Each name must be in upper
-   * case.
-   *
-   * @param coverages TaxonomicCoverage list
-   * @return complete list of Rank names taking into consideration any uninterpreted Rank names from incoming list
-   */
-  private List<String> createRankNameList(List<TaxonomicCoverage> coverages) {
-    // collect all uninterpreted rank names
-    Set<String> uninterpreted = new HashSet<String>();
-    for (TaxonomicCoverage cov : coverages) {
-      if (cov.getRank() != null) {
-        Rank interpreted = cov.getRank().getInterpreted();
-        String verbatim = cov.getRank().getVerbatim();
-        if (interpreted == null && verbatim != null) {
-          if (!uninterpreted.contains(verbatim)) {
-            // add uninterpreted name, in upper case
-            uninterpreted.add(verbatim.toUpperCase());
-          }
-        }
-      }
-    }
-
-    // collect all Rank names from vocabulary
-    List<String> rankNames = new ArrayList<String>();
-    for (Rank rank: Rank.values()) {
-      // add name, in upper case
-      rankNames.add(rank.name().toUpperCase());
-    }
-
-    // add all uninterpreted rank names
-    if (!uninterpreted.isEmpty()) {
-      rankNames.addAll(uninterpreted);
-    }
-
-    // return complete list
-    return rankNames;
-  }
-
-  /**
-   * Construct the display name from TaxonomicCoverage's scientific name and common name properties. It will look like:
-   * scientific name (common name) provided both properties are not null. Otherwise, it will be either the scientific
-   * name or common name by themselves.
-   *
-   * @return constructed display name or an empty string if none could be constructed
-   */
-  private String createDisplayNameForCoverage(TaxonomicCoverage coverage) {
-    String combined = null;
-    if (coverage != null) {
-      String scientificName = StringUtils.trimToNull(coverage.getScientificName());
-      String commonName = StringUtils.trimToNull(coverage.getCommonName());
-      if (scientificName != null && commonName != null) {
-        combined = scientificName + " (" + commonName + ")";
-      } else if (scientificName != null) {
-        combined = scientificName;
-      } else if (commonName != null) {
-        combined = commonName;
-      }
-    }
-    return combined;
   }
 }

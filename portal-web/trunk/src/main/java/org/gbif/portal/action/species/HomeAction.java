@@ -7,8 +7,13 @@ import org.gbif.api.vocabulary.Extension;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.portal.action.BaseAction;
 
+import java.util.UUID;
+
 import com.google.inject.Inject;
 
+import static org.gbif.api.model.Constants.NUB_TAXONOMY_KEY;
+
+@SuppressWarnings("serial")
 public class HomeAction extends BaseAction {
 
   @Inject
@@ -30,6 +35,13 @@ public class HomeAction extends BaseAction {
     numLanguages = nubMetrics.getCountNamesByLanguage().size();
 
     return SUCCESS;
+  }
+
+  /**
+   * Exposed to allow easy access in freemarker.
+   */
+  public UUID getNubDatasetKey() {
+    return NUB_TAXONOMY_KEY;
   }
 
   public DatasetMetrics getNubMetrics() {

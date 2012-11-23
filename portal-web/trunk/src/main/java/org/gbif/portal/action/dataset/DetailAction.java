@@ -17,63 +17,163 @@ import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.TechnicalInstallation;
 import org.gbif.api.service.registry.TechnicalInstallationService;
 import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.Extension;
+import org.gbif.api.vocabulary.Kingdom;
+import org.gbif.api.vocabulary.Rank;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+/**
+ * Populates the model objects for the dataset detail page.
+ */
+@SuppressWarnings("serial")
 public class DetailAction extends DatasetBaseAction {
 
-  private static final Logger LOG = LoggerFactory.getLogger(DetailAction.class);
+  private static final List<Extension> EXTENSIONS = ImmutableList.copyOf(Extension.values());
+  private static final List<Kingdom> KINGDOMS = ImmutableList.of(Kingdom.ANIMALIA, Kingdom.ARCHAEA, Kingdom.BACTERIA,
+    Kingdom.CHROMISTA,
+    Kingdom.FUNGI, Kingdom.PLANTAE, Kingdom.PROTOZOA, Kingdom.VIRUSES, Kingdom.INCERTAE_SEDIS);
 
+  @Nullable
   private Organization hostingOrganization;
+  @Nullable
   private Dataset parentDataset;
-  private List<Contact> preferredContacts;
-  private List<Contact> otherContacts;
-  private List<Endpoint> links = Lists.newArrayList();
-  private List<Endpoint> dataLinks = Lists.newArrayList();
-  private List<Endpoint> metaLinks = Lists.newArrayList();
+  private final List<Contact> preferredContacts = Lists.newArrayList();
+  private final List<Contact> otherContacts = Lists.newArrayList();
+  private final List<Endpoint> links = Lists.newArrayList();
+  private final List<Endpoint> dataLinks = Lists.newArrayList();
+  private final List<Endpoint> metaLinks = Lists.newArrayList();
+  @Nullable
   private PagingResponse<Dataset> constituents;
-
   @Inject
-  private TechnicalInstallationService technicalInstallationService;
+  private TechnicalInstallationService installationService;
 
   @Override
   public String execute() {
     loadDetail();
-
-    // are there preferred (primary) contacts
-    separateContacts(dataset.getContacts());
-
-    setLinks();
-
-    if (dataset.getTechnicalInstallationKey() != null) {
-      TechnicalInstallation technicalInstallation = technicalInstallationService.get(dataset.getTechnicalInstallationKey());
-      if (!technicalInstallation.getHostingOrganizationKey().equals(dataset.getOwningOrganizationKey())) {
-        hostingOrganization = organizationService.get(technicalInstallation.getHostingOrganizationKey());
-      }
-    }
-    // load the parentDataset if any
-    if (dataset.getParentDatasetKey() != null) {
-      parentDataset = datasetService.get(dataset.getParentDatasetKey());
-    }
-    // try to load first 10 constituent datasets
+    populateContacts(dataset.getContacts());
+    populateLinks(dataset.getEndpoints());
+    parentDataset = dataset.getParentDatasetKey() != null ? datasetService.get(dataset.getParentDatasetKey()) : null;
+    // only datasets with a key (internal) can have constituents
     if (key != null) {
       constituents = datasetService.listConstituents(key, new PagingRequest(0, 10));
     }
 
+    // populate hosting organization only if it differs from the owning organization
+    if (dataset.getTechnicalInstallationKey() != null) {
+      TechnicalInstallation installation = installationService.get(dataset.getTechnicalInstallationKey());
+      if (!dataset.getOwningOrganizationKey().equals(installation.getHostingOrganizationKey())) {
+        hostingOrganization = organizationService.get(installation.getHostingOrganizationKey());
+      }
+    }
     return SUCCESS;
   }
 
   /**
-   * Takes all endpoints and splits them into data, metadata and other links.
+   * Will not be null following execute() invocation.
    */
-  private void setLinks() {
+  @Nullable
+  public PagingResponse<Dataset> getConstituents() {
+    return constituents;
+  }
+
+  @NotNull
+  public List<Endpoint> getDataLinks() {
+    return dataLinks;
+  }
+
+  /**
+   * Exposed to allow easy access in freemarker.
+   */
+  public List<Extension> getExtensions() {
+    return EXTENSIONS;
+  }
+
+  /**
+   * @return The hosting Organization only if it differs from the owning organization, otherwise null
+   */
+  @Nullable
+  public Organization getHostingOrganization() {
+    return hostingOrganization;
+  }
+
+  /**
+   * Exposed to allow easy access in freemarker.
+   */
+  public List<Kingdom> getKingdoms() {
+    return KINGDOMS;
+  }
+
+  @NotNull
+  public List<Endpoint> getLinks() {
+    return links;
+  }
+
+  @NotNull
+  public List<Endpoint> getMetaLinks() {
+    return metaLinks;
+  }
+
+  @NotNull
+  public List<Contact> getOtherContacts() {
+    return otherContacts;
+  }
+
+  @Nullable
+  public Dataset getParentDataset() {
+    return parentDataset;
+  }
+
+  @NotNull
+  public List<Contact> getPreferredContacts() {
+    return preferredContacts;
+  }
+
+  /**
+   * Exposed to allow easy access in freemarker.
+   */
+  public List<Rank> getRankEnum() {
+    return Rank.LINNEAN_RANKS;
+  }
+
+  @NotNull
+  public Map<String, String> getResourceBundleProperties() {
+    return getResourceBundleProperties("enum.rank.");
+  }
+
+  /**
+   * Populates the preferred and other contact lists from the unified contact list.
+   */
+  private void populateContacts(@NotNull List<Contact> contacts) {
+    Preconditions.checkNotNull(contacts, "Contacts cannot be null - expected empty list for no contacts");
+    preferredContacts.clear(); // for safety
+    otherContacts.clear();
+    for (Contact contact : contacts) {
+      if (contact.isPreferred()) {
+        preferredContacts.add(contact);
+      } else {
+        otherContacts.add(contact);
+      }
+    }
+  }
+
+  /**
+   * Populates the data, metadata and other links from the unified endpoint list.
+   */
+  private void populateLinks(@NotNull List<Endpoint> endpoints) {
+    Preconditions.checkNotNull(endpoints, "Enpoints cannot be null - expected empty list for no endpoints");
+    dataLinks.clear(); // for safety
+    metaLinks.clear();
+    links.clear();
     for (Endpoint p : dataset.getEndpoints()) {
       if (EndpointType.DATA_CODES.contains(p.getType())) {
         dataLinks.add(p);
@@ -83,66 +183,5 @@ public class DetailAction extends DatasetBaseAction {
         links.add(p);
       }
     }
-  }
-
-  public List<Contact> getOtherContacts() {
-    return otherContacts;
-  }
-
-  public List<Contact> getPreferredContacts() {
-    return preferredContacts;
-  }
-
-  public Dataset getParentDataset() {
-    return parentDataset;
-  }
-
-  /**
-   * @return the hostingOrganization
-   */
-  public Organization getHostingOrganization() {
-    return hostingOrganization;
-  }
-
-  public PagingResponse<Dataset> getConstituents() {
-    return constituents;
-  }
-
-  /**
-   * Iterate over the list of dataset contacts. Divide them into two lists:
-   * those thare are preferred (primary), and those that are not.
-   * 
-   * @param contacts list of contacts associated to the dataset
-   */
-  private void separateContacts(List<Contact> contacts) {
-    // instantiate lists
-    preferredContacts = new ArrayList<Contact>();
-    otherContacts = new ArrayList<Contact>();
-    // populate lists
-    if (contacts.size() > 0) {
-      for (Contact contact : contacts) {
-        if (contact.isPreferred()) {
-          preferredContacts.add(contact);
-        } else {
-          otherContacts.add(contact);
-        }
-      }
-    }
-  }
-
-  public Map<String, String> getResourceBundleProperties() {
-    return getResourceBundleProperties("enum.rank.");
-  }
-
-  public List<Endpoint> getLinks() {
-    return links;
-  }
-
-  public List<Endpoint> getDataLinks() {
-    return dataLinks;
-  }
-
-  public List<Endpoint> getMetaLinks() {
-    return metaLinks;
   }
 }

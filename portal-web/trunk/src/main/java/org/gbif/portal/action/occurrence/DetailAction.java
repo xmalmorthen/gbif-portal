@@ -8,11 +8,14 @@ import org.gbif.dwc.terms.DwcTerm;
 
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.UUID;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.gbif.api.model.Constants.NUB_TAXONOMY_KEY;
 
 public class DetailAction extends OccurrenceBaseAction {
 
@@ -35,6 +38,21 @@ public class DetailAction extends OccurrenceBaseAction {
     }
 
     return SUCCESS;
+  }
+
+  /**
+   * Exposed to allow easy access in freemarker.
+   */
+  public UUID getNubDatasetKey() {
+    return NUB_TAXONOMY_KEY;
+  }
+
+  public Organization getPublisher() {
+    return publisher;
+  }
+
+  public Map<String, Map<String, String>> getVerbatim() {
+    return verbatim;
   }
 
   public String verbatim() {
@@ -62,13 +80,4 @@ public class DetailAction extends OccurrenceBaseAction {
 
     return SUCCESS;
   }
-
-  public Organization getPublisher() {
-    return publisher;
-  }
-
-  public Map<String, Map<String, String>> getVerbatim() {
-    return verbatim;
-  }
-
 }

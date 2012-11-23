@@ -1,22 +1,17 @@
 package org.gbif.portal.action;
 
+import org.gbif.api.exception.NotFoundException;
 import org.gbif.api.model.common.User;
-import org.gbif.api.vocabulary.Extension;
-import org.gbif.api.vocabulary.Kingdom;
-import org.gbif.api.vocabulary.Rank;
 import org.gbif.portal.config.Config;
 import org.gbif.portal.config.Constants;
 
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
-import java.util.UUID;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.interceptor.ServletRequestAware;
@@ -25,16 +20,27 @@ import org.apache.struts2.util.ServletContextAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class BaseAction extends ActionSupport implements SessionAware, ServletRequestAware, ServletContextAware {
-  protected final Logger LOG = LoggerFactory.getLogger(getClass());
-  protected Map<String, Object> session;
-  protected HttpServletRequest request;
-  protected ServletContext ctx;
-  private static final List<Kingdom> KINGDOMS = ImmutableList.of(Kingdom.ANIMALIA, Kingdom.ARCHAEA, Kingdom.BACTERIA, Kingdom.CHROMISTA,
-    Kingdom.FUNGI, Kingdom.PLANTAE, Kingdom.PROTOZOA, Kingdom.VIRUSES, Kingdom.INCERTAE_SEDIS);
+/**
+ * A base class that provides utility accession to
+ */
+@SuppressWarnings("serial")
+public abstract class BaseAction extends ActionSupport
+  implements SessionAware, ServletRequestAware, ServletContextAware {
 
-  @Inject
-  private Config cfg;
+  /**
+   * Simple utility to assert that an object is found.
+   * 
+   * @param o That must be non null to avoid the exception
+   * @param errorMessageTemplate which must be suitable for {@link java.lang.String#format(String, Object...)}
+   * @param errorMessageArgs The arguments suitable for the error template
+   * @throws NotFoundException Only when o is null
+   */
+  protected static void checkNotNull(Object o, String errorMessageTemplate, Object... errorMessageArgs)
+    throws NotFoundException {
+    if (o == null) {
+      throw new NotFoundException(String.format(errorMessageTemplate, errorMessageArgs));
+    }
+  }
 
   /**
    * Checks whether a string starts with any of the prefixes specified
@@ -52,8 +58,16 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
     return false;
   }
 
+  protected final Logger LOG = LoggerFactory.getLogger(getClass());
+  protected Map<String, Object> session;
+  protected HttpServletRequest request;
+  protected ServletContext ctx;
+
+  @Inject
+  private Config cfg;
+
   /**
-   * Returns the application's base url
+   * Returns the application's base url. Exposed to simplify freemarker.
    * 
    * @return the base url
    */
@@ -61,12 +75,15 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
     return cfg.getServerName() + ctx.getContextPath();
   }
 
+  /**
+   * Exposed to simplify freemarker.
+   */
   public Config getCfg() {
     return cfg;
   }
 
   /**
-   * Returns the absolute url to the current page.
+   * Returns the absolute url to the current page. Exposed to simplify freemarker.
    * 
    * @return the absolute url
    */
@@ -84,22 +101,6 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
    */
   public User getCurrentUser() {
     return (User) session.get(Constants.SESSION_USER);
-  }
-
-  public List<Extension> getExtensionEnum() {
-    return Lists.newArrayList(Extension.values());
-  }
-
-  public List<Kingdom> getKingdomEnum() {
-    return KINGDOMS;
-  }
-
-  public UUID getNubDatasetKey() {
-    return org.gbif.api.model.Constants.NUB_TAXONOMY_KEY;
-  }
-
-  public List<Rank> getRankEnum() {
-    return Rank.LINNEAN_RANKS;
   }
 
   /**
@@ -132,18 +133,14 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
   }
 
   /**
-   * @return The HTTP session which may be null
+   * @return The HTTP session
    */
   protected Map<String, Object> getSession() {
     return session;
   }
 
-  public Rank getSpeciesRank() {
-    return Rank.SPECIES;
-  }
-
   /**
-   * @return true if an admin user is logged in.
+   * @return true if an admin user is logged in
    */
   public boolean isAdmin() {
     return getCurrentUser() != null && getCurrentUser().isAdmin();
@@ -163,5 +160,4 @@ public abstract class BaseAction extends ActionSupport implements SessionAware, 
   public void setSession(Map<String, Object> session) {
     this.session = session;
   }
-
 }

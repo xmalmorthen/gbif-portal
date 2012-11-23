@@ -240,7 +240,7 @@
   <#if metrics.countByKingdom?has_content>
     <h3>By Kingdom</h3>
     <ul>
-      <#list kingdomEnum as k>
+      <#list kingdoms as k>
         <#if metrics.countByKingdom(k)?has_content>
           <li><@s.text name="enum.kingdom.${k}"/> <span class="number">${metrics.countByKingdom(k)!0}</span></li>
         </#if>
@@ -262,9 +262,9 @@
   <#if metrics.countExtensionRecords?has_content>
     <h3>Associated Data</h3>
     <ul>
-      <#list extensionEnum as k>
-        <#if ((metrics.getExtensionRecordCount(k)!0)>0)>
-          <li><@s.text name="enum.extension.${k}"/> <span class="number">${metrics.getExtensionRecordCount(k)!0}</span></li>
+      <#list extensions as e>
+        <#if ((metrics.getExtensionRecordCount(e)!0)>0)>
+          <li><@s.text name="enum.extension.${e}"/> <span class="number">${metrics.getExtensionRecordCount(e)!0}</span></li>
         </#if>
       </#list>
     </ul>

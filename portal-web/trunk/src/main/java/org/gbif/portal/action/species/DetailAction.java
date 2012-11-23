@@ -16,6 +16,7 @@ import org.gbif.api.service.checklistbank.TypeSpecimenService;
 import org.gbif.api.service.checklistbank.VernacularNameService;
 import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
 import org.gbif.api.vocabulary.Language;
+import org.gbif.api.vocabulary.Rank;
 import org.gbif.portal.model.VernacularLocaleComparator;
 
 import java.util.LinkedHashMap;
@@ -160,6 +161,13 @@ public class DetailAction extends UsageBaseAction {
     return occurrenceDatasetCounts;
   }
 
+  /**
+   * Exposed to allow easy access in freemarker.
+   */
+  public List<Rank> getRankEnum() {
+    return Rank.LINNEAN_RANKS;
+  }
+
   @NotNull
   public List<NameUsage> getRelated() {
     return related;
@@ -274,4 +282,5 @@ public class DetailAction extends UsageBaseAction {
       values.add(name);
     }
   }
+
 }
