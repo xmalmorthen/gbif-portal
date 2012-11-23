@@ -19,7 +19,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
 
 /**
- * A base class that provides accession to utilities
+ * A base class that provides accession to utilities for freemarker.
  */
 @SuppressWarnings("serial")
 public abstract class BaseAction extends ActionSupport
