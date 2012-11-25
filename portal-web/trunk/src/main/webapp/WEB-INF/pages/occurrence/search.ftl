@@ -229,23 +229,13 @@
         <div class="inner">
           <h4><%= title %></h4>
           <div class="filter">
-
-			<ul class="basis-of-record">
-				<li><a href="#">Specimen</a></li>
-				<li class="selected"><a href="#">Living Specimen</a></li>
-				<li><a href="#">Observation</a></li>
-				<li><a href="#">Human Observation</a></li>
-			</ul>
-
-            <span>              
-              <select name="BASIS_OF_RECORD" multiple="multiple">
-                <#list basisOfRecords as basisOfRecord>
-                  <option value="${basisOfRecord}">${action.getFilterTitle('basisOfRecord',basisOfRecord)}</option>
-                </#list> 
-              </select>              
-            </span>
-            <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-date-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
+      			<ul class="basis-of-record">
+      			  <#list basisOfRecords as basisOfRecord>			    
+        				<li val="${basisOfRecord}"><a href="#">${action.getFilterTitle('basisOfRecord',basisOfRecord)}</a></li>  				
+        			</#list>
+      			</ul>            
           </div>
+          <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
           <a href="#" class="close"></a>
         </div>
       </td>
@@ -270,9 +260,9 @@
                     <div class="appliedFilters" style="width:400px; overflow-y: auto;clear:both;"></div>
                   </td>                  
                 </tr>
-             </table>            
-            <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
+             </table>                        
           </div>          
+          <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
           <a href="#" class="close"></a>
         </div>
       </td>
@@ -337,7 +327,7 @@
               </table>         
            </div>         
            <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply filter</span></a>         
-          <a href="#" class="close"></a>     
+           <a href="#" class="close"></a>     
         </div>
        </td>
      </tr>

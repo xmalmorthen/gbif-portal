@@ -263,26 +263,28 @@ var OccurrenceWidget = (function ($,_) {
       bindApplyControl : function() {
         var self = this;
         this.filterElement.find("a.button[data-action]").click( function(e){
-          if(self.filterElement.find(".addFilter").size() == 0) { //has and addFilter control
+          if(self.filterElement.find(".addFilter").size() != 0) { //has and addFilter control
             //gets the value of the input field            
             var input = self.filterElement.find(":input[name=" + self.id + "]:first");                    
             var value = input.val();            
-            if(!isBlank(value)){            
+            if (!isBlank(value)) {
               var key = "";
               //Auto-complete widgets store the selected key in "key" attribute
               if (input.attr("key") !== undefined) {
                 key = input.attr("key"); 
               }
-              if($.isArray(value)) {
-                for (var i = 0; i < value.length;i++) {
+              if ((typeof(value) != "string") && $.isArray(value)) {
+                for (var i = 0; i < value.length; i++) {
                   self.applyFilter({value: value[i], key:key});
                 }
               } else {
                 self.applyFilter({value: value, key:key});
               }
               self.close();
+            } else {
+              self.onApplyFilterEvent.call();
             }
-          }else {
+          } else {
             self.onApplyFilterEvent.call();
           }
         });  
@@ -338,7 +340,7 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
   //Inherits everything from the OccurrenceWidget module.
   InnerOccurrenceDateWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
   
-  //The bindAddFilterControl is re-defined, the define dates are validated and the applied.
+  //The bindAddFilterControl is re-defined, the define dates are validated and then applied.
   InnerOccurrenceDateWidget.prototype.bindAddFilterControl = function() {
     var self = this;
     this.filterElement.find(".addFilter").click( function(e) { 
@@ -413,16 +415,26 @@ var OccurrenceBasisOfRecordWidget = (function ($,_,OccurrenceWidget) {
   InnerOccurrenceBasisOfRecordWidget.prototype.showAppliedFilters = function() {
     if(this.filterElement != null) {
       var self = this;
-      this.filterElement.find("select[name='basisOfRecord'] > option").each( function() {
-        $(this).removeAttr("selected");
+      this.filterElement.find(".basis-of-record > li").each( function() {
+        $(this).removeClass("selected");
         for(var i=0; i < self.appliedFilters.length; i++) {
-          if(self.appliedFilters[i].value == $(this).val() && $(this).attr("selected") == undefined) {
-            $(this).attr("selected","selected");
+          if(self.appliedFilters[i].value == $(this).val() && !$(this).hasClass("selected")) {
+            $(this).addClass("selected");
           }
         }
       });
     }
   };   
+  
+  InnerOccurrenceBasisOfRecordWidget.prototype.executeAdditionalBindings = function(){
+    if(this.filterElement != null) {
+      var self = this;
+      this.filterElement.find(".basis-of-record > li").click( function() {
+        self.addAppliedFilter({value:$(this).attr("val"),key:""});
+        $(this).addClass("selected");
+      });
+    }
+  };
   return InnerOccurrenceBasisOfRecordWidget;
 })(jQuery,_,OccurrenceWidget);
 
