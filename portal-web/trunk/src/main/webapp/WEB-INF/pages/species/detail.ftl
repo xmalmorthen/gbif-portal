@@ -501,7 +501,7 @@
 </#if>
 
 <#if usage.nubKey??>
-  <@common.article id="appearsin" title="Appears in tim">
+  <@common.article id="appearsin" title="Appears in">
     <div class="fullwidth">
       <div class="col">
         <h3>Occurrence datasets</h3>
