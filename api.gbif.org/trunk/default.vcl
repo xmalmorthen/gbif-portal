@@ -57,7 +57,7 @@ sub vcl_recv {
 
   # first check API versions
   if ( req.url ~ "^/dev/") {
-    set req.backend = jawa;
+    set req.backend = staging;
     set req.url = regsub(req.url, "^/dev/", "/");
 
   } else if (req.url ~ "^/portal-web-dynamic") {
@@ -94,9 +94,6 @@ sub vcl_recv {
     } else if ( req.url ~ "^/occurrence/count") {
       set req.url = regsub(req.url, "^/", "/metrics-ws/");
 
-    } else if ( req.url ~ "^/occurrence/search") {
-      set req.url = regsub(req.url, "^/occurrence", "/occurrence-ws");
-
     } else if ( req.url ~ "^/occurrence") {
       set req.url = regsub(req.url, "^/", "/occurrence-ws/");
 
@@ -111,7 +108,7 @@ sub vcl_recv {
       set req.url = regsub(req.url, "^/dataset/", "/registry-search-ws/");
 
     } else {
-      # should be all registry calls
+      # anything left should be registry calls
       set req.url = regsub(req.url, "^/", "/registry-ws/");
     }
   }
