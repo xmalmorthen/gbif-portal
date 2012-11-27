@@ -29,7 +29,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.sun.jersey.api.client.UniformInterfaceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,14 +107,9 @@ public class SearchAction
         Long count = occurrenceCube.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, k));
         recordCounts.put(dsr.getKey(), count);
       } else if (DatasetType.CHECKLIST == dsr.getType()) {
-        DatasetMetrics metrics = null;
-        // Catch client response status 204, Equal to no content
-        try {
-          metrics = checklistMetricsService.get(UUID.fromString(dsr.getKey()));
-        } catch (UniformInterfaceException e) {
-          LOG.debug("Checklist metrics not found for dataset with key {}", dsr.getKey());
-        }
-
+        // Client response status 204 (Equal to no content) gets converted into NULL
+        // See HttpErrorResponseInterceptor.java in gbif-common-ws for more information
+        DatasetMetrics metrics = checklistMetricsService.get(UUID.fromString(dsr.getKey()));
         if (metrics != null) {
           recordCounts.put(dsr.getKey(), Long.valueOf(metrics.getCountIndexed()));
         }
