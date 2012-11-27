@@ -82,7 +82,7 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
    -->
   <#-- Total number of pages for the resultset -->
   <#if (page.offset/page.limit!=0) >
-    <#assign totalPages = (page.count/page.limit)?ceiling+1 >
+    <#assign totalPages = (page.count/page.limit)?ceiling >
   <#else>
     <#assign totalPages = (page.count/page.limit) >
   </#if>  
@@ -162,7 +162,7 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
   <#-- Reset value -->
   <#assign newOffset = page.offset>
 
-  <#-- Calculate the offset of the offset of the [LAST PAGE] link -->
+  <#-- Calculate the offset of the [LAST PAGE] link -->
   <#list 1..loop as x>
     <#assign newOffset = newOffset + page.limit>
     <#if ((newOffset+page.limit)>=page.count)>
@@ -221,11 +221,8 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
 	<#assign queryString = "">
 	<#if url?contains("?")>
 	   <#assign urlSplit = url?split("?")>
-	   <#assign baseUrl = urlSplit[0]>
-	   <#if url?contains("&")>
-	     <#assign baseUrl = baseUrl + "?">
-	     <#assign queryString = urlSplit[1]>
-	   </#if>
+	   <#assign baseUrl = urlSplit[0] + "?">
+       <#assign queryString = urlSplit[1]>
 	<#else>
 	   <#assign baseUrl = url>
 	</#if>
