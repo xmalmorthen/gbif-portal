@@ -418,7 +418,7 @@
     <div class="left">
       <div class="inner">
         <h3>Description</h3>
-        <p>bla bla bla</p>
+        <p></p>
       </div>
     </div>
 
