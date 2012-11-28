@@ -24,6 +24,7 @@ public abstract class SeleniumTestBase {
   private final String baseUrl;
   private static final long DEFAULT_TIMEOUT = 30;
   private static final Pattern idLinkPattern = Pattern.compile("/([0-9]+)$");
+  private static final Pattern jSessionIdPattern = Pattern.compile(";jsessionid(.)*$");
 
   protected SeleniumTestBase() {
     Config cfg = Config.buildFromProperties();
@@ -55,6 +56,8 @@ public abstract class SeleniumTestBase {
   }
 
   protected Integer parseIdLink(String link) {
+    Matcher matcher = jSessionIdPattern.matcher(link);
+    link = matcher.replaceFirst("");
     Matcher m = idLinkPattern.matcher(link);
     if (m.find()) {
       return Integer.parseInt(m.group(1));
