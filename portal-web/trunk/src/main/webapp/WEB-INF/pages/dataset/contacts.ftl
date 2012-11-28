@@ -14,7 +14,7 @@
 </head>
 <body class="species">
 
-<#assign tab="constituents"/>
+<#assign tab="info"/>
 <#assign tabhl=true />
 <#include "/WEB-INF/pages/dataset/inc/infoband.ftl">
 
@@ -39,7 +39,7 @@
         <h2>Primary Contacts</h2>
         <@common.contactList preferredContacts />
 
-        <#if dataset.project.contacts?has_content>
+        <#if (dataset.project.contacts)?has_content>
           <h2>Project Personnel</h2>
           <@common.contactList dataset.project.contacts />
         </#if>
