@@ -28,7 +28,7 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
     // do we want a search across all checklists?
     if (!searchNub) {
       // TODO: doesnt seem to work. Maybe some javascript fix needed?
-      driver.findElement(By.id("facetfilterCHECKLIST")).findElement(By.cssSelector("a")).click();
+      driver.findElement(By.id("facetfilterDATASET_KEY")).findElement(By.cssSelector("a")).click();
     }
 
     // main content div on page
@@ -79,7 +79,7 @@ public class SpeciesSearchSeleniumIT extends SeleniumTestBase {
    */
   @Test
   public void testVernacularNameSearch() {
-    assertNameSearch("Abies pinsapo", true, 11, 2685464);
+    assertNameSearch("Abies pinsapo", true, 17, 2685464);
     // TODO: vernacular nub names are currently not searchable: http://dev.gbif.org/issues/browse/CLB-163
     //assertNameSearch("Spanische", true, 11, 3898019);
   }

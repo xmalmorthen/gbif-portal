@@ -20,6 +20,7 @@ public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
     LOG.debug("Assert content exists...");
     WebElement infoband = driver.findElement(By.id("infoband"));
     WebElement content = driver.findElement(By.id("content"));
+    WebElement map = driver.findElement(By.className("map"));
 
     assertEquals("Expected infoband name wrong", "Sciurus vulgaris Linnaeus, 1758",
       infoband.findElement(By.cssSelector("h1")).getText());
@@ -28,11 +29,11 @@ public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
       infoband.findElement(By.cssSelector("h3 a")).getText());
 
     // its 6 checklists & 6 occurrences
-    assertEquals("Expected appears in entries", 12,
-      content.findElements(By.cssSelector("#appearsin div.left li")).size());
+    assertEquals("Expected appears in entries", 14,
+      content.findElements(By.cssSelector("#appearsin div.col li")).size());
 
     assertEquals("Expected distribution entries",
-      content.findElements(By.cssSelector("#distribution div.left ul.notes div")).size(), 10);
+      map.findElements(By.cssSelector("ul.notes li")).size(), 10);
 
   }
 
