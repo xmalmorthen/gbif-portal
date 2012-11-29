@@ -3,8 +3,10 @@ package org.gbif.portal.action.dataset;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Organization;
+import org.gbif.api.model.registry.TechnicalInstallation;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.OrganizationService;
+import org.gbif.api.service.registry.TechnicalInstallationService;
 import org.gbif.portal.action.AdminBaseAction;
 
 import java.util.List;
@@ -18,6 +20,9 @@ public class AdminAction extends AdminBaseAction<DatasetService, Dataset> {
 
   @Inject
   OrganizationService organizationWsClient;
+
+  @Inject
+  TechnicalInstallationService technicalInstallationWsClient;
 
   @Valid
   Dataset member;
@@ -43,19 +48,21 @@ public class AdminAction extends AdminBaseAction<DatasetService, Dataset> {
     this.member = member;
   }
 
+  /**
+   * @return the hostingOrganization
+   */
+  public Organization getHostingOrganization() {
+    if (member.getTechnicalInstallationKey() != null) {
+      TechnicalInstallation technicalInstallation =
+        technicalInstallationWsClient.get(member.getTechnicalInstallationKey());
+      if (!technicalInstallation.getHostingOrganizationKey().equals(member.getOwningOrganizationKey())) {
+        return organizationWsClient.get(technicalInstallation.getHostingOrganizationKey());
+      }
+    }
+    return null;
+  }
 
   public List<Organization> getOrganizations() {
-    /*
-     * Organization o1 = Organization.builder().title("Organization 1").key(UUID.randomUUID()).build();
-     * Organization o2 = Organization.builder().title("Organization 2").key(UUID.randomUUID()).build();
-     * Organization o3 = Organization.builder().title("Organization 3").key(UUID.randomUUID()).build();
-     * List<Organization> orgs = new ArrayList<Organization>();
-     * orgs.add(o1);
-     * orgs.add(o2);
-     * orgs.add(o3);
-     * PagingResponse<Organization> response = new PagingResponse<Organization>();
-     * response.setResults(orgs);
-     */
     PagingResponse<Organization> response = organizationWsClient.list(null);
 
     if (response != null) {
