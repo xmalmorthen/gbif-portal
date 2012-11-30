@@ -42,7 +42,7 @@
 <div class="box">
   <div class="content">
     <ul>
-      <li class="last"><h4>${(metrics.countIndexed)!"?"}</h4>Occurrences</li>
+      <li class="single"><h4>${numOccurrences!0}</h4>Occurrences</li>
     </ul>
     <a href="<@s.url value='/occurrence/search?datasetKey=${id!}'/>" title="View occurrences" class="candy_blue_button"><span>View occurrences</span></a>
   </div>

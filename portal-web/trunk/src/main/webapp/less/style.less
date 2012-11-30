@@ -51,7 +51,7 @@ body {
   font-family: "Arial", "Helvetica", sans-serif;
 }
 
-a.sourcePopup { cursor: pointer; }
+a.sourcePopup, a.helpPopup { cursor: pointer; }
 
 em { font-style: italic; }
 
@@ -1591,6 +1591,11 @@ body.register footer {
     background: url("../img/boxes/box_bottom.png") no-repeat left top;
     text-align: left;
   }
+}
+
+// Full screen maps go on top of everything, but not popups
+#content article.map {
+  z-index: 10000;
 }
 
 #content article.notice {

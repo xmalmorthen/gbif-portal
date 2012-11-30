@@ -10,6 +10,19 @@
   </#if>
 </#function>
 
+<#-- 
+  Truncates the string if too long and adds a more link
+-->
+<#macro limitWithLink text max link>
+  <#assign text = text!""/>
+  <#assign text = text?trim/>
+  <#if (text?length <= max)>
+    ${text}
+    <#else>
+    ${text?substring(0, max)}… <a href='${link}'>more</a>
+  </#if>
+</#macro>
+
 <#macro usageSource component showChecklistSource=false showChecklistSourceOnly=false>
   <#if showChecklistSourceOnly>
     <#assign source=""/>
@@ -40,6 +53,16 @@
 <#macro popup message remarks="" title="Source">
   <#if message?has_content>
   <a class="sourcePopup" title="${title}" message="${message}" remarks="${remarks!}"></a>
+  </#if>
+</#macro>
+
+<#--
+  a popup help along the lines of this:
+  http://dev.gbif.org/issues/secure/attachment/11424/gbif_help_links.png 
+-->
+<#macro explanation message label remarks="" title="Help">
+  <#if message?has_content>
+    <a class="helpPopup" title="${title}" message="${message}" remarks="${remarks!}">${label}</a>
   </#if>
 </#macro>
 

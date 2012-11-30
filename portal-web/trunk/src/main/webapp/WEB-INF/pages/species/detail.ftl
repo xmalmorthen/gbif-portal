@@ -318,65 +318,50 @@
 
   <div id="zoom_in" class="zoom_in"></div>
   <div id="zoom_out" class="zoom_out"></div>
+  <div id="zoom_fs" class="zoom_fs"></div>
+  
   <div id="map" type="TAXON" key="${usage.key?c}"></div>
 
   <div class="content">
-
     <div class="header">
-      <div class="right">
-        <div class="big_number">
-          <span>${numOccurrences}</span>
-          <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}'/>">occurrences</a>
-        </div>
-
-        <#--
-         TODO: implement counts of selected areas when we can
-        <div class="big_number placeholder_temp">
-          <span class="big_number">8,453</span>
-          <a href="<@s.url value='/occurrence/search?q=holotype'/>">in the selected area</a>
-        </div>
-        -->
-      </div>
+      <div class="right"><h2>${numGeoreferencedOccurrences!0} Georeferenced occurrences</h2></div>
     </div>
-
-    <div class="right">
-        <#--
-         TODO: implement when we can and move distributions to somewhere else?
-      <h3>Visualize</h3>
-      <p class="maptype">
-        <a href="#" title="occurrence" class="selected">occurrence</a>
-        | <a class="placeholder_temp" href="#" title="diversity">diversity</a>
-        | <a class="placeholder_temp" href="#" title="distribution">distribution</a>
-      </p>
-        -->
-
-      <#if (usage.distributions?size>0)>
-        <h3>Distributions</h3>
-        <ul class="notes">
-        <#assign skipped=0/>
-        <#list usage.distributions as d>
-          <#if d.locationId?? || d.country?? || d.locality?? >
-            <li>
-              <#if d.country??>${d.country.title}</#if>
-              ${d.locationId!} ${d.locality!}
-              <span class="note">
-                ${d.lifeStage!} ${d.temporal!} <@s.text name='enum.occurrencestatus.${d.status!"PRESENT"}'/>
-                <#if d.threatStatus??><@s.text name="enum.threatstatus.${d.threatStatus}"/></#if>
-                <#if d.establishmentMeans??><@s.text name='enum.establishmentmeans.${d.establishmentMeans}'/></#if>
-                <#if d.appendixCites??>Cites ${d.appendixCites}</#if>
-              </span>
-            </li>
-          <#else>
-            <#assign skipped=skipped+1/>
-          </#if>
-          <#-- only show 5 distributions at max -->
-          <#if !d_has_next && d_index==4+skipped>
-           <li><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></li>
-          </#if>
-        </#list>
-        </ul>
-      </#if>
-
+	  <div class="right">
+      <div class="inner">
+        <h3>View records</h3>
+        <p>
+          <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180'/>">All records</a>
+          |
+          <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180'/>">In viewable area</a></li>
+        </p>
+        <#if (usage.distributions?size>0)>
+          <h3>Distributions</h3>
+          <ul class="notes">
+          <#-- Show first 5 distributions only -->
+          <#assign skipped=0/> 
+          <#list usage.distributions as d>
+            <#if d.locationId?? || d.country?? || d.locality?? >
+              <li>            
+                <#if d.country??>${d.country.title}</#if>
+                ${d.locationId!} ${d.locality!}
+                <span class="note">
+                  ${d.lifeStage!} ${d.temporal!} <@s.text name='enum.occurrencestatus.${d.status!"PRESENT"}'/>
+                  <#if d.threatStatus??><@s.text name="enum.threatstatus.${d.threatStatus}"/></#if>
+                  <#if d.establishmentMeans??><@s.text name='enum.establishmentmeans.${d.establishmentMeans}'/></#if>
+                  <#if d.appendixCites??>Cites ${d.appendixCites}</#if>
+                </span>
+              </li>
+            <#else>
+              <#assign skipped=skipped+1/>
+            </#if>
+            <#if d_has_next && d_index==4+skipped>
+             <li><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></li>
+             <#break>
+            </#if>
+          </#list>
+          </ul>
+        </#if>
+      </div>
     </div>
   </div>
   <footer></footer>

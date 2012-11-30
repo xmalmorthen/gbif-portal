@@ -2,12 +2,15 @@ package org.gbif.portal.action.dataset;
 
 import org.gbif.api.exception.NotFoundException;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
+import org.gbif.api.model.metrics.cube.OccurrenceCube;
+import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Network;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.taxonomic.TaxonomicCoverage;
 import org.gbif.api.model.registry.taxonomic.TaxonomicCoverages;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
+import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.NetworkService;
 import org.gbif.api.service.registry.OrganizationService;
@@ -21,6 +24,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
@@ -47,6 +52,10 @@ public class DatasetBaseAction extends BaseAction {
   protected Organization owningOrganization;
   protected Network networkOfOrigin;
   private List<OrganizedTaxonomicCoverages> organizedCoverages = Lists.newArrayList();
+  @Nullable
+  private Long numOccurrences;
+  @Nullable
+  private Long numGeoreferencedOccurrences;
 
   @Inject
   protected DatasetService datasetService;
@@ -56,6 +65,9 @@ public class DatasetBaseAction extends BaseAction {
   protected OrganizationService organizationService;
   @Inject
   protected NetworkService networkService;
+  @Inject
+  private CubeService occurrenceCubeService;
+
 
   /**
    * @return true only if the string has content when trimmed
@@ -183,6 +195,24 @@ public class DatasetBaseAction extends BaseAction {
     } catch (Exception e) {
       LOG.warn("Cant get metrics for dataset {}", key, e);
     }
+
+    populateOccurrenceCounts(); // only when a key exists
+  }
+
+  /**
+   * Populates the occurrence counts using the cube, only when the key exists.
+   */
+  private void populateOccurrenceCounts() {
+    if (key != null) {
+      try {
+        numOccurrences = occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, key));
+        numGeoreferencedOccurrences =
+          occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, key).at(
+            OccurrenceCube.IS_GEOREFERENCED, true));
+      } catch (Exception e) {
+        LOG.error("Failed to load occurrence metrics for dataset {}", key, e);
+      }
+    }
   }
 
   /**
@@ -255,5 +285,15 @@ public class DatasetBaseAction extends BaseAction {
     }
     // return list
     return organizedTaxonomicCoveragesList;
+  }
+
+  @Nullable
+  public Long getNumOccurrences() {
+    return numOccurrences;
+  }
+
+  @Nullable
+  public Long getNumGeoreferencedOccurrences() {
+    return numGeoreferencedOccurrences;
   }
 }

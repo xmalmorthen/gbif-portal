@@ -42,6 +42,7 @@ public class UsageBaseAction extends BaseAction {
   protected Dataset dataset;
   protected DatasetMetrics metrics;
   private long numOccurrences;
+  private long numGeoreferencedOccurrences;
   protected Map<UUID, Dataset> datasets = new HashMap<UUID, Dataset>();
 
   public String getChecklistName(UUID key) {
@@ -69,6 +70,10 @@ public class UsageBaseAction extends BaseAction {
 
   public long getNumOccurrences() {
     return numOccurrences;
+  }
+
+  public long getNumGeoreferencedOccurrences() {
+    return numGeoreferencedOccurrences;
   }
 
   public NameUsageContainer getUsage() {
@@ -127,9 +132,12 @@ public class UsageBaseAction extends BaseAction {
     } catch (ServiceUnavailableException e) {
       LOG.error("Failed to load checklist metrics for dataset {}", usage.getDatasetKey());
     }
-    
+
     try {
       numOccurrences = occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.NUB_KEY, usage.getKey()));
+      numGeoreferencedOccurrences =
+        occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.NUB_KEY, usage.getKey()).at(
+          OccurrenceCube.IS_GEOREFERENCED, true));
     } catch (ServiceUnavailableException e) {
       LOG.error("Failed to load occurrence metrics for usage {}", usage.getKey(), e);
     }

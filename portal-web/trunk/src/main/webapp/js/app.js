@@ -93,6 +93,11 @@ $(function() {
     $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});
   });
 
+  // Activate help popovers
+  $("a.helpPopup").prepend('<img src="'+((cfg.context+"/img/icons/info.png").replace("//", "/")) +'"/> ').each(function(idx, obj){
+    $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});
+  });
+
   // Activate link popovers
   $("a.popover").each(function(idx, obj){
     $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).parent().find(".message").html(),"remarks":$(obj).parent().find(".remarks").html()});

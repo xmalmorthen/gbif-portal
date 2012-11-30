@@ -5,10 +5,10 @@
   <content tag="extra_scripts">
     <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
     <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
-    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
-<#if dataset.geographicCoverages?has_content>
-    <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
-</#if>
+    <#if renderMaps>
+      <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
+      <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
+    </#if>
   </content>  
 </head>
 <body onload="initBB()" class="densitymap">
@@ -296,14 +296,14 @@
 </@common.article>
 </#if>
 
-
-<#if dataset.geographicCoverages?has_content>
+<#-- MAPS -->
+<#if renderMaps>
 <article class="map">
   <header></header>
 
   <div id="zoom_in" class="zoom_in"></div>
   <div id="zoom_out" class="zoom_out"></div>
-
+  <div id="zoom_fs" class="zoom_fs"></div>
   <div id="map" type="DATASET" key="${dataset.key}"></div>
   
   <script>
@@ -320,13 +320,28 @@
   
   <div class="content">
       <div class="header">
-        <div class="right"><h2>Geographic Coverages</h2></div>
+        <div class="right"><h2>${numGeoreferencedOccurrences!0} Georeferenced occurrences</h2></div>
       </div>
 	  <div class="right">
       <div class="inner">
-        <#list dataset.geographicCoverages as geo>
-          <p>${geo.description!}</p>
-        </#list>
+        <h3>View records</h3>
+        <p>
+          <a href="<@s.url value='/occurrence/search?datasetKey=${id!}&BOUNDING_BOX=90,-180,-90,180'/>">All records</a>
+          |
+          <a href="<@s.url value='/occurrence/search?datasetKey=${id!}&BOUNDING_BOX=90,-180,-90,180'/>">In viewable area</a></li>
+        </p>
+        <#-- Truncate long coverages, and display with a more link -->      
+        <#assign coverage><#list dataset.geographicCoverages as geo>${geo.description!}</#list></#assign>
+        <#if coverage?has_content>
+          <h3>Description</h3>
+          <p><@common.limitWithLink text=coverage max=200 link="#"/></p>
+        </#if>
+        <h3>About</h3>
+				<p>        
+          <@common.explanation message="The map illustrates all known geographic information about the dataset.  
+          This includes any documented geographic coverage available through dataset metadata, and a data layer from any indexed data.  
+          The data layer can be customized with the controls above." label="What does this map show?" title="Help"/>
+        </p>
       </div>
 	  </div>
   </div>
@@ -334,6 +349,24 @@
 </article>
 </#if>
 
+<#if dataset.geographicCoverages?has_content>
+<article>
+  <header></header>
+  <div class="content">
+    <div class="header">
+      <div class="left"><h2>Geographic Coverages</h2></div>
+    </div>
+    <div class="fullwidth">
+      <div class="scrollable">
+        <#list dataset.geographicCoverages as geo>
+          <p>${geo.description!}</p>
+        </#list>
+      </div>
+    </div>
+  </div>
+  <footer></footer>
+</article>
+</#if>
 
 <#-- PROJECT -->
 <#if dataset.project?has_content || (otherContacts?size>0) >

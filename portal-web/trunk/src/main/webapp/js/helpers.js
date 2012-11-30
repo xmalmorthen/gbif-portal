@@ -147,20 +147,103 @@ jQuery.fn.sortList = (function() {
 
 function setupZoom(map) {
   var minZoom = 0;
-
+  var fsControl = new ZoomFullscreen(map);
+  
   $(".zoom_in").on("click", function() {
     map.setZoom(map.getZoom() + 1);
   });
 
   $(".zoom_out").on("click", function() {
     var zoom;
-
     if ( map.getZoom() > minZoom ) {
       map.setZoom(map.getZoom() - 1);
     }
-
   });
+  
+  $(".zoom_fs").on("click", function() {
+    fsControl.fullscreen();
+  });
+    
 }
+
+var ZoomFullscreen = function(map) {
+  this._map = map;
+  this._isFullscreen = false;
+}
+ZoomFullscreen.prototype.fullscreen = function(){
+    // call appropriate internal function
+	  if (!this._isFullscreen) {
+	    this._enterFullScreen();
+	  }else{
+	    this._exitFullScreen();
+	  };
+
+    // force internal resize
+	  this._map.invalidateSize();
+  };
+ ZoomFullscreen.prototype._enterFullScreen = function(){
+    var container = this._map._container;
+    
+    // apply our fullscreen settings
+    container.style.position = 'fixed';
+		container.style.left = 0;
+		container.style.top = 0;
+		container.style.width = '100%';
+		container.style.height = '100%';
+
+    // store state
+    L.DomUtil.addClass(container, 'leaflet-fullscreen');
+	  this._isFullscreen = true;
+
+	  // add ESC listener
+	  L.DomEvent.addListener(document, 'keyup', this._onKeyUp, this);
+	  
+    // fire fullscreen event on map
+    this._map.fire('enterFullscreen');
+    
+    // move the buttons
+    $(".zoom_in,.zoom_out,.zoom_fs").css("position", "fixed");
+    $(".zoom_in").css("top", "8px");
+    $(".zoom_out").css("top", "39px");
+    $(".zoom_fs").css("top", "70px");
+    
+  };
+ ZoomFullscreen.prototype._exitFullScreen = function(){
+    var container = this._map._container;
+
+    // update state
+    L.DomUtil.removeClass(container, 'leaflet-fullscreen');
+    this._isFullscreen = false;
+
+    // remove fullscreen style; make sure we're still position relative for Leaflet core.
+    container.removeAttribute('style');
+    
+    // re-apply position:relative; if user does not have it.
+    var position = L.DomUtil.getStyle(container, 'position');
+    if (position !== 'absolute' && position !== 'relative') {
+     container.style.position = 'relative';
+    }
+    
+    // 
+    $(".zoom_in,.zoom_out,.zoom_fs").css("position", "absolute");
+    $(".zoom_in").css("top", "-13px");
+    $(".zoom_out").css("top", "15px");
+    $(".zoom_fs").css("top", "43px");
+    
+
+    // remove ESC listener
+	  L.DomEvent.removeListener(document, 'keyup', this._onKeyUp);
+
+    // fire fullscreen event
+    this._map.fire('exitFullscreen');
+  };
+ ZoomFullscreen.prototype. _onKeyUp = function(e){
+    if (!e) var e = window.event;
+    if (e.keyCode === 27 && this._isFullscreen === true) {
+      this._exitFullScreen();
+    }
+  }  
+
 
 
 /**

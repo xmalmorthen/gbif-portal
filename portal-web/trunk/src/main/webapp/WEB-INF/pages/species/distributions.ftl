@@ -6,7 +6,7 @@
 </head>
 
 <body class="species">
-
+<#assign tab="info"/>
 <#assign tabhl=true />
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
 

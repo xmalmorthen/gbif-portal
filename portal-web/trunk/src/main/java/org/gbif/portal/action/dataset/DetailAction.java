@@ -15,6 +15,7 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Endpoint;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.TechnicalInstallation;
+import org.gbif.api.model.registry.geospatial.GeospatialCoverage;
 import org.gbif.api.service.registry.TechnicalInstallationService;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.Extension;
@@ -54,6 +55,8 @@ public class DetailAction extends DatasetBaseAction {
   private final List<Endpoint> metaLinks = Lists.newArrayList();
   @Nullable
   private PagingResponse<Dataset> constituents;
+  private boolean renderMaps = true; // flag controlling map article rendering or not
+
   @Inject
   private TechnicalInstallationService installationService;
 
@@ -75,6 +78,20 @@ public class DetailAction extends DatasetBaseAction {
         hostingOrganization = organizationService.get(installation.getHostingOrganizationKey());
       }
     }
+
+    // the map article is rendered only if the cube has indicated georeferenced records, or if there are
+    // coverages that are not global (they don't really warrant visualizing).
+    renderMaps = renderMaps || getNumGeoreferencedOccurrences() != null && getNumGeoreferencedOccurrences() > 0;
+    if (!renderMaps) {
+      for (GeospatialCoverage gc : dataset.getGeographicCoverages()) {
+        renderMaps = renderMaps ||
+          (gc.getBoundingBox() != null && !gc.getBoundingBox().isGlobalCoverage());
+        if (renderMaps) {
+          break; // for speed
+        }
+      }
+    }
+
     return SUCCESS;
   }
 
@@ -148,6 +165,10 @@ public class DetailAction extends DatasetBaseAction {
   @NotNull
   public Map<String, String> getResourceBundleProperties() {
     return getResourceBundleProperties("enum.rank.");
+  }
+
+  public boolean isRenderMaps() {
+    return renderMaps;
   }
 
   /**
