@@ -78,6 +78,10 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
         return getText(BASIS_OF_RECORD_KEY + filterValue);
       } else if (parameter == OccurrenceSearchParameter.DATASET_KEY) {
         return getDatasetTitle(filterValue);
+      } else if (parameter == OccurrenceSearchParameter.DATE) {
+        return getDateTitle(filterValue);
+      } else if (parameter == OccurrenceSearchParameter.BOUNDING_BOX) {
+        return getBoundingBoxTitle(filterValue);
       }
     }
     return filterValue;
@@ -88,6 +92,27 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    */
   public String getNubTaxonomyKey() {
     return Constants.NUB_TAXONOMY_KEY.toString();
+  }
+
+  /**
+   * Returns the displayable label/value of date filter.
+   */
+  private String getDateTitle(String dateValue) {
+    String label = dateValue;
+    if (dateValue.contains(",")) {
+      String[] dates = dateValue.split(",");
+      label = "FROM " + dates[0] + " TO " + dates[1];
+    }
+    return label;
+  }
+  
+  /**
+   * Returns the displayable label/value of bounding box filter.
+   */
+  private String getBoundingBoxTitle(String bboxValue) {
+    String[] coordinates = bboxValue.split(",");
+    String label = "FROM " + coordinates[0] + " TO " + coordinates[1];    
+    return label;
   }
 
 }

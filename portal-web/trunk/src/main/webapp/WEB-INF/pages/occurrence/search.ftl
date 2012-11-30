@@ -19,26 +19,16 @@
     <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/draw/leaflet.draw.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/occurrence_filters.js'/>"></script>
     <script>                 
-      var filtersFromRequest = new Object();    
+      var filtersFromRequest = new Object();   
+      function addFilters(filtersFromRequest,filterKey,filterValue,filterLabel) {
+        filtersFromRequest[filterKey].push({ label: filterLabel, value:filterValue, key: filterValue, paramName: filterKey });
+      } 
       <#if filters.keySet().size() gt 0>                   
          <#list filters.keySet() as filterKey>
             filtersFromRequest['${filterKey}'] = new Array();
            <#list filters.get(filterKey) as filterValue>
-             //the title is taken from the link that has the filterKey value as its data-filter attribute=
-             if('${filterKey}' == 'date') {
-              value ='${action.getFilterTitle(filterKey,filterValue)}'.split('/');
-              year = "";
-              month = "";
-              if(value.length > 0) {
-                year = value[0];
-              }
-              if(value.length > 1) {
-                month = value[1];
-              }              
-              filtersFromRequest['${filterKey}'].push({ title: $('a[data-filter="${filterKey}"]').attr('title'), year:year, month:month, value: '${filterValue}', paramName: '${filterKey}' });
-             } else {
-              filtersFromRequest['${filterKey}'].push({ title: $('a[data-filter="${filterKey}"]').attr('title'), value:'${action.getFilterTitle(filterKey,filterValue)}', key: '${filterValue}', paramName: '${filterKey}' });
-             }             
+             //the title is taken from the link that has the filterKey value as its data-filter attribute
+             addFilters(filtersFromRequest,'${filterKey}','${filterValue}','${action.getFilterTitle(filterKey,filterValue)}');                        
            </#list>
          </#list>
       </#if>
@@ -78,7 +68,7 @@
                 <div class="tip"></div>
                 <ul>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="TAXON_KEY"  title="Scientific name" template-filter="template-add-filter" input-classes="value species_autosuggest" class="filter-control">Scientific name</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="BBOX" title="Bounding Box" template-filter="map-template-filter" class="filter-control">Location</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="BOUNDING_BOX" title="Bounding Box" template-filter="map-template-filter" class="filter-control">Location</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="COLLECTOR_NAME" title="Collector name" template-filter="template-add-filter" input-classes="value collector_name_autosuggest" class="filter-control">Collector</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="BASIS_OF_RECORD" title="Basis Of Record" template-filter="template-basis-of-record-filter" class="filter-control">Basis of record</a></li>
                   <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="DATASET_KEY" title="Dataset" template-filter="template-add-filter" input-classes="value dataset_autosuggest" class="filter-control">Dataset</a></li>
@@ -165,9 +155,9 @@
           <h4><%= title %></h4>
             <table>
               <tr>
-                <td class="date-filter" style="border: 0px none !important;"><h4>from</h4>
-                  <span>
-                    
+                <td style="border: 0px none !important;">
+                  <span class="date-filter">
+                    <h4>from</h4>
                     <select name="monthMin" class="date-dropdown">
                       <option value="0">-</option>
                       <option value="1">January</option>
@@ -182,14 +172,13 @@
                       <option value="10">October</option>
                       <option value="11">November</option>
                       <option value="12">December</option>
-                    </select>
-                    
- 					<label for="yearMax">Year</label>
+                    </select>                    
+ 					          <label for="yearMax">Year</label>
                     <input type="text" name="yearMin" size="10" maxlength="4" style="width: 50px !important; padding: 6px !important;"/>
-                  </span>
-                </td>
-                <td class="date-filter" style="border: 0px none !important;"><h4>to</h4>
-                  
+                </span>
+                                
+                <span class="date-filter">
+                  <h4>to</h4>                  
                   <select name="monthMax" class="date-dropdown">
                     <option value="0">-</option>
                     <option value="1">January</option>
@@ -206,11 +195,15 @@
                     <option value="12">December</option>
                   </select>
 
- 				<label for="yearMax">Year</label>
+ 				          <label for="yearMax">Year</label>
                   <input type="text" name="yearMax" size="10" maxlength="4" style="width: 50px !important; padding: 6px !important;"/>
-                  <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">
+                  <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter"/>
+                </span>
                 </td>
-                <td style="border: 0px none !important;"><div class="appliedFilters"></div></td>
+                <td style="border: 0px none !important;">
+                  <h4 class="filtersTitle" style="display:none;">Filters</h4>
+                  <div class="appliedFilters filterlist" style="display:none;"></div>
+                </td>
               </tr>              
               </tr>
             </table>              
@@ -231,7 +224,7 @@
           <div class="filter">
       			<ul class="basis-of-record">
       			  <#list basisOfRecords as basisOfRecord>			    
-        				<li val="${basisOfRecord}"><a href="#">${action.getFilterTitle('basisOfRecord',basisOfRecord)}</a></li>  				
+        				<li key="${basisOfRecord}"><a href="#">${action.getFilterTitle('basisOfRecord',basisOfRecord)}</a></li>  				
         			</#list>
       			</ul>            
           </div>
@@ -257,7 +250,8 @@
                     <span style="display:none" class="erroMsg">Please enter a value</span>
                   </td>
                   <td style="border: 0px none !important;">
-                    <div class="appliedFilters" style="width:400px; overflow-y: auto;clear:both;"></div>
+                    <h4 class="filtersTitle" style="display:none;">Filters</h4>
+                    <div class="appliedFilters filterlist" style="display:none;"></div>
                   </td>                  
                 </tr>
              </table>                        
@@ -273,14 +267,14 @@
     <li id="filter-<%=paramName%>">
     <h4><%= title %></h4>
     <% _.each(filters, function(filter) { %>
-        <div class="filter"><%= filter.value %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a href="#" class="closeFilter"></a></div>        
+        <div class="filter"><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a href="#" class="closeFilter"></a></div>        
       <% }); %>            
     </li>
   </script>
   
   <script type="text/template" id="template-applied-filter">
     <li style="list-style: none;display:block;">    
-    <div><div style="float:left;"><%= value %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div><a href="#" class="closeFilter" style="float:left;"></a></div>       
+      <div><div style="float:left;" title="<%=title%>"><%= label %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div><a href="#" class="closeFilter" style="float:left;"></a></div>       
     </li>
   </script>
  
@@ -320,7 +314,8 @@
                       <br>
                       <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">                      
                       <br>                                            
-                      <div class="appliedFilters"></div>
+                      <h4 class="filtersTitle" style="display:none;">Filters</h4>
+                      <div class="appliedFilters filterlist" style="display:none;"></div>
                       <br>                      
                   </td>
                 </tr>                                 

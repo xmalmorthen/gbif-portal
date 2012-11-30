@@ -26,6 +26,12 @@
 //DEFAULT fade(in/out) time
 var FADE_TIME = 250;
 
+//Maximum size of filters label, 37 = 40 - 3 because of ... (suspensive points); so the real maximum is 40
+var MAX_LABEL_SIZE = 37;
+
+//Constant for suspensive points literal.
+var SUSPENSIVE_POINTS = "...";
+
 // This is needed as a nasty way to address http://dev.gbif.org/issues/browse/POR-365
 // The map is not correctly displayed, and requires a map.invalidateSize(); to be fired
 // After the filter div is rendered.  Because of this the map scope is public.
@@ -139,7 +145,9 @@ var OccurrenceWidget = (function ($,_) {
        * Adds a filter to the list of applied filters.
        */
       addAppliedFilter : function(filter) {
-        this.appliedFilters.push(filter);
+        if (!this.existsFilter(filter)) {
+          this.appliedFilters.push(filter);
+        }
       },
 
       /**
@@ -155,6 +163,18 @@ var OccurrenceWidget = (function ($,_) {
             widget.addFilter(this);
           });
         }
+      },
+      
+      /**
+       * Limit the size of the text to MAX_LABEL_SIZE.
+       * If the size of the text y greater than MAX_LABEL_SIZE, the size is limited to that max and suspensive points are added at the end. 
+       */
+      limitLabel: function(label) {
+        var newLabel = label;        
+        if(newLabel.length >= MAX_LABEL_SIZE){
+          newLabel = newLabel.slice(0,MAX_LABEL_SIZE) + SUSPENSIVE_POINTS;
+        }
+        return newLabel;
       },
 
       /**
@@ -172,14 +192,20 @@ var OccurrenceWidget = (function ($,_) {
           //gets the HTML template for applied filters
           var templateFilter = _.template($("#template-applied-filter").html());
           var self = this;
+          this.filterElement.find(".appliedFilters,.filtersTitle").toggle(this.appliedFilters.length > 0);
           for(var i=0; i < this.appliedFilters.length; i++) {
-            var currentFilter = this.appliedFilters[i];            
-            var newFilter = $(templateFilter({title:currentFilter.value, paramName: this.getId(), key: currentFilter.key, value: currentFilter.value}));
+            //title field used for attribute <INPU title="currentFilter.title">
+            var currentFilter = $.extend(this.appliedFilters[i], {title: this.appliedFilters[i].label, label:this.limitLabel(this.appliedFilters[i].label)});            
+            var newFilter = $(templateFilter(currentFilter));
+            if( i != this.appliedFilters.length - 1){
+              $(newFilter).append('</br>');
+            }
             //adds each applied filter to the list using the HTML template
             filtersContainer.append(newFilter);   
             //The click event of element with css class "closeFilter" handles the filter removing and applying the filters 
             newFilter.find(".closeFilter").click( function(e) {
-              self.removeFilter(currentFilter);
+              var input = $(this).parent().find(':input[name=' + self.getId() + ']');              
+              self.removeFilter({value: input.val(), key: input.attr('key'), paramName: input.attr('name')});
               self.showAppliedFilters();
             });
           }
@@ -243,17 +269,23 @@ var OccurrenceWidget = (function ($,_) {
       removeFilter :function(filter) {        
         for(var i = 0; i < this.appliedFilters.length; i++){
           if(this.appliedFilters[i].value == filter.value){
-            if(this.appliedFilters[i].key && (this.appliedFilters[i].key == filter.key)){
-              this.appliedFilters.splice(i,1);
-              this.showAppliedFilters();
-              return;
-            } else {
-              this.appliedFilters.splice(i,1);
-              this.showAppliedFilters();
-              return;
-            }
+            this.appliedFilters.splice(i,1);
+            this.showAppliedFilters();
+            return;            
           }
         }
+      },
+      
+      /**
+       * Searches a filter by its value.
+       */
+      existsFilter :function(filter) {        
+        for(var i = 0; i < this.appliedFilters.length; i++){
+          if(this.appliedFilters[i].value == filter.value){
+            return true;
+          }
+        }
+        return false;
       },
 
       /**
@@ -267,7 +299,7 @@ var OccurrenceWidget = (function ($,_) {
             //gets the value of the input field            
             var input = self.filterElement.find(":input[name=" + self.id + "]:first");                    
             var value = input.val();            
-            if (!isBlank(value)) {
+            if (!isBlank(value) && !self.existsFilter({value:value})) {
               var key = "";
               //Auto-complete widgets store the selected key in "key" attribute
               if (input.attr("key") !== undefined) {
@@ -319,7 +351,7 @@ var OccurrenceWidget = (function ($,_) {
           if (input.attr("key") !== undefined) {
             key = input.attr("key"); 
           }
-          self.addAppliedFilter({value: value, key:key});            
+          self.addAppliedFilter({label:value,value: value, key:key,paramName:self.getId()});            
           self.showAppliedFilters();
           input.val('');
         }
@@ -350,17 +382,21 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
       var monthMax = self.filterElement.find(":input[name=monthMax]:first").val();
       var yearMax  =  self.filterElement.find(":input[name=yearMax]:first").val();
       var value = "";
+      var label = "";
       if(!self.isBlank(yearMin) && monthMin != "0"){
         value = monthMin + "/" + yearMin;
+        label = value;
       }
       if(!self.isBlank(yearMax) && monthMax != "0"){
         if(!self.isBlank(value)){
-          value = value + ",";
+          label = "FROM " +  value + " TO ";
+          value = value + ",";          
         }
         value = value + monthMax + "/" + yearMax;
+        label = label + monthMax + "/" + yearMax;
       }
       if(!self.isBlank(value)) {
-        self.addAppliedFilter({value: value, monthMin: monthMin, yearMin: yearMin, monthMax: monthMax, yearMax: yearMax});
+        self.addAppliedFilter({label:label, value: value, key: '', paramName: self.getId()});
         self.showAppliedFilters();
       }
     })
@@ -376,7 +412,7 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
   }; 
   //Inherits everything from the OccurrenceWidget module.
   InnerOccurrenceLocationWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
-  
+ 
   /**
    * The bindAddFilterControl function is re-defined to validate and process the coordinates. 
    */
@@ -388,10 +424,11 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       var minLng = self.filterElement.find(":input[name=minLongitude]:first").val();
       var maxLat = self.filterElement.find(":input[name=maxLatitude]:first").val();
       var maxLng = self.filterElement.find(":input[name=maxLongitude]:first").val();
-      if(!self.isBlank(minLat) && !self.isBlank(minLng) && !self.isBlank(maxLat) && !self.isBlank(maxLng)){
-        var value = minLat + ',' + minLng + ',' + maxLat + ',' + maxLng;         
+      if(!self.isBlank(minLat) && !self.isBlank(minLng) && !self.isBlank(maxLat) && !self.isBlank(maxLng)){        
+        var value = minLat + ',' + minLng + ',' + maxLat + ',' + maxLng;
+        var label = "FROM " + minLat + ',' + minLng + ' TO ' + maxLat + ',' + maxLng;
         self.filterElement.find(":input").val('');
-        self.addAppliedFilter({value: value, key: ''});       
+        self.addAppliedFilter({label: label, value: value, key: '', paramName: self.getId()});       
         self.showAppliedFilters();
       }
     })
@@ -418,7 +455,7 @@ var OccurrenceBasisOfRecordWidget = (function ($,_,OccurrenceWidget) {
       this.filterElement.find(".basis-of-record > li").each( function() {
         $(this).removeClass("selected");
         for(var i=0; i < self.appliedFilters.length; i++) {
-          if(self.appliedFilters[i].value == $(this).val() && !$(this).hasClass("selected")) {
+          if(self.appliedFilters[i].key == $(this).attr("key") && !$(this).hasClass("selected")) {
             $(this).addClass("selected");
           }
         }
@@ -430,8 +467,13 @@ var OccurrenceBasisOfRecordWidget = (function ($,_,OccurrenceWidget) {
     if(this.filterElement != null) {
       var self = this;
       this.filterElement.find(".basis-of-record > li").click( function() {
-        self.addAppliedFilter({value:$(this).attr("val"),key:""});
-        $(this).addClass("selected");
+        if ($(this).hasClass("selected")) {
+          self.removeFilter({value:$(this).attr("key"),key:""});
+          $(this).removeClass("selected");
+        } else {
+          self.addAppliedFilter({value:$(this).attr("key"),key:""});
+          $(this).addClass("selected");
+        }
       });
     }
   };
@@ -499,7 +541,8 @@ var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
         }
         //Adds the filter to the container
         if (this.filters.length > 0) {
-          var htmlFilter  = $(this.template({title: this.filters[0].title,paramName: this.filters[0].paramName,filters: this.filters}));          
+          var filterTitle = $('a[data-filter=' +  this.filters[0].paramName + ']').attr('title');
+          var htmlFilter  = $(this.template({title: filterTitle,paramName: this.filters[0].paramName,filters: this.filters}));          
           $(filtersContainer).append(htmlFilter);
           htmlFilter.fadeIn(FADE_TIME);
           this.bindCloseEvent(htmlFilter);
@@ -583,25 +626,6 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
   };
 
   /**
-   * According to the filter name the label is adjusted for the UI.
-   */
-  function formatLabelByFilter(filter) {
-    var label = filter.label;
-    if(filter.paramName == 'date') {
-      var values = filter.value.split(',');
-      if(values.length > 0) {
-        //Date ranges use the format date1 TO Date2
-        label = values[0] + " TO " + values[1];
-      }                
-    }else if(filter.paramName == 'bbox') {
-      //Coordinates values in bounding boxes are separated by comma
-      var values = filter.value.split(',');
-      label = values[0] + ',' + values[1] + " TO " + values[2] + ',' + values[3];                
-    }
-    return label;
-  };
-
-  /**
    * Calculates visible position in the screen. The returned value of this function is used to display the "wait dialog" while a request is submitted to the server.
    */
   function getTopPosition(div) {
@@ -621,6 +645,22 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
     //Locks the screen
     $("#lock_screen").height($(document).height());
     $("#lock_screen").fadeIn("slow");
+  };
+  
+  /**
+   * Truncates a decimal value to 2 decimals length of precision.
+   */
+  function truncCoord(value) {
+    var newValue = value.toString();        
+    var values = newValue.split('.');
+    if (values.length > 1) {
+      var decimalValue = values[1];
+      if(decimalValue.length > 2) {
+        decimalValue = decimalValue.slice(0, 3);
+      }
+      newValue = values[0] + '.' + decimalValue;
+    }        
+    return newValue;
   };
 
 
@@ -671,7 +711,7 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           }else if (filterName == "CATALOG_NUMBER") {
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCatalogNumberAutosuggest});            
-          }else if (filterName == "BBOX") {
+          }else if (filterName == "BOUNDING_BOX") {
             newWidget = new OccurrenceLocationWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindMap});            
           }else if (filterName == "DATE") {
@@ -721,11 +761,12 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",4);
         });
       },
-
+      
       /**
        * Binds the catalog number  auto-suggest widget used by the BBOX widget.
        */
       bindMap : function() {
+        self = this;
         var CONFIG = { // global config var
             minZoom: 0,
             maxZoom: 14,
@@ -761,10 +802,10 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           drawnItems.clearLayers();
           drawnItems.addLayer(e.rect);
           var coords = e.rect.getLatLngs();
-          $("#minLatitude").val(coords[1].lat);
-          $("#minLongitude").val(coords[1].lng);
-          $("#maxLatitude").val(coords[3].lat);
-          $("#maxLongitude").val(coords[3].lng);                        
+          $("#minLatitude").val(truncCoord(coords[1].lat));
+          $("#minLongitude").val(truncCoord(coords[1].lng));
+          $("#maxLatitude").val(truncCoord(coords[3].lat));
+          $("#maxLongitude").val(truncCoord(coords[3].lng));                        
         });
       },
 
@@ -820,11 +861,10 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
         //The filters parameter could be null or undefined when none filter has been interpreted from the HTTP request 
         if(typeof(filters) != 'undefined' && filters != null){              
           $.each(filters, function(key,filterValues){
-            $.each(filterValues, function(idx,filter) {              
-              filter.label = formatLabelByFilter(filter);              
+            $.each(filterValues, function(idx,filter) {                                  
               var occWidget = getWidgetById(filter.paramName);
               if (occWidget != 'undefined') { //If the parameter doesn't exist avoids the initialization
-                occWidget.addAppliedFilter({key:filter.key,value:filter.value})     
+                occWidget.addAppliedFilter(filter);    
                 var filterWidget = getFilterWidgetById(filter.paramName);
                 if(filterWidget == undefined){
                   filterWidget = new OccurrenceFilterWidget(filterTemplate,self.applyOccurrenceFilters,occWidget);
