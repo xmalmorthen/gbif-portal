@@ -93,7 +93,7 @@
       <div class="featured">
         <h3>Featured story</h3>
         <a href="<@s.url value='/newsroom/news/1'/>" class="title">GBIF Finland demonstrates digitization ‘assembly line’</a>
-        <img src="<@s.url value='/img/dummies/aphdummy.jpg'/>" />
+        <img src="<@s.url value='/img/dummies/aphdummy.jpg'/>" alt="GBIF" />
         <p>The Digitarium project has built a conveyor belt system to help speed up the process of converting plant and inscts specimens into digital data.</p>
         <a href="<@s.url value='/newsroom/news/1'/>" class="read-more">Read more</a>
       </div>

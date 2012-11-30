@@ -298,7 +298,7 @@
     .fix("img, .png_bg"); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
   <![endif]-->
 
-  <!#-- keep this javascript here so we can use the s.url tag -->
+  <!-- keep this javascript here so we can use the s.url tag -->
   <script type="text/javascript">
     $(function() {
       $('nav ul li a.more').bindLinkPopover({

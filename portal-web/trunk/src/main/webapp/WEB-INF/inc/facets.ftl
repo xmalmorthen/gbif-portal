@@ -6,7 +6,7 @@ This include requires 2 arrays to be set:
 -->
 <#list facets as facetName>
   <#assign facet = action.getSearchParam(facetName)>
-  <#assign minCnt = "< " + (facetMinimumCount.get(facet)!0) />
+  <#assign minCnt = "&lt;" + (facetMinimumCount.get(facet)!0) />
   <#assign displayedFacets = 0>
   <#assign seeAll = false>
 
@@ -20,7 +20,7 @@ This include requires 2 arrays to be set:
             <#assign displayedFacets = displayedFacets + 1>
             <li>
               <a href="#" title="${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,30)}</a> (${count.count!minCnt})
-              <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" checked/>
+              <input type="checkbox" value="&amp;${facetName?lower_case}=${count.name!}" checked/>
               <input type="hidden" value="${count.name!}" class="facetKey"/>
             </li>
           </#list>
@@ -34,7 +34,7 @@ This include requires 2 arrays to be set:
             <#assign displayedFacets = displayedFacets + 1>
             <li>
               <a href="#" title="${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,30)}</a> (${count.count!minCnt})
-              <input type="checkbox" value="&${facetName?lower_case}=${count.name!}"/>              
+              <input type="checkbox" value="&amp;${facetName?lower_case}=${count.name!}"/>              
             </li>
           </#if>
         </#list>
@@ -51,7 +51,7 @@ This include requires 2 arrays to be set:
                    <ul>
                      <#list facetCounts.get(facet) as count>
                     <li>
-                    <input type="checkbox" value="&${facetName?lower_case}=${count.name!}" <#if (action.isInFilter(facet,count.name))>checked</#if>>
+                    <input type="checkbox" value="&amp;${facetName?lower_case}=${count.name!}" <#if (action.isInFilter(facet,count.name))>checked</#if>>
                      <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count!minCnt})
                     </li>
                     </#list>

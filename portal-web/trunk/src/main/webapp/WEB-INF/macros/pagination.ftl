@@ -187,8 +187,8 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
   
   <#assign html = "<ul class=\"numbered-pagination\">" + html + "</ul>"> 
   
-  <#-- output the final result -->
-  ${html}
+  <#-- output the final result, escaping all ampersands to be compliant with the HTML specification -->
+  ${html?replace("&", "&amp;")}
 
 </#macro>
 
