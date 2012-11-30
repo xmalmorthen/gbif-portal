@@ -33,7 +33,7 @@ public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
       content.findElements(By.cssSelector("#appearsin div.col li")).size());
 
     assertEquals("Expected distribution entries",
-      map.findElements(By.cssSelector("ul.notes li")).size(), 10);
+      map.findElements(By.cssSelector("ul.notes li")).size(), 6);
 
   }
 
