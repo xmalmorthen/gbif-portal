@@ -30,10 +30,6 @@
       cursor: pointer;
     }
 
-    table.metrics td.total {
-      border-left: 1px solid #e0e0e0;
-    }
-
     table.metrics td.nonGeo {
       text-align: right;
     }
@@ -43,23 +39,17 @@
     }
   </style>
   <content tag="extra_scripts">
-    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.waitforimages.min.js'/>"></script>
-  
     <script>
       $(document).ready(function() {
         <#-- 
           Bind the divs to load on AJAX calls.
-          This spawns a LOT of AJAX calls, so we wait for all images to load first, so that the page
-          renders nicely first.
+          For performance, we first determine which kingdoms have content, then load them all
         -->
-        $('body').waitForImages(function() {
-          $('table.metrics div').each(function() {
-            var target = $(this);
-            refresh(target);
-          });
+        $('table.metrics td.total div').each(function() {
+          refresh($(this), true);
         });
         
-        function refresh(target) {
+        function refresh(target, nest) {
           var $target = $(target);
           
           // always add the datasetKey to the cube address
@@ -79,6 +69,17 @@
           }
           $.getJSON(cfg.wsMetrics + 'occurrence/count' + address + '&callback=?', function (data) {
             $(target).html(data);
+            if (nest && data!=0) {
+              // load the rest of the row
+              $target.closest('tr').find('div').each(function() {
+                refresh($(this), false);
+              });
+            } else if (nest) {
+              // set the rest of the row to 0
+              $target.closest('tr').find('div').each(function() {
+                $(this).html("0");
+              });
+            }
           });
         }
         
@@ -112,7 +113,7 @@
 								<th colspan="2" width="9%">Observation</th>
 								<th colspan="2" width="9%">Fossil</th>
 								<th colspan="2" width="9%">Living</th>
-								<th  colspan="2" width="9%" class='total'>Total</th>
+								<th colspan="2" width="9%" class='total'>Total</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -126,7 +127,7 @@
 								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
 								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
 								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" class='total'><div>-</div></td>
+								<td class="nonGeo total" width="9%"><div>-</div></td>
 								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
 							</tr>
 							<tr data-kingdom="2">
@@ -139,7 +140,7 @@
 								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
 								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
 								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" class='total'><div>-</div></td>
+								<td class="nonGeo total" width="9%"><div>-</div></td>
 								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
 							</tr>
 							<tr data-kingdom="3">
@@ -152,7 +153,7 @@
 								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
 								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
 								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" class='total'><div>-</div></td>
+								<td class="nonGeo total" width="9%"><div>-</div></td>
 								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
 							</tr>
 							<tr data-kingdom="4">
@@ -165,7 +166,7 @@
 								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
 								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
 								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" class='total'><div>-</div></td>
+								<td class="nonGeo total" width="9%"><div>-</div></td>
 								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
 							</tr>
 							<tr data-kingdom="5">
@@ -178,7 +179,7 @@
 								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
 								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
 								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" class='total'><div>-</div></td>
+								<td class="nonGeo total" width="9%"><div>-</div></td>
 								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
 							</tr>
 							<tr data-kingdom="6">
@@ -191,7 +192,7 @@
 								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
 								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
 								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" class='total'><div>-</div></td>
+								<td class="nonGeo total" width="9%"><div>-</div></td>
 								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
 							</tr>
 							<tr data-kingdom="7">
@@ -204,7 +205,7 @@
 								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
 								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
 								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" class='total'><div>-</div></td>
+								<td class="nonGeo total" width="9%"><div>-</div></td>
 								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
 							</tr>
 							<tr data-kingdom="8">
@@ -217,7 +218,7 @@
 								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
 								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
 								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" class='total'><div>-</div></td>
+								<td class="nonGeo total" width="9%"><div>-</div></td>
 								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
 							</tr>
 							<tr data-kingdom="0">
@@ -230,7 +231,7 @@
 								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
 								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
 								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" class='total'><div>-</div></td>
+								<td class="nonGeo total" width="9%"><div>-</div></td>
 								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
 							</tr>          
 							<tr class='total'>
@@ -243,7 +244,7 @@
 								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
 								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
 								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" class='total'><div>-</div></td>
+								<td class="nonGeo total" width="9%"><div>-</div></td>
 								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
 							</tr>
 						</tbody>
