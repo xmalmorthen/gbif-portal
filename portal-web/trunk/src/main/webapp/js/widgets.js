@@ -213,19 +213,14 @@ var GOD = (function() {
   var debug = false;
 
   function unsubscribe(event) {
-    debug && console.log("Unsubscribe ->", event);
     delete subscribers[event];
   }
 
   function subscribe(event) {
-    debug && console.log("Subscribe ->", event);
-
     subscribers[event] = event
   }
 
   function _signal(event) {
-    debug && console.log("Signal to ", event);
-
     $(window).trigger(event);
     unsubscribe(event);
   }

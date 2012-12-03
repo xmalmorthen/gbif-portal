@@ -16,19 +16,14 @@ import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
 import org.gbif.api.service.checklistbank.NameUsageSearchService;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
-import org.gbif.api.vocabulary.Language;
 import org.gbif.portal.action.BaseFacetedSearchAction;
-import org.gbif.portal.model.VernacularLocaleComparator;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 /**
@@ -60,15 +55,18 @@ public class SearchAction
   }
 
 
-  private void distinctVernacularNames(List<VernacularName> vernacularNames) {
+  /**
+   * Removes all vernacular names from the given list which are not highlighted, ie matching the query.
+   * @param vernacularNames
+   */
+  private void filterVernacularMatches(List<VernacularName> vernacularNames) {
     Iterator<VernacularName> iter = vernacularNames.iterator();
-    Set<String> names = Sets.newHashSet();
     while (iter.hasNext()) {
       VernacularName vn = iter.next();
-      if (vn.getVernacularName() == null || names.contains(vn.getVernacularName().toLowerCase())) {
+      if (vn.getVernacularName() == null || (!isHighlightedText(vn.getVernacularName())
+           && !vn.getVernacularName().equalsIgnoreCase(Strings.nullToEmpty(q)))) {
         iter.remove();
       }
-      names.add(vn.getVernacularName().toLowerCase());
     }
   }
 
@@ -77,12 +75,9 @@ public class SearchAction
 
     super.execute();
 
-    // order vernacular names by current locale
-    VernacularLocaleComparator comparator = new VernacularLocaleComparator(Language.fromIsoCode(getLocale().getISO3Language()));
+    // remove all common names not matching the query
     for (NameUsageSearchResult u : searchResponse.getResults()) {
-      Collections.sort(u.getVernacularNames(), comparator);
-      // distinct vernacular names by name alone
-      distinctVernacularNames(u.getVernacularNames());
+      filterVernacularMatches(u.getVernacularNames());
     }
 
     // replace higher taxon ids in facets with real names
@@ -115,14 +110,6 @@ public class SearchAction
   public boolean getShowAccordingTo() {
     return !searchRequest.getParameters().containsKey(NameUsageSearchParameter.DATASET_KEY)
       || searchRequest.getParameters().get(NameUsageSearchParameter.DATASET_KEY).size() != 1;
-  }
-
-
-  private String getEnumTitle(String resourceEntry, String value) {
-    if (Strings.isNullOrEmpty(value)) {
-      return null;
-    }
-    return getText("enum." + resourceEntry + "." + value);
   }
 
   private String getBooleanTitle(String resourceEntry, String value) {

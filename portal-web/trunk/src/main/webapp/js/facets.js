@@ -44,8 +44,6 @@
     	});
     	$('input',thisLi).click( function(event){    		
     		var location = cfg.currentUrl;
-        console.log(location);
-        console.log(cfg);
     		$('.facet input:checkbox').each(function(){
           $(this).attr('disabled','true');
         });
@@ -79,7 +77,6 @@
       var facetValue  = span.attr("val");
       $("a", this).click(function(event) {
         event.preventDefault();
-        console.log(facetFilter, facetValue);
         removeFacet(facetFilter, facetValue);
       });
 	  });

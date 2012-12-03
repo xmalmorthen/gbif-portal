@@ -106,9 +106,6 @@ $(function() {
 /////////////////////
 function generateCountryMarkers(features) {
 
-  console.log("generando markers de countries");
-
-
   // allow testing of specific renderers via "?renderer=Canvas", etc
   var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
   renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;

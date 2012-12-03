@@ -59,21 +59,17 @@
     // Loads and stores the data from ajax using a synchronous call (hence not the $json method)
     _loadData: function(url) {
       var that = this;
-      console.log("Loading JSON from " + url);
       $.ajax({
         type: 'GET', url: url, async: false, dataType: 'json',
         success: function(data) { 
-          console.log("Loaded JSON from " + url);
-          that.data = data; 
+          that.data = data;
         }, 
       });  
     },
 
     // Renders the subject selector and broadcasts the changed event
     _renderSubjectSelector: function() {
-      console.log("Setting up the subject selector");
       var that = this;
-      console.log("Reading JSON to populate subject selector");      
       var el = $('<SELECT/>').addClass("subject");
       that.subjectSelect = el;  // to be accessible from other methods
       $.each(that.data.filters, function () {
@@ -88,7 +84,6 @@
         $.each(that.data.filters, function (i, filter) {    
           $.each(this.options, function (i2, filter) {
             if ($(el,"option:selected").val() == filter.name) {
-              console.log("Detected subject change to " + el.val());
               that._setSubject(el.val());
               that._setSubjectId(filter.id);
               that._setPredicate(null);
@@ -109,7 +104,6 @@
 
     // utility to allow this to be called from various places
     _fireAddFilter: function() {
-      console.log("Firing the addFilter event");
       this._trigger('addFilter', null, {filter : this.filter});
     },
 
@@ -136,7 +130,6 @@
 
     // Renders the filter calling the renderer by name using bracket notation i.e. ['name']()
     _renderFilter: function(filter) {
-      console.log("Rendering filter: " + filter.renderer);
       this.filterContainer[filter.renderer]({parent:this, data:filter.data});
     },
 
@@ -152,7 +145,6 @@
 
         if (subjectId != null && predicateId != null && value != null) {
           // we have a filter from the URL
-          console.log(subjectId + ": " + predicateId + ": " + value);
 
           // find the appropriate filter to get the displayable info
           // this iterates groups (Taxonomy, Geospatial etc)
@@ -179,7 +171,6 @@
                   that._setValue(splitValue[0]);
                   that._setMaxValue(splitValue[1]);
                 }
-                console.log(subjectId + ": " + predicateId + ": " + value);
                 that._fireAddFilter();
               }
             });
@@ -361,7 +352,6 @@
       }
       
       input.bind('change', function(e) {
-        console.log("Filter value changed to " + e.target.value);
         that._setValue(e.target.value,isMaxValue,parent);
       });    
 
@@ -398,7 +388,6 @@
       var data = this.options.data;
       var divExpression = this._getOrCreateExpressionContainer(parent.filterContainer);
 
-      console.log("Rendering SimpleSelect");      
       var el = $('<SELECT/>').addClass("predicate");
       this.predicate = el;
       $.each(data.predicate, function () {
@@ -444,9 +433,6 @@
       var parent = this.options.parent; // the owning widget
       var data = this.options.data;
       var divExpression = this._getOrCreateExpressionContainer(parent.filterContainer);
-      
-      
-      console.log("Rendering SelectSelect");
       var el = $('<SELECT />').addClass("predicate");
       this.predicate = el;
       
@@ -561,7 +547,6 @@
       };
       // Creates a drawing manager attached to the map that allows the user to draw
       // markers, lines, and shapes.
-      console.log("Adding drawing manager");
       var drawingManager = new google.maps.drawing.DrawingManager({
         drawingMode: google.maps.drawing.OverlayType.POLYGON,
         markerOptions: {

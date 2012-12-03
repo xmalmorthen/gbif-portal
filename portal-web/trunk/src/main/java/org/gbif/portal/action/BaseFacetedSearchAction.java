@@ -274,4 +274,11 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
   public Map<UUID, String> getTitles() {
     return titles;
   }
+
+  protected String getEnumTitle(String resourceEntry, String value) {
+    if (Strings.isNullOrEmpty(value)) {
+      return null;
+    }
+    return getText("enum." + resourceEntry + "." + value);
+  }
 }

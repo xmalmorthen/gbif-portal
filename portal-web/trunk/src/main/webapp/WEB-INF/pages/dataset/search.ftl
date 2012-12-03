@@ -50,24 +50,28 @@
 
       <div class="left">
       <#list searchResponse.results as dataset>
-        <div class="result searchResult">
+        <div class="result">
+          <h3><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/></h3>
+
           <h2>
-            <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${action.removeHighlighting(dataset.title!)}"><strong>${action.limitHighlightedText(dataset.title!, 125)}</strong></a>
+            <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${action.removeHighlighting(dataset.title!)}"><strong>${action.limitHighlightedText(dataset.title!, 80)}</strong></a>
           </h2>
 
-          <p><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/> 
-            <#if recordCounts.get(dataset.key)??>
-              with ${recordCounts.get(dataset.key)} records.
-            </#if>
-          </p>
+          <#if dataset.owningOrganizationKey?has_content>
+            <p>
+              <#if recordCounts.get(dataset.key)??>
+                ${recordCounts.get(dataset.key)} records published by
+              <#else>
+                Published by
+              </#if>
+              <a href="<@s.url value='/organization/${dataset.owningOrganizationKey}'/>" title="${action.removeHighlighting(dataset.owningOrganizationTitle!)}">${dataset.owningOrganizationTitle!"Unknown"}</a></p>
+          <#elseif dataset.networkOfOriginKey?has_content>
+            <p>Originates from <a href="<@s.url value='/network/${dataset.networkOfOriginKey}'/>" title="${action.removeHighlighting(titles[dataset.networkOfOriginKey]!)}">${titles[dataset.networkOfOriginKey]!"Unknown"}</a></p>
+          </#if>
 
           <div class="footer">
-            <#if dataset.owningOrganizationKey?has_content>
-              <p>Published by <a href="<@s.url value='/organization/${dataset.owningOrganizationKey}'/>" title="${action.removeHighlighting(dataset.owningOrganizationTitle!)}">${dataset.owningOrganizationTitle!"Unknown"}</a></p>
-            <#elseif dataset.networkOfOriginKey?has_content>
-              <p>Originates from <a href="<@s.url value='/network/${dataset.networkOfOriginKey}'/>" title="${action.removeHighlighting(titles[dataset.networkOfOriginKey]!)}">${titles[dataset.networkOfOriginKey]!"Unknown"}</a></p>
-            </#if>
           </div>
+
         </div>
       </#list>
 

@@ -1995,11 +1995,6 @@ body.register footer {
     hyphens: auto;
   }
 
-  .taxonomic_class {
-    clear: both;
-    overflow: hidden;
-  }
-
   ul.taxonomy {
     display: inline-block;
     clear: both;
@@ -2017,7 +2012,9 @@ body.register footer {
         background: none;
       }
 
-      li:last-child { background: none; }
+      li:last-child {
+        background: none;
+      }
     }
   }
 
@@ -2625,9 +2622,103 @@ body.register footer {
 }
 
 // Results
-
 #content  article.results {
   .content {
+
+    .result {
+      clear: both;
+      overflow: hidden;
+      margin: 0 0 12px 0;
+      border-bottom: 1px solid @cGray5;
+
+      h3 {
+        margin: 0 0 2px 0;
+        color: @cGray4;
+        font-family: Arial;
+        font-size: 15px;
+        font-weight: normal;
+        span {
+          text-transform: none;
+          color: @cGray3;
+        }
+      }
+      h2 {
+        margin: 0 0 0px 0;
+        font-family: "Arial", "Helvetica", sans-serif;
+        font-size: 19px;
+        font-weight: bold;
+        letter-spacing: -1px;
+        a {
+          font-family: "Arial", "Helvetica", sans-serif;
+          font-size: 19px;
+          font-weight: normal;
+          letter-spacing: -1px;
+          strong {
+            font-weight: bold;
+            color: @cLink;
+          }
+        }
+        span.note {
+          color: @cGray4;
+          font-weight: normal;
+          font-size: 15px;
+        }
+      }
+
+      .gbifHl {
+        text-decoration: underline;
+      }
+
+      p {
+        margin-bottom: 1px;
+        font-size: 14px;
+      }
+
+      &:last-child {
+        margin-bottom: 24px;
+      }
+
+      ul {
+        padding: 0;
+        margin: 0;
+        li {
+          padding: 0 6px 0 0;
+        }
+      }
+
+      .footer {
+        position: relative;
+        overflow: hidden;
+        width: auto;
+        height: auto;
+        bottom: auto;
+        font-size: 14px;
+        color: @cGray4;
+        background: none;
+        padding: 0;
+        margin: 0 0 20px 0;
+        font-weight: normal;
+        //font-family: Arial;
+        .gbifHl {
+          color: @cGray2;
+        }
+
+        a {
+          font-size: 14px;
+        }
+
+        p {
+          color: @cGray4;
+        }
+
+        .pagination {
+          float: right;
+          margin-right: 10px;
+          color: @cGray4;
+          line-height: 40px;
+        }
+      }
+    }
 
     .right {
 
@@ -2685,178 +2776,7 @@ body.register footer {
           margin-bottom: 2px;
           text-decoration: none;
         }
-
       }
-    }
-
-    .module_footer {
-      margin: 25px 0 10px 0;
-      a {
-        font-size: 15px;
-      }
-    }
-
-    .result:last-child { margin-bottom: 24px; }
-
-    .result {
-      clear: both;
-      overflow: hidden;
-      margin: 0 0 12px 0;
-      border-bottom: 1px solid #cGray5;
-
-      h2 {
-        margin: 0 0 0px 0;
-        font-family: "Arial", "Helvetica", sans-serif;
-        font-size: 19px;
-        font-weight: bold;
-        letter-spacing: -1px;
-        a {
-          font-family: "Arial", "Helvetica", sans-serif;
-          font-size: 19px;
-          font-weight: normal;
-          letter-spacing: -1px;
-          strong {
-            font-weight: bold;
-            color: @cLink;
-          }
-        }
-      }
-
-      span.note {
-        margin: 0 0 0 10px;
-        font-family: Arial;
-        font-size: 15px;
-        font-weight: normal;
-        color: @cGray4;
-      }
-
-      p {
-        margin-bottom: 1px;
-        font-size: 13px;
-      }
-
-      .last {
-        margin-bottom: 24px;
-      }
-
-      .footer {
-        position: relative;
-        width: auto;
-        height: auto;
-        margin-bottom: 20px;
-        background: none;
-        margin-top: 0px;
-        color: @cGray2;
-
-        a { font-size: 13px; }
-
-        ul {
-          padding: 0;
-          margin: 0;
-
-          li {
-            background: url("../img/icons/tiny_line.png") no-repeat right;
-            overflow: hidden;
-            float: left;
-            margin: 0 6px 0 0;
-            padding: 0 6px 0 0;
-            font-size: 13px;
-            color: @cGray2;
-
-            li:last-child {
-              background: none;
-            }
-          }
-
-          li.last {
-            background: none;
-          }
-
-        }
-
-        ul.taxonomy {
-          li {
-            padding: 0 12px 0 0;
-            background: url("../img/icons/arrow_small_right.png") no-repeat right;
-            li:last-child {
-              background: none;
-            }
-          }
-          li.last {
-            background: none;
-          }
-        }
-      }
-
-      ul.taxonomy { margin: 0; }
-
-    }
-
-
-    .result_summary {
-      margin-bottom: 15px;
-      border-bottom: 1px solid @cGray4;
-
-      .maptype {
-        display: none;
-      }
-
-      #map_canvas {
-        margin: 0 0 20px 0;
-        width: 600px;
-        height: 160px;
-      }
-
-      .sort {
-        float: right;
-        top: -35px;
-        margin-right: 10px;
-        font-size: 15px;
-      }
-
-      .temporal_coverage {
-        display: inline-block;
-        width: 293px;
-      }
-
-      .geographic_coverage {
-        display: inline-block;
-        width: 293px;
-      }
-
-      #map {
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-      }
-
-      .taxonomic_coverage {
-        margin-bottom: 30px;
-        .placeholder {
-          background: red;
-          height: 00px;
-          margin-bottom: 200px;
-        }
-      }
-    }
-
-    .footer {
-      position: relative;
-      overflow: hidden;
-      bottom: auto;
-      width: auto;
-      height: auto;
-      background: none;
-      padding: 0;
-
-      .pagination {
-        float: right;
-        margin-right: 10px;
-        color: @cGray4;
-        line-height: 40px;
-      }
-
     }
   }
 }
@@ -4406,12 +4326,6 @@ div.uploader {
 
 }
 
-em.gbifHl {
-  background: none repeat scroll 0 0 #FFFF00 !important;
-  font-weight: bold !important;
-  font-style: italic !important;
-}
-
 .selectedSeparator {
   border: 1px dashed #EEEEEE;
 }
@@ -4487,31 +4401,6 @@ em.gbifHl {
     color:    @cGray1;
     opacity: .5;
     font-size:15px;
-  }
-}
-
-#content article.results .content .left {
-
-  ul.results  {
-
-    list-style: none!mportant;
-
-    li {
-      background: none;
-      padding: 0; margin: 0;
-      font-size: 17px;
-      color: @cGray2;
-
-      .code {
-        color: @cGray4;
-        font-size: 13px;
-      }
-
-      .footer {
-        color: @cGray3;
-        font-size: 13px;
-      }
-    }
   }
 }
 

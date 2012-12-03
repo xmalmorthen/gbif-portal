@@ -58,8 +58,6 @@ $(function() {
     // Density Maps use the tile-server to overlay tiles
     if ($('body').hasClass('densitymap')) {
 
-      console.log("Rendering map key[" + key + "], type[" + type + "]");
-
       var
       key        = $("#map").attr("key"),
       type       = $("#map").attr("type"),
@@ -165,8 +163,6 @@ $(function() {
       
 
     } else if ($('body').hasClass('pointmap')) {
-
-      console.log("Rendering pointmap");
 
       var map = L.map('map', {
         center: CONFIG.center,

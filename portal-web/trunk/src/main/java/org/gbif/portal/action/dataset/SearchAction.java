@@ -41,6 +41,7 @@ public class SearchAction
   private final NetworkService networkService;
   private Function<String, String> getOrgTitle;
   private Function<String, String> getNetworkTitle;
+  private Function<String, String> getDatasetTypeTitle;
   private final CubeService occurrenceCube;
   private final DatasetMetricsService checklistMetricsService;
 
@@ -89,8 +90,15 @@ public class SearchAction
         return null;
       }
     };
-  }
 
+    getDatasetTypeTitle = new Function<String, String>() {
+
+      @Override
+      public String apply(String name) {
+        return getEnumTitle("datasettype", name);
+      }
+    };
+  }
 
   @Override
   public String execute() {
@@ -99,6 +107,7 @@ public class SearchAction
     lookupFacetTitles(DatasetSearchParameter.HOSTING_ORG, getOrgTitle);
     lookupFacetTitles(DatasetSearchParameter.OWNING_ORG, getOrgTitle);
     lookupFacetTitles(DatasetSearchParameter.NETWORK_ORIGIN, getNetworkTitle);
+    lookupFacetTitles(DatasetSearchParameter.TYPE, getDatasetTypeTitle);
 
     // populate counts
     for (DatasetSearchResult dsr : getSearchResponse().getResults()) {
