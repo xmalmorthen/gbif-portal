@@ -104,8 +104,20 @@
         <p>
           <em>Note</em>: The numbers in brackets represent records that are georeferenced (i.e. with coordinates).
         </p>
-				<p>      
-					<table class='metrics'>
+
+        <p>
+          <#macro kingdomRow kingdom usageId="" class="">
+            <tr <#if usageId?has_content>data-kingdom="${usageId}"</#if> <#if class?has_content>class="${class}"</#if> >
+              <td width="10%">${kingdom}</td>
+              <#list ["PRESERVED_SPECIMEN", "OBSERVATION", "FOSSIL_SPECIMEN", "LIVING_SPECIMEN"] as bor>
+                <td class="nonGeo" width="9%" data-bor="${bor}"><div>-</div></td>
+                <td width="9%" data-bor="${bor}">(<div class="geo">-</div>)</td>
+              </#list>
+              <td class="nonGeo total" width="9%" class='total'><div>-</div></td>
+              <td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
+            </tr>
+          </#macro>
+          <table class='metrics'>
 						<thead>
 							<tr>
 								<th width="10%"/>
@@ -117,47 +129,11 @@
 							</tr>
 						</thead>
 						<tbody>
-            <#list ["Animalia", "Archaea", "Bacteria", "Chromista", "Fungi", "Plantae", "Protozoa", "Viruses"] as bor>
-              <tr data-kingdom="${bor_index + 1}">
-                <td width="10%">${bor}</td>
-                <td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
-                <td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
-                <td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
-                <td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
-                <td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
-                <td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
-                <td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
-                <td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-                <td class="nonGeo total" width="9%" class='total'><div>-</div></td>
-                <td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-              </tr>
+            <#list ["Animalia", "Archaea", "Bacteria", "Chromista", "Fungi", "Plantae", "Protozoa", "Viruses"] as k>
+              <@kingdomRow kingdom=k usageId=k_index+1 />
             </#list>
-							<tr data-kingdom="0">
-								<td>Unknown</td>
-								<td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
-								<td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo total" width="9%"><div>-</div></td>
-								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-							</tr>          
-							<tr class='total'>
-								<td>Total</td>
-								<td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
-								<td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo total" width="9%"><div>-</div></td>
-								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-							</tr>
+            <@kingdomRow kingdom="Unknown" usageId=0 />
+            <@kingdomRow kingdom="Total" class="total"/>
 						</tbody>
 					</table>
 				</p>
