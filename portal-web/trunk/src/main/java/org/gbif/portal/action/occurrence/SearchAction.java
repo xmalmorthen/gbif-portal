@@ -105,13 +105,13 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     }
     return label;
   }
-  
+
   /**
    * Returns the displayable label/value of bounding box filter.
    */
   private String getBoundingBoxTitle(String bboxValue) {
     String[] coordinates = bboxValue.split(",");
-    String label = "FROM " + coordinates[0] + " TO " + coordinates[1];    
+    String label = "FROM " + coordinates[0] + " TO " + coordinates[1];
     return label;
   }
 

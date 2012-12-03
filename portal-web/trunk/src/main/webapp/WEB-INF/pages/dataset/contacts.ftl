@@ -30,7 +30,7 @@
 
       <div class="header">
         <div class="left">
-          <h2>Contacts for "${dataset.title!}"</h2>
+          <h2>Contacts</h2>
         </div>
       </div>
 

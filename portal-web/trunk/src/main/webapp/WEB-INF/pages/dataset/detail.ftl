@@ -334,7 +334,8 @@
         <#assign coverage><#list dataset.geographicCoverages as geo>${geo.description!}</#list></#assign>
         <#if coverage?has_content>
           <h3>Description</h3>
-          <p><@common.limitWithLink text=coverage max=200 link="#"/></p>
+          <#assign coverageUrl><@s.url value='/dataset/${id!}/geographicCoverage'/></#assign>
+          <p><@common.limitWithLink text=coverage max=200 link=coverageUrl/></p>
         </#if>
         <h3>About</h3>
 				<p>        
