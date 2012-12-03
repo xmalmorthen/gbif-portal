@@ -117,110 +117,21 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr data-kingdom="1">
-								<td width="10%">Animalia</td>
-								<td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
-								<td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo total" width="9%"><div>-</div></td>
-								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-							</tr>
-							<tr data-kingdom="2">
-								<td>Archaea</td>
-								<td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
-								<td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo total" width="9%"><div>-</div></td>
-								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-							</tr>
-							<tr data-kingdom="3">
-								<td>Bacteria</td>
-								<td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
-								<td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo total" width="9%"><div>-</div></td>
-								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-							</tr>
-							<tr data-kingdom="4">
-								<td>Chromista</td>
-								<td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
-								<td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo total" width="9%"><div>-</div></td>
-								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-							</tr>
-							<tr data-kingdom="5">
-								<td>Fungi</td>
-								<td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
-								<td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo total" width="9%"><div>-</div></td>
-								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-							</tr>
-							<tr data-kingdom="6">
-								<td>Plantae</td>
-								<td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
-								<td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo total" width="9%"><div>-</div></td>
-								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-							</tr>
-							<tr data-kingdom="7">
-								<td>Protozoa</td>
-								<td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
-								<td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo total" width="9%"><div>-</div></td>
-								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-							</tr>
-							<tr data-kingdom="8">
-								<td>Viruses</td>
-								<td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
-								<td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
-								<td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
-								<td class="nonGeo total" width="9%"><div>-</div></td>
-								<td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-							</tr>
+            <#list ["Animalia", "Archaea", "Bacteria", "Chromista", "Fungi", "Plantae", "Protozoa", "Viruses"] as bor>
+              <tr data-kingdom="${bor_index + 1}">
+                <td width="10%">${bor}</td>
+                <td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
+                <td width="9%" data-bor="PRESERVED_SPECIMEN">(<div class="geo">-</div>)</td>
+                <td class="nonGeo" width="9%" data-bor="OBSERVATION"><div>-</div></td>
+                <td width="9%" data-bor="OBSERVATION">(<div class="geo">-</div>)</td>
+                <td class="nonGeo" width="9%" data-bor="FOSSIL_SPECIMEN"><div>-</div></td>
+                <td width="9%" data-bor="FOSSIL_SPECIMEN">(<div class="geo">-</div>)</td>
+                <td class="nonGeo" width="9%" data-bor="LIVING_SPECIMEN"><div>-</div></td>
+                <td width="9%" data-bor="LIVING_SPECIMEN">(<div class="geo">-</div>)</td>
+                <td class="nonGeo total" width="9%" class='total'><div>-</div></td>
+                <td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
+              </tr>
+            </#list>
 							<tr data-kingdom="0">
 								<td>Unknown</td>
 								<td class="nonGeo" width="9%" data-bor="PRESERVED_SPECIMEN"><div>-</div></td>
