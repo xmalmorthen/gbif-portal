@@ -181,23 +181,13 @@ $(function() {
     $(this).parent().removeClass("focus");
   });
 
-  var processes = {
-    dates:[
-      {start:"2011-1-1", end: "2011-2-11", title: "123 - HARVESTING ", message:"<a href='/members/process_detail.html'>235 issues</a>"},
-      {start:"2011-3-1", title: "123 - HARVESTING ", message:"<a href='/members/process_detail.html'>235 issues</a>"},
-      {start:"2011-4-1", end:"2011-4-25", title: "123 - HARVESTING ", message:"<a href='/members/process_detail.html'>235 issues</a>"},
-      {start:"2011-5-1", title: "123 - HARVESTING ", message:"<a href='/members/process_detail.html'>235 issues</a>"},
-      {start:"2011-6-1", title: "123 - HARVESTING ", message:"No processes"},
-      {start:"2011-7-1", title: "123 - HARVESTING ", message:"No processes"},
-      {start:"2011-8-1", title: "123 - HARVESTING ", message:"No processes"}
-      ]};
 
-      if ($("#holder").length) {
-        dataHistory.initialize(generateRandomValues(365), {height: 180, processes: processes});
-        dataHistory.show();
-      }
+  if ($("#holder").length) {
+    dataHistory.initialize(generateRandomValues(365), {height: 180, processes: processes});
+    dataHistory.show();
+  }
 
-      // wrapper to use for i18n in JQuery. See README file for how to use it.
-      $i18nresources = $.getResourceBundle("resources");
+  // wrapper to use for i18n in JQuery. See README file for how to use it.
+  $i18nresources = $.getResourceBundle("resources");
 
 })
