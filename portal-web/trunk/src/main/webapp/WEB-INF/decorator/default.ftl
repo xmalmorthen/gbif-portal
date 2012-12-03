@@ -12,9 +12,7 @@
  / /_/ / /_/ // // __/    / /_/ / /_/ / /_/ /_/ /  / ____/ /_/ / /  / /_/ /_/ / /
  \____/_____/___/_/      /_____/\__,_/\__/\__,_/  /_/    \____/_/   \__/\__,_/_/
 -->
-<html version="HTML+RDFa 1.1" class="no-js" lang="en"
-      xmlns="http://www.w3.org/1999/xhtml"
-        >
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <!--<![endif]-->
 <head>
   <meta charset="utf-8">
@@ -96,7 +94,7 @@
       ${page.properties["page.logo_header"]}
     <#else>
       <div id="logo">
-        <a href="<@s.url value='/'/>" class="logo"><img src="<@s.url value='/img/header/logo.png'/>"/></a>
+        <a href="<@s.url value='/'/>" class="logo"><img src="<@s.url value='/img/header/logo.png'/>" alt="GBIF"/></a>
 
         <h1><a href="<@s.url value='/'/>" title="GBIF.ORG">GBIF.ORG</a></h1>
         <span>Free and open access to biodiversity data</span>

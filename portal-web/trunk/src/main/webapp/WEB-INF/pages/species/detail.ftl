@@ -227,7 +227,7 @@
   <#if usage.images?has_content>
     <#assign img=usage.images[0]>
     <div class="species_image">
-      <a href="#images" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}"/></span></a>
+      <a href="#images" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}" alt=""/></span></a>
     </div>
   </#if>
 
@@ -270,7 +270,7 @@
 <@common.article id="taxonomy" title="Subordinate Taxa" titleRight="Classification" class="taxonomies">
     <div class="left">
       <div id="taxonomicChildren">
-        <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif"></div>
+        <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif" alt=""></div>
         <div class="inner">
           <div class="sp">
             <ul>
@@ -332,7 +332,7 @@
         <p>
           <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180'/>">All records</a>
           |
-          <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180'/>">In viewable area</a></li>
+          <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180'/>">In viewable area</a>
         </p>
         <#if (usage.distributions?size>0)>
           <h3>Distributions</h3>

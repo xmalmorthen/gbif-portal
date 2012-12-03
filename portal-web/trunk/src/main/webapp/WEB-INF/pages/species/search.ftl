@@ -159,7 +159,7 @@
         <h3>Processing request</h3>
 
         <div>Wait while your request is processed...
-          <img src="<@s.url value='/img/ajax-loader.gif'/>" alt=""/></p>
+          <img src="<@s.url value='/img/ajax-loader.gif'/>" alt=""/>
         </div>
       </div>
     </div>

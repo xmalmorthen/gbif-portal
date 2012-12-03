@@ -99,9 +99,9 @@
 		  <div class="content" >
 		    <h3>Processing request</h3>
 		    <p>Wait while your request is processed...
-		    <img src="<@s.url value='/img/ajax-loader.gif'/>"/></p>
-		 </div>
-	 </div>
+		    <img src="<@s.url value='/img/ajax-loader.gif'/>" alt=""/>
+		  </div>
+	  </div>
    </div>
 </body>
 </html>

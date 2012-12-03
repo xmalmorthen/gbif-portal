@@ -284,7 +284,7 @@
         <li spid="-1" cid="${id}"><a href="#">All</a></li>
       </ul>
     </div>
-    <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif"></div>
+    <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif" alt=""></div>
     <div class="inner">
       <div class="sp">
         <ul>

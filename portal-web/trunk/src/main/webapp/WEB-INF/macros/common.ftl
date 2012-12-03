@@ -209,7 +209,7 @@
   <div class="content">
     <h3>${title!}</h3>
     <#nested>
-    <img id="notice_icon" src="<@s.url value='/img/icons/notice_icon.png'/>"/>
+    <img id="notice_icon" src="<@s.url value='/img/icons/notice_icon.png'/>" alt=""/>
   </div>
   <footer></footer>
 </article>
