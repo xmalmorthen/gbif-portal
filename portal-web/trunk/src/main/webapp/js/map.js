@@ -151,7 +151,18 @@ $(function() {
         var scrollPosition = html.data('scroll-position');
         html.css('overflow', html.data('previous-overflow'));
         window.scrollTo(scrollPosition[0], scrollPosition[1]);  
-      });      
+      });
+      
+      // modify the "view all records in visibile area" with the bounds of the map
+      $('.viewableAreaLink').bind('click', function(e) {
+        var target = $(this).attr("href");
+        var bounds=map.getBounds();
+        var sw=bounds.getSouthWest(); // south west
+        var ne=bounds.getNorthEast();
+        
+        $(this).attr("href", target + "&BOUNDING_BOX=" + ne.lat  + "," + sw.lng + "," + sw.lat +"," + ne.lng );        
+      });
+      
 
     } else if ($('body').hasClass('pointmap')) {
 

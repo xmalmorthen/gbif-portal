@@ -328,7 +328,8 @@
         <p>
           <a href="<@s.url value='/occurrence/search?datasetKey=${id!}&BOUNDING_BOX=90,-180,-90,180'/>">All records</a>
           |
-          <a href="<@s.url value='/occurrence/search?datasetKey=${id!}&BOUNDING_BOX=90,-180,-90,180'/>">In viewable area</a></li>
+          <#-- Note this is intercepted in the map.js to append the bounding box -->
+          <a href="<@s.url value='/occurrence/search?datasetKey=${id!}'/>" class='viewableAreaLink'>In viewable area</a></li>
         </p>
         <#-- Truncate long coverages, and display with a more link -->      
         <#assign coverage><#list dataset.geographicCoverages as geo>${geo.description!}</#list></#assign>

@@ -332,7 +332,7 @@
         <p>
           <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180'/>">All records</a>
           |
-          <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180'/>">In viewable area</a>
+          <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}'/>" class='viewableAreaLink'>In viewable area</a>
         </p>
         <#if (usage.distributions?size>0)>
           <h3>Distributions</h3>
