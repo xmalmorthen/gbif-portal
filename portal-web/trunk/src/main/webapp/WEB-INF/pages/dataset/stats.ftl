@@ -40,7 +40,7 @@
   </style>
   <content tag="extra_scripts">
     <script>
-      $(document).ready(function() {
+      $(window).ready(function() {
         <#-- 
           Bind the divs to load on AJAX calls.
           For performance, we first determine which kingdoms have content, then load them all
