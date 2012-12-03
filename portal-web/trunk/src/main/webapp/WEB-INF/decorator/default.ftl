@@ -32,6 +32,7 @@
     cfg.wsRegSearch="${cfg.wsRegSearch!}";
     cfg.wsRegSuggest="${cfg.wsRegSuggest!}";
     cfg.wsOcc="${cfg.wsOcc!}";
+    cfg.wsMetrics="${cfg.wsMetrics!}";
     cfg.wsOccSearch="${cfg.wsOccSearch!}";
     cfg.tileServerBaseUrl="${cfg.tileServerBaseUrl!}";
     cfg.wsOccCatalogNumberSearch = "${cfg.wsOccCatalogNumberSearch!}";

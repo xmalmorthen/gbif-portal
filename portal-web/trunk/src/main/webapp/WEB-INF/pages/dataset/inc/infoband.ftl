@@ -76,6 +76,11 @@
         <a href="#" title="Constituents"><span>Constituents</span></a>
       </li>
     </#if>
+    <#if (numOccurrences!0) gt 0>
+    <li<#if (tab!"")=="stats"> class='selected ${hl!}'</#if>>
+      <a href="<@s.url value='/dataset/${id!}/stats'/>" title="Stats"><span>Stats</span></a>
+    </li>
+    </#if>
     <li<#if (tab!"")=="activity"> class='selected ${hl!}'</#if>>
       <a href="#" title="Activity"><span>Activity</span></a>
     </li>

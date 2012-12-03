@@ -25,22 +25,20 @@ public class Config {
   public static final String SUGGEST_PATH = "suggest";
 
   private String cas;
-
   private String drupal;
-
   private String serverName;
   private String tileServerBaseUrl;
   private String wsClb;
   private String wsClbSearch;
   private String wsClbSuggest;
   private String wsOcc;
-
   private String wsOccCatalogNumberSearch;
   private String wsOccCollectorNameSearch;
   private String wsOccSearch;
   private String wsReg;
   private String wsRegSearch;
   private String wsRegSuggest;
+  private String wsMetrics;
 
   /**
    * To safeguard against configuration issues, this ensures that trailing slashes exist where required.
@@ -73,10 +71,12 @@ public class Config {
       cfg.wsRegSuggest = cfg.wsRegSearch + SUGGEST_PATH;
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
       cfg.wsOccSearch = cfg.wsOcc + SEARCH_PATH;
+      cfg.wsMetrics = getPropertyUrl(properties, "metrics.ws.url", true);
       // TODO: ugly patch, the path occurrence should be moved to the api/common project
       cfg.wsOccCatalogNumberSearch = cfg.wsOcc + "occurrence/" + SEARCH_PATH + "/" + CATALOG_NUMBER_PATH;
       cfg.wsOccCollectorNameSearch = cfg.wsOcc + "occurrence/" + SEARCH_PATH + "/" + COLLECTOR_NAME_PATH;
       cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
+
     } catch (IOException e) {
       throw new ConfigurationException("application.properties cannot be read", e);
     }
@@ -100,11 +100,9 @@ public class Config {
     }
   }
 
-
   public String getCas() {
     return cas;
   }
-
 
   public String getDrupal() {
     return drupal;
@@ -134,16 +132,10 @@ public class Config {
     return wsOcc;
   }
 
-  /**
-   * @return the wsOccCatalogNumberSearch
-   */
   public String getWsOccCatalogNumberSearch() {
     return wsOccCatalogNumberSearch;
   }
 
-  /**
-   * @return the wsOccCollectorNameSearch
-   */
   public String getWsOccCollectorNameSearch() {
     return wsOccCollectorNameSearch;
   }
@@ -160,15 +152,15 @@ public class Config {
     return wsRegSearch;
   }
 
-  /**
-   * @return the wsRegSuggest
-   */
   public String getWsRegSuggest() {
     return wsRegSuggest;
   }
 
-
   public void setTileServerBaseUrl(String tileServerBaseUrl) {
     this.tileServerBaseUrl = tileServerBaseUrl;
+  }
+
+  public String getWsMetrics() {
+    return wsMetrics;
   }
 }
