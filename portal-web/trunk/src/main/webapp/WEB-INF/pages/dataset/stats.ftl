@@ -43,17 +43,24 @@
     }
   </style>
   <content tag="extra_scripts">
+    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.waitforimages.min.js'/>"></script>
+  
     <script>
       $(document).ready(function() {
-        <#-- Bind the divs to load on AJAX calls -->
-        $('table.metrics div').each(function() {
-          var target = $(this);
-          refresh(target);
+        <#-- 
+          Bind the divs to load on AJAX calls.
+          This spawns a LOT of AJAX calls, so we wait for all images to load first, so that the page
+          renders nicely first.
+        -->
+        $('body').waitForImages(function() {
+          $('table.metrics div').each(function() {
+            var target = $(this);
+            refresh(target);
+          });
         });
         
         function refresh(target) {
           var $target = $(target);
-          console.log(target + " : " + $target);
           
           // always add the datasetKey to the cube address
           var address = "?datasetKey=${dataset.key}";
@@ -70,7 +77,6 @@
           if (target.hasClass("geo")) {
             address = address + "&georeferenced=true";
           }
-					console.log(address);          
           $.getJSON(cfg.wsMetrics + 'occurrence/count' + address + '&callback=?', function (data) {
             $(target).html(data);
           });
