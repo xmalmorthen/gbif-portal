@@ -11,7 +11,7 @@
     </#if>
   </content>  
 </head>
-<body onload="initBB()" class="densitymap">
+<body class="densitymap">
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/dataset/inc/infoband.ftl">
