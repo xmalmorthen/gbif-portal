@@ -25,15 +25,15 @@ public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
     assertEquals("Expected infoband name wrong", "Sciurus vulgaris Linnaeus, 1758",
       infoband.findElement(By.cssSelector("h1")).getText());
 
-    assertEquals("Expected checklist name wrong", "GBIF Backbone Taxonomy",
-      infoband.findElement(By.cssSelector("h3 a")).getText());
+    assertEquals("Expected checklist name wrong", "GBIF Backbone Taxonomy", infoband
+      .findElement(By.cssSelector("h3 a")).getText());
 
     // its 6 checklists & 6 occurrences
-    assertEquals("Expected appears in entries", 14,
-      content.findElements(By.cssSelector("#appearsin div.col li")).size());
+    assertEquals("Expected appears in entries", 14, content.findElements(By.cssSelector("#appearsin div.col li"))
+      .size());
 
-    assertEquals("Expected distribution entries",
-      map.findElements(By.cssSelector("ul.notes li")).size(), 6);
+    assertEquals("Expected distribution entries", 6,
+      map.findElements(By.xpath("//../*[text()='Distributions']/../ul/li")).size());
 
   }
 
