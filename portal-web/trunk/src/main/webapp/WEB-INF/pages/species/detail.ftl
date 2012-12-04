@@ -151,7 +151,7 @@
             <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
           </li>
           <#if vk_has_next && vk_index==2>
-            <li><a class="more_link" href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></li>
+            <li class="more"><a href="<@s.url value='/species/${id?c}/vernaculars'/>">see all</a></li>
             <#break />
           </#if>
         </#list>
@@ -165,7 +165,7 @@
           <li><a href="<@s.url value='/species/${syn.key?c}'/>">${syn.scientificName}</a></li>
           <#-- only show 5 synonyms at max -->
           <#if syn_has_next && syn_index==4>
-            <li><a class="more_link" href="<@s.url value='/species/${id?c}/synonyms'/>">see all</a></li>
+            <li class="more"><a href="<@s.url value='/species/${id?c}/synonyms'/>">see all</a></li>
             <#break />
           </#if>
         </#list>
@@ -336,7 +336,7 @@
         </p>
         <#if (usage.distributions?size>0)>
           <h3>Distributions</h3>
-          <ul class="notes">
+          <ul>
           <#-- Show first 5 distributions only -->
           <#assign skipped=0/> 
           <#list usage.distributions as d>
@@ -355,7 +355,7 @@
               <#assign skipped=skipped+1/>
             </#if>
             <#if d_has_next && d_index==4+skipped>
-             <li><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></li>
+             <li class="more"><a href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></li>
              <#break>
             </#if>
           </#list>
@@ -389,7 +389,7 @@
           </#if>
           <#-- only show 8 distributions at max -->
           <#if d_has_next && d_index==7+skipped>
-           <li><a class="more_link" href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></li>
+           <li class="more"><a href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></li>
             <#break />
           </#if>
         </#list>
@@ -502,7 +502,7 @@
               </li>
             </#if>
             <#if uuid_has_next && counter==6>
-              <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">see all ${occurrenceDatasetCounts?size}</a></li>
+              <li class="more"><a href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=OCCURRENCE'/>">see all ${occurrenceDatasetCounts?size}</a></li>
               <#break />
             </#if>
           </#list>
@@ -522,7 +522,7 @@
               </li>
             </#if>
             <#if rel_has_next && counter==6>
-              <li><a class="more_link" href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">see all ${related?size}</a></li>
+              <li class="more"><a href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">see all ${related?size}</a></li>
               <#break />
             </#if>
           </#list>
@@ -543,8 +543,8 @@
         </div>
       <#-- If we have 4 (index=3) we know there are more to show -->
         <#if (ts_index = maxRecords-1)>
-          <p>
-            <a class="more_link" href="<@s.url value='/species/${id?c}/typespecimens'/>">see all</a>
+          <p class="more">
+            <a href="<@s.url value='/species/${id?c}/typespecimens'/>">see all</a>
           </p>
           <#break>
         </#if>
@@ -573,7 +573,7 @@
             </li>
             <#-- only show 8 references at max. If we have 8 (index=7) we know there are more to show -->
             <#if ref_has_next && ref_index==7>
-              <li><a class="more_link" href="<@s.url value='/species/${id?c}/references'/>">see all</a></li>
+              <li class="more"><a href="<@s.url value='/species/${id?c}/references'/>">see all</a></li>
               <#break />
             </#if>
           </#list>

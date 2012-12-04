@@ -7,6 +7,7 @@
 
 <body class="species">
 
+<#assign tab="info"/>
 <#assign tabhl=true />
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
 
@@ -30,25 +31,25 @@
 
       <#list page.results as item>
         <div class="result">
-          <h2>${item.vernacularName}
+          <h2>
+            <a href='<@s.url value='/species/${item.usageKey?c}'/>'><strong>${item.vernacularName}</strong></a>
             <span class="note">${item.language!}</span>
           </h2>
           <#if item.lifeStage?? || item.sex?? || item.country?? || item.area??>
             <div class="footer">${item.lifeStage!} ${item.sex!} ${item.country!} ${item.area!}</div>
           </#if>
 
-          <#if item.remarks?has_content>
-            <div class="footer">Remarks: ${item.remarks}</div>
-          </#if>
+          <div class="footer">
 
-          <#if nub || item.source?has_content>
-            <div class="footer">
-              <#if item.source?has_content>${item.source}<br/></#if>
-              <#if nub>
-                based on <a href='<@s.url value='/species/${item.usageKey?c}'/>'>${(datasets.get(item.datasetKey).title)!"???"}</a>
-              </#if>
-            </div>
-          </#if>
+            <#if item.remarks?has_content>
+              <p>Remarks: ${item.remarks}</p>
+            </#if>
+
+            <#if nub>
+              <p>According to ${(datasets.get(item.datasetKey).title)!"???"}</p>
+            </#if>
+
+          </div>
         </div>
       </#list>
 

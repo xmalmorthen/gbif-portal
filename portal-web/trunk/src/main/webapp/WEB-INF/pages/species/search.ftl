@@ -47,7 +47,6 @@
         <div class="header">
           <div class="left">
             <h2>${searchResponse.count!} results <#if q?has_content>for &quot;${q}&quot;</#if></h2>
-          <#-- <a href="#" class="sort" title="Sort by relevance">Sort by relevance <span class="more"></span></a> -->
           </div>
           <div class="right"><h3>Refine your search</h3></div>
         </div>
@@ -55,62 +54,51 @@
         <div class="left">
 
         <#list searchResponse.results as u>
-          <div class="result searchResult">
+
+          <#if u.vernacularNames?has_content>
+            <#assign vernacular = u.vernacularNames[0] />
+          </#if>
+
+          <div class="result">
+            <h3>
+              <#if vernacular?has_content>
+                Common Name
+              <#elseif u.synonym>
+                <@s.text name="enum.taxstatus.SYNONYM"/>
+              <#else>
+                <@s.text name="enum.taxstatus.ACCEPTED"/>
+              </#if>
+              <#if showAccordingTo>
+                <span>from ${u.datasetTitle}</span>
+              </#if>
+            </h3>
+
             <h2>
-              <a href="<@s.url value='/species/${u.key?c}'/>"><strong>${u.scientificName}</strong></a>
-            <span class="note">
-             <#if u.rank??><@s.text name="enum.rank.${u.rank}"/></#if>
-              <#if u.synonym>synonym</#if>
-            </span>
+              <a href="<@s.url value='/species/${u.key?c}'/>"><strong>
+              <#if vernacular?has_content>
+                ${vernacular.vernacularName} <span class="note"> for ${u.scientificName}</span>
+              <#else>
+                ${u.scientificName} <#if u.synonym && u.accepted??><span class="note"> for ${u.accepted}</span></#if>
+              </#if>
+              </strong></a>
             </h2>
-            <#if u.synonym>
-              <p>Accepted name <a href="<@s.url value='/species/${u.acceptedKey?c}'/>">${u.accepted!"???"}</a></p>
-            </#if>
+
+            <ul class="taxonomy">
+              <#assign classification=u.higherClassificationMap />
+              <#list classification?keys as usageKey>
+                <li<#if !usageKey_has_next> class="last"</#if>>
+                  ${classification.get(usageKey)!"???"}
+                </li>
+              </#list>
+            </ul>
+
             <div class="footer">
-              <#assign vnames>
-                <#list u.vernacularNames as vn>${vn.vernacularName!}<#if vn_has_next> - </#if></#list>
-              </#assign>
-              <div>
-                ${action.limitHighlightedText(vnames ,92)}
-                <#if (vnames?length>100)>
-                  <@common.popover linkTitle="more" popoverTitle="Vernacular Names">${vnames}</@common.popover>
-                </#if>
-              </div>
-
-              <p>
-              <ul class="taxonomy">
-                <#assign classification=u.higherClassificationMap />
-                <#list classification?keys as usageKey>
-                  <li<#if !usageKey_has_next> class="last"</#if>>
-                    <a class="higherTaxonLink" title="Add as higher taxon filter" key="${usageKey?c}"
-                       href="#">${classification.get(usageKey)!"???"}</a>
-                  </li>
-                </#list>
-              </ul>
-              </p>
-
               <#list u.descriptions as desc>
                 <#if action.isHighlightedText(desc.description)>
-                  <#assign hlText=action.getHighlightedText(desc.description, 92)/>
-                  <div>
-                    ${hlText}
-                    <#-- show all descriptions with matches in popover -->
-                    <@common.popover linkTitle="more" popoverTitle="">
-                      <#list u.descriptions as d2>
-                        <#if action.isHighlightedText(d2.description)>
-                          <h3>${d2.type!"Description"}</h3>
-                          <p>${d2.description}</p>
-                        </#if>
-                      </#list>
-                    </@common.popover>
-                  </div>
+                  <p>${action.getHighlightedText(desc.description, 92)}</p>
                   <#break />
                 </#if>
               </#list>
-
-              <#if showAccordingTo>
-                <p><strong>According to</strong> ${u.datasetTitle}</p>
-              </#if>
             </div>
 
           </div>
@@ -129,25 +117,9 @@
             <input class="defaultFacet" type="hidden" name="dataset_key" value="nub"/>
           </div>
 
-        <#assign seeAllFacets = ["HIGHERTAXON_KEY","RANK","DATASET_KEY"]>
-        <#assign facets= ["DATASET_KEY","HIGHERTAXON_KEY","RANK","STATUS","EXTINCT","THREAT","HABITAT"]>
-        <#include "/WEB-INF/inc/facets.ftl">
-
-          <div class="last">
-            <a href="#" title="Add another criterion" class="add_criteria placeholder_temp">Add another criterion <span
-                    class="more"></span></a>
-          </div>
-
-          <div class="download placeholder_temp">
-            <div class="dropdown">
-              <a href="#" class="title" title="Download list"><span>Download list</span></a>
-              <ul>
-                <li><a href="#a"><span>Download list</span></a></li>
-                <li><a href="#b"><span>Download metadata</span></a></li>
-                <li class="last"><a href="#b"><span>Download metadata</span></a></li>
-              </ul>
-            </div>
-          </div>
+          <#assign seeAllFacets = ["HIGHERTAXON_KEY","RANK","DATASET_KEY"]>
+          <#assign facets= ["DATASET_KEY","HIGHERTAXON_KEY","RANK","STATUS","EXTINCT","THREAT","HABITAT"]>
+          <#include "/WEB-INF/inc/facets.ftl">
         </div>
       </div>
       <footer></footer>

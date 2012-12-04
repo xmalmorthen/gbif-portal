@@ -157,6 +157,8 @@
             <li><a class="placeholder_temp" href="#">Governance details</a></li>
             <li><a class="placeholder_temp" href="#">Work programs</a></li>
             <li><a class="placeholder_temp" href="#">Key facts</a></li>
+            <li class="divider"></li>
+            <li><a href="<@s.url value='/developer'/>">Developer API</a></li>
           </ul>
         </div>
 

@@ -6,6 +6,7 @@
 </head>
 
 <body class="species">
+
 <#assign tab="info"/>
 <#assign tabhl=true />
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
@@ -30,22 +31,27 @@
       <#list page.results as item>
         <div class="result">
           <h2><strong><#if item.country??>${item.country.title}</#if> ${item.locality!} ${item.locationId!}</strong>
-            <span class="note"><@s.text name='enum.occurrencestatus.${item.status!"PRESENT"}'/></span>
-            <@common.usageSource component=item showChecklistSource=usage.nub />
+            <span class="note"><@s.text name='enum.occurrencestatus.${item.status!"PRESENT"}'/>
+              <#if item.establishmentMeans??>, <@s.text name='enum.establishmentmeans.${item.establishmentMeans}'/></#if>
+            </span>
           </h2>
-          <#if item.lifeStage?? || item.temporal?? || item.startDayOfYear?? || item.endDayOfYear??>
-            <div class="footer">
-              ${item.lifeStage!} ${item.temporal!}
-              <#if item.startDayOfYear?? || item.endDayOfYear??>Days of the year: ${item.startDayOfYear!}-${item.endDayOfYear!}</#if>
-            </div>
-          </#if>
-          <#if item.threatStatus?? || item.establishmentMeans?? || item.appendixCites??>
-            <div class="footer">
-              <#if item.establishmentMeans??><@s.text name='enum.establishmentmeans.${item.establishmentMeans}'/></#if>
+          <div class="footer">
+            <#if item.lifeStage?? || item.temporal?? || item.startDayOfYear?? || item.endDayOfYear??>
+              <p>
+                ${item.lifeStage!} ${item.temporal!}
+                <#if item.startDayOfYear?? || item.endDayOfYear??>Days of the year: ${item.startDayOfYear!}-${item.endDayOfYear!}</#if>
+              </p>
+            </#if>
+            <#if item.threatStatus?? || item.appendixCites??>
+              <p>
               <#if item.threatStatus??><@s.text name="enum.threatstatus.${item.threatStatus}"/></#if>
               <#if item.appendixCites??>Cites: ${item.appendixCites}</#if>
-            </div>
-          </#if>
+              </p>
+            </#if>
+            <#if usage.nub>
+              <p>Source: <a href='<@s.url value='/species/${item.usageKey?c}'/>'>${(datasets.get(item.datasetKey).title)!"???"}</a></p>
+            </#if>
+          </div>
         </div>
       </#list>
 

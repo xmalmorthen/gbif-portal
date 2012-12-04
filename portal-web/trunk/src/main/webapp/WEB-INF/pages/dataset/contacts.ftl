@@ -4,9 +4,6 @@
 <head>
   <title>${dataset.title} - Contacts</title>
   <style type="text/css">
-    #content article .content ul.team li {
-      width: auto !important;
-    }
     #content div.contact {
       min-height: 125px;
     }

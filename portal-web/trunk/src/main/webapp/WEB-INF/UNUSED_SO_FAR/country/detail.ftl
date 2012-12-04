@@ -140,16 +140,15 @@
       <ul class="no_bottom">
         <li><a href="<@s.url value='/member/123'/>">GBIF Germany</a></li>
         <li><a href="<@s.url value='/member/123'/>">GBIF United States of America</a></li>
+        <li class="more"><a href="<@s.url value='/members'/>">and 13 more</a></li>
       </ul>
-      <p><a class="more_link" href="<@s.url value='/members'/>"> and 13 more</a></p>
 
       <h3>Data publishers</h3>
       <ul class="no_bottom">
         <li><a href="<@s.url value='/member/123'/>">Natural Museum of Berlin</a></li>
         <li><a href="<@s.url value='/member/123'/>">Museo Natural de Mexico</a></li>
+        <li class="more"><a href="<@s.url value='/members'/>">and 7 more</a></li>
       </ul>
-      <p><a class="more_link" href="<@s.url value='/members'/>"> and 7 more</a></p>
-
     </div>
 
   </div>

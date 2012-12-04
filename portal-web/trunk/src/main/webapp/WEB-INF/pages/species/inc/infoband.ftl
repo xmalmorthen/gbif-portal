@@ -10,8 +10,15 @@
  To show yellow tabs instead of default grey ones please assign:
   <#assign tabhl=true />
 -->
+
+<#assign showBox = usage.nub && !(tabhl!false) />
+<#assign titleLength = 41 />
+<#if !showBox>
+  <#assign titleLength = 51 />
+</#if>
+
 <content tag="infoband">
-  <h1>${common.limit(usage.scientificName, 36)}</h1>
+  <h1<#if !showBox> class="fullwidth"</#if>>${common.limit(usage.scientificName, titleLength)}</h1>
 
   <h3>${(usage.rank!"Unranked")?capitalize}
     according to <a href="<@s.url value='/dataset/${usage.datasetKey}'/>">${(dataset.title)!"???"}</a>
@@ -24,7 +31,7 @@
   </#list>
   </h3>
 
-<#if usage.nub>
+<#if showBox>
   <div class="box">
     <div class="content">
       <ul>

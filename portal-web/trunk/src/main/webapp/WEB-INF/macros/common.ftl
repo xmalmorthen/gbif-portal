@@ -78,6 +78,10 @@
 	Construct a Contact. Parameter is the actual contact object.
 -->
 <#macro contact con>
+<#if admin!false>
+  <button class="editContact" componentIndex="${c_index}" agentKey="${id}">EDIT</button>
+  <img src="<@s.url value='/img/minus.png'/>">
+</#if>
 <div class="contact">
   <#if con.type?has_content>
    <div class="contactType">
@@ -120,22 +124,18 @@
 <#-- Creates a 2 column list of contacts-->
 <#macro contactList contacts>
 <div class="col">
-  <ul class="team">
-    <#list contacts as c>
-      <#if c_index%2==0>
-        <li><@contact con=c /></li>
-      </#if>
-    </#list>
-  </ul>
+  <#list contacts as c>
+    <#if c_index%2==0>
+      <@contact con=c />
+    </#if>
+  </#list>
 </div>
 <div class="col">
-  <ul class="team">
-    <#list contacts as c>
-      <#if c_index%2==1>
-        <li><@contact con=c /></li>
-      </#if>
-    </#list>
-  </ul>
+  <#list contacts as c>
+    <#if c_index%2==1>
+      <@contact con=c />
+    </#if>
+  </#list>
 </div>
 </#macro>
 

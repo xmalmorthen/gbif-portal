@@ -52,8 +52,8 @@
           </li>
         </#list>
         <#if more>
-          <li>
-            <a class="more_link" href="<@s.url value='/organization/${member.key}/datasets'/>">see all</a>
+          <li class="more">
+            <a href="<@s.url value='/organization/${member.key}/datasets'/>">see all</a>
           </li>
         </#if>
       </ul>

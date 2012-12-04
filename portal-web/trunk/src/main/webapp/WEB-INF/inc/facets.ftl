@@ -39,7 +39,7 @@ This include requires 2 arrays to be set:
           </#if>
         </#list>
         <#if seeAll>
-          <li class="seeAllFacet">
+          <li class="more seeAllFacet">
             <a class="seeAllLink" href="#">See all...</a>
             <div class="infowindow dialogPopover" style="z-index:100000">
                 <div class="lheader"></div>

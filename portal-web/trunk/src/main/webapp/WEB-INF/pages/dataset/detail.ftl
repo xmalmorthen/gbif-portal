@@ -17,7 +17,7 @@
 <#include "/WEB-INF/pages/dataset/inc/infoband.ftl">
 
 <#-- SUMMARY -->
-<@common.article id="taxonomic_coverage" title="Summary">
+<@common.article id="summary" title="Summary">
 <div class="left">
   <h3>Full Title</h3>
   <p>${dataset.title}</p>
@@ -39,19 +39,17 @@
 
   <#if dataset.temporalCoverages?has_content>
     <h3>Temporal coverages</h3>
-    <ul>
-      <#list dataset.temporalCoverages as cov>
-        <li>
-        <#if cov.type?has_content && cov.period?has_content>
-          <@s.text name="enum.verbatimtimeperiodtype.${cov.type}"/>: ${cov.period}
-        <#elseif cov.date?has_content>
-          Single date: ${cov.date?date}
-        <#elseif cov.start?has_content && cov.end?has_content>
-          Date range: ${cov.start?date} - ${cov.end?date}
-        </#if>
-        </li>
-      </#list>
-    </ul>
+    <#list dataset.temporalCoverages as cov>
+      <p>
+      <#if cov.type?has_content && cov.period?has_content>
+        <@s.text name="enum.verbatimtimeperiodtype.${cov.type}"/>: ${cov.period}
+      <#elseif cov.date?has_content>
+        Single date: ${cov.date?date}
+      <#elseif cov.start?has_content && cov.end?has_content>
+        Date range: ${cov.start?date} - ${cov.end?date}
+      </#if>
+      </p>
+    </#list>
   </#if>
 
   <#if dataset.metadataLanguage?has_content>
@@ -66,11 +64,7 @@
 
   <#if (preferredContacts?size>0) >
     <h3>Primary Contacts</h3>
-    <ul class="team">
-      <#list preferredContacts as cnt>
-        <li><@common.contact con=cnt /></li>
-      </#list>
-    </ul>
+    <@common.contactList contacts=preferredContacts/>
   </#if>
 
 </div>
@@ -123,31 +117,6 @@
     </p>
   </#if>
 
-  <!-- Ideally the alt. identifier has a type which is displayed as a link to the identifier. Otherwise, a trimmed version is displayed. In both cases, a popup appears to display the full identifier. -->
-  <#if (dataset.identifiers?size>0)>
-    <h3>Alternative Identifiers</h3>
-    <ul>
-      <#list dataset.identifiers as idt>
-        <#if idt.type?has_content>
-          <#-- if there is a type, there is the possibility of an interpreted link -->
-          <#if idt.identifierLink?has_content>
-            <li><a href="${idt.identifierLink}"><@s.text name="enum.identifiertype.${idt.type}"/></a></li>
-            <li class="note_bottom_padded">${common.limit(idt.identifierLink!"",max_show_length)}</li>
-          <#elseif idt.type == "UNKNOWN">
-            <li>Alternate Identifier</li>
-            <li class="note_bottom_padded">${common.limit(idt.identifier!"",max_show_length)}</li>
-          <#else>
-            <li><a href="${idt.identifier}"><@s.text name="enum.identifiertype.${idt.type}"/></a></li>
-            <li class="note_bottom_padded">${common.limit(idt.identifier!"",max_show_length)}</li>
-          </#if>
-        <#else>
-          <li>Alternate Identifier</li>
-          <li class="note_bottom_padded">${common.limit(idt.identifier!"",max_show_length)}</li>
-        </#if>
-      </#list>
-    </ul>
-  </#if>
-
   <#if dataset.homepage?has_content || links?has_content>
     <h3>Links</h3>
     <ul>
@@ -165,10 +134,34 @@
     </ul>
   </#if>
 
+  <!-- Ideally the alt. identifier has a type which is displayed as a link to the identifier. Otherwise, a trimmed version is displayed. In both cases, a popup appears to display the full identifier. -->
+  <#if (dataset.identifiers?size>0)>
+    <h3>Alternative Identifiers</h3>
+    <ul class="notes">
+      <#list dataset.identifiers as idt>
+      <#if idt.identifier?has_content>
+        <li>
+          <#if idt.type?has_content && idt.type != "UNKNOWN">
+            <#-- if there is a type, there is the possibility of an interpreted link -->
+            <#if idt.identifierLink?has_content>
+              <a href="${idt.identifierLink}"><@s.text name="enum.identifiertype.${idt.type}"/></a>
+            <#else>
+              <a href="#"><@s.text name="enum.identifiertype.${idt.type}"/></a>
+            </#if>
+          <#else>
+            Alternative Identifier
+          </#if>
+          <span class="note">${common.limit(idt.identifierLink!idt.identifier,max_show_length)}</span>
+        </li>
+      </#if>
+      </#list>
+    </ul>
+  </#if>
+
   <#-- DATA DESCRIPTIONS -->
   <#if dataset.dataDescriptions?has_content || dataLinks?has_content>
     <h3>External Data</h3>
-    <ul>
+    <ul class="notes">
     <#list dataLinks as p>
       <#if p.url?has_content>
         <li>
@@ -180,7 +173,7 @@
       <li>
         <a href="${dd.url}">${dd.name!dd.url}</a>
         <#if dd.format?has_content || dd.charset?has_content>
-          <div class="note_bottom_padded">${dd.format!} ${dd.formatVersion!}<#if dd.format?has_content && dd.charset?has_content>&middot;</#if> ${dd.charset!}</div>
+          <span class="note">${dd.format!} ${dd.formatVersion!}<#if dd.format?has_content && dd.charset?has_content>&middot;</#if> ${dd.charset!}</span>
         </#if>
       </li>
     </#list>
@@ -190,7 +183,7 @@
   <h3>Metadata Documents</h3>
   <ul>
     <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/eml">GBIF EML</a></li>
-    <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/document">Original Source</a></li>
+    <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/document">Cached EML</a></li>
     <#list metaLinks as p>
       <#if p.url?has_content>
         <li>
@@ -209,28 +202,23 @@
 
 
 <#-- TAXONOMIC COVERAGE -->
-<#if metrics?? || (organizedCoverages?size>0) >
+<#if metrics?? || organizedCoverages?has_content >
   <@common.article id="taxonomic_coverage" title="Taxonomic Coverage">
   <#-- If there are no metrics (right sidebar) let the taxonomic coverage section take the full width -->
-  <div <#if !metrics??> class="fullwidth" <#else> class="left" </#if> >
+  <div class="<#if !metrics??>fullwidth<#else>left</#if>">
     <div class="scrollable">
       <#list organizedCoverages as ocs>
-        <p>
-        ${ocs.description}
-        </p>
-        <p>
-          <#list ocs.coverages as oc>
-            <ul class="three_cols">
-              <li>${oc.rank}</li>
-            </ul>
-            <#-- If there are no metrics (right sidebar) let the displayable names column expand the full width -->
-            <ul <#if !metrics??> class="four_cols" <#else> class="two_cols" </#if> >
+        <p>${ocs.description}</p>
+        <dl>
+        <#list ocs.coverages as oc>
+            <dt>${oc.rank}</dt>
+            <dd>
               <#list oc.displayableNames as dis>
                 <a href="<@s.url value='/species/search?q=${dis.scientificName!dis.commonName}'/>">${dis.displayName}</a><#if dis_has_next>, </#if>
               </#list>
-            </ul>
-          </#list>
-        </p>
+            </dd>
+        </#list>
+        </dl>
       </#list>
     </div>
   </div>
@@ -393,15 +381,13 @@
 
     <#if proj.contacts?has_content>
       <h3>Project Personnel</h3>
-      <ul class="team">
-        <#list proj.contacts as per>
-          <li> <@common.contact con=per /> </li>
-          <#if per_has_next && per_index==3>
-            <li> <a class="more_link" href="<@s.url value='/dataset/${dataset.key}/contacts'/>">see all</a> </li>
-            <#break />
-          </#if>
-        </#list>
-      </ul>
+      <#list proj.contacts as per>
+        <@common.contact con=per />
+        <#if per_has_next && per_index==3>
+          <div class="more"> <a href="<@s.url value='/dataset/${dataset.key}/contacts'/>">see all</a> </div>
+          <#break />
+        </#if>
+      </#list>
     </#if>
   </#if>
 </div>
@@ -409,15 +395,13 @@
 <div class="right">
   <#if (otherContacts?size>0) >
     <h3>Associated parties</h3>
-    <ul>
-      <#list otherContacts as ap>
-        <li><@common.contact con=ap /></li>
-        <#if ap_has_next && ap_index==2>
-          <li> <a class="more_link" href="<@s.url value='/dataset/${dataset.key}/contacts'/>">see all</a> </li>
-          <#break />
-        </#if>
-      </#list>
-    </ul>
+    <#list otherContacts as ap>
+      <@common.contact con=ap />
+      <#if ap_has_next && ap_index==2>
+        <div class="more"> <a href="<@s.url value='/dataset/${dataset.key}/contacts'/>">see all</a> </div>
+        <#break />
+      </#if>
+    </#list>
   </#if>
 </div>
 </@common.article>
@@ -552,8 +536,8 @@
           </li>
         </#list>
         <#if !constituents.isEndOfRecords()>
-          <li>
-            <a class="more_link" href="<@s.url value='/dataset/${member.key}/constituents'/>">see all</a>
+          <li class="more">
+            <a href="<@s.url value='/dataset/${member.key}/constituents'/>">see all</a>
           </li>
         </#if>
       </ul>
