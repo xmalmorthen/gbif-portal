@@ -47,7 +47,7 @@
         </#list>
         <#if more>
           <li class="more">
-            <a href="<@s.url value='/node/${member.key}/organizations'/>">see all</a>
+            <a href="<@s.url value='/node/${member.key}/organizations'/>">more</a>
           </li>
         </#if>
       </ul>

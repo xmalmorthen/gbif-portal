@@ -19,7 +19,7 @@
   <#if (text?length <= max)>
     ${text}
     <#else>
-    ${text?substring(0, max)}… <a href='${link}'>more</a>
+    ${text?substring(0, max)}… <a class="more" href='${link}'>more</a>
   </#if>
 </#macro>
 

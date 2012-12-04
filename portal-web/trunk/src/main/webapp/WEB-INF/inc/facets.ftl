@@ -19,7 +19,7 @@ This include requires 2 arrays to be set:
           <#list selectedFacetCounts.get(facet) as count>
             <#assign displayedFacets = displayedFacets + 1>
             <li>
-              <a href="#" title="${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,30)}</a> (${count.count!minCnt})
+              <a href="#" title="${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,26)}</a> (${count.count!minCnt})
               <input type="checkbox" value="&amp;${facetName?lower_case}=${count.name!}" checked/>
               <input type="hidden" value="${count.name!}" class="facetKey"/>
             </li>
@@ -33,14 +33,14 @@ This include requires 2 arrays to be set:
           <#if !(action.isInFilter(facet,count.name))>
             <#assign displayedFacets = displayedFacets + 1>
             <li>
-              <a href="#" title="${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,30)}</a> (${count.count!minCnt})
+              <a href="#" title="${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,26)}</a> (${count.count!minCnt})
               <input type="checkbox" value="&amp;${facetName?lower_case}=${count.name!}"/>              
             </li>
           </#if>
         </#list>
         <#if seeAll>
           <li class="more seeAllFacet">
-            <a class="seeAllLink" href="#">See all...</a>
+            <a class="seeAllLink more" href="#">more</a>
             <div class="infowindow dialogPopover" style="z-index:100000">
                 <div class="lheader"></div>
                 <span class="close"></span>

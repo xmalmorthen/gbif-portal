@@ -384,7 +384,7 @@
       <#list proj.contacts as per>
         <@common.contact con=per />
         <#if per_has_next && per_index==3>
-          <div class="more"> <a href="<@s.url value='/dataset/${dataset.key}/contacts'/>">see all</a> </div>
+          <div class="more"> <a href="<@s.url value='/dataset/${dataset.key}/contacts'/>">more</a> </div>
           <#break />
         </#if>
       </#list>
@@ -398,7 +398,7 @@
     <#list otherContacts as ap>
       <@common.contact con=ap />
       <#if ap_has_next && ap_index==2>
-        <div class="more"> <a href="<@s.url value='/dataset/${dataset.key}/contacts'/>">see all</a> </div>
+        <div class="more"> <a href="<@s.url value='/dataset/${dataset.key}/contacts'/>">more</a> </div>
         <#break />
       </#if>
     </#list>
@@ -537,7 +537,7 @@
         </#list>
         <#if !constituents.isEndOfRecords()>
           <li class="more">
-            <a href="<@s.url value='/dataset/${member.key}/constituents'/>">see all</a>
+            <a href="<@s.url value='/dataset/${member.key}/constituents'/>">more</a>
           </li>
         </#if>
       </ul>

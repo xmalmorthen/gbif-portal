@@ -118,7 +118,7 @@
           <a href="#">Conference targets priorities for biodiversity ‘intelligence’</a>
           </li>
         </ul>
-        <a href="#" class="read-more">See all</a>
+        <a href="#" class="read-more">More</a>
       </div>
 
       <div class="upcoming">
@@ -164,7 +164,7 @@
 
         </ul>
 
-        <a href="#" class="read-more">See all</a>
+        <a href="#" class="read-more">More</a>
 
       </div>
 
