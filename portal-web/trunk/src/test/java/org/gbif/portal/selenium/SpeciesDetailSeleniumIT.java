@@ -32,8 +32,8 @@ public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
     assertEquals("Expected appears in entries", 14, content.findElements(By.cssSelector("#appearsin div.col li"))
       .size());
 
-    // this species id does not bring back any distribution
-    assertEquals("Expected distribution entries", 0, map.findElements(By.cssSelector(".right li")).size());
+    // this species id should bring back 7 distributions
+    assertEquals("Expected distribution entries", 8, map.findElements(By.cssSelector(".right li")).size());
 
   }
 
