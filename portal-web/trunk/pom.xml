@@ -53,7 +53,6 @@
     <occurrence-download.version>0.3-SNAPSHOT</occurrence-download.version>
     <occurrence-ws-client.version>0.2-SNAPSHOT</occurrence-ws-client.version>
     <metrics-ws-client.version>0.2-SNAPSHOT</metrics-ws-client.version>
-    <crawler-ws-client.version>0.1-SNAPSHOT</crawler-ws-client.version>
     <gbif-postal-service.version>0.1-SNAPSHOT</gbif-postal-service.version>
     <drupal-mybatis.version>0.3-SNAPSHOT</drupal-mybatis.version>
     <gbif-common.version>0.7</gbif-common.version>
@@ -176,7 +175,6 @@
               <includes>
                 <include>style.less</include>
                 <include>print.less</include>
-                <include>crawl-table.less</include>
                 <include>google.less</include>
                 <include>leaflet.ie.less</include>
                 <include>leaflet.less</include>
@@ -270,11 +268,6 @@
       <version>${metrics-ws-client.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.gbif.crawler</groupId>
-      <artifactId>crawler-ws-client</artifactId>
-      <version>${crawler-ws-client.version}</version>
-    </dependency>    
-    <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>drupal-mybatis</artifactId>
       <version>${drupal-mybatis.version}</version>
@@ -316,7 +309,7 @@
         <exclusion>
           <artifactId>httpclient</artifactId>
           <groupId>org.apache.httpcomponents</groupId>
-        </exclusion>        
+        </exclusion>
       </exclusions>
     </dependency>
 
@@ -410,7 +403,7 @@
         <exclusion>
           <artifactId>httpclient</artifactId>
           <groupId>org.apache.httpcomponents</groupId>
-        </exclusion>        
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -476,7 +469,7 @@
       <version>${jsp.version}</version>
       <scope>test</scope>
     </dependency>
-    
+
     <!-- BVal validation framework - bval/guice plugin -->
     <dependency>
       <groupId>org.apache.bval</groupId>

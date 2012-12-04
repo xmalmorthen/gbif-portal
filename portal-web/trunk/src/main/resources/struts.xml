@@ -46,7 +46,7 @@
       </interceptor-stack>
 
       <!--  Because of the param format in downloads, the PARAMS interceptor
-            Cannot be used.  It fails on f[0].s issues, as it tries to interpret 
+            Cannot be used.  It fails on f[0].s issues, as it tries to interpret
             that.  This is the basic stack without the params interceptor
       -->
       <interceptor-stack name="downloadStack">
@@ -164,7 +164,7 @@
 
   <!-- OCCURRENCES -->
   <package name="occurrence" namespace="/occurrence" extends="default">
-    <!-- catches everything that doesn't match below! -->    
+    <!-- catches everything that doesn't match below! -->
      <action name="" class="org.gbif.portal.action.occurrence.HomeAction">
       <result>/WEB-INF/pages/occurrence/home.ftl</result>
     </action>
@@ -172,11 +172,11 @@
     <action name="search" class="org.gbif.portal.action.occurrence.SearchAction">
       <result>/WEB-INF/pages/occurrence/search.ftl</result>
     </action>
-    
+
     <action name="download" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/occurrence/download/home.ftl</result>
-    </action> 
-    
+    </action>
+
     <action name="download/result" class="org.gbif.portal.action.occurrence.DownloadAction">
       <interceptor-ref name="downloadStack"/>
       <result>/WEB-INF/pages/occurrence/download/result.ftl</result>
@@ -277,7 +277,7 @@
     </action>
     <action name="{id}/organizations" class="org.gbif.portal.action.node.EndorsedOrganizationAction">
       <result>/WEB-INF/pages/node/endorsed_organizations.ftl</result>
-    </action>    
+    </action>
   </package>
 
   <!-- NETWORK -->
@@ -296,7 +296,7 @@
     </action>
     <action name="{id}/datasets" class="org.gbif.portal.action.organization.OwnedDatasetAction">
       <result>/WEB-INF/pages/organization/owned_datasets.ftl</result>
-    </action>    
+    </action>
   </package>
 
   <!-- ADMIN area -->
@@ -308,16 +308,6 @@
     <action name="" class="org.gbif.portal.action.admin.HomeAction">
       <result>/WEB-INF/pages/admin/home.ftl</result>
     </action>
-    
-    <action name="crawler" class="org.gbif.portal.action.admin.CrawlerAction">   
-    <!-- TODO: Overriding the adminStack - Remove this portalStack interceptor when the UI goes live -->
-    <interceptor-ref name="portalStack" />
-      <result>/WEB-INF/pages/admin/crawler.ftl</result>
-    </action>    
-    
-    <action name="crawler/crawl/{id}" class="org.gbif.portal.action.admin.CrawlerAction" method="crawl">
-      <result>/WEB-INF/pages/admin/crawler.ftl</result>
-    </action>    
 
     <!-- ADD ENTITIES -->
     <action name="{1}/add" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddEntity">
