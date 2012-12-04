@@ -56,6 +56,8 @@
     <crawler-ws-client.version>0.1-SNAPSHOT</crawler-ws-client.version>
     <gbif-postal-service.version>0.1-SNAPSHOT</gbif-postal-service.version>
     <drupal-mybatis.version>0.3-SNAPSHOT</drupal-mybatis.version>
+    <gbif-common.version>0.7</gbif-common.version>
+    <gbif-common-ws.version>0.5-SNAPSHOT</gbif-common-ws.version>
 
     <freemarker.version>2.3.19</freemarker.version>
     <guice.version>3.0</guice.version>
@@ -73,6 +75,9 @@
     <xerces.version>2.9.1</xerces.version>
     <opensaml.version>1.1</opensaml.version>
     <jsp.version>2.2</jsp.version>
+    <findbugs-jsr305.version>2.0.0</findbugs-jsr305.version>
+    <commons-io.version>2.3</commons-io.version>
+    <javax-validation-api.version>1.0.0.GA</javax-validation-api.version>
   </properties>
 
   <scm>
@@ -274,6 +279,22 @@
       <artifactId>drupal-mybatis</artifactId>
       <version>${drupal-mybatis.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-common</artifactId>
+      <version>${gbif-common.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-common-ws</artifactId>
+      <version>${gbif-common-ws.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-logging</artifactId>
+          <groupId>commons-logging</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
@@ -298,6 +319,7 @@
         </exclusion>        
       </exclusions>
     </dependency>
+
     <!-- Google -->
     <dependency>
       <groupId>com.google.inject</groupId>
@@ -319,6 +341,11 @@
       <artifactId>guava</artifactId>
       <version>${guava.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>${findbugs-jsr305.version}</version>
+    </dependency>
 
     <!-- Struts2 -->
     <dependency>
@@ -338,7 +365,6 @@
       <version>${struts.version}</version>
       <scope>test</scope>
     </dependency>
-    
 
     <!--
      This plugin provides a faster Java implementation of tags in the "simple" theme then the default one
@@ -389,12 +415,12 @@
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-json</artifactId>
+      <artifactId>jersey-client</artifactId>
       <version>${jersey.version}</version>
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
-      <artifactId>jersey-client</artifactId>
+      <artifactId>jersey-server</artifactId>
       <version>${jersey.version}</version>
     </dependency>
 
@@ -456,6 +482,19 @@
       <groupId>org.apache.bval</groupId>
       <artifactId>bval-guice</artifactId>
       <version>${bval.version}</version>
+    </dependency>
+    <!-- validation -->
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>${javax-validation-api.version}</version>
+    </dependency>
+
+    <!-- Other commons projects -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons-io.version}</version>
     </dependency>
   </dependencies>
 
