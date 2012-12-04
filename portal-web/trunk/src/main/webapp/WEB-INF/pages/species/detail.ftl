@@ -447,7 +447,6 @@
 
         <div class="scrollable_small">
 
-
           <#if nub || img1.link?has_content>
             <h3>Source</h3>
             <#assign imgTitle=common.limit( (datasets.get(img1.datasetKey).title!"???"), 28) />
@@ -473,10 +472,8 @@
             <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
           </#if>
 
-          <#if img1.description?has_content>
-            <h3>Description</h3>
-            <p>${img1.description!img1.title!""}</p>
-          </#if>
+          <h3>Description</h3>
+          <p>${img1.description!img1.title!""}</p>
 
           <h3>Copyright</h3>
           <p>${img1.license!"No license"}</p>
