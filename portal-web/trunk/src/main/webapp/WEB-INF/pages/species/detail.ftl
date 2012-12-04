@@ -445,41 +445,40 @@
           <a class="controller next_slide" href="#" title="Next image"></a>
         </div>
 
-        <#if img1.description?has_content>
-          <h3>Description</h3>
-          <p>${common.limit(img1.description!img1.title!"",100)}
-            <#if (img1.description?length>100) ><@common.popup message=img1.description title=img1.title!"Description"/></#if>
-          </p>
-        </#if>
-
-        <#if nub || img1.link?has_content>
-        <h3>Source</h3>
-        <#assign imgTitle=common.limit( (datasets.get(img1.datasetKey).title!"???"), 28) />
-        <p>
-          <#if img1.link?has_content>
-            <a href="${img1.link}">${imgTitle}</a>
-          <#else>
-            ${imgTitle}
+        <div class="scrollable_small">
+          <#if img1.description?has_content>
+            <h3>Description</h3>
+            <p>${img1.description!img1.title!""}</p>
           </#if>
-          <#if nub>
-            <span class="note">view <a class="source" data-baseurl="<@s.url value='/species/'/>" href="<@s.url value='/species/${img1.usageKey?c}'/>">source usage</a></span>
+
+          <#if nub || img1.link?has_content>
+            <h3>Source</h3>
+            <#assign imgTitle=common.limit( (datasets.get(img1.datasetKey).title!"???"), 28) />
+            <p>
+              <#if img1.link?has_content>
+                <a href="${img1.link}">${imgTitle}</a>
+              <#else>
+              ${imgTitle}
+              </#if>
+              <#if nub>
+                <span class="note">view <a class="source" data-baseurl="<@s.url value='/species/'/>" href="<@s.url value='/species/${img1.usageKey?c}'/>">source usage</a></span>
+              </#if>
+            </p>
           </#if>
-        </p>
-        </#if>
 
-        <#if img1.publisher?has_content>
-          <h3>Image publisher</h3>
-          <p>${img1.publisher!"???"}</p>
-        </#if>
+          <#if img1.publisher?has_content>
+            <h3>Image publisher</h3>
+            <p>${img1.publisher!"???"}</p>
+          </#if>
 
-        <#if (img1.creator!img1.created)?has_content>
-          <h3>Photographer</h3>
-          <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
-        </#if>
+          <#if (img1.creator!img1.created)?has_content>
+            <h3>Photographer</h3>
+            <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
+          </#if>
 
-        <h3>Copyright</h3>
-        <p>${img1.license!"No license"}</p>
-
+          <h3>Copyright</h3>
+          <p>${img1.license!"No license"}</p>
+        </div>
       </#if>
     </div>
   </@common.article>
