@@ -28,12 +28,12 @@ public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
     assertEquals("Expected checklist name wrong", "GBIF Backbone Taxonomy", infoband
       .findElement(By.cssSelector("h3 a")).getText());
 
-    // its 6 checklists & 6 occurrences
+    // its 6 checklists & 6 occurrences plus 2 see more links
     assertEquals("Expected appears in entries", 14, content.findElements(By.cssSelector("#appearsin div.col li"))
       .size());
 
-    assertEquals("Expected distribution entries", 6,
-      map.findElements(By.xpath("//../*[text()='Distributions']/../ul/li")).size());
+    // this species id does not bring back any distribution
+    assertEquals("Expected distribution entries", 0, map.findElements(By.cssSelector(".right li")).size());
 
   }
 

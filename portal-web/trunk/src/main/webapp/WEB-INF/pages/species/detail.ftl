@@ -240,11 +240,11 @@
       <#if i.identifierLink?has_content>
         <a href="${i.identifierLink}" title="${i.title!i.type!}">
       </#if>
-        <#if i.title?has_content>
-          ${i.title}
-        <#else>
-          ${common.limit( datasets.get(i.datasetKey).title ,30)}
-        </#if>
+      <#if i.title?has_content>
+        ${i.title}
+      <#else>
+        ${common.limit( datasets.get(i.datasetKey).title ,29)}
+      </#if>
       <#if i.identifierLink?has_content>
         </a>
       </#if>
@@ -334,10 +334,11 @@
           |
           <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}'/>" class='viewableAreaLink'>In viewable area</a>
         </p>
-        <#if (usage.distributions?size>0)>
+
+        <#if usage.distributions?has_content>
           <h3>Distributions</h3>
           <ul>
-          <#-- Show first 5 distributions only -->
+          <#-- Show first 7 distributions only -->
           <#assign skipped=0/> 
           <#list usage.distributions as d>
             <#if d.locationId?? || d.country?? || d.locality?? >
@@ -354,7 +355,7 @@
             <#else>
               <#assign skipped=skipped+1/>
             </#if>
-            <#if d_has_next && d_index==4+skipped>
+            <#if d_has_next && d_index==6+skipped>
              <li class="more"><a href="<@s.url value='/species/${id?c}/distributions'/>">see all</a></li>
              <#break>
             </#if>
@@ -472,8 +473,10 @@
             <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
           </#if>
 
-          <h3>Description</h3>
-          <p>${img1.description!img1.title!""}</p>
+          <#if img1.description?has_content>
+            <h3>Description</h3>
+            <p>${img1.description}</p>
+          </#if>
 
           <h3>Copyright</h3>
           <p>${img1.license!"No license"}</p>

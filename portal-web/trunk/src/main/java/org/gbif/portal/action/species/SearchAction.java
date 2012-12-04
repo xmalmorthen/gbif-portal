@@ -63,8 +63,8 @@ public class SearchAction
     Iterator<VernacularName> iter = vernacularNames.iterator();
     while (iter.hasNext()) {
       VernacularName vn = iter.next();
-      if (vn.getVernacularName() == null || (!isHighlightedText(vn.getVernacularName())
-           && !vn.getVernacularName().equalsIgnoreCase(Strings.nullToEmpty(q)))) {
+      if (vn.getVernacularName() == null || !(isHighlightedText(vn.getVernacularName())
+           || vn.getVernacularName().toLowerCase().contains(Strings.nullToEmpty(q).toLowerCase()))) {
         iter.remove();
       }
     }
