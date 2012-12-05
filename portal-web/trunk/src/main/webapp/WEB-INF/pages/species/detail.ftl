@@ -446,7 +446,7 @@
           <a class="controller next_slide" href="#" title="Next image"></a>
         </div>
 
-        <div class="scrollable_small">
+        <div class="scrollable small">
 
           <#if nub || img1.link?has_content>
             <h3>Source</h3>
