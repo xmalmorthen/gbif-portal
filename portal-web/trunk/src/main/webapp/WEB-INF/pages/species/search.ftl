@@ -56,7 +56,7 @@
         <#list searchResponse.results as u>
 
           <#assign vernacular = "" />
-          <#if u.vernacularNames?has_content && !(u.canonicalName!""?contains(q))>
+          <#if u.vernacularNames?has_content>
             <#assign vernacular = u.vernacularNames[0] />
           </#if>
 

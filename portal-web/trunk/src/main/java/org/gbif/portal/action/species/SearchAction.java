@@ -59,12 +59,11 @@ public class SearchAction
    * Removes all vernacular names from the given list which are not highlighted, ie matching the query.
    * @param vernacularNames
    */
-  private void filterVernacularMatches(List<VernacularName> vernacularNames) {
+  private void filterVernacularMatches(List<VernacularName> vernacularNames, boolean removeAll) {
     Iterator<VernacularName> iter = vernacularNames.iterator();
     while (iter.hasNext()) {
       VernacularName vn = iter.next();
-      if (vn.getVernacularName() == null || !(isHighlightedText(vn.getVernacularName())
-           || vn.getVernacularName().toLowerCase().contains(Strings.nullToEmpty(q).toLowerCase()))) {
+      if (removeAll || vn.getVernacularName() == null || !isHighlightedText(vn.getVernacularName())) {
         iter.remove();
       }
     }
@@ -75,9 +74,9 @@ public class SearchAction
 
     super.execute();
 
-    // remove all common names not matching the query
+    // remove all common names not matching the query or all of them in case we have a highlighted canonical name
     for (NameUsageSearchResult u : searchResponse.getResults()) {
-      filterVernacularMatches(u.getVernacularNames());
+      filterVernacularMatches(u.getVernacularNames(), isHighlightedText(u.getCanonicalName()));
     }
 
     // replace higher taxon ids in facets with real names
