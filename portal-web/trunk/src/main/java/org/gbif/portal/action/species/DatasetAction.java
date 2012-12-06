@@ -1,19 +1,24 @@
 package org.gbif.portal.action.species;
 
 import org.gbif.api.model.checklistbank.NameUsage;
-import org.gbif.api.model.metrics.cube.OccurrenceCube;
-import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
 import org.gbif.api.vocabulary.DatasetType;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
+import com.google.inject.Inject;
 
 public class DatasetAction extends UsageBaseAction {
+
+  @Inject
+  private OccurrenceDatasetIndexService occurrenceDatasetService;
 
   private DatasetType type;
   private List<DatasetResult> results = Lists.newArrayList();
@@ -68,21 +73,10 @@ public class DatasetAction extends UsageBaseAction {
       }
     }
 
-    if (type == null || type == DatasetType.OCCURRENCE) {
-      List<UUID> relatedDatasets = usageService.listRelatedOccurrenceDatasets(usage.getNubKey());
-
-      for (UUID uuid : relatedDatasets) {
-        int count = 0;
-        try {
-          // The occurrence dimensions are calculated for the dataset and the nub key 
-          count = (int) occurrenceCubeService.get(
-            new ReadBuilder()
-              .at(OccurrenceCube.DATASET_KEY, uuid)
-              .at(OccurrenceCube.NUB_KEY, usage.getKey()));
-        } catch (Exception e) {
-          LOG.error("Unable to read occurrence cube for usage[{}] dataset[{}]", new Object[]{usage.getKey(), usage.getDatasetKey(), e});
-        }
-        results.add(new DatasetResult(datasetService.get(uuid), count, null));
+    if ((type == null || type == DatasetType.OCCURRENCE) && usage.getNubKey() != null) {
+      SortedMap<UUID, Integer> occurrenceDatasetCounts = occurrenceDatasetService.occurrenceDatasetsForNubKey(usage.getNubKey());
+      for (Map.Entry<UUID, Integer> e : occurrenceDatasetCounts.entrySet()) {
+        results.add(new DatasetResult(datasetService.get(e.getKey()), e.getValue(), null));
       }
     }
 
