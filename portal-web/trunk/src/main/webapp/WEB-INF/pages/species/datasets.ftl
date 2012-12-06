@@ -1,6 +1,6 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
 <#import "/WEB-INF/macros/common.ftl" as common>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
   <title>Datasets with ${usage.canonicalOrScientificName!}</title>
 </head>
@@ -33,29 +33,18 @@
         <#assign ds = item.dataset/>
         <div class="result">
           <h2><strong>
-            <#if ds.type=="CHECKLIST">
-              <a title="${ds.title!}" href="<@s.url value='/species/${item.usage.key?c}'/>">
-            <#else>
-              <a title="${ds.title!}" href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${ds.key}'/>">
-            </#if>
-            ${common.limit(ds.title!, 100)}</a>
+            <a title="${ds.title!}" href="<@s.url value='/dataset/${ds.key}'/>">${common.limit(ds.title!, 100)}</a>
             </strong>
           </h2>
 
           <div class="footer">
             <@s.text name="enum.datasettype.${ds.type!'UNKNOWN'}"/>
           <#if ds.type=="CHECKLIST">
-            including <em>${item.usage.scientificName}</em>
+            including <em><a href="<@s.url value='/species/${item.usage.key?c}'/>">${item.usage.scientificName}</a></em>
           <#else>
-            with ${item.numOccurrences} records of <em>${usage.canonicalOrScientificName!}</em>
+            with <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${ds.key}'/>">${item.numOccurrences} records of <em>${usage.canonicalOrScientificName!}</em></a>
           </#if>
           </div>
-
-          <#if ds.citation?has_content>
-            <div class="footer">
-                <@common.citation ds.citation/>
-            </div>
-          </#if>
 
         </div>
       </#list>
