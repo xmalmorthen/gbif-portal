@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Occurrence Detail ${id?c}</title>
-
+     ds
 <#-- RDFa -->
   <meta property="dwc:scientificName" content="${occ.scientificName!}"/>
   <meta property="dwc:kingdom" content="${occ.kingdom!}"/>
@@ -139,9 +139,7 @@ Identification details <span class='subtitle'>According to <a href="<@s.url valu
           <p>${occ.identificationNotes}</p>
         </#if>
 
-        <h3>Taxonomic classification
-          <div class="extended">[<a href="<@s.url value='/species/${occ.nubKey?c}/classification'/>">extended</a>]</div>
-        </h3>
+        <h3>Taxonomic classification</h3>
         <#assign classification=occ.higherClassificationMap />
         <ul class="taxonomy">
           <#list classification?keys as key>
