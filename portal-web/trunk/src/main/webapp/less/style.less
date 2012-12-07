@@ -4004,16 +4004,24 @@ div.uploader {
 }
 
 /*Styles for facets: clears any existing background settings and font sizes*/
-.facet, .facet div, .facet ul li, .facet span, .facet p, .facet a {
-  font-size: 12px !important;
-  margin-top: 4px !important;
-  margin-bottom: 4px !important;
-  font-weight: lighter !important;
+#content .right .facet {
+  div, ul li, span, p, a {
+    font-size: 12px !important;
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+    font-weight: lighter !important;
+  }
+
+  ul li {
+    background: none !important;
+    list-style: none;
+    &.more {
+      margin-left: 1.3em;
+      margin-top: 8px !important;
+    }
+  }
 }
 
-.facet ul li {
-  background: none !important;
-}
 
 /*Label for facets and filters*/
 .flabel {

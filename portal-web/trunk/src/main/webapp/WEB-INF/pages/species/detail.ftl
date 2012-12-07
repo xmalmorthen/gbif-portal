@@ -141,6 +141,9 @@
     <h3>Full Name</h3>
     <p>${usage.scientificName}</p>
 
+    <h3>Rank</h3>
+    <p><@s.text name="enum.rank.${usage.rank!'unknown'}"/></p>
+
     <#if vernacularNames?has_content>
       <h3>Common names</h3>
       <ul>

@@ -4,6 +4,17 @@ This include requires 2 arrays to be set:
  facets: list of facet names just as the SearchParameter enums provide
  seeAllFacets: list of optional facets to always show completely, never via a popup
 -->
+<#macro facetBox facetName count selected=false hidden=false>
+  <#assign cntstr = "" + (count.count!minCnt) />
+  <#assign maxlen = 31 - cntstr?length />
+<li>
+  <input type="checkbox" value="&amp;${facetName?lower_case}=${count.name!}" <#if selected>checked</#if> />
+  <a href="#" title="${maxlen} - ${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,maxlen)}</a> (${count.count!minCnt})
+  <#if hidden>
+    <input type="hidden" value="${count.name!}" class="facetKey"/>
+  </#if>
+</li>
+</#macro>
 <#list facets as facetName>
   <#assign facet = action.getSearchParam(facetName)>
   <#assign minCnt = "&lt;" + (facetMinimumCount.get(facet)!0) />
@@ -18,11 +29,7 @@ This include requires 2 arrays to be set:
         <#if selectedFacetCounts.get(facet)?has_content>
           <#list selectedFacetCounts.get(facet) as count>
             <#assign displayedFacets = displayedFacets + 1>
-            <li>
-              <a href="#" title="${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,26)}</a> (${count.count!minCnt})
-              <input type="checkbox" value="&amp;${facetName?lower_case}=${count.name!}" checked/>
-              <input type="hidden" value="${count.name!}" class="facetKey"/>
-            </li>
+            <@facetBox facetName=facetName count=count selected=true hidden=true />
           </#list>
         </#if>
         <#list facetCounts.get(facet) as count>
@@ -32,10 +39,7 @@ This include requires 2 arrays to be set:
           </#if>
           <#if !(action.isInFilter(facet,count.name))>
             <#assign displayedFacets = displayedFacets + 1>
-            <li>
-              <a href="#" title="${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,26)}</a> (${count.count!minCnt})
-              <input type="checkbox" value="&amp;${facetName?lower_case}=${count.name!}"/>              
-            </li>
+            <@facetBox facetName=facetName count=count selected=false />
           </#if>
         </#list>
         <#if seeAll>
@@ -49,11 +53,8 @@ This include requires 2 arrays to be set:
 
                  <div class="scrollpane">
                    <ul>
-                     <#list facetCounts.get(facet) as count>
-                    <li>
-                    <input type="checkbox" value="&amp;${facetName?lower_case}=${count.name!}" <#if (action.isInFilter(facet,count.name))>checked</#if>>
-                     <a href="#" title="${count.title!"Unknown"}">${count.title!"Unknown"}</a> (${count.count!minCnt})
-                    </li>
+                    <#list facetCounts.get(facet) as count>
+                      <@facetBox facetName=facetName count=count selected=action.isInFilter(facet,count.name) />
                     </#list>
                    </ul>
                  </div>
