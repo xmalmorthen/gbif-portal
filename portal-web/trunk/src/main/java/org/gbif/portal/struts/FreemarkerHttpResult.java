@@ -1,4 +1,4 @@
-package org.gbif.portal;
+package org.gbif.portal.struts;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
@@ -8,7 +8,7 @@ import freemarker.template.TemplateModel;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.views.freemarker.FreemarkerResult;
 
-public class FreeHttpResult extends FreemarkerResult {
+public class FreemarkerHttpResult extends FreemarkerResult {
   private int status;
 
   public int getStatus() {
