@@ -430,19 +430,19 @@
 
   <#if sd.methodSteps?has_content>
     <h3>Method Steps</h3>
-    <ul class="notes">
+    <ol>
       <#list sd.methodSteps as step>
        <li>
-        <#if step.title?has_content> ${step.title} <#else> #${step_index+1} </#if>
+        <#if step.title?has_content> ${step.title} <br/></#if>
         <#if step.description?has_content>
-          <span class="note">${step.description}</span>
+          ${step.description}
         </#if>
         <#if step.instrumentation?has_content>
           <span class="note">Instrumentation: ${step.instrumentation}</span>
         </#if>
        </li>
       </#list>
-    </ul>
+    </ol>
   </#if>
 </div>
 
