@@ -6,7 +6,8 @@
 
   <package name="default" namespace="/" extends="struts-default">
     <result-types>
-      <result-type name="freemarker" class="org.apache.struts2.views.freemarker.FreemarkerResult" default="true"/>
+      <result-type name="freemarker" class="org.apache.struts2.views.freemarker.FreemarkerResult" default="false"/>
+      <result-type name="freemarker2" class="org.gbif.portal.FreeHttpResult" default="true"/>
     </result-types>
 
     <interceptors>
@@ -62,10 +63,12 @@
     <default-interceptor-ref name="portalStack"/>
 
     <global-results>
-      <result name="404">
+      <result name="404" type="freemarker2">
+        <param name="status">404</param>
         <param name="location">/WEB-INF/error/404.ftl</param>
       </result>
-      <result name="401">
+      <result name="401" type="freemarker2">
+        <param name="status">401</param>
         <param name="location">/WEB-INF/error/401.ftl</param>
       </result>
       <result name="loginRequired">
