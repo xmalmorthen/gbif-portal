@@ -1,3 +1,4 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <#import "/WEB-INF/macros/pagination.ftl" as macro>
 <html>
 <head>
