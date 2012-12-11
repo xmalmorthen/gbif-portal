@@ -60,7 +60,7 @@
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all"/>
   <#-- Uncomment if you are specifically targeting less enabled mobile browsers
   <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
-  <link rel="stylesheet" type="text/css" media="print" href="<@s.url value='/css/print'/>">
+  <link rel="stylesheet" type="text/css" media="print" href="<@s.url value='/css/print.css'/>">
 
 
   <script src="<@s.url value='/js/vendor/modernizr-1.7.min.js'/>"></script>

@@ -183,7 +183,8 @@
   <h3>Metadata Documents</h3>
   <ul>
     <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/eml">GBIF EML</a></li>
-    <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/document">Cached EML</a></li>
+    <#-- we verify asynchroneously via app.js all links with class=verify and hide the list element in case of errors or 404 -->
+    <li class="download verify"><a href="${cfg.wsReg}dataset/${dataset.key}/document">Cached EML</a></li>
     <#list metaLinks as p>
       <#if p.url?has_content>
         <li>

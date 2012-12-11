@@ -190,4 +190,18 @@ $(function() {
   // wrapper to use for i18n in JQuery. See README file for how to use it.
   $i18nresources = $.getResourceBundle("resources");
 
+  // checks every link withing class="verify" and hides the element in case the link cannot be accessed
+  $(".verify").each(function(index) {
+    var link = $(this).find('a').attr("href");
+    var elem = $(this);
+    $.ajax({
+        async: true,
+        url: link,
+        error: function(jqXHR, textStatus, errorThrown){
+          elem.hide();
+        },
+        success: function(){
+        }
+    });
+  });
 })
