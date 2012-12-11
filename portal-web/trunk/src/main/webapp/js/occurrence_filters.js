@@ -32,6 +32,9 @@ var MAX_LABEL_SIZE = 37;
 //Constant for suspensive points literal.
 var SUSPENSIVE_POINTS = "...";
 
+//Error CSS class for invalid input values.
+var ERROR_CLASS = "error";
+
 // This is needed as a nasty way to address http://dev.gbif.org/issues/browse/POR-365
 // The map is not correctly displayed, and requires a map.invalidateSize(); to be fired
 // After the filter div is rendered.  Because of this the map scope is public.
@@ -81,6 +84,39 @@ var OccurrenceWidget = (function ($,_) {
 
       //IsBlank
       isBlank : isBlank,
+      
+      /**
+       * Validates if the input string is unsigned integer.
+       */
+      isUnsignedInteger: function(s) {
+        return (s.search(/^[0-9]+$/) == 0);
+      },
+      
+      /**
+       * Checks is the input value is a valid number.
+       * isDecimal: true/false if the value is a decimal number or not.
+       * minValue/maxValue: range of accepted values, could be null.
+       */
+      isValidNumber : function(value,isDecimal,minValue,maxValue){
+        if(value.length > 0){
+          var numValue;
+          if(isDecimal){
+            numValue = parseFloat(value);
+          }else{            
+            if(!this.isUnsignedInteger(value)){
+              return false;
+            }
+            numValue = parseInt(value);
+          }
+          if (isNaN(numValue)) {
+            return false;
+          }
+          var validMinValue = (minValue == null || (numValue >= minValue));
+          var validMaxValue = (maxValue == null || (numValue <= maxValue));          
+          return (validMinValue && validMaxValue);
+        }
+        return true;
+      },
 
       /**
        * Gets the widget identifier.
@@ -377,16 +413,33 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
     var self = this;
     this.filterElement.find(".addFilter").click( function(e) { 
       e.preventDefault();   
+      self.filterElement.find('.' + ERROR_CLASS).removeClass(ERROR_CLASS)
       var monthMin = self.filterElement.find(":input[name=monthMin]:first").val();
       var yearMin  =  self.filterElement.find(":input[name=yearMin]:first").val();
       var monthMax = self.filterElement.find(":input[name=monthMax]:first").val();
       var yearMax  =  self.filterElement.find(":input[name=yearMax]:first").val();
       var value = "";
       var label = "";
-      if(!self.isBlank(yearMin) && monthMin != "0"){
-        value = monthMin + "/" + yearMin;
-        label = value;
+      
+      if((!self.isBlank(yearMin) && !self.isValidNumber(yearMin,false,null,null)) || (monthMin != "0" && self.isBlank(yearMin))){
+        self.filterElement.find(":input[name=yearMin]:first").addClass(ERROR_CLASS);
+        return;
+      } else if (monthMin == "0") {
+        self.filterElement.find("#dk_container_monthMin").addClass(ERROR_CLASS);
+        return;
       }
+    
+      value = monthMin + "/" + yearMin;
+      label = value;
+      
+      if((!self.isBlank(yearMax) && !self.isValidNumber(yearMax,false,null,null)) || (monthMax != "0" && self.isBlank(yearMax))){
+        self.filterElement.find(":input[name=yearMax]:first").addClass(ERROR_CLASS);
+        return;
+      } else if (monthMax == "0" && !self.isBlank(yearMax)) {
+        self.filterElement.find("#dk_container_monthMax").addClass(ERROR_CLASS);
+        return;
+      }
+      
       if(!self.isBlank(yearMax) && monthMax != "0"){
         if(!self.isBlank(value)){
           label = "FROM " +  value + " TO ";
@@ -394,10 +447,12 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
         }
         value = value + monthMax + "/" + yearMax;
         label = label + monthMax + "/" + yearMax;
-      }
+      }      
       if(!self.isBlank(value)) {
         self.addAppliedFilter({label:label, value: value, key: '', paramName: self.getId()});
         self.showAppliedFilters();
+        self.filterElement.find(":input[name=yearMax]:first").val("");
+        self.filterElement.find(":input[name=yearMin]:first").val("");        
       }
     })
   };       
@@ -420,17 +475,37 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
     var self = this;
     this.filterElement.find(".addFilter").click( function(e) { 
       e.preventDefault();          
+      self.filterElement.find('.' + ERROR_CLASS).removeClass(ERROR_CLASS);
       var minLat = self.filterElement.find(":input[name=minLatitude]:first").val();
       var minLng = self.filterElement.find(":input[name=minLongitude]:first").val();
       var maxLat = self.filterElement.find(":input[name=maxLatitude]:first").val();
       var maxLng = self.filterElement.find(":input[name=maxLongitude]:first").val();
-      if(!self.isBlank(minLat) && !self.isBlank(minLng) && !self.isBlank(maxLat) && !self.isBlank(maxLng)){        
-        var value = minLat + ',' + minLng + ',' + maxLat + ',' + maxLng;
-        var label = "FROM " + minLat + ',' + minLng + ' TO ' + maxLat + ',' + maxLng;
-        self.filterElement.find(":input").val('');
-        self.addAppliedFilter({label: label, value: value, key: '', paramName: self.getId()});       
-        self.showAppliedFilters();
+      
+      if((!self.isBlank(minLat) && !self.isValidNumber(minLat,true,null,null)) || self.isBlank(minLat)){
+        self.filterElement.find(":input[name=minLatitude]:first").addClass(ERROR_CLASS);
+        return;
       }
+      
+      if((!self.isBlank(minLng) && !self.isValidNumber(minLng,true,null,null)) || self.isBlank(minLng)){
+        self.filterElement.find(":input[name=minLongitude]:first").addClass(ERROR_CLASS);
+        return;
+      }
+      
+      if((!self.isBlank(maxLat) && !self.isValidNumber(maxLat,true,null,null)) || self.isBlank(maxLat)){
+        self.filterElement.find(":input[name=maxLatitude]:first").addClass(ERROR_CLASS);
+        return;
+      }
+      
+      if((!self.isBlank(maxLng) && !self.isValidNumber(maxLng,true,null,null)) || self.isBlank(maxLng)){
+        self.filterElement.find(":input[name=maxLongitude]:first").addClass(ERROR_CLASS);
+        return;
+      }
+              
+      var value = minLat + ',' + minLng + ',' + maxLat + ',' + maxLng;
+      var label = "FROM " + minLat + ',' + minLng + ' TO ' + maxLat + ',' + maxLng;
+      self.filterElement.find(":input").val('');
+      self.addAppliedFilter({label: label, value: value, key: '', paramName: self.getId()});       
+      self.showAppliedFilters();      
     })
   };      
   return InnerOccurrenceLocationWidget;
@@ -859,7 +934,7 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
       initialize: function(filters){
         var self = this;  
         //The filters parameter could be null or undefined when none filter has been interpreted from the HTTP request 
-        if(typeof(filters) != 'undefined' && filters != null){              
+        if(typeof(filters) != 'undefined' && filters != null) {              
           $.each(filters, function(key,filterValues){
             $.each(filterValues, function(idx,filter) {                                  
               var occWidget = getWidgetById(filter.paramName);
