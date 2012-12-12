@@ -9,9 +9,9 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.gbif.api.model.occurrence.search.Constants.CATALOG_NUMBER_PATH;
-import static org.gbif.api.model.occurrence.search.Constants.COLLECTOR_NAME_PATH;
-import static org.gbif.api.model.occurrence.search.Constants.SEARCH_PATH;
+import static org.gbif.ws.paths.OccurrencePaths.CATALOG_NUMBER_PATH;
+import static org.gbif.ws.paths.OccurrencePaths.COLLECTOR_NAME_PATH;
+import static org.gbif.ws.paths.OccurrencePaths.OCC_SEARCH_PATH;
 
 /**
  * Simple configuration bean to pass the guice binded properties on to the rendering layer.
@@ -70,11 +70,10 @@ public class Config {
       cfg.wsRegSearch = getPropertyUrl(properties, "registry.search.ws.url", true);
       cfg.wsRegSuggest = cfg.wsRegSearch + SUGGEST_PATH;
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
-      cfg.wsOccSearch = cfg.wsOcc + SEARCH_PATH;
+      cfg.wsOccSearch = cfg.wsOcc + OCC_SEARCH_PATH;
       cfg.wsMetrics = getPropertyUrl(properties, "metrics.ws.url", true);
-      // TODO: ugly patch, the path occurrence should be moved to the api/common project
-      cfg.wsOccCatalogNumberSearch = cfg.wsOcc + "occurrence/" + SEARCH_PATH + "/" + CATALOG_NUMBER_PATH;
-      cfg.wsOccCollectorNameSearch = cfg.wsOcc + "occurrence/" + SEARCH_PATH + "/" + COLLECTOR_NAME_PATH;
+      cfg.wsOccCatalogNumberSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + CATALOG_NUMBER_PATH;
+      cfg.wsOccCollectorNameSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + COLLECTOR_NAME_PATH;
       cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
 
     } catch (IOException e) {
@@ -128,6 +127,10 @@ public class Config {
     return wsClbSuggest;
   }
 
+  public String getWsMetrics() {
+    return wsMetrics;
+  }
+
   public String getWsOcc() {
     return wsOcc;
   }
@@ -158,9 +161,5 @@ public class Config {
 
   public void setTileServerBaseUrl(String tileServerBaseUrl) {
     this.tileServerBaseUrl = tileServerBaseUrl;
-  }
-
-  public String getWsMetrics() {
-    return wsMetrics;
   }
 }
