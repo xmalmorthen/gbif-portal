@@ -211,7 +211,7 @@
               </tr>              
               </tr>
             </table>              
-            <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-date-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
+            <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-date-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>          
           <a href="#" class="close"></a>
         </div>
@@ -232,7 +232,9 @@
         			</#list>
       			</ul>            
           </div>
-          <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
+          <div>
+            <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
+          </div>
           <a href="#" class="close"></a>
         </div>
       </td>
@@ -259,8 +261,10 @@
                   </td>                  
                 </tr>
              </table>                        
-          </div>          
-          <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply filter</span></a>
+          </div>
+          <div>          
+            <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
+          </div>
           <a href="#" class="close"></a>
         </div>
       </td>
@@ -324,8 +328,10 @@
                   </td>
                 </tr>                                 
               </table>         
+           </div>
+           <div>         
+            <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply</span></a>
            </div>         
-           <a href="#" class="button candy_blue_button" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply filter</span></a>         
            <a href="#" class="close"></a>     
         </div>
        </td>

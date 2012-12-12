@@ -176,6 +176,17 @@ var OccurrenceWidget = (function ($,_) {
         this.addAppliedFilter(filter);
         this.onApplyFilterEvent.call();
       },
+      
+      /**
+       * Hides/showas the apply button if there are filters to be applied.
+       */
+      toggleApplyButton: function(){
+        if(this.appliedFilters.length > 0){
+          this.filterElement.find(".apply").show();
+        } else {
+          this.filterElement.find(".apply").hide();
+        }
+      },
 
       /**
        * Adds a filter to the list of applied filters.
@@ -184,6 +195,7 @@ var OccurrenceWidget = (function ($,_) {
         if (!this.existsFilter(filter)) {
           this.appliedFilters.push(filter);
         }
+        this.toggleApplyButton();
       },
 
       /**
@@ -276,6 +288,7 @@ var OccurrenceWidget = (function ($,_) {
         template = _.template($("#" + templateFilter).html());
 
         this.filterElement = $(template({title:title, paramName: this.getId(), placeholder: placeholder, inputClasses: inputClasses }));
+        this.filterElement.find(".apply").hide();
         this.widgetContainer.after(this.filterElement);         
         this.bindCloseControl();
         this.bindAddFilterControl();
@@ -307,9 +320,10 @@ var OccurrenceWidget = (function ($,_) {
           if(this.appliedFilters[i].value == filter.value){
             this.appliedFilters.splice(i,1);
             this.showAppliedFilters();
+            this.toggleApplyButton();
             return;            
           }
-        }
+        }        
       },
       
       /**
@@ -530,7 +544,7 @@ var OccurrenceBasisOfRecordWidget = (function ($,_,OccurrenceWidget) {
       this.filterElement.find(".basis-of-record > li").each( function() {
         $(this).removeClass("selected");
         for(var i=0; i < self.appliedFilters.length; i++) {
-          if(self.appliedFilters[i].key == $(this).attr("key") && !$(this).hasClass("selected")) {
+          if(self.appliedFilters[i].value == $(this).attr("key") && !$(this).hasClass("selected")) {
             $(this).addClass("selected");
           }
         }
