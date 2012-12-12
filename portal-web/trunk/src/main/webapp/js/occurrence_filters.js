@@ -270,7 +270,7 @@ var OccurrenceWidget = (function ($,_) {
       createHTMLWidget : function(control){        
         var          
         placeholder = $(control).attr("data-placeholder"),
-        templateFilter = $(control).attr("template-filter"),
+        templateFilter = $(control).attr("data-template-filter"),
         inputClasses = $(control).attr("input-classes") || {},
         title = $(control).attr("title"),
         template = _.template($("#" + templateFilter).html());

@@ -67,13 +67,13 @@
               <div class="dropdown-menu filters">
                 <div class="tip"></div>
                 <ul>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="TAXON_KEY"  title="Scientific name" template-filter="template-add-filter" input-classes="value species_autosuggest" class="filter-control">Scientific name</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="BOUNDING_BOX" title="Bounding Box" template-filter="map-template-filter" class="filter-control">Location</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="COLLECTOR_NAME" title="Collector name" template-filter="template-add-filter" input-classes="value collector_name_autosuggest" class="filter-control">Collector</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="BASIS_OF_RECORD" title="Basis Of Record" template-filter="template-basis-of-record-filter" class="filter-control">Basis of record</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="DATASET_KEY" title="Dataset" template-filter="template-add-filter" input-classes="value dataset_autosuggest" class="filter-control">Dataset</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="DATE" title="Collection date" template-filter="template-add-date-filter" class="filter-control">Collection date</a></li>
-                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalog number..." data-filter="CATALOG_NUMBER" title="Catalog number" template-filter="template-add-filter" input-classes="value catalog_number_autosuggest" class="filter-control">Catalog number</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="TAXON_KEY"  title="Scientific name" data-template-filter="template-add-filter" input-classes="value species_autosuggest" class="filter-control">Scientific name</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="BOUNDING_BOX" title="Bounding Box" data-template-filter="map-template-filter" class="filter-control">Location</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="COLLECTOR_NAME" title="Collector name" data-template-filter="template-add-filter" input-classes="value collector_name_autosuggest" class="filter-control">Collector</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="BASIS_OF_RECORD" title="Basis Of Record" data-template-filter="template-basis-of-record-filter" class="filter-control">Basis of record</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="DATASET_KEY" title="Dataset" data-template-filter="template-add-filter" input-classes="value dataset_autosuggest" class="filter-control">Dataset</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="DATE" title="Collection date" data-template-filter="template-add-date-filter" class="filter-control">Collection date</a></li>
+                  <li><a tabindex="-1" href="#" data-placeholder="Type a catalog number..." data-filter="CATALOG_NUMBER" title="Catalog number" data-template-filter="template-add-filter" input-classes="value catalog_number_autosuggest" class="filter-control">Catalog number</a></li>
                   <li class="divider"></li>
                   <li class="more"><a tabindex="-1" href="#">Need a different filter?</a></li>
                 </ul>
