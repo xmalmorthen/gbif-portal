@@ -182,8 +182,8 @@ $(function() {
       L.control.layers(baseLayers, overlays).addTo(map);
 
       var // coordinates
-      lat = $('#map').attr('latitude'),
-      lng = $('#map').attr('longitude');
+      lat = $('#map').attr('data-latitude'),
+      lng = $('#map').attr('data-longitude');
 
       if (lat != null && lng != null) {
         L.marker([lat, lng]).addTo(map);
