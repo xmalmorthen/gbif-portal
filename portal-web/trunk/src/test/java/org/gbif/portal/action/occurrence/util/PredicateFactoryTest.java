@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -86,7 +85,6 @@ public class PredicateFactoryTest {
     assertEquals("10.00", gp.getValue());
   }
 
-  @Ignore("http://dev.gbif.org/issues/browse/POR-396")
   @Test
   public void testBypass() {
     PredicateFactory pf = new PredicateFactory(QUERY_FIELD_MAPPING);
@@ -95,7 +93,7 @@ public class PredicateFactoryTest {
     Predicate p = pf.build(params);
     assertTrue(p instanceof EqualsPredicate);
     EqualsPredicate eq = (EqualsPredicate) p;
-    assertEquals("1", eq.getKey());
+    assertEquals("nubKey", eq.getKey());
     assertEquals("10", eq.getValue());
 
     params = new HashMap<String, String[]>();
@@ -103,7 +101,7 @@ public class PredicateFactoryTest {
     p = pf.build(params);
     assertTrue(p instanceof EqualsPredicate);
     eq = (EqualsPredicate) p;
-    assertEquals("4", eq.getKey());
+    assertEquals("countryISO", eq.getKey());
     assertEquals("UK", eq.getValue());
 
     params = new HashMap<String, String[]>();
@@ -111,7 +109,7 @@ public class PredicateFactoryTest {
     p = pf.build(params);
     assertTrue(p instanceof EqualsPredicate);
     eq = (EqualsPredicate) p;
-    assertEquals("2", eq.getKey());
+    assertEquals("datasetKey", eq.getKey());
     assertEquals("11", eq.getValue());
   }
 
