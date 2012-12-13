@@ -90,12 +90,12 @@ $(function() {
 
   // Activate source popovers
   $("a.sourcePopup").append('<img src="'+((cfg.context+"/img/icons/questionmark.png").replace("//", "/")) +'"/>').each(function(idx, obj){
-    $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});
+    $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("data-message"),"remarks":$(obj).attr("remarks")});
   });
 
   // Activate help popovers
   $("a.helpPopup").prepend('<img src="'+((cfg.context+"/img/icons/info.png").replace("//", "/")) +'"/> ').each(function(idx, obj){
-    $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("message"),"remarks":$(obj).attr("remarks")});
+    $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).attr("data-message"),"remarks":$(obj).attr("remarks")});
   });
 
   // Activate link popovers

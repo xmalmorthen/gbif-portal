@@ -33,7 +33,7 @@
     <#assign source><a href='<@s.url value='/species/${component.usageKey?c}'/>'>${(datasets.get(component.datasetKey).title)!"???"}</a><br/>${source}</#assign>
   </#if>
   <#if source?has_content || component.remarks?has_content>
-  <a class="sourcePopup" message="${source!}" remarks="${component.remarks!}"></a>
+  <a class="sourcePopup" data-message="${source!}" remarks="${component.remarks!}"></a>
   </#if>
 </#macro>
 
@@ -47,12 +47,12 @@
       </p><br/>
     </#list>
   </#assign>
-  <a class="sourcePopup" title="${popoverTitle}" message="${source!}" remarks=""></a>
+  <a class="sourcePopup" title="${popoverTitle}" data-message="${source!}" remarks=""></a>
 </#macro>
 
 <#macro popup message remarks="" title="Source">
   <#if message?has_content>
-  <a class="sourcePopup" title="${title}" message="${message}" remarks="${remarks!}"></a>
+  <a class="sourcePopup" title="${title}" data-message="${message}" remarks="${remarks!}"></a>
   </#if>
 </#macro>
 
@@ -62,7 +62,7 @@
 -->
 <#macro explanation message label remarks="" title="Help">
   <#if message?has_content>
-    <a class="helpPopup" title="${title}" message="${message}" remarks="${remarks!}">${label}</a>
+    <a class="helpPopup" title="${title}" data-message="${message}" remarks="${remarks!}">${label}</a>
   </#if>
 </#macro>
 
