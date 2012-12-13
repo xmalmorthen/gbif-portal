@@ -64,7 +64,7 @@
 
       <div class="right">
 
-        <div id="resetFacets" currentUrl="">
+        <div id="resetFacets" data-currentUrl="">
           <input id="resetFacetsButton" value="reset" type="button"/>
         </div>
 

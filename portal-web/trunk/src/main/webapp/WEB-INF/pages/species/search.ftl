@@ -113,7 +113,7 @@
 
         <div class="right">
 
-          <div id="resetFacets" currentUrl="">
+          <div id="resetFacets" data-currentUrl="">
             <input id="resetFacetsButton" value="reset" type="button"/>
             <input class="defaultFacet" type="hidden" name="dataset_key" value="nub"/>
           </div>
