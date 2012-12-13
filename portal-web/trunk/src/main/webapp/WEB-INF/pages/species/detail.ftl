@@ -85,10 +85,10 @@
 
         var firstDescr = $("#description span.language:first");
         if (firstDescr.length > 0) {
-          loadDescription(firstDescr.attr("descriptionKeys"));
+          loadDescription(firstDescr.attr("data-descriptionKeys"));
         };
         $("#description span.language").click(function() {
-          loadDescription( $(this).attr("descriptionKeys") );
+          loadDescription( $(this).attr("data-descriptionKeys") );
         });
         // adjust description height to ToC
         var tocHeight = $("#description div.right").height() - 5;
@@ -419,7 +419,7 @@
           <li>${topic?capitalize}
             <#assign entries=descriptionToc.listTopicEntries(topic) />
             <#list entries?keys as lang>
-              <span class="language" descriptionKeys="<#list entries.get(lang) as did>${did?c} </#list>">${lang.getIso3LetterCode()?upper_case}</span>
+              <span class="language" data-descriptionKeys="<#list entries.get(lang) as did>${did?c} </#list>">${lang.getIso3LetterCode()?upper_case}</span>
             </#list>
           </li>
         </#list>
