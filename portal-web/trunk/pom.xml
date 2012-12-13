@@ -357,6 +357,12 @@
       <artifactId>struts2-junit-plugin</artifactId>
       <version>${struts.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-logging</artifactId>
+          <groupId>commons-logging</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!--
@@ -422,6 +428,12 @@
       <groupId>org.jasig.cas.client</groupId>
       <artifactId>cas-client-core</artifactId>
       <version>${cas.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-logging</artifactId>
+          <groupId>commons-logging</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- Logging -->
