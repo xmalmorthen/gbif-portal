@@ -6,8 +6,11 @@ import org.gbif.api.service.occurrence.DownloadService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.util.PredicateFactory;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -35,33 +38,25 @@ public class DownloadAction extends BaseAction {
   private static final Logger LOG = LoggerFactory.getLogger(DownloadAction.class);
   private final PredicateFactory predicateFactory = new PredicateFactory(QUERY_FIELD_MAPPING);
 
-  // TODO: drop this once validation ensures that we always get a valid email address from user
-  private static final String DEFAULT_EMAIL = "trobertson@gbif.org";
-
   @Inject
   private DownloadService downloadService;
 
   private String jobId;
-
+  // optional additional email notifications
+  private List<String> emails = Lists.newArrayList();
 
   @Override
   public String execute() {
-    LOG.info("Request [{}]", getServletRequest());
-    LOG.info("Request [{}]", getServletRequest().getParameterMap());
-
-    String email = ((String[]) getServletRequest().getParameterMap().get("email"))[0];
-    if (email == null) {
-      email = DEFAULT_EMAIL;
-    }
-
     // nothing more we can do than suppress
     @SuppressWarnings("unchecked")
     Predicate p = predicateFactory.build(getServletRequest().getParameterMap());
 
     LOG.info("Predicate build for passing to download [{}]", p);
     if (p != null) {
-      jobId = downloadService.create(new Download(p, email));
+      Download download = new Download(null, p, getCurrentUser().getEmail(), new Date(), null, emails);
+      jobId = downloadService.create(download);
       return SUCCESS;
+
     } else {
       return ERROR;
     }
@@ -73,5 +68,13 @@ public class DownloadAction extends BaseAction {
 
   public void setJobId(String jobId) {
     this.jobId = jobId;
+  }
+
+  public List<String> getEmails() {
+    return emails;
+  }
+
+  public void setEmails(List<String> emails) {
+    this.emails = emails;
   }
 }

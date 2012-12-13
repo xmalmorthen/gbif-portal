@@ -45,19 +45,6 @@
         </interceptor-ref>
         <interceptor-ref name="portalStack"/>
       </interceptor-stack>
-
-      <!--  Because of the param format in downloads, the PARAMS interceptor
-            Cannot be used.  It fails on f[0].s issues, as it tries to interpret
-            that.  This is the basic stack without the params interceptor
-      -->
-      <interceptor-stack name="downloadStack">
-        <interceptor-ref name="exception"/>
-        <interceptor-ref name="servletConfig"/>
-        <interceptor-ref name="prepare"/>
-        <interceptor-ref name="checkbox"/>
-        <!--  interceptor-ref name="params"/-->
-        <interceptor-ref name="conversionError"/>
-      </interceptor-stack>
     </interceptors>
 
     <default-interceptor-ref name="portalStack"/>
@@ -177,11 +164,14 @@
     </action>
 
     <action name="download" class="org.gbif.portal.action.DefaultHomeAction">
+      <interceptor-ref name="loginStack"/>
       <result>/WEB-INF/pages/occurrence/download/home.ftl</result>
     </action>
 
     <action name="download/result" class="org.gbif.portal.action.occurrence.DownloadAction">
-      <interceptor-ref name="downloadStack"/>
+      <!-- Configure params interceptor to exclude some params:
+      http://struts.apache.org/2.3.7/docs/parameters-interceptor.html -->
+      <interceptor-ref name="loginStack"/>
       <result>/WEB-INF/pages/occurrence/download/result.ftl</result>
     </action>
 
