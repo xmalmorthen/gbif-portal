@@ -1,8 +1,14 @@
 <configuration scan="true">
 
+  <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+    <resetJUL>true</resetJUL>
+  </contextListener>
+
+  <property name="defaultPattern" value="%-5level [%date{'yyyy-dd-MM HH:mm:ss,SSSZ'}] [%thread] %logger: %msg%n%xEx"/>
+
   <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
-      <pattern>%d{HH:mm:ss.SSS} %logger{36} %msg%n</pattern>
+      <pattern>${defaultPattern}</pattern>
     </encoder>
   </appender>
 
@@ -13,11 +19,11 @@
       <maxHistory>14</maxHistory>
     </rollingPolicy>
     <encoder>
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+      <pattern>${defaultPattern}</pattern>
     </encoder>
   </appender>
 
-  <appender name="ERRORFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+  <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>logs/portal-web_error.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
       <fileNamePattern>logs/portal-web_error.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -27,10 +33,9 @@
       <level>ERROR</level>
     </filter>
     <encoder>
-      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+      <pattern>${defaultPattern}</pattern>
     </encoder>
   </appender>
-
 
   <logger name="org.gbif" level="DEBUG"/>
   <logger name="com.opensymphony" level="WARN"/>
@@ -43,6 +48,6 @@
 
   <root level="INFO">
     <appender-ref ref="FILE"/>
-    <appender-ref ref="ERRORFILE"/>
+    <appender-ref ref="ERROR_FILE"/>
   </root>
 </configuration>
