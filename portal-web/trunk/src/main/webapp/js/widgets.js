@@ -1681,7 +1681,7 @@ $.fn.bindSlideshow = function(opt) {
   $next_button     = $this.find(".next_slide"),
   $slideshow       = $this.find('.slideshow'),
 
-  id               = $slideshow.attr("usageKey");
+  id               = $slideshow.attr("data-usageKey");
 
   function init()  {
     if (id) {

@@ -430,7 +430,7 @@
 
 <#if (usage.images?size>0)>
   <@common.article id="images" class="photo_gallery">
-    <div class="slideshow" usageKey="${id?c}">
+    <div class="slideshow" data-usageKey="${id?c}">
       <div class="photos">
         <#list usage.images as img>
           <#if img.image??>
