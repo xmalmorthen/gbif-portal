@@ -142,8 +142,9 @@
       <result>/WEB-INF/pages/dataset/geographicCoverage.ftl</result>
     </action>
 
-    <action name="{id}/stats" class="org.gbif.portal.action.dataset.DetailAction">
-      <result>/WEB-INF/pages/dataset/stats.ftl</result>
+    <action name="{id}/stats" class="org.gbif.portal.action.dataset.StatsAction">
+      <result name="occurrence">/WEB-INF/pages/dataset/stats-occurrence.ftl</result>
+      <result name="checklist">/WEB-INF/pages/dataset/stats-checklist.ftl</result>
     </action>
 
     <!-- {id} matches anything but "/" -->

@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>${dataset.title} - Geographic coverages</title>
+  <title>${dataset.title} - Metrics</title>
   <style>
     table.metrics {
       width: 100%;

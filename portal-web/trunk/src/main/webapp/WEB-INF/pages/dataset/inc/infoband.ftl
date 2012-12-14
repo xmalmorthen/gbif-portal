@@ -68,23 +68,23 @@
     <#assign hl="highlighted" />
   </#if>
   <ul class="${hl!}">
-    <li<#if (tab!"")=="info"> class='selected ${hl!}'</#if>>
+    <li<#if (tab!)=="info"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/dataset/${id!}'/>" title="Information"><span>Information</span></a>
     </li>
     <#if dataset.hasConstituents()>
-      <li<#if (tab!"")=="constituents"> class='selected ${hl!}'</#if>>
+      <li<#if (tab!)=="constituents"> class='selected ${hl!}'</#if>>
         <a href="#" title="Constituents"><span>Constituents</span></a>
       </li>
     </#if>
-    <#if (numOccurrences!0) gt 0>
-    <li<#if (tab!"")=="stats"> class='selected ${hl!}'</#if>>
+    <#if dataset.type! != "METADATA">
+    <li<#if (tab!)=="stats"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/dataset/${id!}/stats'/>" title="Stats"><span>Stats</span></a>
     </li>
     </#if>
-    <li<#if (tab!"")=="activity"> class='selected ${hl!}'</#if>>
+    <li<#if (tab!)=="activity"> class='selected ${hl!}'</#if>>
       <a href="#" title="Activity"><span>Activity</span></a>
     </li>
-    <li<#if (tab!"")=="discussion"> class='selected ${hl!}'</#if>>
+    <li<#if (tab!)=="discussion"> class='selected ${hl!}'</#if>>
       <a href="#" title="Discussion"><span>Discussion</span></a>
     </li>
   </ul>

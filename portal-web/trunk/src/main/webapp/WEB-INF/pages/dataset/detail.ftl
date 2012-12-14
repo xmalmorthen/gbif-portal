@@ -203,10 +203,9 @@
 
 
 <#-- TAXONOMIC COVERAGE -->
-<#if metrics?? || organizedCoverages?has_content >
+<#if organizedCoverages?has_content >
   <@common.article id="taxonomic_coverage" title="Taxonomic Coverage">
-  <#-- If there are no metrics (right sidebar) let the taxonomic coverage section take the full width -->
-  <div class="<#if !metrics??>fullwidth<#else>left</#if>">
+  <div class="fullwidth">
     <div class="scrollable">
       <#list organizedCoverages as ocs>
         <p>${ocs.description}</p>
@@ -223,48 +222,10 @@
       </#list>
     </div>
   </div>
-
- <#if metrics??>
- <div class="right">
-  <#if metrics.countByKingdom?has_content>
-    <h3>By Kingdom</h3>
-    <ul>
-      <#list kingdoms as k>
-        <#if metrics.countByKingdom(k)?has_content>
-          <li><@s.text name="enum.kingdom.${k}"/> <span class="number">${metrics.countByKingdom(k)!0}</span></li>
-        </#if>
-      </#list>
-    </ul>
-  </#if>
-
-  <#if metrics.countByRank?has_content>
-    <h3>By Rank</h3>
-    <ul>
-      <#list rankEnum as k>
-        <#if metrics.countByRank(k)?has_content>
-          <li><@s.text name="enum.rank.${k}"/> <span class="number">${metrics.countByRank(k)!0}</span></li>
-        </#if>
-      </#list>
-    </ul>
-  </#if>
-
-  <#if metrics.countExtensionRecords?has_content>
-    <h3>Associated Data</h3>
-    <ul>
-      <#list extensions as e>
-        <#if ((metrics.getExtensionRecordCount(e)!0)>0)>
-          <li><@s.text name="enum.extension.${e}"/> <span class="number">${metrics.getExtensionRecordCount(e)!0}</span></li>
-        </#if>
-      </#list>
-    </ul>
-  </#if>
- </div>
- </#if>
-
 </@common.article>
 </#if>
 
-<#if dataset.type?has_content && dataset.type == "CHECKLIST">
+<#if dataset.type! == "CHECKLIST">
 <@common.article id="taxonomy" title="Browse Classification" class="taxonomies">
 <div class="fullwidth">
   <div id="taxonomicBrowser">

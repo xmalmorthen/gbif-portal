@@ -16,7 +16,9 @@
   <article class="dataset">
     <header></header>
     <div class="content">
-      <h1>Search through ${nubMetrics.countIndexed} records</h1>
+      <h1>
+          Search ${colSpecies} species, <br/> ${nubMetrics.countSynonyms} synonyms and <br/> ${nubSpecies-colSpecies} species under review
+      </h1>
       <p>of the <a href="<@s.url value='/dataset/${nubDatasetKey}'/>">GBIF Backbone Taxonomy</a></p>
 
       <form action="<@s.url value='/species/search'/>" method="GET">
@@ -45,9 +47,9 @@
       </ul>
       <div class="results">
         <ul>
-          <li><a href="<@s.url value='/species/search?dataset_key=nub&rank=species'/>" title="">${numSpecies!0}</a>total species</li>
-          <li><a href="<@s.url value='/species/search?dataset_key=nub&rank=infraspecific_name&rank=subspecies&rank=infrasubspecific_name&rank=variety&rank=subvariety&rank=form&rank=subform&rank=cultivar_group&rank=cultivar'/>" title="">${numInfraSpecies!0}</a>total infraspecific</li>
-          <li class="last"><a href="<@s.url value='/species/search?dataset_key=nub'/>">${numCommonNames!0}</a>common names in ${numLanguages!0} languages</li>
+          <li><a href="<@s.url value='/species/search?dataset_key=nub&rank=species'/>" title="">${nubSpecies!0}</a>total species</li>
+          <li><a href="<@s.url value='/species/search?dataset_key=nub&rank=infraspecific_name&rank=subspecies&rank=infrasubspecific_name&rank=variety&rank=subvariety&rank=form&rank=subform&rank=cultivar_group&rank=cultivar'/>" title="">${nubInfraSpecies!0}</a>total infraspecific</li>
+          <li class="last"><a href="<@s.url value='/species/search?dataset_key=nub'/>">${nubCommonNames!0}</a>common names in ${nubLanguages!"?"} languages</li>
         </ul>
       </div>
     </div>

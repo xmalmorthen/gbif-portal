@@ -16,23 +16,19 @@ import static org.gbif.api.model.Constants.NUB_TAXONOMY_KEY;
 @SuppressWarnings("serial")
 public class HomeAction extends BaseAction {
 
+  public static final UUID COL_KEY = UUID.fromString("7ddf754f-d193-4cc9-b351-99906754a03b");
+
+
   @Inject
   private DatasetMetricsService metricsService;
 
+  private DatasetMetrics colMetrics;
   private DatasetMetrics nubMetrics;
-  private Integer numSpecies;
-  private Integer numInfraSpecies;
-  private Integer numCommonNames = 0;
-  private Integer numLanguages;
 
   @Override
   public String execute() {
     nubMetrics = metricsService.get(Constants.NUB_TAXONOMY_KEY);
-
-    numSpecies = nubMetrics.getCountByRank(Rank.SPECIES);
-    numInfraSpecies = nubMetrics.getCountByRank(Rank.INFRASPECIFIC_NAME);
-    numCommonNames += nubMetrics.getExtensionRecordCount(Extension.VERNACULAR_NAME);
-    numLanguages = nubMetrics.getCountNamesByLanguage().size();
+    colMetrics = metricsService.get(COL_KEY);
 
     return SUCCESS;
   }
@@ -48,19 +44,31 @@ public class HomeAction extends BaseAction {
     return nubMetrics;
   }
 
-  public Integer getNumCommonNames() {
-    return numCommonNames;
+  public Integer getNubCommonNames() {
+    return nubMetrics.getExtensionRecordCount(Extension.VERNACULAR_NAME);
   }
 
-  public Integer getNumInfraSpecies() {
-    return numInfraSpecies;
+  public Integer getNubInfraSpecies() {
+    return nubMetrics.getCountByRank(Rank.INFRASPECIFIC_NAME);
   }
 
-  public Integer getNumLanguages() {
-    return numLanguages;
+  public Integer getNubLanguages() {
+    return nubMetrics.getCountNamesByLanguage().size();
   }
 
-  public Integer getNumSpecies() {
-    return numSpecies;
+  public Integer getNubSpecies() {
+    return nubMetrics.getCountByRank(Rank.SPECIES);
+  }
+
+  public Integer getColSpecies() {
+    return colMetrics.getCountByRank(Rank.SPECIES);
+  }
+
+  public DatasetMetrics getColMetrics() {
+    return colMetrics;
+  }
+
+  public static UUID getColKey() {
+    return COL_KEY;
   }
 }
