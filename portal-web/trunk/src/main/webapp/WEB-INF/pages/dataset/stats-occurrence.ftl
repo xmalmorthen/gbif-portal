@@ -92,31 +92,26 @@
   <#-- Set up the tabs to highlight the info tab, and includ a backlink -->
   <#assign tab="stats"/>
   <#include "/WEB-INF/pages/dataset/inc/infoband.ftl">
-  <article class="results">
-    <header></header>
-    <div class="content">
-      <div class="header">
-        <div class="left">
-          <h2>Dataset metrics</h2>
-        </div>
-      </div>
+
+  <#macro kingdomRow kingdom usageId="" class="">
+    <tr <#if usageId?has_content>data-kingdom="${usageId}"</#if> <#if class?has_content>class="${class}"</#if> >
+      <td width="10%">${kingdom}</td>
+      <#list ["PRESERVED_SPECIMEN", "OBSERVATION", "FOSSIL_SPECIMEN", "LIVING_SPECIMEN"] as bor>
+        <td class="nonGeo" width="9%" data-bor="${bor}"><div>-</div></td>
+        <td width="9%" data-bor="${bor}">(<div class="geo">-</div>)</td>
+      </#list>
+      <td class="nonGeo total" width="9%" class='total'><div>-</div></td>
+      <td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
+    </tr>
+  </#macro>
+
+  <@common.article id="metrics" title="Dataset metrics">
       <div class="fullwidth">
         <p>
           <em>Note</em>: The numbers in brackets represent records that are georeferenced (i.e. with coordinates).
         </p>
 
         <p>
-          <#macro kingdomRow kingdom usageId="" class="">
-            <tr <#if usageId?has_content>data-kingdom="${usageId}"</#if> <#if class?has_content>class="${class}"</#if> >
-              <td width="10%">${kingdom}</td>
-              <#list ["PRESERVED_SPECIMEN", "OBSERVATION", "FOSSIL_SPECIMEN", "LIVING_SPECIMEN"] as bor>
-                <td class="nonGeo" width="9%" data-bor="${bor}"><div>-</div></td>
-                <td width="9%" data-bor="${bor}">(<div class="geo">-</div>)</td>
-              </#list>
-              <td class="nonGeo total" width="9%" class='total'><div>-</div></td>
-              <td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
-            </tr>
-          </#macro>
           <table class='metrics'>
 						<thead>
 							<tr>
@@ -138,8 +133,7 @@
 					</table>
 				</p>
       </div>
-    </div>
-    <footer></footer>
-  </article>
+</@common.article>
+
 </body>
 </html>

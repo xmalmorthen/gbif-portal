@@ -61,92 +61,78 @@
     <footer></footer>
   </article>
 
-  <article class="mono_line">
-    <header></header>
-    <div class="content">
-      <div class="header">
-        <div><h2>Usage summary</h2></div>
+<@common.article id="minigrpahs" title="Usage summary" class="mono_line">
+    <div class="minigraphs">
+      <div id="dataset-graph1" class="minigraph">
+        <h3>45<span>unique visits</span></h3>
+        <a href="#" title="Help" id="help3" class="help"><img
+                src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
+
+        <div class="percentage down">21% last year</div>
+        <div class="start">1998</div>
+        <div class="end">2011</div>
+        <div class="lt"></div>
+        <div class="rt"></div>
       </div>
-      <div class="minigraphs">
-        <div id="dataset-graph1" class="minigraph">
-          <h3>45<span>unique visits</span></h3>
-          <a href="#" title="Help" id="help3" class="help"><img
-                  src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
+      <div id="dataset-graph2" class="minigraph">
+        <h3>25<span>searches</span></h3>
+        <a href="#" title="Help" id="help3" class="help"><img
+                src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
 
-          <div class="percentage down">21% last year</div>
-          <div class="start">1998</div>
-          <div class="end">2011</div>
-          <div class="lt"></div>
-          <div class="rt"></div>
-        </div>
-        <div id="dataset-graph2" class="minigraph">
-          <h3>25<span>searches</span></h3>
-          <a href="#" title="Help" id="help3" class="help"><img
-                  src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
+        <div class="percentage up">21% last year</div>
+        <div class="start">1998</div>
+        <div class="end">2011</div>
+        <div class="lt"></div>
+        <div class="rt"></div>
+      </div>
+      <div id="dataset-graph3" class="minigraph last">
+        <h3>123,599<span>downloads</span></h3>
+        <a href="#" title="Help" id="help" class="help"><img src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
 
-          <div class="percentage up">21% last year</div>
-          <div class="start">1998</div>
-          <div class="end">2011</div>
-          <div class="lt"></div>
-          <div class="rt"></div>
-        </div>
-        <div id="dataset-graph3" class="minigraph last">
-          <h3>123,599<span>downloads</span></h3>
-          <a href="#" title="Help" id="help" class="help"><img src="<@s.url value='/img/icons/questionmark.png'/>"/></a>
-
-          <div class="percentage down">21% last year</div>
-          <div class="start">1998</div>
-          <div class="end">2011</div>
-          <div class="lt"></div>
-          <div class="rt"></div>
-        </div>
+        <div class="percentage down">21% last year</div>
+        <div class="start">1998</div>
+        <div class="end">2011</div>
+        <div class="lt"></div>
+        <div class="rt"></div>
       </div>
     </div>
-    <footer></footer>
-  </article>
+</@common.article>
 
-  <article>
-    <header></header>
-    <div class="content">
-      <div class="header">
-        <div class="left"><h2>Rankings</h2></div>
-      </div>
-      <div class="left">
-        <h3>Top search terms</h3>
-        <ul class="three_cols no_bottom">
-          <li><a href="">Puma concolor</a></li>
-          <li><a href="">Mammals</a></li>
-          <li><a href="">Marine mammals</a></li>
-          <li><a href="">Africa</a></li>
-          <li><a href="">Coastal</a></li>
-        </ul>
-        <ul class="three_cols">
-          <li><a href="">Puma concolor</a></li>
-          <li><a href="">Mammals</a></li>
-          <li><a href="">Marine mammals</a></li>
-          <li><a href="">Africa</a></li>
-          <li><a href="">Coastal</a></li>
-        </ul>
-        <ul class="three_cols">
-          <li><a href="">Puma concolor</a></li>
-          <li><a href="">Mammals</a></li>
-          <li><a href="">Marine mammals</a></li>
-          <li><a href="">Africa</a></li>
-          <li><a href="">Coastal</a></li>
-        </ul>
-      </div>
-      <div class="right">
-        <h3>Users by countries</h3>
-        <ul>
-          <li>USA</li>
-          <li>UK</li>
-          <li>Germany</li>
-          <li>Poland</li>
-        </ul>
-      </div>
+<@common.article id="rankings" title="Rankings">
+    <div class="left">
+      <h3>Top search terms</h3>
+      <ul class="three_cols no_bottom">
+        <li><a href="">Puma concolor</a></li>
+        <li><a href="">Mammals</a></li>
+        <li><a href="">Marine mammals</a></li>
+        <li><a href="">Africa</a></li>
+        <li><a href="">Coastal</a></li>
+      </ul>
+      <ul class="three_cols">
+        <li><a href="">Puma concolor</a></li>
+        <li><a href="">Mammals</a></li>
+        <li><a href="">Marine mammals</a></li>
+        <li><a href="">Africa</a></li>
+        <li><a href="">Coastal</a></li>
+      </ul>
+      <ul class="three_cols">
+        <li><a href="">Puma concolor</a></li>
+        <li><a href="">Mammals</a></li>
+        <li><a href="">Marine mammals</a></li>
+        <li><a href="">Africa</a></li>
+        <li><a href="">Coastal</a></li>
+      </ul>
     </div>
-    <footer></footer>
-  </article>
+    <div class="right">
+      <h3>Users by countries</h3>
+      <ul>
+        <li>USA</li>
+        <li>UK</li>
+        <li>Germany</li>
+        <li>Poland</li>
+      </ul>
+    </div>
+</@common.article>
 
 </body>
 </html>

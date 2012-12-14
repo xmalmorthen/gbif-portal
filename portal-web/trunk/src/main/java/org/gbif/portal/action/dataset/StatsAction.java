@@ -25,4 +25,5 @@ public class StatsAction extends DetailAction {
       throw new NotFoundException("External datasets dont have a stats page");
     }
   }
+
 }
