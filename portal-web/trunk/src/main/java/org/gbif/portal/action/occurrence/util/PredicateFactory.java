@@ -19,8 +19,8 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Enums;
 import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,17 +129,6 @@ public class PredicateFactory {
     }
   }
 
-  // Enables simple linking as per http://dev.gbif.org/issues/browse/POR-277 using a predifined mapping
-  // TODO: Verify all this with http://dev.gbif.org/issues/browse/POR-278
-  public static final String BYPASS_PARAM_NUB = "nubKey";
-  public static final String BYPASS_PARAM_DATASET = "datasetKey";
-  // not possible today, but reserved for the future
-  public static final String BYPASS_PARAM_OWNING_ORG = "owningOrgKey";
-  // not possible today, but reserved for the future
-  public static final String BYPASS_PARAM_HOSTING_ORG = "hostingOrgKey";
-  public static final String BYPASS_PARAM_COUNTRY_ISO = "countryISO";
-  private static final Map<String, Integer> BYPASS_PARAM_TO_SUBJECT = ImmutableMap.of(BYPASS_PARAM_NUB, 1,
-    BYPASS_PARAM_DATASET, 2, BYPASS_PARAM_COUNTRY_ISO, 4);
 
   private static final Logger LOG = LoggerFactory.getLogger(PredicateFactory.class);
 
@@ -149,26 +138,7 @@ public class PredicateFactory {
   private final static Pattern PREDICATE = Pattern.compile("f\\[(\\d+)\\]\\.[p]");
   private final static Pattern VALUE = Pattern.compile("f\\[(\\d+)\\]\\.[v]");
 
-  private final Map<String, String> queryFieldMapping;
-
-  public PredicateFactory(final Map<String, String> queryFieldMapping) {
-    this.queryFieldMapping = queryFieldMapping;
-  }
-
   public Predicate build(Map<String, String[]> params) {
-    if (LOG.isDebugEnabled()) {
-      for (String k : params.keySet()) {
-        LOG.debug("{}: {}", k, params.get(k)[0]);
-      }
-    }
-
-    // determine if any bypass keys are present, and if so return the first
-    for (Entry<String, Integer> e : BYPASS_PARAM_TO_SUBJECT.entrySet()) {
-      if (params.keySet().contains(e.getKey())) {
-        LOG.debug("Passing filter as simple URL observed for " + params.get(e.getKey())[0]);
-        return new EqualsPredicate(String.valueOf(e.getKey()), params.get(e.getKey())[0]);
-      }
-    }
 
     // Group the filters so to enable OR'ing between single terms
     // and AND'ing between the groups
@@ -190,28 +160,26 @@ public class PredicateFactory {
    * Converts the triple to a predicate
    */
   private Predicate build(Triple t) {
-    if (queryFieldMapping.containsKey(t.getSubject())) {
-      if (TypeMapping.EQUALS.getValue().equals(t.getPredicate())) {
-        return new EqualsPredicate(queryFieldMapping.get(t.getSubject()), t.getValue());
-      } else if (TypeMapping.GREATER_THAN.getValue().equals(t.getPredicate())) {
-        return new GreaterThanPredicate(queryFieldMapping.get(t.getSubject()), t.getValue());
-      } else if (TypeMapping.LESS_THAN.getValue().equals(t.getPredicate())) {
-        return new LessThanPredicate(queryFieldMapping.get(t.getSubject()), t.getValue());
-      } else if (TypeMapping.BETWEEN.getValue().equals(t.getPredicate())) {
-        // The value comes in form minValue,maxValue
-        String splitValue[] = t.getValue().split(",");
-        return new BetweenPredicate(queryFieldMapping.get(t.getSubject()), splitValue[0], splitValue[1]);
-      } else if (TypeMapping.BOUNDING_BOX.getValue().equals(t.getPredicate())) {
-        // The value comes in form minValue,maxValue
-        String splitValue[] = t.getValue().split(",");
-        BoundingBox bbox =
-          new BoundingBox(Double.parseDouble(splitValue[0]), Double.parseDouble(splitValue[1]),
-            Double.parseDouble(splitValue[2]), Double.parseDouble(splitValue[3]));
-        return new BoundingBoxPredicate(queryFieldMapping.get(t.getSubject()), bbox);
-      }
-    } else {
-      LOG.warn("Query mapping does not contain {}", t.getSubject());
+
+    if (TypeMapping.EQUALS.getValue().equals(t.getPredicate())) {
+      return new EqualsPredicate(t.getSubject(), t.getValue());
+    } else if (TypeMapping.GREATER_THAN.getValue().equals(t.getPredicate())) {
+      return new GreaterThanPredicate(t.getSubject(), t.getValue());
+    } else if (TypeMapping.LESS_THAN.getValue().equals(t.getPredicate())) {
+      return new LessThanPredicate(t.getSubject(), t.getValue());
+    } else if (TypeMapping.BETWEEN.getValue().equals(t.getPredicate())) {
+      // The value comes in form minValue,maxValue
+      String splitValue[] = t.getValue().split(",");
+      return new BetweenPredicate(t.getSubject(), splitValue[0], splitValue[1]);
+    } else if (TypeMapping.BOUNDING_BOX.getValue().equals(t.getPredicate())) {
+      // The value comes in form minValue,maxValue
+      String splitValue[] = t.getValue().split(",");
+      BoundingBox bbox =
+        new BoundingBox(Double.parseDouble(splitValue[0]), Double.parseDouble(splitValue[1]),
+          Double.parseDouble(splitValue[2]), Double.parseDouble(splitValue[3]));
+      return new BoundingBoxPredicate(t.getSubject(), bbox);
     }
+
     // first basic implementation does not support the given fields
     LOG.warn("No way to create Predicate for given fields {}", t);
     return null;
@@ -259,6 +227,14 @@ public class PredicateFactory {
     Map<String, String> p = new HashMap<String, String>();
     Map<String, String> v = new HashMap<String, String>();
     for (String param : params.keySet()) {
+      if (Enums.getIfPresent(OccurrenceDownloadParameter.class, param).isPresent()) {
+        s.put(param, param);
+        for (String value : params.get(param)) {
+          p.put(param, TypeMapping.EQUALS.getValue());
+          v.put(param, value);
+        }
+        continue;
+      }
       Matcher m = SUBJECT.matcher(param);
       if (m.matches()) {
         s.put(m.group(1), params.get(param)[0]); // only pull the first - an issue?

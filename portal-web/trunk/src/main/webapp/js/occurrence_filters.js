@@ -181,10 +181,12 @@ var OccurrenceWidget = (function ($,_) {
        * Hides/showas the apply button if there are filters to be applied.
        */
       toggleApplyButton: function(){
-        if(this.appliedFilters.length > 0){
-          this.filterElement.find(".apply").show();
-        } else {
-          this.filterElement.find(".apply").hide();
+        if(this.filterElement != null) {
+          if(this.appliedFilters.length > 0) {
+            this.filterElement.find(".apply").show();
+          } else {
+            this.filterElement.find(".apply").hide();
+          }
         }
       },
 
@@ -693,6 +695,7 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
   var widgets;
   var filterWidgets;
   var targetUrl;
+  var submitOnApply = false;
 
   /**
    * Gets a occurrence widget instance by its id field.
@@ -756,10 +759,11 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
   /**
    * Default constructor for the widget manager.
    */
-  var InnerOccurrenceWidgetManager = function(targetUrlValue,filters,controlSelector){
+  var InnerOccurrenceWidgetManager = function(targetUrlValue,filters,controlSelector,submitOnApplyParam){
     widgets = new Array();
     filterWidgets = new Array();
     targetUrl = targetUrlValue;
+    submitOnApply = submitOnApplyParam;
     this.bindToWidgetsControl(controlSelector);
     this.initialize(filters);    
   };
@@ -902,8 +906,15 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
        * Applies the selected filters by issuing a request to target url.
        */
       applyOccurrenceFilters : function(){
+        //if this.submitOnApply the elements are not submitted
+        if(!submitOnApply){return true;}
+        return InnerOccurrenceWidgetManager.prototype.submit({});        
+      },    
+      
+      
+      submit : function(additionalParams){
         showWaitDialog();
-        var params = {};         
+        var params = $.extend({},additionalParams);         
         if($("#datasetKey").val()){
           params['datasetKey'] = $("#datasetKey").val();            
         }
@@ -931,7 +942,7 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
         //redirects the window to the target
         window.location = targetUrl + $.param(params,true);
         return true;  // submit?
-      },    
+      },
 
       /**
        * Iterates over all the "filter widgets" and executes on each one the init() function.
@@ -948,11 +959,11 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
       initialize: function(filters){
         var self = this;  
         //The filters parameter could be null or undefined when none filter has been interpreted from the HTTP request 
-        if(typeof(filters) != 'undefined' && filters != null) {              
+        if(typeof(filters) != undefined && filters != null) {              
           $.each(filters, function(key,filterValues){
             $.each(filterValues, function(idx,filter) {                                  
               var occWidget = getWidgetById(filter.paramName);
-              if (occWidget != 'undefined') { //If the parameter doesn't exist avoids the initialization
+              if (occWidget != undefined) { //If the parameter doesn't exist avoids the initialization
                 occWidget.addAppliedFilter(filter);    
                 var filterWidget = getFilterWidgetById(filter.paramName);
                 if(filterWidget == undefined){
@@ -969,3 +980,4 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
   }
   return InnerOccurrenceWidgetManager;
 })(jQuery,_,OccurrenceWidget);
+
