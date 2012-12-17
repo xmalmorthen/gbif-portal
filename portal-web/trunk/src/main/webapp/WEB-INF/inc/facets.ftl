@@ -6,7 +6,7 @@ This include requires 2 arrays to be set:
 -->
 <#macro facetBox facetName count selected=false hidden=false>
   <#assign cntstr = "" + (count.count!minCnt) />
-  <#assign maxlen = 31 - cntstr?length />
+  <#assign maxlen = 30 - cntstr?length />
 <li>
   <input type="checkbox" value="&amp;${facetName?lower_case}=${count.name!}" <#if selected>checked</#if> />
   <a href="#" title="${maxlen} - ${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,maxlen)}</a> (${count.count!minCnt})
