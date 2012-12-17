@@ -68,6 +68,8 @@
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jscrollpane.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/menu.js'/>"></script>
+  <!-- we have issues with firefox, not only IE: http://dev.gbif.org/issues/browse/POR-412 -->
+  <script type="text/javascript" src="<@s.url value='/js/vendor/css_browser_selector.js'/>"></script>
 
   ${head}
 
