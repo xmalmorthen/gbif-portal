@@ -1,5 +1,6 @@
 package org.gbif.portal.action.occurrence;
 
+import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.service.checklistbank.NameUsageService;
@@ -9,6 +10,7 @@ import org.gbif.api.vocabulary.BasisOfRecord;
 
 import java.util.Locale;
 
+import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.util.LocalizedTextUtil;
@@ -54,6 +56,7 @@ public class FiltersActionHelper {
     return key;
   }
 
+
   /**
    * Gets the displayable value of filter parameter.
    */
@@ -62,7 +65,7 @@ public class FiltersActionHelper {
       (OccurrenceSearchParameter) VocabularyUtils.lookupEnum(filterKey, OccurrenceSearchParameter.class);
     if (parameter != null) {
       if (parameter == OccurrenceSearchParameter.TAXON_KEY) {
-        return nameUsageService.get(Integer.parseInt(filterValue), null).getScientificName();
+        return getScientificName(filterValue);
       } else if (parameter == OccurrenceSearchParameter.BASIS_OF_RECORD) {
         return LocalizedTextUtil.findDefaultText(BASIS_OF_RECORD_KEY + filterValue, getLocale());
       } else if (parameter == OccurrenceSearchParameter.DATASET_KEY) {
@@ -76,6 +79,9 @@ public class FiltersActionHelper {
     return filterValue;
   }
 
+  /**
+   * Gets the locale from the current web context.
+   */
   public Locale getLocale() {
     ActionContext ctx = ActionContext.getContext();
     if (ctx != null) {
@@ -86,6 +92,21 @@ public class FiltersActionHelper {
       }
       return null;
     }
+  }
+
+  /**
+   * Gets a scientific name associated to the taxon key parameter.
+   * If a name usage doesn't exist for that taxon key, the same key is returned.
+   */
+  public String getScientificName(String taxonKey) {
+    Integer taxonKeyInt = Ints.tryParse(taxonKey);
+    if (taxonKeyInt != null) {
+      NameUsage nameUsage = nameUsageService.get(taxonKeyInt, null);
+      if (nameUsage != null && nameUsage.getScientificName() != null) {
+        return nameUsage.getScientificName();
+      }
+    }
+    return taxonKey;
   }
 
   /**
