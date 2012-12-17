@@ -61,12 +61,12 @@ public class PredicateFactoryTest {
     assertEquals(2, cq.getPredicates().size());
     iter = cq.getPredicates().iterator();
     p = iter.next();
-    assertTrue(p instanceof DisjunctionPredicate); // the OR'ed scientific names (tested above)
-    p = iter.next();
     assertTrue(p instanceof GreaterThanPredicate);
     GreaterThanPredicate gp = (GreaterThanPredicate) p;
     assertEquals("LATITUDE", gp.getKey());
     assertEquals("10.00", gp.getValue());
+    p = iter.next();
+    assertTrue(p instanceof DisjunctionPredicate); // the OR'ed scientific names (tested above)
   }
 
 
