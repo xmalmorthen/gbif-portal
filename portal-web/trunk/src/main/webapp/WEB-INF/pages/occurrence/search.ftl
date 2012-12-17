@@ -84,6 +84,12 @@
         </td>
       </tr>      
       <#if searchResponse.count gt 0>
+      <tr class="results-header">
+        <td></td>
+        <td><h4>Location</h4></td>
+        <td><h4>Basis of record</h4></td>
+        <td><h4>Date</h4></td>
+      </tr>
       <#list searchResponse.results as occ>
       <tr>
         <td>
@@ -97,14 +103,27 @@
         </td>
         <td class="country"><#if occ.country?has_content><div class="country">${occ.country.title!}</div></#if>
           <div class="coordinates">
-            <#if occ.latitude?has_content>${occ.latitude!?string("0.00")}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?string("0.00")}<#else>-</#if>
+            <#if occ.latitude?has_content || occ.longitude?has_content>
+              <#if occ.latitude?has_content>${occ.latitude!?string("0.00")}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?string("0.00")}<#else>-</#if>
+            <#else>
+              N/A
+            </#if>
           </div>
         </td>
-        <td class="kind">${action.getFilterTitle('basisOfRecord',occ.basisOfRecord)!}</td>
+        <td class="kind">
+        <#if occ.basisOfRecord?has_content || occ.longitude?has_content>
+          ${action.getFilterTitle('basisOfRecord',occ.basisOfRecord)!}
+        <#else>
+         N/A
+        </#if></td>
         <td class="date">
-          <#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}<#else>-</#if>     
-          /    
-          <#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}<#else>-</#if>
+          <#if occ.occurrenceMonth?has_content || occ.occurrenceYear?has_content>
+            <#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}<#else>-</#if>     
+            /    
+            <#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}<#else>-</#if>
+          <#else>
+            N/A
+          </#if>
         </td>
       </tr>
       </#list>
