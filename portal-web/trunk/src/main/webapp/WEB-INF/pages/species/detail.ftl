@@ -371,7 +371,7 @@
   <footer></footer>
 </article>
 <#else>
-
+  <#if usage.distributions?has_content>
   <@common.article id="distribution" title="Distribution Range">
     <div class="fullwidth">
       <ul class="notes">
@@ -400,6 +400,7 @@
       </ul>
     </div>
   </@common.article>
+  </#if>
 </#if>
 
 <#if !descriptionToc.isEmpty()>
