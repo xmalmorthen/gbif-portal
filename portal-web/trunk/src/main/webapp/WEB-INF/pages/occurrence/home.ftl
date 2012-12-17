@@ -8,7 +8,7 @@
   <article class="dataset">
     <header></header>
     <div class="content">
-      <h1>Search through ${numOccurrences!0} occurrences</h1>
+      <h1>Search ${numOccurrences!0} occurrences</h1>
             
       <div class="results">
         <ul>

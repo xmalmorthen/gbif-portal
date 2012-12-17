@@ -16,7 +16,7 @@
     <article class="dataset">
     <header></header>
     <div class="content">
-      <h1>Search through ${numDatasets} datasets</h1>
+      <h1>Search ${numDatasets} datasets</h1>
 
       <form action="<@s.url value='/dataset/search'/>" method="GET">
         <span class="input_text">

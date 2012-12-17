@@ -17,9 +17,11 @@
     <header></header>
     <div class="content">
       <h1>
-          Search ${colSpecies} species, <br/> ${nubMetrics.countSynonyms} synonyms and <br/> ${nubSpecies-colSpecies} species under review
+          Search ${colSpecies} species
       </h1>
-      <p>of the <a href="<@s.url value='/dataset/${nubDatasetKey}'/>">GBIF Backbone Taxonomy</a></p>
+      <p>${nubMetrics.countSynonyms} synonyms and
+          <br/> ${nubSpecies-colSpecies} species under review
+          <br/> of the <a href="<@s.url value='/dataset/${nubDatasetKey}'/>">GBIF Backbone Taxonomy</a></p>
 
       <form action="<@s.url value='/species/search'/>" method="GET">
         <span class="input_text">
