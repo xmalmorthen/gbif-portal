@@ -1,32 +1,52 @@
 <html>
 <head>
   <title>${dataset.title} - Metrics</title>
+  <#assign total = metrics.countIndexed!0 />
   <content tag="extra_scripts">
     <script type="text/javascript" charset="utf-8">
         $(function() {
-          if ($("#map").length) {
-            var latlng = new google.maps.LatLng(-34.397, 150.644);
-            var myOptions = { zoom: 5, center: latlng, disableDefaultUI: true, mapTypeId: google.maps.MapTypeId.ROADMAP };
-            var map = new google.maps.Map(document.getElementById("map"), myOptions);
-          }
+          <#if total! gt 0>
+              var total = ${total?c};
+              console.debug( "TOTAL: " + total );
 
-          $("#dataset-graph1").addGraph(generateRandomValues(50), {width:275, height:200});
-          $("#dataset-graph2").addGraph(generateRandomValues(50), {width:275, height:200});
-          $("#dataset-graph3").addGraph(generateRandomValues(50), {width:275, height:200});
+              function setupPie(legend) {
+                var pieId = legend.attr("id") + "pie";
+                $(legend).before("<div id='" +pieId+ "' class='multipie'></div>");
+                var values = [];
+                $("li span.number", legend).each(function() {
+                    values.push( Math.round($(this).attr("data-cnt") * 100 / total))
+                });
+                console.debug(pieId + ": " + values);
+                $("#"+pieId).bindMultiPie(36.5, values);
+                $(legend).addMultiLegend();
+              }
 
-          $("#pieNub").bindPie(36.5, Math.floor(Math.random() * 100));
-          $("#pieCol").bindPie(36.5, Math.floor(Math.random() * 100));
+              // basics
+              setupPie($("#synonyms"));
+              setupPie($("#kingdoms"));
+              setupPie($("#ranks"));
 
-          $("#pie4").bindMultiPie(36.5, [12,50]);
-          $("#pie5").bindMultiPie(36.5, [32,45,77]);
-          $("#pie6").bindMultiPie(36.5, [12,18,45,62]);
+              // overlap
+              $("#pieNub").bindPie(36.5, Math.floor(${metrics.nubCoverage!0}));
+              $("#pieCol").bindPie(36.5, Math.floor(${metrics.colCoverage!0}));
 
-          $("#pie4legend").addMultiLegend(3);
-          $("#pie5legend").addMultiLegend(4);
-          $("#pie6legend").addMultiLegend(5);
+              // vernaculars & extensions
+              <#list metrics.countExtensionRecords?keys as ext>
+                <#assign count = metrics.getCountExtensionRecords().get(ext) />
+                <#if count gt 0>
+                  $("#extensions").append("<p><div id='pieExt${ext_index}'></div></p>");
+                  $("#pieExt${ext_index}").bindLabelPie(36, Math.floor(${count?c} / total * 100), '<@s.text name="enum.extension.${ext}"/>', "${count}", 16);
+                </#if>
+              </#list>
 
-          $(".horizontal_graph").bindGreyBars(400);
+            <#if metrics.countNamesByLanguage?has_content>
+              var maxVernacular = ${metrics.countNamesByLanguage?values[0]?c};
+              console.debug("maxVernacular: " + maxVernacular);
+              // max 400px
+              $("#vernacular_graph").bindGreyBars( (400-((maxVernacular+"").length)*10) / maxVernacular);
+            </#if>
 
+          </#if>
         });
     </script>
   </content>
@@ -36,78 +56,66 @@
   <#assign tab="stats"/>
   <#include "/WEB-INF/pages/dataset/inc/infoband.ftl">
 
-  <@common.article id="metrics" title="Vernacular Names" titleRight="Name Usages">
-      <div class="left">
-        <#if metrics.countNamesByLanguage?has_content>
-          <#assign langs = metrics.countNamesByLanguage?keys?sort>
-          <div class="col">
-            <ul>
-            <#list langs as l>
-              <#if l_index%2==0>
-                <#if "UNKNOWN"==l>
-                  <li>Unknown <span class="number">${metrics.countNamesByLanguage(l)!0}</span></li>
-                <#else>
-                  <li>${l.getTitleEnglish()} [${l.getIso2LetterCode()}] <span class="number">${metrics.countNamesByLanguage(l)!0}</span></li>
-                </#if>
-              </#if>
-            </#list>
-            </ul>
-          </div>
-
-          <div class="col">
-            <ul>
-            <#list langs as l>
-              <#if l_index%2==1>
-                <#if "UNKNOWN"==l>
-                  <li>Unknown <span class="number">${metrics.countNamesByLanguage(l)!0}</span></li>
-                <#else>
-                  <li>${l.getTitleEnglish()} [${l.getIso2LetterCode()}] <span class="number">${metrics.countNamesByLanguage(l)!0}</span></li>
-                </#if>
-              </#if>
-            </#list>
-            </ul>
-          </div>
-        </#if>
-      </div>
-
-      <div class="right">
-        <#if metrics.countByKingdom?has_content>
-          <h3>By Kingdom</h3>
-          <ul>
-            <#list kingdoms as k>
-              <#if metrics.countByKingdom(k)?has_content>
-                <li><@s.text name="enum.kingdom.${k}"/> <span class="number">${metrics.countByKingdom(k)!0}</span></li>
-              </#if>
-            </#list>
-          </ul>
-        </#if>
-
-        <#if metrics.countByRank?has_content>
-          <h3>By Rank</h3>
-          <ul>
-            <#list rankEnum as k>
-              <#if metrics.countByRank(k)?has_content>
-                <li><@s.text name="enum.rank.${k}"/> <span class="number">${metrics.countByRank(k)!0}</span></li>
-              </#if>
-            </#list>
-          </ul>
-        </#if>
-
-        <#if metrics.countExtensionRecords?has_content>
-          <h3>Associated Data</h3>
-          <ul>
-            <#list extensions as e>
-              <#if ((metrics.getExtensionRecordCount(e)!0)>0)>
-                <li><@s.text name="enum.extension.${e}"/> <span class="number">${metrics.getExtensionRecordCount(e)!0}</span></li>
-              </#if>
-            </#list>
-          </ul>
-        </#if>
-      </div>
+<!-- Do we have any metrics and records at all? -->
+<#if total! lt 1>
+  <@common.article id="metrics" title="No Metrics">
+    <div class="fullwidth">
+        <p>We are sorry, but for this dataset there are no metrics available right now.
+            Please come back another time.
+        </p>
+    </div>
   </@common.article>
+<#else>
+
+<@common.article id="metrics" title="Core Metrics">
+   <div class="fullwidth">
+     <ul class="pies">
+         <li><h3>Synonyms</h3>
+           <p>Number of synonyms and accepted taxa.</p>
+           <div id="synonyms" class="pieMultiLegend">
+             <ul>
+               <li><a href="">Accepted</a> <span class="number" data-cnt="${(total - metrics.countSynonyms)?c}">${total - metrics.countSynonyms}</span></li>
+               <li><a href="">Synonyms</a> <span class="number" data-cnt="${metrics.countSynonyms?c}">${metrics.countSynonyms}</span></li>
+             </ul>
+           </div>
+         </li>
+
+       <li><h3>Kingdoms</h3>
+         <p>Number of taxa within kingdoms of the GBIF Backbone.</p>
+         <#if metrics.countByKingdom?has_content>
+           <div id="kingdoms" class="pieMultiLegend">
+             <ul>
+             <#list kingdoms as k>
+               <#if metrics.countByKingdom(k)?has_content>
+                 <li><a href=""><@s.text name="enum.kingdom.${k}"/></a> <span class="number" data-cnt="${(metrics.countByKingdom(k)!0)?c}">${metrics.countByKingdom(k)!0}</span></li>
+               </#if>
+             </#list>
+             </ul>
+           </div>
+         </#if>
+       </li>
 
 
-<@common.article id="overlap" title="Checklist Overlap">
+       <li><h3>Ranks</h3>
+         <p>Number of taxa by mayor ranks.</p>
+         <#if metrics.countByRank?has_content>
+           <div id="ranks" class="pieMultiLegend">
+             <ul>
+               <#list rankEnum as k>
+                 <#if metrics.countByRank(k)?has_content>
+                   <li><a href=""><@s.text name="enum.rank.${k}"/> <span class="number" data-cnt="${(metrics.countByRank(k)!0)?c}">${metrics.countByRank(k)!0}</span></a></li>
+                 </#if>
+               </#list>
+             </ul>
+           </div>
+         </#if>
+       </li>
+     </ul>
+   </div>
+
+ </@common.article>
+
+  <@common.article id="overlap" title="Checklist Overlap">
 <div class="fullwidth">
     <ul class="pies">
        <li><h3>GBIF BACKBONE</h3>
@@ -122,101 +130,28 @@
 </div>
 </@common.article>
 
-<@common.article id="metrics2" title="Metrics 2">
-  <div class="fullwidth">
-    <ul class="pies">
-      <li><h3>Kingdoms</h3>
+  <#if metrics.countNamesByLanguage?has_content>
+  <@common.article id="vernaculars" title="Vernacular Name Languages" titleRight="Extension Data">
+      <div id="vernacular_graph" class="left">
+        <#assign langs = metrics.countNamesByLanguage?keys>
+        <ul class="no_bullets horizontal_graph">
+        <#list langs as l>
+          <li><a href="">
+          <#if "UNKNOWN"==l>Unknown<#else>${l.getTitleEnglish()}</#if>
+          </a> <div class="grey_bar">${(metrics.countNamesByLanguage(l)!0)?c}</div></li>
+        </#list>
+         </ul>
+       </div>
 
-        <p>Aim: to balance the data publication on northern and southern hemisphere.</p>
-
-        <div id="pie4" class="multipie"></div>
-        <div id="pie4legend" class="pieMultiLegend">
-          <ul>
-            <li><a href="">Value 1</a></li>
-            <li><a href="">Value 2</a></li>
-            <li><a href="">Value 3</a></li>
-          </ul>
-        </div>
-      </li>
-      <li><h3>Ranks</h3>
-
-        <p>Aim: to balance the coverage in the different taxa.</p>
-
-        <div id="pie5" class="multipie"></div>
-        <div id="pie5legend" class="pieMultiLegend">
-          <ul>
-            <li><a href="">Value 1</a></li>
-            <li><a href="">Value 2</a></li>
-            <li><a href="">Value 3</a></li>
-            <li><a href="">Value 4</a></li>
-          </ul>
-        </div>
-      </li>
-      <li class="last"><h3>Extensions</h3>
-
-        <p>Aim: to balance the coverage in the different taxa.</p>
-
-        <div id="pie6" class="multipie"></div>
-        <div id="pie6legend" class="pieMultiLegend">
-          <ul>
-            <li><a href="">Value 1</a></li>
-            <li><a href="">Value 2</a></li>
-            <li><a href="">Value 3</a></li>
-            <li><a href="">Value 4</a></li>
-            <li><a href="">Value 5</a></li>
-          </ul>
-        </div>
-      </li>
-    </ul>
-  </div>
-</@common.article>
-
-
-<@common.article id="vernaculars" title="Vernacular Names as bars">
-     <div class="left horizontal_graph">
-       <ul class="no_bullets">
-         <li><a href="">Aranae</a>
-
-           <div class="grey_bar">100</div>
-         </li>
-         <li><a href="">Opiriones</a>
-
-           <div class="grey_bar">63</div>
-         </li>
-         <li><a href="">Parasitiformes</a>
-
-           <div class="grey_bar">19</div>
-         </li>
-         <li><a href="">Pseudoscornopida</a>
-
-           <div class="grey_bar">15</div>
-         </li>
-         <li><a href="">Sarcoptiformes</a>
-
-           <div class="grey_bar">9</div>
-         </li>
-         <li><a href="">Scorpiones</a>
-
-           <div class="grey_bar">6</div>
-         </li>
-         <li><a href="">Trombidiformes</a>
-
-           <div class="grey_bar">3</div>
-         </li>
-         <li><a href="">Pseudoscornopida</a>
-
-           <div class="grey_bar">1</div>
-         </li>
-       </ul>
+       <div id="extensions" class="right">
+         <p>Total number of records per extension type shown as the average coverage per taxon.</p>
+       </div>
      </div>
-     <div class="right">
-       <h3>Additional content</h3>
+  </@common.article>
+  </#if>
 
-       <p>Some explanatory or aditional content here.</p>
-     </div>
-   </div>
-</@common.article>
 
+</#if>
 
 </body>
 </html>

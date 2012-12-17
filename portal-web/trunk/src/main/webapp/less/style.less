@@ -287,6 +287,11 @@ span.remove {
     list-style-image: url("../img/icons/bullet.png");
     list-style-position: inside;
 
+    &.no_bullets {
+      list-style: none;
+      list-style-image: none;
+    }
+
     li {
       margin-bottom: 4px;
       &.more {
@@ -3540,23 +3545,6 @@ article.static {
       font-size: 25px;
       color: @cGray1;
     }
-  }
-}
-
-#content article .content ul.pies {
-  margin: 0;
-
-  li {
-    float: left;
-    width: 251px;
-    margin: 0 42px 0 0;
-    padding: 0;
-
-    background: none;
-
-    p { font-size: 14px; }
-    &:last-child { margin: 0; }
-    &.last { margin: 0; }
   }
 }
 

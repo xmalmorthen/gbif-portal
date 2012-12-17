@@ -291,8 +291,7 @@ function generateRandomValues2(limit) {
 
 var values = generateRandomValues2(365);
 
-
-function drawPie(ob, r, percentage) {
+function drawLabelPie(ob, r, percentage, label1, label2, size1) {
   var endAngle = Math.floor(percentage / 100 * 360);
 
   var container_id = ob.attr("id"),
@@ -300,21 +299,29 @@ function drawPie(ob, r, percentage) {
     startAngle = 180 - endAngle,
     raphael = Raphael(container_id, ob.width(), r * 2);
 
-  function addLabel() {
-    var percentage_label = raphael.text(2 * r + 15, r - 10, percentage + "%");
-    percentage_label.attr({'font-size': 31, 'font-family': 'DINOT-Medium, Sans-Serif'});
+  function addLabel(label1, label2, size1) {
+    var percentage_label = raphael.text(2 * r + 15, r - 10, label1);
+    percentage_label.attr({'font-size': size1, 'font-family': 'DINOT-Medium, Sans-Serif'});
     percentage_label.attr("fill", "#0099CC");
     percentage_label.attr("text-anchor", "start");
 
-    var extra_label = raphael.text(2 * r + 15, r + 12, "fullfiled");
+    var extra_label = raphael.text(2 * r + 15, r + 12, label2);
     extra_label.attr({'font-size': 13, 'font-family': 'Arial, Sans-Serif'});
     extra_label.attr("fill", "#666666");
     extra_label.attr("text-anchor", "start");
   }
 
+  function addOver100(percentage){
+    var times = Math.round(percentage / 10) / 10;
+    var centre_label = raphael.text(r-12, r, times + "x");
+    centre_label.attr({'font-size': 15, 'font-family': 'Arial, Sans-Serif'});
+    centre_label.attr("fill", "#fff");
+    centre_label.attr("text-anchor", "start");
+  }
   if (percentage >= 100) {
     c = raphael.circle(r, r, r).attr({ stroke: "none", fill: "#0099CC" });
-    addLabel();
+    addLabel(label1, label2, size1);
+    addOver100(percentage);
     return;
   }
   c = raphael.circle(r, r, r).attr({ stroke: "#E5E5E5", fill: "#E5E5E5" });
@@ -329,8 +336,12 @@ function drawPie(ob, r, percentage) {
   }
 
   p = sector(r, r, r, 0, endAngle, { stroke: "none", fill: "#0099CC" });
-  addLabel();
+  addLabel(label1, label2, size1);
 
+}
+
+function drawPie(ob, r, percentage) {
+  drawLabelPie(ob, r, percentage, percentage + "%", "", 24);
 }
 
 function drawMultiPie(ob, r, values) {
@@ -353,14 +364,15 @@ function drawMultiPie(ob, r, values) {
       .attr(params);
   }
 
+  var aggrValue = 0;
   for (var i = 0; i < values.length; i++) {
-    var endAngle = Math.floor(values[i] / 100 * 360);
+    aggrValue = aggrValue + values[i];
+    var endAngle = Math.floor(aggrValue / 100 * 360);
     p = sector(r, r, r, 0, endAngle, { stroke: "none", fill: "#222", opacity: sectorOpacity});
   }
 }
 
-function drawGreyBars(ob, w) {
-  var scale = w / 100;
+function drawGreyBars(ob, scale) {
   jQuery("ul li", ob).each(function() {
     var bar = $(this).find("div.grey_bar");
     var value = bar.html();
@@ -380,18 +392,23 @@ $.fn.bindPie = function(r, percentage) {
   drawPie($(this), r, percentage);
 };
 
+$.fn.bindLabelPie = function(r, percentage, label1, label2, size1) {
+  drawLabelPie($(this), r, percentage, label1, label2, size1);
+};
+
 $.fn.bindMultiPie = function(r, values) {
   drawMultiPie($(this), r, values);
 };
 
-$.fn.bindGreyBars = function(w) {
-  drawGreyBars($(this), w);
+$.fn.bindGreyBars = function(scale) {
+  drawGreyBars($(this), scale);
 }
 
-$.fn.addMultiLegend = function(number) {
-  var baseOpacity = 0.6 / number;
+$.fn.addMultiLegend = function() {
+  var number = jQuery("ul li", this).length;
+  var baseOpacity = 0.8 / number;
   jQuery("ul li", this).each(function() {
-    var elementOpacity = ($(this).index() + 1) * baseOpacity;
+    var elementOpacity = (number - $(this).index()) * baseOpacity;
     $(this).prepend("<div class='pieLegendBullet'/>");
     $(this).find("div.pieLegendBullet").css({opacity: elementOpacity});
   });
