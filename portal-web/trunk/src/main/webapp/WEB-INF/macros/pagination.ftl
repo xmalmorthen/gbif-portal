@@ -1,4 +1,5 @@
-<#-- 
+<#import "/WEB-INF/macros/common.ftl" as common>
+<#--
 Macro for rendering pagination on the web app. 
 If the page.count exists, it renders a numbered pagination.
 If the page.count does not exist (is null), it renders the simple pagination (without numbered pages) 
@@ -9,7 +10,7 @@ If the page.count does not exist (is null), it renders the simple pagination (wi
   <#if page.count??>
     <#-- do not show pagination at all if count is less or equal to the total limit -->
     <#if (page.count > page.limit)>
-      <@numberedPagination page url 3 3/>
+      <@numberedPagination page url/>
     </#if>
   <#else>
     <@simplepagination page url/>
@@ -53,14 +54,12 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
 
 
 
-
 <#-- 
 Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [LAST PAGE] links. 
  - page: a mandatory PagingResponse instance
  - url: mandatory, current url
- - maxPagesBefore: optional, number of page links shown before the current page (without taking into account the [FIRST PAGE] link)
- - maxPagesAfter: optional, number of page links shown after the current page (without taking into account the [LAST PAGE] link)
- 
+ - maxPages: optional, number of page links to show at max without counting first & last, defaults to 5
+
  The macro result will look like this (links are not important for documentation purposes, so they have been replaced by a '#'):
  
   <ul class="numbered-pagination">
@@ -72,126 +71,36 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
     <li><a href="#">6</a></li>
     <li><a href="#">Last</a></li>
   </ul>
- 
- Please feel free to improve the code in any way.
--->
-<#macro numberedPagination page url maxPagesBefore=3 maxPagesAfter=3>
-
-  <#--   
-    Variables needed throughout the process.
-   -->
+ -->
+<#macro numberedPagination page url maxLink=5 >
   <#-- Total number of pages for the resultset -->
-  <#if (page.offset/page.limit!=0) >
-    <#assign totalPages = (page.count/page.limit)?ceiling >
-  <#else>
-    <#assign totalPages = (page.count/page.limit) >
-  </#if>  
-  
-  <#-- Temp variable to keep count of the offset of the next page link to render -->
-  <#assign newOffset = page.offset>
-  <#-- Temp variable to keep count of the amount of page links that have been already rendered -->
-  <#assign pagesRendered = 0>  
-  <#-- Temp variable to keep count of the next page link to render -->
-  <#assign pageCount = (page.offset/page.limit)?ceiling + 1>
-  <#-- Loop variable needed for simulating a do-while loop -->
-  <#assign loop = totalPages+5>
-  <#-- Variable that indicates the lowest offset after the [FIRST PAGE] link (which has an offset=0)
-       This will typically be the offset of the second page link. -->
-  <#assign lowestOffset = 0>  
-  <#-- HTML snippet that will hold the whole page links that are being built -->
-  <#assign html = "">  
+  <#assign totalPages = (page.count/page.limit)?ceiling />
+  <#-- current url with paging params removed -->
+  <#assign currUrl = getStripUrl(url) />
+  <#-- the current page number, first page = 1 -->
+  <#assign currPage = (page.offset/page.limit)?round + 1 />
+  <#assign minPage = common.max(currPage - (maxLink/2)?floor, 2) />
+  <#assign maxPage = common.min(minPage + maxLink - 1, totalPages - 1)/>
 
-  <#-- 
-    "html" contains the HTML that will hold the page numbers.
-    First, render the current page.
-  -->
-  <#if pageCount != 1 && pageCount != totalPages >
-    <#assign pageUrl = getFullUrl(getStripUrl(url), newOffset, 0)>
-    <#assign html = "<li><a class=\"current\" href=\"${pageUrl}\">${pageCount}</a></li>" + html>  
-    <#assign pageCount = pageCount-1>
-  </#if>
-  
-  <#-- It is the last page - substract one from the pageCount -->
-  <#if pageCount==totalPages>
-    <#assign pageCount = pageCount-1>
-  </#if>
-  
-  <#-- 
-    Check if there's any pages before the current one. If there are any,
-    then append them before the current "html" string. As freemarker does not 
-    have a concrete do-while loop, the list directive can be used to make it
-    work the same way.
-  -->
-  <#list 1..loop as x>
-    <#if (pageCount < 2 || pagesRendered>=maxPagesBefore)>
-      <#break>
-    </#if>
-      <#assign newOffset = newOffset - page.limit>
-      <#if (newOffset<0)>
-        <#assign lowestOffset = newOffset + page.limit>
-        <#assign newOffset = 0>
+  <ul class="numbered-pagination">
+  <@pageLink title="First" url=getFullUrl(currUrl, 0, page.limit) current=(currPage=1) />
+  <#if totalPages gt 1>
+    <#list minPage .. maxPage as p>
+      <@pageLink title=p url=getFullUrl(currUrl, page.limit*(p-1), page.limit) current=(currPage=p) />
+    </#list>
+    <#if totalPages gt maxPage>
+      <#if totalPages gt maxPage + 1>
+        <li>...</li>
       </#if>
-      <#assign pageUrl = getFullUrl(getStripUrl(url), newOffset, 0)>
-      <#assign html = "<li><a href=\"${pageUrl}\">${pageCount}</a></td>" + html></li>
-      <#assign pageCount = pageCount-1>
-      <#assign pagesRendered = pagesRendered+1>
-  </#list>
-
-    <#-- Reset needed values -->
-    <#assign pageCount = (page.offset/page.limit)?ceiling + 1>
-    <#assign newOffset = page.offset>
-    <#assign pagesRendered = 0>
-  
-  <#-- 
-    Check if there's any pages after the current one. If there are any,
-    then append them after the current "html" string. As freemarker does not 
-    have a concrete do-while loop, the list directive can be used to make it
-    work the same way.
-  -->  
-  <#list 1..loop as x>
-    <#assign pageCount = pageCount+1>       
-    <#assign newOffset = newOffset + page.limit>
-    <#assign pageUrl = getFullUrl(getStripUrl(url), newOffset, 0)>  
-    <#if ( (pageCount >= totalPages) || (newOffset+page.limit)>=page.count ||  pagesRendered>=maxPagesAfter)>
-      <#break>
+      <@pageLink title="Last" url=getFullUrl(currUrl, page.limit*(totalPages-1), page.limit) current=(currPage=totalPages) />
     </#if>
-    <#assign html = html + "<li><a href=\"${pageUrl}\">${pageCount}</a></li>">   
-    <#assign pagesRendered = pagesRendered+1>
-  </#list>  
-
-  <#-- Reset value -->
-  <#assign newOffset = page.offset>
-
-  <#-- Calculate the offset of the [LAST PAGE] link -->
-  <#list 1..loop as x>
-    <#assign newOffset = newOffset + page.limit>
-    <#if ((newOffset+page.limit)>=page.count)>
-      <#break>
-    </#if>
-  </#list>
- 
-  <#-- Strip the current URL of any instances of the "offset" parameter and insert the new "offset" value -->  
-  <#assign pageUrl = getFullUrl(getStripUrl(url), newOffset, 0)>
-  <#if (page.offset >= (page.count - page.limit))>
-    <#assign html = html + "<li><a class=\"current\"  href=\"${pageUrl}\">Last</a></li>">
-  <#else>
-    <#assign html = html + "<li><a href=\"${pageUrl}\">Last</a></li>">
   </#if>
-  
-  <#assign pageUrl = getFullUrl(getStripUrl(url), 0, 0)>    
-  <#if page.offset == 0>
-    <#assign html = "<li><a class=\"current\" href=\"${pageUrl}\">First</a></li>" + html> 
-  <#else>
-    <#assign html = "<li><a href=\"${pageUrl}\">First</a></li>" + html> 
-  </#if>
-  
-  <#assign html = "<ul class=\"numbered-pagination\">" + html + "</ul>"> 
-  
-  <#-- output the final result, escaping all ampersands to be compliant with the HTML specification -->
-  ${html?replace("&", "&amp;")}
-
+  </ul>
 </#macro>
 
+<#macro pageLink title url current=false>
+<li><a <#if current>class="current"</#if> href="${url}">${title?string}</a></li>
+</#macro>
 
 
 

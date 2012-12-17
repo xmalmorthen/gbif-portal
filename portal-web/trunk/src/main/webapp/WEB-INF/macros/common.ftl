@@ -1,3 +1,11 @@
+<!-- maximum function -->
+<#function max x y>
+    <#if (x<y)><#return y><#else><#return x></#if>
+</#function>
+<!-- minimum function -->
+<#function min x y>
+    <#if (x<y)><#return x><#else><#return y></#if>
+</#function>
 <#--
 	Limits a string to a maximun length and adds an ellipsis if longer.
 -->
