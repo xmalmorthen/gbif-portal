@@ -79,21 +79,23 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
   <#assign currUrl = getStripUrl(url) />
   <#-- the current page number, first page = 1 -->
   <#assign currPage = (page.offset/page.limit)?round + 1 />
+  <#-- the first numbered page to show. If only 1 page exists its a special case caught below -->
   <#assign minPage = common.max(currPage - (maxLink/2)?floor, 2) />
-  <#assign maxPage = common.min(minPage + maxLink - 1, totalPages - 1)/>
+  <#-- the last numbered page to show -->
+  <#assign maxPage = common.max(minPage, common.min(minPage + maxLink - 1, totalPages - 1))/>
 
   <ul class="numbered-pagination">
   <@pageLink title="First" url=getFullUrl(currUrl, 0, page.limit) current=(currPage=1) />
-  <#if totalPages gt 1>
-    <#list minPage .. maxPage as p>
-      <@pageLink title=p url=getFullUrl(currUrl, page.limit*(p-1), page.limit) current=(currPage=p) />
-    </#list>
-    <#if totalPages gt maxPage>
+  <#if totalPages gt 1 >
+    <#if totalPages gt 2 >
+      <#list minPage .. maxPage as p>
+        <@pageLink title=p url=getFullUrl(currUrl, page.limit*(p-1), page.limit) current=(currPage=p) />
+      </#list>
       <#if totalPages gt maxPage + 1>
         <li>...</li>
       </#if>
-      <@pageLink title="Last" url=getFullUrl(currUrl, page.limit*(totalPages-1), page.limit) current=(currPage=totalPages) />
     </#if>
+    <@pageLink title="Last" url=getFullUrl(currUrl, page.limit*(totalPages-1), page.limit) current=(currPage=totalPages) />
   </#if>
   </ul>
 </#macro>
