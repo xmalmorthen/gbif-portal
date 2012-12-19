@@ -65,7 +65,7 @@ public class WsSearchVisitor {
   }
 
   public void visit(BetweenPredicate predicate) {
-    params.put(predicate.getKey(), BETWEEN_THAN_OPERATOR.replaceAll(VMIN_PLACE_HOLDER, predicate.getValue())
+    params.put(predicate.getKey().name(), BETWEEN_THAN_OPERATOR.replaceAll(VMIN_PLACE_HOLDER, predicate.getValue())
       .replaceAll(VMAX_PLACE_HOLDER, predicate.getValueMax()));
   }
 
@@ -87,7 +87,7 @@ public class WsSearchVisitor {
   }
 
   public void visit(EqualsPredicate predicate) {
-    params.put(predicate.getKey(), predicate.getValue());
+    params.put(predicate.getKey().name(), predicate.getValue());
   }
 
   public void visit(GreaterThanPredicate predicate) {
@@ -96,6 +96,26 @@ public class WsSearchVisitor {
 
   public void visit(LessThanPredicate predicate) {
     visitPatternPredicate(predicate, LESS_THAN_OPERATOR);
+  }
+
+  /**
+   * Builds a list of predicates joined by 'op' statements.
+   * The final statement will look like this:
+   * 
+   * <pre>
+   * ((predicate) op (predicate) ... op (predicate))
+   * </pre>
+   */
+  public void visitCompoundPredicate(CompoundPredicate predicate) throws QueryBuildingException {
+    Iterator<Predicate> iterator = predicate.getPredicates().iterator();
+    while (iterator.hasNext()) {
+      Predicate subPredicate = iterator.next();
+      visit(subPredicate);
+    }
+  }
+
+  public void visitPatternPredicate(SimplePredicate predicate, String op) {
+    params.put(predicate.getKey().name(), op.replaceAll(V_PLACE_HOLDER, predicate.getValue()));
   }
 
   private void visit(Object object) throws QueryBuildingException {
@@ -117,26 +137,6 @@ public class WsSearchVisitor {
       LOG.info("Exception thrown while building the Hive Download", e);
       throw new QueryBuildingException(e);
     }
-  }
-
-  /**
-   * Builds a list of predicates joined by 'op' statements.
-   * The final statement will look like this:
-   * 
-   * <pre>
-   * ((predicate) op (predicate) ... op (predicate))
-   * </pre>
-   */
-  public void visitCompoundPredicate(CompoundPredicate predicate) throws QueryBuildingException {
-    Iterator<Predicate> iterator = predicate.getPredicates().iterator();
-    while (iterator.hasNext()) {
-      Predicate subPredicate = iterator.next();
-      visit(subPredicate);
-    }
-  }
-
-  public void visitPatternPredicate(SimplePredicate predicate, String op) {
-    params.put(predicate.getKey(), op.replaceAll(V_PLACE_HOLDER, predicate.getValue()));
   }
 
 }

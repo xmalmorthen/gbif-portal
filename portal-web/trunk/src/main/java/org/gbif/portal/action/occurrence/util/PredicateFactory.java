@@ -10,6 +10,7 @@ import org.gbif.api.model.occurrence.predicate.GreaterThanPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanPredicate;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.predicate.SimplePredicate;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.registry.geospatial.BoundingBox;
 
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class PredicateFactory {
 
 
     public BetweenPredicate(String key, String valueMin, String valueMax) {
-      super(key, valueMin);
+      super(Enums.getIfPresent(OccurrenceSearchParameter.class, key).get(), valueMin);
       this.valueMax = valueMax;
     }
 
@@ -162,11 +163,14 @@ public class PredicateFactory {
   private Predicate build(Triple t) {
 
     if (TypeMapping.EQUALS.getValue().equals(t.getPredicate())) {
-      return new EqualsPredicate(t.getSubject(), t.getValue());
+      return new EqualsPredicate(Enums.getIfPresent(OccurrenceSearchParameter.class, t.getSubject()).get(),
+        t.getValue());
     } else if (TypeMapping.GREATER_THAN.getValue().equals(t.getPredicate())) {
-      return new GreaterThanPredicate(t.getSubject(), t.getValue());
+      return new GreaterThanPredicate(Enums.getIfPresent(OccurrenceSearchParameter.class, t.getSubject()).get(),
+        t.getValue());
     } else if (TypeMapping.LESS_THAN.getValue().equals(t.getPredicate())) {
-      return new LessThanPredicate(t.getSubject(), t.getValue());
+      return new LessThanPredicate(Enums.getIfPresent(OccurrenceSearchParameter.class, t.getSubject()).get(),
+        t.getValue());
     } else if (TypeMapping.BETWEEN.getValue().equals(t.getPredicate())) {
       // The value comes in form minValue,maxValue
       String splitValue[] = t.getValue().split(",");
