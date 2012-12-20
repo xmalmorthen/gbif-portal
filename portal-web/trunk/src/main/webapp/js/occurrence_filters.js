@@ -35,6 +35,16 @@ var SUSPENSIVE_POINTS = "...";
 //Error CSS class for invalid input values.
 var ERROR_CLASS = "error";
 
+//predicates constants
+//Greater than
+var GT = "gt";
+
+//Less than
+var LT = "lt";
+
+//Equals
+var EQ = "eq";
+
 // This is needed as a nasty way to address http://dev.gbif.org/issues/browse/POR-365
 // The map is not correctly displayed, and requires a map.invalidateSize(); to be fired
 // After the filter div is rendered.  Because of this the map scope is public.
@@ -44,7 +54,7 @@ var map;
  * Base module that contains the base implementation for the occurrence widgets.
  * Contains the implementation for the basic operations: create the HTML control, apply filters, show the applied filters and close/hide the widget.
  */
-var OccurrenceWidget = (function ($,_) {  
+var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {  
 
   /**
    * Utility function that validates if the input string is empty.
@@ -159,7 +169,9 @@ var OccurrenceWidget = (function ($,_) {
        * Closes (hides) the HTML widget.
        */
       close : function(){      
-        this.filterElement.fadeOut(FADE_TIME);
+        if (this.filterElement != null) {
+          this.filterElement.fadeOut(FADE_TIME);
+        }
       },
 
       /**
@@ -172,8 +184,8 @@ var OccurrenceWidget = (function ($,_) {
       /**
        * Adds the filter to the list of applied filters and executes the onApplyFilter event.
        */
-      applyFilter : function(filter) {
-        this.addAppliedFilter(filter);
+      applyFilter : function(filterP) {
+        this.addAppliedFilter(filterP);
         this.onApplyFilterEvent.call();
       },
       
@@ -331,9 +343,9 @@ var OccurrenceWidget = (function ($,_) {
       /**
        * Searches a filter by its value.
        */
-      existsFilter :function(filter) {        
+      existsFilter :function(filterP) {        
         for(var i = 0; i < this.appliedFilters.length; i++){
-          if(this.appliedFilters[i].value == filter.value){
+          if(this.appliedFilters[i].value == filterP.value){
             return true;
           }
         }
@@ -358,8 +370,10 @@ var OccurrenceWidget = (function ($,_) {
                 key = input.attr("key"); 
               }
               if ((typeof(value) != "string") && $.isArray(value)) {
-                for (var i = 0; i < value.length; i++) {
-                  self.applyFilter({value: value[i], key:key});
+                var values_idx = 0;
+                while (values_idx < value.length) {
+                  self.applyFilter({value: value[values_idx], key:key});
+                  values_idx = values_idx + 1;
                 }
               } else {
                 self.applyFilter({value: value, key:key});
@@ -411,7 +425,7 @@ var OccurrenceWidget = (function ($,_) {
   }
 
   return InnerOccurrenceWidget;
-})(jQuery,_);
+})(jQuery,_,OccurrenceWidgetManager);
 
 /**
  * Occurrence date widget. Allows specify single and range of dates.
@@ -529,6 +543,59 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
 
 
 /**
+ * Comparator widget. Displays an selection list of available comparators (=,>,<) and an input box for the value.
+ */
+var OccurrenceComparatorWidget = (function ($,_,OccurrenceWidget) {
+  
+  var InnerOccurrenceComparatorWidget = function () {        
+  }; 
+  //Inherits everything from the OccurrenceWidget module.
+  InnerOccurrenceComparatorWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
+  
+  /**
+   * Validates if the filter value exists for the input predicate.
+   */
+  InnerOccurrenceComparatorWidget.prototype.existsFilterWithPredicate = function(valueP,predicateP){
+    if(predicateP == EQ) {
+      return this.existsFilter({value: valueP});
+    } else {
+      return this.existsFilter({value: predicateP + ',' + valueP});
+    }
+  },
+ 
+  /**
+   * The bindAddFilterControl function is re-defined to validate and process the coordinates. 
+   */
+  InnerOccurrenceComparatorWidget.prototype.addFilterControlEvent = function (self,input) {        
+    //gets the value of the input field            
+    var value = input.val();     
+    input.removeClass(ERROR_CLASS)
+    var predicate = self.filterElement.find(':input[name=predicate] option:selected').val();
+    var predicateText = self.filterElement.find(':input[name=predicate] option:selected').text();
+    if(!self.isBlank(value) && !this.existsFilterWithPredicate(value, predicate)){            
+      var key = "";
+      //Auto-complete stores the selected key in "key" attribute
+      if (input.attr("key") !== undefined) {
+        key = input.attr("key"); 
+      }
+      if(self.isBlank(value) || (!self.isBlank(value) && !self.isValidNumber(value,false,null,null))){
+        input.addClass(ERROR_CLASS);
+        return;
+      } 
+      if(predicate == EQ) {
+        self.addAppliedFilter({label:predicateText + ' ' + value,value: value, key:key,paramName:self.getId()});
+      } else {
+        self.addAppliedFilter({label:predicateText + ' ' + value,value: predicate + ',' + value, key:key,paramName:self.getId()});
+      }
+      self.showAppliedFilters();
+      input.val('');
+    }
+  };      
+  return InnerOccurrenceComparatorWidget;
+})(jQuery,_,OccurrenceWidget);
+
+
+/**
  * Basis of Record widget. Displays a multi-select list with the basis of record values.
  */
 var OccurrenceBasisOfRecordWidget = (function ($,_,OccurrenceWidget) {
@@ -575,7 +642,7 @@ var OccurrenceBasisOfRecordWidget = (function ($,_,OccurrenceWidget) {
  * Widget that holds and displays the filters that have been applied to a Occurrence filter(parameter).
  * A filter can be removed and the refresh the results.
  */
-var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
+var OccurrenceFilterWidget = (function ($,_) {
 
   /**
    * Default constructor.
@@ -602,6 +669,14 @@ var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
       applyFilter : function(filter) {
         var htmlFilter  = $(this.template(filter));
         this.addFilterItem(htmlFilter);
+      },
+      
+      removeAndApply: function(filtersP) {
+        this.filters = new Array();
+        for(var i = 0;  i < filtersP.length; i++){
+          this.addFilter(filtersP);
+        }
+        this.init();
       },
 
       /**
@@ -633,11 +708,19 @@ var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
         //Adds the filter to the container
         if (this.filters.length > 0) {
           var filterTitle = $('a[data-filter=' +  this.filters[0].paramName + ']').attr('title');
-          var htmlFilter  = $(this.template({title: filterTitle,paramName: this.filters[0].paramName,filters: this.filters}));          
+          var htmlFilter  = $('table.results tr.filters td ul li[id="filter-' + this.filters[0].paramName +'"]');
+          if(htmlFilter != null || htmlFilter.length > 0) { //was created previuosly
+            htmlFilter.remove();
+          } 
+          htmlFilter  = $(this.template({title: filterTitle,paramName: this.filters[0].paramName,filters: this.filters}));
           $(filtersContainer).append(htmlFilter);
           htmlFilter.fadeIn(FADE_TIME);
           this.bindCloseEvent(htmlFilter);
         }
+      },
+      
+      clearFilters : function(){
+        this.filters = [];
       },
 
       /**
@@ -680,7 +763,7 @@ var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
 
   return InnerOccurrenceFilterWidget;
 
-})(jQuery,_,OccurrenceWidget);
+})(jQuery,_);
 
 /**
  * Object that controls the creation and default behavior of OccurrenceWidget and OccurrenceFilterWidget instances.
@@ -688,7 +771,7 @@ var OccurrenceFilterWidget = (function ($,_,OccurrenceWidget) {
  * This object should be instantiated only once in a page (Singleton).
  * 
  */
-var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
+var OccurrenceWidgetManager = (function ($,_) {
 
   //All the fields are singleton variables
   var filterTemplate = "template-filter"; // template names for applied filters
@@ -792,28 +875,31 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           //Also the binding function is set as parameter, for instance: elf.bindSpeciesAutosuggest. When a binding function isn't needed a empty function is set:  function(){}.
           var filterName = $(control).attr("data-filter");
           var newWidget;
-          if(filterName == "TAXON_KEY"){
+          if (filterName == "TAXON_KEY") {
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindSpeciesAutosuggest});
-          }else if (filterName == "DATASET_KEY") {
+          } else if (filterName == "DATASET_KEY") {
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindDatasetAutosuggest});            
-          }else if (filterName == "COLLECTOR_NAME") {
+          } else if (filterName == "COLLECTOR_NAME") {
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCollectorNameAutosuggest});            
-          }else if (filterName == "CATALOG_NUMBER") {
+          } else if (filterName == "CATALOG_NUMBER") {
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCatalogNumberAutosuggest});            
-          }else if (filterName == "BOUNDING_BOX") {
+          } else if (filterName == "BOUNDING_BOX") {
             newWidget = new OccurrenceLocationWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindMap});            
-          }else if (filterName == "DATE") {
+          } else if (filterName == "DATE") {
             newWidget = new OccurrenceDateWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});            
-          }else if (filterName == "BASIS_OF_RECORD") {
+          } else if (filterName == "BASIS_OF_RECORD") {
             newWidget = new OccurrenceBasisOfRecordWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});              
-          }                  
+          }else if (filterName == "ALTITUDE" || filterName == "DEPTH") {
+            newWidget = new OccurrenceComparatorWidget();
+            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});              
+          }
           else { //By default creates a simple OccurrenceWidget with an empty binding function
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});                      
@@ -907,9 +993,29 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
        */
       applyOccurrenceFilters : function(){
         //if this.submitOnApply the elements are not submitted
-        if(!submitOnApply){return true;}
+        InnerOccurrenceWidgetManager.prototype.addFiltersFromWidgets();
+        if(!submitOnApply){return true;}        
         return InnerOccurrenceWidgetManager.prototype.submit({});        
       },    
+      
+      addFiltersFromWidgets : function() {
+       var filters = new Object();
+        var i = widgets.length - 1;
+        while (i >= 0) {
+          var appliedFilters = widgets[i].getAppliedFilters();
+          var filters_idx =  appliedFilters.length - 1;
+          while (filters_idx >= 0) {
+            if(filters[widgets[i].getId()] == undefined){
+              filters[widgets[i].getId()] = new Array();
+            }
+            filters[widgets[i].getId()].push(appliedFilters[filters_idx]);
+            filters_idx=filters_idx-1;
+          }
+          widgets[i].close();
+          i=i-1;
+        }
+        InnerOccurrenceWidgetManager.prototype.initialize(filters);
+      },
       
       
       submit : function(additionalParams){
@@ -952,12 +1058,22 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
           filterWidgets[i].init();
         }
       },
+      
+      /**
+       * Iterates over all the "filter widgets" and executes on each one the init() function.
+       */
+      clearFilterWidgets : function(){
+        for(var i=0; i < filterWidgets.length; i++){          
+          filterWidgets[i].clearFilters();
+        }
+      },
 
       /**
        * Initializes the state of the module and renders the previously applied filters.
        */
       initialize: function(filters){
         var self = this;  
+        this.clearFilterWidgets();
         //The filters parameter could be null or undefined when none filter has been interpreted from the HTTP request 
         if(typeof(filters) != undefined && filters != null) {              
           $.each(filters, function(key,filterValues){
@@ -966,7 +1082,7 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
               if (occWidget != undefined) { //If the parameter doesn't exist avoids the initialization
                 occWidget.addAppliedFilter(filter);    
                 var filterWidget = getFilterWidgetById(filter.paramName);
-                if(filterWidget == undefined){
+                if(filterWidget == undefined){                  
                   filterWidget = new OccurrenceFilterWidget(filterTemplate,self.applyOccurrenceFilters,occWidget);
                   filterWidgets.push(filterWidget);
                 } 
@@ -979,5 +1095,5 @@ var OccurrenceWidgetManager = (function ($,_,OccurrenceWidget) {
       }
   }
   return InnerOccurrenceWidgetManager;
-})(jQuery,_,OccurrenceWidget);
+})(jQuery,_);
 

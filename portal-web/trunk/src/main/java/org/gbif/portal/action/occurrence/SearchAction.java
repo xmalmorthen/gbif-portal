@@ -44,7 +44,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return this.filtersActionHelper.getDatasetTitle(key);
   }
 
-
   // this method is only a convenience one exposing the request filters so the ftl templates dont need to be adapted
   public Multimap<OccurrenceSearchParameter, String> getFilters() {
     return searchRequest.getParameters();
@@ -63,5 +62,4 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   public String getNubTaxonomyKey() {
     return Constants.NUB_TAXONOMY_KEY.toString();
   }
-
 }
