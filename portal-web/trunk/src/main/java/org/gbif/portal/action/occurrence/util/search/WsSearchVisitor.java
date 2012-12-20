@@ -118,24 +118,24 @@ public class WsSearchVisitor {
     params.put(predicate.getKey().name(), op.replaceAll(V_PLACE_HOLDER, predicate.getValue()));
   }
 
-  private void visit(Object object) throws QueryBuildingException {
+  private void visit(Object predicate) throws QueryBuildingException {
     Method method = null;
     try {
-      method = getClass().getMethod("visit", new Class[] {object.getClass()});
+      method = getClass().getMethod("visit", new Class[] {predicate.getClass()});
     } catch (NoSuchMethodException e) {
       LOG.warn("Visit method could not be found. That means a Predicate has been passed in that is unknown to this "
         + "class", e);
       throw new IllegalArgumentException("Unknown Predicate", e);
     }
     try {
-      method.invoke(this, object);
+      method.invoke(this, predicate);
     } catch (IllegalAccessException e) {
       LOG.error("This should never happen as all our methods are public and missing methods should have been caught "
         + "before. Probably a programming error", e);
       throw new RuntimeException("Programming error", e);
     } catch (InvocationTargetException e) {
       LOG.info("Exception thrown while building the Hive Download", e);
-      throw new QueryBuildingException(e);
+      throw new QueryBuildingException(predicate, e);
     }
   }
 

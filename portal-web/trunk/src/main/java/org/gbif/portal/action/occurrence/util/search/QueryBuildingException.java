@@ -13,19 +13,23 @@
 package org.gbif.portal.action.occurrence.util.search;
 
 /**
- * Wraps an Exception thrown during processing a {@link org.gbif.occurrencestore.download.api.model.Download}.
+ * Wraps an Exception thrown during processing a {@link org.gbif.api.model.occurrence.Download}.
  */
-public class QueryBuildingException extends Exception {
+public class QueryBuildingException extends IllegalArgumentException {
 
   private static final long serialVersionUID = 0;
-
+  private final Object predicate;
   /**
    * Creates a new instance with the given cause.
    * 
    * @param cause wrapped cause
    */
-  public QueryBuildingException(Throwable cause) {
+  public QueryBuildingException(Object predicate, Throwable cause) {
     super(cause);
+    this.predicate = predicate;
   }
 
+  public Object getPredicate() {
+    return predicate;
+  }
 }
