@@ -142,7 +142,7 @@
     <p>${usage.scientificName}</p>
 
     <h3>Rank</h3>
-    <p><@s.text name="enum.rank.${usage.rank!'unknown'}"/></p>
+    <p><@s.text name="enum.rank.${usage.rank!'UNKNOWN'}"/></p>
 
     <#if vernacularNames?has_content>
       <h3>Common names</h3>
@@ -203,18 +203,22 @@
 
     <#if usage.isExtinct()??>
       <h3>Extinction Status</h3>
-      <p>${usage.isExtinct()?string("Extinct","Living")}</p>
+      <#if usage.isExtinct()?string == "true">
+        <p><@s.text name="species.extinctionstatus.extinct"/></p>
+      <#else>
+        <p><@s.text name="species.extinctionstatus.living"/></p>
+      </#if>
     </#if>
 
     <#if (usage.livingPeriods?size>0)>
       <h3>Living Period</h3>
-      <p><#list usage.livingPeriods as p>${p}<#if p_has_next>; </#if></#list></p>
+      <p><#list usage.livingPeriods as p>${p?cap_first}<#if p_has_next>; </#if></#list></p>
     </#if>
 
     <#if habitats?has_content>
       <h3>Habitat</h3>
       <p>
-        <#list habitats as h>${h}<#if h_has_next>, </#if></#list>
+        <#list habitats as h>${h?cap_first}<#if h_has_next>, </#if></#list>
       </p>
     </#if>
 

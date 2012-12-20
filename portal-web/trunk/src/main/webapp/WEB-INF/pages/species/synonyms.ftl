@@ -33,7 +33,7 @@
           <h3>${u.taxonomicStatus!} ${u.nomenclaturalStatus!}</h3>
           <h2>
             <a href="<@s.url value='/species/${u.key?c}'/>"><strong>${u.scientificName}</strong></a>
-            <span class="note"><@s.text name='enum.rank.${u.rank!"UNRANKED"}'/></span>
+            <span class="note"><@s.text name='enum.rank.${u.rank!"UNKNOWN"}'/></span>
           </h2>
           <div class="footer">
             <#if usage.nub>

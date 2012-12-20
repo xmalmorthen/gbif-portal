@@ -2123,7 +2123,7 @@ init();
         $(data.results).each(function() {
           $htmlContent = '<li spid="' + this.key + '">';
           $htmlContent += '<span class="sciname">' + canonicalOrScientificName(this) + "</span>";
-          $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank || "unknown")) + "</span>";
+          $htmlContent += '<span class="rank">' + $i18nresources.getString("enum.rank." + (this.rank || "UNKNOWN")) + "</span>";
           if (this.numDescendants>0) {
             $htmlContent += '<span class="count">' + addCommas(this.numDescendants) + " descendants</span>";
           }
