@@ -9,6 +9,7 @@ import org.gbif.portal.action.occurrence.util.PredicateFactory;
 import java.util.Date;
 import java.util.List;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -18,6 +19,7 @@ public class DownloadAction extends BaseAction {
 
   private static final long serialVersionUID = 3653614424275432914L;
   private static final Logger LOG = LoggerFactory.getLogger(DownloadAction.class);
+  private final static Splitter EMAIL_SPLITTER = Splitter.on(";").trimResults().omitEmptyStrings();
   private final PredicateFactory predicateFactory = new PredicateFactory();
 
   @Inject
@@ -34,16 +36,11 @@ public class DownloadAction extends BaseAction {
     Predicate p = predicateFactory.build(getServletRequest().getParameterMap());
 
     LOG.info("Predicate build for passing to download [{}]", p);
-    if (p != null) {
 
-      Download download = new Download(null, p, getCurrentUser().getEmail(), new Date(), null, emails);
-      jobId = downloadService.create(download);
+    Download download = new Download(null, p, getCurrentUser().getEmail(), new Date(), null, emails);
+    jobId = downloadService.create(download);
 
-      return SUCCESS;
-
-    } else {
-      return ERROR;
-    }
+    return SUCCESS;
   }
 
   public List<String> getEmails() {
@@ -54,8 +51,8 @@ public class DownloadAction extends BaseAction {
     return jobId;
   }
 
-  public void setEmails(List<String> emails) {
-    this.emails = emails;
+  public void setEmails(String emails) {
+    this.emails = Lists.newArrayList(EMAIL_SPLITTER.split(emails));
   }
 
   public void setJobId(String jobId) {

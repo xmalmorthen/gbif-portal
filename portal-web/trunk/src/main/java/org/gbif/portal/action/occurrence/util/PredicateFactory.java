@@ -3,16 +3,18 @@ package org.gbif.portal.action.occurrence.util;
 import org.gbif.api.model.occurrence.predicate.ConjunctionPredicate;
 import org.gbif.api.model.occurrence.predicate.DisjunctionPredicate;
 import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
+import org.gbif.api.model.occurrence.predicate.GreaterThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.GreaterThanPredicate;
+import org.gbif.api.model.occurrence.predicate.LessThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanPredicate;
+import org.gbif.api.model.occurrence.predicate.LikePredicate;
+import org.gbif.api.model.occurrence.predicate.NotPredicate;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.VocabularyUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 import org.slf4j.Logger;
@@ -27,148 +29,126 @@ import org.slf4j.LoggerFactory;
  */
 public class PredicateFactory {
 
+  private static final Logger LOG = LoggerFactory.getLogger(PredicateFactory.class);
+  private final static Predicate MATCH_ALL = new NotPredicate(new EqualsPredicate(OccurrenceSearchParameter.ALTITUDE, "100000"));
+
   /**
-   * Enum that contains the supported predicates.
+   * Enum that contains the supported predicates and their value used to prefix query parameters.
+   * TODO: do we really need the simple greater/less than or can we just use the greaterthanorequals variant?
    */
-  private enum TypeMapping {
-    EQUALS("eq"), GREATER_THAN("gt"), LESS_THAN("lt"), GREATER_THAN_OR_EQUAL("gte"), LESS_THAN_OR_EQUAL("lte");
+  private enum Operator {
+    EQUALS("eq"), LIKE("lk"), GREATER_THAN("gt"), LESS_THAN("lt"), GREATER_THAN_OR_EQUAL("gte"), LESS_THAN_OR_EQUAL("lte");
 
-    private final String id;
+    private final String prefix;
 
-    TypeMapping(String id) {
-      this.id = id;
+    Operator(String prefix) {
+      this.prefix = prefix + ",";
     }
 
-    public String getValue() {
-      return id;
+    public String getPrefix() {
+      return prefix;
     }
   }
 
-  // Used to separate the predicate and value, e.g.: gt,10.
-  private static final String SEPARATOR = ",";
-
-
-  private static final Logger LOG = LoggerFactory.getLogger(PredicateFactory.class);
-
-
   /**
-   * Builds a Conjunction or SimplePredicate from the parameters.
+   * Builds a full predicate filter from the parameters.
+   * In case no filters exist still return a predicate that matches anything.
+   * @return always some predicate
    */
   public Predicate build(Map<String, String[]> params) {
-
-    // Group the filters so to enable OR'ing between single terms
-    // and AND'ing between the groups
-    List<Triple> filters = parse(params);
-
-    if (filters.isEmpty()) {
-      return null;
-    } else {
-      List<Predicate> grouped = collect(filters);
-      if (grouped.size() == 1) {
-        return grouped.get(0);
-      } else {
-        return new ConjunctionPredicate(grouped);
-      }
-    }
-  }
-
-  /**
-   * Builds a single predicate using a Triple instance.
-   */
-  public Predicate build(Triple t) {
-    Enum<?> occParam = VocabularyUtils.lookupEnum(t.getSubject(), OccurrenceSearchParameter.class);
-    if (occParam != null) {
-      OccurrenceSearchParameter occSearchParam = (OccurrenceSearchParameter) occParam;
-      if (TypeMapping.EQUALS.getValue().equals(t.getPredicate())) {
-        return new EqualsPredicate(occSearchParam, t.getValue());
-      } else if (TypeMapping.GREATER_THAN.getValue().equals(t.getPredicate())) {
-        return new GreaterThanPredicate(occSearchParam, t.getValue());
-      } else if (TypeMapping.LESS_THAN.getValue().equals(t.getPredicate())) {
-        return new LessThanPredicate(occSearchParam, t.getValue());
-      }
-    }
-
-    // first basic implementation does not support the given fields
-    LOG.warn("No way to create Predicate for given fields {}", t);
-    return null;
-  }
-
-
-  /**
-   * Takes the triples and collects them into common groups.
-   * E.g. 2 triples for "scientific name equals" will be grouped into one disjoint predicate (OR)
-   */
-  private List<Predicate> collect(List<Triple> filters) {
-    Map<Duplex, List<Predicate>> index = new HashMap<Duplex, List<Predicate>>();
-    for (Triple t : filters) {
-      Duplex key = new Duplex(t);
-      if (!index.containsKey(key)) {
-        List<Predicate> l = Lists.newArrayList();
-        index.put(key, l);
-      }
-      Predicate p = build(t);
-      index.get(key).add(p);
-    }
-    return collectDisjoint(index);
-  }
-
-  /**
-   * Rewrite the map collecting common predicates into an OR group
-   */
-  private List<Predicate> collectDisjoint(Map<Duplex, List<Predicate>> index) {
-    List<Predicate> result = Lists.newArrayList();
-    for (Entry<Duplex, List<Predicate>> e : index.entrySet()) {
-      if (e.getValue().size() > 1) {
-        result.add(new DisjunctionPredicate(e.getValue()));
-      } else if (e.getValue().size() == 1) {
-        result.add(e.getValue().get(0));
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Extracts the predicate of the "value" parameter.
-   * e.g.: lt,9 returns lt
-   */
-  private String getPredicate(String value) {
-    String parts[] = value.split(SEPARATOR);
-    if (parts.length == 1) {
-      return TypeMapping.EQUALS.getValue();
-    } else {
-      return parts[0];
-    }
-  }
-
-  /**
-   * Extracts the value of the "value" parameter.
-   * e.g.: lt,9 returns 9
-   */
-  private String getValue(String value) {
-    String parts[] = value.split(SEPARATOR);
-    if (parts.length == 1) {
-      return value;
-    } else {
-      return parts[1];
-    }
-  }
-
-  /**
-   * Reads all the params and spits them out in a digestible form Note that the ordering is
-   * not preserved. E.g. f[0] might not be the first in the list, but that is irrelevant
-   */
-  private List<Triple> parse(Map<String, String[]> params) {
-    List<Triple> t = Lists.newArrayList();
-    for (String param : params.keySet()) {
-      Enum<?> occSearchParam = VocabularyUtils.lookupEnum(param, OccurrenceSearchParameter.class);
-      if (occSearchParam != null) {
-        for (String value : params.get(param)) {
-          t.add(new Triple(((OccurrenceSearchParameter) occSearchParam).name(), getPredicate(value), getValue(value)));
+    // predicates for different parameters. If multiple values for the same parameter exist these are in here already
+    List<Predicate> groupedByParam = Lists.newArrayList();
+    for (String p : params.keySet()) {
+      // recognize valid params by enum name, ignore others
+      OccurrenceSearchParameter param = toEnumParam(p);
+      if (param != null) {
+        // valid parameter
+        Predicate predicate = buildParamPredicate(param, params.get(p));
+        if (predicate != null) {
+          groupedByParam.add(predicate);
         }
       }
     }
-    return t;
+
+    if (groupedByParam.isEmpty()) {
+      // use a stupid match all predicate for now as download requires an instance right now
+      return MATCH_ALL;
+
+    } else if (groupedByParam.size() == 1) {
+      return groupedByParam.get(0);
+
+    } else {
+      // AND the individual params
+      return new ConjunctionPredicate(groupedByParam);
+    }
   }
 
+  /**
+   * @param name
+   * @return the search enum or null if it cant be converted
+   */
+  private OccurrenceSearchParameter toEnumParam(String name) {
+    try {
+      return (OccurrenceSearchParameter) VocabularyUtils.lookupEnum(name, OccurrenceSearchParameter.class);
+    } catch (IllegalArgumentException e) {
+      return null;
+    }
+  }
+
+  private Predicate buildParamPredicate(OccurrenceSearchParameter param, String[] values) {
+    List<Predicate> predicates = Lists.newArrayList();
+    for (String v : values) {
+      predicates.add(parsePredicate(param, v));
+    }
+
+    if (predicates.isEmpty()) {
+      // use a stupid match all predicate for now as download requires an instance right now
+      return null;
+
+    } else if (predicates.size() == 1) {
+      return predicates.get(0);
+
+    } else {
+      // OR the individual params
+      return new DisjunctionPredicate(predicates);
+    }
+  }
+
+  /**
+   * Converts a value with an optional predicate prefix into a real predicate instance, defaulting to EQUALS.
+   */
+  private Predicate parsePredicate(OccurrenceSearchParameter param, String value) {
+    // iterate over the few possible prefixes and see if the string starts with it
+    // this avoids splitting the string on special characters,
+    // for example comma is likely to occurr also in the actual value
+    for (Operator op : Operator.values()) {
+      if (value.startsWith(op.getPrefix())) {
+        final String cleanValue = value.replaceFirst(op.getPrefix(), "");
+
+        switch (op) {
+          case EQUALS:
+            return new EqualsPredicate(param, cleanValue);
+
+          case LIKE:
+            return new LikePredicate(param, cleanValue);
+
+          case GREATER_THAN:
+            return  new GreaterThanPredicate(param, cleanValue);
+
+          case GREATER_THAN_OR_EQUAL:
+            return  new GreaterThanOrEqualsPredicate(param, cleanValue);
+
+          case LESS_THAN:
+            return  new LessThanPredicate(param, cleanValue);
+
+          case LESS_THAN_OR_EQUAL:
+            return  new LessThanOrEqualsPredicate(param, cleanValue);
+        }
+      }
+    }
+
+    // default to an equals predicate with the original value
+    return new EqualsPredicate(param, value);
+  }
 
 }

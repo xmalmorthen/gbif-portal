@@ -37,12 +37,23 @@
       });
     </script>
 
+    <style type="text/css">
+        div.box div.content {
+            height: 45px !important;
+        }
+    </style>
+
     </content>
   </head>
   <body class="search typesmap">
 
     <content tag="infoband">
-    <h2>Search occurrences</h2> 
+        <h2>Search occurrences</h2>
+        <div class="box">
+          <div class="content">
+            <a href="<@s.url value='/occurrence/download'/>?${request.getQueryString()!}" class="candy_blue_button"><span>Download occurrences</span></a>
+          </div>
+        </div>
     </content>
 
     <article class="ocurrence_results">
@@ -148,7 +159,7 @@
 
     <div class="header">
       <h2>Download ${searchResponse.count} occurrences for your search</h2>
-      <span> Or refine it using the <a href="<@s.url value='/occurrence/download'/>?<#if request.getQueryString()?has_content>${request.getQueryString()}</#if>">advanced search</a></span>
+      <span> Or refine it using the <a href="<@s.url value='/occurrence/download'/>?${request.getQueryString()!}">advanced search</a></span>
     </div>
 
     <div class="dropdown">

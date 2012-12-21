@@ -1,4 +1,4 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
   <title>Occurrences - GBIF</title>
   <content tag="extra_scripts">
@@ -69,6 +69,18 @@
       margin-bottom: 10px;
     }
 
+    #download a {
+      width:80px;
+    }
+
+    #download {
+      border-top: 0px !important;
+    }
+
+    #download input {
+      width:300px;
+    }
+
   </style>
 
   <script>
@@ -85,15 +97,6 @@
            </#list>
          </#list>
       </#if>
-   /** var query = $('#query-container').Query();
-
-    // subject container with event wiring to trigger changes on query
-    $('#filter-container').Filter({
-      json:"<@s.url value='/conf/occurrence-download.json'/>",
-      addFilter: function(event, data) {
-        query.Query("add", data.filter);
-      }
-    });**/
 
   $(document).ready(function() {  
    var widgetManager = new OccurrenceWidgetManager("<@s.url value='/occurrence/download/result'/>?",filtersFromRequest,".dropdown-menu",false);            
@@ -144,10 +147,15 @@
             </tr>  
             <tr>
               <td>                
-                <div id='email-container'>Email: <input type="text" id="email-text"/></div>
-                <div style="width:80px;">
-                  <a href="#" class="button candy_blue_button" id="submit-button"><span>Download</span></a>
-                </div>                                    
+
+                <div id="download" class="left">
+                    <div class="col">
+                      <a href="#" class="button candy_blue_button" id="submit-button"><span>Download</span></a>
+                    </div>
+                    <div class="col">
+                        Notify additional emails: <input type="text" name="emails" title="Additional email addresses seperated by ; that should get notified"/>
+                    </div>
+                </div>
               </td>           
             </tr>                   
           </table> 
