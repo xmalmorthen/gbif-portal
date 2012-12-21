@@ -126,7 +126,7 @@
       <#list links as p>
         <#if p.url?has_content>
           <li>
-            <a href="<@s.url value='${p.url}'/>" title="<@s.text name='enum.endpointtype.${p.type!'UNKNOWN'}'/>"><@s.text name="enum.endpointtype.${p.type!'UNKNOWN'}"/></a>
+            <a href="<@s.url value='${p.url}'/>" title="<@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/>"><@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/></a>
           </li>
         </#if>
       </#list>
@@ -165,7 +165,7 @@
     <#list dataLinks as p>
       <#if p.url?has_content>
         <li>
-          <a href="${p.url}" title="<@s.text name='enum.endpointtype.${p.type!'UNKNOWN'}'/>"><@s.text name="enum.endpointtype.${p.type!'UNKNOWN'}"/></a>
+          <a href="${p.url}" title="<@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/>"><@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/></a>
         </li>
       </#if>
     </#list>
@@ -188,7 +188,7 @@
     <#list metaLinks as p>
       <#if p.url?has_content>
         <li>
-          <a href="${p.url}" title="<@s.text name='enum.endpointtype.${p.type!'UNKNOWN'}'/>"><@s.text name="enum.endpointtype.${p.type!'UNKNOWN'}"/></a>
+          <a href="${p.url}" title="<@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/>"><@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/></a>
           <#if p.type=="EML">
             <@common.popup message="This is a link to the original metadata document. The metadata may be different from the version that is displayed if it has been updated since the time the dataset was last indexed." title="Warning"/>
           </#if>
