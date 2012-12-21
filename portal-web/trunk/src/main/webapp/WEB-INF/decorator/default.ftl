@@ -169,7 +169,8 @@
         <li class="search">
         <form href="<@s.url value='/dataset/search'/>" method="GET">
           <span class="input_text">
-            <input type="text" name="q"/>
+              <!-- Global search disabled until implemented later. See issue: http://dev.gbif.org/issues/browse/POR-387 -->
+            <input type="text" name="q" disabled="true"/>
           </span>
         </form>
         </li>
