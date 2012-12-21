@@ -55,7 +55,7 @@ public class DetailAction extends DatasetBaseAction {
   private final List<Endpoint> metaLinks = Lists.newArrayList();
   @Nullable
   private PagingResponse<Dataset> constituents;
-  private boolean renderMaps = true; // flag controlling map article rendering or not
+  private boolean renderMaps = false; // flag controlling map article rendering or not
 
   @Inject
   private TechnicalInstallationService installationService;
@@ -81,7 +81,7 @@ public class DetailAction extends DatasetBaseAction {
 
     // the map article is rendered only if the cube has indicated georeferenced records, or if there are
     // coverages that are not global (they don't really warrant visualizing).
-    renderMaps = renderMaps || getNumGeoreferencedOccurrences() != null && getNumGeoreferencedOccurrences() > 0;
+    renderMaps = getNumGeoreferencedOccurrences() != null && getNumGeoreferencedOccurrences() > 0;
     if (!renderMaps) {
       for (GeospatialCoverage gc : dataset.getGeographicCoverages()) {
         renderMaps = renderMaps ||
