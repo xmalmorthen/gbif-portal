@@ -1,5 +1,5 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
-<#import "/WEB-INF/macros/specimen/specimenRecord.ftl" as specimenRecord>
+<#import "/WEB-INF/macros/typespecimen.ftl" as types>
 <html>
 <head>
   <title>${usage.scientificName} - Checklist View</title>
@@ -522,16 +522,14 @@
       <div class="col">
         <h3>Checklists</h3>
         <ul class="notes">
-          <#assign counter=0 />
           <#list related as rel>
             <#if datasets.get(rel.datasetKey)??>
-              <#assign counter=counter+1 />
               <#assign title=datasets.get(rel.datasetKey).title! />
               <li><a title="${title}" href="<@s.url value='/species/${rel.key?c}'/>">${common.limit(title, 55)}</a>
                 <span class="note">as ${rel.scientificName}</span>
               </li>
             </#if>
-            <#if rel_has_next && counter==6>
+            <#if rel_has_next && rel_index==5>
               <li class="more"><a href="<@s.url value='/species/${usage.nubKey?c}/datasets?type=CHECKLIST'/>">${related?size} more</a></li>
               <#break />
             </#if>
@@ -544,15 +542,28 @@
 
 <#if (usage.typeSpecimens?size>0)>
   <@common.article id="typespecimen" title="Type specimens">
-    <#-- only show 4 type specimens at max -->
-    <#assign maxRecords=4>
     <div class="left">
       <#list usage.typeSpecimens as ts>
         <div class="col">
-          <@specimenRecord.record ts=ts showAsSearchResult=false />
+            <#if types.isValidType(ts)>
+            <div>
+              <#-- the scientific name must be present, or nothing gets shown -->
+              <#if ts.typeStatus?has_content>
+                ${ts.typeStatus?capitalize}
+                <#if ts.scientificName?has_content>
+                  - <a href="<@s.url value='/occurrence/search?q=${ts.scientificName}'/>">${ts.scientificName}</a>
+                </#if>
+              </#if>
+              <@common.usageSource component=ts showChecklistSource=nub />
+
+              <p class="no_bottom">
+                <@types.details ts />
+              </p>
+            </div>
+            </#if>
         </div>
-      <#-- If we have 4 (index=3) we know there are more to show -->
-        <#if (ts_index = maxRecords-1)>
+        <#-- only show 4 type specimens at max -->
+        <#if ts_has_next && ts_index==3>
           <p class="more">
             <a href="<@s.url value='/species/${id?c}/typespecimens'/>">more</a>
           </p>

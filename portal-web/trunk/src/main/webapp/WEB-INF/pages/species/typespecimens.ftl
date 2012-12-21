@@ -1,6 +1,6 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
 <#import "/WEB-INF/macros/common.ftl" as common>
-<#import "/WEB-INF/macros/specimen/specimenRecord.ftl" as specimenRecord>
+<#import "/WEB-INF/macros/typespecimen.ftl" as types>
 <html>
 <head>
   <title>Type Specimens for ${usage.canonicalOrScientificName!}</title>
@@ -31,7 +31,21 @@
       <div class="fullwidth">
 
       <#list page.results as item>
-        <@specimenRecord.record ts=item showAsSearchResult=true />
+        <#if types.isValidType(item)>
+        <div class="result">
+          <h2>
+            <strong>
+              <@types.status item />
+            </strong>
+            <span class="note"></span>
+          </h2>
+
+          <div class="footer">
+            <@types.details item />
+          </div>
+
+        </div>
+        </#if>
       </#list>
         <div class="footer">
         <@paging.pagination page=page url=currentUrl/>
