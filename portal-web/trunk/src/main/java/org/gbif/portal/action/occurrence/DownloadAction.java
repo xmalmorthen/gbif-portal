@@ -7,10 +7,10 @@ import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.util.PredicateFactory;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class DownloadAction extends BaseAction {
 
   private String jobId;
   // optional additional email notifications
-  private List<String> emails = Lists.newArrayList();
+  private Set<String> emails = Sets.newHashSet();
 
   @Override
   public String execute() {
@@ -37,13 +37,14 @@ public class DownloadAction extends BaseAction {
 
     LOG.info("Predicate build for passing to download [{}]", p);
 
-    Download download = new Download(null, p, getCurrentUser().getEmail(), new Date(), null, emails);
+    emails.add(getCurrentUser().getEmail());
+    Download download = new Download(null, p, getCurrentUser().getName(), new Date(), null, emails);
     jobId = downloadService.create(download);
 
     return SUCCESS;
   }
 
-  public List<String> getEmails() {
+  public Set<String> getEmails() {
     return emails;
   }
 
@@ -52,7 +53,7 @@ public class DownloadAction extends BaseAction {
   }
 
   public void setEmails(String emails) {
-    this.emails = Lists.newArrayList(EMAIL_SPLITTER.split(emails));
+    this.emails = Sets.newHashSet(EMAIL_SPLITTER.split(emails));
   }
 
   public void setJobId(String jobId) {
