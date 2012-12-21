@@ -5,10 +5,15 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.util.SearchTypeValidator;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.portal.action.BaseAction;
 
+import java.util.Enumeration;
 import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
@@ -107,6 +112,28 @@ public class FiltersActionHelper {
       }
     }
     return taxonKey;
+  }
+
+  /**
+   * Checks if the search parameter contains correct values.
+   */
+  public boolean validateSearchParameters(BaseAction action, HttpServletRequest request) {
+    boolean valid = true;
+    for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements();) {
+      String param = params.nextElement();
+      Enum<?> occParam = VocabularyUtils.lookupEnum(param, OccurrenceSearchParameter.class);
+      if (occParam != null) {
+        for (String value : request.getParameterValues(param)) {
+          try {
+            SearchTypeValidator.validate((OccurrenceSearchParameter) occParam, value);
+          } catch (IllegalArgumentException ex) {
+            action.addFieldError(param, "Wrong parameter value " + value);
+            valid = false;
+          }
+        }
+      }
+    }
+    return valid;
   }
 
   /**

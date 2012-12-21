@@ -27,6 +27,16 @@ public class DownloadHomeAction extends BaseAction {
     this.filtersActionHelper = filtersActionHelper;
   }
 
+  /*
+   * (non-Javadoc)
+   * @see org.gbif.portal.action.BaseSearchAction#execute()
+   */
+  @Override
+  public String execute() {
+    filtersActionHelper.validateSearchParameters(this, this.request);
+    return SUCCESS;
+  }
+
   /**
    * List the value of BasisOfRecord enum.
    */

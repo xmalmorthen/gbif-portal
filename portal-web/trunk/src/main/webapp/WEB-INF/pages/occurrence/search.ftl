@@ -60,9 +60,8 @@
     <header></header>
 
     <div class="content" id="content">
-
       <table class="results">
-
+        <#if !action.hasErrors()>
         <tr class="header">
 
           <td class="summary">
@@ -138,9 +137,23 @@
         </td>
       </tr>
       </#list>
-      </#if>                  
-
-    </table>    
+      </#if> 
+      <#else>   
+      <tr class="header">
+        <td class="filters">     
+          <ul>
+          <#list action.fieldErrors.keySet() as field>            
+                <li><h4>${field}</h4>
+                <#list action.fieldErrors.get(field) as error>            
+                    <div class="filter filter-error">${error}</div>         
+                </#list>
+                </li>            
+          </#list>
+          </ul>   
+        </td>
+       </tr>              
+      </#if>
+   </table>    
     <#--
       Removed for performance
       See: http://dev.gbif.org/issues/browse/POR-406
@@ -152,11 +165,11 @@
   <footer></footer>    
   </article>
 
-
+<#if !action.hasErrors()>
   <article class="download_ocurrences">
   <header></header>
   <div class="content">
-
+  
     <div class="header">
       <h2>Download ${searchResponse.count} occurrences for your search</h2>
       <span> Or refine it using the <a href="<@s.url value='/occurrence/download'/>?${request.getQueryString()!}">advanced search</a></span>
@@ -170,11 +183,10 @@
         <li class="last"><a href="#b"><span>Download metadata</span></a></li>
       </ul>
     </div>
-
   </div>
   <footer></footer>  
   </article>
-
+ </#if>
   <#include "/WEB-INF/pages/occurrence/inc/filters.ftl">
 
   <!-- /Filter templates -->

@@ -15,56 +15,7 @@
     <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/draw/leaflet.draw.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/occurrence_filters.js'/>"></script>    
-	<style>
-      div.general_options ul {position:relative; bottom:0px; left:0px; display:inline-block; width:auto; height:28px; padding:3px 0px 0px 3px; margin:0; background:#282F49; -webkit-border-top-left-radius: 5px; -moz-border-radius-topleft: 5px; border-top-left-radius: 5px; z-index:100;}
-      div.map_options ul{display:inline-block; margin:0px; padding:0px; width:auto; height:28px; padding:3px 0px 0px 3px;}
-      div.map_options ul li {display:inline-block; width:auto; height:25px; margin-right:1px; vertical-align:middle; overflow:hidden;}
-      div.map_options ul li a {display:block; width:auto; height:11px; padding:6px 7px; text-decoration:none; -webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;border:1px solid #161A29; font:bold 11px Arial; color:#333333; text-shadow:0 1px white;background:linear-gradient(-90deg,#ffffff,#CACBCE);background:-webkit-gradient(linear,50% 0%,50% 100%,from(#ffffff),to(#CACBCE));background:-moz-linear-gradient(-90deg,#ffffff,#CACBCE);background:-o-linear-gradient(#ffffff,#CACBCE);background:#ffffff\9;cursor:default;}
-      div.map_options ul li a:hover {background:linear-gradient(-90deg,#CACBCE,#ffffff);background:-webkit-gradient(linear,50% 0%,50% 100%,from(#CACBCE),to(#ffffff));background:-moz-linear-gradient(-90deg,#CACBCE,#ffffff);background:-o-linear-gradient(#CACBCE,#ffffff);background:#CACBCE\9;cursor:pointer;}
-
-    .description {
-      margin-top: 10px;
-      padding: 10px;
-      color: #666;
-      background-color: #E5F5FA;
-    }
-
-    p.query {
-      color: #999;
-      margin: 0px;
-      padding: 0px;
-      font-size: 11px;
-      font-family: DINOT-Medium, sans-serif;
-    }
-    ul.query {
-      list-style: none;
-      padding: 0px 0px 10px 10px;
-      margin: 0px;
-      color: #666;
-      font-weight: bold;
-    }
-    ul.query .boolean {
-      color: #999;
-      margin: 0px;
-      padding: 0px;
-      font-size: 11px;
-      font-weight: normal;
-      font-family: DINOT-Medium, sans-serif;
-    }
-
-    select,input {
-      margin-right: 5px;
-    }
-    select.subject {
-      width: 150px;
-    }
-    select.predicate {
-      width: 120px;
-    }
-    select.value {
-      width: 200px;
-    }
-
+	<style>     
     div#email-container {
       margin-bottom: 10px;
     }
@@ -106,6 +57,13 @@
   });
   </script>
 
+  <#if action.hasErrors()>
+   <script>
+     $(document).ready(function() {
+       $("tr.filters}").hide();
+     });
+    </script>
+  </#if>
   </content>
 
 </head>
@@ -145,9 +103,9 @@
                 </ul>
               </td>              
             </tr>  
+            <#if !action.hasErrors()>
             <tr>
               <td>                
-
                 <div id="download" class="left">
                     <div class="col">
                       <a href="#" class="button candy_blue_button" id="submit-button"><span>Download</span></a>
@@ -157,7 +115,22 @@
                     </div>
                 </div>
               </td>           
-            </tr>                   
+            </tr> 
+            <#else>
+            <tr class="header filters-error-list">
+              <td>     
+                <ul>
+                <#list action.fieldErrors.keySet() as field>            
+                      <li><h4>${field}</h4>
+                      <#list action.fieldErrors.get(field) as error>            
+                          <div class="filter filter-error">${error}</div>         
+                      </#list>
+                      </li>            
+                </#list>
+                </ul>   
+              </td>
+             </tr>                  
+            </#if>
           </table> 
     </div>
     <footer></footer>

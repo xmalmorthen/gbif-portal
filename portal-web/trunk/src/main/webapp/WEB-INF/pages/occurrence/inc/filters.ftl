@@ -132,7 +132,9 @@
                     <select name="predicate" class="date-dropdown">
                       <option value="eq">Is</option>
                       <option value="gt">Is greater than</option>
-                      <option value="lt">Is less than</option>                      
+                      <option value="lt">Is less than</option>
+                      <option value="gte">Is greater than or equals</option>
+                      <option value="lte">Is less than or equals</option>                      
                     </select>                    
                     <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">
                     <span style="display:none" class="erroMsg">Please enter a value</span>

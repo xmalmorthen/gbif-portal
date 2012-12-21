@@ -31,6 +31,20 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   }
 
 
+  /*
+   * (non-Javadoc)
+   * @see org.gbif.portal.action.BaseSearchAction#execute()
+   */
+  @Override
+  public String execute() {
+    if (filtersActionHelper.validateSearchParameters(this, this.request)) {
+      return super.execute();
+    } else {
+      return SUCCESS;
+    }
+  }
+
+
   public BasisOfRecord[] getBasisOfRecords() {
     return BasisOfRecord.values();
   }
@@ -62,4 +76,5 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   public String getNubTaxonomyKey() {
     return Constants.NUB_TAXONOMY_KEY.toString();
   }
+
 }
