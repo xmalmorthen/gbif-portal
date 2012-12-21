@@ -32,7 +32,7 @@ public class PredicateFactoryTest {
     assertEquals("PRESERVED_SPECIMEN", eq.getValue());
 
     // add a second country to check an OR is built
-    params.put("BASIS_OF_RECORD", new String[] {"eq,OBSERVATION", "eq,PRESERVED_SPECIMEN"});
+    params.put("BASIS_OF_RECORD", new String[] {"OBSERVATION", "eq,PRESERVED_SPECIMEN"});
     p = pf.build(params);
     assertTrue(p instanceof DisjunctionPredicate);
     DisjunctionPredicate dq = (DisjunctionPredicate) p;
@@ -57,12 +57,12 @@ public class PredicateFactoryTest {
     assertEquals(2, cq.getPredicates().size());
     iter = cq.getPredicates().iterator();
     p = iter.next();
+    assertTrue(p instanceof DisjunctionPredicate);
+    p = iter.next();
     assertTrue(p instanceof GreaterThanPredicate); // the OR'ed scientific names (tested above)
     GreaterThanPredicate gp = (GreaterThanPredicate) p;
     assertEquals(OccurrenceSearchParameter.LATITUDE, gp.getKey());
     assertEquals("10.00", gp.getValue());
-    p = iter.next();
-    assertTrue(p instanceof DisjunctionPredicate);
   }
 
 
