@@ -25,7 +25,7 @@
 
       <form action="<@s.url value='/species/search'/>" method="GET">
         <span class="input_text">
-         <input id="q" type="text" value="" name="q"/>
+         <input id="q" type="text" value="" name="q" placeholder="Search scientific name, common name, checklist description..."/>
         </span>
         <button id="submitSearch" type="submit" class="search_button"><span>Search</span></button>
         <input id="checklist" name="dataset_key" type="hidden" value="nub"/>

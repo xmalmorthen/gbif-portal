@@ -30,7 +30,7 @@
     <h2>Search species</h2>
 
     <form action="<@s.url value='/species/search'/>" method="GET" id="formSearch">
-      <input id="q" type="text" name="q" value="${q!}"/>
+      <input id="q" type="text" name="q" value="${q!}" placeholder="Search scientific name, common name, checklist description..."/>
     <#list searchRequest.parameters.asMap()?keys as p>
       <#list searchRequest.parameters.get(p) as val>
       <input type="hidden" name="${p}" value="${val!}"/>

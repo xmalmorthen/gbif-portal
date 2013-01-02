@@ -20,13 +20,13 @@
 
       <form action="<@s.url value='/dataset/search'/>" method="GET">
         <span class="input_text">
-          <input type="text" value="" name="q" id="q" placeholder="Search species, places, data publishers..." class="focus"/>
+          <input type="text" value="" name="q" id="q" placeholder="Search title, description, publisher..." class="focus"/>
         </span>
         <button type="submit" class="search_button"><span>Search</span></button>
       </form>
       <div class="results">
         <ul>
-          <li><a href="<@s.url value='/dataset/search?type=OCCURRENCE'/>">${numOccurrenceDatasets}</a>occurrences dataset</li>
+          <li><a href="<@s.url value='/dataset/search?type=OCCURRENCE'/>">${numOccurrenceDatasets}</a>occurrences datasets</li>
           <li><a href="<@s.url value='/dataset/search?type=CHECKLIST'/>">${numChecklistDatasets}</a>checklists</li>
           <li class="last"><a href="<@s.url value='/dataset/search?type=METADATA'/>">${numMetadataDatasets}</a>external datasets</li>
         </ul>
