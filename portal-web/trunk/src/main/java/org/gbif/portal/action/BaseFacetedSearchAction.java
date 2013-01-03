@@ -84,8 +84,6 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
     initializeFacetsForUI();
     initSelectedFacetCounts();
     initMinCounts();
-    // Remove selected facet filters that are not part of the response
-    // removeNotShownFacetsFilters(searchResponse);
     return result;
   }
 
