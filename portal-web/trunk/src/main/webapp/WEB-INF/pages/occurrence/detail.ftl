@@ -11,11 +11,6 @@
   <meta property="dwc:datasetName" content="${dataset.title!}"/>
   <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${dataset.key}'/>"/>
   </#if>
-  <style type="text/css">
-    article#taxonomy .content ul {
-      margin: 0 1px 26px 0px;
-    }
-  </style>
   <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
   <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
   <content tag="extra_scripts">
@@ -141,7 +136,7 @@ Identification details <span class='subtitle'>According to <a href="<@s.url valu
 
         <h3>Taxonomic classification</h3>
         <#assign classification=occ.higherClassificationMap />
-        <ul class="taxonomy">
+        <ul class="taxonomy last-horizontal-line">
           <#list classification?keys as key>
             <li<#if !key_has_next> class="last"</#if>><a href="<@s.url value='/species/${key?c}'/>">${classification.get(key)}</a></li>
           </#list>

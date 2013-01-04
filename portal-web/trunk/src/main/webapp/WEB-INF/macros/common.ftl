@@ -76,10 +76,7 @@
 
 <#macro popover linkTitle popoverTitle>
   <a class="popover" title="${popoverTitle}" data-remarks="">${linkTitle}</a>
-  <div class="message" style="display: none;"><#nested></div>
-  <#if remarks?has_content>
-    <div class="remarks" style="display: none;">${remarks}</div>
-  </#if>
+  <div class="message"><#nested></div>
 </#macro>
 
 <#--

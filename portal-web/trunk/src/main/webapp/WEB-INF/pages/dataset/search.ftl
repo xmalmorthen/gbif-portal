@@ -13,13 +13,6 @@
         $("#q").datasetAutosuggest(cfg.wsRegSuggest,4,"#content");
       </script>
   </content>
-  <style type="text/css">
-#resetFacets{
-  clear: both;
-  overflow: hidden;
-  margin-bottom: 20px;
-}
-  </style>
 </head>
 
 

@@ -263,10 +263,12 @@
   </#if>
 
   <#if (usage.lsids?size>0)>
-    <li><@common.popover linkTitle="Life Science Identifier" popoverTitle="Life Science Identifier">
-      <#list usage.lsids as i>
-        <p><a href='${i.identifierLink}'>${i.identifier}</a></p><br/>
-      </#list></@common.popover>
+    <li>
+      <@common.popover linkTitle="Life Science Identifier" popoverTitle="Life Science Identifier">
+        <#list usage.lsids as i>
+          <p><a href='${i.identifierLink}'>${i.identifier}</a></p><br/>
+        </#list>
+      </@common.popover>
     </li>
   </#if>
   </ul>

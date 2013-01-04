@@ -13,17 +13,6 @@
       $("#q").speciesAutosuggest(cfg.wsClbSuggest, 4, "#facetfilterDATASET_KEY .facetKey", "#content");
     </script>
   </content>
-  <style type="text/css">
-    #resetFacets {
-      clear: both;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-
-    div.searchResult p > strong {
-      text-decoration: underline;
-    }
-  </style>
 </head>
 <body class="search">
   <content tag="infoband">
