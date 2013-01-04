@@ -5,13 +5,7 @@
   <title>Species Search Results for ${q!}</title>
 
   <content tag="extra_scripts">
-    <script type="text/javascript" src="<@s.url value='/js/facets.js'/>">
-    </script>
-    <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>
-    <script>
-      $("#q").speciesAutosuggest(cfg.wsClbSuggest, 4, "#facetfilterDATASET_KEY .facetKey", "#content");
-    </script>
+    <script type="text/javascript" src="<@s.url value='/js/facets.js'/>"></script>
   </content>
 </head>
 <body class="search">
