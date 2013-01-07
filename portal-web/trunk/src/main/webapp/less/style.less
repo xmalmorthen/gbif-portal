@@ -260,7 +260,6 @@ p.advice {
   background: url("../img/icons/plus.png") no-repeat left top;
   height: 11px;
   margin-top: 10px;
-  display: block;
   position: relative;
 }
 
@@ -299,7 +298,7 @@ html.gecko #content{
     list-style-image: url("../img/icons/bullet.png");
     list-style-position: inside;
 
-    &.no_bullets {
+    &.no_bullets, .dropdown-menu ul, &.ui-autocomplete {
       list-style: none;
       list-style-image: none;
     }
@@ -371,7 +370,7 @@ html.gecko #content{
         line-height: 20px;
       }
     }
-  }
+  }  
 }
 
 
@@ -855,7 +854,7 @@ The id #content is used for forcing precedence over other style definitions.
   .size(203px, 31px);
   cursor: pointer;
   text-align: left;
-
+  margin-bottom: 0px;  
   background: url("../img/autocomplete_bkg.png") no-repeat -226px -12px;
 }
 
@@ -893,6 +892,7 @@ The id #content is used for forcing precedence over other style definitions.
   height: 58px;
   background: url("../img/autocomplete_bkg.png") no-repeat -452px -8px;
   border: none;
+  margin-top: -1px;
 }
 
 .ac_results ul li .row.last:hover, #content ul.ui-autocomplete li.ui-menu-item.last:hover {
