@@ -6,13 +6,14 @@
 
   <content tag="extra_scripts">
     <script type="text/javascript" src="<@s.url value='/js/facets.js'/>"></script>
+    <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
   </content>
 </head>
 <body class="search">
   <content tag="infoband">
     <h2>Search species</h2>
 
-    <form action="<@s.url value='/species/search'/>" method="GET" id="formSearch">
+    <form action="<@s.url value='/species/search'/>" method="GET" id="formSearch" autocomplete="off">
       <input id="q" type="text" name="q" value="${q!}" placeholder="Search scientific name, common name, checklist description..."/>
     <#list searchRequest.parameters.asMap()?keys as p>
       <#list searchRequest.parameters.get(p) as val>
@@ -22,7 +23,7 @@
     </form>
   </content>
 
-  <form action="<@s.url value='/species/search'/>">
+  <form action="<@s.url value='/species/search'/>" autocomplete="off">
     <article class="results light_pane">
       <input type="hidden" name="q" value="${q!}"/>
       <header></header>
