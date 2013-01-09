@@ -164,6 +164,34 @@
     </li>
   </script>
   
+  <script type="text/template" id="sciname-template-filter">
+    <li id="filter-<%=paramName%>">
+    <h4><%= title %></h4>
+    <% _.each(filters, function(filter) { %>
+        <div class="filter"><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a href="#" class="closeFilter"></a></div>         
+      <% }); %>             
+      <#list nameUsagesSuggestions?keys as sciname>            
+        <div class="suggestionBox" data-suggestion="${sciname}">         
+         <#assign suggestions= nameUsagesSuggestions[sciname]>
+           <#if suggestions?has_content>
+            <div class="warningBox"> <span class="warningCounter">!</span> We found more than one scientific name that matched <strong>"${sciname}"</strong>.Please select a name from the list below.</div>                               
+            <#list suggestions as nameUsageSearchResult>
+                <input id="nameUsageSearchResult${nameUsageSearchResult.key?c}" type="radio" value="${nameUsageSearchResult.key?c}" name="TAXON_KEY" class="suggestion" data-sciname="${sciname}"/><label for="nameUsageSearchResult${nameUsageSearchResult.key?c}">${nameUsageSearchResult.scientificName}</label>
+                </br>                          
+            </#list>
+           <#else>
+             <div class="warningBox"> <span class="warningCounter">${sciname_index + 1}</span> We haven't found any scientific name that matched <strong>"${sciname}"</strong>.</div>
+           </#if>                  
+        </div>               
+       </#list>       
+    </li>
+  </script>
+  
+  
+  <script type="text/template" id="template-filter-item">    
+    <div class="filter"><%= label %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/><a href="#" class="closeFilter"></a></div>              
+  </script>
+  
   <script type="text/template" id="template-applied-filter">
     <li style="list-style: none;display:block;">    
       <div><div style="float:left;" title="<%=title%>"><%= label %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div><a href="#" class="closeFilter" style="float:left;"></a></div>       

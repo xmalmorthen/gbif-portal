@@ -88,7 +88,7 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
         this.isBound = false;
         this.id = null;
         this.filterElement = null;
-        this.onApplyFilterEvent = options.onApplyFilter;
+        this.manager = options.manager;
         this.bindingsExecutor = options.bindingsExecutor;
       },
 
@@ -186,7 +186,7 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
        */
       applyFilter : function(filterP) {
         this.addAppliedFilter(filterP);
-        this.onApplyFilterEvent.call();
+        this.manager.applyOccurrenceFilters(true);
       },
       
       /**
@@ -380,10 +380,10 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
               }
               self.close();
             } else {
-              self.onApplyFilterEvent.call();
+              self.manager.applyOccurrenceFilters(true);
             }
           } else {
-            self.onApplyFilterEvent.call();
+            self.manager.applyOccurrenceFilters(true);
           }
         });  
       },      
@@ -621,6 +621,9 @@ var OccurrenceBasisOfRecordWidget = (function ($,_,OccurrenceWidget) {
     }
   };   
   
+  /**
+   * Executes addtional bindings: binds click event of each basis of record element.
+   */
   InnerOccurrenceBasisOfRecordWidget.prototype.executeAdditionalBindings = function(){
     if(this.filterElement != null) {
       var self = this;
@@ -650,9 +653,9 @@ var OccurrenceFilterWidget = (function ($,_) {
    * closeEvent: function that is executes every time a filter is removed.
    * occurrenceWidget: an occurrence widget instance that handles the same filter type managed by the filter widget.
    */
-  var InnerOccurrenceFilterWidget = function(templateId,closeEvent, occurrenceWidget){
+  var InnerOccurrenceFilterWidget = function(templateId,manager, occurrenceWidget){
     this.template = _.template($("#"+ templateId).html());
-    this.onCloseEvent = closeEvent;
+    this.manager = manager;
     this.occurrenceWidget = occurrenceWidget;
     this.filters = new Array();
   };
@@ -671,12 +674,79 @@ var OccurrenceFilterWidget = (function ($,_) {
         this.addFilterItem(htmlFilter);
       },
       
+      /**
+       * Remove an existing filter and then resets the widget.
+       */
       removeAndApply: function(filtersP) {
         this.filters = new Array();
         for(var i = 0;  i < filtersP.length; i++){
           this.addFilter(filtersP);
         }
         this.init();
+      },
+      
+      /**
+       * Replace all the filters with filter.value == oldValue, with the values taken from parameter newFilter.
+       */
+      replaceFilterValues: function(oldValue, newFilter){
+        for(var i = 0;  i < this.filters.length; i++){
+          if(this.filters[i].value == oldValue){
+            this.filters[i].value = newFilter.value;
+            this.filters[i].key = newFilter.key;
+            this.filters[i].label = newFilter.label;
+          }
+        }
+      },
+      
+      /**
+       * Binds the click(checked) event of a suggestion item to perform several actions: 
+       * removed the old filter value, update the occurrence widget, replace the UI content and then applied the filter.
+       */
+      bindSuggestions: function() {
+        var self = this;
+        $('input.suggestion').click( function(e) {          
+          var filterContainer = $('div.filter:has(input[value="'+ $(this).attr('data-sciname') +'"][type="hidden"])');
+          if (filterContainer) {                         
+            var thisValue = $(this).val();
+            var newFilter = {label:$('label[for="nameUsageSearchResult' + thisValue + '"]').text(), paramName:$(this).attr('name'),value:thisValue,key:thisValue};
+            var newContent = _.template($('#template-filter-item').html())(newFilter); 
+            self.replaceFilterValues($(filterContainer).find(":input[type=hidden]").val(),newFilter);
+            self.removeFilter(filterContainer);
+            self.occurrenceWidget.addAppliedFilter(newFilter);            
+            $(filterContainer).replaceWith(newContent);            
+            self.bindCloseEvent($('div.filter:has(input[value="'+ thisValue +'"][type="hidden"])'));
+            $(this).attr('checked',true);
+            //remove the container div
+            $(this).parent().remove();                       
+            self.manager.applyOccurrenceFilters(true);              
+          }
+        });
+      },
+      
+      /**
+       * Determines if a filter with value parameter exists.
+       */
+      hasFilterWithValue: function(value) {
+        for(var i = 0;  i < this.filters.length; i++){
+          if (this.filters[i].value == value) {
+            return true;
+          }
+        }
+        return false;
+      },
+      
+      /**
+       * Removes the suggestions boxes that are not applicable.
+       * Some of them could be obsolete because the user previously selected a suggestion.
+       */
+      removeUnusedSuggestionBoxes: function() {
+        var self = this;
+        $(".suggestionBox").each( function(idx,el) {
+          var suggestion = $(el).attr('data-suggestion');
+          if(!self.hasFilterWithValue(suggestion)){
+            $(el).remove();
+          }
+        });
       },
 
       /**
@@ -717,8 +787,13 @@ var OccurrenceFilterWidget = (function ($,_) {
           htmlFilter.fadeIn(FADE_TIME);
           this.bindCloseEvent(htmlFilter);
         }
+        this.bindSuggestions();
+        this.removeUnusedSuggestionBoxes();
       },
       
+      /**
+       * Clears the list of filters.
+       */
       clearFilters : function(){
         this.filters = [];
       },
@@ -754,7 +829,8 @@ var OccurrenceFilterWidget = (function ($,_) {
                 }
               }
               //call the onCloseEvent if any
-              self.onCloseEvent.call();
+              self.manager.applyOccurrenceFilters(true);
+              self.removeUnusedSuggestionBoxes();
             });        
           });
         });
@@ -774,7 +850,8 @@ var OccurrenceFilterWidget = (function ($,_) {
 var OccurrenceWidgetManager = (function ($,_) {
 
   //All the fields are singleton variables
-  var filterTemplate = "template-filter"; // template names for applied filters
+  var filterTemplate = "template-filter"; // template name for applied filters
+  var sciNamefilterTemplate = "sciname-template-filter";
   var widgets;
   var filterWidgets;
   var targetUrl;
@@ -805,6 +882,16 @@ var OccurrenceWidgetManager = (function ($,_) {
    */
   function getTopPosition(div) {
     return (( $(window).height() - div.height()) / 2) + $(window).scrollTop() - 50;
+  };
+  
+  /**
+   * Gets the widget filter template using the filterName parameter.
+   */
+  function getFilterTemplate(filterName){
+    if(filterName == 'TAXON_KEY'){ //only taxon key uses a different template
+      return sciNamefilterTemplate;
+    }
+    return filterTemplate;
   };
 
   /**
@@ -877,37 +964,38 @@ var OccurrenceWidgetManager = (function ($,_) {
           var newWidget;
           if (filterName == "TAXON_KEY") {
             newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindSpeciesAutosuggest});
+            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindSpeciesAutosuggest});
           } else if (filterName == "DATASET_KEY") {
             newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindDatasetAutosuggest});            
+            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindDatasetAutosuggest});            
           } else if (filterName == "COLLECTOR_NAME") {
             newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCollectorNameAutosuggest});            
+            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCollectorNameAutosuggest});            
           } else if (filterName == "CATALOG_NUMBER") {
             newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindCatalogNumberAutosuggest});            
+            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCatalogNumberAutosuggest});            
           } else if (filterName == "BOUNDING_BOX") {
             newWidget = new OccurrenceLocationWidget();
-            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: self.bindMap});            
+            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindMap});            
           } else if (filterName == "DATE") {
             newWidget = new OccurrenceDateWidget();
-            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});            
+            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});            
           } else if (filterName == "BASIS_OF_RECORD") {
             newWidget = new OccurrenceBasisOfRecordWidget();
-            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});              
+            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});              
           }else if (filterName == "ALTITUDE" || filterName == "DEPTH") {
             newWidget = new OccurrenceComparatorWidget();
-            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});              
+            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});              
           }
           else { //By default creates a simple OccurrenceWidget with an empty binding function
             newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,onApplyFilter: self.applyOccurrenceFilters,bindingsExecutor: function(){}});                      
+            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});                      
           }
           newWidget.bindToControl(control);
           widgets.push(newWidget);
         });       
-      },      
+      },  
+      
       /**
        * Binds the species auto-suggest widget used by the TAXON_KEY widget.
        */
@@ -916,6 +1004,7 @@ var OccurrenceWidgetManager = (function ($,_) {
           $(el).speciesAutosuggest(cfg.wsClbSuggest, 4, "#nubTaxonomyKey[value]", "#content",false);
         });   
       },
+      
       /**
        * Binds the dataset title auto-suggest widget used by the DATASET_KEY widget.
        */
@@ -924,6 +1013,7 @@ var OccurrenceWidgetManager = (function ($,_) {
           $(el).datasetAutosuggest(cfg.wsRegSuggest,4,"#content");
         });   
       },
+      
       /**
        * Binds the collector name  auto-suggest widget used by the COLLECTOR_NAME widget.
        */
@@ -932,6 +1022,7 @@ var OccurrenceWidgetManager = (function ($,_) {
           $(el).termsAutosuggest(cfg.wsOccCollectorNameSearch, "#content",4);
         });        
       },
+      
       /**
        * Binds the catalog number  auto-suggest widget used by the CATALOG_NAME widget.
        */
@@ -991,13 +1082,19 @@ var OccurrenceWidgetManager = (function ($,_) {
       /**
        * Applies the selected filters by issuing a request to target url.
        */
-      applyOccurrenceFilters : function(){
+      applyOccurrenceFilters : function(refreshFilters){        
+        if (refreshFilters) {
+          this.addFiltersFromWidgets();
+        }
         //if this.submitOnApply the elements are not submitted
-        InnerOccurrenceWidgetManager.prototype.addFiltersFromWidgets();
-        if(!submitOnApply){return true;}        
-        return InnerOccurrenceWidgetManager.prototype.submit({});        
+        if (submitOnApply) {        
+          return this.submit({});
+        }
       },    
       
+      /**
+       * Reads the filters applied on each widget and the creates the filter widgets.
+       */
       addFiltersFromWidgets : function() {
        var filters = new Object();
         var i = widgets.length - 1;
@@ -1014,19 +1111,15 @@ var OccurrenceWidgetManager = (function ($,_) {
           widgets[i].close();
           i=i-1;
         }
-        InnerOccurrenceWidgetManager.prototype.initialize(filters);
+        this.initialize(filters);
       },
       
-      
+      /**
+       * Submits the request using the selected filters.
+       */
       submit : function(additionalParams){
         showWaitDialog();
-        var params = $.extend({},additionalParams);         
-        if($("#datasetKey").val()){
-          params['datasetKey'] = $("#datasetKey").val();            
-        }
-        if($("#nubKey").val()){
-          params['nubKey'] = $("#nubKey").val();
-        }        
+        var params = $.extend({},additionalParams);       
         var u = $.url();
         
         //Collect the filter values
@@ -1035,7 +1128,7 @@ var OccurrenceWidgetManager = (function ($,_) {
           for(var fi=0; fi < widgetFilters.length; fi++){
             var filter = widgetFilters[fi];
             var filterId = widgets[wi].getId(); 
-            if(params[filterId] == null){
+            if (params[filterId] == null) {
               params[filterId] = new Array();
             }
             if (filter.key != null && filter.key.length > 0) {
@@ -1083,7 +1176,7 @@ var OccurrenceWidgetManager = (function ($,_) {
                 occWidget.addAppliedFilter(filter);    
                 var filterWidget = getFilterWidgetById(filter.paramName);
                 if(filterWidget == undefined){                  
-                  filterWidget = new OccurrenceFilterWidget(filterTemplate,self.applyOccurrenceFilters,occWidget);
+                  filterWidget = new OccurrenceFilterWidget(getFilterTemplate(occWidget.getId()),self,occWidget);
                   filterWidgets.push(filterWidget);
                 } 
                 filterWidget.addFilter(filter);

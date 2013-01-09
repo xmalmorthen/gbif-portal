@@ -1,8 +1,13 @@
 package org.gbif.portal.action.occurrence;
 
+import org.gbif.api.model.Constants;
 import org.gbif.api.model.checklistbank.NameUsage;
+import org.gbif.api.model.checklistbank.search.NameUsageSearchParameter;
+import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
+import org.gbif.api.model.checklistbank.search.NameUsageSuggestRequest;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.service.checklistbank.NameUsageSearchService;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.util.SearchTypeValidator;
@@ -11,10 +16,13 @@ import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.portal.action.BaseAction;
 
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.collect.Maps;
 import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionContext;
@@ -29,6 +37,8 @@ public class FiltersActionHelper {
 
   private final DatasetService datasetService;
   private final NameUsageService nameUsageService;
+  private final NameUsageSearchService nameUsageSearchService;
+  private static final int SUGGESTIONS_LIMIT = 10;
   private static final Logger LOG = LoggerFactory.getLogger(FiltersActionHelper.class);
 
   /**
@@ -37,9 +47,11 @@ public class FiltersActionHelper {
   private static final String BASIS_OF_RECORD_KEY = "enum.basisofrecord.";
 
   @Inject
-  public FiltersActionHelper(DatasetService datasetService, NameUsageService nameUsageService) {
+  public FiltersActionHelper(DatasetService datasetService, NameUsageService nameUsageService,
+    NameUsageSearchService nameUsageSearchService) {
     this.datasetService = datasetService;
     this.nameUsageService = nameUsageService;
+    this.nameUsageSearchService = nameUsageSearchService;
   }
 
   /**
@@ -115,6 +127,31 @@ public class FiltersActionHelper {
   }
 
   /**
+   * Validates if a string (not a number) value was sent for the TAXON_KEY parameter.
+   * If the value is not a number, a search by scientific name is performed and, if any, the available suggestions are
+   * returned.
+   */
+  public Map<String, List<NameUsageSearchResult>> processTaxonSuggestions(HttpServletRequest request) {
+    String[] values = request.getParameterValues(OccurrenceSearchParameter.TAXON_KEY.name());
+    Map<String, List<NameUsageSearchResult>> nameUsagesSuggestions = Maps.newHashMap();
+    if (values != null) { // there are not value
+      // request instance is created here for future reuse
+      NameUsageSuggestRequest suggestRequest = new NameUsageSuggestRequest();
+      suggestRequest.setLimit(SUGGESTIONS_LIMIT);
+      suggestRequest.addParameter(NameUsageSearchParameter.DATASET_KEY, Constants.NUB_TAXONOMY_KEY.toString());
+      for (String value : values) {
+        if (Ints.tryParse(value) == null) { // Is not a integer
+          suggestRequest.setQ(value);
+          List<NameUsageSearchResult> suggestions = nameUsageSearchService.suggest(suggestRequest);
+          // suggestions are stored in map: "parameter value" -> list of suggestions
+          nameUsagesSuggestions.put(value, suggestions);
+        }
+      }
+    }
+    return nameUsagesSuggestions;
+  }
+
+  /**
    * Checks if the search parameter contains correct values.
    */
   public boolean validateSearchParameters(BaseAction action, HttpServletRequest request) {
@@ -125,7 +162,10 @@ public class FiltersActionHelper {
       if (occParam != null) {
         for (String value : request.getParameterValues(param)) {
           try {
-            SearchTypeValidator.validate((OccurrenceSearchParameter) occParam, value);
+            if (OccurrenceSearchParameter.TAXON_KEY != occParam) {
+              // TAXON_KEY is not validated since it could be an integer or a string (scientific name)
+              SearchTypeValidator.validate((OccurrenceSearchParameter) occParam, value);
+            }
           } catch (IllegalArgumentException ex) {
             action.addFieldError(param, "Wrong parameter value " + value);
             valid = false;
@@ -144,6 +184,7 @@ public class FiltersActionHelper {
     String label = "FROM " + coordinates[0] + " TO " + coordinates[1];
     return label;
   }
+
 
   /**
    * Returns the displayable label/value of date filter.

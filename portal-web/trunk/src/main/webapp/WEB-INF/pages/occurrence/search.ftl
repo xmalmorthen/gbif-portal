@@ -65,7 +65,7 @@
         <tr class="header">
 
           <td class="summary">
-            <h2>${searchResponse.count} results</h2>
+            <#if !action.hasSuggestions()><h2>${searchResponse.count} results</h2></#if>
           </td>
 
           <td class="options" colspan="3">
@@ -92,67 +92,67 @@
             </li>
           </ul>
         </td>
-      </tr>      
-      <#if searchResponse.count gt 0>
-      <tr class="results-header">
-        <td></td>
-        <td><h4>Location</h4></td>
-        <td><h4>Basis of record</h4></td>
-        <td><h4>Date</h4></td>
-      </tr>
-      <#list searchResponse.results as occ>
-      <tr>
-        <td>
-          <div class="header"> 
-            <span class="code">${occ.key?c}</span> 
-            <#if occ.catalogNumber?has_content>· <span class="catalog">Cat. ${occ.catalogNumber!}</span></#if>
-          </div>
-          <#if occ.scientificName?has_content><a href="<@s.url value='/occurrence/${occ.key?c}'/>">${occ.scientificName}</a></#if>
-
-          <div class="footer">Published by <#if occ.datasetKey?has_content>${action.getDatasetTitle(occ.datasetKey)!}</#if></div>
-        </td>
-        <td class="country"><#if occ.country?has_content><div class="country">${occ.country.title!}</div></#if>
-          <div class="coordinates">
-            <#if occ.latitude?has_content || occ.longitude?has_content>
-              <#if occ.latitude?has_content>${occ.latitude!?string("0.00")}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?string("0.00")}<#else>-</#if>
+      </tr>     
+        <#if !action.hasSuggestions() && searchResponse.count gt 0>
+        <tr class="results-header">
+          <td></td>
+          <td><h4>Location</h4></td>
+          <td><h4>Basis of record</h4></td>
+          <td><h4>Date</h4></td>
+        </tr>
+        <#list searchResponse.results as occ>
+        <tr>
+          <td>
+            <div class="header"> 
+              <span class="code">${occ.key?c}</span> 
+              <#if occ.catalogNumber?has_content>· <span class="catalog">Cat. ${occ.catalogNumber!}</span></#if>
+            </div>
+            <#if occ.scientificName?has_content><a href="<@s.url value='/occurrence/${occ.key?c}'/>">${occ.scientificName}</a></#if>
+  
+            <div class="footer">Published by <#if occ.datasetKey?has_content>${action.getDatasetTitle(occ.datasetKey)!}</#if></div>
+          </td>
+          <td class="country"><#if occ.country?has_content><div class="country">${occ.country.title!}</div></#if>
+            <div class="coordinates">
+              <#if occ.latitude?has_content || occ.longitude?has_content>
+                <#if occ.latitude?has_content>${occ.latitude!?string("0.00")}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?string("0.00")}<#else>-</#if>
+              <#else>
+                N/A
+              </#if>
+            </div>
+          </td>
+          <td class="kind">
+          <#if occ.basisOfRecord?has_content || occ.longitude?has_content>
+            ${action.getFilterTitle('basisOfRecord',occ.basisOfRecord)!}
+          <#else>
+           N/A
+          </#if></td>
+          <td class="date">
+            <#if occ.occurrenceMonth?has_content || occ.occurrenceYear?has_content>
+              <#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}<#else>-</#if>     
+              /    
+              <#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}<#else>-</#if>
             <#else>
               N/A
             </#if>
-          </div>
-        </td>
-        <td class="kind">
-        <#if occ.basisOfRecord?has_content || occ.longitude?has_content>
-          ${action.getFilterTitle('basisOfRecord',occ.basisOfRecord)!}
-        <#else>
-         N/A
-        </#if></td>
-        <td class="date">
-          <#if occ.occurrenceMonth?has_content || occ.occurrenceYear?has_content>
-            <#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}<#else>-</#if>     
-            /    
-            <#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}<#else>-</#if>
-          <#else>
-            N/A
-          </#if>
-        </td>
-      </tr>
-      </#list>
-      </#if> 
-      <#else>   
-      <tr class="header">
-        <td class="filters">     
-          <ul>
-          <#list action.fieldErrors.keySet() as field>            
-                <li><h4>${field}</h4>
-                <#list action.fieldErrors.get(field) as error>            
-                    <div class="filter filter-error">${error}</div>         
-                </#list>
-                </li>            
-          </#list>
-          </ul>   
-        </td>
-       </tr>              
-      </#if>
+          </td>
+        </tr>
+        </#list>
+        </#if>         
+        <#else>   
+        <tr class="header">
+          <td class="filters">     
+            <ul>
+            <#list action.fieldErrors.keySet() as field>            
+                  <li><h4>${field}</h4>
+                  <#list action.fieldErrors.get(field) as error>            
+                      <div class="filter filter-error">${error}</div>         
+                  </#list>
+                  </li>            
+            </#list>
+            </ul>   
+          </td>
+         </tr>              
+        </#if>    
    </table>    
     <#--
       Removed for performance
@@ -165,7 +165,7 @@
   <footer></footer>    
   </article>
 
-<#if !action.hasErrors()>
+<#if !action.hasErrors() && !action.hasSuggestions()>
   <article class="download_ocurrences">
   <header></header>
   <div class="content">

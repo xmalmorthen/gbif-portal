@@ -1,6 +1,7 @@
 package org.gbif.portal.action.occurrence;
 
 import org.gbif.api.model.Constants;
+import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
 import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
@@ -8,8 +9,15 @@ import org.gbif.api.service.occurrence.OccurrenceSearchService;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.portal.action.BaseSearchAction;
 
+import java.util.List;
+import java.util.Map;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_LIMIT;
 import static org.gbif.api.model.common.paging.PagingConstants.DEFAULT_PARAM_OFFSET;
@@ -21,15 +29,19 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
   private static final long serialVersionUID = 4064512946598688405L;
 
+  private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
+
   private final FiltersActionHelper filtersActionHelper;
+
+  private Map<String, List<NameUsageSearchResult>> nameUsagesSuggestions;
 
   @Inject
   public SearchAction(OccurrenceSearchService occurrenceSearchService, FiltersActionHelper filtersActionHelper) {
     super(occurrenceSearchService, OccurrenceSearchParameter.class, new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET,
       DEFAULT_PARAM_LIMIT));
     this.filtersActionHelper = filtersActionHelper;
+    nameUsagesSuggestions = Maps.newHashMap();
   }
-
 
   /*
    * (non-Javadoc)
@@ -37,25 +49,47 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    */
   @Override
   public String execute() {
-    if (filtersActionHelper.validateSearchParameters(this, this.request)) {
-      return super.execute();
-    } else {
-      return SUCCESS;
+    // read filter parameters in order to have them available even when the search wasn't executed.
+    readFilterParams();
+    // process taxon/scientific-name suggestions
+    nameUsagesSuggestions = filtersActionHelper.processTaxonSuggestions(request);
+    // Search is executed only if there aren't suggestions that need to be notified to the user
+    if (!hasSuggestions() && filtersActionHelper.validateSearchParameters(this, this.request)) {
+      return executeSearch();
     }
+    return SUCCESS;
   }
 
+  /**
+   * Utility method that executes the search.
+   * Differs to the BaseSearchAction.execute() method in that this method doesn't execute the method
+   * BaseSearchAction.readFilterParams().
+   */
+  public String executeSearch() {
+    LOG.info("Search for [{}]", getQ());
+    // default query parameters
+    searchRequest.setQ(getQ());
+    // Turn off highlighting for empty query strings
+    searchRequest.setHighlight(!Strings.isNullOrEmpty(q));
+    // issues the search operation
+    searchResponse = searchService.search(searchRequest);
+    LOG.debug("Search for [{}] returned {} results", getQ(), searchResponse.getCount());
+    return SUCCESS;
+  }
 
+  /**
+   * Returns the list of {@link BasisOfRecord} literals.
+   */
   public BasisOfRecord[] getBasisOfRecords() {
-    return BasisOfRecord.values();
+    return filtersActionHelper.getBasisOfRecords();
   }
-
 
   /**
    * Gets the Dataset title, the key parameter is returned if either the Dataset doesn't exists or it
    * doesn't have a title.
    */
   public String getDatasetTitle(String key) {
-    return this.filtersActionHelper.getDatasetTitle(key);
+    return filtersActionHelper.getDatasetTitle(key);
   }
 
   // this method is only a convenience one exposing the request filters so the ftl templates dont need to be adapted
@@ -64,10 +98,19 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   }
 
   /**
-   * Gets the displayable value of filter parameter.
+   * Gets the readable value of filter parameter.
    */
   public String getFilterTitle(String filterKey, String filterValue) {
     return this.filtersActionHelper.getFilterTitle(filterKey, filterValue);
+  }
+
+  /**
+   * Suggestions map for scientific name, has the form: "parameter value" -> list of suggestions.
+   * 
+   * @return the nameUsagesSuggestions
+   */
+  public Map<String, List<NameUsageSearchResult>> getNameUsagesSuggestions() {
+    return nameUsagesSuggestions;
   }
 
   /**
@@ -75,6 +118,13 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    */
   public String getNubTaxonomyKey() {
     return Constants.NUB_TAXONOMY_KEY.toString();
+  }
+
+  /**
+   * Determines if there are suggestions available.
+   */
+  public boolean hasSuggestions() {
+    return !nameUsagesSuggestions.isEmpty();
   }
 
 }
