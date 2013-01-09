@@ -208,7 +208,9 @@
   <div class="fullwidth">
     <div class="scrollable">
       <#list organizedCoverages as ocs>
-        <p>${ocs.description}</p>
+        <#if ocs.description?has_content>
+            <p>${ocs.description}</p>
+        </#if>
         <dl>
         <#list ocs.coverages as oc>
             <dt>${oc.rank}</dt>

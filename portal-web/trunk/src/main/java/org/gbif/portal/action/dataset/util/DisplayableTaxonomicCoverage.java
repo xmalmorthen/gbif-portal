@@ -2,6 +2,8 @@ package org.gbif.portal.action.dataset.util;
 
 import org.gbif.api.model.registry.taxonomic.TaxonomicCoverage;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Class that extends TaxonomicCoverage by adding a single property called displayName. This class is used to simplify
  * the display of taxon names, enabling the decision of how the name will be displayed in the Action, vs the template.
@@ -15,8 +17,9 @@ public class DisplayableTaxonomicCoverage extends TaxonomicCoverage {
    */
   private String displayName;
 
-  public DisplayableTaxonomicCoverage(TaxonomicCoverage coverage) {
+  public DisplayableTaxonomicCoverage(TaxonomicCoverage coverage, String displayName) {
     super(coverage.getScientificName(), coverage.getCommonName(), coverage.getRank());
+    this.displayName = displayName;
   }
 
   /**
@@ -25,6 +28,7 @@ public class DisplayableTaxonomicCoverage extends TaxonomicCoverage {
    *
    * @return the display name
    */
+  @NotNull
   public String getDisplayName() {
     return displayName;
   }

@@ -241,7 +241,7 @@ public class DatasetBaseAction extends BaseAction {
    * This method iterates through a list of TaxonomicCoverage, and groups them all by rank. For each unique rank
    * represented in the list, there will be 1 OrganizedTaxonomicCoverage, that has a list of
    * DisplayableTaxonomicCoverage. A DisplayableTaxonomicCoverage is basically the same as TaxonomicCoverage, only that
-   * it has a field called display name. The display name is the way the TaxonomicCoverage should be showin in the UI.
+   * it has a field called display name. The display name is the way the TaxonomicCoverage should be shown in the UI.
    * 
    * @param coverages list of TaxonomicCoverages' TaxonomicCoverage
    * @return list of OrganizedTaxonomicCoverage (one for each unique rank represented in the list of
@@ -255,8 +255,8 @@ public class DatasetBaseAction extends BaseAction {
 
     for (String rankName : rankNames) {
       // initiate a new OrganizedTaxonomicCoverage for each rank
-      OrganizedTaxonomicCoverage organizedCoverage = new OrganizedTaxonomicCoverage();
-      organizedCoverage.setRank(rankName);
+      OrganizedTaxonomicCoverage organizedCoverage = new OrganizedTaxonomicCoverage(rankName);
+
       // iterate through all coverages, and match all with same rank
       for (TaxonomicCoverage coverage : coverages) {
         // proceed if rank is not null
@@ -271,8 +271,7 @@ public class DatasetBaseAction extends BaseAction {
             if ((interpreted != null && rankName.equalsIgnoreCase(interpreted.name())) || (verbatim != null && rankName
               .equalsIgnoreCase(verbatim))) {
               // add DisplayableTaxonomicCoverage into OrganizedTaxonomicCoverage
-              DisplayableTaxonomicCoverage displayable = new DisplayableTaxonomicCoverage(coverage);
-              displayable.setDisplayName(displayName);
+              DisplayableTaxonomicCoverage displayable = new DisplayableTaxonomicCoverage(coverage, displayName);
               organizedCoverage.getDisplayableNames().add(displayable);
             }
           }

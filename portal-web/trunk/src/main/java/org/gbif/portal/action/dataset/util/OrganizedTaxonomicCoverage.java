@@ -2,6 +2,7 @@ package org.gbif.portal.action.dataset.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.NotNull;
 
 /**
  * Class that conveniently stores all TaxonomicCoverage for a rank together. All TaxonomicCoverage are actually stored
@@ -12,11 +13,16 @@ public class OrganizedTaxonomicCoverage {
   private String rank;
   private List<DisplayableTaxonomicCoverage> displayableNames = new ArrayList<DisplayableTaxonomicCoverage>();
 
+  public OrganizedTaxonomicCoverage(String rank) {
+    this.rank = rank;
+  }
+
   /**
    * Get the rank.
    *
    * @return the rank
    */
+  @NotNull
   public String getRank() {
     return rank;
   }
