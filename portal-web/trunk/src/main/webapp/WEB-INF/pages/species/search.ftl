@@ -5,8 +5,7 @@
   <title>Species Search Results for ${q!}</title>
 
   <content tag="extra_scripts">
-    <script type="text/javascript" src="<@s.url value='/js/facets.js'/>"></script>
-    <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+    <script type="text/javascript" src="<@s.url value='/js/facets.js'/>"></script>    
   </content>
 </head>
 <body class="search">
