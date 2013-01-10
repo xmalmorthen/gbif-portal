@@ -167,10 +167,13 @@ Identification details <span class='subtitle'>According to <a href="<@s.url valu
       <h3>Basis of record</h3>
       <p><@s.text name="enum.basisofrecord.${occ.basisOfRecord!'UNKNOWN'}"/></p>
 
-      <#if occ.occurrenceDate??>
+      <#if occ.occurrenceDate?? || partialGatheringDate?has_content >
         <h3>Gathering date </h3>
-        <#-- TODO: show year or month only if no full date exists. same for time !!! -->
-        <p>${occ.occurrenceDate?datetime?string.medium}</p>
+        <#if occ.occurrenceDate??>
+            <p>${occ.occurrenceDate?datetime?string.medium}</p>
+        <#elseif partialGatheringDate?has_content >
+            <p>${partialGatheringDate}</p>
+        </#if>
       </#if>
 
       <#if occ.collectorName??>

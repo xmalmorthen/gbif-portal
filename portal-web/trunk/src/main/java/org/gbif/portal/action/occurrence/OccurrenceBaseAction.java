@@ -11,6 +11,7 @@ import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.exception.ReferentialIntegrityException;
 
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ public class OccurrenceBaseAction extends BaseAction {
   protected NameUsage nub;
   protected Dataset dataset;
   protected DatasetMetrics metrics;
+  protected String partialGatheringDate;
 
   public Dataset getDataset() {
     return dataset;
@@ -76,9 +78,98 @@ public class OccurrenceBaseAction extends BaseAction {
     }
     // TODO: load metrics for occurrence once implemented
     metrics = null;
+    // construct partial gathering date if occurrenceDate was empty and there is at least a year or month
+    if (occ.getOccurrenceDate() == null && (occ.getOccurrenceYear() != null || occ.getOccurrenceMonth() != null)) {
+      partialGatheringDate =
+        constructPartialGatheringDate(occ.getOccurrenceYear(), occ.getOccurrenceMonth(), occ.getOccurrenceDay());
+    }
   }
 
   public void setId(Integer id) {
     this.id = id;
+  }
+
+  /**
+   * From partial gathering date's year, month, day parts construct string in following format: Oct 7, 2006.
+   * Basically, only valid integers gets persisted to the index, and any invalid data will be flagged/logged.
+   * This method must ensure the values gets displayed exactly as they are persisted so that if there are errors
+   * they can be detected via the occurrence page also.
+   *
+   * @return date string
+   */
+  protected String constructPartialGatheringDate(Integer year, Integer month, Integer day) {
+    StringBuffer st = new StringBuffer();
+
+    // start by adding month
+    String monthString = null;
+    if (month != null && month > 0) {
+
+      switch (month) {
+        case 1:
+          monthString = "Jan";
+          break;
+        case 2:
+          monthString = "Feb";
+          break;
+        case 3:
+          monthString = "Mar";
+          break;
+        case 4:
+          monthString = "Apr";
+          break;
+        case 5:
+          monthString = "May";
+          break;
+        case 6:
+          monthString = "Jun";
+          break;
+        case 7:
+          monthString = "Jul";
+          break;
+        case 8:
+          monthString = "Aug";
+          break;
+        case 9:
+          monthString = "Sep";
+          break;
+        case 10:
+          monthString = "Oct";
+          break;
+        case 11:
+          monthString = "Nov";
+          break;
+        case 12:
+          monthString = "Dec";
+          break;
+      }
+      st.append(monthString);
+
+      // add day to month separated by single whitespace, provided month has been added
+      if (day != null && day > 0) {
+        st.append(" ");
+        st.append(String.valueOf(day));
+      }
+    }
+
+    // add year
+    if (year != null && year > 0) {
+      // before adding year, write comma (",") if at least month has been appended to string date
+      if (!Strings.isNullOrEmpty(st.toString())) {
+        st.append(", ");
+      }
+      // now add year
+      st.append(String.valueOf(year));
+    }
+
+    return st.toString();
+  }
+
+  /**
+   * The partial gathering date, constructed from individual occurrence day, month, year.
+   *
+   * @return partial gathering date
+   */
+  public String getPartialGatheringDate() {
+    return partialGatheringDate;
   }
 }
