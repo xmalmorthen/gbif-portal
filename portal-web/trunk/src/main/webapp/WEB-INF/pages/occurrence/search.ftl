@@ -154,14 +154,10 @@
          </tr>              
         </#if>    
    </table>    
-    <#--
-      Removed for performance
-      See: http://dev.gbif.org/issues/browse/POR-406
     <div class="footer">
      <@macro.pagination page=searchResponse url=currentUrl/>
     </div>
-    -->
-  </div>  
+  </div>
   <footer></footer>    
   </article>
 
