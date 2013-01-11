@@ -2,11 +2,15 @@ package org.gbif.portal.action.occurrence;
 
 import org.gbif.api.model.Constants;
 import org.gbif.api.model.checklistbank.NameUsage;
+import org.gbif.api.model.checklistbank.NameUsageMatch;
+import org.gbif.api.model.checklistbank.NameUsageMatch.MatchType;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchParameter;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
 import org.gbif.api.model.checklistbank.search.NameUsageSuggestRequest;
+import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.service.checklistbank.NameUsageMatchingService;
 import org.gbif.api.service.checklistbank.NameUsageSearchService;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
@@ -14,19 +18,21 @@ import org.gbif.api.util.SearchTypeValidator;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.model.NameUsageSearchSuggestions;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.common.collect.Maps;
+import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.util.LocalizedTextUtil;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +44,7 @@ public class FiltersActionHelper {
   private final DatasetService datasetService;
   private final NameUsageService nameUsageService;
   private final NameUsageSearchService nameUsageSearchService;
+  private final NameUsageMatchingService nameUsageMatchingService;
   private static final int SUGGESTIONS_LIMIT = 10;
   private static final Logger LOG = LoggerFactory.getLogger(FiltersActionHelper.class);
 
@@ -48,10 +55,11 @@ public class FiltersActionHelper {
 
   @Inject
   public FiltersActionHelper(DatasetService datasetService, NameUsageService nameUsageService,
-    NameUsageSearchService nameUsageSearchService) {
+    NameUsageSearchService nameUsageSearchService, NameUsageMatchingService nameUsageMatchingService) {
     this.datasetService = datasetService;
     this.nameUsageService = nameUsageService;
     this.nameUsageSearchService = nameUsageSearchService;
+    this.nameUsageMatchingService = nameUsageMatchingService;
   }
 
   /**
@@ -131,9 +139,9 @@ public class FiltersActionHelper {
    * If the value is not a number, a search by scientific name is performed and, if any, the available suggestions are
    * returned.
    */
-  public Map<String, List<NameUsageSearchResult>> processTaxonSuggestions(HttpServletRequest request) {
+  public NameUsageSearchSuggestions processNameUsagesSuggestions(HttpServletRequest request) {
     String[] values = request.getParameterValues(OccurrenceSearchParameter.TAXON_KEY.name());
-    Map<String, List<NameUsageSearchResult>> nameUsagesSuggestions = Maps.newHashMap();
+    NameUsageSearchSuggestions nameUsagesSuggestion = new NameUsageSearchSuggestions();
     if (values != null) { // there are not value
       // request instance is created here for future reuse
       NameUsageSuggestRequest suggestRequest = new NameUsageSuggestRequest();
@@ -141,14 +149,40 @@ public class FiltersActionHelper {
       suggestRequest.addParameter(NameUsageSearchParameter.DATASET_KEY, Constants.NUB_TAXONOMY_KEY.toString());
       for (String value : values) {
         if (Ints.tryParse(value) == null) { // Is not a integer
-          suggestRequest.setQ(value);
-          List<NameUsageSearchResult> suggestions = nameUsageSearchService.suggest(suggestRequest);
-          // suggestions are stored in map: "parameter value" -> list of suggestions
-          nameUsagesSuggestions.put(value, suggestions);
+          NameUsageMatch nameUsageMatch =
+            nameUsageMatchingService.match(value, null, null, null, null, null, null, null);
+          List<NameUsageSearchResult> suggestions = Lists.newArrayList();
+          if (nameUsageMatch.getMatchType() == MatchType.NONE) {
+            suggestRequest.setQ(value);
+            suggestions = nameUsageSearchService.suggest(suggestRequest);
+            // suggestions are stored in map: "parameter value" -> list of suggestions
+            nameUsagesSuggestion.getNameUsagesSuggestions().put(value, suggestions);
+          } else {
+            NameUsageSearchResult nameUsageSearchResult = toNameUsageResult(nameUsageMatch);
+            nameUsagesSuggestion.getNameUsagesReplacements().put(value, nameUsageSearchResult);
+          }
         }
       }
     }
-    return nameUsagesSuggestions;
+    return nameUsagesSuggestion;
+  }
+
+  /**
+   * Replace the taxon_key parameters that have a scientific name that could be interpreted directly.
+   */
+  public void replaceKnownNameUsages(SearchRequest<OccurrenceSearchParameter> searchRequest,
+    NameUsageSearchSuggestions nameUsagesSuggestions) {
+    if (nameUsagesSuggestions.hasReplacements()) {
+      List<String> paramValues =
+        Lists.newArrayList(searchRequest.getParameters().get(OccurrenceSearchParameter.TAXON_KEY));
+      for (String paramValue : paramValues) {
+        if (nameUsagesSuggestions.getNameUsagesReplacements().containsKey(paramValue)) {
+          searchRequest.getParameters().remove(OccurrenceSearchParameter.TAXON_KEY, paramValue);
+          searchRequest.addParameter(OccurrenceSearchParameter.TAXON_KEY, nameUsagesSuggestions
+            .getNameUsagesReplacements().get(paramValue).getKey());
+        }
+      }
+    }
   }
 
   /**
@@ -196,6 +230,27 @@ public class FiltersActionHelper {
       label = "FROM " + dates[0] + " TO " + dates[1];
     }
     return label;
+  }
+
+  /**
+   * Converts a NameUsageMatch into a NameUsageSearchResult.
+   */
+  private NameUsageSearchResult toNameUsageResult(NameUsageMatch nameUsageMatch) {
+    NameUsageSearchResult nameUsageSearchResult = null;
+
+    try {
+      nameUsageSearchResult = new NameUsageSearchResult();
+      PropertyUtils.copyProperties(nameUsageSearchResult, nameUsageMatch);
+      nameUsageSearchResult.setKey(nameUsageMatch.getUsageKey());
+    } catch (IllegalAccessException e) {
+      LOG.error("Error converting NameUsageMatch to NameUsageSearchResult", e);
+    } catch (InvocationTargetException e) {
+      LOG.error("Error converting NameUsageMatch to NameUsageSearchResult", e);
+    } catch (NoSuchMethodException e) {
+      LOG.error("Error converting NameUsageMatch to NameUsageSearchResult", e);
+    }
+
+    return nameUsageSearchResult;
   }
 
 }

@@ -103,7 +103,7 @@
                 </ul>
               </td>              
             </tr>  
-            <#if !action.hasErrors()>
+            <#if !action.hasErrors() && !action.nameUsagesSuggestions.hasSuggestions()>
             <tr>
               <td>                
                 <div id="download" class="left">

@@ -1,19 +1,15 @@
 package org.gbif.portal.action.occurrence;
 
 import org.gbif.api.model.Constants;
-import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
 import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
 import org.gbif.api.service.occurrence.OccurrenceSearchService;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.portal.action.BaseSearchAction;
-
-import java.util.List;
-import java.util.Map;
+import org.gbif.portal.model.NameUsageSearchSuggestions;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -33,14 +29,13 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
   private final FiltersActionHelper filtersActionHelper;
 
-  private Map<String, List<NameUsageSearchResult>> nameUsagesSuggestions;
+  private NameUsageSearchSuggestions nameUsagesSuggestions;
 
   @Inject
   public SearchAction(OccurrenceSearchService occurrenceSearchService, FiltersActionHelper filtersActionHelper) {
     super(occurrenceSearchService, OccurrenceSearchParameter.class, new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET,
       DEFAULT_PARAM_LIMIT));
     this.filtersActionHelper = filtersActionHelper;
-    nameUsagesSuggestions = Maps.newHashMap();
   }
 
   /*
@@ -51,10 +46,15 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   public String execute() {
     // read filter parameters in order to have them available even when the search wasn't executed.
     readFilterParams();
+
     // process taxon/scientific-name suggestions
-    nameUsagesSuggestions = filtersActionHelper.processTaxonSuggestions(request);
+    nameUsagesSuggestions = filtersActionHelper.processNameUsagesSuggestions(request);
+
+    // replace known name usages
+    filtersActionHelper.replaceKnownNameUsages(searchRequest, nameUsagesSuggestions);
+
     // Search is executed only if there aren't suggestions that need to be notified to the user
-    if (!hasSuggestions() && filtersActionHelper.validateSearchParameters(this, this.request)) {
+    if (!nameUsagesSuggestions.hasSuggestions() && filtersActionHelper.validateSearchParameters(this, this.request)) {
       return executeSearch();
     }
     return SUCCESS;
@@ -101,7 +101,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    * Gets the readable value of filter parameter.
    */
   public String getFilterTitle(String filterKey, String filterValue) {
-    return this.filtersActionHelper.getFilterTitle(filterKey, filterValue);
+    return filtersActionHelper.getFilterTitle(filterKey, filterValue);
   }
 
   /**
@@ -109,7 +109,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    * 
    * @return the nameUsagesSuggestions
    */
-  public Map<String, List<NameUsageSearchResult>> getNameUsagesSuggestions() {
+  public NameUsageSearchSuggestions getNameUsagesSuggestions() {
     return nameUsagesSuggestions;
   }
 
@@ -120,11 +120,5 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return Constants.NUB_TAXONOMY_KEY.toString();
   }
 
-  /**
-   * Determines if there are suggestions available.
-   */
-  public boolean hasSuggestions() {
-    return !nameUsagesSuggestions.isEmpty();
-  }
 
 }

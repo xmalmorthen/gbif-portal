@@ -165,3 +165,30 @@ span.warningCounter {
   border-radius: 10px;    
   clear:both;  
 }
+
+div.suggestionBox ul.taxonomy {
+    display: inline-block;
+    clear: both;
+    margin-bottom: 1px !important;
+
+    li {
+      float: left;
+      margin: 0 4px 0 0 !important;
+      padding: 0 6px 0 0 !important;
+      display: block !important;
+      border: none !important;
+      font-size: 10px;
+      background: url("../img/icons/arrow_small_right.png") no-repeat right;
+      list-style: none;
+      color: @cGray4;
+
+      &.last {
+        background: none;
+      }
+
+      li:last-child {
+        background: none;
+      }
+    }
+        
+  }

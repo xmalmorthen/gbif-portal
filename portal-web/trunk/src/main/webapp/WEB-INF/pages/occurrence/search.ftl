@@ -65,7 +65,7 @@
         <tr class="header">
 
           <td class="summary">
-            <#if !action.hasSuggestions()><h2>${searchResponse.count} results</h2></#if>
+            <#if !action.nameUsagesSuggestions.hasSuggestions()><h2>${searchResponse.count} results</h2></#if>
           </td>
 
           <td class="options" colspan="3">
@@ -93,7 +93,7 @@
           </ul>
         </td>
       </tr>     
-        <#if !action.hasSuggestions() && searchResponse.count gt 0>
+        <#if !action.nameUsagesSuggestions.hasSuggestions() && searchResponse.count gt 0>
         <tr class="results-header">
           <td></td>
           <td><h4>Location</h4></td>
@@ -155,13 +155,15 @@
         </#if>    
    </table>    
     <div class="footer">
-     <@macro.pagination page=searchResponse url=currentUrl/>
+      <#if !action.nameUsagesSuggestions.hasSuggestions()>
+        <@macro.pagination page=searchResponse url=currentUrl/>
+      </#if>
     </div>
   </div>
   <footer></footer>    
   </article>
 
-<#if !action.hasErrors() && !action.hasSuggestions()>
+<#if !action.hasErrors() && !action.nameUsagesSuggestions.hasSuggestions()>
   <article class="download_ocurrences">
   <header></header>
   <div class="content">

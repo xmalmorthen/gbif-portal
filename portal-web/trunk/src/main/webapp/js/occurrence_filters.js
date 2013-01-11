@@ -741,7 +741,7 @@ var OccurrenceFilterWidget = (function ($,_) {
        */
       removeUnusedSuggestionBoxes: function() {
         var self = this;
-        $(".suggestionBox").each( function(idx,el) {
+        $(".suggestionBox[data-suggestion]").each( function(idx,el) {
           var suggestion = $(el).attr('data-suggestion');
           if(!self.hasFilterWithValue(suggestion)){
             $(el).remove();

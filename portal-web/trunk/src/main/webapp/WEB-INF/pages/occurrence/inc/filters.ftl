@@ -169,14 +169,33 @@
     <h4><%= title %></h4>
     <% _.each(filters, function(filter) { %>
         <div class="filter"><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a href="#" class="closeFilter"></a></div>         
-      <% }); %>             
-      <#list nameUsagesSuggestions?keys as sciname>            
+      <% }); %>
+      <#list nameUsagesSuggestions.nameUsagesReplacements?keys as sciname>   
+        <#assign suggestion = nameUsagesSuggestions.nameUsagesReplacements[sciname]>         
+        <div class="suggestionBox" data-replacement="${sciname}">         
+          <div class="warningBox"> <span class="warningCounter">!</span> The scientific name <strong>"${sciname}"</strong> was replaced by: <br>            
+            ${suggestion.scientificName}                  
+            <ul class="taxonomy">
+              <#list suggestion.higherClassificationMap?values as classificationName>                    
+                <li <#if !classificationName_has_next> class="last" </#if>>${classificationName}</li>
+              </#list>
+             </ul>
+          </div>                               
+        </div>               
+       </#list>         
+      <#list nameUsagesSuggestions.nameUsagesSuggestions?keys as sciname>            
         <div class="suggestionBox" data-suggestion="${sciname}">         
-         <#assign suggestions= nameUsagesSuggestions[sciname]>
+         <#assign suggestions = nameUsagesSuggestions.nameUsagesSuggestions[sciname]>
            <#if suggestions?has_content>
             <div class="warningBox"> <span class="warningCounter">!</span> We found more than one scientific name that matched <strong>"${sciname}"</strong>.Please select a name from the list below.</div>                               
             <#list suggestions as nameUsageSearchResult>
                 <input id="nameUsageSearchResult${nameUsageSearchResult.key?c}" type="radio" value="${nameUsageSearchResult.key?c}" name="TAXON_KEY" class="suggestion" data-sciname="${sciname}"/><label for="nameUsageSearchResult${nameUsageSearchResult.key?c}">${nameUsageSearchResult.scientificName}</label>
+                </br>                
+                <ul class="taxonomy">
+                  <#list nameUsageSearchResult.higherClassificationMap?values as classificationName>
+                    <li <#if !classificationName_has_next> class="last" </#if>> ${classificationName} </li>
+                  </#list>
+                 </ul>              
                 </br>                          
             </#list>
            <#else>
