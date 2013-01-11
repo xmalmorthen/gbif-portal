@@ -24,7 +24,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.collect.Lists;
@@ -192,19 +191,24 @@ public class FiltersActionHelper {
     boolean valid = true;
     for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements();) {
       String param = params.nextElement();
-      Enum<?> occParam = VocabularyUtils.lookupEnum(param, OccurrenceSearchParameter.class);
-      if (occParam != null) {
-        for (String value : request.getParameterValues(param)) {
-          try {
-            if (OccurrenceSearchParameter.TAXON_KEY != occParam) {
-              // TAXON_KEY is not validated since it could be an integer or a string (scientific name)
-              SearchTypeValidator.validate((OccurrenceSearchParameter) occParam, value);
+      Enum<?> occParam = null;
+      try {
+        occParam = VocabularyUtils.lookupEnum(param, OccurrenceSearchParameter.class);
+        if (occParam != null) {
+          for (String value : request.getParameterValues(param)) {
+            try {
+              if (OccurrenceSearchParameter.TAXON_KEY != occParam) {
+                // TAXON_KEY is not validated since it could be an integer or a string (scientific name)
+                SearchTypeValidator.validate((OccurrenceSearchParameter) occParam, value);
+              }
+            } catch (IllegalArgumentException ex) {
+              action.addFieldError(param, "Wrong parameter value " + value);
+              valid = false;
             }
-          } catch (IllegalArgumentException ex) {
-            action.addFieldError(param, "Wrong parameter value " + value);
-            valid = false;
           }
         }
+      } catch (IllegalArgumentException e) {
+        // ignore paging params for example
       }
     }
     return valid;
