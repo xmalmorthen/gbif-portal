@@ -11,7 +11,6 @@
 
   <h1>${common.limit(member.title!"???", 50)}</h1>
 
-  <#assign keywords=member.tags/>
   <#if keywords?has_content>
     <h3 class="separator">
   <#else>
@@ -22,14 +21,15 @@
   </#if>
   </h3>
 
-
-  <ul class="tags">
-  <#list member.tags as t>
-    <#if t?? && !t.namespace?has_content>
-      <li<#if !t_has_next> class="last"</#if>><a href="#" title="${t!}">${t!}</a></li>
-    </#if>
-  </#list>
-  </ul>
+  <#if keywords?has_content>
+    <ul class="tags">
+      <#list keywords as k>
+          <li>
+              <a href="#" title="${k}">${k}</a>
+          </li>
+      </#list>
+    </ul>
+  </#if>
 </content>
 
 <content tag="tabs">

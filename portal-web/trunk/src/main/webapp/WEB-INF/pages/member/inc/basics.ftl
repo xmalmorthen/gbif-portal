@@ -11,6 +11,21 @@
   <p>${member.description}</p>
 </#if>
 
+<#if member.metadataLanguage?has_content>
+<h3>Language of Metadata</h3>
+<p>${member.metadataLanguage}</p>
+</#if>
+
+<#if member.email?has_content>
+<h3>Email</h3>
+<p>${member.email}</p>
+</#if>
+
+<#if member.phone?has_content>
+<h3>Phone</h3>
+<p>${member.phone}</p>
+</#if>
+
 <#assign all = member.address!"" + member.zip!"" + member.city!"" + member.country!"" >
 <#if all?has_content>
   <h3>Address</h3>
@@ -23,20 +38,7 @@
   </p>
 </#if>
 
-<div id="dialog-contact" title="Edit contact"></div>
-<div id="entityContacts">
-  <#if member.contacts?has_content>
-    <h3>Contacts</h3>
-    <ul class="team">
-     <#list member.contacts as c>
-      <li>
-        <#if admin>
-          <button class="editContact" componentIndex="${c_index}" agentKey="${id}">EDIT</button>
-          <img src="<@s.url value='/img/minus.png'/>">          
-        </#if>
-        <@common.contact con=c />
-      </li>
-     </#list>
-    </ul>
-  </#if>
-</div>
+<#if (member.contacts?size>0) >
+<h3>Contacts</h3>
+  <@common.contactList contacts=member.contacts/>
+</#if>
