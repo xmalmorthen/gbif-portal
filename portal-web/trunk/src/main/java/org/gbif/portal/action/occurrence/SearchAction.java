@@ -8,6 +8,7 @@ import org.gbif.api.service.occurrence.OccurrenceSearchService;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.portal.action.BaseSearchAction;
 import org.gbif.portal.model.NameUsageSearchSuggestions;
+import org.gbif.portal.model.OccurrenceTable;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Multimap;
@@ -31,12 +32,16 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
   private NameUsageSearchSuggestions nameUsagesSuggestions;
 
+  private OccurrenceTable table;
+
+
   @Inject
   public SearchAction(OccurrenceSearchService occurrenceSearchService, FiltersActionHelper filtersActionHelper) {
     super(occurrenceSearchService, OccurrenceSearchParameter.class, new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET,
       DEFAULT_PARAM_LIMIT));
     this.filtersActionHelper = filtersActionHelper;
   }
+
 
   /*
    * (non-Javadoc)
@@ -46,6 +51,8 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   public String execute() {
     // read filter parameters in order to have them available even when the search wasn't executed.
     readFilterParams();
+
+    table = new OccurrenceTable(request);
 
     // process taxon/scientific-name suggestions
     nameUsagesSuggestions = filtersActionHelper.processNameUsagesSuggestions(request);
@@ -59,6 +66,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     }
     return SUCCESS;
   }
+
 
   /**
    * Utility method that executes the search.
@@ -118,6 +126,13 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    */
   public String getNubTaxonomyKey() {
     return Constants.NUB_TAXONOMY_KEY.toString();
+  }
+
+  /**
+   * @return the table
+   */
+  public OccurrenceTable getTable() {
+    return table;
   }
 
 

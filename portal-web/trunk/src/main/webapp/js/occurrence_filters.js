@@ -856,6 +856,9 @@ var OccurrenceWidgetManager = (function ($,_) {
   var filterWidgets;
   var targetUrl;
   var submitOnApply = false;
+  
+  //Holds the list of the configuration setting when the page in loaded
+  var initialConfParams;
 
   /**
    * Gets a occurrence widget instance by its id field.
@@ -994,7 +997,93 @@ var OccurrenceWidgetManager = (function ($,_) {
           newWidget.bindToControl(control);
           widgets.push(newWidget);
         });       
-      },  
+      },
+      
+      /**
+       * Handles the click event to positioning the dropdown menus relative to the element that shows them.
+       */
+      centerDropDownMenus: function() {
+        $('a.[data-toggle="dropdown"]').click( function(e){                    
+          // .position() uses position relative to the offset parent, 
+          var pos = $(this).position();
+
+          var height = $(this).outerHeight();
+          
+          // .outerWidth() takes into account border and padding.
+          var width = $(this).outerWidth();          
+
+          //show the menu directly over the placeholder
+          $('div.dropdown-menu').css({
+              position: "absolute",
+              top: (pos.top + height) + "px",
+              left: (pos.left - (width/2)) + "px",
+              right: width + "px"
+          });
+        });
+      }, 
+      
+      /**
+       * Binds the configure widget.
+       */
+      bindConfigureWidget: function() {
+        var self = this; 
+        
+        //Apply the configuration settings
+        $('div.configure > div.buttonContainer > #applyConfiguration.button').click( function(){
+          $(this).parent().parent().hide();
+          self.submit(self.getConfigurationParams());
+        });
+        
+        // prevents the dropdown menu to be closed by the boostrap.min.js script
+        $('div.configure').click( function(e) {           
+          e.stopPropagation();          
+        });
+        
+        //Ensures that the default values are set everytime the div is shown
+        $('a.configure').click( function(e) {
+          self.setPredefinedCheckboxesValues('occurrence_columns','columns');
+          self.setPredefinedCheckboxesValues('summary_fields','summary');
+        });
+                
+        //Ensures that at least 1 checkbox of summary fields exists
+        $('#summary_fields li :checkbox').click( function(e){
+          if($("#summary_fields li :checkbox[checked]").size() == 0){
+            e.preventDefault();
+          }
+        });
+      },
+      
+      /**
+       * Utility function to set the checkboxes state using the default configuration settings.
+       */
+      setPredefinedCheckboxesValues: function(containerId,attribute) {
+        if (initialConfParams[attribute]) {
+          $('#'+ containerId + ' > li > :checkbox').each(function(idx,el){
+            if($.inArray($(el).val(),initialConfParams[attribute]) > -1){
+              $(this).attr('checked',true);
+            } else {
+              $(this).removeAttr('checked');
+            }
+          });
+        }
+      },
+      
+      /**
+       * Iterates over the checkboxes to get the values for columns and summary fiels that must be displayed.
+       */
+      getConfigurationParams : function(){       
+        var params = {};
+        $('#occurrence_columns li :checkbox, #summary_fields li :checkbox').each(function(idx,el){
+          if($(el).attr('checked')) {
+            var paramName = $(el).attr('name');
+            if (params[paramName] == null) {
+              params[paramName] = new Array();
+            }
+            params[paramName].push($(el).val());
+          }
+        });
+        return params;
+      },
       
       /**
        * Binds the species auto-suggest widget used by the TAXON_KEY widget.
@@ -1119,8 +1208,7 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       submit : function(additionalParams){
         showWaitDialog();
-        var params = $.extend({},additionalParams);       
-        var u = $.url();
+        var params = $.extend({},additionalParams);               
         
         //Collect the filter values
         for(var wi=0; wi < widgets.length; wi++) {
@@ -1184,7 +1272,10 @@ var OccurrenceWidgetManager = (function ($,_) {
             });
           });
           this.initFilterWidgets();
-        }        
+        }
+        this.centerDropDownMenus();
+        initialConfParams = this.getConfigurationParams();
+        this.bindConfigureWidget();
       }
   }
   return InnerOccurrenceWidgetManager;
