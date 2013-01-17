@@ -11,17 +11,18 @@
    
 	  /**
 	   * Dataset title Autosuggest widget.
-	   * @param wsServiceUrl url to the search/suggest service
+	   * @param wsSuggestUrl url to the suggest service
+     * @param portalDatasetUrl url to portal dataset details page without the key
 	   * @param limit maximum elements expected/this can be overwritten by the server side implementation
 	   * @param appendToElement parent element of generated widget
 	   */
-	  $.fn.datasetAutosuggest = function(wsServiceUrl,limit,appendToElement) {
+	  $.fn.datasetAutosuggest = function(wsSuggestUrl, limit, appendToElement) {
 		   //reference to the widget
 		   var self = $(this);
 		   //jquery ui autocomplete widget creation
 		   self.autocomplete({source: function( request, response ) {
 				$.ajax({
-						url: wsServiceUrl,
+						url: wsSuggestUrl,
 						dataType: 'jsonp', //jsonp is the default
 						data: {
 							q: self.val(),
@@ -64,8 +65,9 @@
 			       self.val( ui.item.value);				       
 							return false;
 						},
-				select: function( event, ui ) {//on select: sets the value of the input[text] element
+				select: function( event, ui ) {//on select: goes to dataset detail page
     				  if (typeof(ui.item.key) != 'undefined') {
+                window.location = cfg.baseUrl + "/dataset/" + ui.item.key;
     				    self.attr("key",ui.item.key);
               }
     				  self.val( ui.item.value);

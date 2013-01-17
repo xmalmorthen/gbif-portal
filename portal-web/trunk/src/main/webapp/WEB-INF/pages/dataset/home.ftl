@@ -1,13 +1,11 @@
 <html>
   <head>
     <title>Dataset - GBIF</title>
-    <meta name="gmap" content="true"/>
-
     <content tag="extra_scripts">
       <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
       <script type="text/javascript" src="<@s.url value='/js/dataset_autocomplete.js'/>"></script>
       <script>
-        $("#q").datasetAutosuggest(cfg.wsRegSuggest,4,"#content");
+        $("#q").datasetAutosuggest(cfg.wsRegSuggest, 6,"#content");
       </script>
     </content>
   </head>

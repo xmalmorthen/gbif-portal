@@ -1099,7 +1099,7 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindDatasetAutosuggest: function(){
         $(':input.dataset_autosuggest').each( function(idx,el){
-          $(el).datasetAutosuggest(cfg.wsRegSuggest,4,"#content");
+          $(el).datasetAutosuggest(cfg.wsRegSuggest, 6,"#content");
         });   
       },
       

@@ -52,7 +52,7 @@
   $(document).ready(function() {  
    var widgetManager = new OccurrenceWidgetManager("<@s.url value='/occurrence/download/result'/>?",filtersFromRequest,".dropdown-menu",false);            
     $('#submit-button').click(function() {      
-      widgetManager.submit({email:$('#email-text').val()});
+      widgetManager.submit({emails:$('#emails').val()});
     });
   });
   </script>
@@ -60,7 +60,7 @@
   <#if action.hasErrors()>
    <script>
      $(document).ready(function() {
-       $("tr.filters}").hide();
+       $("tr.filters").hide();
      });
     </script>
   </#if>
@@ -111,7 +111,7 @@
                       <a href="#" class="button candy_blue_button" id="submit-button"><span>Download</span></a>
                     </div>
                     <div class="col">
-                        Notify additional emails: <input type="text" name="emails" title="Additional email addresses seperated by ; that should get notified"/>
+                        Notify additional emails: <input type="text" id="emails" name="emails" title="Additional email addresses seperated by ; that should get notified"/>
                     </div>
                 </div>
               </td>           

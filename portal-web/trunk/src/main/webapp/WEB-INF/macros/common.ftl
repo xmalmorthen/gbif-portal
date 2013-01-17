@@ -81,10 +81,11 @@
 
 <#--
 	Construct a Contact. Parameter is the actual contact object.
+	@param componentIndex No idea, maybe Jose knows?
 -->
-<#macro contact con>
+<#macro contact con componentIndex=0>
 <#if admin!false>
-  <button class="editContact" componentIndex="${c_index}" agentKey="${id}">EDIT</button>
+  <button class="editContact" componentIndex="${componentIndex}" agentKey="${id}">EDIT</button>
   <img src="<@s.url value='/img/minus.png'/>">
 </#if>
 <div class="contact">

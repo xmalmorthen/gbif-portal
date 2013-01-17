@@ -59,4 +59,5 @@ public class DownloadAction extends BaseAction {
   public void setJobId(String jobId) {
     this.jobId = jobId;
   }
+
 }
