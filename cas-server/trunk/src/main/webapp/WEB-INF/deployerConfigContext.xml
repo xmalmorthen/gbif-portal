@@ -231,5 +231,6 @@
     <property name="password">
       <value>${cas.db.password}</value>
     </property>
+    <property name="validationQuery" value="SELECT 1"/>
   </bean>
 </beans>
