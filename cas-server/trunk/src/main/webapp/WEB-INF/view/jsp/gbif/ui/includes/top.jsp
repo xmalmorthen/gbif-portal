@@ -46,7 +46,7 @@
   
   
   <link rel="stylesheet" href="/themes/gbif/css/style.css?v=2"/>
-  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all"/>
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all"/>
   <script src="/modernizr-1.7.min.js"></script>
 
 </head>
