@@ -24,6 +24,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.collect.Lists;
@@ -46,6 +47,8 @@ public class FiltersActionHelper {
   private final NameUsageMatchingService nameUsageMatchingService;
   private static final int SUGGESTIONS_LIMIT = 10;
   private static final Logger LOG = LoggerFactory.getLogger(FiltersActionHelper.class);
+
+  private static final String GEOREFERENCING_LEGEND = "Georeferenced records only";
 
   /**
    * Constant that contains the prefix of a key to get a Basis of record name from the resource bundle file.
@@ -98,9 +101,19 @@ public class FiltersActionHelper {
         return getDateTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.BOUNDING_BOX) {
         return getBoundingBoxTitle(filterValue);
+      } else if (parameter == OccurrenceSearchParameter.GEOREFERENCED) {
+        return getGeoreferencedTitle(filterValue);
       }
     }
     return filterValue;
+  }
+
+  public String getGeoreferencedTitle(String value) {
+    if (Boolean.parseBoolean(value)) {
+      return GEOREFERENCING_LEGEND;
+    } else {
+      return "Non " + GEOREFERENCING_LEGEND;
+    }
   }
 
   /**
@@ -222,7 +235,6 @@ public class FiltersActionHelper {
     String label = "FROM " + coordinates[0] + " TO " + coordinates[1];
     return label;
   }
-
 
   /**
    * Returns the displayable label/value of date filter.

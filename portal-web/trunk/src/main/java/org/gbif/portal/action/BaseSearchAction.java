@@ -66,90 +66,45 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
     this.searchRequest = searchRequest;
   }
 
-  @Override
-  public String execute() {
-    LOG.info("Search for [{}]", getQ());
-    // default query parameters
-    searchRequest.setQ(getQ());
-    // Turn off highlighting for empty query strings
-    searchRequest.setHighlight(!Strings.isNullOrEmpty(q));
-    // adds parameters processed by subclasses
-    readFilterParams();
-    // issues the search operation
-    searchResponse = searchService.search(searchRequest);
-    LOG.debug("Search for [{}] returned {} results", getQ(), searchResponse.getCount());
-    return SUCCESS;
-  }
-
   /**
-   * Implement this method to parse the filter parameters from the request and populate the request parameters.
-   * Make sure that empty parameters are set too to filter null values!
-   */
-  public void readFilterParams() {
-    final Map<String, String[]> params = request.getParameterMap();
-
-    for (String p : params.keySet()) {
-      // recognize facets by enum name
-      P param = getSearchParam(p);
-      if (param != null) {
-        // filter found
-        for (String v : params.get(p)) {
-          searchRequest.addParameter(param, translateFilterValue(param, v));
-        }
-      }
-    }
-  }
-
-  /**
-   * @param name
-   * @return the search enum or null if it cant be converted
-   */
-  public P getSearchParam(String name) {
-    try {
-      return (P) VocabularyUtils.lookupEnum(name, searchType);
-    } catch (Exception e) {
-      return null;
-    }
-  }
-
-  public P getSearchParam() {
-    try {
-      return (P) VocabularyUtils.lookupEnum("RANK", searchType);
-    } catch (Exception e) {
-      return null;
-    }
-  }
-
-  /**
-   * Optional hook for concrete search actions to define custom translations of filter values
-   * before they are send to the search service.
-   * For example to enable a simple checklist=nub filter without the need to know the real nub UUID.
-   * The values will NOT be translated for the UI and request parameters, only for the search and title lookup service!
-   * This method can be overriden to modify the returned value, by default it keeps it as it is.
+   * Takes a highlighted text and trimmed it to show the first highlighted term.
+   * The text is found using the HL_PRE and HL_POST tags.
+   * Ensure that at least the whole term is shown or else MAX_LONG_HL_FIELD are displayed.
    * 
-   * @param param the filter parameter the value belongs to
-   * @param value the value to translate or return as is
+   * @param text highlighted text to be trimmed.
+   * @param maxLength maximum length of resulting string, ignoring the highlighting tags
+   * @return a trimmed version of the highlighted text
    */
-  protected String translateFilterValue(P param, String value) {
-    // dont do anything by default
-    return value;
+  public static String getHighlightedText(String text, final int maxLength) {
+    final int firstHlBeginTag = text.indexOf(HL_PRE);
+    final int firstHlEndTag = text.indexOf(HL_POST) + HL_POST.length();
+    final int hlTextSize = firstHlEndTag - firstHlBeginTag - HL_MARKER_LENGTH;
+    // already smaller
+    if (text.length() <= maxLength) {
+      return text;
+    }
+    // no highlighted text, return first bit
+    if (firstHlBeginTag < 0 || firstHlEndTag < 0) {
+      return abbreviate(text, maxLength);
+    }
+    // highlighted text larger than max length - return it all to keep highlighting tags intact
+    if (hlTextSize >= maxLength) {
+      return text.substring(firstHlBeginTag, firstHlEndTag);
+    }
+    int sizeBefore = (maxLength - hlTextSize) / 3;
+    int start = Math.max(0, firstHlBeginTag - sizeBefore);
+    final String leftLimited = start == 0 ? text : abrevMarker + text.substring(start + (sizeBefore > 0 ? 1 : 0));
+    return limitHighlightedText(leftLimited, maxLength);
   }
 
   /**
-   * Checks if a parameter value is already selected in the current request filters.
-   * Public method used by html templates.
+   * Used by UI to determine if a text is highlighted.
    * 
-   * @param param the facet name according to
+   * @param text
+   * @return
    */
-  public boolean isInFilter(P param, String value) {
-    if (param != null && searchRequest.getParameters().containsKey(param)) {
-      for (String v : searchRequest.getParameters().get(param)) {
-        if (v.equals(value)) {
-          return true;
-        }
-      }
-    }
-    return false;
+  public static boolean isHighlightedText(String text) {
+    return text.contains(HL_PRE);
   }
 
   /**
@@ -185,6 +140,16 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
     return abbreviate(sb.toString(), max + matched * HL_MARKER_LENGTH);
   }
 
+  /**
+   * Takes a highlighted text and removes all tags used for highlighting.
+   * 
+   * @param highlightedText the highlighted text to be cleaned
+   * @return a cleaned plain text version of the highlighted text
+   */
+  public static String removeHighlighting(String highlightedText) {
+    return highlightedText.replaceAll(HL_PRE, "").replaceAll(HL_POST, "");
+  }
+
   private static String abbreviate(String str, int maxWidth) {
     if (str == null) {
       return null;
@@ -198,55 +163,19 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
     return str.substring(0, maxWidth - 1) + abrevMarker;
   }
 
-  /**
-   * Takes a highlighted text and removes all tags used for highlighting.
-   * 
-   * @param highlightedText the highlighted text to be cleaned
-   * @return a cleaned plain text version of the highlighted text
-   */
-  public static String removeHighlighting(String highlightedText) {
-    return highlightedText.replaceAll(HL_PRE, "").replaceAll(HL_POST, "");
-  }
-
-  /**
-   * Used by UI to determine if a text is highlighted.
-   * 
-   * @param text
-   * @return
-   */
-  public static boolean isHighlightedText(String text) {
-    return text.contains(HL_PRE);
-  }
-
-  /**
-   * Takes a highlighted text and trimmed it to show the first highlighted term.
-   * The text is found using the HL_PRE and HL_POST tags.
-   * Ensure that at least the whole term is shown or else MAX_LONG_HL_FIELD are displayed.
-   * 
-   * @param text highlighted text to be trimmed.
-   * @param maxLength maximum length of resulting string, ignoring the highlighting tags
-   * @return a trimmed version of the highlighted text
-   */
-  public static String getHighlightedText(String text, final int maxLength) {
-    final int firstHlBeginTag = text.indexOf(HL_PRE);
-    final int firstHlEndTag = text.indexOf(HL_POST) + HL_POST.length();
-    final int hlTextSize = firstHlEndTag - firstHlBeginTag - HL_MARKER_LENGTH;
-    // already smaller
-    if (text.length() <= maxLength) {
-      return text;
-    }
-    // no highlighted text, return first bit
-    if (firstHlBeginTag < 0 || firstHlEndTag < 0) {
-      return abbreviate(text, maxLength);
-    }
-    // highlighted text larger than max length - return it all to keep highlighting tags intact
-    if (hlTextSize >= maxLength) {
-      return text.substring(firstHlBeginTag, firstHlEndTag);
-    }
-    int sizeBefore = (maxLength - hlTextSize) / 3;
-    int start = Math.max(0, firstHlBeginTag - sizeBefore);
-    final String leftLimited = start == 0 ? text : abrevMarker + text.substring(start + (sizeBefore > 0 ? 1 : 0));
-    return limitHighlightedText(leftLimited, maxLength);
+  @Override
+  public String execute() {
+    LOG.info("Search for [{}]", getQ());
+    // default query parameters
+    searchRequest.setQ(getQ());
+    // Turn off highlighting for empty query strings
+    searchRequest.setHighlight(!Strings.isNullOrEmpty(q));
+    // adds parameters processed by subclasses
+    readFilterParams();
+    // issues the search operation
+    searchResponse = searchService.search(searchRequest);
+    LOG.debug("Search for [{}] returned {} results", getQ(), searchResponse.getCount());
+    return SUCCESS;
   }
 
   /**
@@ -259,6 +188,30 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
     return (q == null) ? "" : q;
   }
 
+  public P getSearchParam() {
+    try {
+      return (P) VocabularyUtils.lookupEnum("RANK", searchType);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  /**
+   * @param name
+   * @return the search enum or null if it cant be converted
+   */
+  public P getSearchParam(String name) {
+    try {
+      return (P) VocabularyUtils.lookupEnum(name, searchType);
+    } catch (Exception e) {
+      return null;
+    }
+  }
+
+  public R getSearchRequest() {
+    return searchRequest;
+  }
+
   /**
    * Response (containing the list of results) of the request issued.
    * 
@@ -269,8 +222,51 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
     return searchResponse;
   }
 
-  public R getSearchRequest() {
-    return searchRequest;
+  /**
+   * Checks if a parameter value is already selected in the current request filters.
+   * Public method used by html templates.
+   * 
+   * @param param the facet name according to
+   */
+  public boolean isInFilter(P param, String value) {
+    if (param != null && searchRequest.getParameters().containsKey(param)) {
+      for (String v : searchRequest.getParameters().get(param)) {
+        if (v.equals(value)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Checks if a parameter value is already selected in the current request filters.
+   * Public method used by html templates.
+   * 
+   * @param paramName the name according to
+   */
+  public boolean isInFilter(String paramName, String value) {
+    P param = getSearchParam(paramName);
+    return isInFilter(param, value);
+  }
+
+  /**
+   * Implement this method to parse the filter parameters from the request and populate the request parameters.
+   * Make sure that empty parameters are set too to filter null values!
+   */
+  public void readFilterParams() {
+    final Map<String, String[]> params = request.getParameterMap();
+
+    for (String p : params.keySet()) {
+      // recognize facets by enum name
+      P param = getSearchParam(p);
+      if (param != null) {
+        // filter found
+        for (String v : params.get(p)) {
+          searchRequest.addParameter(param, translateFilterValue(param, v));
+        }
+      }
+    }
   }
 
   /**
@@ -286,6 +282,21 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
    */
   public void setQ(String q) {
     this.q = Strings.nullToEmpty(q).trim();
+  }
+
+  /**
+   * Optional hook for concrete search actions to define custom translations of filter values
+   * before they are send to the search service.
+   * For example to enable a simple checklist=nub filter without the need to know the real nub UUID.
+   * The values will NOT be translated for the UI and request parameters, only for the search and title lookup service!
+   * This method can be overriden to modify the returned value, by default it keeps it as it is.
+   * 
+   * @param param the filter parameter the value belongs to
+   * @param value the value to translate or return as is
+   */
+  protected String translateFilterValue(P param, String value) {
+    // dont do anything by default
+    return value;
   }
 
 

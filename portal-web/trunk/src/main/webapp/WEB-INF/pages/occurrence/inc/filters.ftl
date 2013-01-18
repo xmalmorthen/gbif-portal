@@ -229,8 +229,18 @@
      <tr class="filter">
       <td colspan="4">        
         <div class="inner">  
-          <h4>Location</h4>  
-          <div>                                                        
+          <h4>Location</h4>                   
+          <div id="bboxContainer">  
+              <div style="width:300px;">
+                <fieldset class="location_option_geo">
+                  <legend>Show only records</legend>                
+                  <label for="isGeoreferenced">Georeferenced</label> <input type="checkbox" name="GEOREFERENCED" id="isGeoreferenced" value="true" <#if action.isInFilter('GEOREFERENCED', 'true')> checked</#if>/>
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                  <label for="isNotGeoreferenced">NON georeferenced</label> <input type="checkbox" name="GEOREFERENCED" id="isNotGeoreferenced" value="false" <#if action.isInFilter('GEOREFERENCED', 'false') && !action.isInFilter('GEOREFERENCED', 'true')> checked</#if>/>
+                </fieldset>
+              </div>
+              <fieldset class="location_option_geo">  
+              <legend>Bounding box</legend>                                                    
               <table width="100%">                
                 <tr>    
                   <td style="border: 0px none !important;width: 500px !important;">                                    
@@ -258,11 +268,12 @@
                       <br>                      
                   </td>
                 </tr>                                 
-              </table>         
-           </div>
-           <div>         
-            <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply</span></a>
-           </div>         
+              </table>
+              </fieldset>
+              <div>         
+                <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply</span></a>
+               </div>         
+           </div>                             
            <a href="#" class="close"></a>     
         </div>
        </td>

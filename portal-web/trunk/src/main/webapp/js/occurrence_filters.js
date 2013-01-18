@@ -351,6 +351,15 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
         }
         return false;
       },
+      
+      /**
+       * Searches a filter by its value.
+       */
+      clearFilters :function() { 
+        this.appliedFilters = new Array();
+        this.showAppliedFilters();
+        this.toggleApplyButton();
+      },
 
       /**
        * Binds a widget apply control.
@@ -537,7 +546,23 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       self.addAppliedFilter({label: label, value: value, key: '', paramName: self.getId()});       
       self.showAppliedFilters();      
     })
-  };      
+  };
+  
+  /**
+   * Executes binding function bound during the object construction.
+   */
+  InnerOccurrenceLocationWidget.prototype.executeAdditionalBindings = function(){
+    var self = this;
+    self.bindingsExecutor.call();
+    this.filterElement.find(':checkbox[name="GEOREFERENCED"]').change( function(e) {
+      self.clearFilters();
+      if ($(this).attr('checked')) {
+        self.addAppliedFilter({label:$(this).val() == 'true' ?'Yes':'No',value: $(this).val(), key:  $(this).val(),paramName:'GEOREFERENCED'});
+        self.filterElement.find(':checkbox[name="GEOREFERENCED"][id!=' + $(this).attr('id') + ']').removeAttr('checked');
+      }
+    });
+  };  
+  
   return InnerOccurrenceLocationWidget;
 })(jQuery,_,OccurrenceWidget);
 
@@ -864,8 +889,12 @@ var OccurrenceWidgetManager = (function ($,_) {
    * Gets a occurrence widget instance by its id field.
    */
   function getWidgetById(id) {
+    var widgetId = id;
+    if(widgetId == 'GEOREFERENCED') { //GEOREFERENCED parameter is handled by BOUNDING_BOX widget
+      widgetId = 'BOUNDING_BOX';
+    }
     for (var i=0;i < widgets.length;i++) {
-      if(widgets[i].getId() == id){ return widgets[i];}
+      if(widgets[i].getId() == widgetId){ return widgets[i];}
     }
     return;
   };
@@ -874,8 +903,12 @@ var OccurrenceWidgetManager = (function ($,_) {
    * Gets an occurrence filter widget by the id of the occurrence widget associated.
    */
   function getFilterWidgetById(id) {
+    var widgetId = id;
+    if(widgetId == 'GEOREFERENCED') { //GEOREFERENCED parameter is handled by BOUNDING_BOX widget
+      widgetId = 'BOUNDING_BOX';
+    }
     for (var i=0;i < filterWidgets.length;i++) {
-      if(filterWidgets[i].getOccurrenceWidget().getId() == id){ return filterWidgets[i];}
+      if(filterWidgets[i].getOccurrenceWidget().getId() == widgetId){ return filterWidgets[i];}
     }
     return;
   };
@@ -1165,7 +1198,7 @@ var OccurrenceWidgetManager = (function ($,_) {
           $("#minLongitude").val(truncCoord(coords[1].lng));
           $("#maxLatitude").val(truncCoord(coords[3].lat));
           $("#maxLongitude").val(truncCoord(coords[3].lng));                        
-        });
+        });        
       },
 
       /**
@@ -1182,7 +1215,7 @@ var OccurrenceWidgetManager = (function ($,_) {
       },    
       
       /**
-       * Reads the filters applied on each widget and the creates the filter widgets.
+       * Reads the filters applied on each widget and then creates the filter widgets.
        */
       addFiltersFromWidgets : function() {
        var filters = new Object();
@@ -1215,14 +1248,17 @@ var OccurrenceWidgetManager = (function ($,_) {
           var widgetFilters = widgets[wi].getAppliedFilters();
           for(var fi=0; fi < widgetFilters.length; fi++){
             var filter = widgetFilters[fi];
-            var filterId = widgets[wi].getId(); 
-            if (params[filterId] == null) {
-              params[filterId] = new Array();
+            var paramName = filter.paramName;
+            if(undefined == filter.paramName){              
+              paramName = widgets[wi].getId();
+            }
+            if (params[paramName] == null) {
+              params[paramName] = new Array();
             }
             if (filter.key != null && filter.key.length > 0) {
-              params[filterId].push(filter.key);
+              params[paramName].push(filter.key);
             } else {
-              params[filterId].push(filter.value);              
+              params[paramName].push(filter.value);              
             }                      
           }          
         }       
@@ -1275,7 +1311,7 @@ var OccurrenceWidgetManager = (function ($,_) {
         }
         this.centerDropDownMenus();
         initialConfParams = this.getConfigurationParams();
-        this.bindConfigureWidget();
+        this.bindConfigureWidget();        
       }
   }
   return InnerOccurrenceWidgetManager;
