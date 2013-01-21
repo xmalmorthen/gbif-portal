@@ -10,6 +10,7 @@
     <script type="text/javascript" src="<@s.url value='/js/terms_suggest.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/dataset_autocomplete.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/country_autocomplete.js'/>"></script>
     
     <!--Maps-->
     <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
@@ -20,6 +21,7 @@
     <script type="text/javascript" src="<@s.url value='/js/occurrence_filters.js'/>"></script>
     <script>                 
       var filtersFromRequest = new Object();   
+      var countryList = [<#list countries as country><#if country.official>{label:"${country.title}",iso2Lettercode:"${country.iso2LetterCode}"}<#if country_has_next>,</#if></#if></#list>];
       function addFilters(filtersFromRequest,filterKey,filterValue,filterLabel) {
         filtersFromRequest[filterKey].push({ label: filterLabel, value:filterValue, key: filterValue, paramName: filterKey });
       } 
@@ -110,7 +112,9 @@
                   <ul>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="TAXON_KEY"  title="Scientific name" data-template-filter="template-add-filter" data-input-classes="value species_autosuggest" class="filter-control">Scientific name</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a location..." data-filter="BOUNDING_BOX" title="Bounding Box" data-template-filter="map-template-filter" class="filter-control">Location</a></li>
+                    <!--Next li is a place holder to map GEOREFERENCEDto the bounding box widget-->
                     <li style="display:none;"><a tabindex="-1" href="#" data-filter="GEOREFERENCED" title="Bounding Box" data-template-filter="map-template-filter" class="filter-control">Location</a></li>
+                    <li><a tabindex="-1" href="#" data-placeholder="Select a country..." data-filter="COUNTRY" title="Country" data-template-filter="template-add-filter" class="filter-control">Country</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="COLLECTOR_NAME" title="Collector name" data-template-filter="template-add-filter" data-input-classes="value collector_name_autosuggest" class="filter-control">Collector</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="BASIS_OF_RECORD" title="Basis Of Record" data-template-filter="template-basis-of-record-filter" class="filter-control">Basis of record</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="DATASET_KEY" title="Dataset" data-template-filter="template-add-filter" data-input-classes="value dataset_autosuggest" class="filter-control">Dataset</a></li>

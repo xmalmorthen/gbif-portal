@@ -341,6 +341,17 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
       },
       
       /**
+       * Removes filters by the paramName field.
+       */
+      removeFilterByParamName :function(paramName) {        
+        for(var i = 0; i < this.appliedFilters.length; i++){
+          if(this.appliedFilters[i].paramName == filter.paramName){
+            this.appliedFilters.splice(i,1);                 
+          }
+        }        
+      },
+      
+      /**
        * Searches a filter by its value.
        */
       existsFilter :function(filterP) {        
@@ -430,7 +441,7 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
           self.showAppliedFilters();
           input.val('');
         }
-      }
+      }            
   }
 
   return InnerOccurrenceWidget;
@@ -543,7 +554,9 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       var value = minLat + ',' + minLng + ',' + maxLat + ',' + maxLng;
       var label = "FROM " + minLat + ',' + minLng + ' TO ' + maxLat + ',' + maxLng;
       self.filterElement.find(":input").val('');
-      self.addAppliedFilter({label: label, value: value, key: '', paramName: self.getId()});       
+      self.addAppliedFilter({label: label, value: value, key: '', paramName: self.getId()});
+      //GEOREFERENCED filters must be removed
+      self.removeFilterByParamName('GEOREFERENCED');
       self.showAppliedFilters();      
     })
   };
@@ -1019,11 +1032,13 @@ var OccurrenceWidgetManager = (function ($,_) {
           } else if (filterName == "BASIS_OF_RECORD") {
             newWidget = new OccurrenceBasisOfRecordWidget();
             newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});              
-          }else if (filterName == "ALTITUDE" || filterName == "DEPTH") {
+          } else if (filterName == "COUNTRY") {
+            newWidget = new OccurrenceWidget();
+            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCountryAutosuggest});              
+          } else if (filterName == "ALTITUDE" || filterName == "DEPTH") {
             newWidget = new OccurrenceComparatorWidget();
             newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});              
-          }
-          else { //By default creates a simple OccurrenceWidget with an empty binding function
+          } else { //By default creates a simple OccurrenceWidget with an empty binding function
             newWidget = new OccurrenceWidget();
             newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});                      
           }
@@ -1128,6 +1143,21 @@ var OccurrenceWidgetManager = (function ($,_) {
       },
       
       /**
+       * Binds the species auto-suggest widget used by the TAXON_KEY widget.
+       */
+      bindCountryAutosuggest: function(){        
+        var self = this;
+        $(':text[name="COUNTRY"]').each( function(idx,el){
+          $(el).countryAutosuggest(countryList,"#content",function (newFilter) {        
+            var widget = getWidgetById('COUNTRY');
+            widget.addAppliedFilter($.extend({},newFilter,{paramName:'COUNTRY'}));            
+            widget.showAppliedFilters();
+            $(el).val('');        
+          });
+        });   
+      },
+      
+      /**
        * Binds the dataset title auto-suggest widget used by the DATASET_KEY widget.
        */
       bindDatasetAutosuggest: function(){
@@ -1153,6 +1183,16 @@ var OccurrenceWidgetManager = (function ($,_) {
           $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",4);
         });
       },
+      
+      /**
+       * Utility function that validates if the input value is valid (non-blank) and could be added to list of applied filters.
+       */
+      onSelectCountryHandler: function (newFilter) {        
+        var widget = getFilterWidgetById('COUNTRY');
+        widget.addAppliedFilter(newFilter);            
+        widget.showAppliedFilters();
+        input.val('');        
+      }, 
       
       /**
        * Binds the catalog number  auto-suggest widget used by the BBOX widget.

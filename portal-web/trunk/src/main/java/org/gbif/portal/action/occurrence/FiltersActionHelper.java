@@ -17,6 +17,7 @@ import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.util.SearchTypeValidator;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.model.NameUsageSearchSuggestions;
 
@@ -24,10 +25,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionContext;
@@ -50,6 +54,15 @@ public class FiltersActionHelper {
 
   private static final String GEOREFERENCING_LEGEND = "Georeferenced records only";
 
+  private static final Set<Country> countries = Sets.immutableEnumSet(Sets.filter(
+    Sets.newHashSet(Country.values()),
+    new Predicate<Country>() {
+
+      @Override
+      public boolean apply(Country country) {
+        return country.isOfficial();
+      }
+    }));
   /**
    * Constant that contains the prefix of a key to get a Basis of record name from the resource bundle file.
    */
@@ -72,6 +85,22 @@ public class FiltersActionHelper {
   }
 
   /**
+   * Returns the list of {@link Country} literals.
+   */
+  public Set<Country> getCountries() {
+    return countries;
+  }
+
+  public String getCountryTitle(String value) {
+    Country country = Country.fromIsoCode(value);
+    if (country != null) {
+      return country.getTitle();
+    }
+    return value;
+  }
+
+
+  /**
    * Gets the Dataset title, the key parameter is returned if either the Dataset doesn't exists or it
    * doesn't have a title.
    */
@@ -82,7 +111,6 @@ public class FiltersActionHelper {
     }
     return key;
   }
-
 
   /**
    * Gets the displayable value of filter parameter.
@@ -103,6 +131,8 @@ public class FiltersActionHelper {
         return getBoundingBoxTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.GEOREFERENCED) {
         return getGeoreferencedTitle(filterValue);
+      } else if (parameter == OccurrenceSearchParameter.COUNTRY) {
+        return getCountryTitle(filterValue);
       }
     }
     return filterValue;

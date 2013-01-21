@@ -3,11 +3,13 @@ package org.gbif.portal.action.occurrence;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.model.NameUsageSearchSuggestions;
 
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
@@ -53,6 +55,14 @@ public class DownloadHomeAction extends BaseAction {
     return filtersActionHelper.getBasisOfRecords();
   }
 
+
+  /**
+   * Returns the list of {@link Country} literals.
+   */
+  public Set<Country> getCountry() {
+    return filtersActionHelper.getCountries();
+  }
+
   /**
    * Gets the list of values of {@link OccurrenceSearchParameter} that have been requested.
    */
@@ -70,6 +80,7 @@ public class DownloadHomeAction extends BaseAction {
     return filters;
   }
 
+
   /**
    * Gets the readable value of filter parameter.
    */
@@ -84,6 +95,23 @@ public class DownloadHomeAction extends BaseAction {
    */
   public NameUsageSearchSuggestions getNameUsagesSuggestions() {
     return nameUsagesSuggestions;
+  }
+
+  /**
+   * Checks if a parameter value is already selected in the current request filters.
+   * Public method used by html templates.
+   * 
+   * @param param the facet name according to
+   */
+  public boolean isInFilter(String param, String value) {
+    if (param != null && request.getParameterMap().containsKey(param)) {
+      for (String v : request.getParameterValues(param)) {
+        if (v.equals(value)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
 }

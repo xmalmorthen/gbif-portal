@@ -89,7 +89,6 @@
     </tr>
   </script>
   
-  
   <script type="text/template" id="template-add-filter">
     <tr class="filter">
       <td colspan="4">
@@ -100,7 +99,7 @@
                 <tr> 
                   <td style="border: 0px none !important;">                    
                     <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />
-                    <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">
+                    <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter"/>
                     <span style="display:none" class="erroMsg">Please enter a value</span>
                   </td>
                   <td style="border: 0px none !important;">

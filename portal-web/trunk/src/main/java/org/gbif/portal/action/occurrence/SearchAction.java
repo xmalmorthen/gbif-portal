@@ -6,9 +6,12 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
 import org.gbif.api.service.occurrence.OccurrenceSearchService;
 import org.gbif.api.vocabulary.BasisOfRecord;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.portal.action.BaseSearchAction;
 import org.gbif.portal.model.NameUsageSearchSuggestions;
 import org.gbif.portal.model.OccurrenceTable;
+
+import java.util.Set;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Multimap;
@@ -90,6 +93,13 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    */
   public BasisOfRecord[] getBasisOfRecords() {
     return filtersActionHelper.getBasisOfRecords();
+  }
+
+  /**
+   * Returns the list of {@link Country} literals.
+   */
+  public Set<Country> getCountries() {
+    return filtersActionHelper.getCountries();
   }
 
   /**
