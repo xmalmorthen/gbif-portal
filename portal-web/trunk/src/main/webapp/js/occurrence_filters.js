@@ -345,7 +345,7 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
        */
       removeFilterByParamName :function(paramName) {        
         for(var i = 0; i < this.appliedFilters.length; i++){
-          if(this.appliedFilters[i].paramName == filter.paramName){
+          if(this.appliedFilters[i].paramName == paramName){
             this.appliedFilters.splice(i,1);                 
           }
         }        
@@ -557,6 +557,7 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       self.addAppliedFilter({label: label, value: value, key: '', paramName: self.getId()});
       //GEOREFERENCED filters must be removed
       self.removeFilterByParamName('GEOREFERENCED');
+      self.filterElement.find(':checkbox[name="GEOREFERENCED"]').removeAttr('checked');
       self.showAppliedFilters();      
     })
   };
