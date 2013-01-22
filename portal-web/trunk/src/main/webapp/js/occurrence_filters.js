@@ -928,6 +928,15 @@ var OccurrenceWidgetManager = (function ($,_) {
     }
     return;
   };
+  
+  function buildOnSelectHandler(paramName,el){
+    return function (newFilter) {        
+      var widget = getWidgetById(paramName);
+      widget.addAppliedFilter($.extend({},newFilter,{paramName:paramName}));            
+      widget.showAppliedFilters();
+      $(el).val('');        
+    };
+  };
 
   /**
    * Calculates visible position in the screen. The returned value of this function is used to display the "wait dialog" while a request is submitted to the server.
@@ -1141,7 +1150,7 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindSpeciesAutosuggest: function(){
         $(':input.species_autosuggest').each( function(idx,el){
-          $(el).speciesAutosuggest(cfg.wsClbSuggest, 4, "#nubTaxonomyKey[value]", "#content",false);
+          $(el).speciesAutosuggest(cfg.wsClbSuggest, 4, "#nubTaxonomyKey[value]", "#content",buildOnSelectHandler('NUB_KEY',el));
         });   
       },
       
@@ -1151,26 +1160,16 @@ var OccurrenceWidgetManager = (function ($,_) {
       bindCountryAutosuggest: function(){        
         var self = this;
         $(':text[name="COUNTRY"]').each( function(idx,el){
-          $(el).countryAutosuggest(countryList,"#content",function (newFilter) {        
-            var widget = getWidgetById('COUNTRY');
-            widget.addAppliedFilter($.extend({},newFilter,{paramName:'COUNTRY'}));            
-            widget.showAppliedFilters();
-            $(el).val('');        
-          });
+          $(el).countryAutosuggest(countryList,"#content",buildOnSelectHandler('COUNTRY',el));
         });   
       },
       
       /**
        * Binds the dataset title auto-suggest widget used by the DATASET_KEY widget.
        */
-      bindDatasetAutosuggest: function(){
+      bindDatasetAutosuggest: function(){        
         $(':input.dataset_autosuggest').each( function(idx,el){
-          $(el).datasetAutosuggest(cfg.wsRegSuggest, 6,"#content", function (newFilter) {        
-            var widget = getWidgetById('DATASET_KEY');
-            widget.addAppliedFilter($.extend({},newFilter,{paramName:'DATASET_KEY'}));            
-            widget.showAppliedFilters();
-            $(el).val('');        
-          });
+          $(el).datasetAutosuggest(cfg.wsRegSuggest, 6,"#content", buildOnSelectHandler('DATASET_KEY',el));
         });   
       },
       
@@ -1179,16 +1178,21 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindCollectorNameAutosuggest : function(){        
         $(':input.collector_name_autosuggest').each( function(idx,el){
-          $(el).termsAutosuggest(cfg.wsOccCollectorNameSearch, "#content",4);
+          $(el).termsAutosuggest(cfg.wsOccCollectorNameSearch, "#content",4,buildOnSelectHandler('COLLECTOR_NAME',el));
         });        
       },
       
       /**
-       * Binds the catalog number  auto-suggest widget used by the CATALOG_NAME widget.
+       * Binds the catalog number  auto-suggest widget used by the CATALOG_NUMBER widget.
        */
       bindCatalogNumberAutosuggest : function(){                
         $(':input.catalog_number_autosuggest').each( function(idx,el){
-          $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",4);
+          $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",4,function (newFilter) {        
+            var widget = getWidgetById('CATALOG_NUMBER');
+            widget.addAppliedFilter($.extend({},newFilter,{paramName:'CATALOG_NUMBER'}));            
+            widget.showAppliedFilters();
+            $(el).val('');        
+          });
         });
       },            
       

@@ -90,7 +90,7 @@
                     <li><input type="checkbox" name="columns" value="LOCATION" id="chk-LOCATION" <#if showLocation>checked</#if>/> <label for="chk-LOCATION">Location</label></li>
                     <li><input type="checkbox" name="columns" value="BASIS_OF_RECORD" id="chk-BASIS_OF_RECORD" <#if showBasisOfRecord>checked</#if>/> <label for="chk-BASIS_OF_RECORD">Basis of record</label></li>
                     <li><input type="checkbox" name="columns" value="DATE" id="chk-DATE" <#if showDate>checked</#if>/> <label for="chk-DATE">Date</label></li>
-                    <li class="divider"></li>
+                    <li class="divider"><input type="checkbox" name="columns" value="SUMMARY" id="chk-SUMMARY" class="visibility:hidden;" checked/></li>
                   </ul>
                   <h4>Summary fields</h4>
                   <ul id="summary_fields">
@@ -154,7 +154,7 @@
               <#if showCollectorName && occ.collectorName?has_content>
                 <div class="code">Collector: ${occ.collectorName}</div>
               </#if>
-              <#if showCollectionCode && occ.CollectionCode?has_content>
+              <#if showCollectionCode && occ.collectionCode?has_content>
                 <div class="code">Collection: ${occ.collectionCode}</div>
               </#if>
             </div>

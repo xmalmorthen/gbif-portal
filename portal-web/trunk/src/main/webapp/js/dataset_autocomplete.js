@@ -5,8 +5,8 @@
 	 */
 	 $.extend($.ui.autocomplete.prototype, 
 			   {highlight: function(value, term) {
-			        return value.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + term.replace(/([\^\$\(\)\[\]\{\}\*\.\+\?\|\\])/gi, "\\$1") + ")(?![^<>]*>)(?![^&;]+;)", "gi"), "<strong>$1</strong>");
-			    }
+			     return value.replace(new RegExp("(?![^&;]+;)(?!<[^<>]*)(" + term.replace(/([\^\$\(\)\[\]\{\}\*\.\+\?\|\\])/gi, "\\$1") + ")(?![^<>]*>)(?![^&;]+;)", "gi"), "<strong>$1</strong>");
+			   }
 	  });	 
    
 	  /**
@@ -15,6 +15,7 @@
      * @param portalDatasetUrl url to portal dataset details page without the key
 	   * @param limit maximum elements expected/this can be overwritten by the server side implementation
 	   * @param appendToElement parent element of generated widget
+	   * @param onSelectEventHandler function that handles the event when an element is selected
 	   */
 	  $.fn.datasetAutosuggest = function(wsSuggestUrl, limit, appendToElement, onSelectEventHandler) {
 		   //reference to the widget
@@ -63,7 +64,7 @@
 			         self.attr("key",ui.item.key);
 			       }
 			       self.val( ui.item.value);				       
-							return false;
+						 return false;
 						},
 				select: function( event, ui ) {//on select: goes to dataset detail page
     				  if (typeof(ui.item.key) != 'undefined') {                

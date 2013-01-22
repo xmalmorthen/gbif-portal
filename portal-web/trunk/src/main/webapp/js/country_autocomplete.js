@@ -12,6 +12,7 @@ $.extend($.ui.autocomplete.prototype,
  * Species name Autosuggest widget.
  * @param wsServiceUrl url to the search/suggest service
  * @param appendToElement parent element of generated widget
+ * @param onSelectEventHandler function that handles the event when an element is selected
  */
 $.fn.countryAutosuggest = function(countryList,appendToElement, onSelectEventHandler) {
   //reference to the widget
