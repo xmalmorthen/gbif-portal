@@ -51,11 +51,13 @@
 
     <content tag="infoband">
         <h2>Search occurrences</h2>
+        <#if action.showDownload()>
         <div class="box">
           <div class="content">
             <a href="<@s.url value='/occurrence/download'/>?${request.getQueryString()!}" class="candy_blue_button"><span>Download occurrences</span></a>
           </div>
         </div>
+        </#if>
     </content>
 
     <article class="ocurrence_results">
@@ -222,7 +224,7 @@
   <footer></footer>    
   </article>
 
-<#if !action.hasErrors() && !action.nameUsagesSuggestions.hasSuggestions()>
+<#if action.showDownload()>
   <article class="download_ocurrences">
   <header></header>
   <div class="content">

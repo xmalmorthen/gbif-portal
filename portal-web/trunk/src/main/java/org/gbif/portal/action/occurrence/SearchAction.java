@@ -146,4 +146,11 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   }
 
 
+  /**
+   * Validates if the download functionality should be shown.
+   */
+  public boolean showDownload() {
+    return this.getCurrentUser() != null && searchResponse.getCount() > 0 && !hasErrors()
+      && !nameUsagesSuggestions.hasSuggestions();
+  }
 }
