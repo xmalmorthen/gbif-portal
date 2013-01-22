@@ -118,6 +118,34 @@
     </tr>
   </script>
   
+  
+   <script type="text/template" id="template-simple-filter">
+    <tr class="filter">
+      <td colspan="4">
+        <div class="inner">
+          <h4><%= title %></h4>
+          <div class="filter">
+            <table width="100%">                
+                <tr> 
+                  <td style="border: 0px none !important;">                    
+                    <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />                    
+                  </td>
+                  <td style="border: 0px none !important;">
+                    <h4 class="filtersTitle" style="display:none;">Filters</h4>
+                    <div class="appliedFilters filterlist" style="display:none;"></div>
+                  </td>                  
+                </tr>
+             </table>                        
+          </div>
+          <div>          
+            <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
+          </div>
+          <a href="#" class="close"></a>
+        </div>
+      </td>
+    </tr>
+  </script>
+  
   <script type="text/template" id="template-compare-filter">
     <tr class="filter">
       <td colspan="4">

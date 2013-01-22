@@ -55,7 +55,9 @@ $.fn.countryAutosuggest = function(countryList,appendToElement, onSelectEventHan
       if (ui.item.iso2Lettercode != 0){
         self.attr("data-key",ui.item.iso2Lettercode);
         self.val( ui.item.label);
-        onSelectEventHandler({key: ui.item.iso2Lettercode,value: ui.item.label,label: ui.item.label});
+        if(onSelectEventHandler !== undefined) {
+          onSelectEventHandler({key: ui.item.iso2Lettercode,value: ui.item.label,label: ui.item.label});
+        }
       }
       return false;
     }

@@ -415,11 +415,13 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
       bindAddFilterControl : function() {
         var self = this;
         var input = this.filterElement.find(":input[name=" + this.id + "]:first");
-        input.keyup(function(event){
-          if(event.keyCode == 13){
-            self.addFilterControlEvent(self, input);
-          }
-        });
+        if ($(input).hasClass('auto_add')) {
+          input.keyup(function(event){
+            if(event.keyCode == 13){
+              self.addFilterControlEvent(self, input);
+            }
+          });
+        }
         this.filterElement.find(".addFilter").click( function(e){          
           self.addFilterControlEvent(self, input);
         });  
@@ -1163,7 +1165,12 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindDatasetAutosuggest: function(){
         $(':input.dataset_autosuggest').each( function(idx,el){
-          $(el).datasetAutosuggest(cfg.wsRegSuggest, 6,"#content");
+          $(el).datasetAutosuggest(cfg.wsRegSuggest, 6,"#content", function (newFilter) {        
+            var widget = getWidgetById('DATASET_KEY');
+            widget.addAppliedFilter($.extend({},newFilter,{paramName:'DATASET_KEY'}));            
+            widget.showAppliedFilters();
+            $(el).val('');        
+          });
         });   
       },
       
@@ -1183,17 +1190,7 @@ var OccurrenceWidgetManager = (function ($,_) {
         $(':input.catalog_number_autosuggest').each( function(idx,el){
           $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",4);
         });
-      },
-      
-      /**
-       * Utility function that validates if the input value is valid (non-blank) and could be added to list of applied filters.
-       */
-      onSelectCountryHandler: function (newFilter) {        
-        var widget = getFilterWidgetById('COUNTRY');
-        widget.addAppliedFilter(newFilter);            
-        widget.showAppliedFilters();
-        input.val('');        
-      }, 
+      },            
       
       /**
        * Binds the catalog number  auto-suggest widget used by the BBOX widget.

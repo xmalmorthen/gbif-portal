@@ -16,7 +16,7 @@
 	   * @param limit maximum elements expected/this can be overwritten by the server side implementation
 	   * @param appendToElement parent element of generated widget
 	   */
-	  $.fn.datasetAutosuggest = function(wsSuggestUrl, limit, appendToElement) {
+	  $.fn.datasetAutosuggest = function(wsSuggestUrl, limit, appendToElement, onSelectEventHandler) {
 		   //reference to the widget
 		   var self = $(this);
 		   //jquery ui autocomplete widget creation
@@ -66,11 +66,13 @@
 							return false;
 						},
 				select: function( event, ui ) {//on select: goes to dataset detail page
-    				  if (typeof(ui.item.key) != 'undefined') {
-                window.location = cfg.baseUrl + "/dataset/" + ui.item.key;
+    				  if (typeof(ui.item.key) != 'undefined') {                
     				    self.attr("key",ui.item.key);
               }
     				  self.val( ui.item.value);
+    				  if(onSelectEventHandler !== undefined) {
+    	          onSelectEventHandler(ui.item);
+    	        }
 							return false;
 						}
 			}).data( "autocomplete" )._renderItem = function( ul, item) { 		  
