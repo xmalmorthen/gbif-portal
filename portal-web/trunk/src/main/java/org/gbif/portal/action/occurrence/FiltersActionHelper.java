@@ -22,6 +22,7 @@ import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.model.NameUsageSearchSuggestions;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
@@ -91,14 +92,28 @@ public class FiltersActionHelper {
     return countries;
   }
 
-  public String getCountryTitle(String value) {
-    Country country = Country.fromIsoCode(value);
+  /**
+   * Gets the title(name) of a country.
+   * 
+   * @param isoCode iso 2/3 country code
+   */
+  public String getCountryTitle(String isoCode) {
+    Country country = Country.fromIsoCode(isoCode);
     if (country != null) {
       return country.getTitle();
     }
-    return value;
+    return isoCode;
   }
 
+
+  /**
+   * Gets the current year.
+   * This value is used by occurrence filters to determine the maximum year that is allowed for the
+   * OccurrenceSearchParamater.DATE.
+   */
+  public int getCurrentYear() {
+    return Calendar.getInstance().get(Calendar.YEAR);
+  }
 
   /**
    * Gets the Dataset title, the key parameter is returned if either the Dataset doesn't exists or it
@@ -298,5 +313,4 @@ public class FiltersActionHelper {
 
     return nameUsageSearchResult;
   }
-
 }

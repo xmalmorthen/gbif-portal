@@ -460,12 +460,65 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
   //Inherits everything from the OccurrenceWidget module.
   InnerOccurrenceDateWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
   
+  /**
+   * Validates if the selected is acceptable: year is a valid number between 0 and maxValidYear, and monthValue must be selected is the year is not blank.
+   */
+  InnerOccurrenceDateWidget.prototype.isValidDate = function(yearValue, monthValue, maxValidYear, yearInputName, monthInputName) {    
+    if((!this.isBlank(yearValue) && !this.isValidNumber(yearValue,false,0,maxValidYear)) || (monthValue != "0" && this.isBlank(yearValue))){
+      this.filterElement.find(":input[name=" + yearInputName + "]:first").addClass(ERROR_CLASS);
+      this.filterElement.find("#yearErrorMessage").show();
+      return false;
+    } else if (monthValue == "0" && !this.isBlank(yearValue)) {
+      this.filterElement.find("#dk_container_" + monthInputName).addClass(ERROR_CLASS);
+      return false;
+    }
+    return true;
+  };
+  
+  /**
+   * Validates if the date range is: yearMax > yearMin and monthMin < monthMax when yearMax == yearMin .
+   */
+  InnerOccurrenceDateWidget.prototype.isValidDateRange = function(yearMax, yearMin, monthMax, monthMin) {
+    var intYearMax = parseInt(yearMax);
+    var intYearMin = parseInt(yearMin);
+    
+    if(intYearMax < intYearMin) {
+      this.filterElement.find("#yearRangeErrorMessage").show();
+      this.filterElement.find(":input[name=yearMax]:first,:input[name=yearMin]:first").addClass(ERROR_CLASS);
+      return false;
+    }
+    
+    if( (intYearMax == intYearMin) && (parseInt(monthMin) > parseInt(monthMax))) {
+      this.filterElement.find("#monthRangeErrorMessage").show();
+      this.filterElement.find(":input[name=monthMax]:first,:input[name=monthMin]:first,#dk_container_monthMax,#dk_container_monthMin").addClass(ERROR_CLASS);      
+      return false;
+    }
+    return true;
+  };
+  
   //The bindAddFilterControl is re-defined, the define dates are validated and then applied.
   InnerOccurrenceDateWidget.prototype.bindAddFilterControl = function() {
     var self = this;
+    
+    
+    $(document).on('click','#dk_container_monthMin > [class*="dk"], #dk_container_monthMax > [class*="dk"]', function(e) {      
+        self.filterElement.find("#monthRangeErrorMessage").hide();
+    });
+    
+    this.filterElement.find(":input[name=yearMin],:input[name=yearMax]").focus( function(e){
+      self.filterElement.find(".year_error,.month_error").hide();
+    });    
+    
+    this.filterElement.find('.helpPopup').each( function(idx,el){
+      $(el).prepend('<img src="'+((cfg.context+"/img/icons/questionmark.png").replace("//", "/")) +'"/> ').sourcePopover({"title":$(el).attr("title"),"message":$(el).attr("data-message"),"remarks":$(el).attr("data-remarks")});
+    });
+    
     this.filterElement.find(".addFilter").click( function(e) { 
       e.preventDefault();   
       self.filterElement.find('.' + ERROR_CLASS).removeClass(ERROR_CLASS)
+      self.filterElement.find("#monthRangeErrorMessage").hide();
+      self.filterElement.find(".year_error,.month_error").hide();
+      var maxValidYear = parseInt(self.filterElement.find(":input[name=max_year]").val());
       var monthMin = self.filterElement.find(":input[name=monthMin]:first").val();
       var yearMin  =  self.filterElement.find(":input[name=yearMin]:first").val();
       var monthMax = self.filterElement.find(":input[name=monthMax]:first").val();
@@ -473,22 +526,17 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
       var value = "";
       var label = "";
       
-      if((!self.isBlank(yearMin) && !self.isValidNumber(yearMin,false,null,null)) || (monthMin != "0" && self.isBlank(yearMin))){
-        self.filterElement.find(":input[name=yearMin]:first").addClass(ERROR_CLASS);
+      if(!self.isValidDate(yearMin,monthMin,maxValidYear,"yearMin","monthMin")){
         return;
-      } else if (monthMin == "0") {
-        self.filterElement.find("#dk_container_monthMin").addClass(ERROR_CLASS);
-        return;
-      }
+      }      
     
       value = monthMin + "/" + yearMin;
       label = value;
       
-      if((!self.isBlank(yearMax) && !self.isValidNumber(yearMax,false,null,null)) || (monthMax != "0" && self.isBlank(yearMax))){
-        self.filterElement.find(":input[name=yearMax]:first").addClass(ERROR_CLASS);
+      if(!self.isValidDate(yearMax,monthMax,maxValidYear,"yearMax","monthMax")){
         return;
-      } else if (monthMax == "0" && !self.isBlank(yearMax)) {
-        self.filterElement.find("#dk_container_monthMax").addClass(ERROR_CLASS);
+      }      
+      if(!self.isValidDateRange(yearMax, yearMin, monthMax, monthMin)){
         return;
       }
       
@@ -501,10 +549,11 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
         label = label + monthMax + "/" + yearMax;
       }      
       if(!self.isBlank(value)) {
+        self.filterElement.find(".year_error").hide();
+        self.filterElement.find("#monthRangeErrorMessage").hide();
         self.addAppliedFilter({label:label, value: value, key: '', paramName: self.getId()});
         self.showAppliedFilters();
-        self.filterElement.find(":input[name=yearMax]:first").val("");
-        self.filterElement.find(":input[name=yearMin]:first").val("");        
+        self.filterElement.find(":input[name=yearMax]:first,:input[name=yearMin]:first").val("");
       }
     })
   };       
@@ -526,7 +575,7 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
   InnerOccurrenceLocationWidget.prototype.bindAddFilterControl = function() {
     var self = this;
     this.filterElement.find(".addFilter").click( function(e) { 
-      e.preventDefault();          
+      e.preventDefault();     
       self.filterElement.find('.' + ERROR_CLASS).removeClass(ERROR_CLASS);
       var minLat = self.filterElement.find(":input[name=minLatitude]:first").val();
       var minLng = self.filterElement.find(":input[name=minLongitude]:first").val();
@@ -1187,12 +1236,7 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindCatalogNumberAutosuggest : function(){                
         $(':input.catalog_number_autosuggest').each( function(idx,el){
-          $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",4,function (newFilter) {        
-            var widget = getWidgetById('CATALOG_NUMBER');
-            widget.addAppliedFilter($.extend({},newFilter,{paramName:'CATALOG_NUMBER'}));            
-            widget.showAppliedFilters();
-            $(el).val('');        
-          });
+          $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",4, buildOnSelectHandler('CATALOG_NUMBER',el));
         });
       },            
       

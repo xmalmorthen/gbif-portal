@@ -64,6 +64,16 @@ public class DownloadHomeAction extends BaseAction {
   }
 
   /**
+   * Gets the current year.
+   * This value is used by occurrence filters to determine the maximum year that is allowed for the
+   * OccurrenceSearchParamater.DATE.
+   */
+  public int getCurrentYear() {
+    return filtersActionHelper.getCurrentYear();
+  }
+
+
+  /**
    * Gets the list of values of {@link OccurrenceSearchParameter} that have been requested.
    */
   public Map<OccurrenceSearchParameter, String[]> getFilters() {
@@ -79,7 +89,6 @@ public class DownloadHomeAction extends BaseAction {
     }
     return filters;
   }
-
 
   /**
    * Gets the readable value of filter parameter.
@@ -113,5 +122,4 @@ public class DownloadHomeAction extends BaseAction {
     }
     return false;
   }
-
 }

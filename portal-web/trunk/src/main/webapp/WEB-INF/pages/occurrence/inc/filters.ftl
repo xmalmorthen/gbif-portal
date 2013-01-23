@@ -1,14 +1,16 @@
+  <#import "/WEB-INF/macros/common.ftl" as common>
   <!-- Filter templates -->
   <script type="text/template" id="template-add-date-filter">
     <tr class="filter">
       <td colspan="4">
-        <div class="inner">          
-          <div class="filter">
-          <h4><%= title %></h4>
-            <table>
+        <div class="inner">                    
+          <div class="filter">          
+            <h4><%= title %></h4>                    
+            <table>              
               <tr>
-                <td style="border: 0px none !important;">
-                  <span class="date-filter">
+                <td style="border: 0px none !important;">                  
+                  <div class="date-filter">
+                    <a class="helpPopup" title="Year interpretation" data-message="The year is interpreted literally. i.e. 19 is the year 19 AD, 1900 is the year 1900 AD." data-remarks="" style="float:right;"/>
                     <h4>from</h4>
                     <select name="monthMin" class="date-dropdown">
                       <option value="0">-</option>
@@ -24,12 +26,12 @@
                       <option value="10">October</option>
                       <option value="11">November</option>
                       <option value="12">December</option>
-                    </select>                    
-                    <label for="yearMax">Year</label>
+                    </select>                                  
+                    <label for="yearMax">Year</label>                    
                     <input type="text" name="yearMin" size="10" maxlength="4" style="width: 50px !important; padding: 6px !important;"/>
-                </span>
+                </div>
                                 
-                <span class="date-filter">
+                <div class="date-filter">
                   <h4>to</h4>                  
                   <select name="monthMax" class="date-dropdown">
                     <option value="0">-</option>
@@ -49,16 +51,26 @@
 
                   <label for="yearMax">Year</label>
                   <input type="text" name="yearMax" size="10" maxlength="4" style="width: 50px !important; padding: 6px !important;"/>
-                  <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter"/>
+                  <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter"/>                  
+                  <input type="hidden" name="max_year" value="${action.currentYear?c}"/>
+                </div>
+                <span style="display: none;" id="yearErrorMessage" class="warningBox year_error">
+                    <p>Year must be a valid number between 0 and ${action.currentYear?c}</p>
+                </span>
+                <span style="display: none;" id="yearRangeErrorMessage" class="warningBox year_error">
+                    <p>Invalid range of years has been specified, second year must be greater that the first one</p>
+                </span>
+                
+                <span style="display: none;" id="monthRangeErrorMessage" class="warningBox month_error">
+                    <p>Invalid range of months has been specified, second month must be greater than the first one</p>
                 </span>
                 </td>
                 <td style="border: 0px none !important;">
                   <h4 class="filtersTitle" style="display:none;">Filters</h4>
                   <div class="appliedFilters filterlist" style="display:none;"></div>
-                </td>
-              </tr>              
+                </td>                           
               </tr>
-            </table>              
+            </table>                         
             <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-date-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>          
           <a href="#" class="close"></a>

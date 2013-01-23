@@ -103,6 +103,15 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   }
 
   /**
+   * Gets the current year.
+   * This value is used by occurrence filters to determine the maximum year that is allowed for the
+   * OccurrenceSearchParamater.DATE.
+   */
+  public int getCurrentYear() {
+    return filtersActionHelper.getCurrentYear();
+  }
+
+  /**
    * Gets the Dataset title, the key parameter is returned if either the Dataset doesn't exists or it
    * doesn't have a title.
    */
@@ -138,13 +147,13 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return Constants.NUB_TAXONOMY_KEY.toString();
   }
 
+
   /**
    * @return the table
    */
   public OccurrenceTable getTable() {
     return table;
   }
-
 
   /**
    * Validates if the download functionality should be shown.
