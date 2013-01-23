@@ -16,7 +16,7 @@ $.extend($.ui.autocomplete.prototype,
  * @param appendToElement parent element of generated widget
  * @param onSelectEventHandler function that handles the event when an element is selected
  */
-$.fn.speciesAutosuggest = function(wsServiceUrl,limit,chklstKeysElementsSelector,appendToElement,onSelectEventHanlder) {
+$.fn.speciesAutosuggest = function(wsServiceUrl,limit,chklstKeysElementsSelector,appendToElement,onSelectEventHandler) {
   //reference to the widget
   var self = $(this);
   //jquery ui autocomplete widget creation
