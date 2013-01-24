@@ -164,4 +164,8 @@ public class Config {
   public void setTileServerBaseUrl(String tileServerBaseUrl) {
     this.tileServerBaseUrl = tileServerBaseUrl;
   }
+
+  public String getWsOccDownload() {
+    return wsOccDownload;
+  }
 }
