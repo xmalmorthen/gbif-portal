@@ -121,9 +121,7 @@
                     <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="BASIS_OF_RECORD" title="Basis Of Record" data-template-filter="template-basis-of-record-filter" class="filter-control">Basis of record</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="DATASET_KEY" title="Dataset" data-template-filter="template-add-filter" data-input-classes="value dataset_autosuggest auto_add" class="filter-control">Dataset</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a dataset date..." data-filter="DATE" title="Collection date" data-template-filter="template-add-date-filter" class="filter-control">Collection date</a></li>
-                    <li><a tabindex="-1" href="#" data-placeholder="Type a catalog number..." data-filter="CATALOG_NUMBER" title="Catalog number" data-template-filter="template-add-filter" data-input-classes="value catalog_number_autosuggest auto_add" class="filter-control">Catalog number</a></li>                  
-                    <li class="divider"></li>
-                    <li class="more"><a tabindex="-1" href="#">Need a different filter?</a></li>
+                    <li><a tabindex="-1" href="#" data-placeholder="Type a catalog number..." data-filter="CATALOG_NUMBER" title="Catalog number" data-template-filter="template-add-filter" data-input-classes="value catalog_number_autosuggest auto_add" class="filter-control">Catalog number</a></li>                    
                   </ul>
                   <input type="hidden" id="nubTaxonomyKey" value="${nubTaxonomyKey}"/>
                 </div>
