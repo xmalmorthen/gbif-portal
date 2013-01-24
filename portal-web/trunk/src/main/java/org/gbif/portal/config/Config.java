@@ -35,6 +35,7 @@ public class Config {
   private String wsOccCatalogNumberSearch;
   private String wsOccCollectorNameSearch;
   private String wsOccSearch;
+  private String wsOccDownload;
   private String wsReg;
   private String wsRegSearch;
   private String wsRegSuggest;
@@ -71,6 +72,7 @@ public class Config {
       cfg.wsRegSuggest = cfg.wsRegSearch + SUGGEST_PATH;
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
       cfg.wsOccSearch = cfg.wsOcc + OCC_SEARCH_PATH;
+      cfg.wsOccDownload = getPropertyUrl(properties, "occurrencedownload.ws.url", true);
       cfg.wsMetrics = getPropertyUrl(properties, "metrics.ws.url", true);
       cfg.wsOccCatalogNumberSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + CATALOG_NUMBER_PATH;
       cfg.wsOccCollectorNameSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + COLLECTOR_NAME_PATH;

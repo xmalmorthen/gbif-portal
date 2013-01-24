@@ -34,14 +34,39 @@
            </#list>
          </#list>
       </#if>
-     $(document).ready(function() {  
-       var widgetManager = new OccurrenceWidgetManager("<@s.url value='/occurrence/search'/>?",filtersFromRequest,".dropdown-menu",true);      
+       $(document).ready(function() {
+         var widgetManager = new OccurrenceWidgetManager("<@s.url value='/occurrence/search'/>?",filtersFromRequest,".dropdown-menu",true);
+         $("#notifications a").click(function(e) {
+             e.preventDefault();
+             $(this).hide();
+             $("#emails").show();
+         });
+         $('a.download_button').click(function() {
+             console.log("download!")
+             widgetManager.submit({emails:$('#emails').val()}, "<@s.url value='/occurrence/download'/>?");
+         });
       });
     </script>
 
     <style type="text/css">
         div.box div.content {
             height: 45px !important;
+        }
+        #notifications {
+            margin-top: 10px;
+            float: right;
+        }
+        #notifications a {
+            margin-right: 5px;
+        }
+        #emails{
+            display: none;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+        #notifications input {
+            width: 400px;
+            margin-left:  10px;
         }
     </style>
 
@@ -54,7 +79,7 @@
         <#if action.showDownload()>
         <div class="box">
           <div class="content">
-            <a href="<@s.url value='/occurrence/download'/>?${request.getQueryString()!}" class="candy_blue_button"><span>Download occurrences</span></a>
+            <a href="#" class="candy_blue_button download_button"><span>Download occurrences</span></a>
           </div>
         </div>
         </#if>
@@ -229,16 +254,18 @@
   
     <div class="header">
       <h2>Download ${searchResponse.count} occurrences for your search</h2>
-      <span> Or refine it using the <a href="<@s.url value='/occurrence/download'/>?${request.getQueryString()!}">advanced search</a></span>
     </div>
 
-    <div class="dropdown">
-      <a href="#" class="title" title="Download description"><span>Download occurrences</span></a>
-      <ul>
-        <li><a href="#a"><span>Download occurrences</span></a></li>
-        <li><a href="#a"><span>Download placemarks</span></a></li>
-        <li class="last"><a href="#b"><span>Download metadata</span></a></li>
-      </ul>
+    <div>
+      <a href="#" class="candy_blue_button download_button"><span>Download occurrences</span></a>
+    </div>
+
+    <div id="notifications">
+        <a href="#">Additional notifications?</a>
+        <div id="emails">
+            Additional email addresses seperated by ; that should get notified:
+            <input type="text" name="emails" title="emails"/>
+        </div>
     </div>
   </div>
   <footer></footer>  

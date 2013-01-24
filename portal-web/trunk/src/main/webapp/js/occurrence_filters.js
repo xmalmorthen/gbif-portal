@@ -1353,7 +1353,8 @@ var OccurrenceWidgetManager = (function ($,_) {
       /**
        * Submits the request using the selected filters.
        */
-      submit : function(additionalParams){
+      submit : function(additionalParams, submitTargetUrl){
+        submitTargetUrl = submitTargetUrl || targetUrl;
         showWaitDialog();
         var params = $.extend({},additionalParams);               
         
@@ -1382,7 +1383,7 @@ var OccurrenceWidgetManager = (function ($,_) {
           }          
         }       
         //redirects the window to the target
-        window.location = targetUrl + $.param(params,true);
+        window.location = submitTargetUrl + $.param(params,true);
         return true;  // submit?
       },
 

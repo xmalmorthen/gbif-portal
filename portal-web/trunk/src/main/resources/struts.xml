@@ -164,16 +164,11 @@
       <result>/WEB-INF/pages/occurrence/search.ftl</result>
     </action>
 
-    <action name="download" class="org.gbif.portal.action.occurrence.DownloadHomeAction">
-      <interceptor-ref name="loginStack"/>
-      <result>/WEB-INF/pages/occurrence/download/home.ftl</result>
-    </action>
-
-    <action name="download/result" class="org.gbif.portal.action.occurrence.DownloadAction">
+    <action name="download" class="org.gbif.portal.action.occurrence.DownloadAction">
       <!-- Configure params interceptor to exclude some params:
       http://struts.apache.org/2.3.7/docs/parameters-interceptor.html -->
       <interceptor-ref name="loginStack"/>
-      <result>/WEB-INF/pages/occurrence/download/result.ftl</result>
+      <result>/WEB-INF/pages/occurrence/download.ftl</result>
     </action>
 
     <!-- {id} matches anything but "/" -->

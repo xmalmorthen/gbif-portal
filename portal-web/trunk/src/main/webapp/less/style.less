@@ -2800,291 +2800,277 @@ article.static {
   }
 }
 
-#content article.register,
-#content article.download,
-#content article.tunnel {
-  width: 702px;
+
+#content article {
+  &.register,
+  &.download,
+  &.tunnel {
+    width: 702px;
+
+    header {
+       width: 702px;
+       background: url("../img/boxes/box_dataset_top.png") no-repeat left top;
+    }
+
+    footer {
+      width: 702px;
+      background: url("../img/boxes/box_dataset_bottom.png") no-repeat left top;
+    }
+
+    .content {
+       background: url("../img/boxes/box_dataset_bkg.png") repeat-y;
+       padding: 0 29px;
+       nav {
+         clear: both;
+         overflow: hidden;
+         margin: auto;
+         width: 638px;
+
+         &.left {
+           margin: 0 0 5px 0;
+           padding: 0;
+           border: none;
+
+           a.candy_blue_button,
+           a.candy_white_button {
+             float: left;
+             padding-right: 0;
+           }
+           p {
+             float: left;
+             padding: 0 0 9px 0;
+             margin: 0 0 0 8px;
+           }
+         }
+
+         &.right {
+           margin: 0;
+           padding: 0;
+           border: none;
+
+           a.candy_blue_button,
+           a.candy_white_button {
+             float: right;
+             padding-right: 0;
+           }
+           p {
+             float: right;
+             padding: 0;
+             margin: 0 10px 0 0;
+           }
+         }
+         p {
+           line-height: 34px;
+           font-size: 13px;
+           color: @cGray3;
+           a {
+             text-decoration: underline;
+             color: @cGray3;
+             &:hover {
+               color: #005e7d !important;
+             }
+           }
+         }
+       }
+
+      ul.breadcrumb {
+        margin: 0 0 20px 0;
+        padding: 0 0 20px 0;
+        border-bottom: 1px solid @cGray4;
+        text-align: left;
+        li {
+          padding: 0;
+          margin: 0;
+          display: inline;
+          background: url("../img/icons/arrow_right.png") no-repeat right 3px;
+          margin-right: 5px;
+          padding-right: 15px;
+          &:last-child, &.last {
+            background: none;
+          }
+          &.active h2 {
+            color: @cGray1;
+          }
+          h2 {
+            display: inline;
+            font-family: "DINOT-Medium", sans-serif;
+            font-size: 23px;
+            color: @cGray4;
+          }
+        }
+      }
+
+      .light_box {
+        margin-bottom: 29px;
+
+        form {
+          margin-left: 19px;
+          margin-right: 19px;
+          .fields .field {
+            margin-right: 0;
+            &:last-child, &.last {
+              float: right;
+            }
+          }
+        }
+      }
+    }
+  }
+
 }
 
-#content article.register header,
-#content article.download header,
-#content article.tunnel header {
-  width: 702px;
-  background: url("../img/boxes/box_dataset_top.png") no-repeat left top;
+
+
+#content article.register {
+  p a {
+    text-decoration: underline;
+  }
+  > .header h2 {
+    padding: 0 0 17px 0;
+    margin: 0 0 29px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+
+  form {
+    margin: 0;
+    padding: 0;
+
+    button {
+      margin-right: 0;
+      span {
+        font-family: "Arial", "Helvetica", sans-serif;
+        font-size: 15px;
+        font-weight: normal;
+        color: @cLink;
+      }
+    }
+
+    div.field {
+      input[type="text"],
+      input[type="password"] {
+        width: 262px;
+      }
+    }
+
+    div.fields {
+      div.field.last {
+        float: right;
+      }
+      div.field:last-child {
+        float: right;
+      }
+    }
+
+    .light_box {
+      padding: 0;
+      margin: 0;
+      .content {
+        padding: 27px;
+      }
+    }
+  }
 }
 
-#content article.register footer,
-#content article.download footer,
-#content article.tunnel footer {
-  width: 702px;
-  background: url("../img/boxes/box_dataset_bottom.png") no-repeat left top;
+
+
+
+
+
+
+#content article.register#step-2 {
+  ul.breadcrumb {
+    margin-bottom: 55px;
+  }
+  h3 {
+    margin-bottom: 3px;
+    text-align: center;
+    font-family: "Arial", "Helvetica", sans-serif;
+    font-weight: bold;
+    font-size: 17px;
+    text-transform: none;
+    color: @cGray1;
+  }
+  p {
+    font-size: 15px;
+    margin-bottom: 5px;
+    text-align: center;
+    .extra {
+      margin-bottom: 54px;
+      color: @cGray3;
+    }
+  }
+  nav p {
+    float: left;
+    a {
+      font-size: 15px;
+      color: @cLink;
+    }
+  }
 }
 
-#content article.register .content,
-#content article.download .content,
-#content article.tunnel .content {
-  background: url("../img/boxes/box_dataset_bkg.png") repeat-y;
-  padding: 0 29px;
+
+
+
+
+#content article.download {
+  p a {
+    text-decoration: underline;
+  }
+  > .header h2 {
+    padding: 0 0 17px 0;
+    margin: 0 0 29px 0;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .light_box {
+    margin: 0 0 19px 0;
+  }
+
+  form {
+    margin: 0;
+    padding: 0;
+    button {
+      margin-right: 0;
+      span {
+        font-family: "Arial", "Helvetica", sans-serif;
+        font-size: 15px;
+        font-weight: normal;
+        color: @cLink;
+      }
+    }
+    div.field {
+      input[type="text"],
+      input[type="password"] {
+        width: 262px;
+      }
+    }
+
+    div.fields div.field {
+      &.last, &:last-child {
+        float: right;
+      }
+    }
+
+    .light_box .content {
+      padding: 29px 29px;
+    }
+  }
+
+
+  nav.left p {
+    font-size: 15px;
+    a {
+      color: @cLink;
+      font-size: 15px;
+    }
+  }
+
+  p {
+    margin: 0 0 21px 0;
+  }
 }
 
-#content article.register .content nav,
-#content article.download .content nav,
-#content article.tunnel .content nav {
-  clear: both;
-  overflow: hidden;
-  margin: auto;
-  width: 638px;
-}
 
-#content article.register .content nav.left,
-#content article.download .content nav.left,
-#content article.tunnel .content nav.left {
-  margin: 0 0 5px 0;
-  padding: 0;
-  border: none;
-}
 
-#content article.register .content nav.left a.candy_blue_button,
-#content article.register .content nav.left a.candy_white_button,
-#content article.download .content nav.left a.candy_blue_button,
-#content article.download .content nav.left a.candy_white_button,
-#content article.tunnel .content nav.left a.candy_blue_button,
-#content article.tunnel .content nav.left a.candy_white_button {
-  float: left;
-  padding-right: 0;
-}
-
-#content article.register .content nav.left p,
-#content article.download .content nav.left p,
-#content article.tunnel .content nav.left p {
-  float: left;
-  padding: 0 0 9px 0;
-  margin: 0 0 0 8px;
-}
-
-#content article.register .content nav.right, #content article.download .content nav.right, #content article.tunnel .content nav.right {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-
-#content article.register .content nav.right a.candy_blue_button, #content article.register .content nav.right a.candy_white_button, #content article.download .content nav.right a.candy_blue_button, #content article.download .content nav.right a.candy_white_button, #content article.tunnel .content nav.right a.candy_blue_button, #content article.tunnel .content nav.right a.candy_white_button {
-  float: right;
-  padding-right: 0;
-}
-
-#content article.register .content nav.right p, #content article.download .content nav.right p, #content article.tunnel .content nav.right p {
-  float: right;
-  padding: 0;
-  margin: 0 10px 0 0;
-}
-
-#content article.register .content nav p, #content article.download .content nav p, #content article.tunnel .content nav p {
-  line-height: 34px;
-  font-size: 13px;
-  color: @cGray3;
-}
-
-#content article.register .content nav p a, #content article.download .content nav p a, #content article.tunnel .content nav p a {
-  text-decoration: underline;
-  color: @cGray3;
-}
-
-#content article.register .content nav p a:hover, #content article.download .content nav p a:hover, #content article.tunnel .content nav p a:hover {
-  color: #005e7d !important;
-}
-
-#content article.register .content ul.breadcrumb, #content article.download .content ul.breadcrumb, #content article.tunnel .content ul.breadcrumb {
-  margin: 0 0 20px 0;
-  padding: 0 0 20px 0;
-  border-bottom: 1px solid @cGray4;
-  text-align: left;
-}
-
-#content article.register .content ul.breadcrumb li, #content article.download .content ul.breadcrumb li, #content article.tunnel .content ul.breadcrumb li {
-  padding: 0;
-  margin: 0;
-  display: inline;
-  background: url("../img/icons/arrow_right.png") no-repeat right 3px;
-  margin-right: 5px;
-  padding-right: 15px;
-}
-
-#content article.register .content ul.breadcrumb li:last-child, #content article.register .content ul.breadcrumb li.last, #content article.download .content ul.breadcrumb li:last-child, #content article.download .content ul.breadcrumb li.last, #content article.tunnel .content ul.breadcrumb li:last-child, #content article.tunnel .content ul.breadcrumb li.last {
-  background: none;
-}
-
-#content article.register .content ul.breadcrumb li.active h2, #content article.download .content ul.breadcrumb li.active h2, #content article.tunnel .content ul.breadcrumb li.active h2 {
-  color: @cGray1;
-}
-
-#content article.register .content ul.breadcrumb li h2, #content article.download .content ul.breadcrumb li h2, #content article.tunnel .content ul.breadcrumb li h2 {
-  display: inline;
-  font-family: "DINOT-Medium", sans-serif;
-  font-size: 23px;
-  color: @cGray4;
-}
-
-#content article.register .content .light_box, #content article.download .content .light_box, #content article.tunnel .content .light_box {
-  margin-bottom: 29px;
-}
-
-#content article.register .content .light_box form, #content article.download .content .light_box form, #content article.tunnel .content .light_box form {
-  margin-left: 19px;
-  margin-right: 19px;
-}
-
-#content article.register .content .light_box form .fields .field, #content article.download .content .light_box form .fields .field, #content article.tunnel .content .light_box form .fields .field {
-  margin-right: 0;
-}
-
-#content article.register .content .light_box form .fields .field:last-child, #content article.download .content .light_box form .fields .field:last-child, #content article.tunnel .content .light_box form .fields .field:last-child {
-  float: right;
-}
-
-#content article.register .content .light_box form .fields .field.last, #content article.download .content .light_box form .fields .field.last, #content article.tunnel .content .light_box form .fields .field.last {
-  float: right;
-}
-
-#content article.register p a {
-  text-decoration: underline;
-}
-
-#content article.register > .header h2 {
-  padding: 0 0 17px 0;
-  margin: 0 0 29px 0;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-#content article.register form {
-  margin: 0;
-  padding: 0;
-}
-
-#content article.register form button {
-  margin-right: 0;
-}
-
-#content article.register form button span {
-  font-family: "Arial", "Helvetica", sans-serif;
-  font-size: 15px;
-  font-weight: normal;
-  color: @cLink;
-}
-
-#content article.register form div.field input[type="text"], #content article.register form div.field input[type="password"] {
-  width: 262px;
-}
-
-#content article.register form div.fields div.field.last {
-  float: right;
-}
-
-#content article.register form div.fields div.field:last-child {
-  float: right;
-}
-
-#content article.register form .light_box {
-  padding: 0;
-  margin: 0;
-}
-
-#content article.register form .light_box .content {
-  padding: 27px;
-}
-
-#content article.register#step-2 ul.breadcrumb {
-  margin-bottom: 55px;
-}
-
-#content article.register#step-2 h3 {
-  margin-bottom: 3px;
-  text-align: center;
-  font-family: "Arial", "Helvetica", sans-serif;
-  font-weight: bold;
-  font-size: 17px;
-  text-transform: none;
-  color: @cGray1;
-}
-
-#content article.register#step-2 p {
-  font-size: 15px;
-  margin-bottom: 5px;
-  text-align: center;
-}
-
-#content article.register#step-2 p.extra {
-  margin-bottom: 54px;
-  color: @cGray3;
-}
-
-#content article.register#step-2 nav p {
-  float: left;
-}
-
-#content article.register#step-2 nav p a {
-  font-size: 15px;
-  color: @cLink;
-}
-
-#content article.download p a {
-  text-decoration: underline;
-}
-
-#content article.download > .header h2 {
-  padding: 0 0 17px 0;
-  margin: 0 0 29px 0;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-#content article.download .light_box {
-  margin: 0 0 19px 0;
-}
-
-#content article.download form {
-  margin: 0;
-  padding: 0;
-}
-
-#content article.download form button {
-  margin-right: 0;
-}
-
-#content article.download form button span {
-  font-family: "Arial", "Helvetica", sans-serif;
-  font-size: 15px;
-  font-weight: normal;
-  color: @cLink;
-}
-
-#content article.download form div.field input[type="text"], #content article.download form div.field input[type="password"] {
-  width: 262px;
-}
-
-#content article.download form div.fields div.field.last {
-  float: right;
-}
-
-#content article.download form div.fields div.field:last-child {
-  float: right;
-}
-
-#content article.download form .light_box .content {
-  padding: 29px 29px;
-}
-
-#content article.download nav.left p {
-  font-size: 15px;
-}
-
-#content article.download nav.left p a {
-  color: @cLink;
-  font-size: 15px;
-}
-
-#content article.download p {
-  margin: 0 0 21px 0;
-}
 
 #content article.tunnel form div.field {
   margin: 0 0 20px 0;
@@ -4145,7 +4131,7 @@ div.uploader {
     padding-bottom: 10px;
   }
 
-  .dropdown {
+  .candy_blue_button {
     position: absolute;
     top: 10px;
     right: 30px;

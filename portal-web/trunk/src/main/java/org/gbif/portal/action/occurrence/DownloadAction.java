@@ -56,8 +56,4 @@ public class DownloadAction extends BaseAction {
     this.emails = Sets.newHashSet(EMAIL_SPLITTER.split(emails));
   }
 
-  public void setJobId(String jobId) {
-    this.jobId = jobId;
-  }
-
 }
