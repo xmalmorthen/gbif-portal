@@ -4,7 +4,7 @@
   <title>Occurrence Download - GBIF</title>
 
 </head>
-<body class="dataset">
+<body class="search">
 
 <content tag="infoband">
     <h1>Occurrence Download</h1>
