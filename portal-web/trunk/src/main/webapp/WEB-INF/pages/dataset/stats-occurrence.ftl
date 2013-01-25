@@ -18,6 +18,10 @@
       background-color: #FFFFDF !important;
     }
 
+    table.metrics td.title {
+      font-weight: bold !important;
+    }
+
     
   </style>
   <content tag="extra_scripts">
@@ -77,7 +81,7 @@
 
   <#macro kingdomRow kingdom usageId="" class="">
     <tr <#if usageId?has_content>data-kingdom="${usageId}"</#if> <#if class?has_content>class="${class}"</#if> >
-      <td width="10%">${kingdom}</td>
+      <td width="10%" class="title">${kingdom}</td>
       <#list ["PRESERVED_SPECIMEN", "OBSERVATION", "FOSSIL_SPECIMEN", "LIVING_SPECIMEN"] as bor>
         <td class="nonGeo" width="9%" data-bor="${bor}"><div>-</div></td>
         <td width="9%" data-bor="${bor}">(<div class="geo">-</div>)</td>
