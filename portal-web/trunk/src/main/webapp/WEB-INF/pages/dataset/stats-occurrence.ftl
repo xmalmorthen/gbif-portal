@@ -1,42 +1,24 @@
 <html>
 <head>
   <title>${dataset.title} - Metrics</title>
+  
+  <link rel="stylesheet" href="<@s.url value='/css/bootstrap-tables.css'/>" type="text/css" media="all"/>
+  
   <style>
-    table.metrics {
-      width: 100%;
-      margin: 0 0 0 2px;
-      border: 1px solid #e0e0e0;
-    }
-    
-    table.metrics td,  
-    table.metrics th {
-      padding: 5px;
-      font-size: 15px;
-      color: #666;
-      text-align: left;
-    }
-
-    table.metrics th {
-      border-bottom: 1px solid #e0e0e0;
-      text-align: center;
-    }
-
-    table.metrics tr.total {
-      border-top: 1px solid #e0e0e0;
-    }
-
-    table.metrics tr:hover {
-      background-color: #e0e0e0;
-      cursor: pointer;
-    }
-
-    table.metrics td.nonGeo {
-      text-align: right;
-    }
-    
     table.metrics div {
       display: inline-block;
     }
+    table.metrics {
+      color: #666;
+    }
+
+    table.metrics .total,
+    table.metrics tr.total td {
+      font-weight: bold !important;
+      background-color: #FFFFDF !important;
+    }
+
+    
   </style>
   <content tag="extra_scripts">
     <script>
@@ -101,18 +83,14 @@
         <td width="9%" data-bor="${bor}">(<div class="geo">-</div>)</td>
       </#list>
       <td class="nonGeo total" width="9%" class='total'><div>-</div></td>
-      <td width="9%" class='totalgeo'>(<div class="geo">-</div>)</td>
+      <td width="9%" class='totalgeo total'>(<div class="geo">-</div>)</td>
     </tr>
   </#macro>
 
   <@common.article id="metrics" title="Dataset metrics">
       <div class="fullwidth">
         <p>
-          <em>Note</em>: The numbers in brackets represent records that are georeferenced (i.e. with coordinates).
-        </p>
-
-        <p>
-          <table class='metrics'>
+          <table class='metrics table table-bordered table-striped'>
 						<thead>
 							<tr>
 								<th width="10%"/>
@@ -121,6 +99,19 @@
 								<th colspan="2" width="9%">Fossil</th>
 								<th colspan="2" width="9%">Living</th>
 								<th colspan="2" width="9%" class='total'>Total</th>
+							</tr>
+							<tr>
+								<th width="10%"/>
+								<th>Records</th>
+								<th>Georef.</th>
+								<th>Records</th>
+								<th>Georef.</th>
+								<th>Records</th>
+								<th>Georef.</th>
+								<th>Records</th>
+								<th>Georef.</th>
+								<th class='total'>Records</th>
+								<th class='total'>Georef.</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -132,6 +123,9 @@
 						</tbody>
 					</table>
 				</p>
+        <p>
+          <em>Note</em>: The numbers in brackets represent records that are georeferenced only (i.e. with coordinates).
+        </p>
       </div>
 </@common.article>
 
