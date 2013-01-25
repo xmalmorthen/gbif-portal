@@ -12,8 +12,9 @@
 
 <@common.article id="started" title="Download Started">
     <div>
-        <p>Your <a href="${cfg.wsOccDownload}${jobId}">download #${jobId}</a> is running</p>
-        <p>A notification email with a link to download the results will be sent to the following addresses once ready:
+        <p>Your <a href="${cfg.wsOccDownload}occurrence/download/${jobId}">download #${jobId}</a> is running</p>
+        <p>Please expect 10 to 15 minutes for the download to complete.
+            A notification email with a link to download the results will be sent to the following addresses once ready:
           <ul>
             <#list emails as email>
               <li>${email}</li>
