@@ -144,7 +144,7 @@
        </div>
 
        <div id="extensions" class="right">
-         <p>Total number of records per extension type shown as the average coverage per taxon.</p>
+         <p>There are ${total} records in the checklist. For each extension type, the total number of extension records are illustrated as the average coverage per taxon.</p>
        </div>
      </div>
   </@common.article>
