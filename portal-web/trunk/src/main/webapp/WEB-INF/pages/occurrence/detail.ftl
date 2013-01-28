@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Occurrence Detail ${id?c}</title>
-     ds
 <#-- RDFa -->
   <meta property="dwc:scientificName" content="${occ.scientificName!}"/>
   <meta property="dwc:kingdom" content="${occ.kingdom!}"/>
