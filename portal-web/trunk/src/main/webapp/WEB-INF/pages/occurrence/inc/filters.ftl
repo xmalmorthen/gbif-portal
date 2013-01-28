@@ -3,7 +3,8 @@
   <script type="text/template" id="template-add-date-filter">
     <tr class="filter">
       <td colspan="4">
-        <div class="inner">                    
+        <a class="edit" style="display:none;"/>
+        <div class="inner filter_view">                    
           <div class="filter">          
             <h4><%= title %></h4>                    
             <table>              
@@ -75,6 +76,9 @@
           </div>          
           <a href="#" class="close"></a>
         </div>
+        <div class="summary_view">          
+          
+        </div>
       </td>
     </tr>
   </script>
@@ -83,7 +87,8 @@
   <script type="text/template" id="template-basis-of-record-filter">
     <tr class="filter">
       <td colspan="4">
-        <div class="inner">
+        <a class="edit" style="display:none;"/>
+        <div class="inner filter_view">
           <h4><%= title %></h4>
           <div class="filter">
             <ul class="basis-of-record">
@@ -97,6 +102,9 @@
           </div>
           <a href="#" class="close"></a>
         </div>
+        <div class="summary_view">          
+          
+        </div>
       </td>
     </tr>
   </script>
@@ -104,7 +112,8 @@
   <script type="text/template" id="template-add-filter">
     <tr class="filter">
       <td colspan="4">
-        <div class="inner">
+        <a class="edit" style="display:none;"/>
+        <div class="inner filter_view">
           <h4><%= title %></h4>
           <div class="filter">
             <table width="100%">                
@@ -126,6 +135,9 @@
           </div>
           <a href="#" class="close"></a>
         </div>
+        <div class="summary_view">          
+          
+        </div>
       </td>
     </tr>
   </script>
@@ -134,7 +146,8 @@
    <script type="text/template" id="template-simple-filter">
     <tr class="filter">
       <td colspan="4">
-        <div class="inner">
+        <a class="edit" style="display:none;"/>  
+        <div class="inner filter_view">
           <h4><%= title %></h4>
           <div class="filter">
             <table width="100%">                
@@ -152,8 +165,11 @@
           <div>          
             <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>
-          <a href="#" class="close"></a>
+          <a class="close"></a>
         </div>
+        <div class="summary_view">          
+          
+        </div>                
       </td>
     </tr>
   </script>
@@ -161,7 +177,8 @@
   <script type="text/template" id="template-compare-filter">
     <tr class="filter">
       <td colspan="4">
-        <div class="inner">
+        <a class="edit" style="display:none;"/>
+        <div class="inner filter_view">
           <h4><%= title %></h4>
           <div class="filter">
             <table width="100%">                
@@ -191,21 +208,27 @@
           <a href="#" class="close"></a>
         </div>
       </td>
+      <div class="summary_view">          
+          
+        </div> 
     </tr>
   </script>
 
   <script type="text/template" id="template-filter">
+    <ul>
     <li id="filter-<%=paramName%>">
-    <h4><%= title %></h4>
+    <div style="display:inline-block"><h4><%= title %></h4></div>
     <% _.each(filters, function(filter) { %>
         <div class="filter"><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a href="#" class="closeFilter"></a></div>        
-      <% }); %>            
+      <% }); %>                  
     </li>
+    </ul>
   </script>
   
   <script type="text/template" id="sciname-template-filter">
+    <ul>
     <li id="filter-<%=paramName%>">
-    <h4><%= title %></h4>
+    <div style="display:inline-block"><h4><%= title %></h4></div>
     <% _.each(filters, function(filter) { %>
         <div class="filter"><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a href="#" class="closeFilter"></a></div>         
       <% }); %>
@@ -243,11 +266,7 @@
         </div>               
        </#list>       
     </li>
-  </script>
-  
-  
-  <script type="text/template" id="template-filter-item">    
-    <div class="filter"><%= label %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/><a href="#" class="closeFilter"></a></div>              
+    </ul>
   </script>
   
   <script type="text/template" id="template-applied-filter">
@@ -255,19 +274,12 @@
       <div><div style="float:left;" title="<%=title%>"><%= label %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div><a href="#" class="closeFilter" style="float:left;"></a></div>       
     </li>
   </script>
- 
-  <script type="text/template" id="template-filter-container">
-    <tr class="filters">
-      <td colspan="4">
-        <ul class="filters"></ul>
-      </td>
-    </tr>
-  </script>
     
   <script type="text/template" id="map-template-filter">
      <tr class="filter">
       <td colspan="4">        
-        <div class="inner">  
+        <a class="edit" style="display:none;"/>
+        <div class="inner filter_view">  
           <h4>Location</h4>                   
           <div id="bboxContainer">  
               <div style="width:300px;">
@@ -315,6 +327,9 @@
            </div>                             
            <a href="#" class="close"></a>     
         </div>
+        <div class="summary_view">          
+          
+        </div> 
        </td>
      </tr>
   </script>

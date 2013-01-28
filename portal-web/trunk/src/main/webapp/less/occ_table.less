@@ -323,7 +323,18 @@
         right: 0;
         top: 23px;
         background:url(../img/icons/filter_close.png) no-repeat;
+        cursor: pointer;
       }
+      
+      a.edit {
+        background: url("../img/icons/edit.png") no-repeat scroll 0 0 transparent;
+        float: right;
+        height: 12px;
+        vertical-align: top;
+        width: 12px;
+        cursor: pointer;
+      }
+      
       a.closeFilter {
         position: relative !important;
         float: right;
@@ -331,6 +342,17 @@
         width: 9px;
         height: 8px;
         background:url(../img/icons/cross.png) no-repeat;
+        cursor: pointer;
+      }
+      
+      div.summary_view {
+        div.title {
+          display:inline-block !important;
+        } 
+        ul {
+          list-style-image: none !important;
+          list-style: none !important;          
+        }
       }
     }
   }
@@ -341,6 +363,17 @@
     border-width: 1px !important;
     -moz-border-radius: 5px !important;
     border-radius: 5px !important;
+  }
+  
+  div.date-filter {
+    
+    .dk_toggle{
+      width: 70px !important;
+    }
+    
+    li {
+      margin-bottom: 0px !important;
+    }
   }
 }
 
@@ -535,6 +568,17 @@ div.suggestionBox ul.taxonomy {
       li:last-child {
         background: none;
       }
-    }
-        
+    }       
+}
+
+#map.map_widget {  
+  position: relative !important;
+  top: 0px !important;  
+  margin-bottom: 1px !important;
+  margin-left: 1px !important;
+  margin-right: 1px !important;
+  margin-top: 1px !important;
+  height:266px !important;
+  width:455px !important;
+  display:block !important;
 }
