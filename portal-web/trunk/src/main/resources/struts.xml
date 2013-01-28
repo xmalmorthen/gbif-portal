@@ -358,6 +358,18 @@
 
   </package>
 
+  <package name="user" namespace="/user" extends="default">
+    <default-interceptor-ref name="loginStack"/>
+
+    <action name="downloads" class="org.gbif.portal.action.user.DownloadsAction">
+      <result>/WEB-INF/pages/user/downloads.ftl</result>
+    </action>
+
+    <action name="cancel" class="org.gbif.portal.action.user.DownloadsAction" method="cancel">
+      <result type="redirectAction">downloads</result>
+    </action>
+  </package>
+
   <package name="developer" namespace="/developer" extends="default">
     <default-action-ref name="maps"/>
     <action name="maps" class="org.gbif.portal.action.DefaultHomeAction">

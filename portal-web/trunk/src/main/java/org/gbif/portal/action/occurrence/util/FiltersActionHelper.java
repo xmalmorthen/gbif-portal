@@ -1,4 +1,4 @@
-package org.gbif.portal.action.occurrence;
+package org.gbif.portal.action.occurrence.util;
 
 import org.gbif.api.model.Constants;
 import org.gbif.api.model.checklistbank.NameUsage;
@@ -26,8 +26,8 @@ import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Predicate;
@@ -125,6 +125,12 @@ public class FiltersActionHelper {
       return dataset.getTitle();
     }
     return key;
+  }
+
+  public List<Map<OccurrenceSearchParameter, List<String>>> predicateToText(Predicate p, Locale locale) {
+    List<Map<OccurrenceSearchParameter, List<String>>> query = Lists.newArrayList();
+
+    return query;
   }
 
   /**

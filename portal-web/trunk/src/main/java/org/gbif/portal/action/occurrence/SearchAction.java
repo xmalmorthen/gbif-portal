@@ -8,6 +8,7 @@ import org.gbif.api.service.occurrence.OccurrenceSearchService;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.portal.action.BaseSearchAction;
+import org.gbif.portal.action.occurrence.util.FiltersActionHelper;
 import org.gbif.portal.model.NameUsageSearchSuggestions;
 import org.gbif.portal.model.OccurrenceTable;
 
