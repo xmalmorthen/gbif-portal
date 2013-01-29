@@ -50,6 +50,9 @@ var EQ = "eq";
 // After the filter div is rendered.  Because of this the map scope is public.
 var map;
 
+//Markers to display the bounding box boundaries.
+var bboxMarkerLeft = null, bboxMarkerRight = null;
+
 /**
  * Base module that contains the base implementation for the occurrence widgets.
  * Contains the implementation for the basic operations: create the HTML control, apply filters, show the applied filters and close/hide the widget.
@@ -220,12 +223,15 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
           this.createHTMLWidget(this.control);          
         }
         this.filterElement.fadeIn(FADE_TIME);
-        this.filterElement.find('.summary_view').fadeOut(FADE_TIME,function(){ self.filterElement.find('.filter_view').fadeIn(FADE_TIME);});
+        this.filterElement.find('.summary_view').fadeOut(FADE_TIME,function(){ self.filterElement.find('.filter_view').fadeIn(FADE_TIME, function(){
+       // This is needed to address http://dev.gbif.org/issues/browse/POR-365 
+          // The solution was found 
+          if (map!=null) { 
+            map.invalidateSize(); 
+          }          
+        });});
         self.filterElement.find('.edit').hide();
-        this.showFilters();
-        // This is needed to address http://dev.gbif.org/issues/browse/POR-365 
-        // The solution was found 
-        if (map!=null) map.invalidateSize();
+        this.showFilters();        
       }, 
       
       /**
@@ -836,7 +842,7 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       var value = minLat + ',' + minLng + ',' + maxLat + ',' + maxLng;
       var label = "FROM " + minLat + ',' + minLng + ' TO ' + maxLat + ',' + maxLng;
       self.filterElement.find(":input").val('');
-      self.addFilter({label: label, value: value, key: '', paramName: self.getId(), submitted: false});
+      self.addFilter({label: label, value: value, key: null, paramName: self.getId(), submitted: false});
       //GEOREFERENCED filters must be removed
       self.removeFilterByParamName('GEOREFERENCED');
       self.filterElement.find(':checkbox[name="GEOREFERENCED"]').removeAttr('checked');
@@ -1086,41 +1092,43 @@ var OccurrenceWidgetManager = (function ($,_) {
           //By examinig the attribute data-filter creates the corresponding OccurreWidget(or subtype) instance.
           //Also the binding function is set as parameter, for instance: elf.bindSpeciesAutosuggest. When a binding function isn't needed a empty function is set:  function(){}.
           var filterName = $(control).attr("data-filter");
-          var newWidget;
-          var summaryTemplate = getFilterTemplate(filterName);
-          if (filterName == "TAXON_KEY") {
-            newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindSpeciesAutosuggest,summaryTemplate:summaryTemplate});
-          } else if (filterName == "DATASET_KEY") {
-            newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindDatasetAutosuggest,summaryTemplate:summaryTemplate});            
-          } else if (filterName == "COLLECTOR_NAME") {
-            newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCollectorNameAutosuggest,summaryTemplate:summaryTemplate});            
-          } else if (filterName == "CATALOG_NUMBER") {
-            newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCatalogNumberAutosuggest,summaryTemplate:summaryTemplate});            
-          } else if (filterName == "BOUNDING_BOX") {
-            newWidget = new OccurrenceLocationWidget();
-            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindMap,summaryTemplate:summaryTemplate});            
-          } else if (filterName == "DATE") {
-            newWidget = new OccurrenceDateWidget();
-            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});            
-          } else if (filterName == "BASIS_OF_RECORD") {
-            newWidget = new OccurrenceBasisOfRecordWidget();
-            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});              
-          } else if (filterName == "COUNTRY") {
-            newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCountryAutosuggest,summaryTemplate:summaryTemplate});              
-          } else if (filterName == "ALTITUDE" || filterName == "DEPTH") {
-            newWidget = new OccurrenceComparatorWidget();
-            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});              
-          } else { //By default creates a simple OccurrenceWidget with an empty binding function
-            newWidget = new OccurrenceWidget();
-            newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});                      
+          if (filterName != "GEOREFERENCED") { //this filter is skkiped because it uses the same widget as the bounding box widget
+            var newWidget;
+            var summaryTemplate = getFilterTemplate(filterName);
+            if (filterName == "TAXON_KEY") {
+              newWidget = new OccurrenceWidget();
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindSpeciesAutosuggest,summaryTemplate:summaryTemplate});
+            } else if (filterName == "DATASET_KEY") {
+              newWidget = new OccurrenceWidget();
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindDatasetAutosuggest,summaryTemplate:summaryTemplate});            
+            } else if (filterName == "COLLECTOR_NAME") {
+              newWidget = new OccurrenceWidget();
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCollectorNameAutosuggest,summaryTemplate:summaryTemplate});            
+            } else if (filterName == "CATALOG_NUMBER") {
+              newWidget = new OccurrenceWidget();
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCatalogNumberAutosuggest,summaryTemplate:summaryTemplate});            
+            } else if (filterName == "BOUNDING_BOX") {
+              newWidget = new OccurrenceLocationWidget();
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindMap,summaryTemplate:summaryTemplate});            
+            } else if (filterName == "DATE") {
+              newWidget = new OccurrenceDateWidget();
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});            
+            } else if (filterName == "BASIS_OF_RECORD") {
+              newWidget = new OccurrenceBasisOfRecordWidget();
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});              
+            } else if (filterName == "COUNTRY") {
+              newWidget = new OccurrenceWidget();
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCountryAutosuggest,summaryTemplate:summaryTemplate});              
+            } else if (filterName == "ALTITUDE" || filterName == "DEPTH") {
+              newWidget = new OccurrenceComparatorWidget();
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});              
+            } else { //By default creates a simple OccurrenceWidget with an empty binding function
+              newWidget = new OccurrenceWidget();
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});                      
+            }
+            newWidget.bindToControl(control);
+            widgets.push(newWidget);
           }
-          newWidget.bindToControl(control);
-          widgets.push(newWidget);
         });       
       },
       
@@ -1293,19 +1301,25 @@ var OccurrenceWidgetManager = (function ($,_) {
         map.addControl(drawControl); 
 
         map.on('draw:rectangle-created', function (e) {
+          if(bboxMarkerLeft != null){
+            map.removeLayer(bboxMarkerLeft);
+          }          
+          if(bboxMarkerRight != null){
+            map.removeLayer(bboxMarkerRight);
+          }
+          
           drawnItems.clearLayers();
           drawnItems.addLayer(e.rect);
           var coords = e.rect.getLatLngs();
-          $("#minLatitude").val(truncCoord(coords[1].lat));
-          $("#minLongitude").val(truncCoord(coords[1].lng));
-          $("#maxLatitude").val(truncCoord(coords[3].lat));
-          $("#maxLongitude").val(truncCoord(coords[3].lng));                        
-        });      
-        
-        // Remake Map
-        setTimeout(function(){ 
-                map.invalidateSize(); 
-        }, 1);
+          $("#minLatitude").val(truncCoord(coords[0].lat));
+          $("#minLongitude").val(truncCoord(coords[0].lng));
+          $("#maxLatitude").val(truncCoord(coords[2].lat));
+          $("#maxLongitude").val(truncCoord(coords[2].lng));         
+          bboxMarkerLeft = L.marker(coords[0]).addTo(map);
+          bboxMarkerLeft.bindPopup('Location ' + coords[0]);
+          bboxMarkerRight = L.marker(coords[2]).addTo(map);
+          bboxMarkerRight.bindPopup('Location ' + coords[2]);
+        });            
       },
 
       /**

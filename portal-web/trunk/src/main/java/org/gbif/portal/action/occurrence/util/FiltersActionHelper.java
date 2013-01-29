@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Predicate;
@@ -127,12 +128,6 @@ public class FiltersActionHelper {
     return key;
   }
 
-  public List<Map<OccurrenceSearchParameter, List<String>>> predicateToText(Predicate p, Locale locale) {
-    List<Map<OccurrenceSearchParameter, List<String>>> query = Lists.newArrayList();
-
-    return query;
-  }
-
   /**
    * Gets the displayable value of filter parameter.
    */
@@ -195,6 +190,12 @@ public class FiltersActionHelper {
       }
     }
     return taxonKey;
+  }
+
+  public List<Map<OccurrenceSearchParameter, List<String>>> predicateToText(Predicate p, Locale locale) {
+    List<Map<OccurrenceSearchParameter, List<String>>> query = Lists.newArrayList();
+
+    return query;
   }
 
   /**
@@ -283,7 +284,7 @@ public class FiltersActionHelper {
    */
   private String getBoundingBoxTitle(String bboxValue) {
     String[] coordinates = bboxValue.split(",");
-    String label = "FROM " + coordinates[0] + " TO " + coordinates[1];
+    String label = "FROM " + coordinates[0] + "," + coordinates[1] + " TO " + coordinates[2] + "," + coordinates[3];
     return label;
   }
 
