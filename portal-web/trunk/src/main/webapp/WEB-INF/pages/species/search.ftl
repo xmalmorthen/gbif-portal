@@ -6,6 +6,10 @@
 
   <content tag="extra_scripts">
     <script type="text/javascript" src="<@s.url value='/js/facets.js'/>"></script>    
+    <script type="text/javascript">
+      //needed to avoid caching by Firefox's bfcache
+      window.onunload = function(){ };
+    </script>
   </content>
 </head>
 <body class="search">
