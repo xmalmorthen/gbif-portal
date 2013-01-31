@@ -1,17 +1,20 @@
 package org.gbif.portal.action.occurrence;
 
 import org.gbif.api.model.Constants;
+import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
 import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
+import org.gbif.api.model.registry.search.DatasetSearchResult;
 import org.gbif.api.service.occurrence.OccurrenceSearchService;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.portal.action.BaseSearchAction;
 import org.gbif.portal.action.occurrence.util.FiltersActionHelper;
-import org.gbif.portal.model.NameUsageSearchSuggestions;
 import org.gbif.portal.model.OccurrenceTable;
+import org.gbif.portal.model.SearchSuggestions;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 import com.google.common.base.Strings;
@@ -34,10 +37,21 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
   private final FiltersActionHelper filtersActionHelper;
 
-  private NameUsageSearchSuggestions nameUsagesSuggestions;
+  private SearchSuggestions<NameUsageSearchResult> nameUsagesSuggestions;
+
+  private SearchSuggestions<DatasetSearchResult> datasetsSuggestions;
+
+  private SearchSuggestions<String> collectorSuggestions;
+
+  private SearchSuggestions<String> catalogNumberSuggestions;
+
+
+  // List of parameters that should be excluded during the regular validation.
+  // These parameters are excluded since they could contain String values that will be processed as suggestions.
+  private static final EnumSet<OccurrenceSearchParameter> OCC_VALIDATION_DISCARDED = EnumSet.of(
+    OccurrenceSearchParameter.TAXON_KEY, OccurrenceSearchParameter.DATASET_KEY);
 
   private OccurrenceTable table;
-
 
   @Inject
   public SearchAction(OccurrenceSearchService occurrenceSearchService, FiltersActionHelper filtersActionHelper) {
@@ -61,16 +75,22 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     // process taxon/scientific-name suggestions
     nameUsagesSuggestions = filtersActionHelper.processNameUsagesSuggestions(request);
 
+    // process dataset title suggestions
+    datasetsSuggestions = filtersActionHelper.processDatasetSuggestions(request);
+
     // replace known name usages
-    filtersActionHelper.replaceKnownNameUsages(searchRequest, nameUsagesSuggestions);
+    filtersActionHelper.processNameUsageReplacements(searchRequest, nameUsagesSuggestions);
+
+    // replace known datasets
+    filtersActionHelper.processDatasetReplacements(searchRequest, datasetsSuggestions);
 
     // Search is executed only if there aren't suggestions that need to be notified to the user
-    if (!nameUsagesSuggestions.hasSuggestions() && filtersActionHelper.validateSearchParameters(this, this.request)) {
+    if (!hasSuggestions()
+      && filtersActionHelper.validateSearchParameters(this, this.request, OCC_VALIDATION_DISCARDED)) {
       return executeSearch();
     }
     return SUCCESS;
   }
-
 
   /**
    * Utility method that executes the search.
@@ -85,9 +105,14 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     searchRequest.setHighlight(!Strings.isNullOrEmpty(q));
     // issues the search operation
     searchResponse = searchService.search(searchRequest);
+
+    // Provide suggestions for catalog numbers and collector names
+    provideSuggestions();
+
     LOG.debug("Search for [{}] returned {} results", getQ(), searchResponse.getCount());
     return SUCCESS;
   }
+
 
   /**
    * Returns the list of {@link BasisOfRecord} literals.
@@ -95,6 +120,22 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   public BasisOfRecord[] getBasisOfRecords() {
     return filtersActionHelper.getBasisOfRecords();
   }
+
+  /**
+   * @return the catalogNumberSuggestions
+   */
+  public SearchSuggestions<String> getCatalogNumberSuggestions() {
+    return catalogNumberSuggestions;
+  }
+
+
+  /**
+   * @return the collectorSuggestions
+   */
+  public SearchSuggestions<String> getCollectorSuggestions() {
+    return collectorSuggestions;
+  }
+
 
   /**
    * Returns the list of {@link Country} literals.
@@ -110,6 +151,15 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    */
   public int getCurrentYear() {
     return filtersActionHelper.getCurrentYear();
+  }
+
+  /**
+   * Suggestions for dataset title search.
+   * 
+   * @return the datasetsSuggestions
+   */
+  public SearchSuggestions<DatasetSearchResult> getDatasetsSuggestions() {
+    return datasetsSuggestions;
   }
 
   /**
@@ -129,16 +179,28 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    * Gets the readable value of filter parameter.
    */
   public String getFilterTitle(String filterKey, String filterValue) {
-    return filtersActionHelper.getFilterTitle(filterKey, filterValue);
+    if (!isSuggestion(filterValue)) {
+      return filtersActionHelper.getFilterTitle(filterKey, filterValue);
+    }
+    return filterValue;
   }
 
   /**
-   * Suggestions map for scientific name, has the form: "parameter value" -> list of suggestions.
+   * Suggestions for scientific name search.
    * 
    * @return the nameUsagesSuggestions
    */
-  public NameUsageSearchSuggestions getNameUsagesSuggestions() {
+  public SearchSuggestions<NameUsageSearchResult> getNameUsagesSuggestions() {
     return nameUsagesSuggestions;
+  }
+
+  /**
+   * Gets the title(name) of a node.
+   * 
+   * @param networkKey node key/UUID
+   */
+  public String getNetworkTitle(String networkKey) {
+    return filtersActionHelper.getNetworkTitle(networkKey);
   }
 
   /**
@@ -150,6 +212,8 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
 
   /**
+   * Gets the configuration of fields and information to display.
+   * 
    * @return the table
    */
   public OccurrenceTable getTable() {
@@ -157,10 +221,42 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   }
 
   /**
+   * Checks if there are suggestions available.
+   */
+  public boolean hasSuggestions() {
+    return nameUsagesSuggestions.hasSuggestions() || datasetsSuggestions.hasSuggestions();
+  }
+
+  /**
    * Validates if the download functionality should be shown.
    */
   public boolean showDownload() {
     return (searchResponse != null && searchResponse.getCount() > 0) && !hasErrors()
-      && !nameUsagesSuggestions.hasSuggestions();
+      && !hasSuggestions();
+  }
+
+  /**
+   * Checks if the parameter is in any lists of suggestions.
+   */
+  private boolean isSuggestion(String value) {
+    return nameUsagesSuggestions.getSuggestions().containsKey(value)
+      || datasetsSuggestions.getSuggestions().containsKey(value);
+  }
+
+  /**
+   * Provides post-search suggestions. The suggestions are provided only if the count of results id 0.
+   */
+  private void provideSuggestions() {
+    if (searchResponse.getCount() == 0) {
+      if (searchRequest.getParameters().containsKey(OccurrenceSearchParameter.COLLECTOR_NAME)) {
+        collectorSuggestions = filtersActionHelper.processCollectorSuggestions(request);
+      }
+      if (searchRequest.getParameters().containsKey(OccurrenceSearchParameter.CATALOG_NUMBER)) {
+        catalogNumberSuggestions = filtersActionHelper.processCatalogNumberSuggestions(request);
+      }
+    } else { // empty the suggestions
+      collectorSuggestions = new SearchSuggestions<String>();
+      catalogNumberSuggestions = new SearchSuggestions<String>();
+    }
   }
 }

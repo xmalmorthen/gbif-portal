@@ -225,48 +225,119 @@
     </ul>
   </script>
   
-  <script type="text/template" id="sciname-template-filter">
+  
+  <script type="text/template" id="DATASET_KEY-suggestions-template">
+    <#list datasetsSuggestions.replacements?keys as title>   
+      <#assign suggestion = datasetSuggestions.replacements[title]>         
+      <div class="suggestionBox" data-replacement="${title}">         
+        <div class="warningBox"> <span class="warningCounter">!</span> The dataset name <strong>"${title}"</strong> was replaced by: <br>            
+          ${suggestion.title}                             
+        </div>                               
+      </div>               
+     </#list>         
+    <#list datasetsSuggestions.suggestions?keys as title>            
+      <div class="suggestionBox" data-suggestion="${title}">         
+       <#assign suggestions = datasetsSuggestions.suggestions[title]>
+         <#if suggestions?has_content>
+          <div class="warningBox"> <span class="warningCounter">!</span> We found more than one scientific name that matched <strong>"${title}"</strong>.Please select a dataset from the list below.</div>                               
+          <#list suggestions as datasetSearchResult>
+              <input id="searchResult${datasetSearchResult.key}" type="radio" value="${datasetSearchResult.key}" name="DATASET_KEY" class="suggestion" data-suggestion="${title}"/>
+              <label for="searchResult${datasetSearchResult.key}">${datasetSearchResult.title}
+              <#if datasetSearchResult.owningOrganizationTitle?has_content>                 
+                (Published by  <em>${datasetSearchResult.owningOrganizationTitle} </em>)
+              <#elseif datasetSearchResult.networkOfOriginKey?has_content>
+                (Originates from <em>${action.getNetWorkTitle(datasetSearchResult.networkOfOriginKey)!"Unknown"}</em>)
+              </#if>                
+              </label>                
+              </br>                                                    
+          </#list>
+         <#else>
+           <div class="warningBox"> <span class="warningCounter">${title_index + 1}</span> We haven't found any dataset name that matched <strong>"${title}"</strong>.</div>
+         </#if>                  
+      </div>               
+     </#list>
+  </script>
+  
+  
+  <script type="text/template" id="suggestions-template-filter">
     <ul>
     <li id="filter-<%=paramName%>">
     <div style="display:inline-block"><h4><%= title %></h4></div>
     <% _.each(filters, function(filter) { %>
         <div class="filter"><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a href="#" class="closeFilter"></a></div>         
-      <% }); %>
-      <#list nameUsagesSuggestions.nameUsagesReplacements?keys as sciname>   
-        <#assign suggestion = nameUsagesSuggestions.nameUsagesReplacements[sciname]>         
-        <div class="suggestionBox" data-replacement="${sciname}">         
-          <div class="warningBox"> <span class="warningCounter">!</span> The scientific name <strong>"${sciname}"</strong> was replaced by: <br>            
-            ${suggestion.scientificName}                  
-            <ul class="taxonomy">
-              <#list suggestion.higherClassificationMap?values as classificationName>                    
-                <li <#if !classificationName_has_next> class="last" </#if>>${classificationName}</li>
-              </#list>
-             </ul>
-          </div>                               
-        </div>               
-       </#list>         
-      <#list nameUsagesSuggestions.nameUsagesSuggestions?keys as sciname>            
-        <div class="suggestionBox" data-suggestion="${sciname}">         
-         <#assign suggestions = nameUsagesSuggestions.nameUsagesSuggestions[sciname]>
-           <#if suggestions?has_content>
-            <div class="warningBox"> <span class="warningCounter">!</span> We found more than one scientific name that matched <strong>"${sciname}"</strong>.Please select a name from the list below.</div>                               
-            <#list suggestions as nameUsageSearchResult>
-                <input id="nameUsageSearchResult${nameUsageSearchResult.key?c}" type="radio" value="${nameUsageSearchResult.key?c}" name="TAXON_KEY" class="suggestion" data-sciname="${sciname}"/><label for="nameUsageSearchResult${nameUsageSearchResult.key?c}">${nameUsageSearchResult.scientificName}</label>
-                </br>                
-                <ul class="taxonomy">
-                  <#list nameUsageSearchResult.higherClassificationMap?values as classificationName>
-                    <li <#if !classificationName_has_next> class="last" </#if>> ${classificationName} </li>
-                  </#list>
-                 </ul>              
-                </br>                          
-            </#list>
-           <#else>
-             <div class="warningBox"> <span class="warningCounter">${sciname_index + 1}</span> We haven't found any scientific name that matched <strong>"${sciname}"</strong>.</div>
-           </#if>                  
-        </div>               
-       </#list>       
+      <% }); %>                  
+      <%=_.template($( "#" + paramName + "-suggestions-template").html())()%>      
     </li>
     </ul>
+  </script>
+  
+  <script type="text/template" id="COLLECTOR_NAME-suggestions-template">  
+    <#list collectorSuggestions.suggestions?keys as name>            
+      <div class="suggestionBox" data-suggestion="${name}">         
+       <#assign suggestions = collectorSuggestions.suggestions[name]>
+         <#if suggestions?has_content>
+          <div class="warningBox"> <span class="warningCounter">!</span>The collector name  <strong>"${name}"</strong> didn't match any existing record.You can select one from the list below to try improving your search results.</div>                               
+          <#list suggestions as suggestion>
+              <input id="searchResult${suggestion}" type="radio" value="${suggestion}" name="COLLECTOR_NAME" class="suggestion" data-suggestion="${name}"/>
+              <label for="searchResult${suggestion}">${suggestion}</label>                
+              </br>                                                    
+          </#list>           
+         </#if>                  
+      </div>               
+     </#list>       
+  </script>
+  
+  
+  <script type="text/template" id="CATALOG_NUMBER-suggestions-template">  
+    <#list catalogNumberSuggestions.suggestions?keys as name>            
+      <div class="suggestionBox" data-suggestion="${name}">         
+       <#assign suggestions = catalogNumberSuggestions.suggestions[name]>
+         <#if suggestions?has_content>
+          <div class="warningBox"> <span class="warningCounter">!</span>The catalog number  <strong>"${name}"</strong> didn't match any existing record. You can select one from the list below to try improving your search results.</div>                               
+          <#list suggestions as suggestion>
+              <input id="searchResult${suggestion}" type="radio" value="${suggestion}" name="CATALOG_NUMBER" class="suggestion" data-suggestion="${name}"/>
+              <label for="searchResult${suggestion}">${suggestion}</label>                
+              </br>                                                    
+          </#list>           
+         </#if>                  
+      </div>               
+     </#list>       
+  </script>
+  
+  <script type="text/template" id="TAXON_KEY-suggestions-template">    
+    <#list nameUsagesSuggestions.replacements?keys as sciname>   
+      <#assign suggestion = nameUsagesSuggestions.replacements[sciname]>         
+      <div class="suggestionBox" data-replacement="${sciname}">         
+        <div class="warningBox"> <span class="warningCounter">!</span> The scientific name <strong>"${sciname}"</strong> was replaced by: <br>            
+          ${suggestion.scientificName}                  
+          <ul class="taxonomy">
+            <#list suggestion.higherClassificationMap?values as classificationName>                    
+              <li <#if !classificationName_has_next> class="last" </#if>>${classificationName}</li>
+            </#list>
+           </ul>
+        </div>                               
+      </div>               
+     </#list>         
+    <#list nameUsagesSuggestions.suggestions?keys as sciname>            
+      <div class="suggestionBox" data-suggestion="${sciname}">         
+       <#assign suggestions = nameUsagesSuggestions.suggestions[sciname]>
+         <#if suggestions?has_content>
+          <div class="warningBox"> <span class="warningCounter">!</span> We found more than one scientific name that matched <strong>"${sciname}"</strong>.Please select a name from the list below.</div>                               
+          <#list suggestions as nameUsageSearchResult>
+              <input id="searchResult${nameUsageSearchResult.key?c}" type="radio" value="${nameUsageSearchResult.key?c}" name="TAXON_KEY" class="suggestion" data-suggestion="${sciname}"/><label for="searchResult${nameUsageSearchResult.key?c}">${nameUsageSearchResult.scientificName}</label>
+              </br>                
+              <ul class="taxonomy">
+                <#list nameUsageSearchResult.higherClassificationMap?values as classificationName>
+                  <li <#if !classificationName_has_next> class="last" </#if>> ${classificationName} </li>
+                </#list>
+               </ul>              
+              </br>                          
+          </#list>
+         <#else>
+           <div class="warningBox"> <span class="warningCounter">${sciname_index + 1}</span> We haven't found any scientific name that matched <strong>"${sciname}"</strong>.</div>
+         </#if>                  
+      </div>               
+     </#list>  
   </script>
   
   <script type="text/template" id="template-applied-filter">

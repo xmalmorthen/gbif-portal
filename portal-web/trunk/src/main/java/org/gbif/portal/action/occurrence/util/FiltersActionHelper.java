@@ -10,27 +10,35 @@ import org.gbif.api.model.checklistbank.search.NameUsageSuggestRequest;
 import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Network;
+import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.model.registry.search.DatasetSuggestRequest;
 import org.gbif.api.service.checklistbank.NameUsageMatchingService;
 import org.gbif.api.service.checklistbank.NameUsageSearchService;
 import org.gbif.api.service.checklistbank.NameUsageService;
+import org.gbif.api.service.occurrence.OccurrenceSearchService;
+import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.NetworkService;
 import org.gbif.api.util.SearchTypeValidator;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.portal.action.BaseAction;
-import org.gbif.portal.model.NameUsageSearchSuggestions;
+import org.gbif.portal.model.SearchSuggestions;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
+import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -48,14 +56,62 @@ import org.slf4j.LoggerFactory;
 public class FiltersActionHelper {
 
   private final DatasetService datasetService;
+  private final DatasetSearchService datasetSearchService;
   private final NameUsageService nameUsageService;
   private final NameUsageSearchService nameUsageSearchService;
   private final NameUsageMatchingService nameUsageMatchingService;
+  private final OccurrenceSearchService occurrenceSearchService;
+  private final NetworkService networkService;
   private static final int SUGGESTIONS_LIMIT = 10;
+
+  // Coordinate format
+  private static final String COORD_FMT = "FROM %s,%s TO %s,%s";
+
+  // Date format
+  private static final String DATE_FMT = "FROM %s TO %s";
+
   private static final Logger LOG = LoggerFactory.getLogger(FiltersActionHelper.class);
+
+  // Utility function to get key value of a NameUsage
+  private static final Function<NameUsageSearchResult, String> NU_RESULT_KEY_GETTER =
+    new Function<NameUsageSearchResult, String>() {
+
+      @Override
+      public String apply(NameUsageSearchResult input) {
+        return input.getKey().toString();
+      }
+    };
+
+  // Utility function to get key value of a Dataset
+  private static final Function<DatasetSearchResult, String> DS_RESULT_KEY_GETTER =
+    new Function<DatasetSearchResult, String>() {
+
+      @Override
+      public String apply(DatasetSearchResult input) {
+        return input.getKey();
+      }
+    };
+
+  private final Function<String, List<String>> suggestCollectorNames = new Function<String, List<String>>() {
+
+    @Override
+    public List<String> apply(String input) {
+      return occurrenceSearchService.suggestCollectorNames(input, SUGGESTIONS_LIMIT);
+    }
+  };
+
+
+  private final Function<String, List<String>> suggestCatalogNumbers = new Function<String, List<String>>() {
+
+    @Override
+    public List<String> apply(String input) {
+      return occurrenceSearchService.suggestCatalogNumbers(input, SUGGESTIONS_LIMIT);
+    }
+  };
 
   private static final String GEOREFERENCING_LEGEND = "Georeferenced records only";
 
+  // List of official countries
   private static final Set<Country> countries = Sets.immutableEnumSet(Sets.filter(
     Sets.newHashSet(Country.values()),
     new Predicate<Country>() {
@@ -65,6 +121,7 @@ public class FiltersActionHelper {
         return country.isOfficial();
       }
     }));
+
   /**
    * Constant that contains the prefix of a key to get a Basis of record name from the resource bundle file.
    */
@@ -72,12 +129,18 @@ public class FiltersActionHelper {
 
   @Inject
   public FiltersActionHelper(DatasetService datasetService, NameUsageService nameUsageService,
-    NameUsageSearchService nameUsageSearchService, NameUsageMatchingService nameUsageMatchingService) {
+    NameUsageSearchService nameUsageSearchService, NameUsageMatchingService nameUsageMatchingService,
+    DatasetSearchService datasetSearchService, NetworkService networkService,
+    OccurrenceSearchService occurrenceSearchService) {
     this.datasetService = datasetService;
     this.nameUsageService = nameUsageService;
     this.nameUsageSearchService = nameUsageSearchService;
     this.nameUsageMatchingService = nameUsageMatchingService;
+    this.datasetSearchService = datasetSearchService;
+    this.networkService = networkService;
+    this.occurrenceSearchService = occurrenceSearchService;
   }
+
 
   /**
    * Returns the list of {@link BasisOfRecord} literals.
@@ -163,16 +226,15 @@ public class FiltersActionHelper {
   }
 
   /**
-   * Gets the locale from the current web context.
+   * Gets the title(name) of a node.
+   * 
+   * @param networkKey node key/UUID
    */
-  public Locale getLocale() {
-    ActionContext ctx = ActionContext.getContext();
-    if (ctx != null) {
-      return ctx.getLocale();
-    } else {
-      if (LOG.isDebugEnabled()) {
-        LOG.debug("Action context not initialized");
-      }
+  public String getNetworkTitle(String networkKey) {
+    try {
+      Network network = networkService.get(UUID.fromString(networkKey));
+      return network.getTitle();
+    } catch (Exception e) {
       return null;
     }
   }
@@ -192,10 +254,67 @@ public class FiltersActionHelper {
     return taxonKey;
   }
 
-  public List<Map<OccurrenceSearchParameter, List<String>>> predicateToText(Predicate p, Locale locale) {
-    List<Map<OccurrenceSearchParameter, List<String>>> query = Lists.newArrayList();
+  /**
+   * Searches for suggestion to all the CATALOG_NUMBER parameter values, if the input value has an exact match against
+   * any
+   * suggestion, no suggestions are returned for that parameter.
+   */
+  public SearchSuggestions<String> processCatalogNumberSuggestions(HttpServletRequest request) {
+    return processStringSuggestions(request, OccurrenceSearchParameter.CATALOG_NUMBER, suggestCatalogNumbers);
+  }
 
-    return query;
+  /**
+   * Searches for suggestion to all the COLLECTOR_NAME parameter values, if the input value has an exact match against
+   * any
+   * suggestion, no suggestions are returned for that parameter.
+   */
+  public SearchSuggestions<String> processCollectorSuggestions(HttpServletRequest request) {
+    return processStringSuggestions(request, OccurrenceSearchParameter.COLLECTOR_NAME, suggestCollectorNames);
+  }
+
+  /**
+   * Replace the DATASET_KEY parameters that have a scientific name that could be interpreted directly.
+   */
+  public void processDatasetReplacements(SearchRequest<OccurrenceSearchParameter> searchRequest,
+    SearchSuggestions<DatasetSearchResult> suggestions) {
+    processReplacements(searchRequest, suggestions, OccurrenceSearchParameter.DATASET_KEY, DS_RESULT_KEY_GETTER);
+
+  }
+
+
+  /**
+   * Validates if a string (not an UUID) value was sent for the DATASET_KEY parameter.
+   * If the value is not a number, a search by dataset title is performed and, if any, the available suggestions are
+   * returned.
+   */
+  public SearchSuggestions<DatasetSearchResult> processDatasetSuggestions(HttpServletRequest request) {
+    String[] values = request.getParameterValues(OccurrenceSearchParameter.DATASET_KEY.name());
+    SearchSuggestions<DatasetSearchResult> searchSuggestions = new SearchSuggestions<DatasetSearchResult>();
+    if (values != null) { // there are not value
+      // request instance is created here for future reuse
+      DatasetSuggestRequest suggestRequest = new DatasetSuggestRequest();
+      suggestRequest.setLimit(SUGGESTIONS_LIMIT);
+      for (String value : values) {
+        String uuidPart[] = value.split(":"); // external dataset keys are in the pattern "UUID:identifier"
+        if (tryParseUUID(uuidPart[0]) == null) { // Is not a integer
+          List<DatasetSearchResult> suggestions = Lists.newArrayList();
+          suggestRequest.setQ(value);
+          suggestions = datasetSearchService.suggest(suggestRequest);
+          // suggestions are stored in map: "parameter value" -> list of suggestions
+          searchSuggestions.getSuggestions().put(value, suggestions);
+        }
+      }
+    }
+    return searchSuggestions;
+  }
+
+  /**
+   * Replace the taxon_key parameters that have a scientific name that could be interpreted directly.
+   */
+  public void processNameUsageReplacements(SearchRequest<OccurrenceSearchParameter> searchRequest,
+    SearchSuggestions<NameUsageSearchResult> suggestions) {
+    processReplacements(searchRequest, suggestions, OccurrenceSearchParameter.TAXON_KEY, NU_RESULT_KEY_GETTER);
+
   }
 
   /**
@@ -203,9 +322,9 @@ public class FiltersActionHelper {
    * If the value is not a number, a search by scientific name is performed and, if any, the available suggestions are
    * returned.
    */
-  public NameUsageSearchSuggestions processNameUsagesSuggestions(HttpServletRequest request) {
+  public SearchSuggestions<NameUsageSearchResult> processNameUsagesSuggestions(HttpServletRequest request) {
     String[] values = request.getParameterValues(OccurrenceSearchParameter.TAXON_KEY.name());
-    NameUsageSearchSuggestions nameUsagesSuggestion = new NameUsageSearchSuggestions();
+    SearchSuggestions<NameUsageSearchResult> nameUsagesSuggestion = new SearchSuggestions<NameUsageSearchResult>();
     if (values != null) { // there are not value
       // request instance is created here for future reuse
       NameUsageSuggestRequest suggestRequest = new NameUsageSuggestRequest();
@@ -220,10 +339,10 @@ public class FiltersActionHelper {
             suggestRequest.setQ(value);
             suggestions = nameUsageSearchService.suggest(suggestRequest);
             // suggestions are stored in map: "parameter value" -> list of suggestions
-            nameUsagesSuggestion.getNameUsagesSuggestions().put(value, suggestions);
+            nameUsagesSuggestion.getSuggestions().put(value, suggestions);
           } else {
             NameUsageSearchResult nameUsageSearchResult = toNameUsageResult(nameUsageMatch);
-            nameUsagesSuggestion.getNameUsagesReplacements().put(value, nameUsageSearchResult);
+            nameUsagesSuggestion.getReplacements().put(value, nameUsageSearchResult);
           }
         }
       }
@@ -232,27 +351,11 @@ public class FiltersActionHelper {
   }
 
   /**
-   * Replace the taxon_key parameters that have a scientific name that could be interpreted directly.
-   */
-  public void replaceKnownNameUsages(SearchRequest<OccurrenceSearchParameter> searchRequest,
-    NameUsageSearchSuggestions nameUsagesSuggestions) {
-    if (nameUsagesSuggestions.hasReplacements()) {
-      List<String> paramValues =
-        Lists.newArrayList(searchRequest.getParameters().get(OccurrenceSearchParameter.TAXON_KEY));
-      for (String paramValue : paramValues) {
-        if (nameUsagesSuggestions.getNameUsagesReplacements().containsKey(paramValue)) {
-          searchRequest.getParameters().remove(OccurrenceSearchParameter.TAXON_KEY, paramValue);
-          searchRequest.addParameter(OccurrenceSearchParameter.TAXON_KEY, nameUsagesSuggestions
-            .getNameUsagesReplacements().get(paramValue).getKey());
-        }
-      }
-    }
-  }
-
-  /**
    * Checks if the search parameter contains correct values.
+   * The occurrence parameter in the EnumSey discarded are not validated.
    */
-  public boolean validateSearchParameters(BaseAction action, HttpServletRequest request) {
+  public boolean validateSearchParameters(BaseAction action, HttpServletRequest request,
+    EnumSet<OccurrenceSearchParameter> discardedParams) {
     boolean valid = true;
     for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements();) {
       String param = params.nextElement();
@@ -262,8 +365,8 @@ public class FiltersActionHelper {
         if (occParam != null) {
           for (String value : request.getParameterValues(param)) {
             try {
-              if (OccurrenceSearchParameter.TAXON_KEY != occParam) {
-                // TAXON_KEY is not validated since it could be an integer or a string (scientific name)
+              if (!discardedParams.contains(occParam)) {
+                // discarded parameters are not validated since those could be an integer or a string
                 SearchTypeValidator.validate((OccurrenceSearchParameter) occParam, value);
               }
             } catch (IllegalArgumentException ex) {
@@ -274,6 +377,7 @@ public class FiltersActionHelper {
         }
       } catch (IllegalArgumentException e) {
         // ignore paging params for example
+        LOG.error("Error validating parameters", e);
       }
     }
     return valid;
@@ -284,8 +388,7 @@ public class FiltersActionHelper {
    */
   private String getBoundingBoxTitle(String bboxValue) {
     String[] coordinates = bboxValue.split(",");
-    String label = "FROM " + coordinates[0] + "," + coordinates[1] + " TO " + coordinates[2] + "," + coordinates[3];
-    return label;
+    return String.format(COORD_FMT, coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
   }
 
   /**
@@ -295,9 +398,64 @@ public class FiltersActionHelper {
     String label = dateValue;
     if (dateValue.contains(",")) {
       String[] dates = dateValue.split(",");
-      label = "FROM " + dates[0] + " TO " + dates[1];
+      label = String.format(DATE_FMT, dates[0], dates[1]);
     }
     return label;
+  }
+
+  /**
+   * Gets the locale from the current web context.
+   */
+  private Locale getLocale() {
+    ActionContext ctx = ActionContext.getContext();
+    if (ctx != null) {
+      return ctx.getLocale();
+    } else {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Action context not initialized");
+      }
+      return null;
+    }
+  }
+
+  /**
+   * Utility method to perform replacement of parameters in the searchRequest from the suggestions.replacement field.
+   */
+  private <T> void processReplacements(
+    SearchRequest<OccurrenceSearchParameter> searchRequest,
+    SearchSuggestions<T> suggestions, OccurrenceSearchParameter occParameter, Function<T, String> identifierGetter) {
+    if (suggestions.hasReplacements()) {
+      List<String> paramValues =
+        Lists.newArrayList(searchRequest.getParameters().get(occParameter));
+      for (String paramValue : paramValues) {
+        if (suggestions.getReplacements().containsKey(paramValue)) {
+          searchRequest.getParameters().remove(occParameter, paramValue);
+          searchRequest.addParameter(occParameter,
+            identifierGetter.apply(suggestions.getReplacements().get(paramValue)));
+        }
+      }
+    }
+  }
+
+  /**
+   * Searches for suggestion to all the COLLECTOR_NAME parameters, if the input value has an exact match against any
+   * suggestion, no suggestions are returned for that parameter.
+   */
+  private SearchSuggestions<String> processStringSuggestions(HttpServletRequest request,
+    OccurrenceSearchParameter occParameter, Function<String, List<String>> suggestionsFunction) {
+    String[] values = request.getParameterValues(occParameter.name());
+    SearchSuggestions<String> searchSuggestions = new SearchSuggestions<String>();
+    if (values != null) { // there are not value
+      // request instance is created here for future reuse
+      for (String value : values) {
+        List<String> suggestions = suggestionsFunction.apply(value);
+        if (!suggestions.contains(value)) {
+          // suggestions are stored in map: "parameter value" -> list of suggestions
+          searchSuggestions.getSuggestions().put(value, suggestions);
+        }
+      }
+    }
+    return searchSuggestions;
   }
 
   /**
@@ -319,5 +477,16 @@ public class FiltersActionHelper {
     }
 
     return nameUsageSearchResult;
+  }
+
+  /**
+   * Try to parse a UUID, if an exception is caught null is returned.
+   */
+  private UUID tryParseUUID(String value) {
+    try {
+      return UUID.fromString(value);
+    } catch (Exception e) {
+      return null;
+    }
   }
 }

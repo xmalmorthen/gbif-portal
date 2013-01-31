@@ -94,7 +94,7 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
         this.summaryView = null;
         this.manager = options.manager;
         this.bindingsExecutor = options.bindingsExecutor;
-        this.summaryTemplate = options.summaryTemplate;
+        this.summaryTemplate = null;
       },
 
       //IsBlank
@@ -389,11 +389,13 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
       createHTMLWidget : function(control){        
         var          
         placeholder = $(control).attr("data-placeholder"),
-        templateFilter = $(control).attr("data-template-filter"),
+        templateFilter = $(control).attr("data-template-filter"),        
         inputClasses = $(control).attr("data-input-classes") || {},
         title = $(control).attr("title"),
         template = _.template($("#" + templateFilter).html()),
         submittedFilters = this.getFiltersBySubmitted(true);
+        
+        this.summaryTemplate = $(control).attr("data-template-summary")
 
         this.filterElement = $(template({title:title, paramName: this.getId(), placeholder: placeholder, inputClasses: inputClasses }));        
         this.filterElement.find(".apply").hide();
@@ -654,10 +656,10 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
       bindSuggestions: function() {
         var self = this;
         $('input.suggestion').click( function(e) {          
-          var filterContainer = $('div.filter:has(input[value="'+ $(this).attr('data-sciname') +'"][type="hidden"])');
+          var filterContainer = $('div.filter:has(input[value="'+ $(this).attr('data-suggestion') +'"][type="hidden"])');
           if (filterContainer) {                         
             var thisValue = $(this).val();
-            var newFilter = {label:$('label[for="nameUsageSearchResult' + thisValue + '"]').text(), paramName:$(this).attr('name'),value:thisValue,key:thisValue, submitted: false};            
+            var newFilter = {label:$('label[for="searchResult' + thisValue + '"]').text(), paramName:$(this).attr('name'),value:thisValue,key:thisValue, submitted: false};            
             $(this).attr('checked',true);
             self.replaceFilterValues($(filterContainer).find(":input[type=hidden]").val(),newFilter);
             self.showSummaryView();            
@@ -976,9 +978,7 @@ var OccurrenceBasisOfRecordWidget = (function ($,_,OccurrenceWidget) {
  */
 var OccurrenceWidgetManager = (function ($,_) {
 
-  //All the fields are singleton variables
-  var filterTemplate = "template-filter"; // template name for filters
-  var sciNamefilterTemplate = "sciname-template-filter";
+  //All the fields are singleton variables  
   var widgets;
   var targetUrl;
   var submitOnApply = false;
@@ -1014,16 +1014,6 @@ var OccurrenceWidgetManager = (function ($,_) {
    */
   function getTopPosition(div) {
     return (( $(window).height() - div.height()) / 2) + $(window).scrollTop() - 50;
-  };
-  
-  /**
-   * Gets the widget filter template using the filterName parameter.
-   */
-  function getFilterTemplate(filterName){
-    if(filterName == 'TAXON_KEY'){ //only taxon key uses a different template
-      return sciNamefilterTemplate;
-    }
-    return filterTemplate;
   };
 
   /**
@@ -1094,37 +1084,36 @@ var OccurrenceWidgetManager = (function ($,_) {
           var filterName = $(control).attr("data-filter");
           if (filterName != "GEOREFERENCED") { //this filter is skkiped because it uses the same widget as the bounding box widget
             var newWidget;
-            var summaryTemplate = getFilterTemplate(filterName);
             if (filterName == "TAXON_KEY") {
               newWidget = new OccurrenceWidget();
-              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindSpeciesAutosuggest,summaryTemplate:summaryTemplate});
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindSpeciesAutosuggest});
             } else if (filterName == "DATASET_KEY") {
               newWidget = new OccurrenceWidget();
-              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindDatasetAutosuggest,summaryTemplate:summaryTemplate});            
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindDatasetAutosuggest});            
             } else if (filterName == "COLLECTOR_NAME") {
               newWidget = new OccurrenceWidget();
-              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCollectorNameAutosuggest,summaryTemplate:summaryTemplate});            
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCollectorNameAutosuggest});            
             } else if (filterName == "CATALOG_NUMBER") {
               newWidget = new OccurrenceWidget();
-              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCatalogNumberAutosuggest,summaryTemplate:summaryTemplate});            
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCatalogNumberAutosuggest});            
             } else if (filterName == "BOUNDING_BOX") {
               newWidget = new OccurrenceLocationWidget();
-              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindMap,summaryTemplate:summaryTemplate});            
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindMap});            
             } else if (filterName == "DATE") {
               newWidget = new OccurrenceDateWidget();
-              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});            
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});            
             } else if (filterName == "BASIS_OF_RECORD") {
               newWidget = new OccurrenceBasisOfRecordWidget();
-              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});              
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});              
             } else if (filterName == "COUNTRY") {
               newWidget = new OccurrenceWidget();
-              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCountryAutosuggest,summaryTemplate:summaryTemplate});              
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCountryAutosuggest});              
             } else if (filterName == "ALTITUDE" || filterName == "DEPTH") {
               newWidget = new OccurrenceComparatorWidget();
-              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});              
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});              
             } else { //By default creates a simple OccurrenceWidget with an empty binding function
               newWidget = new OccurrenceWidget();
-              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){},summaryTemplate:summaryTemplate});                      
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});                      
             }
             newWidget.bindToControl(control);
             widgets.push(newWidget);
