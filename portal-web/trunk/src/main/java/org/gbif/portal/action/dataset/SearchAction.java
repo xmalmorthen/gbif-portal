@@ -149,7 +149,6 @@ public class SearchAction
    *   <str>owning_organization_title</str>
    *   <str>hosting_organization_title</str>
    *   <str>description</str>
-   *   <str>full_text</str>
    * </arr>
    * </pre>
    * If there is no highlighted text in any of
