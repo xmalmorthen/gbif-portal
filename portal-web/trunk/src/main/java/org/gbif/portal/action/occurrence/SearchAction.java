@@ -84,6 +84,9 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     // replace known datasets
     filtersActionHelper.processDatasetReplacements(searchRequest, datasetsSuggestions);
 
+    collectorSuggestions = new SearchSuggestions<String>();
+    catalogNumberSuggestions = new SearchSuggestions<String>();
+
     // Search is executed only if there aren't suggestions that need to be notified to the user
     if (!hasSuggestions()
       && filtersActionHelper.validateSearchParameters(this, this.request, OCC_VALIDATION_DISCARDED)) {
@@ -254,9 +257,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
       if (searchRequest.getParameters().containsKey(OccurrenceSearchParameter.CATALOG_NUMBER)) {
         catalogNumberSuggestions = filtersActionHelper.processCatalogNumberSuggestions(request);
       }
-    } else { // empty the suggestions
-      collectorSuggestions = new SearchSuggestions<String>();
-      catalogNumberSuggestions = new SearchSuggestions<String>();
     }
   }
 }
