@@ -48,10 +48,7 @@
       });
     </script>
 
-    <style type="text/css">
-        div.box div.content {
-            height: 45px !important;
-        }
+    <style type="text/css">       
         #notifications {
             margin-top: 10px;
             float: right;
@@ -75,11 +72,16 @@
   <body class="search typesmap">
 
     <content tag="infoband">
+        <div class="table_title">
         <h2>Search occurrences</h2>
+        </div>
         <#if action.showDownload()>
-        <div class="box">
+        <div class="box download">
           <div class="content">
-            <a href="#" class="candy_blue_button download_button"><span>Download occurrences</span></a>
+            <ul>
+              <li class="single"><h4>${searchResponse.count!0}</h4>Occurrences</li>
+            </ul>
+            <a href="#" class="candy_blue_button download_button"><span>Download</span></a>
           </div>
         </div>
         </#if>
@@ -257,9 +259,8 @@
     </div>
 
     <div>
-      <a href="#" class="candy_blue_button download_button"><span>Download occurrences</span></a>
-    </div>
-
+      <a href="#" class="candy_blue_button download_button"><span>Download</span></a>
+    </div>    
     <div id="notifications">
         <a href="#">Additional notifications?</a>
         <div id="emails">
