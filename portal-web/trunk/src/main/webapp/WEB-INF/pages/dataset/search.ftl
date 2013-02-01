@@ -42,12 +42,13 @@
 
 
       <div class="left">
+      <#assign max_show_length = 80>
       <#list searchResponse.results as dataset>
         <div class="result">
           <h3><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/></h3>
 
           <h2>
-            <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${action.removeHighlighting(dataset.title!)}"><strong>${action.limitHighlightedText(dataset.title!, 80)}</strong></a>
+            <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${action.removeHighlighting(dataset.title!)}"><strong>${action.limitHighlightedText(dataset.title!, max_show_length)}</strong></a>
           </h2>
 
           <#if dataset.owningOrganizationKey?has_content>
@@ -62,7 +63,37 @@
             <p>Originates from <a href="<@s.url value='/network/${dataset.networkOfOriginKey}'/>" title="${action.removeHighlighting(titles[dataset.networkOfOriginKey]!)}">${titles[dataset.networkOfOriginKey]!"Unknown"}</a></p>
           </#if>
 
+          <!-- iterate through keywords and generate concatenated string composed of highlighted text in keywords -->
+          <#if dataset.keywords??>
+            <#assign highlightedKeywords = "">
+            <#list dataset.keywords as keyword>
+              <#if keyword?has_content>
+                <#if action.isHighlightedText(keyword)>
+                  <#assign highlightedKeywords = highlightedKeywords + action.getHighlightedText(keyword, 20) + " ">
+                </#if>
+              </#if>
+            </#list>
+            <!-- display highlighted text in keywords -->
+            <#if highlightedKeywords?has_content>
+              <p>
+                Keywords: ${common.limit(highlightedKeywords,max_show_length)}
+              </p>
+            </#if>
+          </#if>
+
+          <!-- in footer, display either highlighted text in description, or fact that match only occurred on full text field -->
           <div class="footer">
+            <#if dataset.description??>
+              <#if action.isHighlightedText(dataset.description)>
+                <p>${action.getHighlightedText(dataset.description, max_show_length)}</p>
+              </#if>
+            </#if>
+            <#if action.isFullTextMatchOnly(dataset)?string == "true">
+              <#-- we verify asynchroneously via app.js all links with class=verify and hide the list element in case of errors or 404 -->
+              <ul>
+                <li class="download verify">Search matched <a href="${cfg.wsReg}dataset/${dataset.key}/document">Cached EML</a></li>
+              </ul>
+            </#if>
           </div>
 
         </div>

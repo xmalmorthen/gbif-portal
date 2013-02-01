@@ -138,6 +138,70 @@ public class SearchAction
     return SUCCESS;
   }
 
+  /**
+   * Checks if the dataset search result match (highlighted text) only occurred in the full text field.
+   * This method goes through all highlighted fields that may be highlighted:
+   * <pre>
+   * <arr name="hl.fl">
+   *   <str>dataset_title</str>
+   *   <str>keyword</str>
+   *   <str>iso_country_code</str>
+   *   <str>owning_organization_title</str>
+   *   <str>hosting_organization_title</str>
+   *   <str>description</str>
+   *   <str>full_text</str>
+   * </arr>
+   * </pre>
+   * If there is no highlighted text in any of
+   * these fields, it can be inferred that the match must have occurred in the full text field.
+   *
+   * @param result DatasetSearchResult
+   *
+   * @return whether a match only occurred on the full text field or not
+   */
+  public static boolean isFullTextMatchOnly(DatasetSearchResult result) {
+    if (result == null) {
+      return false;
+    }
+    // title
+    if (result.getTitle() != null) {
+      if (isHighlightedText(result.getTitle())) {
+        return false;
+      }
+    }
+    // description
+    if (result.getDescription() != null) {
+      if (isHighlightedText(result.getDescription())) {
+        return false;
+      }
+    }
+    // keywords list
+    if (result.getKeywords() != null && result.getKeywords().size() > 0) {
+      for (String keyword : result.getKeywords()) {
+        if (isHighlightedText(result.getDescription())) {
+          return false;
+        }
+      }
+    }
+    // owning organization title
+    if (result.getOwningOrganizationTitle() != null) {
+      if (isHighlightedText(result.getOwningOrganizationTitle())) {
+        return false;
+      }
+    }
+    // hosting organization title
+    if (result.getHostingOrganizationTitle() != null) {
+      if (isHighlightedText(result.getHostingOrganizationTitle())) {
+        return false;
+      }
+    }
+
+    // iso country code is a set of Country objects - can't possibly contain highlighting
+
+    // otherwise, it must have been a match against the full_text field
+    return true;
+  }
+
   public Map<String, Long> getRecordCounts() {
     return recordCounts;
   }
