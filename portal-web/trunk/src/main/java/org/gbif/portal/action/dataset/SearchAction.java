@@ -177,7 +177,7 @@ public class SearchAction
     // keywords list
     if (result.getKeywords() != null && result.getKeywords().size() > 0) {
       for (String keyword : result.getKeywords()) {
-        if (isHighlightedText(result.getDescription())) {
+        if (isHighlightedText(keyword)) {
           return false;
         }
       }
