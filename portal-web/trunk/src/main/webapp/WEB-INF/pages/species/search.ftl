@@ -16,8 +16,8 @@
   <content tag="infoband">
     <h2>Search species</h2>
 
-    <form action="<@s.url value='/species/search'/>" method="GET" id="formSearch" autocomplete="off">
-      <input id="q" type="text" name="q" value="${q!}" placeholder="Search scientific name, common name, checklist description..."/>
+    <form action="<@s.url value='/species/search'/>" method="GET" id="formSearch" >
+      <input id="q" type="text" name="q" value="${q!}" autocomplete="off" placeholder="Search scientific name, common name, checklist description..."/>
     <#list searchRequest.parameters.asMap()?keys as p>
       <#list searchRequest.parameters.get(p) as val>
       <input type="hidden" name="${p}" value="${val!}"/>
@@ -26,9 +26,9 @@
     </form>
   </content>
 
-  <form action="<@s.url value='/species/search'/>" autocomplete="off">
+  <form action="<@s.url value='/species/search'/>" >
     <article class="results light_pane">
-      <input type="hidden" name="q" value="${q!}"/>
+      <input type="hidden" name="q" value="${q!}" autocomplete="off"/>
       <header></header>
       <div class="content">
         <div class="header">

@@ -65,8 +65,6 @@
 
   <script src="<@s.url value='/js/vendor/modernizr-1.7.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/vendor/jscrollpane.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/menu.js'/>"></script>
   <!-- we have issues with firefox, not only IE: http://dev.gbif.org/issues/browse/POR-412 -->
   <script type="text/javascript" src="<@s.url value='/js/vendor/css_browser_selector.js'/>"></script>
@@ -280,8 +278,9 @@
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->
+  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/jscrollpane.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.dropkick-1.0.0.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/vendor/autocomplete.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.uniform.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/mousewheel.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jscrollpane.min.js'/>"></script>
