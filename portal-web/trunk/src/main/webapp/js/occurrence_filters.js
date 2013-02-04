@@ -177,11 +177,13 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
        */
       close : function(){      
         if (this.filterElement != null) {          
-          this.showSummaryView();
-          this.filterElement.find('.edit').show();
+          this.showSummaryView();          
         }
         //removes the filter that haven't been submitted
-        this.removeNoSubmittedFilters();        
+        this.removeNoSubmittedFilters();
+        if(this.filters.length > 0) {
+          this.filterElement.find('.edit').show();
+        }
       },
      
       

@@ -171,7 +171,7 @@
           </#if>
         </tr>
         <#list searchResponse.results as occ>
-        <tr>
+        <tr class="result">
           <td>
             <div class="header"> 
               <#if showOccurrenceKey>

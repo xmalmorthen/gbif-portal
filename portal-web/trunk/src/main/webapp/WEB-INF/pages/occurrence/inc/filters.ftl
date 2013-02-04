@@ -4,14 +4,13 @@
     <tr class="filter">
       <td colspan="4">
         <a class="edit" style="display:none;"/>
-        <div class="inner filter_view">                    
-          <div class="filter">          
-            <h4><%= title %></h4>                    
+        <div class="inner filter_view">
+          <h4 class="title"><%= title %></h4>                    
+          <div class="filter">                                         
             <table>              
               <tr>
                 <td style="border: 0px none !important;">                  
-                  <div class="date-filter">
-                    <a class="helpPopup" title="Year interpretation" data-message="The year is interpreted literally. i.e. 19 is the year 19 AD, 1900 is the year 1900 AD." data-remarks="" style="float:right;"/>
+                  <div class="date-filter">                    
                     <h4>from</h4>
                     <select name="monthMin" class="date-dropdown">
                       <option value="0">-</option>
@@ -30,6 +29,7 @@
                     </select>                                  
                     <label for="yearMax">Year</label>                    
                     <input type="text" name="yearMin" size="10" maxlength="4" style="width: 50px !important; padding: 6px !important;"/>
+                    <a class="helpPopup" title="Year interpretation" data-message="The year is interpreted literally. i.e. 19 is the year 19 AD, 1900 is the year 1900 AD." data-remarks="" style="display: inline-block"/>
                 </div>
                                 
                 <div class="date-filter">
@@ -72,9 +72,9 @@
                 </td>                           
               </tr>
             </table>                         
-            <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-date-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
+            <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-date-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>          
-          <a href="#" class="close"></a>
+          <a class="close"></a>
         </div>
         <div class="summary_view">          
           
@@ -89,18 +89,19 @@
       <td colspan="4">
         <a class="edit" style="display:none;"/>
         <div class="inner filter_view">
-          <h4><%= title %></h4>
+          <h4 class="title"><%= title %></h4>
           <div class="filter">
+            <h4 class="title">Select </h4>
             <ul class="basis-of-record">
               <#list basisOfRecords as basisOfRecord>         
-                <li key="${basisOfRecord}"><a href="#">${action.getFilterTitle('basisOfRecord',basisOfRecord)}</a></li>         
+                <li key="${basisOfRecord}"><a>${action.getFilterTitle('basisOfRecord',basisOfRecord)}</a></li>         
               </#list>
             </ul>            
           </div>
           <div>
-            <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
+            <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>
-          <a href="#" class="close"></a>
+          <a class="close"></a>
         </div>
         <div class="summary_view">          
           
@@ -114,16 +115,17 @@
       <td colspan="4">
         <a class="edit" style="display:none;"/>
         <div class="inner filter_view">
-          <h4><%= title %></h4>
+          <h4 class="title"><%= title %></h4>
           <div class="filter">
-            <table width="100%">                
+            <table>                
                 <tr> 
-                  <td style="border: 0px none !important;">                    
+                  <td>
+                    <h4>&nbsp;</h4>                    
                     <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />
                     <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter"/>
                     <span style="display:none" class="erroMsg">Please enter a value</span>
                   </td>
-                  <td style="border: 0px none !important;">
+                  <td>
                     <h4 class="filtersTitle" style="display:none;">Filters</h4>
                     <div class="appliedFilters filterlist" style="display:none;"></div>
                   </td>                  
@@ -131,9 +133,9 @@
              </table>                        
           </div>
           <div>          
-            <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
+            <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>
-          <a href="#" class="close"></a>
+          <a class="close"></a>
         </div>
         <div class="summary_view">          
           
@@ -148,14 +150,15 @@
       <td colspan="4">
         <a class="edit" style="display:none;"/>  
         <div class="inner filter_view">
-          <h4><%= title %></h4>
+          <h4 class="title"><%= title %></h4>
           <div class="filter">
-            <table width="100%">                
+            <table>                
                 <tr> 
-                  <td style="border: 0px none !important;">                    
+                  <td>       
+                    <h4>&nbsp;</h4>             
                     <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />                    
                   </td>
-                  <td style="border: 0px none !important;">
+                  <td>
                     <h4 class="filtersTitle" style="display:none;">Filters</h4>
                     <div class="appliedFilters filterlist" style="display:none;"></div>
                   </td>                  
@@ -163,7 +166,7 @@
              </table>                        
           </div>
           <div>          
-            <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
+            <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>
           <a class="close"></a>
         </div>
@@ -179,7 +182,7 @@
       <td colspan="4">
         <a class="edit" style="display:none;"/>
         <div class="inner filter_view">
-          <h4><%= title %></h4>
+          <h4 class="title"><%= title %></h4>
           <div class="filter">
             <table width="100%">                
                 <tr> 
@@ -203,9 +206,9 @@
              </table>                        
           </div>
           <div>          
-            <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
+            <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>
-          <a href="#" class="close"></a>
+          <a class="close"></a>
         </div>
       </td>
       <div class="summary_view">          
@@ -219,7 +222,7 @@
     <li id="filter-<%=paramName%>">
     <div style="display:inline-block"><h4><%= title %></h4></div>
     <% _.each(filters, function(filter) { %>
-        <div class="filter"><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a href="#" class="closeFilter"></a></div>        
+        <div class="filter"><div class="filter_content"><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a class="closeFilter"></a></div></div>        
       <% }); %>                  
     </li>
     </ul>
@@ -264,7 +267,7 @@
     <li id="filter-<%=paramName%>">
     <div style="display:inline-block"><h4><%= title %></h4></div>
     <% _.each(filters, function(filter) { %>
-        <div class="filter"><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a href="#" class="closeFilter"></a></div>         
+        <div class="filter"><div class="filter_content"><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a class="closeFilter"></a></div></div>         
       <% }); %>                  
       <%=_.template($( "#" + paramName + "-suggestions-template").html())()%>      
     </li>
@@ -341,8 +344,8 @@
   </script>
   
   <script type="text/template" id="template-applied-filter">
-    <li style="list-style: none;display:block;">    
-      <div><div style="float:left;" title="<%=title%>"><%= label %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/></div><a href="#" class="closeFilter" style="float:left;"></a></div>       
+    <li>    
+      <div><div title="<%=title%>"><div class="filter_content"><%= label %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/><a class="closeFilter"></a></div></div></div>       
     </li>
   </script>
     
@@ -351,7 +354,7 @@
       <td colspan="4">        
         <a class="edit" style="display:none;"/>
         <div class="inner filter_view">  
-          <h4>Location</h4>                   
+          <h4 class="title">Location</h4>                   
           <div id="bboxContainer">  
               <div style="width:300px;">
                 <fieldset class="location_option_geo">
@@ -363,12 +366,12 @@
               </div>
               <fieldset class="location_option_geo">  
               <legend>Bounding box</legend>                                                    
-              <table width="100%">                
+              <table>                
                 <tr>    
-                  <td style="border: 0px none !important;width: 500px !important;">                                    
+                  <td>                                    
                      <div id="map" class="map_widget"/>                 
                   </td>
-                   <td valign="top" style="border: 0px none !important;">    
+                   <td>    
                       <h4>Bounding box from</h4>   
                       <br>            
                       <span>
@@ -393,10 +396,10 @@
               </table>
               </fieldset>
               <div>         
-                <a href="#" class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply</span></a>
+                <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply</span></a>
                </div>         
            </div>                             
-           <a href="#" class="close"></a>     
+           <a class="close"></a>     
         </div>
         <div class="summary_view">          
           
