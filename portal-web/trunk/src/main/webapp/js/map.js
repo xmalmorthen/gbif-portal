@@ -166,7 +166,7 @@ $(function() {
 
       var map = L.map('map', {
         center: CONFIG.center,
-        zoom: CONFIG.defaultZoom,
+        zoom: 10,
         layers: [minimal],
         zoomControl: false
       });
