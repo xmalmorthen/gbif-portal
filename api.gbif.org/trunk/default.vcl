@@ -49,7 +49,6 @@ sub vcl_recv {
 
   # first check for uat portal subdomain
   if (req.http.host == "uat.gbif.org") {
-    ##########
     # PORTAL
     # is this a user struts url? This is the only user page not served by drupal
     if ( req.url ~ "^/user/downloads") {
@@ -67,7 +66,6 @@ sub vcl_recv {
     }
     return (lookup);
 
-  #######
   # API
   # first check API versions
   } else if ( req.url ~ "^/dev/") {
@@ -105,7 +103,7 @@ sub vcl_recv {
       set req.backend = staging;
       set req.url = regsub(req.url, "^/map", "/tile-server");
 
-    } else if ( req.url ~ "^/occurrence/(count|datasets}") {
+    } else if ( req.url ~ "^/occurrence/(count|datasets)") {
       set req.url = regsub(req.url, "^/", "/metrics-ws/");
 
     } else if ( req.url ~ "^/occurrence/download") {
