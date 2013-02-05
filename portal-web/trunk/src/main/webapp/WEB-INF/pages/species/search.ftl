@@ -26,9 +26,9 @@
     </form>
   </content>
 
-  <form action="<@s.url value='/species/search'/>" >
+  <form action="<@s.url value='/species/search'/>" autocomplete="off" >
     <article class="results light_pane">
-      <input type="hidden" name="q" value="${q!}" autocomplete="off"/>
+      <input type="hidden" name="q" value="${q!}"/>
       <header></header>
       <div class="content">
         <div class="header">
