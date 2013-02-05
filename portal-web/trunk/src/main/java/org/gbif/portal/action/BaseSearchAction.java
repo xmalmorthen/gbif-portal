@@ -104,7 +104,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
    * @return
    */
   public static boolean isHighlightedText(String text) {
-    return text.contains(HL_PRE);
+    return !Strings.isNullOrEmpty(text) && text.contains(HL_PRE);
   }
 
   /**
