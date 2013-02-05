@@ -20,6 +20,10 @@
         <interceptor-ref name="loginSession"/>
         <interceptor-ref name="i18nStack"/>
         <interceptor-ref name="staticParams"/>
+        <interceptor-ref name="defaultStack">
+         <param name="exception.logEnabled">true</param>
+         <param name="exception.logLevel">ERROR</param>
+        </interceptor-ref>
       </interceptor-stack>
 
       <!-- see http://struts.apache.org/2.1.6/docs/interceptors.html -->
