@@ -24,6 +24,7 @@ import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -187,14 +188,14 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
    * Searches for facetInstance.name in the list of FacetInstances.
    * 
    * @param facet search parameter to find the value in
-   * @param name facet name to find
+   * @param name facet name to find, case insensitive
    * @return the existing facet instance from the counts or null
    */
   private FacetInstance findFacetInstanceByName(P facet, String name) {
     List<FacetInstance> fis = facetCounts.get(facet);
     if (fis != null) {
       for (FacetInstance fi : fis) {
-        if (fi.getName() != null && fi.getName().equals(name)) {
+        if (fi.getName() != null && fi.getName().equalsIgnoreCase(name)) {
           return fi;
         }
       }
@@ -240,7 +241,7 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
       for (P facet : searchRequest.getParameters().keySet()) {
         selectedFacetCounts.put(facet, Lists.<FacetInstance>newArrayList());
         for (String filterValue : searchRequest.getParameters().get(facet)) {
-          if (!Strings.isNullOrEmpty(Strings.nullToEmpty(filterValue).trim())) {
+          if (StringUtils.trimToNull(filterValue) != null) {
             FacetInstance facetInstance = findFacetInstanceByName(facet, filterValue);
             if (facetInstance == null) {
               facetInstance = new FacetInstance(filterValue);

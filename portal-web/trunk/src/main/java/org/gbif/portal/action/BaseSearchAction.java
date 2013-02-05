@@ -231,7 +231,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
   public boolean isInFilter(P param, String value) {
     if (param != null && searchRequest.getParameters().containsKey(param)) {
       for (String v : searchRequest.getParameters().get(param)) {
-        if (v.equals(value)) {
+        if (v.equalsIgnoreCase(value)) {
           return true;
         }
       }
@@ -246,8 +246,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
    * @param paramName the name according to
    */
   public boolean isInFilter(String paramName, String value) {
-    P param = getSearchParam(paramName);
-    return isInFilter(param, value);
+    return isInFilter(getSearchParam(paramName), value);
   }
 
   /**
