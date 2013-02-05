@@ -264,7 +264,7 @@
     bboxes = [
     <#list dataset.geographicCoverages as geo>
        <#if geo.boundingBox?has_content && (!geo.boundingBox.isGlobalCoverage())>
-         [${geo.boundingBox.minLatitude},${geo.boundingBox.maxLatitude},${geo.boundingBox.minLongitude},${geo.boundingBox.maxLongitude}],
+         [${geo.boundingBox.minLatitude?c},${geo.boundingBox.maxLatitude?c},${geo.boundingBox.minLongitude?c},${geo.boundingBox.maxLongitude?c}],
        </#if>
     </#list>
     ];
