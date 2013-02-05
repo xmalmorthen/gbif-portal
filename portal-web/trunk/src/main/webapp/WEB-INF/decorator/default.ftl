@@ -94,9 +94,9 @@
       ${page.properties["page.logo_header"]}
     <#else>
       <div id="logo">
-        <a href="<@s.url value='/'/>" class="logo"><img src="<@s.url value='/img/header/logo.png'/>" alt="GBIF"/></a>
+        <a href="${cfg.drupal}/" class="logo"><img src="<@s.url value='/img/header/logo.png'/>" alt="GBIF"/></a>
 
-        <h1><a href="<@s.url value='/'/>" title="GBIF.ORG">GBIF.ORG</a></h1>
+        <h1><a href="${cfg.drupal}/" title="GBIF.ORG">GBIF.ORG</a></h1>
         <span>Free and open access to biodiversity data</span>
       </div>
     </#if>
@@ -150,7 +150,7 @@
         <div class="about">
           <a href="#"></a>
           <ul>
-            <li><a href="<@s.url value='/newsroom'/>">News</a></li>
+            <li><a href="${cfg.drupal}/newsroom">News</a></li>
             <li class="divider"></li>
             <li><a class="placeholder_temp" href="#">Key partners</a></li>
             <li><a class="placeholder_temp" href="#">Mission</a></li>
