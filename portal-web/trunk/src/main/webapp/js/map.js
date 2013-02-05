@@ -166,7 +166,7 @@ $(function() {
 
       var map = L.map('map', {
         center: CONFIG.center,
-        zoom: 10,
+        zoom: CONFIG.defaultZoom,
         layers: [minimal],
         zoomControl: false
       });
@@ -187,7 +187,7 @@ $(function() {
 
       if (lat != null && lng != null) {
         L.marker([lat, lng]).addTo(map);
-        map.setView([lat, long], 4);
+        map.setView([lat, lng], 10);
       }
 
     }
