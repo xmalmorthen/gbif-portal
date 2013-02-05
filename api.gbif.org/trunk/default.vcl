@@ -6,6 +6,14 @@ backend jawa {
   .between_bytes_timeout = 60s;  
 }
 
+backend drupal {    
+  .host = "130.226.238.148";    
+  .port = "80";   
+  .connect_timeout = 60s;
+  .first_byte_timeout = 60s;
+  .between_bytes_timeout = 60s;  
+}
+
 backend boma {
   .host = "192.38.28.83";    
   .port = "8080";   
@@ -21,22 +29,6 @@ backend staging {
   .first_byte_timeout = 60s;
   .between_bytes_timeout = 60s; 
 }
-
-#backend mogo {
-#  .host = "130.226.238.242";    
-#  .port = "8080";   
-#  .connect_timeout = 60s;
-#  .first_byte_timeout = 60s;
-#  .between_bytes_timeout = 60s; 
-#}
-
-#backend balancer {    
-#  .host = "130.226.238.134";     
-#  .port = "http";
-#  .connect_timeout = 60s;
-#  .first_byte_timeout = 60s;
-#  .between_bytes_timeout = 60s; 
-#}    
 
 acl purge {
   "localhost";
@@ -55,14 +47,36 @@ sub vcl_recv {
     }
   }
 
+  # first check for uat portal subdomain
+  if (req.http.host == "uat.gbif.org") {
+    ##########
+    # PORTAL
+    # is this a user struts url? This is the only user page not served by drupal
+    if ( req.url ~ "^/user/downloads") {
+      set req.backend = jawa;
+      set req.url = regsub(req.url, "^/", "/portal-web-dynamic/");
+
+    # any known drupal path?
+    } else if ( req.url ~ "^/(user|newsroom|page|sites|misc)" || req.url == "/") {
+      set req.backend = drupal;
+      set req.url = regsub(req.url, "^/", "/drupal/");
+
+    } else {
+      set req.backend = jawa;
+      set req.url = regsub(req.url, "^/", "/portal-web-dynamic/");
+    }
+    return (lookup);
+
+  #######
+  # API
   # first check API versions
-  if ( req.url ~ "^/dev/") {
+  } else if ( req.url ~ "^/dev/") {
     set req.backend = staging;
     set req.url = regsub(req.url, "^/dev/", "/");
 
-  } else if (req.url ~ "^/portal-web-dynamic") {
-    set req.backend = staging;
-    return (lookup);
+  } else if (req.url ~ "^/uat/") {
+    set req.backend = jawa;
+    set req.url = regsub(req.url, "^/uat/", "/");
 
   } else {
     error 404 "API version not existing";
@@ -91,8 +105,11 @@ sub vcl_recv {
       set req.backend = staging;
       set req.url = regsub(req.url, "^/map", "/tile-server");
 
-    } else if ( req.url ~ "^/occurrence/count") {
+    } else if ( req.url ~ "^/occurrence/(count|datasets}") {
       set req.url = regsub(req.url, "^/", "/metrics-ws/");
+
+    } else if ( req.url ~ "^/occurrence/download") {
+      set req.url = regsub(req.url, "^/", "/occurrence-download-ws/");
 
     } else if ( req.url ~ "^/occurrence") {
       set req.url = regsub(req.url, "^/", "/occurrence-ws/");
