@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.UUID;
-
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
@@ -171,11 +170,6 @@ public class DetailAction extends UsageBaseAction {
   @NotNull
   public List<NameUsage> getRelated() {
     return related;
-  }
-
-  @NotNull
-  public Map<UUID, Integer> getRelatedDatasetsOccurrenceCounts() {
-    return occurrenceDatasetCounts;
   }
 
   @NotNull
