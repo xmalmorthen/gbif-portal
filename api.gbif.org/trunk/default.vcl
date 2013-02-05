@@ -53,7 +53,7 @@ sub vcl_recv {
     # is this a user struts url? This is the only user page not served by drupal
     if ( req.url ~ "^/user/downloads") {
       set req.backend = jawa;
-      set req.url = regsub(req.url, "^/", "/portal-web-dynamic/");
+      set req.url = regsub(req.url, "^/", "/portal/");
 
     # any known drupal path?
     } else if ( req.url ~ "^/(user|newsroom|page|sites|misc)" || req.url == "/") {
@@ -62,7 +62,7 @@ sub vcl_recv {
 
     } else {
       set req.backend = jawa;
-      set req.url = regsub(req.url, "^/", "/portal-web-dynamic/");
+      set req.url = regsub(req.url, "^/", "/portal/");
     }
     return (lookup);
 
@@ -116,8 +116,8 @@ sub vcl_recv {
       # not existing yet for all datasets - use checklist service for now
       set req.url = regsub(req.url, "^/dataset/metrics", "/checklistbank-ws/dataset_metrics");
 
-    } else if ( req.url ~ "^/dataset/crawl") {
-      set req.url = regsub(req.url, "^/", "/metrics-ws/");
+    } else if ( req.url ~ "^/dataset/process") {
+      set req.url = regsub(req.url, "^/", "/crawler-ws/");
 
     } else if ( req.url ~ "^/dataset/search") {
       set req.url = regsub(req.url, "^/dataset/", "/registry-search-ws/");
