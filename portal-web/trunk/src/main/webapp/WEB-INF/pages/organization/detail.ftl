@@ -26,13 +26,16 @@
 
       <h3>Endorsed by</h3>
       <p><#if node??><a href="<@s.url value='/node/${node.key}'/>">${node.title}</a><#else>Not endorsed yet</#if></p>
-
+	
+      <#--
+      Disabled due to bad registry changes.  See http://dev.gbif.org/issues/browse/POR-528
       <h3>Organization Graph</h3>
       <div class="logo_holder">
         <a target="_blank" href="${cfg.wsReg}organization/${member.key}/graph?format=png">
           <img src="${cfg.wsReg}organization/${member.key}/graph?format=png" />
         </a>
       </div>
+      -->
 
       <#assign type="organization"/>
       <#include "/WEB-INF/inc/manage_tags.ftl">
