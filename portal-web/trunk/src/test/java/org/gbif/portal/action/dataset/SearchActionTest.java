@@ -58,7 +58,7 @@ public class SearchActionTest {
 
   @Test
   public void testIsFullTextMatchOnlyForEmptyQueryText() {
-    // there was no highlighting in any of the test object's fields, thereby it can be inferred that the match must have happened on full_text
+    // there was no query text, and thus no match can be reported
     assertFalse(sa.isFullTextMatchOnly(result, ""));
   }
 
