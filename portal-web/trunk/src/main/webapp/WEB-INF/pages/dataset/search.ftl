@@ -60,7 +60,7 @@
               </#if>
               <a href="<@s.url value='/organization/${dataset.owningOrganizationKey}'/>" title="${action.removeHighlighting(dataset.owningOrganizationTitle!)}">${dataset.owningOrganizationTitle!"Unknown"}</a></p>
           <#elseif dataset.networkOfOriginKey?has_content>
-            <p>Originates from <a href="<@s.url value='/network/${dataset.networkOfOriginKey}'/>" title="${action.removeHighlighting(titles[dataset.networkOfOriginKey]!)}">${titles[dataset.networkOfOriginKey]!"Unknown"}</a></p>
+            <p>Originates from <a href="<@s.url value='/network/${dataset.networkOfOriginKey}'/>" title="${action.removeHighlighting(titles.get(dataset.networkOfOriginKey)!)}">${titles.get(dataset.networkOfOriginKey)!"Unknown"}</a></p>
           </#if>
 
           <!-- iterate through keywords and generate concatenated string composed of highlighted text in keywords -->
