@@ -28,7 +28,7 @@
     </form>
   </content>
 
-  <form action="<@s.url value='/dataset/search'/>">
+  <form action="<@s.url value='/dataset/search'/>" autocomplete="off">
   <article class="results light_pane">
     <input type="hidden" name="q" value="${q!}"/>
     <header></header>
