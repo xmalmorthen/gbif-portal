@@ -216,7 +216,7 @@
             <dt>${oc.rank}</dt>
             <dd>
               <#list oc.displayableNames as dis>
-                <a href="<@s.url value='/species/search?q=${dis.scientificName!dis.commonName}'/>">${dis.displayName}</a><#if dis_has_next>, </#if>
+                <a href="<@s.url value='/species/search?q=${dis.scientificName!dis.commonName}'/><#if dis.rank.interpreted?has_content>&rank=${dis.rank.interpreted!}</#if>">${dis.displayName}</a><#if dis_has_next>, </#if>
               </#list>
             </dd>
         </#list>
