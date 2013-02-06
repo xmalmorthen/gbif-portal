@@ -45,7 +45,7 @@ public class SearchActionTest {
   @Test
   public void testIsFullTextMatchOnly() {
     // there was no highlighting in any of the test object's fields, thereby it can be inferred that the match must have happened on full_text
-    assertTrue(sa.isFullTextMatchOnly(result));
+    assertTrue(sa.isFullTextMatchOnly(result, "Pon"));
   }
 
   @Test
@@ -53,7 +53,13 @@ public class SearchActionTest {
     // override title with one that contains some (solr) highlighting
     result.setTitle("<em class=\"gbifHl\">Pon&lt;/em>Taurus collection");
     // there was no highlighting in any of the above fields, so infer match must have happened on full_text
-    assertFalse(sa.isFullTextMatchOnly(result));
+    assertFalse(sa.isFullTextMatchOnly(result, "Pon"));
+  }
+
+  @Test
+  public void testIsFullTextMatchOnlyForEmptyQueryText() {
+    // there was no highlighting in any of the test object's fields, thereby it can be inferred that the match must have happened on full_text
+    assertFalse(sa.isFullTextMatchOnly(result, ""));
   }
 
   /**

@@ -151,15 +151,17 @@ public class SearchAction
    *   <str>description</str>
    * </arr>
    * </pre>
-   * If there is no highlighted text in any of
-   * these fields, it can be inferred that the match must have occurred in the full text field.
+   * If there is no highlighted text in any of these fields, it can be inferred that the match must have occurred in
+   * the full text field.
+   * </br>
+   * If the query text was null, there can be no matching anyways so the method just returns false.
    *
    * @param result DatasetSearchResult
    *
    * @return whether a match only occurred on the full text field or not
    */
-  public static boolean isFullTextMatchOnly(DatasetSearchResult result) {
-    if (result == null) {
+  public static boolean isFullTextMatchOnly(DatasetSearchResult result, String queryText) {
+    if (result == null || Strings.isNullOrEmpty(queryText)) {
       return false;
     }
     // title

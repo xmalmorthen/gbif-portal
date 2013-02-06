@@ -88,7 +88,7 @@
                 <p>${action.getHighlightedText(dataset.description, max_show_length)}</p>
               </#if>
             </#if>
-            <#if action.isFullTextMatchOnly(dataset)?string == "true">
+            <#if action.isFullTextMatchOnly(dataset, "${q!}")?string == "true">
               <#-- we verify asynchroneously via app.js all links with class=verify and hide the list element in case of errors or 404 -->
               <ul>
                 <li class="download verify">Search matched <a href="${cfg.wsReg}dataset/${dataset.key}/document">Cached EML</a></li>
