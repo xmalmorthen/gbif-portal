@@ -7,7 +7,7 @@ backend jawa {
 }
 
 backend drupal {    
-  .host = "livedrupal.gbif.org";    
+  .host = "drupallive.gbif.org";    
   .port = "80";   
   .connect_timeout = 60s;
   .first_byte_timeout = 60s;
