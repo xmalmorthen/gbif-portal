@@ -68,6 +68,8 @@ public class SearchActionTest {
     assertEquals("<em class=\"gbifHl\">pon</em>taurus", sa.addMissingHighlighting("pontaurus", "pon"));
     assertEquals("<em class=\"gbifHl\">pon</em>taurus <em class=\"gbifHl\">pon</em>TAURUS",
       sa.addMissingHighlighting("pontaurus PONTAURUS", "pon"));
+    assertEquals("Schulhof Gymnasium Hürth Bonn<em class=\"gbifHl\">strasse</em>",
+      sa.addMissingHighlighting("Schulhof Gymnasium Hürth Bonnstrasse", "straße"));
   }
 
   @Test
@@ -77,6 +79,12 @@ public class SearchActionTest {
     assertEquals("<em class=\"gbifHl\">pon</em>taurus",
       sa.addMissingHighlighting("<em class=\"gbifHl\">pon</em>taurus", ""));
     assertEquals("", sa.addMissingHighlighting("", "pon"));
+  }
+
+  @Test
+  public void testFoldToAscii() throws Exception {
+    assertEquals("strasse", sa.foldToAscii("straße"));
+    assertEquals("strasse Imagenes", sa.foldToAscii("straße Imágenes"));
   }
 
   /**

@@ -23,6 +23,8 @@ import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 import org.gbif.portal.action.BaseSearchAction;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -32,6 +34,10 @@ import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.core.KeywordTokenizer;
+import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilter;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -143,7 +149,8 @@ public class SearchAction
 
   /**
    * If the text matches query text, and doesn't contain any highlighting, the missing highlighting is added. Comparison
-   * between the text and query text is case insensitive, and uses the whole query text (no stemming).
+   * between the text and query text is case insensitive, and uses the whole query text (no stemming). If the first
+   * comparison fails, the query text is converted to its ASCII equivalent, and a second comparison performed.
    * </br>
    * If the title text already contains highlighting, no action is taken and the unchanged .
    * </br>
@@ -163,9 +170,65 @@ public class SearchAction
       Matcher matcher = pattern.matcher(t);
       if (matcher.find()) {
         t = matcher.replaceAll(HL_PRE + q + HL_POST);
+      } else {
+        // try converting the query text to its ASCII equivalent, and check again. E.g. "straße" to "strasse"
+        q = foldToAscii(q);
+        pattern = Pattern.compile(Pattern.quote(q), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+        matcher = pattern.matcher(t);
+        if (matcher.find()) {
+          t = matcher.replaceAll(HL_PRE + q + HL_POST);
+        }
       }
     }
     return t;
+  }
+
+  /**
+   * Uses the solr.ASCIIFoldingFilter to convert a string to its ASCII equivalent. See solr documentation for full
+   * details.
+   * </br>
+   * When doing the conversion, this method mirrors GBIF's registry-solr schema configuration for
+   * <fieldType name="text_auto_ngram">. For example, it uses the KeywordTokenizer that treats the entire string as a
+   * single token, regardless of its content. See the solr documentation for more details.
+   * </br>
+   * This method is needed when checking if the query string matches the dataset title. For example, if the query
+   * string is "straße", it won't match the dataset title "Schulhof Gymnasium Hürth Bonnstrasse" unless "straße" gets
+   * converted to its ASCII equivalent "strasse".
+   *
+   * @param q query string
+   *
+   * @return query string converted to ASCII equivalent
+   *
+   * @see org.gbif.portal.action.dataset.SearchAction#addMissingHighlighting(String, String)
+   * @see org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilter
+   * @see org.apache.lucene.analysis.core.KeywordTokenizer
+   */
+  protected static String foldToAscii(String q) {
+    if (!Strings.isNullOrEmpty(q)) {
+      ASCIIFoldingFilter filter = null;
+      try {
+        StringReader reader = new StringReader(q);
+        TokenStream stream = new KeywordTokenizer(reader);
+        filter = new ASCIIFoldingFilter(stream);
+        CharTermAttribute termAtt = filter.addAttribute(CharTermAttribute.class);
+        filter.reset();
+        filter.incrementToken();
+        // converted q to ASCII equivalent and return it
+        return termAtt.toString();
+      } catch (IOException e) {
+        // swallow
+      } finally {
+        if (filter != null) {
+          try {
+            filter.end();
+            filter.close();
+          } catch (IOException e) {
+            // swallow
+          }
+        }
+      }
+    }
+    return q;
   }
 
   /**
