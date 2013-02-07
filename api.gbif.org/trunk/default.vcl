@@ -7,7 +7,7 @@ backend jawa {
 }
 
 backend drupal {    
-  .host = "130.226.238.148";    
+  .host = "livedrupal.gbif.org";    
   .port = "80";   
   .connect_timeout = 60s;
   .first_byte_timeout = 60s;
@@ -58,7 +58,6 @@ sub vcl_recv {
     # any known drupal path?
     } else if ( req.url ~ "^/(user|newsroom|page|sites|misc)" || req.url == "/") {
       set req.backend = drupal;
-      set req.url = regsub(req.url, "^/", "/drupal/");
 
     } else {
       set req.backend = jawa;
@@ -151,6 +150,6 @@ sub vcl_fetch {
   }  
 
   # cache for 12h
-  set beresp.ttl = 12h;
+  set beresp.ttl = 48h;
   return (deliver);
 }
