@@ -48,7 +48,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
   private static final String abrevMarker = "…";
   public static final String HL_PRE = "<em class=\"gbifHl\">";
   public static final String HL_POST = "</em>";
-  private static final Pattern HL_MATCHER = Pattern.compile(HL_PRE + "([^<>]*)" + HL_POST, Pattern.CASE_INSENSITIVE);
+  public static final Pattern HL_MATCHER = Pattern.compile(HL_PRE + "([^<>]*)" + HL_POST, Pattern.CASE_INSENSITIVE);
   private static final int HL_MARKER_LENGTH = HL_PRE.length() + HL_POST.length();
 
   protected final Class<P> searchType;

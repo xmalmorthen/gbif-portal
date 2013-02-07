@@ -48,7 +48,8 @@
           <h3><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/></h3>
 
           <h2>
-            <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${action.removeHighlighting(dataset.title!)}"><strong>${action.limitHighlightedText(dataset.title!, max_show_length)}</strong></a>
+            <#assign datasetTitle = action.addMissingHighlighting(dataset.title!, "${q!}")>
+            <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${action.removeHighlighting(datasetTitle!)}"><strong>${action.limitHighlightedText(datasetTitle!, max_show_length)}</strong></a>
           </h2>
 
           <#if dataset.owningOrganizationKey?has_content>

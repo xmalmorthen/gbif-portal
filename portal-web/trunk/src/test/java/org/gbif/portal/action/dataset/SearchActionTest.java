@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertNotNull;
@@ -60,6 +61,22 @@ public class SearchActionTest {
   public void testIsFullTextMatchOnlyForEmptyQueryText() {
     // there was no query text, and thus no match can be reported
     assertFalse(sa.isFullTextMatchOnly(result, ""));
+  }
+
+  @Test
+  public void testAddMissingHighlighting() {
+    assertEquals("<em class=\"gbifHl\">pon</em>taurus", sa.addMissingHighlighting("pontaurus", "pon"));
+    assertEquals("<em class=\"gbifHl\">pon</em>taurus <em class=\"gbifHl\">pon</em>TAURUS",
+      sa.addMissingHighlighting("pontaurus PONTAURUS", "pon"));
+  }
+
+  @Test
+  public void testAddMissingHighlightingNotApplied() {
+    assertEquals("<em class=\"gbifHl\">pon</em>taurus",
+      sa.addMissingHighlighting("<em class=\"gbifHl\">pon</em>taurus", "pon"));
+    assertEquals("<em class=\"gbifHl\">pon</em>taurus",
+      sa.addMissingHighlighting("<em class=\"gbifHl\">pon</em>taurus", ""));
+    assertEquals("", sa.addMissingHighlighting("", "pon"));
   }
 
   /**

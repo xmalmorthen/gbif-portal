@@ -21,9 +21,12 @@ import org.gbif.api.service.registry.NetworkService;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.portal.action.BaseFacetedSearchAction;
+import org.gbif.portal.action.BaseSearchAction;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
@@ -136,6 +139,33 @@ public class SearchAction
 
 
     return SUCCESS;
+  }
+
+  /**
+   * If the text matches query text, and doesn't contain any highlighting, the missing highlighting is added. Comparison
+   * between the text and query text is case insensitive, and uses the whole query text (no stemming).
+   * </br>
+   * If the title text already contains highlighting, no action is taken and the unchanged .
+   * </br>
+   * Please note: this extraordinary measure is needed for a the full text field named dataset_title_ngram.
+   * Solr supports highlighting for fixed ngram fields only (a fixed ngram is field with
+   * minGramSize = maxGramSize) which is not the case for this field. For this reason, sometimes there is highlighting,
+   * but for times when it's missing, this method will add the missing highlighting.
+   *
+   * @param t dataset title
+   * @param q search query text
+   *
+   * @return dataset title updated with missing highlighting if necessary
+   */
+  public static String addMissingHighlighting(String t, String q) {
+    if (!Strings.isNullOrEmpty(t) && !Strings.isNullOrEmpty(q) && !BaseSearchAction.HL_MATCHER.matcher(t).find()) {
+      Pattern pattern = Pattern.compile(Pattern.quote(q), Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+      Matcher matcher = pattern.matcher(t);
+      if (matcher.find()) {
+        t = matcher.replaceAll(HL_PRE + q + HL_POST);
+      }
+    }
+    return t;
   }
 
   /**
