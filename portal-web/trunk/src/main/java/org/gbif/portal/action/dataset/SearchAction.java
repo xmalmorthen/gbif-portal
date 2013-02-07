@@ -31,6 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
@@ -53,6 +54,7 @@ public class SearchAction
   private Function<String, String> getDatasetTypeTitle;
   private final CubeService occurrenceCube;
   private final DatasetMetricsService checklistMetricsService;
+  private static final Joiner TOKEN_JOINER = Joiner.on(' ').skipNulls();
 
   // Index of the record counts (occurrence or taxa)
   private final Map<String, Long> recordCounts = Maps.newHashMap();
@@ -253,45 +255,20 @@ public class SearchAction
    *
    * @return whether a match only occurred on the full text field or not
    */
-  public static boolean isFullTextMatchOnly(DatasetSearchResult result, String queryText) {
-    if (result == null || Strings.isNullOrEmpty(queryText)) {
+  public static boolean isFullTextMatchOnly(DatasetSearchResult result, String query) {
+    if (Strings.isNullOrEmpty(query)) {
       return false;
     }
-    // title
-    if (result.getTitle() != null) {
-      if (isHighlightedText(result.getTitle())) {
-        return false;
-      }
-    }
-    // description
-    if (result.getDescription() != null) {
-      if (isHighlightedText(result.getDescription())) {
-        return false;
-      }
-    }
-    // keywords list
-    if (result.getKeywords() != null && result.getKeywords().size() > 0) {
-      for (String keyword : result.getKeywords()) {
-        if (isHighlightedText(keyword)) {
-          return false;
-        }
-      }
-    }
-    // owning organization title
-    if (result.getOwningOrganizationTitle() != null) {
-      if (isHighlightedText(result.getOwningOrganizationTitle())) {
-        return false;
-      }
-    }
-    // hosting organization title
-    if (result.getHostingOrganizationTitle() != null) {
-      if (isHighlightedText(result.getHostingOrganizationTitle())) {
-        return false;
-      }
-    }
+    final String keywords = result.getKeywords() == null ? "" : TOKEN_JOINER.join(result.getKeywords());
+    if (isHighlightedText(result.getTitle())
+        || isHighlightedText(result.getDescription())
+        || isHighlightedText(result.getOwningOrganizationTitle())
+        || isHighlightedText(result.getHostingOrganizationTitle())
+        || isHighlightedText(keywords)
+      ){
 
-    // iso country code is a set of Country objects - can't possibly contain highlighting
-
+      return false;
+    }
     // otherwise, it must have been a match against the full_text field
     return true;
   }
