@@ -7,7 +7,6 @@
 <body class="species">
 
 <#assign tab="constituents"/>
-<#assign tabhl=true />
 <#include "/WEB-INF/pages/dataset/inc/infoband.ftl">
 
   <div class="back">
