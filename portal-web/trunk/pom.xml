@@ -52,9 +52,9 @@
     <occurrence-download-ws-client.version>0.3</occurrence-download-ws-client.version>
     <occurrence-download.version>0.3</occurrence-download.version>
     <occurrence-ws-client.version>0.2</occurrence-ws-client.version>
-    <metrics-ws-client.version>0.2-SNAPSHOT</metrics-ws-client.version>
+    <metrics-ws-client.version>0.2</metrics-ws-client.version>
     <gbif-postal-service.version>0.1</gbif-postal-service.version>
-    <drupal-mybatis.version>0.4-SNAPSHOT</drupal-mybatis.version>
+    <drupal-mybatis.version>0.4</drupal-mybatis.version>
     <gbif-common.version>0.9</gbif-common.version>
     <gbif-common-ws.version>0.5</gbif-common-ws.version>
 
@@ -68,7 +68,7 @@
     <selenium.version>2.24.1</selenium.version>
     <servletapi.version>2.5</servletapi.version>
     <slf4j.version>1.7.2</slf4j.version>
-    <struts.version>2.3.4.1</struts.version>
+    <struts.version>2.3.8</struts.version>
     <bval.version>0.4</bval.version>
     <cas.version>3.2.1</cas.version>
     <xerces.version>2.9.1</xerces.version>
@@ -102,11 +102,6 @@
         <configuration>
           <webAppConfig>
             <contextPath>/</contextPath>
-            <!--
-            <baseResource implementation="org.eclipse.jetty.util.resource.ResourceCollection">
-              <resourcesAsCSV>src/main/webapp,${project.build.directory}/${project.build.finalName}</resourcesAsCSV>
-            </baseResource>
-            -->
           </webAppConfig>
           <stopKey>stop</stopKey>
           <stopPort>9362</stopPort>
@@ -509,31 +504,28 @@
         configured to use the api.gbif.org/dev services and nerf/staging drupal.
         All settings exist but we need these passwords from somewhere else:
 
+          <drupal.db.url>
+          <drupal.db.username>
           <drupal.db.password>
           <application.secret>
-
       -->
-      <id>gbif-api</id>
+      <id>uat</id>
       <properties>
         <devMode>false</devMode>
         <notDevMode>true</notDevMode>
-        <baseurl>http://jawa.gbif.org:8080/portal-web</baseurl>
-        <servername>http://jawa.gbif.org:8080</servername>
+        <baseurl>http://uat.gbif.org</baseurl>
+        <servername>http://uat.gbif.org</servername>
 
-        <checklistbank.ws.url>http://api.gbif.org/dev/</checklistbank.ws.url>
-        <checklistbank.search.ws.url>http://api.gbif.org/dev/name_usage/</checklistbank.search.ws.url>
-        <registry.ws.url>http://api.gbif.org/dev/</registry.ws.url>
-        <registry.search.ws.url>http://api.gbif.org/dev/dataset/</registry.search.ws.url>
-        <occurrence.ws.url>http://api.gbif.org/dev/</occurrence.ws.url>
-        <occurrencedownload.ws.url>http://jawa.gbif.org:8080/occurrence-download-ws/</occurrencedownload.ws.url>
-        <tile-server.url>http://api.gbif.org/dev/map</tile-server.url>
-        <metrics.ws.url>http://api.gbif.org/dev/</metrics.ws.url>
-        <!-- other -->
-        <cas.url>https://cas.gbif.org</cas.url>
-        <drupal.url>http://staging.gbif.org/drupal</drupal.url>
-        <!--
-          The portal loads user data directly via mybatis from the drupal database, we therefore need these db settings.
-        -->
+        <registry.ws.url>http://api.gbif.org/uat/</registry.ws.url>
+        <registry.search.ws.url>http://api.gbif.org/uat/dataset/</registry.search.ws.url>
+        <checklistbank.ws.url>http://api.gbif.org/uat/</checklistbank.ws.url>
+        <checklistbank.search.ws.url>http://api.gbif.org/uat/name_usage/</checklistbank.search.ws.url>
+        <checklistbank.match.ws.url>http://api.gbif.org/uat/lookup/name_usage/</checklistbank.match.ws.url>
+        <occurrence.ws.url>http://api.gbif.org/uat/</occurrence.ws.url>
+        <occurrencedownload.ws.url>http://api.gbif.org/uat/</occurrencedownload.ws.url>
+        <tile-server.url>http://api.gbif.org/uat/map</tile-server.url>
+        <metrics.ws.url>http://api.gbif.org/uat/</metrics.ws.url>
+        <drupal.url>http://uat.gbif.org</drupal.url>
         <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
         <!-- trusted application credentials -->
         <application.key>gbif.portal</application.key>
