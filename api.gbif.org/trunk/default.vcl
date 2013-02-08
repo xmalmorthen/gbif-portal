@@ -94,7 +94,7 @@ sub vcl_recv {
     if ( req.url ~ "^/name_usage/search") {
       set req.url = regsub(req.url, "^/name_usage/", "/checklistbank-search-ws/");
 
-    } else if ( req.url ~ "^/name_usage" || req.url ~ "^/dataset_metrics" || req.url ~ "^/name_list") {
+    } else if ( req.url ~ "^/(name_usage|dataset_metrics|description|name_list)" ) {
       set req.url = regsub(req.url, "^/", "/checklistbank-ws/");
 
     } else if ( req.url ~ "^/map") {
