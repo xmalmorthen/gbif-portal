@@ -25,16 +25,16 @@
 
   <groupId>org.gbif.portal</groupId>
   <artifactId>tile-server</artifactId>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.2</version>
   <packaging>war</packaging>
 
   <name>tile-server</name>
   <description>A web service that can write map tiles very quickly</description>
 
   <scm>
-    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/tile-server/trunk</connection>
-    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/tile-server/trunk</developerConnection>
-    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/tile-server/trunk</url>
+    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/tile-server/tags/tile-server-0.2</connection>
+    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/tile-server/tags/tile-server-0.2</developerConnection>
+    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/tile-server/tags/tile-server-0.2</url>
   </scm>
 
   <issueManagement>
@@ -101,12 +101,12 @@
     <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>gbif-api</artifactId>
-      <version>${gbif-api.version}</version>
+      <version>0.1</version>
     </dependency>
     <dependency>
       <groupId>org.gbif.metrics</groupId>
       <artifactId>cube</artifactId>
-      <version>${cube.version}</version>
+      <version>0.2</version>
       <!--  Brought in transitively from HBase.  We ship this to logback below. -->
       <exclusions>
         <exclusion>
