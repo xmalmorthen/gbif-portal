@@ -56,7 +56,8 @@ sub vcl_recv {
       set req.url = regsub(req.url, "^/", "/portal/");
 
     # any known drupal path?
-    } else if ( req.url ~ "^/(user|newsroom|page|sites|misc)" || req.url == "/") {
+    } else if ( req.url ~ "^/(user|newsroom|page|sites|misc|modules)" || req.url == "/") {
+      set req.http.host="drupallive.gbif.org";
       set req.backend = drupal;
 
     } else {
