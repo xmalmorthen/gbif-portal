@@ -21,7 +21,7 @@
   <parent>
     <groupId>org.gbif</groupId>
     <artifactId>motherpom</artifactId>
-    <version>10-SNAPSHOT</version>
+    <version>10</version>
   </parent>
 
   <groupId>org.gbif</groupId>
@@ -45,29 +45,29 @@
     <notDevMode>false</notDevMode>
 
     <!-- dependency versions -->
-    <dwc-api.version>1.2-SNAPSHOT</dwc-api.version>
-    <gbif-api.version>0.1-SNAPSHOT</gbif-api.version>
-    <checklistbank-ws-client.version>0.3-SNAPSHOT</checklistbank-ws-client.version>
-    <registry-ws-client.version>0.3-SNAPSHOT</registry-ws-client.version>
-    <occurrence-download-ws-client.version>0.3-SNAPSHOT</occurrence-download-ws-client.version>
-    <occurrence-download.version>0.3-SNAPSHOT</occurrence-download.version>
-    <occurrence-ws-client.version>0.2-SNAPSHOT</occurrence-ws-client.version>
+    <dwc-api.version>1.2</dwc-api.version>
+    <gbif-api.version>0.1</gbif-api.version>
+    <checklistbank-ws-client.version>0.3</checklistbank-ws-client.version>
+    <registry-ws-client.version>0.3</registry-ws-client.version>
+    <occurrence-download-ws-client.version>0.3</occurrence-download-ws-client.version>
+    <occurrence-download.version>0.3</occurrence-download.version>
+    <occurrence-ws-client.version>0.2</occurrence-ws-client.version>
     <metrics-ws-client.version>0.2-SNAPSHOT</metrics-ws-client.version>
-    <gbif-postal-service.version>0.1-SNAPSHOT</gbif-postal-service.version>
-    <drupal-mybatis.version>0.3-SNAPSHOT</drupal-mybatis.version>
-    <gbif-common.version>0.7</gbif-common.version>
-    <gbif-common-ws.version>0.5-SNAPSHOT</gbif-common-ws.version>
+    <gbif-postal-service.version>0.1</gbif-postal-service.version>
+    <drupal-mybatis.version>0.4-SNAPSHOT</drupal-mybatis.version>
+    <gbif-common.version>0.9</gbif-common.version>
+    <gbif-common-ws.version>0.5</gbif-common-ws.version>
 
     <freemarker.version>2.3.19</freemarker.version>
     <guice.version>3.0</guice.version>
     <jersey.version>1.12</jersey.version>
     <junit.version>4.10</junit.version>
-    <guava.version>12.0</guava.version>
-    <logback.version>1.0.6</logback.version>
+    <guava.version>13.0.1</guava.version>
+    <logback.version>1.0.9</logback.version>
     <mockito.version>1.9.0</mockito.version>
     <selenium.version>2.24.1</selenium.version>
     <servletapi.version>2.5</servletapi.version>
-    <slf4j.version>1.6.5</slf4j.version>
+    <slf4j.version>1.7.2</slf4j.version>
     <struts.version>2.3.4.1</struts.version>
     <bval.version>0.4</bval.version>
     <cas.version>3.2.1</cas.version>
@@ -75,7 +75,7 @@
     <opensaml.version>1.1</opensaml.version>
     <jsp.version>2.2</jsp.version>
     <findbugs-jsr305.version>2.0.0</findbugs-jsr305.version>
-    <commons-io.version>2.3</commons-io.version>
+    <commons-io.version>2.4</commons-io.version>
     <javax-validation-api.version>1.0.0.GA</javax-validation-api.version>
   </properties>
 

@@ -24,8 +24,8 @@ public class Config {
   public static final String SERVERNAME = "servername";
   public static final String SUGGEST_PATH = "suggest";
 
-  private String cas;
   private String drupal;
+  private String drupalCookieName;
   private String serverName;
   private String tileServerBaseUrl;
   private String wsClb;
@@ -62,8 +62,8 @@ public class Config {
       }
       LOG.debug("Setting servername to {}", cfg.serverName);
 
-      cfg.cas = getPropertyUrl(properties, "cas.url", true);
       cfg.drupal = getPropertyUrl(properties, "drupal.url", false);
+      cfg.drupalCookieName = properties.getProperty("drupal.cookiename");
       cfg.wsClb = getPropertyUrl(properties, "checklistbank.ws.url", true);
       cfg.wsClbSearch = getPropertyUrl(properties, "checklistbank.search.ws.url", true);
       cfg.wsClbSuggest = cfg.wsClbSearch + SUGGEST_PATH;
@@ -99,10 +99,6 @@ public class Config {
       throw new ConfigurationException(value + " is no valid URL for property " + propName
         + ". Please configure application.properties appropriately!", e);
     }
-  }
-
-  public String getCas() {
-    return cas;
   }
 
   public String getDrupal() {
@@ -167,5 +163,9 @@ public class Config {
 
   public String getWsOccDownload() {
     return wsOccDownload;
+  }
+
+  public String getDrupalCookieName() {
+    return drupalCookieName;
   }
 }

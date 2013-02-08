@@ -46,4 +46,5 @@ public class PrivatePortalModule extends PrivateModule{
   public ClientFilter provideSessionAuthFilter(GbifAppAuthService authService, SessionAuthProvider sessionAuthProvider) {
     return new HttpGbifAuthFilter(appKey, authService, sessionAuthProvider);
   }
+
 }
