@@ -150,7 +150,7 @@
         <div class="about">
           <a href="#"></a>
           <ul>
-            <li><a href="${cfg.drupal}/newsroom">News</a></li>
+            <li><a href="${cfg.drupal}/newsroom/summary">News</a></li>
             <li class="divider"></li>
             <li><a class="placeholder_temp" href="#">Key partners</a></li>
             <li><a class="placeholder_temp" href="#">Mission</a></li>
