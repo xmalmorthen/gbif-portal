@@ -36,11 +36,7 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
   public String intercept(final ActionInvocation invocation) throws Exception {
     final Map session = invocation.getInvocationContext().getSession();
     final User user = (User) session.get(Constants.SESSION_USER);
-    System.out.println(COOKIE_NAME);
     final Cookie cookie = findDrupalCookie(invocation);
-    if (cookie != null) {
-      System.out.println("Cookie value: " + cookie.getValue());
-    }
     if (user == null && cookie != null) {
       // user logged into drupal
       User u = userService.getBySession(cookie.getValue());
