@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2012 Global Biodiversity Information Facility (GBIF)
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.gbif</groupId>
+    <artifactId>motherpom</artifactId>
+    <version>9</version>
+  </parent>
+
+  <groupId>org.gbif.portal</groupId>
+  <artifactId>tile-server</artifactId>
+  <version>0.2</version>
+  <packaging>war</packaging>
+
+  <name>tile-server</name>
+  <description>A web service that can write map tiles very quickly</description>
+
+  <scm>
+    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/tile-server/tags/tile-server-0.2</connection>
+    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/tile-server/tags/tile-server-0.2</developerConnection>
+    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/tile-server/tags/tile-server-0.2</url>
+  </scm>
+
+  <issueManagement>
+    <system>jira</system>
+    <url>http://dev.gbif.org/issues/browse/MET</url>
+  </issueManagement>
+
+  <ciManagement>
+    <system>jenkins</system>
+    <url>http://builds.gbif.org/job/metrics</url>
+  </ciManagement>
+
+  <distributionManagement>
+    <site>
+      <id>gbif-site</id>
+      <name>Site for the project</name>
+      <url>scp://tools.gbif.org:/var/www/html/sites/metrics</url>
+    </site>
+  </distributionManagement>
+
+  <properties>
+    <!-- 
+      Note: Fixed this to the version used in the cube as it is brought in through
+      DataCube and HBase.  Mixing certain versions reports inconsistency issues.
+    -->
+    <!--  slf4j.version>1.5.8</slf4j.version> -->
+    <gbif-api.version>0.1-SNAPSHOT</gbif-api.version>
+    <slf4j.version>1.6.4</slf4j.version> 
+    <logback.version>1.0.6</logback.version>
+    <cube.version>0.2-SNAPSHOT</cube.version>
+    <servlet-api.version>2.4</servlet-api.version>
+    <guice.version>3.0</guice.version>
+    <metrics.version>2.1.2</metrics.version>
+    <guava.version>12.0</guava.version>
+    <datacube.version>1.2.2-GIT-20120729</datacube.version>
+    <hbase.version>0.90.4-cdh3u2</hbase.version>
+    <hadoop.version>0.20.2-cdh3u2</hadoop.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>gbif-thirdparty</id>
+      <url>http://repository.gbif.org/content/repositories/thirdparty</url>
+    </repository>
+    <repository>
+      <id>gbif-all</id>
+      <url>http://repository.gbif.org/content/groups/gbif</url>
+    </repository>
+    <repository>
+      <id>repository.cloudera.com</id>
+      <url>https://repository.cloudera.com/content/repositories/releases/</url>	
+      <snapshots>	
+        <enabled>false</enabled>	
+      </snapshots>
+    </repository>
+  </repositories>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-api</artifactId>
+      <version>0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gbif.metrics</groupId>
+      <artifactId>cube</artifactId>
+      <version>0.2</version>
+      <!--  Brought in transitively from HBase.  We ship this to logback below. -->
+      <exclusions>
+        <exclusion>
+          <artifactId>org.slf4j</artifactId>
+          <groupId>slf4j-log4j12</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!--  
+      Note: this is in the GBIF repository referenced above
+      See https://github.com/urbanairship/datacube/issues/21
+    -->
+    <dependency>
+      <groupId>com.urbanairship</groupId>
+      <artifactId>datacube</artifactId>
+      <version>${datacube.version}</version>
+      <classifier>hbase${hbase.version}-hadoop${hadoop.version}</classifier>
+      <exclusions>
+        <!-- 
+          Overwrite the version of HBase 
+          DataCube has a profile always activated to 0.90.4
+        -->
+        <exclusion>
+          <groupId>org.apache.hbase</groupId>
+          <artifactId>hbase</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+      <version>${guice.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-servlet</artifactId>
+      <version>${guice.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.yammer.metrics</groupId>
+      <artifactId>metrics-core</artifactId>
+      <version>${metrics.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.yammer.metrics</groupId>
+      <artifactId>metrics-ganglia</artifactId>
+      <version>${metrics.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.yammer.metrics</groupId>
+      <artifactId>metrics-guice</artifactId>
+      <version>${metrics.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+    <!-- Logging implementation for Runtime -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+      <scope>runtime</scope>
+    </dependency>  
+    <!-- To ship JUL (e.g. Guice) logging to SLF4J -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jul-to-slf4j</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- To ship log4j (e.g. HBase) logging to SLF4J -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>runtime</scope>
+    </dependency>
+    <!-- Required for compilation of servlets but provided by runtime container -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>${servlet-api.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+</project>
