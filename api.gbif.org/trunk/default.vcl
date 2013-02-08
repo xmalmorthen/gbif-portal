@@ -53,16 +53,14 @@ sub vcl_recv {
     # is this a user struts url? This is the only user page not served by drupal
     if ( req.url ~ "^/user/downloads") {
       set req.backend = jawa;
-      set req.url = regsub(req.url, "^/", "/portal/");
 
     # any known drupal path?
-    } else if ( req.url ~ "^/(user|newsroom|page|sites|misc|modules)" || req.url == "/") {
+    } else if ( req.url ~ "^/(user|newsroom|page|sites|misc|modules)" || req.url ~ "^/?$") {
       set req.http.host="drupallive.gbif.org";
       set req.backend = drupal;
 
     } else {
       set req.backend = jawa;
-      set req.url = regsub(req.url, "^/", "/portal/");
     }
     return (lookup);
 
