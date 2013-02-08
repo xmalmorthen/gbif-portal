@@ -4,11 +4,7 @@ import org.gbif.api.model.common.User;
 import org.gbif.api.service.common.UserService;
 import org.gbif.user.util.PasswordEncoder;
 
-import java.util.concurrent.TimeUnit;
-
 import com.google.common.base.Strings;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +14,11 @@ public class UserServiceImpl implements UserService {
   private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
   private final UserMapper mapper;
-  private final Cache<String, User> cache;
   private final PasswordEncoder encoder = new PasswordEncoder("MD5");
 
   @Inject
   public UserServiceImpl(UserMapper mapper) {
     this.mapper = mapper;
-    cache = CacheBuilder.newBuilder().maximumSize(1000).expireAfterWrite(1, TimeUnit.MINUTES).build();
   }
 
   @Override
@@ -33,16 +27,12 @@ public class UserServiceImpl implements UserService {
       return null;
     }
 
-    User u = cache.getIfPresent(username);
+    User u = mapper.get(username);
+    // make sure we found a user with that name
     if (u == null) {
-      u = mapper.get(username);
-      // make sure we found a user with that name
-      if (u == null) {
-        LOG.debug("Cannot find user " + username);
-        return null;
-      }
-      cache.put(username, u);
+      LOG.debug("Cannot find user " + username);
     }
+
     return u;
   }
 
@@ -64,4 +54,18 @@ public class UserServiceImpl implements UserService {
     return null;
   }
 
+
+  public User getBySession(String session) {
+    if (Strings.isNullOrEmpty(session)) {
+      return null;
+    }
+
+    User u = mapper.getBySession(session);
+    // make sure we found a user with that name
+    if (u == null) {
+      LOG.debug("Cannot find user session " + session);
+    }
+
+    return u;
+  }
 }

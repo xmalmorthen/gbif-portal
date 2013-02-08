@@ -12,10 +12,18 @@
     <collection property="roles" column="uid" javaType="java.util.HashSet" ofType="UserRole" select="selectRole" />
   </resultMap>
 
+  <sql id="userColumns">u.uid, u.name, u.mail, null as firstname, null as lastname, u.login, u.status, u.pass</sql>
+
   <select id="get" resultMap="ResultMapUser" parameterType="java.lang.String">
-    select uid, name, mail, null as firstname, null as lastname, login, status, pass
-    from users
-    where name = #{x}
+    select <include refid="userColumns"/>
+    from users u
+    where u.name = #{x}
+  </select>
+
+  <select id="getBySession" resultMap="ResultMapUser" parameterType="java.lang.String">
+    select <include refid="userColumns"/>
+    from sessions s join users u on u.uid=s.uid
+    where s.sid = #{x}
   </select>
 
   <select id="selectRole" resultType="UserRole" parameterType="java.lang.Integer">

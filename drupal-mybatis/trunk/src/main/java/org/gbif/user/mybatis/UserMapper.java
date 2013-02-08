@@ -5,7 +5,12 @@ import org.gbif.api.model.common.User;
 public interface UserMapper {
 
   /**
-   * Retrieves a user by its case insensitive username or email.
+   * Retrieves a user by its case insensitive username.
    */
   User get(String name);
+
+  /**
+   * Retrieves a user by its current drupal session name (SID).
+   */
+  User getBySession(String session);
 }
