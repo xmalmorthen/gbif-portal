@@ -91,7 +91,7 @@ sub vcl_recv {
     }
 
   } else {
-    if ( req.url ~ "^/name_usage/search") {
+    if ( req.url ~ "^/name_usage/(search|suggest)") {
       set req.url = regsub(req.url, "^/name_usage/", "/checklistbank-search-ws/");
 
     } else if ( req.url ~ "^/(name_usage|dataset_metrics|description|name_list)" ) {
@@ -117,7 +117,7 @@ sub vcl_recv {
     } else if ( req.url ~ "^/dataset/process") {
       set req.url = regsub(req.url, "^/", "/crawler-ws/");
 
-    } else if ( req.url ~ "^/dataset/search") {
+    } else if ( req.url ~ "^/dataset/(search|suggest)") {
       set req.url = regsub(req.url, "^/dataset/", "/registry-search-ws/");
 
     } else {
