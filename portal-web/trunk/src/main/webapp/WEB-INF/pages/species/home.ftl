@@ -43,7 +43,7 @@
         <ul>
           <li><a href="<@s.url value='/species/search?dataset_key=nub&rank=species'/>" title="">${nubSpecies!0}</a>total species</li>
           <li><a href="<@s.url value='/species/search?dataset_key=nub&rank=infraspecific_name&rank=subspecies&rank=infrasubspecific_name&rank=variety&rank=subvariety&rank=form&rank=subform&rank=cultivar_group&rank=cultivar'/>" title="">${nubInfraSpecies!0}</a>total infraspecific</li>
-          <li class="last"><a href="<@s.url value='/species/search?dataset_key=nub'/>">${nubCommonNames!0}</a>common names in ${nubLanguages!"?"} languages</li>
+          <li class="last"><a href="<@s.url value='/species/search?q=golden+eagle&dataset_key=nub'/>">${nubCommonNames!0}</a>common names in ${nubLanguages!"?"} languages</li>
         </ul>
       </div>
     </div>
