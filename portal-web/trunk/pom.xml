@@ -49,8 +49,7 @@
     <gbif-api.version>0.1</gbif-api.version>
     <checklistbank-ws-client.version>0.3</checklistbank-ws-client.version>
     <registry-ws-client.version>0.3</registry-ws-client.version>
-    <occurrence-download-ws-client.version>0.3</occurrence-download-ws-client.version>
-    <occurrence-download.version>0.3</occurrence-download.version>
+    <occurrence-download-ws-client.version>0.4-SNAPSHOT</occurrence-download-ws-client.version>
     <occurrence-ws-client.version>0.2</occurrence-ws-client.version>
     <metrics-ws-client.version>0.2</metrics-ws-client.version>
     <gbif-postal-service.version>0.1</gbif-postal-service.version>
