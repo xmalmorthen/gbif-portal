@@ -1,7 +1,9 @@
 package org.gbif.portal.config;
 
-import java.security.Principal;
+import org.gbif.api.model.common.User;
+import org.gbif.api.model.common.UserPrincipal;
 
+import java.security.Principal;
 import javax.servlet.http.HttpSession;
 
 import com.google.inject.Inject;
@@ -21,8 +23,8 @@ public class SessionAuthProvider implements Provider<Principal>{
   @Override
   public Principal get() {
     HttpSession session = sessionProvider.get();
-    if (session != null){
-      return (Principal) session.getAttribute(SESSION_USER);
+    if (session != null && session.getAttribute(SESSION_USER) != null){
+      return new UserPrincipal( (User) session.getAttribute(SESSION_USER) );
     }
     return null;
   }

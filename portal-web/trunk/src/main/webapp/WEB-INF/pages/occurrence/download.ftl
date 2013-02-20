@@ -13,15 +13,15 @@
 <@common.article id="started" title="Download Started">
     <div>
         <p>Your <a href="${cfg.wsOccDownload}occurrence/download/${jobId}">download #${jobId}</a> is running</p>
-        <p>Please expect 10 to 15 minutes for the download to complete.
-            A notification email with a link to download the results will be sent to the following addresses once ready:
+        <p>Please expect 10 to 15 minutes for the download to complete. <br/>
+           A notification email with a link to download the results will be sent to the following addresses once ready:
           <ul>
             <#list emails as email>
               <li>${email}</li>
             </#list>
           </ul>
         </p>
-        <p>During test phase you can also check our <a href="http://c1n1.gbif.org:11000/oozie/">oozie jobs directly</a></p>
+        <p>In your user home you can also see the status and link to <a href="<@s.url value='/user/downloads'/>">all your requested downloads</a>.</p>
     </div>
 </@common.article>
 

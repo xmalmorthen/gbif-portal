@@ -46,32 +46,30 @@
 
     <!-- dependency versions -->
     <dwc-api.version>1.2</dwc-api.version>
-    <gbif-api.version>0.1</gbif-api.version>
-    <checklistbank-ws-client.version>0.3</checklistbank-ws-client.version>
-    <registry-ws-client.version>0.3</registry-ws-client.version>
+    <gbif-api.version>0.2-SNAPSHOT</gbif-api.version>
+    <checklistbank-ws-client.version>0.4-SNAPSHOT</checklistbank-ws-client.version>
+    <registry-ws-client.version>0.4-SNAPSHOT</registry-ws-client.version>
     <occurrence-download-ws-client.version>0.4-SNAPSHOT</occurrence-download-ws-client.version>
-    <occurrence-ws-client.version>0.2</occurrence-ws-client.version>
-    <metrics-ws-client.version>0.2</metrics-ws-client.version>
-    <gbif-postal-service.version>0.1</gbif-postal-service.version>
-    <drupal-mybatis.version>0.4</drupal-mybatis.version>
-    <gbif-common.version>0.9</gbif-common.version>
-    <gbif-common-ws.version>0.5</gbif-common-ws.version>
+    <occurrence-ws-client.version>0.3-SNAPSHOT</occurrence-ws-client.version>
+    <metrics-ws-client.version>0.3-SNAPSHOT</metrics-ws-client.version>
+    <gbif-postal-service.version>0.2-SNAPSHOT</gbif-postal-service.version>
+    <drupal-mybatis.version>0.5-SNAPSHOT</drupal-mybatis.version>
+    <gbif-common.version>0.10-SNAPSHOT</gbif-common.version>
+    <gbif-common-ws.version>0.6-SNAPSHOT</gbif-common-ws.version>
 
     <freemarker.version>2.3.19</freemarker.version>
     <guice.version>3.0</guice.version>
-    <jersey.version>1.12</jersey.version>
-    <junit.version>4.10</junit.version>
+    <jersey.version>1.17</jersey.version>
+    <junit.version>4.11</junit.version>
     <guava.version>13.0.1</guava.version>
     <logback.version>1.0.9</logback.version>
-    <mockito.version>1.9.0</mockito.version>
+    <mockito.version>1.9.5</mockito.version>
     <selenium.version>2.24.1</selenium.version>
     <servletapi.version>2.5</servletapi.version>
     <slf4j.version>1.7.2</slf4j.version>
     <struts.version>2.3.8</struts.version>
-    <bval.version>0.4</bval.version>
-    <cas.version>3.2.1</cas.version>
+    <bval.version>0.5</bval.version>
     <xerces.version>2.9.1</xerces.version>
-    <opensaml.version>1.1</opensaml.version>
     <jsp.version>2.2</jsp.version>
     <findbugs-jsr305.version>2.0.0</findbugs-jsr305.version>
     <commons-io.version>2.4</commons-io.version>
@@ -415,19 +413,6 @@
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-server</artifactId>
       <version>${jersey.version}</version>
-    </dependency>
-
-    <!-- CAS Auth -->
-    <dependency>
-      <groupId>org.jasig.cas.client</groupId>
-      <artifactId>cas-client-core</artifactId>
-      <version>${cas.version}</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>commons-logging</artifactId>
-          <groupId>commons-logging</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <!-- Logging -->
