@@ -20,9 +20,7 @@
 <@common.notice title="Occurrence verbatim data">
   <p>This listing shows the original information as received by GBIF from the data publisher, without further
     interpretation processing. <#if fragmentExists>Alternatively you can also view the
-    <a href="<@s.url value='/occurrence/${id?c}/fragment'/>">raw XML or JSON</a> (for dwc archives).<#else>No 
-    original version has been stored for this record indicating that this content has not been refreshed since changes 
-    in the GBIF indexing system were applied in 2013.</#if>
+    <a href="<@s.url value='/occurrence/${id?c}/fragment'/>">raw XML or JSON</a> (for dwc archives).</#if>
   </p>
 </@common.notice>
 
