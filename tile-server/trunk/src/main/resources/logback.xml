@@ -44,7 +44,7 @@
   <!-- Urban airship DEBUG logging is Verbose, logging each GET for example -->
   <logger name="com.urbanairship" level="INFO"/>
 
-  <root level="DEBUG">
+  <root level="WARN">
     <appender-ref ref="FILE"/>
   </root>
 

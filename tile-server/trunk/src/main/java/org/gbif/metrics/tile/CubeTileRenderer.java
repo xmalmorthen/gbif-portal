@@ -41,7 +41,8 @@ public abstract class CubeTileRenderer<TILE extends Op> extends HttpServlet {
   private final DataCubeIo<TILE> cubeIo;
 
   // allow monitoring of cube lookup, rendering speed and the throughput per second
-  private final Timer readTimer = Metrics.newTimer(DensityTileRenderer.class, "readDuration", TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
+  private final Timer readTimer = Metrics.newTimer(DensityTileRenderer.class, "readDuration", TimeUnit.MILLISECONDS,
+    TimeUnit.SECONDS);
 
   public CubeTileRenderer(DataCubeIo<TILE> cubeIo) {
     this.cubeIo = cubeIo;
@@ -62,7 +63,8 @@ public abstract class CubeTileRenderer<TILE extends Op> extends HttpServlet {
     try {
       return TileContentType.valueOf(req.getParameter(REQ_TYPE));
     } catch (Exception e) {
-      throw new IllegalArgumentException("Parameter [" + REQ_TYPE + "] is invalid.  Supplied: " + req.getParameter(REQ_TYPE));
+      throw new IllegalArgumentException("Parameter [" + REQ_TYPE + "] is invalid.  Supplied: "
+        + req.getParameter(REQ_TYPE));
     }
   }
 
@@ -77,8 +79,8 @@ public abstract class CubeTileRenderer<TILE extends Op> extends HttpServlet {
     }
 
     Optional<TILE> tile =
-      lookup(new ReadBuilder(cube).at(DensityCube.TYPE, type).at(DensityCube.KEY, k).at(DensityCube.TILE_X, x).at(DensityCube.TILE_Y, y)
-        .at(DensityCube.ZOOM, z).build());
+      lookup(new ReadBuilder(cube).at(DensityCube.TYPE, type).at(DensityCube.KEY, k).at(DensityCube.TILE_X, x)
+        .at(DensityCube.TILE_Y, y).at(DensityCube.ZOOM, z).build());
 
     if (tile.isPresent()) {
       LOG.debug("Tile request type[{}], key[{}], zoom[{}], x[{}], y[{}] has a tile", new Object[] {type, k, z, x, y});

@@ -58,9 +58,12 @@ public class InMemoryTileModule extends AbstractModule {
     this.pixelsPerCluster = pixelsPerCluster;
     ConcurrentMap<BoxedByteArray, byte[]> backingMap = Maps.newConcurrentMap();
     IdService idService = new CachingIdService(4, new MapIdService());
-    DbHarness<DensityTile> densityDbHarness = new MapDbHarness<DensityTile>(backingMap, DensityTile.DESERIALIZER, CommitType.OVERWRITE, idService);
-    DbHarness<PointTile> pointDbHarness = new MapDbHarness<PointTile>(backingMap, PointTile.DESERIALIZER, CommitType.OVERWRITE, idService);
-    densityCubeIo = new DataCubeIo<DensityTile>(DensityCube.INSTANCE, densityDbHarness, 1, Long.MAX_VALUE, SyncLevel.FULL_SYNC);
+    DbHarness<DensityTile> densityDbHarness =
+      new MapDbHarness<DensityTile>(backingMap, DensityTile.DESERIALIZER, CommitType.OVERWRITE, idService);
+    DbHarness<PointTile> pointDbHarness =
+      new MapDbHarness<PointTile>(backingMap, PointTile.DESERIALIZER, CommitType.OVERWRITE, idService);
+    densityCubeIo =
+      new DataCubeIo<DensityTile>(DensityCube.INSTANCE, densityDbHarness, 1, Long.MAX_VALUE, SyncLevel.FULL_SYNC);
     pointCubeIo = new DataCubeIo<PointTile>(PointCube.INSTANCE, pointDbHarness, 1, Long.MAX_VALUE, SyncLevel.FULL_SYNC);
   }
 
@@ -90,7 +93,8 @@ public class InMemoryTileModule extends AbstractModule {
 
   private void loadCSV() throws FileNotFoundException, IOException, InterruptedException {
     // load in some mock data
-    BufferedReader br = new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(fileLocation))));
+    BufferedReader br =
+      new BufferedReader(new InputStreamReader(new GZIPInputStream(new FileInputStream(fileLocation))));
     Pattern tab = Pattern.compile(",");
     br.readLine(); // skip header
     String line = br.readLine();
@@ -117,7 +121,8 @@ public class InMemoryTileModule extends AbstractModule {
       if (!line.contains("N")) { // ignore nulls
         String[] atoms = tab.split(line.replaceAll("\"", ""));
         for (DensityTile.Builder b : densityBuilders) {
-          b.collect(Layer.OBS_NO_YEAR, Double.parseDouble(atoms[0]), Double.parseDouble(atoms[1]), Integer.parseInt(atoms[2]));
+          b.collect(Layer.OBS_NO_YEAR, Double.parseDouble(atoms[0]), Double.parseDouble(atoms[1]),
+            Integer.parseInt(atoms[2]));
         }
         for (PointTile.Builder b : pointBuilders) {
           // NOTE: we're just using the count as the id here as a quick test. Need a new CSV?
@@ -130,17 +135,18 @@ public class InMemoryTileModule extends AbstractModule {
 
     for (DensityTile.Builder b : densityBuilders) {
       DensityTile t = b.build();
-      densityCubeIo.writeSync(t,
-        new WriteBuilder(DensityCube.INSTANCE).at(DensityCube.TYPE, TileContentType.TAXON).at(DensityCube.KEY, "1").at(DensityCube.ZOOM, b.getZoom())
-          .at(DensityCube.TILE_X, b.getX()).at(DensityCube.TILE_Y, b.getY()));
+      densityCubeIo.writeSync(
+        t,
+        new WriteBuilder(DensityCube.INSTANCE).at(DensityCube.TYPE, TileContentType.TAXON).at(DensityCube.KEY, "1")
+          .at(DensityCube.ZOOM, b.getZoom()).at(DensityCube.TILE_X, b.getX()).at(DensityCube.TILE_Y, b.getY()));
     }
     densityCubeIo.flush();
     for (PointTile.Builder b : pointBuilders) {
       PointTile t = b.build();
       pointCubeIo.writeSync(
         t,
-        new WriteBuilder(PointCube.INSTANCE).at(PointCube.TAXON_ID, 1).at(PointCube.ZOOM, b.getZoom()).at(PointCube.TILE_X, b.getX())
-          .at(PointCube.TILE_Y, b.getY()));
+        new WriteBuilder(PointCube.INSTANCE).at(PointCube.TAXON_ID, 1).at(PointCube.ZOOM, b.getZoom())
+          .at(PointCube.TILE_X, b.getX()).at(PointCube.TILE_Y, b.getY()));
     }
     pointCubeIo.flush();
   }
