@@ -28,6 +28,8 @@ public class DetailAction extends OccurrenceBaseAction {
 
   private Organization publisher;
   private Map<String, Map<String, String>> verbatim;
+  private boolean fragmentExists = false;
+
 
   @Override
   public String execute() {
@@ -55,6 +57,10 @@ public class DetailAction extends OccurrenceBaseAction {
     return verbatim;
   }
 
+  public boolean isFragmentExists() {
+    return fragmentExists;
+  }
+
   public String verbatim() {
     LOG.debug("Loading raw details for occurrence id [{}]", id);
 
@@ -63,6 +69,7 @@ public class DetailAction extends OccurrenceBaseAction {
     // prepare verbatim map
     verbatim = Maps.newLinkedHashMap();
     try {
+      fragmentExists = occurrenceService.getFragment(id) != null;
       VerbatimOccurrence v = verbatimService.getVerbatim(id);
       for (String group : DwcTerm.GROUPS) {
         for (DwcTerm t : DwcTerm.listByGroup(group)) {
