@@ -158,7 +158,7 @@ $(function() {
         var sw=bounds.getSouthWest(); // south west
         var ne=bounds.getNorthEast();
         
-        $(this).attr("href", target + "&BOUNDING_BOX=" + ne.lat  + "," + sw.lng + "," + sw.lat +"," + ne.lng );        
+        $(this).attr("href", target + "&BOUNDING_BOX=" + sw.lat  + "," + sw.lng + "," + ne.lat +"," + ne.lng );        
       });
       
 
