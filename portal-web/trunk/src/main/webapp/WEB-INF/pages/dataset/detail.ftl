@@ -278,7 +278,7 @@
       <div class="inner">
         <h3>View records</h3>
         <p>
-          <a href="<@s.url value='/occurrence/search?datasetKey=${id!}&BOUNDING_BOX=90,-180,-90,180'/>">All records</a>
+          <a href="<@s.url value='/occurrence/search?datasetKey=${id!}&GEOREFERENCED=true'/>">All records</a>
           |
           <#-- Note this is intercepted in the map.js to append the bounding box -->
           <a href="<@s.url value='/occurrence/search?datasetKey=${id!}'/>" class='viewableAreaLink'>In viewable area</a></li>
