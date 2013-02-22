@@ -3,16 +3,16 @@
 <mapper namespace="org.gbif.user.mybatis.UserMapper" >
 
   <resultMap id="ResultMapUser" type="User" >
-    <id column="name" property="name" jdbcType="VARCHAR" />
-    <result column="mail" property="email" jdbcType="VARCHAR" />
-    <result column="firstname" property="firstName" jdbcType="VARCHAR" />
-    <result column="lastname" property="lastName" jdbcType="VARCHAR" />
-    <result column="pass" property="passwordHash" jdbcType="VARCHAR" />
+    <id column="name" property="accountName" />
+    <result column="mail" property="email" />
+    <result column="fullname" property="name" />
+    <result column="pass" property="passwordHash" />
+    <result column="login" property="lastLogin" />
 
     <collection property="roles" column="uid" javaType="java.util.HashSet" ofType="UserRole" select="selectRole" />
   </resultMap>
 
-  <sql id="userColumns">u.uid, u.name, u.mail, null as firstname, null as lastname, u.login, u.status, u.pass</sql>
+  <sql id="userColumns">u.uid, u.name, u.mail, u.name as fullname, u.login, u.status, u.pass</sql>
 
   <select id="get" resultMap="ResultMapUser" parameterType="java.lang.String">
     select <include refid="userColumns"/>
