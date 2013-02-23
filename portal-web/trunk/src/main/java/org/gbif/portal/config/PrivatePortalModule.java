@@ -1,7 +1,7 @@
 package org.gbif.portal.config;
 
-import org.gbif.registry.ws.client.guice.GbifApplicationAuthModule;
 import org.gbif.ws.client.filter.HttpGbifAuthFilter;
+import org.gbif.ws.client.guice.GbifApplicationAuthModule;
 import org.gbif.ws.security.GbifAppAuthService;
 
 import java.util.Properties;
