@@ -3,10 +3,10 @@
 <head>
   <title>${dataset.title!"???"} - Dataset detail</title>
   <content tag="extra_scripts">
+    <#if renderMaps>
     <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
     <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
-    <#if renderMaps>
-      <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.4.4/leaflet.js"></script>
+    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
       <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
     </#if>
   </content>  
