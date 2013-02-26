@@ -27,13 +27,22 @@
     </#if>
   </h3>
 
+<#-- The length of characters is maintained, so that it doesn't overflow. Where it is long, the page flag is set to render the full keywords under the details  -->
 <#assign keywords=dataset.keywords />
+<#assign keywordTextLength=0 />
+<#assign keywordsTruncatedInTitle=false />
 <#if keywords?has_content>
 <ul class="tags">
   <#list keywords as k>
-      <li>
-        <a href="<@s.url value='/dataset/search?q=${k}'/>">${k}</a>
-      </li>
+    <#if keywordTextLength + k?length &gt; 330>
+      <li><a href="#keywords">more…</a></li>
+      <#assign keywordsTruncatedInTitle=true />
+      <#break>
+    </#if>
+    <li>
+      <a href="<@s.url value='/dataset/search?q=${k}'/>">${k}</a>
+    </li>
+    <#assign keywordTextLength=keywordTextLength + k?length />
   </#list>
 </ul>
 </#if>

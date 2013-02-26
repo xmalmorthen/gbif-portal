@@ -67,6 +67,16 @@
     <@common.contactList contacts=preferredContacts/>
   </#if>
 
+  <#-- Display the full keywords / tags if they were too many to show in the title (see infoband.ftl) -->
+  <#if keywordsTruncatedInTitle>
+    <a id="keywords"/>
+    <h3>Keywords and tags</h3>
+    <p>    
+    <#list keywords as k>
+      <a href="<@s.url value='/dataset/search?q=${k}'/>">${k}</a>,&nbsp;  
+    </#list>
+    </p>
+  </#if>
 </div>
 
 <div class="right">

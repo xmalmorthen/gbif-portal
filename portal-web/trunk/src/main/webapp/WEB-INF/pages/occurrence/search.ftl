@@ -71,12 +71,14 @@
   </head>
   <body class="search typesmap">
 
+
     <content tag="infoband">
-        <div class="table_title">
-        <h2>Search occurrences</h2>
+        <div class="content">
+        <h1>Search occurrences</h1>
+        <h3>Use the filters to customize search results</h3>
         </div>
         <#if action.showDownload()>
-        <div class="box download">
+        <div class="box">
           <div class="content">
             <ul>
               <li class="single"><h4>${searchResponse.count!0}</h4>Occurrences</li>
