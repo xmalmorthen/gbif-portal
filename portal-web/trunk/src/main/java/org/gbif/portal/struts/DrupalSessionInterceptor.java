@@ -67,7 +67,7 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
     
     // Above looks rather suspicious
     // http://dev.gbif.org/issues/browse/POR-569
-    if (request==null) {
+    if (request==null || request.getCookies() == null) {
       return null;
     }
     
