@@ -17,7 +17,7 @@
   <h1>${common.limit(dataset.title, 36)}</h1>
 <#assign keywords=dataset.keywords />
 <#if keywords?has_content>
-  <h3 class="separator">
+  <h3>
 <#else>
 <h3>
 </#if>
@@ -39,9 +39,7 @@
       <#assign keywordsTruncatedInTitle=true />
       <#break>
     </#if>
-    <li>
-      <a href="<@s.url value='/dataset/search?q=${k}'/>">${k}</a>
-    </li>
+    <li><a href="<@s.url value='/dataset/search?q=${k}'/>">${k}</a></li>
     <#assign keywordTextLength=keywordTextLength + k?length />
   </#list>
 </ul>

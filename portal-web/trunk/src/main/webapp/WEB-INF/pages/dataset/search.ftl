@@ -42,7 +42,7 @@
 
 
       <div class="left">
-      <#assign max_show_length = 75>
+      <#assign max_show_length = 68>
       <#list searchResponse.results as dataset>
         <div class="result">
           <h3><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/></h3>

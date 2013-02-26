@@ -12,7 +12,7 @@
   <h1>${common.limit(member.title!"???", 50)}</h1>
 
   <#if keywords?has_content>
-    <h3 class="separator">
+    <h3>
   <#else>
     <h3>
   </#if>

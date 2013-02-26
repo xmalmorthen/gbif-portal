@@ -187,7 +187,7 @@
                 <div class="code">Collection: ${occ.collectionCode}</div>
               </#if>
             </div>
-            <#if showScientificName && occ.scientificName?has_content><a href="<@s.url value='/occurrence/${occ.key?c}'/>">${occ.scientificName}</a></#if>
+            <#if showScientificName && occ.scientificName?has_content><a class="title" href="<@s.url value='/occurrence/${occ.key?c}'/>">${occ.scientificName}</a></#if>
             <#if showDataset && occ.datasetKey?has_content>
              <div class="footer">Published by ${action.getDatasetTitle(occ.datasetKey)!} </div>
             </#if>              
