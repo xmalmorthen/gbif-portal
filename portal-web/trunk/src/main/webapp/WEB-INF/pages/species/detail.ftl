@@ -123,8 +123,11 @@
     </#if>
     <br/>
     <#if usage.origin! == "SOURCE">
+      <#-- only show the link to a verbatim page if it indeed exists. Some old checklists need to be reindexed to have verbatim data stored -->
+      <#if verbatimExists>
       You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
       submitted by the data publisher.
+      </#if>
     <#else>
       This record has been created during indexing and did not explicitly exist in the source data as such.
       It was created as <@s.text name="enum.origin.${usage.origin}"/>.

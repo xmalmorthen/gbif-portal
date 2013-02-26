@@ -1,6 +1,5 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.api.exception.NotFoundException;
 import org.gbif.api.model.checklistbank.VerbatimNameUsage;
 
 import org.slf4j.Logger;
@@ -16,12 +15,7 @@ public class VerbatimAction extends UsageBaseAction {
 
     loadUsage();
 
-    try {
-      verbatim = usageService.getVerbatim(id);
-    } catch (Exception e) {
-      LOG.error("Cant load verbatim data", e);
-      throw new NotFoundException();
-    }
+    verbatim = usageService.getVerbatim(id);
 
     return SUCCESS;
   }

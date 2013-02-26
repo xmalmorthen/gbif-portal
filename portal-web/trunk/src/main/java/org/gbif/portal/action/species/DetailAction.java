@@ -1,5 +1,6 @@
 package org.gbif.portal.action.species;
 
+import org.gbif.api.exception.NotFoundException;
 import org.gbif.api.model.checklistbank.Description;
 import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.model.checklistbank.NameUsageComponent;
@@ -16,6 +17,7 @@ import org.gbif.api.service.checklistbank.TypeSpecimenService;
 import org.gbif.api.service.checklistbank.VernacularNameService;
 import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
 import org.gbif.api.vocabulary.Language;
+import org.gbif.api.vocabulary.Origin;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.portal.model.VernacularLocaleComparator;
 
@@ -47,6 +49,8 @@ public class DetailAction extends UsageBaseAction {
   // only some species have a differing original name (a basionym)
   @Nullable
   private NameUsage basionym;
+
+  private boolean verbatimExists = false;
 
   @Inject
   private DescriptionService descriptionService;
@@ -214,6 +218,15 @@ public class DetailAction extends UsageBaseAction {
     for (Description d : descriptionService.listByUsage(id, page50).getResults()) {
       descriptionToc.addDescription(d);
     }
+
+    if (Origin.SOURCE == usage.getOrigin()) {
+      try {
+        verbatimExists = usageService.getVerbatim(id) != null;
+      } catch (NotFoundException e) {
+        // TODO: needs to be adjusted in API service description. We dont get null, but this exception!
+        verbatimExists = false;
+      }
+    }
   }
 
   /**
@@ -277,4 +290,7 @@ public class DetailAction extends UsageBaseAction {
     }
   }
 
+  public boolean isVerbatimExists() {
+    return verbatimExists;
+  }
 }
