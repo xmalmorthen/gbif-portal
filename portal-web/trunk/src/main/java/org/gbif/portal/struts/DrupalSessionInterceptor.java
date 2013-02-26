@@ -62,14 +62,12 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
   }
 
   private Cookie findDrupalCookie(ActionInvocation invocation){
-    final HttpServletRequest request = (HttpServletRequest) invocation.getInvocationContext().get(
-      StrutsStatics.HTTP_REQUEST);
-    if (request==null || request.getCookies() == null) {
-      return null;
-    }
-    for (Cookie cookie : request.getCookies()){
-      if (COOKIE_NAME.equalsIgnoreCase(cookie.getName())) {
-        return cookie;
+    HttpServletRequest request = (HttpServletRequest) invocation.getInvocationContext().get(StrutsStatics.HTTP_REQUEST);
+    if (request.getCookies() != null) {
+      for (Cookie cookie : request.getCookies()){
+        if (COOKIE_NAME.equalsIgnoreCase(cookie.getName())) {
+          return cookie;
+        }
       }
     }
     return null;
