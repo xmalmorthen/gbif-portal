@@ -42,14 +42,14 @@
 
 
       <div class="left">
-      <#assign max_show_length = 70>
+      <#assign max_show_length = 80>
       <#list searchResponse.results as dataset>
         <div class="result">
           <h3><@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/></h3>
 
           <h2>
             <#assign datasetTitle = action.addMissingHighlighting(dataset.title!, "${q!}")>
-            <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${action.removeHighlighting(datasetTitle!)}"><strong>${action.limitHighlightedText(datasetTitle!, max_show_length)}</strong></a>
+            <a href="<@s.url value='/dataset/${dataset.key!}'/>" title="${action.removeHighlighting(datasetTitle!)}">${action.limitHighlightedText(datasetTitle!, max_show_length)}</a>
           </h2>
 
           <#if dataset.owningOrganizationKey?has_content>

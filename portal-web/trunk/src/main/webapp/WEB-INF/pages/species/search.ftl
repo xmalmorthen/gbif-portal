@@ -62,13 +62,13 @@
             </h3>
 
             <h2>
-              <a href="<@s.url value='/species/${u.key?c}'/>"><strong>
+              <a href="<@s.url value='/species/${u.key?c}'/>">
               <#if vernacular?has_content>
                 ${vernacular.vernacularName} <span class="note"> for ${u.scientificName}</span>
               <#else>
                 ${u.scientificName} <#if u.synonym && u.accepted??><span class="note"> for ${u.accepted}</span></#if>
               </#if>
-              </strong></a>
+              </a>
             </h2>
 
             <ul class="taxonomy">
