@@ -34,7 +34,7 @@
 <#if keywords?has_content>
 <ul class="tags">
   <#list keywords as k>
-    <#if keywordTextLength + k?length &gt; 330>
+    <#if keywordTextLength + k?length &gt; 250>
       <li><a href="#keywords">more…</a></li>
       <#assign keywordsTruncatedInTitle=true />
       <#break>

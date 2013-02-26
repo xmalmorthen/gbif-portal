@@ -20,7 +20,7 @@
 <content tag="infoband">
   <h1<#if !showBox> class="fullwidth"</#if>>${common.limit(usage.scientificName, titleLength)}</h1>
 
-  <h3>${(usage.rank!"Unranked")?capitalize}
+  <h3 class="separator">${(usage.rank!"Unranked")?capitalize}
     according to <a href="<@s.url value='/dataset/${usage.datasetKey}'/>">${(dataset.title)!"???"}</a>
   </h3>
 
