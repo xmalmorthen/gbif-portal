@@ -3,7 +3,6 @@ package org.gbif.portal.struts;
 import org.gbif.api.model.common.User;
 import org.gbif.api.service.common.UserService;
 import org.gbif.portal.config.Config;
-import org.gbif.portal.config.Constants;
 import org.gbif.user.mybatis.UserServiceImpl;
 
 import java.util.Map;
@@ -17,6 +16,8 @@ import org.apache.struts2.StrutsStatics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static org.gbif.portal.config.Constants.SESSION_USER;
+
 /**
  * An Interceptor that puts the current user into the session if its not yet existing and a request principle is given.
  */
@@ -25,6 +26,7 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
 
   private UserServiceImpl userService;
   private final String COOKIE_NAME;
+  private final String DRUPAL_SESSION_NAME = "drupal_session";
 
   @Inject
   public DrupalSessionInterceptor(UserService userService, Config cfg) {
@@ -35,19 +37,27 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
   @Override
   public String intercept(final ActionInvocation invocation) throws Exception {
     final Map session = invocation.getInvocationContext().getSession();
-    final User user = (User) session.get(Constants.SESSION_USER);
     final Cookie cookie = findDrupalCookie(invocation);
-    if (user == null && cookie != null) {
-      // user logged into drupal
-      User u = userService.getBySession(cookie.getValue());
-      session.put(Constants.SESSION_USER, u);
-      if (u == null){
-        LOG.warn("Drupal cookie contains invalid session {}", cookie.getValue());
-      }
-    } else if (user != null && cookie == null) {
-      // user logged out in drupal!
+
+    User user = (User) session.get(SESSION_USER);
+
+    // invalidate current user if cookie is missing or drupal session is different
+    if (user != null && (cookie == null || !cookie.getValue().equals(session.get(DRUPAL_SESSION_NAME)))) {
+      user = null;
       session.clear();
     }
+
+    if (user == null && cookie != null) {
+      // user logged into drupal
+      user = userService.getBySession(cookie.getValue());
+      if (user == null){
+        LOG.warn("Drupal cookie contains invalid session {}", cookie.getValue());
+      } else {
+        session.put(SESSION_USER, user);
+        session.put(DRUPAL_SESSION_NAME, cookie.getValue());
+      }
+    }
+
     return invocation.invoke();
   }
 
