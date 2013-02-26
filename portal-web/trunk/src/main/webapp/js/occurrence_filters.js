@@ -1277,8 +1277,9 @@ var OccurrenceWidgetManager = (function ($,_) {
           center: CONFIG.center,
           zoom: CONFIG.defaultZoom,
           layers: [minimal],
-          zoomControl: true
+          zoomControl: false
         });
+        setupZoom(map);
 
         var drawnItems = new L.LayerGroup();
         map.addLayer(drawnItems);

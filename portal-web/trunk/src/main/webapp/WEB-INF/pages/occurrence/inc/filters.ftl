@@ -368,8 +368,10 @@
               <legend>Bounding box</legend>                                                    
               <table>                
                 <tr>    
-                  <td>                                    
-                     <div id="map" class="map_widget"/>                 
+                  <td>                                 
+                     <div id="zoom_in" class="zoom_in"></div>
+                     <div id="zoom_out" class="zoom_out"></div>
+                     <div id="map" class="map_widget"/>
                   </td>
                    <td>    
                       <h4>Bounding box from</h4>   

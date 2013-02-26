@@ -92,6 +92,17 @@
          border: 0px none;
          vertical-align: top;
       }
+      
+      // (UGLY) fix the location of the zoom controls
+      // This should be removed when the occurrence filters are styled 
+      div#zoom_in {
+        top: 122px;
+        left: 50px;
+      }
+      div#zoom_out {
+        top: 153px;
+        left: 50px;
+      }
     }
     h4.filtersTitle {
       font-family: "DINOT-Medium", sans-serif;  
@@ -431,8 +442,20 @@
         height: 12px;
         background:url(../img/icons/delete.png) no-repeat;
         cursor: pointer;
+      }
+      
+      // fix the unwanted inheritance on the leaflet attribution
+      div.leaflet-control-attribution  a {
+        font-size: 11px;
+        top: 0px;
+        display:inline;
+        margin: 0;
+        
       }                  
     }    
+    
+    
+    
   }  
   div.date-filter {
     
