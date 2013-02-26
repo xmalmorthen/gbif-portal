@@ -64,6 +64,13 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
   private Cookie findDrupalCookie(ActionInvocation invocation){
     final HttpServletRequest request = (HttpServletRequest) invocation.getInvocationContext().get(
       StrutsStatics.HTTP_REQUEST);
+    
+    // Above looks rather suspicious
+    // http://dev.gbif.org/issues/browse/POR-569
+    if (request==null) {
+      return null;
+    }
+    
     for (Cookie cookie : request.getCookies()){
       if (COOKIE_NAME.equalsIgnoreCase(cookie.getName())) {
         return cookie;
