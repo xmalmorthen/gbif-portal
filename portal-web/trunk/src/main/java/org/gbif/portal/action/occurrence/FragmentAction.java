@@ -1,6 +1,6 @@
 package org.gbif.portal.action.occurrence;
 
-import org.gbif.api.exception.NotFoundException;
+import org.gbif.portal.exception.NotFoundException;
 import org.gbif.api.service.occurrence.OccurrenceService;
 import org.gbif.api.service.occurrence.VerbatimOccurrenceService;
 import org.gbif.portal.action.BaseAction;
@@ -27,14 +27,12 @@ public class FragmentAction extends BaseAction {
   @Override
   public String execute() throws IOException {
     if (id == null) {
-      LOG.error("No occurrence id given");
-      throw new NotFoundException();
+      throw new NotFoundException("No occurrence id given");
     }
 
     String fragment = occurrenceService.getFragment(id);
     if (fragment == null) {
-      LOG.error("No occurrence fragment found with id {}", id);
-      throw new NotFoundException();
+      throw new NotFoundException("No occurrence fragment found with id " + id);
     }
 
     stream = IOUtils.toInputStream(fragment, "UTF-8");

@@ -1,6 +1,6 @@
 package org.gbif.portal.action.member;
 
-import org.gbif.api.exception.NotFoundException;
+import org.gbif.portal.exception.NotFoundException;
 import org.gbif.api.model.registry.WritableMember;
 import org.gbif.api.service.registry.NetworkService;
 import org.gbif.api.service.registry.NodeService;

@@ -1,6 +1,6 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.api.exception.NotFoundException;
+import org.gbif.portal.exception.NotFoundException;
 import org.gbif.api.exception.ServiceUnavailableException;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.checklistbank.NameUsage;
@@ -112,13 +112,11 @@ public class UsageBaseAction extends BaseAction {
    */
   public void loadUsage() {
     if (id == null) {
-      LOG.error("No checklist usage id given");
-      throw new NotFoundException();
+      throw new NotFoundException("No checklist usage id given");
     }
     NameUsage u = usageService.get(id, getLocale());
     if (u == null) {
-      LOG.error("No usage found with id {}", id);
-      throw new NotFoundException();
+      throw new NotFoundException("No usage found with id " + id);
     }
     usage = new NameUsageContainer(u);
     // load checklist

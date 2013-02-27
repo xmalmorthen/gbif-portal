@@ -1,6 +1,6 @@
 package org.gbif.portal.action.occurrence;
 
-import org.gbif.api.exception.NotFoundException;
+import org.gbif.portal.exception.NotFoundException;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.model.occurrence.Occurrence;
@@ -56,13 +56,11 @@ public class OccurrenceBaseAction extends BaseAction {
 
   protected void loadDetail() {
     if (id == null) {
-      LOG.error("No occurrence id given");
-      throw new NotFoundException();
+      throw new NotFoundException("No occurrence id given");
     }
     occ = occurrenceService.get(id);
     if (occ == null) {
-      LOG.error("No occurrence found with id {}", id);
-      throw new NotFoundException();
+      throw new NotFoundException("No occurrence found with id " + id);
     }
     // load dataset
     dataset = datasetService.get(occ.getDatasetKey());

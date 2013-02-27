@@ -1,6 +1,5 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.api.exception.NotFoundException;
 import org.gbif.api.model.checklistbank.Description;
 import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.model.checklistbank.NameUsageComponent;
@@ -220,12 +219,7 @@ public class DetailAction extends UsageBaseAction {
     }
 
     if (Origin.SOURCE == usage.getOrigin()) {
-      try {
-        verbatimExists = usageService.getVerbatim(id) != null;
-      } catch (NotFoundException e) {
-        // TODO: needs to be adjusted in API service description. We dont get null, but this exception!
-        verbatimExists = false;
-      }
+      verbatimExists = usageService.getVerbatim(id) != null;
     }
   }
 

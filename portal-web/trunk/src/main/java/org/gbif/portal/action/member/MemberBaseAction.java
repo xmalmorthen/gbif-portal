@@ -1,6 +1,6 @@
 package org.gbif.portal.action.member;
 
-import org.gbif.api.exception.NotFoundException;
+import org.gbif.portal.exception.NotFoundException;
 import org.gbif.api.model.registry.Network;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
@@ -45,8 +45,7 @@ public class MemberBaseAction<T extends WritableMember> extends org.gbif.portal.
       // check organisation
       member = memberService.get(id);
       if (member == null) {
-        LOG.warn("No member found with key {}", id);
-        throw new NotFoundException();
+        throw new NotFoundException("No member found with key " + id);
       }
 
     }

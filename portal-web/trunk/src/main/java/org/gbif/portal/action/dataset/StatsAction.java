@@ -1,6 +1,6 @@
 package org.gbif.portal.action.dataset;
 
-import org.gbif.api.exception.NotFoundException;
+import org.gbif.portal.exception.NotFoundException;
 import org.gbif.api.vocabulary.DatasetType;
 
 /**
@@ -22,7 +22,7 @@ public class StatsAction extends DetailAction {
     } else if (DatasetType.CHECKLIST == dataset.getType()) {
       return CHECKLIST_RESULT;
     } else {
-      throw new NotFoundException("External datasets dont have a stats page");
+      throw new NotFoundException("External datasets don't have a stats page");
     }
   }
 

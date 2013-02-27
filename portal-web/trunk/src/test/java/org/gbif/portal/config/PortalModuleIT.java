@@ -47,17 +47,8 @@ public class PortalModuleIT {
 
   /**
    * This test tries to retrieve a dataset calling: public Dataset get(@PathParam("key") String key).
-   * </p>
-   * The ws-client method is annotated with @NullForNotFound (a client interceptor called NotFoundToNullInterceptor
-   * catches a NotFoundException and returns NULL instead). The ws-client method is also annotated with
-   * HttpErrorResponseInterceptor (a client method interceptor that translates http response errors into actual java
-   * exceptions. The order of the interceptors is important, so that the 404 gets translated into a NotFoundException
-   * and this gets translated into null.
-   * </p>
    * This test intentionally uses a dataset that doesn't exist. The web service returns a 404 (not found) response.
-   * If the NotFoundToNullInterceptor and HttpErrorResponseInterceptor have been bound, and the interceptor order is
-   * correct, the final response is NULL.
-   * @see org.gbif.ws.client.interceptor.NotFoundToNullInterceptor
+   * The final response should be NULL, no exception.
    * @see org.gbif.ws.client.interceptor.HttpErrorResponseInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
    */
   @Test

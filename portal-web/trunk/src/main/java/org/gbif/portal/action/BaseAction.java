@@ -1,6 +1,5 @@
 package org.gbif.portal.action;
 
-import org.gbif.api.exception.NotFoundException;
 import org.gbif.api.model.common.User;
 import org.gbif.portal.config.Config;
 import org.gbif.portal.config.Constants;
@@ -8,7 +7,6 @@ import org.gbif.portal.config.Constants;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,20 +29,6 @@ public abstract class BaseAction extends ActionSupport
 
   @Inject
   private Config cfg;
-
-  /**
-   * Simple utility to assert that an object is found.
-   * 
-   * @param o That must be non null to avoid the exception
-   * @param errorMessageTemplate which must be suitable for {@link java.lang.String#format(String, Object...)}
-   * @param errorMessageArgs The arguments suitable for the error template
-   * @throws NotFoundException Only when o is null
-   */
-  protected static void checkNotNull(Object o, String errorMessageTemplate, Object... errorMessageArgs) {
-    if (o == null) {
-      throw new NotFoundException(String.format(errorMessageTemplate, errorMessageArgs));
-    }
-  }
 
   /**
    * Checks whether a string starts with any of the prefixes specified

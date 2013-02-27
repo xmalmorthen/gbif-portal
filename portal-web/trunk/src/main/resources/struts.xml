@@ -79,7 +79,7 @@
     <global-exception-mappings>
       <!-- catching not existing action mappings -->
       <exception-mapping exception="com.opensymphony.xwork2.config.ConfigurationException" result="404"/>
-      <exception-mapping exception="org.gbif.api.exception.NotFoundException" result="404"/>
+      <exception-mapping exception="org.gbif.portal.exception.NotFoundException" result="404"/>
       <exception-mapping exception="java.security.AccessControlException" result="401"/>
       <exception-mapping exception="org.gbif.api.exception.ServiceUnavailableException" result="unavailable"/>
       <exception-mapping exception="org.gbif.portal.exception.ReferentialIntegrityException" result="referentialIntegrity"/>

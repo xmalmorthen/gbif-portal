@@ -1,6 +1,6 @@
 package org.gbif.portal.action.dataset;
 
-import org.gbif.api.exception.NotFoundException;
+import org.gbif.portal.exception.NotFoundException;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
@@ -172,20 +172,20 @@ public class DatasetBaseAction extends BaseAction {
     if (Strings.isNullOrEmpty(id)) {
       throw new NotFoundException("No identifier provided to load the dataset");
     }
+
     dataset = datasetService.get(id);
-    checkNotNull(dataset, "No dataset found with id {}", id);
+    if (dataset == null) {
+      throw new NotFoundException("No dataset found with id " + id);
+    }
 
-    owningOrganization =
-      dataset.getOwningOrganizationKey() != null ? organizationService.get(dataset.getOwningOrganizationKey())
-        : owningOrganization;
+    owningOrganization = dataset.getOwningOrganizationKey() != null ?
+      organizationService.get(dataset.getOwningOrganizationKey()) : owningOrganization;
 
-    networkOfOrigin =
-      dataset.getNetworkOfOriginKey() != null ? networkService.get(dataset.getNetworkOfOriginKey())
-        : networkOfOrigin;
+    networkOfOrigin = dataset.getNetworkOfOriginKey() != null ?
+      networkService.get(dataset.getNetworkOfOriginKey()) : networkOfOrigin;
 
-    organizedCoverages =
-      dataset.getTaxonomicCoverages() != null ? constructOrganizedTaxonomicCoverages(dataset.getTaxonomicCoverages())
-        : organizedCoverages;
+    organizedCoverages = dataset.getTaxonomicCoverages() != null ?
+      constructOrganizedTaxonomicCoverages(dataset.getTaxonomicCoverages()) : organizedCoverages;
 
     try {
       key = UUID.fromString(id);
