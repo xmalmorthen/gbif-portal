@@ -34,10 +34,13 @@ import org.gbif.api.service.registry.DatasetService;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
@@ -46,6 +49,11 @@ import org.slf4j.LoggerFactory;
 /**
  * This class builds a human readable filter from a {@link org.gbif.api.model.occurrence.predicate.Predicate} hierarchy.
  * This class is not thread safe, create a new instance for every use if concurrent calls to {#humanFilter} is expected.
+ * The IN predicate is not yet supported and you'll get an IllegalArgumentException.
+ *
+ * This builder only supports predicates that follow our search query parameters style with multiple values for the same
+ * parameter being logically disjunct (OR) while different search parameters are logically combined (AND). Therefore
+ * the {#humanFilter(Predicate p)} result is a map of OccurrenceSearchParameter (AND'ed) to a list of values (OR'ed).
  */
 public class HumanFilterBuilder {
 
@@ -56,13 +64,14 @@ public class HumanFilterBuilder {
   private static final String LESS_THAN_OPERATOR = " < ";
   private static final String LESS_THAN_EQUALS_OPERATOR = " <= ";
   private static final String LIKE_OPERATOR = " LIKE ";
+  private static final String IN_OPERATOR = " IN ";
 
-  private Map<OccurrenceSearchParameter, List<String>> filter;
+  private Map<OccurrenceSearchParameter, LinkedList<String>> filter;
   private enum State { ROOT, AND, OR };
   private State state;
   private OccurrenceSearchParameter lastParam;
   private boolean lookupValues = true;
-
+  private Joiner VALUE_JOINER = Joiner.on(", ").skipNulls();
   private final DatasetService datasetService;
   private final NameUsageService nameUsageService;
 
@@ -76,13 +85,13 @@ public class HumanFilterBuilder {
    * @return a list of anded parameters with multiple values to be combined with OR
    * @throws IllegalStateException if more complex predicates than the portal handles are supplied
    */
-  public Map<OccurrenceSearchParameter, List<String>> humanFilter(Predicate p) {
+  public Map<OccurrenceSearchParameter, LinkedList<String>> humanFilter(Predicate p) {
     return filter(p, true);
   }
 
   public String queryFilter(Predicate p) {
     StringBuilder b = new StringBuilder();
-    Map<OccurrenceSearchParameter, List<String>> filter = filter(p, false);
+    Map<OccurrenceSearchParameter, LinkedList<String>> filter = filter(p, false);
     for (OccurrenceSearchParameter param : filter.keySet()) {
       for (String val : filter.get(param)) {
         b.append(param.name());
@@ -94,7 +103,7 @@ public class HumanFilterBuilder {
     return b.toString();
   }
 
-  private Map<OccurrenceSearchParameter, List<String>> filter(Predicate p, boolean lookupValues) {
+  private Map<OccurrenceSearchParameter, LinkedList<String>> filter(Predicate p, boolean lookupValues) {
     this.lookupValues = lookupValues;
     filter = Maps.newHashMap();
     state = State.ROOT;
@@ -153,40 +162,56 @@ public class HumanFilterBuilder {
     visitSimplePredicate(predicate, LESS_THAN_EQUALS_OPERATOR);
   }
 
-  private void visit(InPredicate predicate) {
-    throw new IllegalStateException("IN predicate not supported");
+  private void visit(InPredicate in) {
+    addParamValues(in.getKey(), IN_OPERATOR, in.getValues());
   }
 
-  private void visit(NotPredicate predicate) throws IllegalStateException {
-    throw new IllegalStateException("NOT predicate not supported");
+  private void visit(NotPredicate not) throws IllegalStateException {
+    if (not.getPredicate() instanceof SimplePredicate) {
+      visit(not.getPredicate());
+      SimplePredicate sp = (SimplePredicate) not.getPredicate();
+      // now prefix the last value with NOT
+      String notValue = "NOT (" + filter.get(sp.getKey()).removeLast() + ")";
+      filter.get(sp.getKey()).add(notValue);
+
+    } else {
+      throw new IllegalArgumentException("NOT predicate must be followed by a simple predicate");
+    }
   }
 
   private void visitSimplePredicate(SimplePredicate predicate, String op) {
     // verify that last param if existed was the same
     if (lastParam != null && predicate.getKey() != lastParam) {
-      throw new IllegalStateException("Mix of search params not supported");
+      throw new IllegalArgumentException("Mix of search params not supported");
     }
-    if (!filter.containsKey(predicate.getKey())) {
-      filter.put(predicate.getKey(), Lists.<String>newArrayList());
+    addParamValues(predicate.getKey(), op, Lists.newArrayList(predicate.getValue()));
+  }
+
+  private void addParamValues(OccurrenceSearchParameter param, String op, Collection<String> values) {
+    if (!filter.containsKey(param)) {
+      filter.put(param, Lists.<String>newLinkedList());
     }
-    // lookup values
-    String humanVal;
-    if (lookupValues) {
-      switch (predicate.getKey()) {
-        case TAXON_KEY:
-          humanVal = lookupTaxonKey(predicate.getValue());
-          break;
-        case DATASET_KEY:
-          humanVal = lookupDatasetKey(predicate.getValue());
-          break;
-        default:
-          humanVal = predicate.getValue();
+
+    List<String> humanValues = Lists.newArrayList();
+    for (String val : values) {
+      // lookup values
+      if (lookupValues) {
+        switch (param) {
+          case TAXON_KEY:
+            humanValues.add(lookupTaxonKey(val));
+            break;
+          case DATASET_KEY:
+            humanValues.add(lookupDatasetKey(val));
+            break;
+          default:
+            humanValues.add(val);
+        }
+      } else {
+        humanValues.add(val);
       }
-    } else {
-      humanVal = predicate.getValue();
     }
-    filter.get(predicate.getKey()).add(op + humanVal);
-    lastParam = predicate.getKey();
+    filter.get(param).add(op + VALUE_JOINER.join(humanValues));
+    lastParam = param;
   }
 
   private String lookupTaxonKey(String value) {
@@ -215,7 +240,7 @@ public class HumanFilterBuilder {
       LOG.warn(
         "Visit method could not be found. That means a Predicate has been passed in that is unknown to this " + "class",
         e);
-      throw new IllegalStateException("Unknown Predicate", e);
+      throw new IllegalArgumentException("Unknown Predicate", e);
     }
     try {
       method.setAccessible(true);
@@ -225,7 +250,7 @@ public class HumanFilterBuilder {
       throw new RuntimeException("Programming error", e);
     } catch (InvocationTargetException e) {
       LOG.info("Exception thrown while building the Hive Download", e);
-      throw new IllegalStateException(e);
+      throw new IllegalArgumentException(e);
     }
   }
 

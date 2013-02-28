@@ -29,18 +29,27 @@
               <dl>
                   <dt>Filter</dt>
                   <dd>
-                      <#assign filterMap=action.getHumanFilter(d.predicate)/>
-                      <#assign queryParams=action.getQueryParams(d.predicate)/>
-                      <a href="<@s.url value='/occurrence/search?${queryParams}'/>">
-                      <table class="table">
-                        <#list filterMap?keys as param>
+                      <#assign filterMap=action.getHumanFilter(d.predicate)!""/>
+                      <#if filterMap?has_content>
+                        <#assign queryParams=action.getQueryParams(d.predicate)/>
+                        <a href="<@s.url value='/occurrence/search?${queryParams}'/>">
+                          <table class="table">
+                            <#list filterMap?keys as param>
+                              <tr>
+                                  <th><@s.text name="search.facet.${param}" /></th>
+                                  <td><#list filterMap.get(param) as val><span>${val}</span><#if val_has_next>, </#if></#list></td>
+                              </tr>
+                            </#list>
+                          </table>
+                        </a>
+                      <#else>
+                        <table class="table">
                           <tr>
-                              <th><@s.text name="search.facet.${param}" /></th>
-                              <td><#list filterMap.get(param) as val><span>${val}</span><#if val_has_next>, </#if></#list></td>
+                              <th>Unreadable Filter</th>
+                              <td>${d.predicate}</td>
                           </tr>
-                        </#list>
-                      </table>
-                    </a>
+                        </table>
+                      </#if>
                   </dd>
 
                   <dt>Status</dt>

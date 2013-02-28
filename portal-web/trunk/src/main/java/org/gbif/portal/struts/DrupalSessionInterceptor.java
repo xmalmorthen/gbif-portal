@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
@@ -27,6 +28,7 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
   private UserServiceImpl userService;
   private final String COOKIE_NAME;
   private final String DRUPAL_SESSION_NAME = "drupal_session";
+  private final String DEBUG_USER_PARAM = "DEBUG_USER";
 
   @Inject
   public DrupalSessionInterceptor(UserService userService, Config cfg) {
@@ -37,7 +39,16 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
   @Override
   public String intercept(final ActionInvocation invocation) throws Exception {
     final Map session = invocation.getInvocationContext().getSession();
-    final Cookie cookie = findDrupalCookie(invocation);
+    final HttpServletRequest request = (HttpServletRequest) invocation.getInvocationContext().get(StrutsStatics.HTTP_REQUEST);
+    final Cookie cookie = findDrupalCookie(request);
+
+    // TODO: FOR DEBUGGING DURING DEVELOPMENT ONLY - you can switch a user without authenticating him!!!
+    if (!Strings.isNullOrEmpty(request.getParameter(DEBUG_USER_PARAM))) {
+      User user = userService.get(request.getParameter(DEBUG_USER_PARAM));
+      session.put(SESSION_USER, user);
+      session.put(DRUPAL_SESSION_NAME, "");
+      return invocation.invoke();
+    }
 
     User user = (User) session.get(SESSION_USER);
 
@@ -61,8 +72,7 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
     return invocation.invoke();
   }
 
-  private Cookie findDrupalCookie(ActionInvocation invocation){
-    HttpServletRequest request = (HttpServletRequest) invocation.getInvocationContext().get(StrutsStatics.HTTP_REQUEST);
+  private Cookie findDrupalCookie(HttpServletRequest request){
     if (request.getCookies() != null) {
       for (Cookie cookie : request.getCookies()){
         if (COOKIE_NAME.equalsIgnoreCase(cookie.getName())) {

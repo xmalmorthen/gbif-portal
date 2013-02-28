@@ -19,7 +19,7 @@ import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.util.HumanFilterBuilder;
 
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 
 import com.google.common.base.Strings;
@@ -55,16 +55,28 @@ public class DownloadsAction extends BaseAction {
     return SUCCESS;
   }
 
-  public Map<OccurrenceSearchParameter, List<String>> getHumanFilter(Predicate p) {
+  public Map<OccurrenceSearchParameter, LinkedList<String>> getHumanFilter(Predicate p) {
     // not thread safe!
-    HumanFilterBuilder builder = new  HumanFilterBuilder(datasetService, usageService);
-    return builder.humanFilter(p);
+    try {
+      HumanFilterBuilder builder = new  HumanFilterBuilder(datasetService, usageService);
+      return builder.humanFilter(p);
+
+    } catch (IllegalArgumentException e) {
+      LOG.warn("Cannot create human representation for predicate " + p);
+      return null;
+    }
   }
 
   public String getQueryParams(Predicate p) {
     // not thread safe!
-    HumanFilterBuilder builder = new  HumanFilterBuilder(datasetService, usageService);
-    return builder.queryFilter(p);
+    try {
+      HumanFilterBuilder builder = new  HumanFilterBuilder(datasetService, usageService);
+      return builder.queryFilter(p);
+
+    } catch (IllegalArgumentException e) {
+      LOG.warn("Cannot create human representation for predicate " + p);
+      return null;
+    }
   }
 
 
