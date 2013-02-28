@@ -5,10 +5,12 @@ import org.gbif.api.service.common.UserService;
 import org.gbif.api.vocabulary.UserRole;
 import org.gbif.mybatis.guice.MyBatisModule;
 import org.gbif.mybatis.type.UuidTypeHandler;
+import org.gbif.user.mybatis.DrupalTimestampTypeHandler;
 import org.gbif.user.mybatis.UserMapper;
 import org.gbif.user.mybatis.UserRoleTypeHandler;
 import org.gbif.user.mybatis.UserServiceImpl;
 
+import java.util.Date;
 import java.util.UUID;
 
 import com.google.inject.Scopes;
@@ -43,5 +45,6 @@ public class InternalDrupalMyBatisModule extends MyBatisModule {
     // type handler
     handleType(UserRole.class).with(UserRoleTypeHandler.class);
     handleType(UUID.class).with(UuidTypeHandler.class);
+    handleType(Date.class).with(DrupalTimestampTypeHandler.class);
   }
 }
