@@ -29,7 +29,7 @@ public class OccurrenceTable {
   }
 
   private static final OccurrenceSearchParameter[] OCC_LOCATION_PARAMS = new OccurrenceSearchParameter[] {
-    OccurrenceSearchParameter.COORDINATE, OccurrenceSearchParameter.ALTITUDE, OccurrenceSearchParameter.DEPTH,
+    OccurrenceSearchParameter.ALTITUDE, OccurrenceSearchParameter.DEPTH,
     OccurrenceSearchParameter.LATITUDE, OccurrenceSearchParameter.LONGITUDE, OccurrenceSearchParameter.GEOMETRY,
     OccurrenceSearchParameter.GEOREFERENCED, OccurrenceSearchParameter.COUNTRY};
 
