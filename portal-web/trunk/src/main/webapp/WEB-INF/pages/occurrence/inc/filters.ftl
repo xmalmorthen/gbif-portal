@@ -259,14 +259,14 @@
       <div class="suggestionBox" data-suggestion="${title}">         
        <#assign suggestions = datasetsSuggestions.suggestions[title]>
          <#if suggestions?has_content>
-          <div class="warningBox"> <span class="warningCounter">!</span> We found more than one scientific name that matched <strong>"${title}"</strong>.Please select a dataset from the list below.</div>                               
+          <div class="warningBox"> <span class="warningCounter">!</span> We found more than one dataset that matched <strong>"${title}"</strong>.Please select a dataset from the list below.</div>                               
           <#list suggestions as datasetSearchResult>
               <input id="searchResult${datasetSearchResult.key}" type="radio" value="${datasetSearchResult.key}" name="DATASET_KEY" class="suggestion" data-suggestion="${title}"/>
               <label for="searchResult${datasetSearchResult.key}">${datasetSearchResult.title}
               <#if datasetSearchResult.owningOrganizationTitle?has_content>                 
                 (Published by  <em>${datasetSearchResult.owningOrganizationTitle} </em>)
               <#elseif datasetSearchResult.networkOfOriginKey?has_content>
-                (Originates from <em>${action.getNetWorkTitle(datasetSearchResult.networkOfOriginKey)!"Unknown"}</em>)
+                (Originates from <em>${action.getNetworkTitle(datasetSearchResult.networkOfOriginKey)!"Unknown"}</em>)
               </#if>                
               </label>                
               </br>                                                    

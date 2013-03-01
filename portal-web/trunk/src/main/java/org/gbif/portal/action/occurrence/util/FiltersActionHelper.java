@@ -11,6 +11,7 @@ import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Network;
+import org.gbif.api.model.registry.search.DatasetSearchParameter;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
 import org.gbif.api.model.registry.search.DatasetSuggestRequest;
 import org.gbif.api.service.checklistbank.NameUsageMatchingService;
@@ -24,6 +25,7 @@ import org.gbif.api.util.SearchTypeValidator;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.model.SearchSuggestions;
 
@@ -335,6 +337,8 @@ public class FiltersActionHelper {
         if (tryParseUUID(uuidPart[0]) == null) { // Is not a integer
           List<DatasetSearchResult> suggestions = Lists.newArrayList();
           suggestRequest.setQ(value);
+          // By default only occurrence datasets are suggested
+          suggestRequest.addParameter(DatasetSearchParameter.TYPE, DatasetType.OCCURRENCE);
           suggestions = datasetSearchService.suggest(suggestRequest);
           // suggestions are stored in map: "parameter value" -> list of suggestions
           searchSuggestions.getSuggestions().put(value, suggestions);

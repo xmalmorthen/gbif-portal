@@ -1365,7 +1365,7 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindDatasetAutosuggest: function(){        
         $(':input.dataset_autosuggest').each( function(idx,el){
-          $(el).datasetAutosuggest(cfg.wsRegSuggest, 6,"#content", buildOnSelectHandler('DATASET_KEY',el));
+          $(el).datasetAutosuggest(cfg.wsRegSuggest, 6,"#content", buildOnSelectHandler('DATASET_KEY',el),'OCCURRENCE');
         });   
       },
 

@@ -17,18 +17,22 @@
 	   * @param appendToElement parent element of generated widget
 	   * @param onSelectEventHandler function that handles the event when an element is selected
 	   */
-	  $.fn.datasetAutosuggest = function(wsSuggestUrl, limit, appendToElement, onSelectEventHandler) {
+	  $.fn.datasetAutosuggest = function(wsSuggestUrl, limit, appendToElement, onSelectEventHandler, datasetType) {
 		   //reference to the widget
 		   var self = $(this);
 		   //jquery ui autocomplete widget creation
+		   var defaultParams =  new Object();
+		   if( undefined != datasetType){
+		     defaultParams.type = datasetType;
+		   }
 		   self.autocomplete({source: function( request, response ) {
 				$.ajax({
 						url: wsSuggestUrl,
 						dataType: 'jsonp', //jsonp is the default
-						data: {
+						data: $.extend(defaultParams, {
 							q: self.val(),
 							limit: limit							
-						},
+						}),
 						success: function(data){//response the data sent by the web service						 
 						    response( $.map(data, function( item ) {
 		              return {		                
