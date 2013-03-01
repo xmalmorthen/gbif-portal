@@ -191,11 +191,16 @@
                     <select name="predicate" class="date-dropdown">
                       <option value="eq">Is</option>
                       <option value="gte">Is greater than</option>
-                      <option value="lte">Is less than</option>                                            
+                      <option value="lte">Is less than</option>
+                      <option value="bt">Between</option>                                            
                     </select>
-                    <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />                    
-                    <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">
-                    <span style="display:none" class="erroMsg">Please enter a value</span>
+                    <input type="text" size="17" maxlength="15" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" style="width:130px;"/>
+                    <span style="display:none" class="erroMsg">Please enter a value</span>                 
+                    <span id="maxValue" style="display:none">
+                      <span>and</span> 
+                      <input type="text" size="17"  maxlength="15" name="<%=paramName%>Max" class="<%= inputClasses %>" placeholder="<%= placeholder %>" style="width:130px;"/>
+                    </span>   
+                    <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">                    
                   </td>
                   <td>
                     <h4 class="filtersTitle" style="display:none;">Filters</h4>

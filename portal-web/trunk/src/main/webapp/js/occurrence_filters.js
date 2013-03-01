@@ -586,7 +586,15 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
        */
       bindAddFilterControl : function() {
         var self = this;
-        var input = this.filterElement.find(":input[name=" + this.id + "]:first");
+        var input = this.filterElement.find(":input[name=" + this.getId() + "]");
+        this.bindAutoAddControl(input);
+        this.filterElement.find(".addFilter").click( function(e){          
+          self.addFilterControlEvent(self, input);
+        });  
+      },
+      
+      bindAutoAddControl: function(input){
+        var self = this;        
         if ($(input).hasClass('auto_add')) {
           input.keyup(function(event){
             if(event.keyCode == 13){
@@ -594,9 +602,6 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
             }
           });
         }
-        this.filterElement.find(".addFilter").click( function(e){          
-          self.addFilterControlEvent(self, input);
-        });  
       },
 
       /**
@@ -1003,8 +1008,7 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
   /**
    * Executes binding function bound during the object construction.
    */
-  InnerOccurrenceLocationWidget.prototype.executeAdditionalBindings = function() {
-    var self = this;
+  InnerOccurrenceLocationWidget.prototype.executeAdditionalBindings = function() {    
     this.bindingsExecutor.call();
     this.bindAddPolygonEvent();
     this.bindAddBBoxEvent();
@@ -1021,47 +1025,82 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
  * Comparator widget. Displays an selection list of available comparators (=,>,<) and an input box for the value.
  */
 var OccurrenceComparatorWidget = (function ($,_,OccurrenceWidget) {
-  var predicatePatternMap = { 'lte':'[* TO %v]','gte':'[%v TO *]','eq':'%v' };
+  var predicatePatternMap = { 'lte':'[* TO %v]','gte':'[%v TO *]','eq':'%v','bt':'[%v1 TO %v2]' };
 
   var InnerOccurrenceComparatorWidget = function () {        
   }; 
+  
   //Inherits everything from the OccurrenceWidget module.
   InnerOccurrenceComparatorWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
-
+  
   /**
    * Validates if the filter value exists for the input predicate.
    */
-  InnerOccurrenceComparatorWidget.prototype.existsFilterWithPredicate = function(valueP,predicateP){
-    if(predicateP == EQ) {
-      return this.existsFilter({value: valueP});
-    } else {
-      return this.existsFilter({value: predicateP + ',' + valueP});
-    }
-  },
+  InnerOccurrenceComparatorWidget.prototype.bindOnPredicateChange = function() {
+    var self = this;
+    this.filterElement.find(":input[name=predicate]").change( function(e){
+      if($(this).val() == 'bt'){
+        self.filterElement.find("#maxValue").show();
+      } else {
+        self.filterElement.find("#maxValue").hide();
+      }      
+    });          
+  };
+
+  /**
+   * Executes binding function bound during the object construction.
+   */
+  InnerOccurrenceComparatorWidget.prototype.executeAdditionalBindings = function() {      
+    this.bindingsExecutor.call();
+    this.bindOnPredicateChange();    
+    this.bindAutoAddControl(this.filterElement.find(":input[name=" + this.getId() + "Max]"));
+  };
 
   /**
    * The bindAddFilterControl function is re-defined to validate and process the coordinates. 
    */
   InnerOccurrenceComparatorWidget.prototype.addFilterControlEvent = function (self,input) {        
-    //gets the value of the input field            
-    var value = input.val();     
-    input.removeClass(ERROR_CLASS)
+    //gets the value of the input field        
+    var inputMinValue = this.filterElement.find("input[name=" + this.getId() + "]");
+    var value = inputMinValue.val();     
+    var valueMax = null;
+    var inputMaxValue = this.filterElement.find("input[name=" + this.getId() + "Max]");
+    inputMinValue.removeClass(ERROR_CLASS);
+    inputMaxValue.removeClass(ERROR_CLASS);
     var predicate = self.filterElement.find(':input[name=predicate] option:selected').val();
     var predicateText = self.filterElement.find(':input[name=predicate] option:selected').text();
-    if(!self.isBlank(value) && !this.existsFilterWithPredicate(value, predicate)){            
+    var label = value;
+    var isRangeQuery = this.filterElement.find("#maxValue").is(":visible");
+    if(isRangeQuery){
+      valueMax = inputMaxValue.val();
+      label = value + " and " +  valueMax;
+    }
+    var rangeValue = null;
+    if(predicate == 'bt') { // is between predicate
+      rangeValue = predicatePatternMap[predicate].replace('%v1',value).replace('%v2',valueMax);
+    } else {
+      rangeValue = predicatePatternMap[predicate].replace('%v',value);
+    }
+    if(!self.isBlank(value) && !this.existsFilter({value: rangeValue})){            
       var key = null;
       //Auto-complete stores the selected key in "key" attribute
-      if (input.attr("key") !== undefined) {
-        key = input.attr("key"); 
+      if (inputMinValue.attr("key") !== undefined) {
+        key = inputMinValue.attr("key"); 
       }
       if(self.isBlank(value) || (!self.isBlank(value) && !self.isValidNumber(value,false,null,null))){
-        input.addClass(ERROR_CLASS);
+        inputMinValue.addClass(ERROR_CLASS);
         return;
       } 
-      var rangeValue = predicatePatternMap[predicate].replace('%v',value);
-      self.addFilter({label:predicateText + ' ' + value,value: rangeValue, key:key,paramName:self.getId(),submitted: false});
+      
+      if(isRangeQuery && (self.isBlank(valueMax) || (!self.isBlank(valueMax) && !self.isValidNumber(valueMax,false,null,null)))){
+        inputMaxValue.addClass(ERROR_CLASS);
+        return;
+      } 
+      var rangePattern = predicatePatternMap[predicate];      
+      self.addFilter({label:predicateText + ' ' + label,value: rangeValue, key:key,paramName:self.getId(),submitted: false});
       self.showFilters();
-      input.val('');
+      inputMinValue.val('');
+      inputMaxValue.val('');
     }
   };      
   return InnerOccurrenceComparatorWidget;
