@@ -233,10 +233,10 @@
     <div style="display:inline-block"><h4>Location</h4></div>
     <% _.each(filters, function(filter) { %>
         <div class="filter"><div class="filter_content">
-           <%if (typeof(filter.targetParam) != "undefined" && filter.targetParam == 'POLYGON' ) {%><img src="/js/vendor/leaflet/draw/images/draw-polygon.png"/>
+           <%if (typeof(filter.targetParam) != "undefined" && filter.targetParam == 'POLYGON' ) {%><img src="../js/vendor/leaflet/draw/images/draw-polygon.png"/>
             <%= filter.label.replace("POLYGON((","").replace("))","") %>            
            <%} else {%>
-            <img src="/js/vendor/leaflet/draw/images/draw-rectangle.png"/>
+            <img src="../js/vendor/leaflet/draw/images/draw-rectangle.png"/>
             <%= filter.label %>            
            <%}%>           
         <input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a class="closeFilter"></a></div></div>        
@@ -403,9 +403,9 @@
   <script type="text/template" id="template-location-filter">
     <li>    
       <div><div title="<%=title%>"><div class="filter_content">
-      <%if (typeof(targetParam) != "undefined" && targetParam == 'POLYGON' ) {%><img src="/js/vendor/leaflet/draw/images/draw-polygon.png" class="geo_type"/> <%}
+      <%if (typeof(targetParam) != "undefined" && targetParam == 'POLYGON' ) {%><img src="../js/vendor/leaflet/draw/images/draw-polygon.png" class="geo_type"/> <%}
        else {%>
-        <img src="/js/vendor/leaflet/draw/images/draw-rectangle.png" class="geo_type"/>
+        <img src="../js/vendor/leaflet/draw/images/draw-rectangle.png" class="geo_type"/>
        <%}%>
       <%= label %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>" data-marker="<%= marker%>"/><a class="closeFilter removeGeo"></a></div></div></div>       
     </li>
