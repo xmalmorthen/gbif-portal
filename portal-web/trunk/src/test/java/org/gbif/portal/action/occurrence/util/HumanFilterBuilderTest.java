@@ -3,8 +3,11 @@ package org.gbif.portal.action.occurrence.util;
 import org.gbif.api.model.occurrence.predicate.ConjunctionPredicate;
 import org.gbif.api.model.occurrence.predicate.DisjunctionPredicate;
 import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
+import org.gbif.api.model.occurrence.predicate.GreaterThanOrEqualsPredicate;
+import org.gbif.api.model.occurrence.predicate.LessThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.NotPredicate;
 import org.gbif.api.model.occurrence.predicate.Predicate;
+import org.gbif.api.model.occurrence.predicate.WithinPredicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.Country;
 
@@ -22,6 +25,7 @@ public class HumanFilterBuilderTest {
   @Test
   public void testHumanFilter() throws Exception {
     HumanFilterBuilder builder = new HumanFilterBuilder(null, null);
+
     Predicate p = new EqualsPredicate(OccurrenceSearchParameter.COUNTRY, Country.AFGHANISTAN.getIso2LetterCode());
 
     Map<OccurrenceSearchParameter, LinkedList<String>> x = builder.humanFilter(p);
@@ -50,4 +54,36 @@ public class HumanFilterBuilderTest {
     assertEquals(1, x.get(OccurrenceSearchParameter.TAXON_KEY).size());
     assertEquals("NOT (212)", x.get(OccurrenceSearchParameter.TAXON_KEY).getLast());
   }
+
+  @Test
+  public void testPolygon() throws Exception {
+    HumanFilterBuilder builder = new HumanFilterBuilder(null, null);
+    final String wkt = "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))";
+    Map<OccurrenceSearchParameter, LinkedList<String>> x = builder.humanFilter(new ConjunctionPredicate(Lists.<Predicate>newArrayList(new WithinPredicate(wkt))));
+    assertEquals(1, x.size());
+    assertEquals(1, x.get(OccurrenceSearchParameter.GEOMETRY).size());
+    assertEquals(" WITHIN " + wkt, x.get(OccurrenceSearchParameter.GEOMETRY).getLast());
+  }
+
+  @Test
+  public void testRange() throws Exception {
+    HumanFilterBuilder builder = new HumanFilterBuilder(null, null);
+
+    List<Predicate> rangeAnd = Lists.newArrayList();
+    rangeAnd.add(new GreaterThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, "2000"));
+    rangeAnd.add(new LessThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, "2011"));
+    Predicate range = new ConjunctionPredicate(rangeAnd);
+
+    Map<OccurrenceSearchParameter, LinkedList<String>> x = builder.humanFilter(range);
+    assertEquals(1, x.size());
+    assertEquals(1, x.get(OccurrenceSearchParameter.YEAR).size());
+
+    // now test with other filters combined
+    Predicate eq = new EqualsPredicate(OccurrenceSearchParameter.TAXON_KEY, "212");
+    x = builder.humanFilter(new ConjunctionPredicate(Lists.newArrayList(eq, range)));
+    assertEquals(2, x.size());
+    assertEquals(1, x.get(OccurrenceSearchParameter.TAXON_KEY).size());
+    assertEquals(1, x.get(OccurrenceSearchParameter.YEAR).size());
+  }
+
 }

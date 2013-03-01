@@ -27,6 +27,7 @@ import org.gbif.api.model.occurrence.predicate.LikePredicate;
 import org.gbif.api.model.occurrence.predicate.NotPredicate;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.predicate.SimplePredicate;
+import org.gbif.api.model.occurrence.predicate.WithinPredicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
@@ -65,6 +66,8 @@ public class HumanFilterBuilder {
   private static final String LESS_THAN_EQUALS_OPERATOR = " <= ";
   private static final String LIKE_OPERATOR = " LIKE ";
   private static final String IN_OPERATOR = " IN ";
+  private static final String WITHIN_OPERATOR = " WITHIN ";
+  private static final String BETWEEN_OPERATOR = " BETWEEN ";
 
   private Map<OccurrenceSearchParameter, LinkedList<String>> filter;
   private enum State { ROOT, AND, OR };
@@ -113,8 +116,16 @@ public class HumanFilterBuilder {
   }
 
   private void visit(ConjunctionPredicate and) throws IllegalStateException {
+    // ranges are allowed underneath root - try first
+    try {
+      visitRange(and);
+      return;
+    } catch (IllegalArgumentException e) {
+      // must be a root AND
+    }
+
     if (state != State.ROOT) {
-      throw new IllegalStateException("AND must be a root predicate");
+      throw new IllegalStateException("AND must be a root predicate or a valid range");
     }
     state = State.AND;
 
@@ -123,6 +134,25 @@ public class HumanFilterBuilder {
       visit(p);
     }
     state = State.ROOT;
+  }
+
+  private void visitRange(ConjunctionPredicate and){
+    if (and.getPredicates().size() != 2){
+      throw new IllegalArgumentException("no valid range");
+    }
+    GreaterThanOrEqualsPredicate lower = null;
+    LessThanOrEqualsPredicate upper = null;
+    for (Predicate p : and.getPredicates()) {
+      if (p instanceof GreaterThanOrEqualsPredicate) {
+        lower = (GreaterThanOrEqualsPredicate) p;
+      } else if (p instanceof LessThanOrEqualsPredicate) {
+        upper = (LessThanOrEqualsPredicate) p;
+      }
+    }
+    if (lower == null || upper == null || lower.getKey() != upper.getKey()) {
+      throw new IllegalArgumentException("no valid range");
+    }
+    addParamValues(lower.getKey(), BETWEEN_OPERATOR, Lists.newArrayList(lower.getValue(), upper.getValue()));
   }
 
   private void visit(DisjunctionPredicate or) throws IllegalStateException {
@@ -160,6 +190,10 @@ public class HumanFilterBuilder {
 
   private void visit(LessThanOrEqualsPredicate predicate) {
     visitSimplePredicate(predicate, LESS_THAN_EQUALS_OPERATOR);
+  }
+
+  private void visit(WithinPredicate within) {
+    addParamValues(OccurrenceSearchParameter.GEOMETRY, WITHIN_OPERATOR, Lists.newArrayList(within.getGeometry()));
   }
 
   private void visit(InPredicate in) {

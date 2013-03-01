@@ -4,19 +4,20 @@ import org.gbif.api.model.occurrence.predicate.ConjunctionPredicate;
 import org.gbif.api.model.occurrence.predicate.DisjunctionPredicate;
 import org.gbif.api.model.occurrence.predicate.EqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.GreaterThanOrEqualsPredicate;
-import org.gbif.api.model.occurrence.predicate.GreaterThanPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanOrEqualsPredicate;
-import org.gbif.api.model.occurrence.predicate.LessThanPredicate;
-import org.gbif.api.model.occurrence.predicate.LikePredicate;
 import org.gbif.api.model.occurrence.predicate.NotPredicate;
 import org.gbif.api.model.occurrence.predicate.Predicate;
+import org.gbif.api.model.occurrence.predicate.WithinPredicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
+import org.gbif.api.util.SearchTypeValidator;
 import org.gbif.api.util.VocabularyUtils;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
 /**
@@ -24,10 +25,13 @@ import com.google.common.collect.Lists;
  * query object to pass into the service.
  * This parses the URL params which should be from something like the following
  * into a predicate suitable for launching a download service.
+ *
+ * It understands multi valued parameters and interprets the range format [* TO 100]
  * TAXON_KEY=12&ALTITUDE=gt,10 (ALTITUDE > 10)
  */
 public class PredicateFactory {
 
+  private final static Splitter RANGE_SPLITTER = Splitter.on(",").trimResults().limit(2);
 
   /**
    * Enum that contains the supported predicates and their value used to prefix query parameters.
@@ -91,7 +95,6 @@ public class PredicateFactory {
     }
 
     if (predicates.isEmpty()) {
-      // use a stupid match all predicate for now as download requires an instance right now
       return null;
 
     } else if (predicates.size() == 1) {
@@ -115,9 +118,12 @@ public class PredicateFactory {
       String opPrefix = op.getPrefix() + ',';
       if (value.startsWith(opPrefix)) {
         final String cleanValue = value.replaceFirst(opPrefix, "");
-        switch (op) {
-          case EQUALS:
-            return new EqualsPredicate(param, cleanValue);
+    // test for ranges
+    if (SearchTypeValidator.isRange(value)) {
+      Iterator<String> iter = RANGE_SPLITTER.split(value).iterator();
+      Predicate from = new GreaterThanOrEqualsPredicate(param, iter.next());
+      Predicate until = new LessThanOrEqualsPredicate(param, iter.next());
+      return new ConjunctionPredicate(Lists.newArrayList(from, until));
 
           case LIKE:
             return new LikePredicate(param, cleanValue);
@@ -139,9 +145,6 @@ public class PredicateFactory {
         }
       }
     }
-
-    // default to an equals predicate with the original value
-    return new EqualsPredicate(param, value);
   }
 
   /**
