@@ -19,7 +19,7 @@ public class DownloadAction extends BaseAction {
 
   private static final long serialVersionUID = 3653614424275432914L;
   private static final Logger LOG = LoggerFactory.getLogger(DownloadAction.class);
-  private final static Splitter EMAIL_SPLITTER = Splitter.on(";").trimResults().omitEmptyStrings();
+  private static final Splitter EMAIL_SPLITTER = Splitter.on(';').trimResults().omitEmptyStrings();
   private final PredicateFactory predicateFactory = new PredicateFactory();
 
   @Inject

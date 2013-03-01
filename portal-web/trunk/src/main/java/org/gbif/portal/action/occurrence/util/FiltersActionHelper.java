@@ -35,8 +35,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
@@ -65,19 +68,25 @@ public class FiltersActionHelper {
   private static final int SUGGESTIONS_LIMIT = 10;
 
   // Coordinate format
-  private static final String COORD_FMT = "FROM %s,%s TO %s,%s";
+  private static final String BBOX_FMT = "FROM %s,%s TO %s,%s";
 
   // Date format
   private static final String DATE_FMT = "FROM %s TO %s";
 
   private static final Logger LOG = LoggerFactory.getLogger(FiltersActionHelper.class);
 
+
+  public static final Pattern RANGE_PATTERN_LTE = Pattern.compile("(\\[|\\{)(\\*)(\\s+(?i)TO\\s+)(.+)(\\])");
+  public static final Pattern RANGE_PATTERN_GTE = Pattern.compile("(\\[)(.+)(\\s+(?i)TO\\s+)(\\*)(\\]|\\})");
+  public static final Pattern RANGE_PATTERN_BT = Pattern.compile("(\\[|\\{)(.+)(\\s+(?i)TO\\s+)(.+)(\\]|\\})");
+  public static final String POLYGON_PATTERN = "POLYGON((%S))";
+
   // Utility function to get key value of a NameUsage
   private static final Function<NameUsageSearchResult, String> NU_RESULT_KEY_GETTER =
     new Function<NameUsageSearchResult, String>() {
 
       @Override
-      public String apply(NameUsageSearchResult input) {
+      public String apply(@NotNull NameUsageSearchResult input) {
         return input.getKey().toString();
       }
     };
@@ -87,7 +96,7 @@ public class FiltersActionHelper {
     new Function<DatasetSearchResult, String>() {
 
       @Override
-      public String apply(DatasetSearchResult input) {
+      public String apply(@NotNull DatasetSearchResult input) {
         return input.getKey();
       }
     };
@@ -97,6 +106,22 @@ public class FiltersActionHelper {
     @Override
     public List<String> apply(String input) {
       return occurrenceSearchService.suggestCollectorNames(input, SUGGESTIONS_LIMIT);
+    }
+  };
+
+  private final Function<String, List<String>> suggestCollectionCodes = new Function<String, List<String>>() {
+
+    @Override
+    public List<String> apply(String input) {
+      return occurrenceSearchService.suggestCollectionCodes(input, SUGGESTIONS_LIMIT);
+    }
+  };
+
+  private final Function<String, List<String>> suggestInstitutionCodes = new Function<String, List<String>>() {
+
+    @Override
+    public List<String> apply(String input) {
+      return occurrenceSearchService.suggestInstitutionCodes(input, SUGGESTIONS_LIMIT);
     }
   };
 
@@ -112,12 +137,12 @@ public class FiltersActionHelper {
   private static final String GEOREFERENCING_LEGEND = "Georeferenced records only";
 
   // List of official countries
-  private static final Set<Country> countries = Sets.immutableEnumSet(Sets.filter(
+  private static final Set<Country> COUNTRIES = Sets.immutableEnumSet(Sets.filter(
     Sets.newHashSet(Country.values()),
     new Predicate<Country>() {
 
       @Override
-      public boolean apply(Country country) {
+      public boolean apply(@NotNull Country country) {
         return country.isOfficial();
       }
     }));
@@ -153,7 +178,7 @@ public class FiltersActionHelper {
    * Returns the list of {@link Country} literals.
    */
   public Set<Country> getCountries() {
-    return countries;
+    return COUNTRIES;
   }
 
   /**
@@ -206,12 +231,14 @@ public class FiltersActionHelper {
         return getDatasetTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.DATE) {
         return getDateTitle(filterValue);
-      } else if (parameter == OccurrenceSearchParameter.BOUNDING_BOX) {
-        return getBoundingBoxTitle(filterValue);
+      } else if (parameter == OccurrenceSearchParameter.GEOMETRY) {
+        return getGeometryTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.GEOREFERENCED) {
         return getGeoreferencedTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.COUNTRY) {
         return getCountryTitle(filterValue);
+      } else if (parameter == OccurrenceSearchParameter.DEPTH || parameter == OccurrenceSearchParameter.ALTITUDE) {
+        return getRangeTitle(filterValue);
       }
     }
     return filterValue;
@@ -264,6 +291,15 @@ public class FiltersActionHelper {
   }
 
   /**
+   * Searches for suggestion to all the COLLECTION_CODE parameter values, if the input value has an exact match against
+   * any
+   * suggestion, no suggestions are returned for that parameter.
+   */
+  public SearchSuggestions<String> processCollectionCodeSuggestions(HttpServletRequest request) {
+    return processStringSuggestions(request, OccurrenceSearchParameter.COLLECTION_CODE, suggestCollectionCodes);
+  }
+
+  /**
    * Searches for suggestion to all the COLLECTOR_NAME parameter values, if the input value has an exact match against
    * any
    * suggestion, no suggestions are returned for that parameter.
@@ -271,6 +307,7 @@ public class FiltersActionHelper {
   public SearchSuggestions<String> processCollectorSuggestions(HttpServletRequest request) {
     return processStringSuggestions(request, OccurrenceSearchParameter.COLLECTOR_NAME, suggestCollectorNames);
   }
+
 
   /**
    * Replace the DATASET_KEY parameters that have a scientific name that could be interpreted directly.
@@ -280,7 +317,6 @@ public class FiltersActionHelper {
     processReplacements(searchRequest, suggestions, OccurrenceSearchParameter.DATASET_KEY, DS_RESULT_KEY_GETTER);
 
   }
-
 
   /**
    * Validates if a string (not an UUID) value was sent for the DATASET_KEY parameter.
@@ -306,6 +342,16 @@ public class FiltersActionHelper {
       }
     }
     return searchSuggestions;
+  }
+
+
+  /**
+   * Searches for suggestion to all the INSTITUTION_CODE parameter values, if the input value has an exact match against
+   * any
+   * suggestion, no suggestions are returned for that parameter.
+   */
+  public SearchSuggestions<String> processInstitutionCodeSuggestions(HttpServletRequest request) {
+    return processStringSuggestions(request, OccurrenceSearchParameter.INSTITUTION_CODE, suggestInstitutionCodes);
   }
 
   /**
@@ -366,8 +412,13 @@ public class FiltersActionHelper {
           for (String value : request.getParameterValues(param)) {
             try {
               if (!discardedParams.contains(occParam)) {
-                // discarded parameters are not validated since those could be an integer or a string
-                SearchTypeValidator.validate((OccurrenceSearchParameter) occParam, value);
+                // discarded parameters are not validated those could be an integer or a string
+                if (occParam == OccurrenceSearchParameter.GEOMETRY) {
+                  final String polygonValue = String.format(POLYGON_PATTERN, value);
+                  SearchTypeValidator.validate((OccurrenceSearchParameter) occParam, polygonValue);
+                } else {
+                  SearchTypeValidator.validate((OccurrenceSearchParameter) occParam, value);
+                }
               }
             } catch (IllegalArgumentException ex) {
               action.addFieldError(param, "Wrong parameter value " + value);
@@ -384,12 +435,18 @@ public class FiltersActionHelper {
   }
 
   /**
-   * Returns the displayable label/value of bounding box filter.
+   * Returns a matcher of the first pattern that matches against the parameter 'value'.
    */
-  private String getBoundingBoxTitle(String bboxValue) {
-    String[] coordinates = bboxValue.split(",");
-    return String.format(COORD_FMT, coordinates[0], coordinates[1], coordinates[2], coordinates[3]);
+  private Matcher firstThatMatch(String value, Pattern... patterns) {
+    for (Pattern pattern : patterns) {
+      Matcher matcher = pattern.matcher(value);
+      if (matcher.find()) {
+        return matcher;
+      }
+    }
+    return null;
   }
+
 
   /**
    * Returns the displayable label/value of date filter.
@@ -401,6 +458,21 @@ public class FiltersActionHelper {
       label = String.format(DATE_FMT, dates[0], dates[1]);
     }
     return label;
+  }
+
+
+  /**
+   * Returns the displayable label/value of geometry filter.
+   */
+  private String getGeometryTitle(String value) {
+    String[] coordinates = value.split(",");
+    if (isRectangle(value)) {
+      final String[] southMost = coordinates[1].split(" ");
+      final String[] northMost = coordinates[3].split(" ");
+      return String.format(BBOX_FMT, southMost[1], southMost[0], northMost[1], northMost[0]);
+    } else {
+      return coordinates[0] + "..." + coordinates[coordinates.length - 2];
+    }
   }
 
   /**
@@ -416,6 +488,50 @@ public class FiltersActionHelper {
       }
       return null;
     }
+  }
+
+
+  /**
+   * Returns the displayable label/value of a range filter.
+   */
+  private String getRangeTitle(String value) {
+    Matcher matcher =
+      firstThatMatch(value, RANGE_PATTERN_GTE, RANGE_PATTERN_LTE, RANGE_PATTERN_BT);
+    if (matcher == null) {
+      return String.format("Is %s", value);
+    } else {
+      if (matcher.pattern().equals(RANGE_PATTERN_LTE)) {
+        return String.format("Less than %s ", matcher.group(4));
+      } else if (matcher.pattern().equals(RANGE_PATTERN_GTE)) {
+        return String.format("Greather than %s ", matcher.group(2));
+      } else if (matcher.pattern().equals(RANGE_PATTERN_BT)) {
+        return String.format("Between %s and %s ", matcher.group(2), matcher.group(4));
+      }
+
+    }
+    return value;
+  }
+
+
+  /**
+   * Validates if the list of coordinates forms a rectangle.
+   */
+  private boolean isRectangle(String value) {
+    final String[] values = value.replace("POLYGON((", "").replace("))", "").split(",");
+    if (values.length == 5) {
+      String[] point1 = values[0].split(" ");
+      String[] point2 = values[1].split(" ");
+      String[] point3 = values[2].split(" ");
+      String[] point4 = values[3].split(" ");
+      float valX1 = Float.parseFloat(point1[0]) + Float.parseFloat(point3[0]);
+      float valX2 = Float.parseFloat(point2[0]) + Float.parseFloat(point4[0]);
+
+      float valY1 = Float.parseFloat(point1[1]) + Float.parseFloat(point3[1]);
+      float valY2 = Float.parseFloat(point2[1]) + Float.parseFloat(point4[1]);
+
+      return (valX1 == valX2 && valY1 == valY2);
+    }
+    return false;
   }
 
   /**

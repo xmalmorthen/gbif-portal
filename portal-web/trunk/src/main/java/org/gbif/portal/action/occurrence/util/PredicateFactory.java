@@ -15,10 +15,9 @@ import org.gbif.api.util.VocabularyUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility for dealing with the decoding of the request parameters to the
@@ -29,20 +28,18 @@ import org.slf4j.LoggerFactory;
  */
 public class PredicateFactory {
 
-  private static final Logger LOG = LoggerFactory.getLogger(PredicateFactory.class);
-  private final static Predicate MATCH_ALL = new NotPredicate(new EqualsPredicate(OccurrenceSearchParameter.ALTITUDE, "100000"));
 
   /**
    * Enum that contains the supported predicates and their value used to prefix query parameters.
-   * TODO: do we really need the simple greater/less than or can we just use the greaterthanorequals variant?
    */
   private enum Operator {
-    EQUALS("eq"), LIKE("lk"), GREATER_THAN("gt"), LESS_THAN("lt"), GREATER_THAN_OR_EQUAL("gte"), LESS_THAN_OR_EQUAL("lte");
+    EQUALS("eq"), LIKE("lk"), GREATER_THAN("gt"), LESS_THAN("lt"), GREATER_THAN_OR_EQUAL("gte"),
+    LESS_THAN_OR_EQUAL("lte");
 
     private final String prefix;
 
     Operator(String prefix) {
-      this.prefix = prefix + ",";
+      this.prefix = prefix;
     }
 
     public String getPrefix() {
@@ -50,20 +47,24 @@ public class PredicateFactory {
     }
   }
 
+  private final static Predicate MATCH_ALL = new NotPredicate(new EqualsPredicate(OccurrenceSearchParameter.ALTITUDE,
+    "100000"));
+
   /**
    * Builds a full predicate filter from the parameters.
    * In case no filters exist still return a predicate that matches anything.
+   * 
    * @return always some predicate
    */
   public Predicate build(Map<String, String[]> params) {
     // predicates for different parameters. If multiple values for the same parameter exist these are in here already
     List<Predicate> groupedByParam = Lists.newArrayList();
-    for (String p : params.keySet()) {
+    for (Entry<String, String[]> entry : params.entrySet()) {
       // recognize valid params by enum name, ignore others
-      OccurrenceSearchParameter param = toEnumParam(p);
+      OccurrenceSearchParameter param = toEnumParam(entry.getKey());
       if (param != null) {
         // valid parameter
-        Predicate predicate = buildParamPredicate(param, params.get(p));
+        Predicate predicate = buildParamPredicate(param, entry.getValue());
         if (predicate != null) {
           groupedByParam.add(predicate);
         }
@@ -80,18 +81,6 @@ public class PredicateFactory {
     } else {
       // AND the individual params
       return new ConjunctionPredicate(groupedByParam);
-    }
-  }
-
-  /**
-   * @param name
-   * @return the search enum or null if it cant be converted
-   */
-  private OccurrenceSearchParameter toEnumParam(String name) {
-    try {
-      return (OccurrenceSearchParameter) VocabularyUtils.lookupEnum(name, OccurrenceSearchParameter.class);
-    } catch (IllegalArgumentException e) {
-      return null;
     }
   }
 
@@ -120,11 +109,12 @@ public class PredicateFactory {
   private Predicate parsePredicate(OccurrenceSearchParameter param, String value) {
     // iterate over the few possible prefixes and see if the string starts with it
     // this avoids splitting the string on special characters,
-    // for example comma is likely to occurr also in the actual value
-    for (Operator op : Operator.values()) {
-      if (value.startsWith(op.getPrefix())) {
-        final String cleanValue = value.replaceFirst(op.getPrefix(), "");
+    // for example comma is likely to occur also in the actual value
 
+    for (Operator op : Operator.values()) {
+      String opPrefix = op.getPrefix() + ',';
+      if (value.startsWith(opPrefix)) {
+        final String cleanValue = value.replaceFirst(opPrefix, "");
         switch (op) {
           case EQUALS:
             return new EqualsPredicate(param, cleanValue);
@@ -133,22 +123,37 @@ public class PredicateFactory {
             return new LikePredicate(param, cleanValue);
 
           case GREATER_THAN:
-            return  new GreaterThanPredicate(param, cleanValue);
+            return new GreaterThanPredicate(param, cleanValue);
 
           case GREATER_THAN_OR_EQUAL:
-            return  new GreaterThanOrEqualsPredicate(param, cleanValue);
+            return new GreaterThanOrEqualsPredicate(param, cleanValue);
 
           case LESS_THAN:
-            return  new LessThanPredicate(param, cleanValue);
+            return new LessThanPredicate(param, cleanValue);
 
           case LESS_THAN_OR_EQUAL:
-            return  new LessThanOrEqualsPredicate(param, cleanValue);
+            return new LessThanOrEqualsPredicate(param, cleanValue);
+
+          default:
+            return new EqualsPredicate(param, value);
         }
       }
     }
 
     // default to an equals predicate with the original value
     return new EqualsPredicate(param, value);
+  }
+
+  /**
+   * @param name
+   * @return the search enum or null if it cant be converted
+   */
+  private OccurrenceSearchParameter toEnumParam(String name) {
+    try {
+      return (OccurrenceSearchParameter) VocabularyUtils.lookupEnum(name, OccurrenceSearchParameter.class);
+    } catch (IllegalArgumentException e) {
+      return null;
+    }
   }
 
 }

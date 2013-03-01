@@ -184,21 +184,20 @@
         <div class="inner filter_view">
           <h4 class="title"><%= title %></h4>
           <div class="filter">
-            <table width="100%">                
+            <table>                
                 <tr> 
-                  <td style="border: 0px none !important;">                    
-                    <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />
+                  <td>  
+                    <h4>&nbsp;</h4>                                                                
                     <select name="predicate" class="date-dropdown">
                       <option value="eq">Is</option>
-                      <option value="gt">Is greater than</option>
-                      <option value="lt">Is less than</option>
-                      <option value="gte">Is greater than or equals</option>
-                      <option value="lte">Is less than or equals</option>                      
-                    </select>                    
+                      <option value="gte">Is greater than</option>
+                      <option value="lte">Is less than</option>                                            
+                    </select>
+                    <input type="text" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" />                    
                     <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">
                     <span style="display:none" class="erroMsg">Please enter a value</span>
                   </td>
-                  <td style="border: 0px none !important;">
+                  <td>
                     <h4 class="filtersTitle" style="display:none;">Filters</h4>
                     <div class="appliedFilters filterlist" style="display:none;"></div>
                   </td>                  
@@ -210,10 +209,10 @@
           </div>
           <a class="close"></a>
         </div>
-      </td>
-      <div class="summary_view">          
+        <div class="summary_view">          
           
         </div> 
+      </td>      
     </tr>
   </script>
 
@@ -223,6 +222,24 @@
     <div style="display:inline-block"><h4><%= title %></h4></div>
     <% _.each(filters, function(filter) { %>
         <div class="filter"><div class="filter_content"><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a class="closeFilter"></a></div></div>        
+      <% }); %>                  
+    </li>
+    </ul>
+  </script>
+  
+  <script type="text/template" id="template-summary-location">
+    <ul>
+    <li id="filter-<%=paramName%>">
+    <div style="display:inline-block"><h4>Location</h4></div>
+    <% _.each(filters, function(filter) { %>
+        <div class="filter"><div class="filter_content">
+           <%if (typeof(filter.targetParam) != "undefined" && filter.targetParam == 'POLYGON' ) {%><img src="/js/vendor/leaflet/draw/images/draw-polygon.png"/>
+            <%= filter.label.replace("POLYGON((","").replace("))","") %>            
+           <%} else {%>
+            <img src="/js/vendor/leaflet/draw/images/draw-rectangle.png"/>
+            <%= filter.label %>            
+           <%}%>           
+        <input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a class="closeFilter"></a></div></div>        
       <% }); %>                  
     </li>
     </ul>
@@ -307,6 +324,40 @@
      </#list>       
   </script>
   
+  
+  <script type="text/template" id="INSTITUTION_CODE-suggestions-template">  
+    <#list institutionCodeSuggestions.suggestions?keys as name>            
+      <div class="suggestionBox" data-suggestion="${name}">         
+       <#assign suggestions = institutionCodeSuggestions.suggestions[name]>
+         <#if suggestions?has_content>
+          <div class="warningBox"> <span class="warningCounter">!</span>The catalog number  <strong>"${name}"</strong> didn't match any existing record. You can select one from the list below to try improving your search results.</div>                               
+          <#list suggestions as suggestion>
+              <input id="searchResult${suggestion}" type="radio" value="${suggestion}" name="INSTITUTION_CODE" class="suggestion" data-suggestion="${name}"/>
+              <label for="searchResult${suggestion}">${suggestion}</label>                
+              </br>                                                    
+          </#list>           
+         </#if>                  
+      </div>               
+     </#list>       
+  </script>
+  
+  
+  <script type="text/template" id="COLLECTION_CODE-suggestions-template">  
+    <#list collectionCodeSuggestions.suggestions?keys as name>            
+      <div class="suggestionBox" data-suggestion="${name}">         
+       <#assign suggestions = collectionCodeSuggestions.suggestions[name]>
+         <#if suggestions?has_content>
+          <div class="warningBox"> <span class="warningCounter">!</span>The catalog number  <strong>"${name}"</strong> didn't match any existing record. You can select one from the list below to try improving your search results.</div>                               
+          <#list suggestions as suggestion>
+              <input id="searchResult${suggestion}" type="radio" value="${suggestion}" name="COLLECTION_CODE" class="suggestion" data-suggestion="${name}"/>
+              <label for="searchResult${suggestion}">${suggestion}</label>                
+              </br>                                                    
+          </#list>           
+         </#if>                  
+      </div>               
+     </#list>       
+  </script>
+  
   <script type="text/template" id="TAXON_KEY-suggestions-template">    
     <#list nameUsagesSuggestions.replacements?keys as sciname>   
       <#assign suggestion = nameUsagesSuggestions.replacements[sciname]>         
@@ -348,6 +399,17 @@
       <div><div title="<%=title%>"><div class="filter_content"><%= label %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>"/><a class="closeFilter"></a></div></div></div>       
     </li>
   </script>
+  
+  <script type="text/template" id="template-location-filter">
+    <li>    
+      <div><div title="<%=title%>"><div class="filter_content">
+      <%if (typeof(targetParam) != "undefined" && targetParam == 'POLYGON' ) {%><img src="/js/vendor/leaflet/draw/images/draw-polygon.png" class="geo_type"/> <%}
+       else {%>
+        <img src="/js/vendor/leaflet/draw/images/draw-rectangle.png" class="geo_type"/>
+       <%}%>
+      <%= label %><input name="<%= paramName %>" type="hidden" key="<%= key %>" value="<%= value %>" data-marker="<%= marker%>"/><a class="closeFilter removeGeo"></a></div></div></div>       
+    </li>
+  </script>
     
   <script type="text/template" id="map-template-filter">
      <tr class="filter">
@@ -365,27 +427,28 @@
                 </fieldset>
               </div>
               <fieldset class="location_option_geo">  
-              <legend>Bounding box</legend>                                                    
+              <legend>Bounding box/Polygon</legend>                                                    
               <table>                
                 <tr>    
-                  <td>                                 
+                  <td>                                    
                      <div id="zoom_in" class="zoom_in"></div>
                      <div id="zoom_out" class="zoom_out"></div>
-                     <div id="map" class="map_widget"/>
+                     <div id="map" class="map_widget"/> 
+                     <input name="polygon" id="polygon" type="hidden"/>                
                   </td>
                    <td>    
                       <h4>Bounding box from</h4>   
                       <br>            
                       <span>
-                        <input name="minLatitude" id="minLatitude" type="text" size="10" style="width:60px;"/>
-                        <input name="minLongitude" id="minLongitude" type="text" size="10" style="width:60px;"/>
+                        <input name="minLatitude" id="minLatitude"  class="point" type="text" size="10" style="width:60px;"/>
+                        <input name="minLongitude" id="minLongitude" class="point" type="text" size="10" style="width:60px;"/>
                       </span>
                       <br>             
                       <h4>To</h4>
                       <br>         
                       <span>
-                        <input name="maxLatitude" id="maxLatitude" type="text" size="10" style="width:60px;"/>
-                        <input name="maxLongitude" id="maxLongitude" type="text" size="10" style="width:60px;"/>
+                        <input name="maxLatitude" id="maxLatitude" class="point" type="text" size="10" style="width:60px;"/>
+                        <input name="maxLongitude" id="maxLongitude" class="point" type="text" size="10" style="width:60px;"/>
                       </span>
                       <br>
                       <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">                      

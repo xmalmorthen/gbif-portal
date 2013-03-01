@@ -35,6 +35,8 @@
     cfg.tileServerBaseUrl="${cfg.tileServerBaseUrl!}";
     cfg.wsOccCatalogNumberSearch = "${cfg.wsOccCatalogNumberSearch!}";
     cfg.wsOccCollectorNameSearch = "${cfg.wsOccCollectorNameSearch!}";
+    cfg.wsOccCollectionCodeSearch = "${cfg.wsOccCollectionCodeSearch!}";
+    cfg.wsOccInstitutionCodeSearch = "${cfg.wsOccInstitutionCodeSearch!}";
   </script>
   <#-- Load bundle properties. The action class can filter out which properties to show according to their key's prefixes -->
   <#if resourceBundleProperties?has_content>

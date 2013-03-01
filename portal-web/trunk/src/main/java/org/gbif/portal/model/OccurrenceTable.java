@@ -1,6 +1,8 @@
 package org.gbif.portal.model;
 
 
+import org.gbif.api.model.common.search.SearchRequest;
+import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.VocabularyUtils;
 
 import java.util.EnumSet;
@@ -25,6 +27,15 @@ public class OccurrenceTable {
   public static enum OccurrenceSummaryField {
     OCCURRENCE_KEY, CATALOG_NUMBER, COLLECTION_CODE, COLLECTOR_NAME, INSTITUTION, SCIENTIFIC_NAME, DATASET;
   }
+
+  private static final OccurrenceSearchParameter[] OCC_LOCATION_PARAMS = new OccurrenceSearchParameter[] {
+    OccurrenceSearchParameter.COORDINATE, OccurrenceSearchParameter.ALTITUDE, OccurrenceSearchParameter.DEPTH,
+    OccurrenceSearchParameter.LATITUDE, OccurrenceSearchParameter.LONGITUDE, OccurrenceSearchParameter.GEOMETRY,
+    OccurrenceSearchParameter.GEOREFERENCED, OccurrenceSearchParameter.COUNTRY};
+
+  private static final OccurrenceSearchParameter[] OCC_DATE_PARAMS = new OccurrenceSearchParameter[] {
+    OccurrenceSearchParameter.DATE, OccurrenceSearchParameter.MONTH, OccurrenceSearchParameter.YEAR,
+    OccurrenceSearchParameter.DAY};
 
   // Default list of summary fields
   private static EnumSet<OccurrenceSummaryField> defaulSummaryFields = EnumSet.of(
@@ -56,9 +67,9 @@ public class OccurrenceTable {
   /**
    * Creates an instance container the columns and summary fields set in the request parameter.
    */
-  public OccurrenceTable(HttpServletRequest request) {
-    this.columns = retrieveColumns(request);
-    this.summaryColumn = retrieveSummaryFields(request);
+  public OccurrenceTable(HttpServletRequest request, SearchRequest<OccurrenceSearchParameter> searchRequest) {
+    this.columns = retrieveColumns(request, searchRequest);
+    this.summaryColumn = retrieveSummaryFields(request, searchRequest);
   }
 
   /**
@@ -68,7 +79,6 @@ public class OccurrenceTable {
   public EnumSet<OccurrenceColumn> getColumns() {
     return columns;
   }
-
 
   /**
    * Gets the html.table.td colspan value for the summary column.
@@ -86,13 +96,13 @@ public class OccurrenceTable {
     return summaryColumn;
   }
 
+
   /**
    * Checks if the column parameter exists in the list of columns.
    */
   public boolean hasColumn(OccurrenceColumn column) {
     return columns.contains(column);
   }
-
 
   /**
    * Checks if the column name parameter exists in the list of columns.
@@ -108,6 +118,7 @@ public class OccurrenceTable {
     return summaryColumn.contains(field);
   }
 
+
   /**
    * Checks if the column name parameter exists in the list of summary fields.
    */
@@ -115,17 +126,36 @@ public class OccurrenceTable {
     return summaryColumn.contains(OccurrenceSummaryField.valueOf(column));
   }
 
+  private boolean isParameterPresent(SearchRequest<OccurrenceSearchParameter> request,
+    OccurrenceSearchParameter... parameters) {
+    for (OccurrenceSearchParameter parameter : parameters) {
+      if (request.getParameters().containsKey(parameter)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   /**
    * Retrieve the columns from the request parameter.
    * The default fields are returned if no value is gotten from the request.
    */
-  private EnumSet<OccurrenceColumn> retrieveColumns(HttpServletRequest request) {
-    EnumSet<OccurrenceColumn> columns = retrieveEnumParams(request, OccurrenceColumn.class, COLUMNS_PARAM);
-    if (columns.isEmpty()) {
-      columns = EnumSet.allOf(OccurrenceColumn.class);
+  private EnumSet<OccurrenceColumn> retrieveColumns(HttpServletRequest request,
+    SearchRequest<OccurrenceSearchParameter> searchRequest) {
+    EnumSet<OccurrenceColumn> requestCols = retrieveEnumParams(request, OccurrenceColumn.class, COLUMNS_PARAM);
+    if (requestCols.isEmpty()) {
+      requestCols = EnumSet.allOf(OccurrenceColumn.class);
     }
-    return columns;
+    if (isParameterPresent(searchRequest, OCC_LOCATION_PARAMS)) {
+      requestCols.add(OccurrenceColumn.LOCATION);
+    }
+    if (isParameterPresent(searchRequest, OccurrenceSearchParameter.BASIS_OF_RECORD)) {
+      requestCols.add(OccurrenceColumn.BASIS_OF_RECORD);
+    }
+    if (isParameterPresent(searchRequest, OCC_DATE_PARAMS)) {
+      requestCols.add(OccurrenceColumn.DATE);
+    }
+    return requestCols;
   }
 
 
@@ -135,32 +165,48 @@ public class OccurrenceTable {
    */
   private <T extends Enum<T>> EnumSet<T> retrieveEnumParams(HttpServletRequest request, Class<T> enumClass,
     String paramName) {
-    EnumSet<T> columns = EnumSet.noneOf(enumClass);
-    final String values[] = request.getParameterValues(paramName);
+    EnumSet<T> allCols = EnumSet.noneOf(enumClass);
+    final String[] values = request.getParameterValues(paramName);
     if (values != null) {
       for (String paramValue : values) {
         for (String value : paramValue.split(",")) {
           Enum<?> enumLiteral = VocabularyUtils.lookupEnum(value, enumClass);
           if (enumLiteral != null) {
-            columns.add((T) enumLiteral);
+            allCols.add((T) enumLiteral);
           }
         }
       }
     }
-    return columns;
+    return allCols;
   }
+
 
   /**
    * Retrieve the summary fields from the request.
    * The default fields are returned if no value is gotten from the request.
    */
-  private EnumSet<OccurrenceSummaryField> retrieveSummaryFields(HttpServletRequest request) {
+  private EnumSet<OccurrenceSummaryField> retrieveSummaryFields(HttpServletRequest request,
+    SearchRequest<OccurrenceSearchParameter> searchRequest) {
     EnumSet<OccurrenceSummaryField> fields =
       retrieveEnumParams(request, OccurrenceSummaryField.class, SUMMARY_FIELDS_PARAM);
     if (fields.isEmpty()) {
       fields.addAll(defaulSummaryFields);
     }
+    if (isParameterPresent(searchRequest, OccurrenceSearchParameter.CATALOG_NUMBER)) {
+      fields.add(OccurrenceSummaryField.CATALOG_NUMBER);
+    }
+    if (isParameterPresent(searchRequest, OccurrenceSearchParameter.COLLECTION_CODE)) {
+      fields.add(OccurrenceSummaryField.COLLECTION_CODE);
+    }
+    if (isParameterPresent(searchRequest, OccurrenceSearchParameter.COLLECTOR_NAME)) {
+      fields.add(OccurrenceSummaryField.COLLECTOR_NAME);
+    }
+    if (isParameterPresent(searchRequest, OccurrenceSearchParameter.INSTITUTION_CODE)) {
+      fields.add(OccurrenceSummaryField.INSTITUTION);
+    }
+    if (isParameterPresent(searchRequest, OccurrenceSearchParameter.TAXON_KEY)) {
+      fields.add(OccurrenceSummaryField.SCIENTIFIC_NAME);
+    }
     return fields;
   }
-
 }

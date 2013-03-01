@@ -45,6 +45,11 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
   private SearchSuggestions<String> catalogNumberSuggestions;
 
+  private SearchSuggestions<String> institutionCodeSuggestions;
+
+
+  private SearchSuggestions<String> collectionCodeSuggestions;
+
 
   // List of parameters that should be excluded during the regular validation.
   // These parameters are excluded since they could contain String values that will be processed as suggestions.
@@ -53,13 +58,13 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
   private OccurrenceTable table;
 
+
   @Inject
   public SearchAction(OccurrenceSearchService occurrenceSearchService, FiltersActionHelper filtersActionHelper) {
     super(occurrenceSearchService, OccurrenceSearchParameter.class, new OccurrenceSearchRequest(DEFAULT_PARAM_OFFSET,
       DEFAULT_PARAM_LIMIT));
     this.filtersActionHelper = filtersActionHelper;
   }
-
 
   /*
    * (non-Javadoc)
@@ -70,7 +75,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     // read filter parameters in order to have them available even when the search wasn't executed.
     readFilterParams();
 
-    table = new OccurrenceTable(request);
+    table = new OccurrenceTable(request, getSearchRequest());
 
     // process taxon/scientific-name suggestions
     nameUsagesSuggestions = filtersActionHelper.processNameUsagesSuggestions(request);
@@ -86,6 +91,8 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
     collectorSuggestions = new SearchSuggestions<String>();
     catalogNumberSuggestions = new SearchSuggestions<String>();
+    institutionCodeSuggestions = new SearchSuggestions<String>();
+    collectionCodeSuggestions = new SearchSuggestions<String>();
 
     // Search is executed only if there aren't suggestions that need to be notified to the user
     if (!hasSuggestions()
@@ -133,6 +140,13 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
 
   /**
+   * @return the collectionCodeSuggestions
+   */
+  public SearchSuggestions<String> getCollectionCodeSuggestions() {
+    return collectionCodeSuggestions;
+  }
+
+  /**
    * @return the collectorSuggestions
    */
   public SearchSuggestions<String> getCollectorSuggestions() {
@@ -146,6 +160,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   public Set<Country> getCountries() {
     return filtersActionHelper.getCountries();
   }
+
 
   /**
    * Gets the current year.
@@ -186,6 +201,13 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
       return filtersActionHelper.getFilterTitle(filterKey, filterValue);
     }
     return filterValue;
+  }
+
+  /**
+   * @return the institutionCodeSuggestions
+   */
+  public SearchSuggestions<String> getInstitutionCodeSuggestions() {
+    return institutionCodeSuggestions;
   }
 
   /**
@@ -238,6 +260,14 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
       && !hasSuggestions();
   }
 
+  @Override
+  protected String translateFilterValue(OccurrenceSearchParameter param, String value) {
+    if (param == OccurrenceSearchParameter.GEOMETRY) {
+      return String.format(FiltersActionHelper.POLYGON_PATTERN, value);
+    }
+    return value;
+  }
+
   /**
    * Checks if the parameter is in any lists of suggestions.
    */
@@ -256,6 +286,12 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
       }
       if (searchRequest.getParameters().containsKey(OccurrenceSearchParameter.CATALOG_NUMBER)) {
         catalogNumberSuggestions = filtersActionHelper.processCatalogNumberSuggestions(request);
+      }
+      if (searchRequest.getParameters().containsKey(OccurrenceSearchParameter.COLLECTION_CODE)) {
+        collectionCodeSuggestions = filtersActionHelper.processCatalogNumberSuggestions(request);
+      }
+      if (searchRequest.getParameters().containsKey(OccurrenceSearchParameter.INSTITUTION_CODE)) {
+        institutionCodeSuggestions = filtersActionHelper.processCatalogNumberSuggestions(request);
       }
     }
   }

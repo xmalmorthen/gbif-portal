@@ -56,7 +56,7 @@
     <drupal-mybatis.version>0.5-SNAPSHOT</drupal-mybatis.version>
     <gbif-common.version>0.10-SNAPSHOT</gbif-common.version>
     <gbif-common-ws.version>0.6-SNAPSHOT</gbif-common-ws.version>
-
+    
     <freemarker.version>2.3.19</freemarker.version>
     <guice.version>3.0</guice.version>
     <jersey.version>1.17</jersey.version>

@@ -10,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.gbif.ws.paths.OccurrencePaths.CATALOG_NUMBER_PATH;
+import static org.gbif.ws.paths.OccurrencePaths.COLLECTION_CODE_PATH;
 import static org.gbif.ws.paths.OccurrencePaths.COLLECTOR_NAME_PATH;
+import static org.gbif.ws.paths.OccurrencePaths.INSTITUTION_CODE_PATH;
 import static org.gbif.ws.paths.OccurrencePaths.OCC_SEARCH_PATH;
 
 /**
@@ -40,6 +42,10 @@ public class Config {
   private String wsRegSearch;
   private String wsRegSuggest;
   private String wsMetrics;
+  private String wsOccCollectionCodeSearch;
+
+  private String wsOccInstitutionCodeSearch;
+
 
   /**
    * To safeguard against configuration issues, this ensures that trailing slashes exist where required.
@@ -76,6 +82,8 @@ public class Config {
       cfg.wsMetrics = getPropertyUrl(properties, "metrics.ws.url", true);
       cfg.wsOccCatalogNumberSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + CATALOG_NUMBER_PATH;
       cfg.wsOccCollectorNameSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + COLLECTOR_NAME_PATH;
+      cfg.wsOccCollectionCodeSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + COLLECTION_CODE_PATH;
+      cfg.wsOccInstitutionCodeSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + INSTITUTION_CODE_PATH;
       cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
 
     } catch (IOException e) {
@@ -103,6 +111,10 @@ public class Config {
 
   public String getDrupal() {
     return drupal;
+  }
+
+  public String getDrupalCookieName() {
+    return drupalCookieName;
   }
 
   public String getServerName() {
@@ -137,8 +149,26 @@ public class Config {
     return wsOccCatalogNumberSearch;
   }
 
+  /**
+   * @return the wsOccCollectionCodeSearch
+   */
+  public String getWsOccCollectionCodeSearch() {
+    return wsOccCollectionCodeSearch;
+  }
+
   public String getWsOccCollectorNameSearch() {
     return wsOccCollectorNameSearch;
+  }
+
+  public String getWsOccDownload() {
+    return wsOccDownload;
+  }
+
+  /**
+   * @return the wsOccInstitutionCodeSearch
+   */
+  public String getWsOccInstitutionCodeSearch() {
+    return wsOccInstitutionCodeSearch;
   }
 
   public String getWsOccSearch() {
@@ -159,13 +189,5 @@ public class Config {
 
   public void setTileServerBaseUrl(String tileServerBaseUrl) {
     this.tileServerBaseUrl = tileServerBaseUrl;
-  }
-
-  public String getWsOccDownload() {
-    return wsOccDownload;
-  }
-
-  public String getDrupalCookieName() {
-    return drupalCookieName;
   }
 }
