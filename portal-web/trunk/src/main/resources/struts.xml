@@ -250,13 +250,6 @@
 
   <!-- MEMBERS -->
   <package name="member" namespace="/member" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="" class="org.gbif.portal.action.member.HomeAction">
-      <result>/WEB-INF/pages/member/home.ftl</result>
-    </action>
-
     <action name="{id}" class="org.gbif.portal.action.member.RedirectAction">
       <result type="redirect">${redirectUrl}</result>
     </action>
