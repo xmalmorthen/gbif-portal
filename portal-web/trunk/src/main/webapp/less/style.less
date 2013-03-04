@@ -73,11 +73,11 @@ time {
   cursor: pointer;
   &:hover {
     color: @cGray1;
-    -webkit-transition: color "" ease-in-out;
-    -moz-transition: color "" ease-in-out;
-    -o-transition: color "", ease-in-out;
-    -ms-transition: color "" ease-in-out;
-    transition: color "" ease-in-out;
+    -webkit-transition: color @hover-speed ease-in-out;
+    -moz-transition: color @hover-speed ease-in-out;
+    -o-transition: color @hover-speed ease-in-out;
+    -ms-transition: color @hover-speed ease-in-out;
+    transition: color @hover-speed ease-in-out;
   }
 }
 
@@ -165,11 +165,11 @@ a {
 
   &:hover {
     color: @cGray1;
-    -webkit-transition: color "" ease-in-out;
-    -moz-transition:    color "" ease-in-out;
-    -o-transition:      color "" ease-in-out;
-    -ms-transition:     color "" ease-in-out;
-    transition:         color "" ease-in-out;
+    -webkit-transition: color @hover-speed ease-in-out;
+    -moz-transition:    color @hover-speed ease-in-out;
+    -o-transition:      color @hover-speed ease-in-out;
+    -ms-transition:     color @hover-speed ease-in-out;
+    transition:         color @hover-speed ease-in-out;
   }
 
   &.sourcePopup, &.helpPopup {
@@ -452,11 +452,11 @@ html.gecko #content{
         line-height: 20px;
         background: none;
 
-        -webkit-transition: color "" ease-in-out;
-        -moz-transition:    color "" ease-in-out;
-        -o-transition:      color "" ease-in-out;
-        -ms-transition:     color "" ease-in-out;
-        transition:         color "" ease-in-out;
+        -webkit-transition: color @hover-speed ease-in-out;
+        -moz-transition:    color @hover-speed ease-in-out;
+        -o-transition:      color @hover-speed ease-in-out;
+        -ms-transition:     color @hover-speed ease-in-out;
+        transition:         color @hover-speed ease-in-out;
 
         &:hover { color: @cGray0; }
         &.selected { color: @cGray0; }
@@ -1237,7 +1237,7 @@ ul.ui-autocomplete.ui-menu.ui-widget.ui-widget-content.ui-corner-all li.ui-menu-
 
       input.legend {
         float: right;
-        background: #cGray5;
+        background: @cGray5;
         width: 100px;
         margin-right: 10px;
         outline: none;
@@ -2727,9 +2727,9 @@ article.static {
           margin-right: 20px;
           padding: 5px;
           border: 1px solid @cGray4;
-          -moz-box-shadow: 0 0 1px 1px #cGray5;
-          -webkit-box-shadow: 0 0 1px 1px #cGray5;
-          -box-shadow: 0 0 1px 1px #cGray5;
+          -moz-box-shadow: 0 0 1px 1px @cGray5;
+          -webkit-box-shadow: 0 0 1px 1px @cGray5;
+          -box-shadow: 0 0 1px 1px @cGray5;
         }
       }
     }
