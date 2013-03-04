@@ -231,8 +231,6 @@ public class FiltersActionHelper {
         return LocalizedTextUtil.findDefaultText(BASIS_OF_RECORD_KEY + filterValue, getLocale());
       } else if (parameter == OccurrenceSearchParameter.DATASET_KEY) {
         return getDatasetTitle(filterValue);
-      } else if (parameter == OccurrenceSearchParameter.DATE) {
-        return getDateTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.GEOMETRY) {
         return getGeometryTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.GEOREFERENCED) {
@@ -449,19 +447,6 @@ public class FiltersActionHelper {
       }
     }
     return null;
-  }
-
-
-  /**
-   * Returns the displayable label/value of date filter.
-   */
-  private String getDateTitle(String dateValue) {
-    String label = dateValue;
-    if (dateValue.contains(",")) {
-      String[] dates = dateValue.split(",");
-      label = String.format(DATE_FMT, dates[0], dates[1]);
-    }
-    return label;
   }
 
 

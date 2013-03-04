@@ -115,5 +115,4 @@ public class PredicateFactory {
       return new EqualsPredicate(param, value);
     }
   }
-
 }

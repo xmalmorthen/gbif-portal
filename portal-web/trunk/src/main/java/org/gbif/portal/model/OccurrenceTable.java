@@ -34,8 +34,7 @@ public class OccurrenceTable {
     OccurrenceSearchParameter.GEOREFERENCED, OccurrenceSearchParameter.COUNTRY};
 
   private static final OccurrenceSearchParameter[] OCC_DATE_PARAMS = new OccurrenceSearchParameter[] {
-    OccurrenceSearchParameter.DATE, OccurrenceSearchParameter.MONTH, OccurrenceSearchParameter.YEAR,
-    OccurrenceSearchParameter.DAY};
+    OccurrenceSearchParameter.MONTH, OccurrenceSearchParameter.YEAR};
 
   // Default list of summary fields
   private static EnumSet<OccurrenceSummaryField> defaulSummaryFields = EnumSet.of(
