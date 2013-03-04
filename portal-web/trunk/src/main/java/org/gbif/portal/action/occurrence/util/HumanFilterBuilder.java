@@ -73,7 +73,7 @@ public class HumanFilterBuilder {
   private enum State { ROOT, AND, OR };
   private State state;
   private OccurrenceSearchParameter lastParam;
-  private boolean lookupValues = true;
+  private boolean queryParamResult = true;
   private Joiner VALUE_JOINER = Joiner.on(", ").skipNulls();
   private final DatasetService datasetService;
   private final NameUsageService nameUsageService;
@@ -107,7 +107,7 @@ public class HumanFilterBuilder {
   }
 
   private Map<OccurrenceSearchParameter, LinkedList<String>> filter(Predicate p, boolean lookupValues) {
-    this.lookupValues = lookupValues;
+    this.queryParamResult = lookupValues;
     filter = Maps.newHashMap();
     state = State.ROOT;
     lastParam = null;
@@ -152,7 +152,11 @@ public class HumanFilterBuilder {
     if (lower == null || upper == null || lower.getKey() != upper.getKey()) {
       throw new IllegalArgumentException("no valid range");
     }
-    addParamValues(lower.getKey(), BETWEEN_OPERATOR, Lists.newArrayList(lower.getValue(), upper.getValue()));
+    if (queryParamResult) {
+      addParamValues(lower.getKey(), EQUALS_OPERATOR, Lists.newArrayList(lower.getValue(), upper.getValue()));
+    } else {
+      addParamValues(lower.getKey(), BETWEEN_OPERATOR, Lists.newArrayList(lower.getValue(), upper.getValue()));
+    }
   }
 
   private void visit(DisjunctionPredicate or) throws IllegalStateException {
@@ -229,7 +233,7 @@ public class HumanFilterBuilder {
     List<String> humanValues = Lists.newArrayList();
     for (String val : values) {
       // lookup values
-      if (lookupValues) {
+      if (queryParamResult) {
         switch (param) {
           case TAXON_KEY:
             humanValues.add(lookupTaxonKey(val));
