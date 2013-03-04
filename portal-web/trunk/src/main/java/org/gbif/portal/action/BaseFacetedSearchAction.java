@@ -100,7 +100,8 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
       boolean first = true;
       for (String p : querySplitter.split(request.getQueryString())) {
         Iterator<String> kvIter = paramSplitter.split(p).iterator();
-        String key = kvIter.next();
+        // lowercase to handle URL hacking gracefully (http://dev.gbif.org/issues/browse/POR-522)
+        String key = kvIter.next().toLowerCase();   
         String val = kvIter.next();
         // potentially translate facet values
         P facet = getSearchParam(key);

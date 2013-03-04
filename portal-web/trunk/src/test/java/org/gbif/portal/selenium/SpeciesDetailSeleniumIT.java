@@ -1,6 +1,5 @@
 package org.gbif.portal.selenium;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -13,7 +12,6 @@ import static org.junit.Assert.assertEquals;
 public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
 
   @Test
-  @Ignore("POR-544")
   public void testSciurusVulgaris() {
     final String pageUrl = getPortalUrl("species/5219668");
     getUrl(pageUrl);
