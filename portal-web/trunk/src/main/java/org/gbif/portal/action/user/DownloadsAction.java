@@ -43,7 +43,7 @@ public class DownloadsAction extends BaseAction {
   @Override
   public String execute() throws Exception {
     // never null, guaranteed by the LoginInterceptor stack
-    page = downloadService.list(getCurrentUser().getName(), new PagingRequest(offset, 25));
+    page = downloadService.list(getCurrentUser().getUserName(), new PagingRequest(offset, 25));
     return SUCCESS;
   }
 
@@ -70,7 +70,7 @@ public class DownloadsAction extends BaseAction {
   public String getQueryParams(Predicate p) {
     // not thread safe!
     try {
-      HumanFilterBuilder builder = new  HumanFilterBuilder(datasetService, usageService);
+      HumanFilterBuilder builder = new HumanFilterBuilder(datasetService, usageService);
       return builder.queryFilter(p);
 
     } catch (IllegalArgumentException e) {
