@@ -38,7 +38,7 @@ public class DownloadAction extends BaseAction {
     LOG.info("Predicate build for passing to download [{}]", p);
 
     emails.add(getCurrentUser().getEmail());
-    Download download = new Download(null, p, getCurrentUser().getName(), new Date(), null, emails);
+    Download download = new Download(null, p, getCurrentUser().getUserName(), new Date(), null, emails);
     jobId = downloadService.create(download);
 
     return SUCCESS;
