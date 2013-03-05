@@ -79,7 +79,7 @@ public class DetailAction extends UsageBaseAction {
   private final Map<String, Integer> typeStatusCounts = Maps.newHashMap();
   private SortedMap<UUID, Integer> occurrenceDatasetCounts = Maps.newTreeMap(); // not final, since replaced
   private final LinkedHashMap<String, List<VernacularName>> vernacularNames = Maps.newLinkedHashMap();
-
+  private boolean nubSourceExists = false;
 
   // various page sizes used
   private final Pageable page1 = new PagingRequest(0, 1);
@@ -221,6 +221,11 @@ public class DetailAction extends UsageBaseAction {
     if (Origin.SOURCE == usage.getOrigin()) {
       verbatimExists = usageService.getVerbatim(id) != null;
     }
+
+    if (usage.isNub() && usage.getSourceKey() != null) {
+      // check if the source record actually exists
+      nubSourceExists = usageService.get(usage.getSourceKey(), null) != null;
+    }
   }
 
   /**
@@ -286,5 +291,9 @@ public class DetailAction extends UsageBaseAction {
 
   public boolean isVerbatimExists() {
     return verbatimExists;
+  }
+
+  public boolean isNubSourceExists() {
+    return nubSourceExists;
   }
 }

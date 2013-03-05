@@ -652,8 +652,13 @@
 <#elseif usage.origin??>
   <@common.notice title="Source information">
   <p>This backbone name usage exists because
-    <#if usage.origin == "SOURCE" && usage.sourceId??>
-      at least one <a class="source" data-baseurl="<@s.url value='/species/'/>" href="<@s.url value='/species/${usage.sourceId}'/>">source name usage</a> exists for that name.
+    <#if usage.origin == "SOURCE">
+      it was found in another checklist at the time the backbone was build.
+      <#if nubSourceExists>
+        <br/>View the <a class="source" data-baseurl="<@s.url value='/species/'/>" href="<@s.url value='/species/${usage.sourceId}'/>">primary source name usage</a>.
+      <#else>
+        The primary source name usage (${usage.sourceId}) has been removed from checklistbank since.
+      </#if>
     <#else>
       <@s.text name="enum.origin.${usage.origin}"/>.
     </#if>
