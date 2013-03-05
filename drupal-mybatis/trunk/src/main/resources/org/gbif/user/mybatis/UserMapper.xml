@@ -3,20 +3,24 @@
 <mapper namespace="org.gbif.user.mybatis.UserMapper" >
 
   <resultMap id="ResultMapUser" type="User" >
-    <id column="name" property="accountName" />
+    <id column="name" property="userName" />
+    <result column="uid" property="key" />
     <result column="mail" property="email" />
-    <result column="fullname" property="name" />
+    <result column="fname" property="firstName" />
+    <result column="lname" property="lastName" />
     <result column="pass" property="passwordHash" />
     <result column="login" property="lastLogin" />
 
     <collection property="roles" column="uid" javaType="java.util.HashSet" ofType="UserRole" select="selectRole" />
   </resultMap>
 
-  <sql id="userColumns">u.uid, u.name, u.mail, u.name as fullname, u.login, u.status, u.pass</sql>
+  <sql id="userColumns">u.uid, u.name, u.mail, fn.field_firstname_value as fname, ln.field_lastname_value as lname, u.login, u.status, u.pass</sql>
 
   <select id="get" resultMap="ResultMapUser" parameterType="java.lang.String">
     select <include refid="userColumns"/>
     from users u
+    left join field_data_field_firstname fn on u.uid=fn.entity_id and fn.entity_type='user'
+    left join field_data_field_lastname ln on u.uid=fn.entity_id and ln.entity_type='user'
     where u.name = #{x}
   </select>
 
