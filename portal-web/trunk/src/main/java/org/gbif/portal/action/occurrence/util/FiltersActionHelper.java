@@ -30,6 +30,7 @@ import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.model.SearchSuggestions;
 
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.EnumSet;
 import java.util.Enumeration;
@@ -37,8 +38,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
@@ -72,16 +71,22 @@ public class FiltersActionHelper {
   // Coordinate format
   private static final String BBOX_FMT = "FROM %s,%s TO %s,%s";
 
-  // Date format
-  private static final String DATE_FMT = "FROM %s TO %s";
-
   private static final Logger LOG = LoggerFactory.getLogger(FiltersActionHelper.class);
 
-
-  public static final Pattern RANGE_PATTERN_LTE = Pattern.compile("(\\[|\\{)(\\*)(\\s+(?i)TO\\s+)(.+)(\\])");
-  public static final Pattern RANGE_PATTERN_GTE = Pattern.compile("(\\[)(.+)(\\s+(?i)TO\\s+)(\\*)(\\]|\\})");
-  public static final Pattern RANGE_PATTERN_BT = Pattern.compile("(\\[|\\{)(.+)(\\s+(?i)TO\\s+)(.+)(\\]|\\})");
   public static final String POLYGON_PATTERN = "POLYGON((%S))";
+
+
+  public static final String BEFORE_FMT = "Is before %s";
+
+  public static final String GREATER_THAN_FMT = "Greater than %s";
+
+  public static final String LESS_THAN_FMT = "Less than %s";
+
+  public static final String AFTER_FMT = "Is after %s";
+
+  public static final String BETWEEN_FMT = "Between %s and %s";
+
+  public static final String IS_FMT = "Is %s";
 
   // Utility function to get key value of a NameUsage
   private static final Function<NameUsageSearchResult, String> NU_RESULT_KEY_GETTER =
@@ -168,7 +173,6 @@ public class FiltersActionHelper {
     this.occurrenceSearchService = occurrenceSearchService;
   }
 
-
   /**
    * Returns the list of {@link BasisOfRecord} literals.
    */
@@ -183,6 +187,7 @@ public class FiltersActionHelper {
     return COUNTRIES;
   }
 
+
   /**
    * Gets the title(name) of a country.
    * 
@@ -195,7 +200,6 @@ public class FiltersActionHelper {
     }
     return isoCode;
   }
-
 
   /**
    * Gets the current year.
@@ -239,6 +243,10 @@ public class FiltersActionHelper {
         return getCountryTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.DEPTH || parameter == OccurrenceSearchParameter.ALTITUDE) {
         return getRangeTitle(filterValue);
+      } else if (parameter == OccurrenceSearchParameter.YEAR) {
+        return getTemporalRangeTitle(filterValue);
+      } else if (parameter == OccurrenceSearchParameter.MONTH) {
+        return getMonthRangeTitle(filterValue);
       }
     }
     return filterValue;
@@ -299,6 +307,7 @@ public class FiltersActionHelper {
     return processStringSuggestions(request, OccurrenceSearchParameter.COLLECTION_CODE, suggestCollectionCodes);
   }
 
+
   /**
    * Searches for suggestion to all the COLLECTOR_NAME parameter values, if the input value has an exact match against
    * any
@@ -308,7 +317,6 @@ public class FiltersActionHelper {
     return processStringSuggestions(request, OccurrenceSearchParameter.COLLECTOR_NAME, suggestCollectorNames);
   }
 
-
   /**
    * Replace the DATASET_KEY parameters that have a scientific name that could be interpreted directly.
    */
@@ -317,6 +325,7 @@ public class FiltersActionHelper {
     processReplacements(searchRequest, suggestions, OccurrenceSearchParameter.DATASET_KEY, DS_RESULT_KEY_GETTER);
 
   }
+
 
   /**
    * Validates if a string (not an UUID) value was sent for the DATASET_KEY parameter.
@@ -331,7 +340,7 @@ public class FiltersActionHelper {
       DatasetSuggestRequest suggestRequest = new DatasetSuggestRequest();
       suggestRequest.setLimit(SUGGESTIONS_LIMIT);
       for (String value : values) {
-        String uuidPart[] = value.split(":"); // external dataset keys are in the pattern "UUID:identifier"
+        final String[] uuidPart = value.split(":"); // external dataset keys are in the pattern "UUID:identifier"
         if (tryParseUUID(uuidPart[0]) == null) { // Is not a integer
           List<DatasetSearchResult> suggestions = Lists.newArrayList();
           suggestRequest.setQ(value);
@@ -345,7 +354,6 @@ public class FiltersActionHelper {
     }
     return searchSuggestions;
   }
-
 
   /**
    * Searches for suggestion to all the INSTITUTION_CODE parameter values, if the input value has an exact match against
@@ -437,20 +445,6 @@ public class FiltersActionHelper {
   }
 
   /**
-   * Returns a matcher of the first pattern that matches against the parameter 'value'.
-   */
-  private Matcher firstThatMatch(String value, Pattern... patterns) {
-    for (Pattern pattern : patterns) {
-      Matcher matcher = pattern.matcher(value);
-      if (matcher.find()) {
-        return matcher;
-      }
-    }
-    return null;
-  }
-
-
-  /**
    * Returns the displayable label/value of geometry filter.
    */
   private String getGeometryTitle(String value) {
@@ -479,28 +473,72 @@ public class FiltersActionHelper {
     }
   }
 
+  /**
+   * Gets the name of the month int parameter.
+   */
+  private String getMonthName(int month) {
+    Calendar cal = Calendar.getInstance();
+    cal.set(Calendar.MONTH, month - 1); // Java indexes month from 0
+    return new SimpleDateFormat("MMMM", getLocale()).format(cal.getTime());
+  }
+
+
+  /**
+   * Returns the displayable label/value of a range filter.
+   */
+  private String getMonthRangeTitle(String value) {
+    final String[] rangeValue = value.split(",");
+    if (rangeValue.length == 2) {
+      if (rangeValue[0].equals("*")) {
+        return String.format(BEFORE_FMT, getMonthName(Integer.parseInt(rangeValue[1])));
+      } else if (rangeValue[1].equals("*")) {
+        return String.format(AFTER_FMT, getMonthName(Integer.parseInt(rangeValue[0])));
+      } else {
+        return String.format(BETWEEN_FMT, getMonthName(Integer.parseInt(rangeValue[0])),
+          getMonthName(Integer.parseInt(rangeValue[1])));
+      }
+    } else {
+      return String.format(IS_FMT, getMonthName(Integer.parseInt(value)));
+    }
+  }
+
 
   /**
    * Returns the displayable label/value of a range filter.
    */
   private String getRangeTitle(String value) {
-    Matcher matcher =
-      firstThatMatch(value, RANGE_PATTERN_GTE, RANGE_PATTERN_LTE, RANGE_PATTERN_BT);
-    if (matcher == null) {
-      return String.format("Is %s", value);
-    } else {
-      if (matcher.pattern().equals(RANGE_PATTERN_LTE)) {
-        return String.format("Less than %s ", matcher.group(4));
-      } else if (matcher.pattern().equals(RANGE_PATTERN_GTE)) {
-        return String.format("Greather than %s ", matcher.group(2));
-      } else if (matcher.pattern().equals(RANGE_PATTERN_BT)) {
-        return String.format("Between %s and %s ", matcher.group(2), matcher.group(4));
+    final String[] rangeValue = value.split(",");
+    if (rangeValue.length == 2) {
+      if (rangeValue[0].equals("*")) {
+        return String.format(LESS_THAN_FMT, rangeValue[1]);
+      } else if (rangeValue[1].equals("*")) {
+        return String.format(GREATER_THAN_FMT, rangeValue[0]);
+      } else {
+        return String.format(BETWEEN_FMT, rangeValue[0], rangeValue[1]);
       }
-
+    } else {
+      return String.format(IS_FMT, value);
     }
-    return value;
   }
 
+
+  /**
+   * Returns the displayable label/value of a range filter.
+   */
+  private String getTemporalRangeTitle(String value) {
+    final String[] rangeValue = value.split(",");
+    if (rangeValue.length == 2) {
+      if (rangeValue[0].equals("*")) {
+        return String.format(BEFORE_FMT, rangeValue[1]);
+      } else if (rangeValue[1].equals("*")) {
+        return String.format(AFTER_FMT, rangeValue[0]);
+      } else {
+        return String.format(BETWEEN_FMT, rangeValue[0], rangeValue[1]);
+      }
+    } else {
+      return String.format(IS_FMT, value);
+    }
+  }
 
   /**
    * Validates if the list of coordinates forms a rectangle.
@@ -512,13 +550,13 @@ public class FiltersActionHelper {
       String[] point2 = values[1].split(" ");
       String[] point3 = values[2].split(" ");
       String[] point4 = values[3].split(" ");
-      float valX1 = Float.parseFloat(point1[0]) + Float.parseFloat(point3[0]);
-      float valX2 = Float.parseFloat(point2[0]) + Float.parseFloat(point4[0]);
+      final float valX1 = Float.parseFloat(point1[0]) + Float.parseFloat(point3[0]);
+      final float valX2 = Float.parseFloat(point2[0]) + Float.parseFloat(point4[0]);
 
-      float valY1 = Float.parseFloat(point1[1]) + Float.parseFloat(point3[1]);
-      float valY2 = Float.parseFloat(point2[1]) + Float.parseFloat(point4[1]);
+      final float valY1 = Float.parseFloat(point1[1]) + Float.parseFloat(point3[1]);
+      final float valY2 = Float.parseFloat(point2[1]) + Float.parseFloat(point4[1]);
 
-      return (valX1 == valX2 && valY1 == valY2);
+      return valX1 == valX2 && valY1 == valY2;
     }
     return false;
   }

@@ -57,6 +57,8 @@ var defaultMapLayer;
 //Markers to display the bounding box boundaries.
 var bboxMarkerLeft = null, bboxMarkerRight = null;
 
+//Range formats used bu comparator and month widgets.
+var predicatePatternMap = { 'lte':'*,%v','gte':'%v,*','eq':'%v','bt':'%v1,%v2' };
 
 /**
  * Truncates a decimal value to 2 decimals length of precision.
@@ -732,34 +734,36 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
   InnerOccurrenceDateWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
 
   /**
-   * Validates if the selected is acceptable: year is a valid number between 0 and maxValidYear, and monthValue must be selected is the year is not blank.
+   * Validates if the filter value exists for the input predicate.
    */
-  InnerOccurrenceDateWidget.prototype.isValidDate = function(yearValue, monthValue, maxValidYear, yearInputName, monthInputName) {    
-    if((!this.isBlank(yearValue) && !this.isValidNumber(yearValue,false,0,maxValidYear)) || (monthValue != "0" && this.isBlank(yearValue))){
-      this.filterElement.find(":input[name=" + yearInputName + "]:first").addClass(ERROR_CLASS);
-      this.filterElement.find("#yearErrorMessage").show();
-      return false;
-    } else if (monthValue == "0" && !this.isBlank(yearValue)) {
-      this.filterElement.find("#dk_container_" + monthInputName).addClass(ERROR_CLASS);
-      return false;
-    }
-    return true;
+  InnerOccurrenceDateWidget.prototype.bindOnPredicateChange = function() {
+    var self = this;
+    this.filterElement.find(":input[name=predicate]").change( function(e){
+      if($(this).val() == 'bt'){
+        self.filterElement.find("#maxValue").show();
+      } else {
+        self.filterElement.find("#maxValue").hide();
+      }      
+    });          
   };
 
   /**
-   * Validates if the date range is: yearMax > yearMin and monthMin < monthMax when yearMax == yearMin .
+   * Executes binding function bound during the object construction.
    */
-  InnerOccurrenceDateWidget.prototype.isValidDateRange = function(yearMax, yearMin, monthMax, monthMin) {
-    var intYearMax = parseInt(yearMax);
-    var intYearMin = parseInt(yearMin);
-
-    if(intYearMax < intYearMin) {
-      this.filterElement.find("#yearRangeErrorMessage").show();
-      this.filterElement.find(":input[name=yearMax]:first,:input[name=yearMin]:first").addClass(ERROR_CLASS);
+  InnerOccurrenceDateWidget.prototype.executeAdditionalBindings = function() {      
+    this.bindingsExecutor.call();
+    this.bindOnPredicateChange();
+  };
+  
+  /**
+   * Validates if the date range is:monthMin < monthMax.
+   */
+  InnerOccurrenceDateWidget.prototype.isValidMonthRange = function(monthMin, monthMax) {  
+    if(monthMin == 0){
+      this.filterElement.find(":input[name=monthMin]:first,#dk_container_monthMin").addClass(ERROR_CLASS);
       return false;
     }
-
-    if( (intYearMax == intYearMin) && (parseInt(monthMin) > parseInt(monthMax))) {
+    if(monthMax != null && monthMin > monthMax) {
       this.filterElement.find("#monthRangeErrorMessage").show();
       this.filterElement.find(":input[name=monthMax]:first,:input[name=monthMin]:first,#dk_container_monthMax,#dk_container_monthMin").addClass(ERROR_CLASS);      
       return false;
@@ -776,10 +780,6 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
       self.filterElement.find("#monthRangeErrorMessage").hide();
     });
 
-    this.filterElement.find(":input[name=yearMin],:input[name=yearMax]").focus( function(e){
-      self.filterElement.find(".year_error,.month_error").hide();
-    });    
-
     this.filterElement.find('.helpPopup').each( function(idx,el){
       $(el).prepend('<img src="'+((cfg.context+"/img/icons/questionmark.png").replace("//", "/")) +'"/> ').sourcePopover({"title":$(el).attr("title"),"message":$(el).attr("data-message"),"remarks":$(el).attr("data-remarks")});
     });
@@ -788,46 +788,33 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
       e.preventDefault();   
       self.filterElement.find('.' + ERROR_CLASS).removeClass(ERROR_CLASS)
       self.filterElement.find("#monthRangeErrorMessage").hide();
-      self.filterElement.find(".year_error,.month_error").hide();
-      var maxValidYear = parseInt(self.filterElement.find(":input[name=max_year]").val());
-      var monthMin = self.filterElement.find(":input[name=monthMin]:first").val();
-      var yearMin  =  self.filterElement.find(":input[name=yearMin]:first").val();
-      var monthMax = self.filterElement.find(":input[name=monthMax]:first").val();
-      var yearMax  =  self.filterElement.find(":input[name=yearMax]:first").val();
-      var value = "";
-      var label = "";
-
-      if(!self.isValidDate(yearMin,monthMin,maxValidYear,"yearMin","monthMin")){
-        return;
-      }      
-
-      value = monthMin + "/" + yearMin;
-      label = value;
-
-      if(!self.isValidDate(yearMax,monthMax,maxValidYear,"yearMax","monthMax")){
-        return;
-      }      
-      if(!self.isValidDateRange(yearMax, yearMin, monthMax, monthMin)){
-        return;
+      self.filterElement.find(".month_error").hide();      
+      var monthMin = parseInt(self.filterElement.find(":input[name=monthMin]:first").val());      
+      var monthMax = null;
+      var predicate = self.filterElement.find(':input[name=predicate] option:selected').val();
+      var predicateText = self.filterElement.find(':input[name=predicate] option:selected').text();      
+      var label = $(":input[name=monthMin]").find(":selected").text();      
+      
+      var isRangeQuery = self.filterElement.find("#maxValue").is(":visible");
+      if(isRangeQuery){
+        monthMax = parseInt(self.filterElement.find(":input[name=monthMax]:first").val());
+        label = label + " and " +  $(":input[name=monthMax]").find(":selected").text();
       }
-
-      if(!self.isBlank(yearMax) && monthMax != "0"){
-        if(!self.isBlank(value)){
-          label = "FROM " +  value + " TO ";
-          value = value + ",";          
-        }
-        value = value + monthMax + "/" + yearMax;
-        label = label + monthMax + "/" + yearMax;
-      }      
-      if(!self.isBlank(value)) {
-        self.filterElement.find(".year_error").hide();
+     
+      var rangeValue = null;
+      if(predicate == 'bt') { // is between predicate
+        rangeValue = predicatePatternMap[predicate].replace('%v1',monthMin).replace('%v2',monthMax);
+      } else {
+        rangeValue = predicatePatternMap[predicate].replace('%v',monthMin);
+      }
+       
+      if(!self.existsFilter({value: rangeValue}) && self.isValidMonthRange(monthMin,monthMax)){                                    
         self.filterElement.find("#monthRangeErrorMessage").hide();
-        self.addFilter({label:label, value: value, key: '', paramName: self.getId(), submitted: false});
-        self.showFilters();
-        self.filterElement.find(":input[name=yearMax]:first,:input[name=yearMin]:first").val("");
-      }
-    })
-  };       
+        self.addFilter({label:predicateText + ' ' + label,value: rangeValue, key:null,paramName:self.getId(),submitted: false});
+        self.showFilters();        
+      }      
+    });
+  }      
   return InnerOccurrenceDateWidget;
 })(jQuery,_,OccurrenceWidget);
 
@@ -1025,8 +1012,7 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
  * Comparator widget. Displays an selection list of available comparators (=,>,<) and an input box for the value.
  */
 var OccurrenceComparatorWidget = (function ($,_,OccurrenceWidget) {
-  var predicatePatternMap = { 'lte':'[* TO %v]','gte':'[%v TO *]','eq':'%v','bt':'[%v1 TO %v2]' };
-
+  
   var InnerOccurrenceComparatorWidget = function () {        
   }; 
   
@@ -1272,7 +1258,7 @@ var OccurrenceWidgetManager = (function ($,_) {
             } else if (filterName == "GEOMETRY") {
               newWidget = new OccurrenceLocationWidget();
               newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindMap});            
-            } else if (filterName == "DATE") {
+            } else if (filterName == "MONTH") {
               newWidget = new OccurrenceDateWidget();
               newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});            
             } else if (filterName == "BASIS_OF_RECORD") {
@@ -1281,7 +1267,7 @@ var OccurrenceWidgetManager = (function ($,_) {
             } else if (filterName == "COUNTRY") {
               newWidget = new OccurrenceWidget();
               newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCountryAutosuggest});              
-            } else if (filterName == "ALTITUDE" || filterName == "DEPTH") {
+            } else if (filterName == "ALTITUDE" || filterName == "DEPTH" | filterName == "YEAR") {
               newWidget = new OccurrenceComparatorWidget();
               newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});              
             } else { //By default creates a simple OccurrenceWidget with an empty binding function
