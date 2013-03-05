@@ -12,7 +12,7 @@
 -->
 
 <content tag="infoband">
-  <h1>${currentUser.name!currentUser.accountName}</h1>
+  <h1><#if currentUser.firstName?has_content>${currentUser.firstName} ${currentUser.lastName!}<#else>${currentUser.userName}</#if></h1>
 </content>
 
 <content tag="tabs">
@@ -21,7 +21,7 @@
   </#if>
   <ul class="${hl!}">
     <li<#if (tab!"")=="account"> class='selected ${hl!}'</#if>>
-      <a href="${cfg.drupal}/users/${currentUser.accountName!}/edit" title="Account"><span>Account</span></a>
+      <a href="${cfg.drupal}/user/${currentUser.key}/edit" title="Account"><span>Account</span></a>
     </li>
     <li<#if (tab!"")=="downloads"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/user/downloads'/>" title="Downloads"><span>Downloads</span></a>

@@ -83,7 +83,7 @@
     <div class="content">
       <div class="account">
         <#if currentUser??>
-        <a href="${cfg.drupal}/users/${currentUser.accountName!}/edit" title='Account'>Hello ${currentUser.name}</a>
+        <a href="${cfg.drupal}/user/${currentUser.key}/edit" title='Account'>Hello ${currentUser.firstName!currentUser.userName}</a>
         or
         <a href="${cfg.drupal}/user/logout?destination=${currentUrl}" title='<@s.text name="menu.logout"/>'><@s.text name="menu.logout"/></a>
         <#else>
