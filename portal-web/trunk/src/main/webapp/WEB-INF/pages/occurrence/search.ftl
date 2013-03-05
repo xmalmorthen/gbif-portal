@@ -89,27 +89,26 @@
         </#if>
     </content>
 
-    <article class="ocurrence_results">
-    <header></header>
+<article class="ocurrence_results">
+  <header></header>
 
-    <div class="content" id="content">
-      <#assign showOccurrenceKey =  table.hasSummaryField('OCCURRENCE_KEY')>
-      <#assign showCatalogNumber =  table.hasSummaryField('CATALOG_NUMBER')>
-      <#assign showScientificName =  table.hasSummaryField('SCIENTIFIC_NAME')>
-      <#assign showCollectionCode =  table.hasSummaryField('COLLECTION_CODE')>
-      <#assign showCollectorName =  table.hasSummaryField('COLLECTOR_NAME')>
-      <#assign showDataset =  table.hasSummaryField('DATASET')>      
-      <#assign showLocation =  table.hasColumn('LOCATION')>
-      <#assign showDate =  table.hasColumn('DATE')>
-      <#assign showBasisOfRecord =  table.hasColumn('BASIS_OF_RECORD')>      
-      <#assign showInstitution =  table.hasSummaryField('INSTITUTION')>      
-      <table class="results">
-        <#if !action.hasErrors()>
+  <div class="content" id="content">
+    <#assign showOccurrenceKey =  table.hasSummaryField('OCCURRENCE_KEY')>
+    <#assign showCatalogNumber =  table.hasSummaryField('CATALOG_NUMBER')>
+    <#assign showScientificName =  table.hasSummaryField('SCIENTIFIC_NAME')>
+    <#assign showCollectionCode =  table.hasSummaryField('COLLECTION_CODE')>
+    <#assign showCollectorName =  table.hasSummaryField('COLLECTOR_NAME')>
+    <#assign showDataset =  table.hasSummaryField('DATASET')>
+    <#assign showLocation =  table.hasColumn('LOCATION')>
+    <#assign showDate =  table.hasColumn('DATE')>
+    <#assign showBasisOfRecord =  table.hasColumn('BASIS_OF_RECORD')>
+    <#assign showInstitution =  table.hasSummaryField('INSTITUTION')>
+    <table class="results">
+      <#if !action.hasErrors()>
         <tr class="header">
 
           <td class="summary" colspan="${table.summaryColspan}">
             <#if !action.hasSuggestions()><h2>${searchResponse.count} results</h2></#if>
-          
 
           <div class="options">
             <ul>
@@ -131,22 +130,22 @@
                     <li><input type="checkbox" name="summary" value="COLLECTION_CODE" id="chk-COLLECTION_CODE" <#if showCollectionCode>checked</#if>/> <label for="chk-COLLECTION_CODE">Collection code</label></li>
                     <li><input type="checkbox" name="summary" value="INSTITUTION" id="chk-INSTITUTION" <#if showInstitution>checked</#if>/> <label for="chk-INSTITUTION">Institution</label></li>
                     <li><input type="checkbox" name="summary" value="COLLECTOR_NAME" id="chk-COLLECTOR_NAME" <#if showCollectorName>checked</#if>/> <label for="chk-COLLECTOR_NAME">Collector name</label></li>
-                    <li><input type="checkbox" name="summary" value="SCIENTIFIC_NAME" id="chk-SCIENTIFIC_NAME" <#if showScientificName>checked</#if>/> <label for="chk-SCIENTIFIC_NAME">Scientific name</label></li>                    
-                    <li><input type="checkbox" name="summary" value="DATASET" id="chk-DATASET" <#if showDataset>checked</#if>/> <label for="chk-DATASET">Dataset</label></li>                                       
+                    <li><input type="checkbox" name="summary" value="SCIENTIFIC_NAME" id="chk-SCIENTIFIC_NAME" <#if showScientificName>checked</#if>/> <label for="chk-SCIENTIFIC_NAME">Scientific name</label></li>
+                    <li><input type="checkbox" name="summary" value="DATASET" id="chk-DATASET" <#if showDataset>checked</#if>/> <label for="chk-DATASET">Dataset</label></li>
                   </ul>
-                  <div style="width:100px;" class="buttonContainer"><a href="#" class="button" id="applyConfiguration" style="width:30px;margin:auto"><span>Apply</span></a><div>                  
+                  <div style="width:100px;" class="buttonContainer"><a href="#" class="button" id="applyConfiguration" style="width:30px;margin:auto"><span>Apply</span></a><div>
                 </div>
               </li>
               <li>
                 <a href="#" class="filters" data-toggle="dropdown"><i></i> Add a filter</a>
-  
+
                 <div class="dropdown-menu filters">
                   <div class="tip"></div>
                   <ul>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a scientific name..." data-filter="TAXON_KEY"  title="Scientific name" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value species_autosuggest auto_add" class="filter-control">Scientific name</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Select a location..." data-filter="GEOMETRY" title="Location" data-template-filter="map-template-filter" data-template-summary="template-summary-location" class="filter-control">Location</a></li>
                     <!--Next li is a place holder to map GEOREFERENCED to the bounding box widget-->
-                    <li style="display:none;"><a tabindex="-1" href="#" data-filter="GEOREFERENCED" title="Bounding Box" data-template-filter="map-template-filter" data-template-summary="template-filter" class="filter-control">Location</a></li>                    
+                    <li style="display:none;"><a tabindex="-1" href="#" data-filter="GEOREFERENCED" title="Bounding Box" data-template-filter="map-template-filter" data-template-summary="template-filter" class="filter-control">Location</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Select a country..." data-filter="COUNTRY" title="Country" data-template-filter="template-simple-filter" data-template-summary="template-filter" class="filter-control" data-input-classes="">Country</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="COLLECTOR_NAME" title="Collector name" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value collector_name_autosuggest auto_add" class="filter-control">Collector</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="BASIS_OF_RECORD" title="Basis Of Record" data-template-filter="template-basis-of-record-filter" data-template-summary="template-filter" class="filter-control">Basis of record</a></li>
@@ -157,7 +156,7 @@
                     <li><a tabindex="-1" href="#" data-placeholder="Type a institution code..." data-filter="INSTITUTION_CODE" title="Institution code" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value institution_code_autosuggest auto_add" class="filter-control">Institution code</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a collection code..." data-filter="COLLECTION_CODE" title="Collection code" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value collection_code_autosuggest auto_add" class="filter-control">Collection code</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a altitude..." data-filter="ALTITUDE" title="Altitude" data-template-filter="template-compare-filter" data-template-summary="template-filter" data-input-classes="value auto_add" class="filter-control">Altitude</a></li>
-                    <li><a tabindex="-1" href="#" data-placeholder="Type a depth..." data-filter="DEPTH" title="Depth" data-template-filter="template-compare-filter" data-template-summary="template-filter" data-input-classes="value auto_add" class="filter-control">Depth</a></li>                    
+                    <li><a tabindex="-1" href="#" data-placeholder="Type a depth..." data-filter="DEPTH" title="Depth" data-template-filter="template-compare-filter" data-template-summary="template-filter" data-input-classes="value auto_add" class="filter-control">Depth</a></li>
                   </ul>
                   <input type="hidden" id="nubTaxonomyKey" value="${nubTaxonomyKey}"/>
                 </div>
@@ -165,107 +164,110 @@
           </ul>
         </div>
         </td>
-      </tr>     
+      </tr>
         <#if !action.hasSuggestions() && searchResponse.count gt 0>
-        <tr class="results-header">
-          <td></td>
+          <tr class="results-header">
+            <td></td>
+            <#if showLocation>
+            <td><h4>Location</h4></td>
+            </#if>
+            <#if showBasisOfRecord>
+            <td><h4>Basis of record</h4></td>
+            </#if>
+            <#if showDate>
+            <td><h4>Date</h4></td>
+            </#if>
+          </tr>
+          <#list searchResponse.results as occ>
+           <tr class="result">
+            <td>
+             <a href="<@s.url value='/occurrence/${occ.key?c}'/>">
+              <div class="header">
+                <#if showOccurrenceKey>
+                  <span class="code">${occ.key?c}</span>
+                </#if>
+                <#if showCatalogNumber && occ.catalogNumber?has_content><#if showOccurrenceKey>· </#if><span class="catalog">Cat. ${occ.catalogNumber!}</span></#if>
+                <#if showCollectorName && occ.collectorName?has_content>
+                  <div class="code">Collector: ${occ.collectorName}</div>
+                </#if>
+                <#if showCollectionCode && occ.collectionCode?has_content>
+                  <div class="code">Collection: ${occ.collectionCode}</div>
+                </#if>
+                <#if showInstitution && occ.institutionCode?has_content>
+                  <div class="code">Institution: ${occ.institutionCode}</div>
+                </#if>
+              </div>
+              <#if showScientificName && occ.scientificName?has_content><a class="title" href="<@s.url value='/occurrence/${occ.key?c}'/>">${occ.scientificName}</a></#if>
+              <#if showDataset && occ.datasetKey?has_content>
+               <div class="footer">Published by ${action.getDatasetTitle(occ.datasetKey)!} </div>
+              </#if>
+             </a>
+            </td>
           <#if showLocation>
-          <td><h4>Location</h4></td>
+            <td class="country">
+              <#if occ.country?has_content><div class="country">${occ.country.title!}</div></#if>
+              <div class="coordinates">
+                <#if occ.latitude?has_content || occ.longitude?has_content>
+                  <#if occ.latitude?has_content>${occ.latitude!?string("0.00")}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?string("0.00")}<#else>-</#if>
+                <#else>
+                  N/A
+                </#if>
+                <#if occ.altitude?has_content>
+                  <div class="code">Altitude: ${occ.altitude}</div>
+                </#if>
+                <#if occ.depth?has_content>
+                  <div class="code">Depth: ${occ.depth}</div>
+                </#if>
+              </div>
+            </td>
           </#if>
           <#if showBasisOfRecord>
-          <td><h4>Basis of record</h4></td>
+            <td class="kind">
+              <#if occ.basisOfRecord?has_content || occ.longitude?has_content>
+          ${action.getFilterTitle('basisOfRecord',occ.basisOfRecord)!}
+        <#else>
+         N/A
+        </#if>
+            </td>
           </#if>
           <#if showDate>
-          <td><h4>Date</h4></td>
-          </#if>
-        </tr>
-        <#list searchResponse.results as occ>
-        <tr class="result">
-          <td>
-            <div class="header"> 
-              <#if showOccurrenceKey>
-                <span class="code">${occ.key?c}</span>
-              </#if> 
-              <#if showCatalogNumber && occ.catalogNumber?has_content><#if showOccurrenceKey>· </#if><span class="catalog">Cat. ${occ.catalogNumber!}</span></#if>
-              <#if showCollectorName && occ.collectorName?has_content>
-                <div class="code">Collector: ${occ.collectorName}</div>
-              </#if>
-              <#if showCollectionCode && occ.collectionCode?has_content>
-                <div class="code">Collection: ${occ.collectionCode}</div>
-              </#if>
-              <#if showInstitution && occ.institutionCode?has_content>
-                <div class="code">Institution: ${occ.institutionCode}</div>
-              </#if>              
-            </div>
-            <#if showScientificName && occ.scientificName?has_content><a class="title" href="<@s.url value='/occurrence/${occ.key?c}'/>">${occ.scientificName}</a></#if>
-            <#if showDataset && occ.datasetKey?has_content>
-             <div class="footer">Published by ${action.getDatasetTitle(occ.datasetKey)!} </div>
-            </#if>                        
-          </td>
-          <#if showLocation>
-          <td class="country"><#if occ.country?has_content><div class="country">${occ.country.title!}</div></#if>
-            <div class="coordinates">
-              <#if occ.latitude?has_content || occ.longitude?has_content>
-                <#if occ.latitude?has_content>${occ.latitude!?string("0.00")}<#else>-</#if>/<#if occ.longitude?has_content>${occ.longitude!?string("0.00")}<#else>-</#if>
+            <td class="date">
+              <#if occ.occurrenceMonth?has_content || occ.occurrenceYear?has_content>
+                <#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}<#else>-</#if>
+                /
+                <#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}<#else>-</#if>
               <#else>
                 N/A
               </#if>
-              <#if occ.altitude?has_content>
-                <div class="code">Altitude: ${occ.altitude}</div>
-              </#if>
-              <#if occ.depth?has_content>
-                <div class="code">Depth: ${occ.depth}</div>
-              </#if>
-            </div>             
-          </td>
+            </td>
           </#if>
-          <#if showBasisOfRecord>
-          <td class="kind">
-          <#if occ.basisOfRecord?has_content || occ.longitude?has_content>
-            ${action.getFilterTitle('basisOfRecord',occ.basisOfRecord)!}
-          <#else>
-           N/A
-          </#if>
-          </td>
-          </#if>
-          <#if showDate>
-          <td class="date">
-            <#if occ.occurrenceMonth?has_content || occ.occurrenceYear?has_content>
-              <#if occ.occurrenceMonth?has_content>${occ.occurrenceMonth!?c}<#else>-</#if>     
-              /    
-              <#if occ.occurrenceYear?has_content>${occ.occurrenceYear!?c}<#else>-</#if>
-            <#else>
-              N/A
-            </#if>
-          </td>
-          </#if>
-        </tr>
-        </#list>
-        </#if>         
-        <#else>   
+         </tr>
+         </#list>
+        </#if>
+      <#else>
         <tr class="header">
-          <td class="filters">     
+          <td class="filters">
             <ul>
-            <#list action.fieldErrors.keySet() as field>            
+            <#list action.fieldErrors.keySet() as field>
                   <li><h4>${field}</h4>
-                  <#list action.fieldErrors.get(field) as error>            
-                      <div class="filter filter-error">${error}</div>         
+                  <#list action.fieldErrors.get(field) as error>
+                      <div class="filter filter-error">${error}</div>
                   </#list>
-                  </li>            
+                  </li>
             </#list>
-            </ul>   
+            </ul>
           </td>
-         </tr>              
-        </#if>    
-   </table>    
+         </tr>
+      </#if>
+    </table>
     <div class="footer">
       <#if !action.hasSuggestions()>
         <@macro.pagination page=searchResponse url=currentUrl/>
       </#if>
     </div>
   </div>
-  <footer></footer>    
-  </article>
+  <footer></footer>
+</article>
 
 <#if action.showDownload()>
   <article class="download_ocurrences">
