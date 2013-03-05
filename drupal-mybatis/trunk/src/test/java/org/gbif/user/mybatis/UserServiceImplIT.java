@@ -17,7 +17,7 @@ public class UserServiceImplIT {
   public void testGet() throws Exception {
     User admin = ddt.getService().get("admin");
     Assert.assertNotNull(admin);
-    Assert.assertEquals("admin", admin.getName());
+    Assert.assertEquals("admin", admin.getUserName());
     Assert.assertEquals("admin@mailinator.com", admin.getEmail());
     Assert.assertEquals(1, admin.getRoles().size());
     Assert.assertTrue(admin.getRoles().contains(UserRole.ADMIN));
@@ -27,7 +27,7 @@ public class UserServiceImplIT {
   public void testAuthenticate() throws Exception {
     User editor = ddt.getService().authenticate("editor", "1cX3FYss");
     Assert.assertNotNull(editor);
-    Assert.assertEquals("editor", editor.getName());
+    Assert.assertEquals("editor", editor.getUserName());
     Assert.assertEquals("editor@mailinator.com", editor.getEmail());
     Assert.assertEquals("49b8802c656a2cd1aa73f3c50090df76", editor.getPasswordHash());
     Assert.assertEquals(1, editor.getRoles().size());
