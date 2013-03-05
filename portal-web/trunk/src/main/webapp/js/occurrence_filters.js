@@ -954,7 +954,7 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       var input = $(this).next();
       var firstCoord = input.val().replace("POLYGON((","").replace("))","").split(",")[0].split(" ");
       var marker = parseInt(input.attr('data-marker'));
-      map.setView(new L.LatLng(firstCoord[1], firstCoord[0]),1);
+      map.panTo(new L.LatLng(firstCoord[1], firstCoord[0]));
       self.mapGeometries[marker].openPopup();
     });
   };
