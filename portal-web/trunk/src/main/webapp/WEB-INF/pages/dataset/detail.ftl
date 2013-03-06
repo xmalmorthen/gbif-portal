@@ -128,6 +128,7 @@
   </#if>
 
   <#if dataset.homepage?has_content || links?has_content>
+    <p>
     <h3>Links</h3>
     <ul>
       <#if dataset.homepage?has_content>
@@ -140,12 +141,13 @@
           </li>
         </#if>
       </#list>
-
     </ul>
+    </p>
   </#if>
 
   <!-- Ideally the alt. identifier has a type which is displayed as a link to the identifier. Otherwise, a trimmed version is displayed. In both cases, a popup appears to display the full identifier. -->
   <#if (dataset.identifiers?size>0)>
+   <p>
     <h3>Alternative Identifiers</h3>
     <ul class="notes">
       <#list dataset.identifiers as idt>
@@ -166,10 +168,13 @@
       </#if>
       </#list>
     </ul>
+    </p>
   </#if>
+  
 
   <#-- DATA DESCRIPTIONS -->
   <#if dataset.dataDescriptions?has_content || dataLinks?has_content>
+    <p>
     <h3>External Data</h3>
     <ul class="notes">
     <#list dataLinks as p>
@@ -188,24 +193,36 @@
       </li>
     </#list>
     </ul>
+    </p>
   </#if>
 
+  <p>  
   <h3>Metadata Documents</h3>
   <ul>
-    <li class="download"><a href="${cfg.wsReg}dataset/${dataset.key}/eml">GBIF EML</a></li>
-    <#-- we verify asynchroneously via app.js all links with class=verify and hide the list element in case of errors or 404 -->
-    <li class="download verify"><a href="${cfg.wsReg}dataset/${dataset.key}/document">Cached EML</a></li>
     <#list metaLinks as p>
       <#if p.url?has_content>
         <li>
-          <a href="${p.url}" title="<@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/>"><@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/></a>
+          <a href="${p.url}" title="<@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/>">Original document (<@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/>)</a>
           <#if p.type=="EML">
             <@common.popup message="This is a link to the original metadata document. The metadata may be different from the version that is displayed if it has been updated since the time the dataset was last indexed." title="Warning"/>
           </#if>
         </li>
+        <li class="download verify">
+          <a href="${cfg.wsReg}dataset/${dataset.key}/document">Cached copy (<@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/>)</a>
+          <@common.popup message="This cached copy of the original serves to distinguish cases where the source of content on this page might be confusing, or where the original is not accessible" title="Warning"/>
+        </li>
+        
       </#if>
     </#list>
+    <#-- we verify asynchroneously via app.js all links with class=verify and hide the list element in case of errors or 404 -->
+    
+    
+    <li class="download">
+      <a href="${cfg.wsReg}dataset/${dataset.key}/eml">GBIF annotated version (EML)</a> 
+      <@common.popup message="The GBIF annotated version is created based on available content according to the <a href='http://www.gbif.org/orc/?doc_id=2820'>GBIF Metadata Profile</a>. Please note that it might not be as rich as the original version" title="Warning"/>
+    </li>
   </ul>
+  </p>
 
 </div>
 

@@ -157,8 +157,15 @@ $(function() {
         var bounds=map.getBounds();
         var sw=bounds.getSouthWest(); // south west
         var ne=bounds.getNorthEast();
+        var se=bounds.getSouthEast();
+        var nw=bounds.getNorthWest();
         
-        $(this).attr("href", target + "&BOUNDING_BOX=" + sw.lat  + "," + sw.lng + "," + ne.lat +"," + ne.lng );        
+        $(this).attr("href", target + "&GEOMETRY=" 
+          + sw.lng + " " + sw.lat + "," 
+          + nw.lng + " " + nw.lat + ","
+          + ne.lng + " " + ne.lat + ","
+          + se.lng + " " + se.lat + ","
+          + sw.lng + " " + sw.lat);
       });
       
 
