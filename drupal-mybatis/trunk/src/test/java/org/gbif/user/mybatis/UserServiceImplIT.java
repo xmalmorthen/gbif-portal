@@ -24,6 +24,12 @@ public class UserServiceImplIT {
   }
 
   @Test
+  public void testGetBySession() throws Exception {
+    User nonExisting = ((UserServiceImpl) ddt.getService()).getBySession("FAKE");
+    Assert.assertNull(nonExisting);
+  }
+
+  @Test
   public void testAuthenticate() throws Exception {
     User editor = ddt.getService().authenticate("editor", "1cX3FYss");
     Assert.assertNotNull(editor);

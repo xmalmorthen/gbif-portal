@@ -16,17 +16,21 @@
 
   <sql id="userColumns">u.uid, u.name, u.mail, fn.field_firstname_value as fname, ln.field_lastname_value as lname, u.login, u.status, u.pass</sql>
 
-  <select id="get" resultMap="ResultMapUser" parameterType="java.lang.String">
-    select <include refid="userColumns"/>
-    from users u
+  <sql id="usersJoin">
+    users u
     left join field_data_field_firstname fn on u.uid=fn.entity_id and fn.entity_type='user'
     left join field_data_field_lastname ln on u.uid=ln.entity_id and ln.entity_type='user'
+  </sql>
+
+  <select id="get" resultMap="ResultMapUser" parameterType="java.lang.String">
+    select <include refid="userColumns"/>
+    from <include refid="usersJoin"/>
     where u.name = #{x}
   </select>
 
   <select id="getBySession" resultMap="ResultMapUser" parameterType="java.lang.String">
     select <include refid="userColumns"/>
-    from sessions s join users u on u.uid=s.uid
+    from <include refid="usersJoin"/> join sessions s on u.uid=s.uid
     where s.sid = #{x}
   </select>
 
