@@ -59,7 +59,7 @@ public class DownloadsAction extends BaseAction {
   public Map<OccurrenceSearchParameter, LinkedList<String>> getHumanFilter(Predicate p) {
     try {
       // not thread safe!
-      HumanFilterBuilder builder = new  HumanFilterBuilder(datasetService, usageService);
+      HumanFilterBuilder builder = new  HumanFilterBuilder(this, datasetService, usageService);
       return builder.humanFilter(p);
 
     } catch (IllegalArgumentException e) {

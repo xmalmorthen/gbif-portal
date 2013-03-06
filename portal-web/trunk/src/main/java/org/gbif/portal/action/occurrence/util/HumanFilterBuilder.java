@@ -31,6 +31,8 @@ import org.gbif.api.model.occurrence.predicate.WithinPredicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.vocabulary.Country;
+import org.gbif.portal.action.BaseAction;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -38,7 +40,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
@@ -57,25 +58,24 @@ public class HumanFilterBuilder {
 
   private static final Logger LOG = LoggerFactory.getLogger(HumanFilterBuilder.class);
   private static final String EQUALS_OPERATOR = "";
-  private static final String GREATER_THAN_OPERATOR = " > ";
-  private static final String GREATER_THAN_EQUALS_OPERATOR = " >= ";
-  private static final String LESS_THAN_OPERATOR = " < ";
-  private static final String LESS_THAN_EQUALS_OPERATOR = " <= ";
-  private static final String LIKE_OPERATOR = " LIKE ";
-  private static final String IN_OPERATOR = " IN ";
-  private static final String WITHIN_OPERATOR = " WITHIN ";
+  private static final String GREATER_THAN_OPERATOR = "&gt;";
+  private static final String GREATER_THAN_EQUALS_OPERATOR = "&gt;=";
+  private static final String LESS_THAN_OPERATOR = "&lt;";
+  private static final String LESS_THAN_EQUALS_OPERATOR = "&lt;=";
+  private static final String LIKE_OPERATOR = "~";
 
   private Map<OccurrenceSearchParameter, LinkedList<String>> filter;
   private enum State { ROOT, AND, OR };
   private State state;
   private OccurrenceSearchParameter lastParam;
-  private Joiner VALUE_JOINER = Joiner.on(", ").skipNulls();
   private final DatasetService datasetService;
   private final NameUsageService nameUsageService;
+  private final BaseAction action;
 
-  public HumanFilterBuilder(DatasetService datasetService, NameUsageService nameUsageService) {
+  public HumanFilterBuilder(BaseAction action, DatasetService datasetService, NameUsageService nameUsageService) {
     this.datasetService = datasetService;
     this.nameUsageService = nameUsageService;
+    this.action = action;
   }
 
   /**
@@ -128,7 +128,7 @@ public class HumanFilterBuilder {
     if (lower == null || upper == null || lower.getKey() != upper.getKey()) {
       throw new IllegalArgumentException("no valid range");
     }
-    addParamValue(lower.getKey(), "", lower.getValue() + " - " + upper.getValue());
+    addParamValue(lower.getKey(), "", lower.getValue() + "-" + upper.getValue());
   }
 
   private void visit(DisjunctionPredicate or) throws IllegalStateException {
@@ -169,7 +169,7 @@ public class HumanFilterBuilder {
   }
 
   private void visit(WithinPredicate within) {
-    addParamValue(OccurrenceSearchParameter.GEOMETRY, WITHIN_OPERATOR, within.getGeometry());
+    addParamValue(OccurrenceSearchParameter.GEOMETRY, "", within.getGeometry());
   }
 
   private void visit(InPredicate in) {
@@ -210,11 +210,37 @@ public class HumanFilterBuilder {
       case DATASET_KEY:
         humanValue = lookupDatasetKey(value);
         break;
+      case COUNTRY:
+        humanValue = lookupCountryCode(value);
+        break;
+      case BASIS_OF_RECORD:
+        humanValue = lookupBasisOfRecord(value);
+        break;
+      case MONTH:
+        humanValue = lookupMonth(value);
+        break;
+
       default:
         humanValue = value;
     }
-    filter.get(param).add(op + value);
+    filter.get(param).add(op + humanValue);
     lastParam = param;
+  }
+
+  private String lookupBasisOfRecord(String value) {
+    return action.getText("enum.basisofrecord."+value);
+  }
+
+  private String lookupCountryCode(String code) {
+    Country c = Country.fromIsoCode(code);
+    if (c != null) {
+      return c.getTitle();
+    }
+    return code;
+  }
+
+  private String lookupMonth(String month) {
+    return action.getText("enum.month."+month);
   }
 
   private String lookupTaxonKey(String value) {

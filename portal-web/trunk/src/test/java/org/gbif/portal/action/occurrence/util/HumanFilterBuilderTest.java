@@ -10,6 +10,7 @@ import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.predicate.WithinPredicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.vocabulary.Country;
+import org.gbif.portal.action.BaseAction;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,26 +18,32 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(MockitoJUnitRunner.class)
 public class HumanFilterBuilderTest {
+  @Mock
+  private BaseAction action;
 
   @Test
   public void testHumanFilter() throws Exception {
-    HumanFilterBuilder builder = new HumanFilterBuilder(null, null);
+    HumanFilterBuilder builder = new HumanFilterBuilder(action, null, null);
 
     Predicate p = new EqualsPredicate(OccurrenceSearchParameter.COUNTRY, Country.AFGHANISTAN.getIso2LetterCode());
 
     Map<OccurrenceSearchParameter, LinkedList<String>> x = builder.humanFilter(p);
     assertEquals(1, x.size());
     assertEquals(1, x.get(OccurrenceSearchParameter.COUNTRY).size());
-    assertEquals("AF", x.get(OccurrenceSearchParameter.COUNTRY).get(0));
+    assertEquals("Afghanistan", x.get(OccurrenceSearchParameter.COUNTRY).get(0));
 
     List<Predicate> ors = Lists.newArrayList();
     ors.add(new EqualsPredicate(OccurrenceSearchParameter.YEAR, "2000"));
     ors.add(new EqualsPredicate(OccurrenceSearchParameter.YEAR, "2001"));
-    ors.add(new EqualsPredicate(OccurrenceSearchParameter.YEAR, "2002"));
+    ors.add(new LessThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, "1760"));
     DisjunctionPredicate or = new DisjunctionPredicate(ors);
 
     List<Predicate> ands = Lists.newArrayList(p, or);
@@ -44,6 +51,7 @@ public class HumanFilterBuilderTest {
     x = builder.humanFilter(new ConjunctionPredicate(ands));
     assertEquals(2, x.size());
     assertEquals(3, x.get(OccurrenceSearchParameter.YEAR).size());
+    assertEquals("&lt;=1760", x.get(OccurrenceSearchParameter.YEAR).getLast());
 
     NotPredicate noBirds = new NotPredicate(new EqualsPredicate(OccurrenceSearchParameter.TAXON_KEY, "212"));
     ands.add(noBirds);
@@ -57,17 +65,17 @@ public class HumanFilterBuilderTest {
 
   @Test
   public void testPolygon() throws Exception {
-    HumanFilterBuilder builder = new HumanFilterBuilder(null, null);
+    HumanFilterBuilder builder = new HumanFilterBuilder(action, null, null);
     final String wkt = "POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))";
     Map<OccurrenceSearchParameter, LinkedList<String>> x = builder.humanFilter(new ConjunctionPredicate(Lists.<Predicate>newArrayList(new WithinPredicate(wkt))));
     assertEquals(1, x.size());
     assertEquals(1, x.get(OccurrenceSearchParameter.GEOMETRY).size());
-    assertEquals(" WITHIN " + wkt, x.get(OccurrenceSearchParameter.GEOMETRY).getLast());
+    assertEquals(wkt, x.get(OccurrenceSearchParameter.GEOMETRY).getLast());
   }
 
   @Test
   public void testRange() throws Exception {
-    HumanFilterBuilder builder = new HumanFilterBuilder(null, null);
+    HumanFilterBuilder builder = new HumanFilterBuilder(action, null, null);
 
     List<Predicate> rangeAnd = Lists.newArrayList();
     rangeAnd.add(new GreaterThanOrEqualsPredicate(OccurrenceSearchParameter.YEAR, "2000"));
