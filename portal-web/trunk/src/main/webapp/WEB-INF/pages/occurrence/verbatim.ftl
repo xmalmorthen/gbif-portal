@@ -19,8 +19,9 @@
 
 <@common.notice title="Occurrence verbatim data">
   <p>This listing shows the original information as received by GBIF from the data publisher, without further
-    interpretation processing. <#if fragmentExists>Alternatively you can also view the
-    <a href="<@s.url value='/occurrence/${id?c}/fragment'/>">raw XML or JSON</a> (for dwc archives).</#if>
+    interpretation processing. Please note that the verbatim data is currently limited to a subset of only 40 terms.
+    <#if fragmentExists>Alternatively you can also view the
+    <a href="<@s.url value='/occurrence/${id?c}/fragment'/>">raw XML or JSON</a> (for dwc archives) which contains the entire content.</#if>
   </p>
 </@common.notice>
 
