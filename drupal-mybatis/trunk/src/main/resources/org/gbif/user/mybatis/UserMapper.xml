@@ -20,7 +20,7 @@
     select <include refid="userColumns"/>
     from users u
     left join field_data_field_firstname fn on u.uid=fn.entity_id and fn.entity_type='user'
-    left join field_data_field_lastname ln on u.uid=fn.entity_id and ln.entity_type='user'
+    left join field_data_field_lastname ln on u.uid=ln.entity_id and ln.entity_type='user'
     where u.name = #{x}
   </select>
 
