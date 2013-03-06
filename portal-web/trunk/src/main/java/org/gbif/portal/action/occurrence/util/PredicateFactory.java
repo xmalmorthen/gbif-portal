@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
  * (ALTITUDE >= 1000 AND ALTITUDE <= 1000)
  */
 public class PredicateFactory {
-
+  private final static String POLYGON = "POLYGON((%s))";
   private final static Splitter RANGE_SPLITTER = Splitter.on(",").trimResults().limit(2);
 
   /**
@@ -103,7 +103,7 @@ public class PredicateFactory {
   private Predicate parsePredicate(OccurrenceSearchParameter param, String value) {
     // geometry filters are special
     if (OccurrenceSearchParameter.GEOMETRY == param) {
-      return new WithinPredicate(value);
+      return new WithinPredicate(String.format(POLYGON, value));
     }
 
     // test for ranges

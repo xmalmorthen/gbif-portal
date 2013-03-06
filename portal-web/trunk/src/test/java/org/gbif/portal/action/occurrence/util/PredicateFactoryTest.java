@@ -7,6 +7,7 @@ import org.gbif.api.model.occurrence.predicate.GreaterThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.LessThanOrEqualsPredicate;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.predicate.SimplePredicate;
+import org.gbif.api.model.occurrence.predicate.WithinPredicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 
 import java.util.HashMap;
@@ -115,5 +116,18 @@ public class PredicateFactoryTest {
 
     Predicate p = pf.build(params);
     assertTrue(p instanceof DisjunctionPredicate);
+  }
+
+  @Test
+  public void testPolygon() throws Exception {
+    PredicateFactory pf = new PredicateFactory();
+    Map<String, String[]> params = Maps.newHashMap();
+
+    params.put("GEOMETRY", new String[] {"30 10,10 20,20 40,40 40,30 10"});// equals
+
+    Predicate p = pf.build(params);
+    assertTrue(p instanceof WithinPredicate);
+    WithinPredicate within = (WithinPredicate) p;
+    assertEquals("POLYGON((30 10,10 20,20 40,40 40,30 10))", within.getGeometry());
   }
 }

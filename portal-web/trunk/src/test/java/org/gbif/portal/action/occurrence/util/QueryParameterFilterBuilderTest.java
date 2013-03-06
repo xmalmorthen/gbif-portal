@@ -65,7 +65,7 @@ public class QueryParameterFilterBuilderTest {
     QueryParameterFilterBuilder builder = new QueryParameterFilterBuilder();
     final String wkt = "POLYGON((30 10,10 20,20 40,40 40,30 10))";
     String query = builder.queryFilter(new WithinPredicate(wkt));
-    assertEquals("GEOMETRY=POLYGON%28%2830+10%2C10+20%2C20+40%2C40+40%2C30+10%29%29", query);
+    assertEquals("GEOMETRY=30+10%2C10+20%2C20+40%2C40+40%2C30+10", query);
   }
 
   @Test

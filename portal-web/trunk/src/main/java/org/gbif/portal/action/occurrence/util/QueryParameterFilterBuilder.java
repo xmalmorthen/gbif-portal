@@ -34,6 +34,8 @@ import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -50,6 +52,7 @@ public class QueryParameterFilterBuilder {
 
   private static final Logger LOG = LoggerFactory.getLogger(QueryParameterFilterBuilder.class);
   private static final String WILDCARD = "*";
+  private final static Pattern POLYGON_PATTERN = Pattern.compile("POLYGON\\s*\\(\\s*\\((.+)\\)\\s*\\)", Pattern.CASE_INSENSITIVE);
 
   private Map<OccurrenceSearchParameter, LinkedList<String>> filter;
   private enum State { ROOT, AND, OR };
@@ -173,7 +176,15 @@ public class QueryParameterFilterBuilder {
   }
 
   private void visit(WithinPredicate within) {
-    addQueryParam(OccurrenceSearchParameter.GEOMETRY, within.getGeometry());
+    addQueryParam(OccurrenceSearchParameter.GEOMETRY, extractPolygonValues(within.getGeometry()));
+  }
+
+  private String extractPolygonValues(String withinValue) {
+    Matcher m = POLYGON_PATTERN.matcher(withinValue);
+    if (m.find()) {
+      return m.group(1);
+    }
+    throw new IllegalArgumentException("No valid polygon WKT: " + withinValue);
   }
 
   private void visit(InPredicate in) {
