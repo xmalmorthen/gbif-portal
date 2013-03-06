@@ -27,14 +27,29 @@
     </#if>
   </h3>
 
-<#-- The length of characters is maintained, so that it doesn't overflow. Where it is long, the page flag is set to render the full keywords under the details  -->
+<#-- 
+  When writing tags under the title we truncate if they are too long.  
+  If they are truncated, the page flag is set to render the full keywords under the details.
+  If there is a box for view occurrences / species, then the UL gets a new class attribute so the width can be controlled.
+-->
+<#assign box=false />
+<#assign maxKeywordChars=250 />
+<#if dataset.type! == "OCCURRENCE" ||  dataset.type! == "CHECKLIST">
+  <#assign box=true />
+  <#assign maxKeywordChars=140 />
+</#if>
 <#assign keywords=dataset.keywords />
+
 <#assign keywordTextLength=0 />
 <#assign keywordsTruncatedInTitle=false />
 <#if keywords?has_content>
-<ul class="tags">
+<#if box == true>
+  <ul class="tags narrow">
+<#else>
+  <ul class="tags">
+</#if>
   <#list keywords as k>
-    <#if keywordTextLength + k?length &gt; 250>
+    <#if keywordTextLength + k?length &gt; maxKeywordChars>
       <li><a href="#keywords">more…</a></li>
       <#assign keywordsTruncatedInTitle=true />
       <#break>
