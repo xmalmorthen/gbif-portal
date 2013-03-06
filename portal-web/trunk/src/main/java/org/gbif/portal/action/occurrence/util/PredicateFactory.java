@@ -11,7 +11,6 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 import org.gbif.api.util.VocabularyUtils;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -80,7 +79,10 @@ public class PredicateFactory {
   private Predicate buildParamPredicate(OccurrenceSearchParameter param, String[] values) {
     List<Predicate> predicates = Lists.newArrayList();
     for (String v : values) {
-      predicates.add(parsePredicate(param, v));
+      Predicate p = parsePredicate(param, v);
+      if (p != null) {
+        predicates.add(p);
+      }
     }
 
     if (predicates.isEmpty()) {
@@ -106,9 +108,29 @@ public class PredicateFactory {
 
     // test for ranges
     if (SearchTypeValidator.isRange(value)) {
-      Iterator<String> iter = RANGE_SPLITTER.split(value).iterator();
-      return new ConjunctionPredicate(Lists.<Predicate>newArrayList(
-        new GreaterThanOrEqualsPredicate(param, iter.next()), new LessThanOrEqualsPredicate(param, iter.next()))) ;
+      SearchTypeValidator.Range<?> range;
+      if (Double.class.equals(param.type())) {
+        range = SearchTypeValidator.parseDecimalRange(value);
+      } else if (Integer.class.equals(param.type())) {
+        range = SearchTypeValidator.parseIntegerRange(value);
+      } else {
+        throw new IllegalArgumentException("Ranges are only supported for numeric parameter types but received " + param);
+      }
+
+      List<Predicate> rangePredicates = Lists.newArrayList();
+      if (range.start != null) {
+        rangePredicates.add(new GreaterThanOrEqualsPredicate(param, range.start.toString()));
+      }
+      if (range.end != null) {
+        rangePredicates.add(new LessThanOrEqualsPredicate(param, range.end.toString()));
+      }
+
+      if (rangePredicates.size() == 1) {
+        return rangePredicates.get(0);
+      } else if (rangePredicates.size() > 1) {
+        return new ConjunctionPredicate(rangePredicates);
+      }
+      return null;
 
     } else {
       // defaults to an equals predicate with the original value

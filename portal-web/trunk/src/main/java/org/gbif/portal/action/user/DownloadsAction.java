@@ -18,6 +18,7 @@ import org.gbif.api.service.occurrence.DownloadService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.util.HumanFilterBuilder;
+import org.gbif.portal.action.occurrence.util.QueryParameterFilterBuilder;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -56,8 +57,8 @@ public class DownloadsAction extends BaseAction {
   }
 
   public Map<OccurrenceSearchParameter, LinkedList<String>> getHumanFilter(Predicate p) {
-    // not thread safe!
     try {
+      // not thread safe!
       HumanFilterBuilder builder = new  HumanFilterBuilder(datasetService, usageService);
       return builder.humanFilter(p);
 
@@ -68,13 +69,13 @@ public class DownloadsAction extends BaseAction {
   }
 
   public String getQueryParams(Predicate p) {
-    // not thread safe!
     try {
-      HumanFilterBuilder builder = new HumanFilterBuilder(datasetService, usageService);
+      // not thread safe!
+      QueryParameterFilterBuilder builder = new QueryParameterFilterBuilder();
       return builder.queryFilter(p);
 
     } catch (IllegalArgumentException e) {
-      LOG.warn("Cannot create human representation for predicate " + p);
+      LOG.warn("Cannot create query parameter representation for predicate " + p);
       return null;
     }
   }

@@ -30,25 +30,27 @@
                   <dt>Filter</dt>
                   <dd>
                       <#assign filterMap=action.getHumanFilter(d.predicate)!""/>
-                      <#if filterMap?has_content>
-                        <#assign queryParams=action.getQueryParams(d.predicate)/>
+                      <#assign queryParams=action.getQueryParams(d.predicate)!""/>
+                      <#if queryParams?has_content>
                         <a href="<@s.url value='/occurrence/search?${queryParams}'/>">
-                          <table class="table">
-                            <#list filterMap?keys as param>
-                              <tr>
-                                  <th><@s.text name="search.facet.${param}" /></th>
-                                  <td><#list filterMap.get(param) as val><span>${val}</span><#if val_has_next>, </#if></#list></td>
-                              </tr>
-                            </#list>
-                          </table>
-                        </a>
-                      <#else>
-                        <table class="table">
+                      </#if>
+                      <table class="table">
+                      <#if filterMap?has_content>
+                        <#list filterMap?keys as param>
                           <tr>
-                              <th>Unreadable Filter</th>
-                              <td>${d.predicate}</td>
+                            <th><@s.text name="search.facet.${param}" /></th>
+                            <td><#list filterMap.get(param) as val><span>${val}</span><#if val_has_next>, </#if></#list></td>
                           </tr>
-                        </table>
+                        </#list>
+                      <#else>
+                          <tr>
+                            <th>Raw Filter</th>
+                            <td>${d.predicate}</td>
+                          </tr>
+                      </#if>
+                      </table>
+                      <#if queryParams?has_content>
+                        </a>
                       </#if>
                   </dd>
 
