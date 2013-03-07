@@ -885,7 +885,9 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       self.addFilter({label: label, value: value, key: null, paramName: self.getId(), submitted: false, marker: self.mapGeometries.length, targetParam:'BOUNDING_BOX'});      
       //GEOREFERENCED filters must be removed
       self.removeFilterByParamName('GEOREFERENCED');
+      self.removeFilterByParamName('SPATIAL_ISSUES');
       self.filterElement.find(':checkbox[name="GEOREFERENCED"]').removeAttr('checked');
+      self.filterElement.find(':checkbox[name="SPATIAL_ISSUES"]').removeAttr('checked');
       if(numFilters < self.gelFilters().length) { //nothing changed
         self.showFilters();      
         var bounds = new L.LatLngBounds(new L.LatLng(minLat,minLng), new L.LatLng(maxLat,maxLng));
@@ -991,6 +993,19 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       }
     });
   };
+  
+  /**
+   * Binds the event handler to the .checkbox[name="SPATIAL_ISSUES"].change event.
+   */
+  InnerOccurrenceLocationWidget.prototype.bindSelectSpatialIssuesEvent = function() {
+    var self = this;    
+    this.filterElement.find(':checkbox[name="SPATIAL_ISSUES"]').change( function(e) {      
+      if ($(this).attr('checked')) {
+        self.addFilter({label:$(this).val() == 'true' ?'Yes':'No',value: $(this).val(), key:  $(this).val(),paramName:'SPATIAL_ISSUES', submitted: false});
+        self.filterElement.find(':checkbox[name="SPATIAL_ISSUES"][id!=' + $(this).attr('id') + ']').removeAttr('checked');
+      }
+    });
+  };
 
   /**
    * Executes binding function bound during the object construction.
@@ -1002,6 +1017,7 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
     this.bindSelectGeoEvent();
     this.bindRemoveGeoEvent();
     this.bindSelectGeoreferecendEvent();
+    this.bindSelectSpatialIssuesEvent();
   };  
 
   return InnerOccurrenceLocationWidget;
@@ -1160,8 +1176,8 @@ var OccurrenceWidgetManager = (function ($,_) {
    */
   function getWidgetById(id) {
     var widgetId = id;
-    if(widgetId == 'GEOREFERENCED' || widgetId == 'POLYGON') { //GEOREFERENCED parameter is handled by BOUNDING_BOX widget
-      widgetId = 'BOUNDING_BOX';
+    if(widgetId == 'GEOREFERENCED' || widgetId == 'POLYGON' || widgetId == 'SPATIAL_ISSUES') { //GEOREFERENCED parameter is handled by BOUNDING_BOX widget
+      widgetId = 'GEOMETRY';
     }
     for (var i=0;i < widgets.length;i++) {
       if(widgets[i].getId() == widgetId){ return widgets[i];}

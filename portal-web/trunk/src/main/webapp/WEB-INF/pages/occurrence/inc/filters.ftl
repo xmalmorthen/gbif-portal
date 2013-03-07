@@ -435,7 +435,7 @@
                   <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
                   <label for="isNotGeoreferenced">NON georeferenced</label> <input type="checkbox" name="GEOREFERENCED" id="isNotGeoreferenced" value="false" <#if action.isInFilter('GEOREFERENCED', 'false') && !action.isInFilter('GEOREFERENCED', 'true')> checked</#if>/>
                 </fieldset>
-              </div>
+              </div>                            
               <fieldset class="location_option_geo">  
               <legend>Bounding box/Polygon</legend>                                                    
               <table>                
@@ -470,6 +470,14 @@
                 </tr>                                 
               </table>
               </fieldset>
+              <div style="width:490px;display:none;">
+                <fieldset class="location_option_geo">
+                  <legend>Show records</legend>                
+                  <label for="isGeoreferenced">With NO known issues with coordinates</label> <input type="checkbox" name="SPATIAL_ISSUES" id="noSpatialIssues" value="true" <#if action.isInFilter('SPATIAL_ISSUES', 'true')> checked</#if>/>
+                  <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                  <label for="isNotGeoreferenced">With known coordinate issues</label> <input type="checkbox" name="SPATIAL_ISSUES" id="spatialIssues" value="false" <#if action.isInFilter('SPATIAL_ISSUES', 'false')> checked</#if>/>
+                </fieldset>
+              </div>
               <div>         
                 <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply</span></a>
                </div>         

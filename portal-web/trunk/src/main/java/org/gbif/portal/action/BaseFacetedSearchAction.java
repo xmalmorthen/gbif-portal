@@ -101,21 +101,25 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
       for (String p : querySplitter.split(request.getQueryString())) {
         Iterator<String> kvIter = paramSplitter.split(p).iterator();
         // lowercase to handle URL hacking gracefully (http://dev.gbif.org/issues/browse/POR-522)
-        String key = kvIter.next().toLowerCase();   
-        String val = kvIter.next();
-        // potentially translate facet values
-        P facet = getSearchParam(key);
-        if (facet != null) {
-          val = translateFilterValue(facet, val);
-        }
+        String key = kvIter.next().toLowerCase();
         if (first) {
           currentUrl.append("?");
         } else {
           currentUrl.append("&");
         }
-        currentUrl.append(key);
-        currentUrl.append("=");
-        currentUrl.append(val);
+        if (kvIter.hasNext()) { // parameter could have no value
+          String val = kvIter.next();
+          // potentially translate facet values
+          P facet = getSearchParam(key);
+          if (facet != null) {
+            val = translateFilterValue(facet, val);
+          }
+          currentUrl.append(key);
+          currentUrl.append("=");
+          currentUrl.append(val);
+        } else {
+          currentUrl.append(key);
+        }
         first = false;
       }
     }
@@ -154,6 +158,17 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
    */
   public Map<P, List<FacetInstance>> getSelectedFacetCounts() {
     return selectedFacetCounts;
+  }
+
+  public Map<UUID, String> getTitles() {
+    return titles;
+  }
+
+  protected String getEnumTitle(String resourceEntry, String value) {
+    if (Strings.isNullOrEmpty(value)) {
+      return null;
+    }
+    return getText("enum." + resourceEntry + "." + value);
   }
 
   /**
@@ -269,16 +284,5 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
       }
     }
     return instances;
-  }
-
-  public Map<UUID, String> getTitles() {
-    return titles;
-  }
-
-  protected String getEnumTitle(String resourceEntry, String value) {
-    if (Strings.isNullOrEmpty(value)) {
-      return null;
-    }
-    return getText("enum." + resourceEntry + "." + value);
   }
 }
