@@ -23,7 +23,7 @@
 </#if>
     <@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/>
     <#if owningOrganization??>
-      published by <a href="<@s.url value='/organization/${owningOrganization.key}'/>">${owningOrganization.title!"Unknown"}</a>
+      published by <a href="<@s.url value='/organization/${owningOrganization.key}'/>">${common.limit(owningOrganization.title!"Unknown", 70)}</a>
     </#if>
   </h3>
 
