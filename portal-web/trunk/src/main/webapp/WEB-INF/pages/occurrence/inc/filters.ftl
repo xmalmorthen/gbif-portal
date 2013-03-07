@@ -470,7 +470,7 @@
                 </tr>                                 
               </table>
               </fieldset>
-              <div style="width:490px;display:none;">
+              <div style="width:490px;">
                 <fieldset class="location_option_geo">
                   <legend>Show records</legend>                
                   <label for="isGeoreferenced">With NO known issues with coordinates</label> <input type="checkbox" name="SPATIAL_ISSUES" id="noSpatialIssues" value="true" <#if action.isInFilter('SPATIAL_ISSUES', 'true')> checked</#if>/>
