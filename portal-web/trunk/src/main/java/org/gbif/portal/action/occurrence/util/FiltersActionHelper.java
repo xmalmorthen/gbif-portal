@@ -30,6 +30,7 @@ import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.model.SearchSuggestions;
 
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.EnumSet;
@@ -39,10 +40,11 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -53,6 +55,8 @@ import com.opensymphony.xwork2.util.LocalizedTextUtil;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static org.gbif.api.model.common.search.SearchConstants.QUERY_WILDCARD;
 
 /**
  * Utility class for common operations of SearchAction and DownloadHomeAction.
@@ -93,7 +97,8 @@ public class FiltersActionHelper {
     new Function<NameUsageSearchResult, String>() {
 
       @Override
-      public String apply(@NotNull NameUsageSearchResult input) {
+      public String apply(@Nullable NameUsageSearchResult input) {
+        Preconditions.checkNotNull(input);
         return input.getKey().toString();
       }
     };
@@ -103,7 +108,8 @@ public class FiltersActionHelper {
     new Function<DatasetSearchResult, String>() {
 
       @Override
-      public String apply(@NotNull DatasetSearchResult input) {
+      public String apply(@Nullable DatasetSearchResult input) {
+        Preconditions.checkNotNull(input);
         return input.getKey();
       }
     };
@@ -149,7 +155,8 @@ public class FiltersActionHelper {
     new Predicate<Country>() {
 
       @Override
-      public boolean apply(@NotNull Country country) {
+      public boolean apply(@Nullable Country country) {
+        Preconditions.checkNotNull(country);
         return country.isOfficial();
       }
     }));
@@ -342,11 +349,10 @@ public class FiltersActionHelper {
       for (String value : values) {
         final String[] uuidPart = value.split(":"); // external dataset keys are in the pattern "UUID:identifier"
         if (tryParseUUID(uuidPart[0]) == null) { // Is not a integer
-          List<DatasetSearchResult> suggestions = Lists.newArrayList();
+          List<DatasetSearchResult> suggestions = datasetSearchService.suggest(suggestRequest);
           suggestRequest.setQ(value);
           // By default only occurrence datasets are suggested
           suggestRequest.addParameter(DatasetSearchParameter.TYPE, DatasetType.OCCURRENCE);
-          suggestions = datasetSearchService.suggest(suggestRequest);
           // suggestions are stored in map: "parameter value" -> list of suggestions
           searchSuggestions.getSuggestions().put(value, suggestions);
         }
@@ -390,10 +396,9 @@ public class FiltersActionHelper {
         if (Ints.tryParse(value) == null) { // Is not a integer
           NameUsageMatch nameUsageMatch =
             nameUsageMatchingService.match(value, null, null, null, null, null, null, null);
-          List<NameUsageSearchResult> suggestions = Lists.newArrayList();
           if (nameUsageMatch.getMatchType() == MatchType.NONE) {
+            List<NameUsageSearchResult> suggestions = nameUsageSearchService.suggest(suggestRequest);
             suggestRequest.setQ(value);
-            suggestions = nameUsageSearchService.suggest(suggestRequest);
             // suggestions are stored in map: "parameter value" -> list of suggestions
             nameUsagesSuggestion.getSuggestions().put(value, suggestions);
           } else {
@@ -489,9 +494,9 @@ public class FiltersActionHelper {
   private String getMonthRangeTitle(String value) {
     final String[] rangeValue = value.split(",");
     if (rangeValue.length == 2) {
-      if (rangeValue[0].equals("*")) {
+      if (rangeValue[0].equals(QUERY_WILDCARD)) {
         return String.format(BEFORE_FMT, getMonthName(Integer.parseInt(rangeValue[1])));
-      } else if (rangeValue[1].equals("*")) {
+      } else if (rangeValue[1].equals(QUERY_WILDCARD)) {
         return String.format(AFTER_FMT, getMonthName(Integer.parseInt(rangeValue[0])));
       } else {
         return String.format(BETWEEN_FMT, getMonthName(Integer.parseInt(rangeValue[0])),
@@ -509,9 +514,9 @@ public class FiltersActionHelper {
   private String getRangeTitle(String value) {
     final String[] rangeValue = value.split(",");
     if (rangeValue.length == 2) {
-      if (rangeValue[0].equals("*")) {
+      if (rangeValue[0].equals(QUERY_WILDCARD)) {
         return String.format(LESS_THAN_FMT, rangeValue[1]);
-      } else if (rangeValue[1].equals("*")) {
+      } else if (rangeValue[1].equals(QUERY_WILDCARD)) {
         return String.format(GREATER_THAN_FMT, rangeValue[0]);
       } else {
         return String.format(BETWEEN_FMT, rangeValue[0], rangeValue[1]);
@@ -528,9 +533,9 @@ public class FiltersActionHelper {
   private String getTemporalRangeTitle(String value) {
     final String[] rangeValue = value.split(",");
     if (rangeValue.length == 2) {
-      if (rangeValue[0].equals("*")) {
+      if (rangeValue[0].equals(QUERY_WILDCARD)) {
         return String.format(BEFORE_FMT, rangeValue[1]);
-      } else if (rangeValue[1].equals("*")) {
+      } else if (rangeValue[1].equals(QUERY_WILDCARD)) {
         return String.format(AFTER_FMT, rangeValue[0]);
       } else {
         return String.format(BETWEEN_FMT, rangeValue[0], rangeValue[1]);
@@ -550,13 +555,13 @@ public class FiltersActionHelper {
       String[] point2 = values[1].split(" ");
       String[] point3 = values[2].split(" ");
       String[] point4 = values[3].split(" ");
-      final float valX1 = Float.parseFloat(point1[0]) + Float.parseFloat(point3[0]);
-      final float valX2 = Float.parseFloat(point2[0]) + Float.parseFloat(point4[0]);
 
-      final float valY1 = Float.parseFloat(point1[1]) + Float.parseFloat(point3[1]);
-      final float valY2 = Float.parseFloat(point2[1]) + Float.parseFloat(point4[1]);
+      final BigDecimal valX1 = BigDecimal.valueOf(Float.parseFloat(point1[0]) + Float.parseFloat(point3[0]));
+      final BigDecimal valX2 = BigDecimal.valueOf(Float.parseFloat(point2[0]) + Float.parseFloat(point4[0]));
+      final BigDecimal valY1 = BigDecimal.valueOf(Float.parseFloat(point1[1]) + Float.parseFloat(point3[1]));
+      final BigDecimal valY2 = BigDecimal.valueOf(Float.parseFloat(point2[1]) + Float.parseFloat(point4[1]));
 
-      return valX1 == valX2 && valY1 == valY2;
+      return valX1.compareTo(valX2) == 0 && valY1.compareTo(valY2) == 0;
     }
     return false;
   }

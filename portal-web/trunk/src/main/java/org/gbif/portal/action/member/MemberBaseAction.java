@@ -1,17 +1,20 @@
 package org.gbif.portal.action.member;
 
-import org.gbif.portal.exception.NotFoundException;
 import org.gbif.api.model.registry.Network;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.Tag;
 import org.gbif.api.model.registry.WritableMember;
 import org.gbif.api.service.registry.NetworkEntityService;
+import org.gbif.portal.exception.NotFoundException;
 
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -21,13 +24,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MemberBaseAction<T extends WritableMember> extends org.gbif.portal.action.BaseAction {
+
   private static final Logger LOG = LoggerFactory.getLogger(MemberBaseAction.class);
 
   protected UUID id;
   protected T member;
-  private NetworkEntityService<T, ?> memberService;
+  private final NetworkEntityService<T, ?> memberService;
   // displayed in member's infoband underneath title
   private List<String> keywords;
+
+  /**
+   * Predicate used to filter member Tags. If a Tag is public (has no namespace) it will return true.
+   */
+  Predicate<Tag> isPublic = new Predicate<Tag>() {
+
+    @Override
+    public boolean apply(@Nullable Tag t) {
+      Preconditions.checkNotNull(t);
+      return Strings.isNullOrEmpty(t.getNamespace());
+    }
+  };
 
   protected MemberBaseAction(NetworkEntityService<T, ?> memberService) {
     this.memberService = memberService;
@@ -37,6 +53,31 @@ public class MemberBaseAction<T extends WritableMember> extends org.gbif.portal.
   public String execute() throws Exception {
     loadDetail();
     return SUCCESS;
+  }
+
+  public UUID getId() {
+    return id;
+  }
+
+  /**
+   * The member's list of lower cased, plain string keywords derived from public tags without a namespace.
+   * 
+   * @return member's list of keywords
+   */
+  public List<String> getKeywords() {
+    return getKeywords(member);
+  }
+
+  public T getMember() {
+    return member;
+  }
+
+  public void setId(String id) {
+    try {
+      this.id = UUID.fromString(id);
+    } catch (IllegalArgumentException e) {
+      this.id = null;
+    }
   }
 
   protected void loadDetail() {
@@ -51,26 +92,10 @@ public class MemberBaseAction<T extends WritableMember> extends org.gbif.portal.
     }
   }
 
-  public T getMember() {
-    return member;
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    try {
-      this.id = UUID.fromString(id);
-    } catch (IllegalArgumentException e) {
-      this.id = null;
-    }
-  }
-
   /**
    * Lists a unique set of lower cased, plain string keywords derived from public tags without a namespace.
    * The Tag's toString is used to display the Tag in the GUI.
-   *
+   * 
    * @return a list of unique plain keywords in lower case
    */
   private List<String> getKeywords(T member) {
@@ -94,22 +119,4 @@ public class MemberBaseAction<T extends WritableMember> extends org.gbif.portal.
 
     return Lists.newArrayList(keywords);
   }
-
-  /**
-   * The member's list of lower cased, plain string keywords derived from public tags without a namespace.
-   *
-   * @return member's list of keywords
-   */
-  public List<String> getKeywords() {
-    return getKeywords(member);
-  }
-
-  /**
-   * Predicate used to filter member Tags. If a Tag is public (has no namespace) it will return true.
-   */
-  Predicate<Tag> isPublic = new Predicate<Tag>() {
-    @Override public boolean apply(Tag t) {
-      return Strings.isNullOrEmpty(t.getNamespace());
-    }
-  };
 }
