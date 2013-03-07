@@ -837,59 +837,27 @@ The id #content is used for forcing precedence over other style definitions.
  **/
 .ac_results ul, #content ul.ui-autocomplete {
   z-index: 10000;
-  text-align: left;
-  color: @cGray4;
-  font-size: 11px;
   text-transform: uppercase;
   font-family: "DINOT-Medium", sans-serif;
   margin-top: -5px;
   margin-left: -5px;
+  background-color: @cGray4;
+  background-repeat:no-repeat;
 
   li.row, li.ui-menu-item {
-    padding: 7px 11px;
-    .size(203px, 31px);
     cursor: pointer;
     text-align: left;
+    line-height: 21px;
     margin-bottom: 0px;
-    background: url("../img/autocomplete_bkg.png") no-repeat -226px -12px;
+    padding: 5px 0px 5px 0px;
+    background-color: #ffffff;
+    background-repeat:no-repeat;
+    border: none;
 
     &:hover {
-      height: 31px;
-      background-position: -226px -92px;
-      border: none;
+      background-color: #87cefa;
     }
 
-    &.unique {
-      padding: 20px 11px 7px 11px;
-      height: 37px;
-      background: url("../img/autocomplete_bkg.png") no-repeat -678px top;
-      &:hover {
-        background: url("../img/autocomplete_bkg.png") no-repeat -678px -80px;
-        border: none;
-      }
-    }
-    &.first {
-      padding-top: 20px;
-      height: 30px;
-      background: url("../img/autocomplete_bkg.png") no-repeat left top;
-      &:hover {
-        padding-top: 20px;
-        height: 30px;
-        background: url("../img/autocomplete_bkg.png") no-repeat left -80px;
-        border: none;
-      }
-    }
-    &.last {
-      height: 58px;
-      background: url("../img/autocomplete_bkg.png") no-repeat -452px -8px;
-      border: none;
-      margin-top: -1px;
-      &:hover {
-        height: 58px;
-        background: url("../img/autocomplete_bkg.png") no-repeat -452px -88px;
-        border: none;
-      }
-    }
     &.last_double {
       height: 58px;
       background: url("../img/autocomplete_bkg.png") no-repeat -904px -8px;
@@ -901,15 +869,12 @@ The id #content is used for forcing precedence over other style definitions.
 
     span.name, a.name {
       display: block;
-      margin-bottom: 3px;
       text-transform: none;
       font-size: 11px;
       font-family: "Arial", "Helvetica", sans-serif;
       color: @cLink;
       border: none;
       background: none;
-      padding-bottom: 2px;
-      padding-top: 1px;
       strong {
         font-weight: bold;
         font-size: 12px;

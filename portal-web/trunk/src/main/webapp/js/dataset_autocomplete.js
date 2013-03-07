@@ -17,7 +17,7 @@
 	   * @param appendToElement parent element of generated widget
 	   * @param onSelectEventHandler function that handles the event when an element is selected
 	   */
-	  $.fn.datasetAutosuggest = function(wsSuggestUrl, limit, appendToElement, onSelectEventHandler, datasetType) {
+	  $.fn.datasetAutosuggest = function(wsSuggestUrl, limit, maxLength, appendToElement, onSelectEventHandler, datasetType) {
 		   //reference to the widget
 		   var self = $(this);
 		   //jquery ui autocomplete widget creation
@@ -36,7 +36,7 @@
 						success: function(data){//response the data sent by the web service						 
 						    response( $.map(data, function( item ) {
 		              return {		                
-		                value: item.title,
+		                value: trucateAutosuggestValue(item.title, maxLength),
 		                label: item.title,
 		                key: item.key
 		              }
@@ -50,14 +50,6 @@
 				},
 				open: function(event, ui) {
 				    $('.ui-autocomplete.ui-menu').addClass('species_autocomplete');
-			     //sets child classes of li elements according to the returned elements
-				 if ($(".ui-autocomplete li").length == 1) {
-				 	$(".ui-autocomplete li:first-child").addClass("unique");
-				 }
-				 else {
-				 	$(".ui-autocomplete li:first-child").addClass("first");
-				 	$(".ui-autocomplete li:last-child").addClass("last");
-				 }
 				},
 				appendTo: appendToElement,
 				focus: function( event, ui ) {//on focus: sets the value of the input[text] element
@@ -77,13 +69,27 @@
     	        }
 							return false;
 						}
-			}).data( "autocomplete" )._renderItem = function( ul, item) { 		  
+			}).data( "autocomplete" )._renderItem = function( ul, item) {
 			return $( "<li></li>" )
 			.data( "item.autocomplete", item )
-			.append("<a class='name'>" + this.highlight(item.value,self.val()) + "</a>")			
+			.append("<a class='name'>" + this.highlight(item.value,self.val()) + "</a>")
 			.appendTo( ul );
 			//last line customizes the generated elements of the auto-complete widget by highlighting the results and adding new css class
-			};   
-	   }; 
+			};
+	   };
+
+  /**
+   * Truncates autosuggest value if it exceeds max length, otherwise the original value is returned unchanged.
+   * @param input autosuggest value to truncate
+   * @param maxLength maximum length autosuggest value can be
+   */
+  function trucateAutosuggestValue(input, maxLength)
+  {
+    var value = input;
+    if (input.length > maxLength) {
+      value = input.substring(0, maxLength) + "…";
+    }
+    return value;
+  }
 	 
       

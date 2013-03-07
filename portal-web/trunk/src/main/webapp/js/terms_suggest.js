@@ -37,17 +37,7 @@ $.fn.termsAutosuggest = function(wsServiceUrl,appendToElement,limit,onSelectEven
     $(".ui-autocomplete").css("z-index",1000);
 
     // Uncomment the following line if you want bigger autocompletes panes.
-    //  $(".ui-autocomplete").addClass("big"); 
-
-
-    //sets child classes of li elements according to the returned elements
-    if ($(".ui-autocomplete li").length == 1){
-      $(".ui-autocomplete li:first-child").addClass("unique");
-    }
-    else{
-      $(".ui-autocomplete li:first-child").addClass("first");
-      $(".ui-autocomplete li:last-child").addClass("last");
-    }
+    //  $(".ui-autocomplete").addClass("big");
   },
   appendTo: appendToElement,
   focus: function( event, ui ) {//on focus: sets the value of the input[text] element             
