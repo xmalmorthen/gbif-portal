@@ -13,6 +13,7 @@
 
 <content tag="infoband">
   <h1><#if currentUser.firstName?has_content>${currentUser.firstName} ${currentUser.lastName!}<#else>${currentUser.userName}</#if></h1>
+  <h3>User account and personal settings</h3>
 </content>
 
 <content tag="tabs">

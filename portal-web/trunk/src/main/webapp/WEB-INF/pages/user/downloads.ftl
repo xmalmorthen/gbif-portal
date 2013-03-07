@@ -14,7 +14,7 @@
   </style>
 </head>
 
-<body class="search">
+<body class="newsroom">
 
 <#assign tab="downloads"/>
 <#include "/WEB-INF/pages/user/inc/infoband.ftl">
