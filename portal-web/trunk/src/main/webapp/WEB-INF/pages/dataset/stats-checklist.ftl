@@ -97,7 +97,7 @@
 
 
        <li><h3>Ranks</h3>
-         <p>Number of taxa by mayor ranks.</p>
+         <p>Number of taxa by major ranks.</p>
          <#if metrics.countByRank?has_content>
            <div id="ranks" class="pieMultiLegend">
              <ul>

@@ -104,7 +104,7 @@ We need to see if we can change a setting or use a rewrite to lower case filter?
 
 == internationalisation
 We are going to stick to a single resource file. Markus's point of replacing the native struts2 text provider makes sense now.
-not done yet as we expect mayor changes in the html still and its less work to replace the real strings once we reached a considerable stable state. Otherwise we also run into lots of orphaned entries.
+not done yet as we expect major changes in the html still and its less work to replace the real strings once we reached a considerable stable state. Otherwise we also run into lots of orphaned entries.
 
 use the struts tags for i18n, for example <@s.text name="menu.species"/>
 Consider replacing the native struts2 text provider with a much simpler one we use in the IPT that increased page rendering with many getText lookups by more than 100% as the native one does an extensive resource bundle search across various classpaths and other places that we dont need if we stick to a single resource file.
