@@ -204,12 +204,12 @@
         <li>
           <a href="${p.url}" title="<@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/>">Original document (<@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/>)</a>
           <#if p.type=="EML">
-            <@common.popup message="This is a link to the original metadata document. The metadata may be different from the version that is displayed if it has been updated since the time the dataset was last indexed." title="Warning"/>
+            <@common.popup message="This is a link to the original metadata document. The metadata may be different from the version that is displayed if it has been updated since the time the dataset was last indexed." title="Note"/>
           </#if>
         </li>
         <li class="download verify">
           <a href="${cfg.wsReg}dataset/${dataset.key}/document">Cached copy (<@s.text name='enum.endpointtype.${p.type!"UNKNOWN"}'/>)</a>
-          <@common.popup message="This cached copy of the original serves to distinguish cases where the source of content on this page might be confusing, or where the original is not accessible" title="Warning"/>
+          <@common.popup message="The cached copy of the original serves to distinguish cases where the source of content on this page might be confusing, or where the original is not accessible" title="Note"/>
         </li>
         
       </#if>
@@ -219,7 +219,7 @@
     
     <li class="download">
       <a href="${cfg.wsReg}dataset/${dataset.key}/eml">GBIF annotated version (EML)</a> 
-      <@common.popup message="The GBIF annotated version is created based on available content according to the <a href='http://www.gbif.org/orc/?doc_id=2820'>GBIF Metadata Profile</a>. Please note that it might not be as rich as the original version" title="Warning"/>
+      <@common.popup message="The GBIF annotated version is created based on available content according to the <a href='http://www.gbif.org/orc/?doc_id=2820'>GBIF Metadata Profile</a>. Please note that it might not be as rich as the original version and the document will vary over time as content is indexed, and algorithms for producing the document are improved" title="Note"/>
     </li>
   </ul>
   </p>
