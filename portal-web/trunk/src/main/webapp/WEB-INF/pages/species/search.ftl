@@ -52,9 +52,11 @@
               <#if vernacular?has_content>
                 Common Name
               <#elseif u.synonym>
+                <#if u.rank??><@s.text name="enum.rank.${u.rank}"/> </#if>
                 <@s.text name="enum.taxstatus.SYNONYM"/>
               <#else>
                 <@s.text name="enum.taxstatus.ACCEPTED"/>
+                <#if u.rank??> <@s.text name="enum.rank.${u.rank}"/></#if>
               </#if>
               <#if showAccordingTo>
                 <span>from ${u.datasetTitle}</span>

@@ -8,17 +8,12 @@ String.prototype.toProperCase = function () {
   });
 };
 
-// Original function by Alien51
+// copied from http://stackoverflow.com/questions/10191941/jquery-unique-on-an-array-of-strings
 Array.prototype.unique = function () {
-    var arrVal = this;
-    var uniqueArr = [];
-    for (var i = arrVal.length; i--; ) {
-        var val = arrVal[i];
-        if ($.inArray(val, uniqueArr) === -1) {
-            uniqueArr.unshift(val);
-        }
-    }
-    return uniqueArr;
+  var arr = this;
+  return $.grep(arr,function(el,index){
+      return index == $.inArray(el,arr);
+  });
 }
 
 function addCommas(str) {

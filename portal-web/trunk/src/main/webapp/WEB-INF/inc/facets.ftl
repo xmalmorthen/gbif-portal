@@ -4,15 +4,12 @@ This include requires 2 arrays to be set:
  facets: list of facet names just as the SearchParameter enums provide
  seeAllFacets: list of optional facets to always show completely, never via a popup
 -->
-<#macro facetBox facetName count selected=false hidden=false>
+<#macro facetBox facetName count selected=false>
   <#assign cntstr = "" + (count.count!minCnt) />
   <#assign maxlen = 30 - cntstr?length />
 <li>
-  <input type="checkbox" value="&amp;${facetName?lower_case}=${count.name!}" <#if selected>checked</#if> />
+  <input type="checkbox" value="${facetName?lower_case}=${count.name!}" <#if selected>checked</#if> />
   <a href="#" title="${maxlen} - ${count.title!"Unknown"}">${common.limit( count.title!"Unknown" ,maxlen)}</a> (${count.count!minCnt})
-  <#if hidden>
-    <input type="hidden" value="${count.name!}" class="facetKey"/>
-  </#if>
 </li>
 </#macro>
 <#list facets as facetName>
@@ -29,7 +26,7 @@ This include requires 2 arrays to be set:
         <#if selectedFacetCounts.get(facet)?has_content>
           <#list selectedFacetCounts.get(facet) as count>
             <#assign displayedFacets = displayedFacets + 1>
-            <@facetBox facetName=facetName count=count selected=true hidden=true />
+            <@facetBox facetName=facetName count=count selected=true />
           </#list>
         </#if>
         <#list facetCounts.get(facet) as count>
