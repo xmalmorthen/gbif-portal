@@ -17,11 +17,11 @@
 
   <properties>
     <bonecp.version>0.7.1.RELEASE</bonecp.version>
-    <gbif-common.version>0.10-SNAPSHOT</gbif-common.version>
-    <gbif-api.version>0.2-SNAPSHOT</gbif-api.version>
-    <gbif-common-mybatis.version>0.5-SNAPSHOT</gbif-common-mybatis.version>
-    <gbif-common-service.version>0.4-SNAPSHOT</gbif-common-service.version>
-    <gbif-common-test.version>0.5-SNAPSHOT</gbif-common-test.version>
+    <gbif-common.version>0.10</gbif-common.version>
+    <gbif-api.version>0.2</gbif-api.version>
+    <gbif-common-mybatis.version>0.5</gbif-common-mybatis.version>
+    <gbif-common-service.version>0.4</gbif-common-service.version>
+    <gbif-common-test.version>0.5</gbif-common-test.version>
     <guava.version>13.0.1</guava.version>
     <guice.version>3.0</guice.version>
     <junit.version>4.11</junit.version>
