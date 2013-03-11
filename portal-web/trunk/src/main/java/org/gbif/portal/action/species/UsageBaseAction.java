@@ -152,7 +152,7 @@ public class UsageBaseAction extends BaseAction {
    * @return list of a size not larger then maxSize
    */
   protected static <T> List<T> sublist(List<T> list, int maxSize) {
-    return list.subList(0, maxSize);
+    return sublist(list, 0, maxSize);
   }
 
   /**
