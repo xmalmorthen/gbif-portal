@@ -9,12 +9,6 @@
 <#assign tab="constituents"/>
 <#include "/WEB-INF/pages/dataset/inc/infoband.ftl">
 
-  <div class="back">
-    <div class="content">
-      <a href="<@s.url value='/dataset/${id}'/>" title="Back to dataset overview">Back to dataset overview</a>
-    </div>
-  </div>
-
   <article class="results">
     <header></header>
     <div class="content">

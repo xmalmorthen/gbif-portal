@@ -95,7 +95,7 @@
     </li>
     <#if dataset.hasConstituents()>
       <li<#if (tab!)=="constituents"> class='selected ${hl!}'</#if>>
-        <a href="#" title="Constituents"><span>Constituents</span></a>
+        <a href="<@s.url value='/dataset/${id!}/constituents'/>" title="Constituents"><span>Constituents</span></a>
       </li>
     </#if>
     <#if dataset.type! != "METADATA" && !dataset.parentDatasetKey??>
