@@ -71,7 +71,7 @@ public class DatasetAction extends UsageBaseAction {
       }
 
       page.setCount( (long) relatedUsages.size());
-      for (NameUsage u : relatedUsages.subList(offset, offset + pageSize)) {
+      for (NameUsage u : sublist(relatedUsages, offset, offset + pageSize)) {
         page.getResults().add(new DatasetResult(datasetService.get(u.getDatasetKey()), null, u));
       }
     }
@@ -79,7 +79,7 @@ public class DatasetAction extends UsageBaseAction {
     if ((type == null || type == DatasetType.OCCURRENCE) && usage.getNubKey() != null) {
       SortedMap<UUID, Integer> occurrenceDatasetCounts = occurrenceDatasetService.occurrenceDatasetsForNubKey(usage.getNubKey());
       page.setCount( (long) occurrenceDatasetCounts.size());
-      for (UUID uuid : Lists.newArrayList(occurrenceDatasetCounts.keySet()).subList(offset, offset + pageSize)) {
+      for (UUID uuid : sublist(Lists.newArrayList(occurrenceDatasetCounts.keySet()), offset, offset + pageSize)) {
         page.getResults().add(new DatasetResult(datasetService.get(uuid), occurrenceDatasetCounts.get(uuid), null));
       }
     }

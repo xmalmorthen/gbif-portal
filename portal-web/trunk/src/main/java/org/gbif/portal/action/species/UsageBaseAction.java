@@ -1,6 +1,5 @@
 package org.gbif.portal.action.species;
 
-import org.gbif.portal.exception.NotFoundException;
 import org.gbif.api.exception.ServiceUnavailableException;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.checklistbank.NameUsage;
@@ -13,10 +12,12 @@ import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.exception.NotFoundException;
 import org.gbif.portal.exception.ReferentialIntegrityException;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -143,5 +144,29 @@ public class UsageBaseAction extends BaseAction {
 
   public void setId(Integer id) {
     this.id = id;
+  }
+
+  /**
+   * @param maxSize
+   * @param <T>
+   * @return list of a size not larger then maxSize
+   */
+  protected static <T> List<T> sublist(List<T> list, int maxSize) {
+    return list.subList(0, maxSize);
+  }
+
+  /**
+   * @param maxSize
+   * @param <T>
+   * @return list of a size not larger then maxSize
+   */
+  protected static <T> List<T> sublist(List<T> list, int start, int maxSize) {
+    if (list.size() <= maxSize){
+      if (start == 0) {
+        return list;
+      }
+      return list.subList(start, list.size());
+    }
+    return list.subList(start, maxSize);
   }
 }

@@ -23,7 +23,6 @@ import org.gbif.portal.model.VernacularLocaleComparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.UUID;
 import javax.annotation.Nullable;
@@ -88,6 +87,7 @@ public class DetailAction extends UsageBaseAction {
   private final Pageable page20 = new PagingRequest(0, 20);
   private final Pageable page50 = new PagingRequest(0, 50);
   private final Pageable page100 = new PagingRequest(0, 100);
+  private static final int MAX_COMPONENTS = 10;
 
   private final static Joiner HABITAT_JOINER = Joiner.on(" ");
   private final static Joiner VERNACULAR_JOINER = Joiner.on("").skipNulls();
@@ -115,7 +115,7 @@ public class DetailAction extends UsageBaseAction {
     loadUsageDetails();
     populateVernacularNames();
     populateHabitats();
-    for (NameUsage u : related) {
+    for (NameUsage u : sublist(related, MAX_COMPONENTS)) {
       loadDataset(u.getDatasetKey());
     }
     for (NameUsageComponent c : usage.getExternalLinks()) {
@@ -133,8 +133,8 @@ public class DetailAction extends UsageBaseAction {
     for (NameUsageComponent c : usage.getVernacularNames()) {
       loadDataset(c.getDatasetKey());
     }
-    for (Entry<UUID, Integer> e : occurrenceDatasetCounts.entrySet()) {
-      loadDataset(e.getKey());
+    for (UUID uuid : sublist(Lists.newArrayList(occurrenceDatasetCounts.keySet()), MAX_COMPONENTS)) {
+      loadDataset(uuid);
     }
     populateTypeSpecimenFacets();
     return SUCCESS;
