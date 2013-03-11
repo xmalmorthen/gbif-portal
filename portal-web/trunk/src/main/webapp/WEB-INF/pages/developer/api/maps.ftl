@@ -47,14 +47,15 @@
 	    var cmAttr = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
 			cmUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png';
 	    var minimal   = L.tileLayer(cmUrl, {styleId: 22677, attribution: cmAttr});
+	    var midnight  = L.tileLayer(cmUrl, {styleId: 999,   attribution: cmAttr});
 
 		var map = L.map('map', {
 			center: [0, 0],
 			zoom: 1,
-			layers: [minimal, gbif]
+			layers: [midnight, gbif]
 		});
 
-		L.control.layers({"Minimal": minimal}, {"GBIF": gbif}).addTo(map);        
+		L.control.layers({"Minimal": minimal, "Midnight":midnight}, {"GBIF": gbif}).addTo(map);        
 		
         $('.refresh,.layer,.color').click(function(event) {
           gbif.setUrl(getGBIFUrl());
