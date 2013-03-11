@@ -29,7 +29,7 @@
 
       <div class="fullwidth">
 
-      <#list results as item>
+      <#list page.results as item>
         <#assign ds = item.dataset/>
         <div class="result">
           <h2><strong>
@@ -39,7 +39,8 @@
 
           <div class="footer">
             <@s.text name="enum.datasettype.${ds.type!'UNKNOWN'}"/>
-          <#if ds.type=="CHECKLIST">
+          <#-- be defendive, we have checklists with occurrences apparently: http://dev.gbif.org/issues/browse/POR-614 -->
+          <#if ds.type=="CHECKLIST" && item.usage??>
             including <em><a href="<@s.url value='/species/${item.usage.key?c}'/>">${item.usage.scientificName}</a></em>
           <#else>
             with <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${ds.key}'/>">${item.numOccurrences} records of <em>${usage.canonicalOrScientificName!}</em></a>
@@ -48,6 +49,10 @@
 
         </div>
       </#list>
+
+      <div class="footer">
+        <@paging.pagination page=page url=currentUrl/>
+      </div>
 
       </div>
 

@@ -1,14 +1,13 @@
 package org.gbif.portal.action.species;
 
 import org.gbif.api.model.checklistbank.NameUsage;
+import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
 import org.gbif.api.vocabulary.DatasetType;
 
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
 import java.util.UUID;
 
@@ -21,7 +20,9 @@ public class DatasetAction extends UsageBaseAction {
   private OccurrenceDatasetIndexService occurrenceDatasetService;
 
   private DatasetType type;
-  private List<DatasetResult> results = Lists.newArrayList();
+  private PagingResponse<DatasetResult> page;
+  private int offset = 0;
+  private static final int pageSize = 25;
 
   public class DatasetResult implements Comparable<DatasetResult>{
     private Dataset dataset;
@@ -57,6 +58,7 @@ public class DatasetAction extends UsageBaseAction {
   public String execute() {
     loadUsage();
 
+    page = new PagingResponse<DatasetResult>(offset, pageSize);
 
     if (type == null || type == DatasetType.CHECKLIST) {
       List<NameUsage> relatedUsages = usageService.listRelated(usage.getNubKey(), getLocale());
@@ -68,20 +70,19 @@ public class DatasetAction extends UsageBaseAction {
         }
       }
 
-      for (NameUsage u : relatedUsages) {
-        results.add(new DatasetResult(datasetService.get(u.getDatasetKey()), null, u));
+      page.setCount( (long) relatedUsages.size());
+      for (NameUsage u : relatedUsages.subList(offset, offset + pageSize)) {
+        page.getResults().add(new DatasetResult(datasetService.get(u.getDatasetKey()), null, u));
       }
     }
 
     if ((type == null || type == DatasetType.OCCURRENCE) && usage.getNubKey() != null) {
       SortedMap<UUID, Integer> occurrenceDatasetCounts = occurrenceDatasetService.occurrenceDatasetsForNubKey(usage.getNubKey());
-      for (Map.Entry<UUID, Integer> e : occurrenceDatasetCounts.entrySet()) {
-        results.add(new DatasetResult(datasetService.get(e.getKey()), e.getValue(), null));
+      page.setCount( (long) occurrenceDatasetCounts.size());
+      for (UUID uuid : Lists.newArrayList(occurrenceDatasetCounts.keySet()).subList(offset, offset + pageSize)) {
+        page.getResults().add(new DatasetResult(datasetService.get(uuid), occurrenceDatasetCounts.get(uuid), null));
       }
     }
-
-    // sort results alphabetically
-    Collections.sort(results);
 
     return SUCCESS;
   }
@@ -94,7 +95,15 @@ public class DatasetAction extends UsageBaseAction {
     this.type = type;
   }
 
-  public List<DatasetResult> getResults() {
-    return results;
+  public PagingResponse<DatasetResult> getPage() {
+    return page;
+  }
+
+  public int getOffset() {
+    return offset;
+  }
+
+  public void setOffset(int offset) {
+    this.offset = offset;
   }
 }
