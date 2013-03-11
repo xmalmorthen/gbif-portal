@@ -36,11 +36,18 @@ acl purge {
   "130.226.238.128"/25;
 }
 
+acl GBIFS {
+    "localhost";
+    "192.38.28.0"/25; 
+    "130.226.238.128"/25;
+    "10.66.77.0"/16;
+    "192.168.0.0"/24;
+}
 
 sub vcl_recv {
   if (req.request == "PURGE") {
     if (!client.ip ~ purge) {
-      error 405 "Not allowed.";
+      error 403 "Forbidden.";
     } else {
       purge_url(req.url);
       error 200 "Purged.";
@@ -49,6 +56,10 @@ sub vcl_recv {
 
   # first check for uat portal subdomain
   if (req.http.host == "uat.gbif.org") {
+    # the portal is not yet public - only GBIFS can access it!
+    if (!client.ip ~ GBIFS) {
+      error 403 "Not allowed, this page is private to the GBIF Secretariat.";
+    }
     # PORTAL - DONT CACHE THE HTML!!!
     # is this a user struts url? This is the only user page not served by drupal
     if ( req.url ~ "^/user/downloads") {
