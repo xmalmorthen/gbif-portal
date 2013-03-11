@@ -1686,7 +1686,7 @@ $.fn.bindSlideshow = function(opt) {
   function init()  {
     if (id) {
       var url = cfg.wsClb + "name_usage/" + id + "/images";
-      $.ajax({ url: url, dataType:"jsonp", success: onSuccess });
+      $.ajax({ url: url, dataType:"jsonp", success: initImageData });
     }
   }
 
@@ -1697,18 +1697,30 @@ function updateSlideshow(data) {
       $this.find(".title").html(data.title);
       $this.find(".title").fadeIn(150);
     });
-
-    var key = data.usageKey;
-
-    if (key) {
-      var url = $this.find(".source").attr("data-baseurl") + key;
-      $this.find(".source").attr("href", url);
-    }
-
+  } else {
+    $this.find(".title").html("No title");
   }
+
+  var sourceLink = $this.find(".source");
+  if (data.usageKey) {
+    var url = sourceLink.attr("data-baseurl") + data.usageKey;
+    sourceLink.attr("href", url);
+    sourceLink.html(data.datasetTitle);
+  } else {
+    sourceLink.attr("href", "#");
+    sourceLink.html("Unknown dataset");
+  }
+
+  var license = $this.find("#imgLicense");
+  if (data.license) {
+    license.html(data.license);
+  } else {
+    license.html("No license");
+  }
+
 }
 
-function onSuccess(data) {
+function initImageData(data) {
 
   var images = data.results;
 
@@ -1724,15 +1736,17 @@ function onSuccess(data) {
 
   var n = 0;
 
-  _.each(images, function(result) {
-
+  _.each(images, function(imgJson) {
     n++;
+    slideData.push(imgJson);
+    // load dataset title and keep it with image
+    getDatasetDetail(imgJson.datasetKey, function(dataset) {
+      imgJson.datasetTitle = dataset.title;
+    });
 
-    $photos.append("<li><div class='spinner'/></div><img id='photo_"+n+"'src='" + result.image + "' /></li>");
+    $photos.append("<li><div class='spinner'/></div><img id='photo_"+n+"'src='" + imgJson.image + "' /></li>");
 
     var $img = $photos.find("#photo_" + n);
-
-    slideData.push(result);
 
     $img.on("load", function() {
 

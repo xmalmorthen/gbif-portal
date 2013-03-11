@@ -104,7 +104,7 @@
 
           <div id="resetFacets" data-currentUrl="">
             <input id="resetFacetsButton" value="reset" type="button"/>
-            <input class="defaultFacet" type="hidden" name="dataset_key" value="nub"/>
+            <input class="defaultFacet" type="hidden" name="dataset_key" value="${nubDatasetKey}"/>
           </div>
 
           <#assign seeAllFacets = ["HIGHERTAXON_KEY","RANK","DATASET_KEY"]>

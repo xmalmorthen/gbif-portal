@@ -24,9 +24,6 @@ $(function() {
     $(this).parent().toggleClass("selected");
   });
 
-  // PHOTO GALLERY
-  $(".photo_gallery").bindSlideshow();
-
   // GRAPHS
   $("div.graph li a, div.bargraph li a").on("click", function(e) {
     e.preventDefault();

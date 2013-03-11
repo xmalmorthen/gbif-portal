@@ -250,3 +250,14 @@ function canonicalOrScientificName(usage) {
   }
   return usage.scientificName;
 }
+
+
+/**
+ * javascript version to query the registry and get the dataset for a given uuid key.
+ * The passed function will be called when the data returns.
+ */
+function getDatasetDetail(key, func) {
+  $.getJSON(cfg.wsReg+ "dataset/" + key + "?callback=?", func);
+}
+
+

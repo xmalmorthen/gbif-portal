@@ -289,7 +289,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
    * For example to enable a simple checklist=nub filter without the need to know the real nub UUID.
    * The values will NOT be translated for the UI and request parameters, only for the search and title lookup service!
    * This method can be overriden to modify the returned value, by default it keeps it as it is.
-   * 
+   *
    * @param param the filter parameter the value belongs to
    * @param value the value to translate or return as is
    */

@@ -81,7 +81,7 @@
          </li>
 
        <li><h3>Kingdoms</h3>
-         <p>Number of taxa within kingdoms of the GBIF Backbone.</p>
+         <p>Number of name usages within kingdoms of the GBIF Backbone.</p>
          <#if metrics.countByKingdom?has_content>
            <div id="kingdoms" class="pieMultiLegend">
              <ul>
@@ -97,7 +97,7 @@
 
 
        <li><h3>Ranks</h3>
-         <p>Number of taxa by major ranks.</p>
+         <p>Number of accepted taxa by major ranks.</p>
          <#if metrics.countByRank?has_content>
            <div id="ranks" class="pieMultiLegend">
              <ul>
@@ -119,11 +119,11 @@
 <div class="fullwidth">
     <ul class="pies">
        <li><h3>GBIF BACKBONE</h3>
-         <p>Percentage of taxa also found in the <a href="">GBIF Backbone</a>.</p>
+         <p>Percentage of name usages also found in the <a href="">GBIF Backbone</a>.</p>
          <div id="pieNub"></div>
        </li>
        <li class="last"><h3>CATALOGUE OF LIFE</h3>
-           <p>Percentage of taxa also found in the <a href="">Catalogue of Life</a>.</p>
+           <p>Percentage of name usages also found in the <a href="">Catalogue of Life</a>.</p>
          <div id="pieCol"></div>
        </li>
      </ul>

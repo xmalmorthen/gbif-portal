@@ -8,7 +8,6 @@
  */
 package org.gbif.portal.action.species;
 
-import org.gbif.api.model.Constants;
 import org.gbif.api.model.checklistbank.VernacularName;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchParameter;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchRequest;
@@ -25,6 +24,8 @@ import java.util.UUID;
 import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
+
+import static org.gbif.api.model.Constants.NUB_TAXONOMY_KEY;
 
 /**
  * The action for all species search operations.
@@ -200,11 +201,11 @@ public class SearchAction
   }
 
 
-  @Override
-  protected String translateFilterValue(NameUsageSearchParameter facet, String value) {
-    if (NameUsageSearchParameter.DATASET_KEY.equals(facet) && value != null) {
-      return value.equalsIgnoreCase("nub") ? Constants.NUB_TAXONOMY_KEY.toString() : value;
-    }
-    return value;
+  /**
+   * Exposed to allow easy access in freemarker.
+   */
+  public UUID getNubDatasetKey() {
+    return NUB_TAXONOMY_KEY;
   }
+
 }

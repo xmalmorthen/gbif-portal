@@ -12,6 +12,10 @@
     <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
   </#if>
     <script type="text/javascript">
+
+      // image slideshow
+      $(".photo_gallery").bindSlideshow();
+
       // taxonomic tree state
       var $taxoffset= 0, loadedAllChildren=false;
 
@@ -444,8 +448,8 @@
       <div class="photos">
         <#list usage.images as img>
           <#if img.image??>
+            <#-- remember first image to render metadata -->
             <#if !img1?exists><#assign img1=img/></#if>
-            <!--<img src="${img.image!}"/>-->
           </#if>
         </#list>
       </div>
@@ -479,21 +483,21 @@
 
           <#if img1.publisher?has_content>
             <h3>Image publisher</h3>
-            <p>${img1.publisher!"???"}</p>
+            <p id="imgPublisher">${img1.publisher!"???"}</p>
           </#if>
 
           <#if (img1.creator!img1.created)?has_content>
             <h3>Photographer</h3>
-            <p>${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
+            <p id="imgPhotographer">${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
           </#if>
 
           <#if img1.description?has_content>
             <h3>Description</h3>
-            <p>${img1.description}</p>
+            <p id="imgDescription">${img1.description}</p>
           </#if>
 
           <h3>Copyright</h3>
-          <p>${img1.license!"No license"}</p>
+          <p id="imgLicense">${img1.license!"No license"}</p>
         </div>
       </#if>
     </div>

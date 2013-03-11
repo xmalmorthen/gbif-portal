@@ -111,7 +111,6 @@
 
         <div id="resetFacets" currentUrl="">
           <input id="resetFacetsButton" value="reset" type="button"/>
-          <input class="defaultFacet" type="hidden" name="checklist" value="nub"/>
         </div>
 
       <#assign seeAllFacets = ["OWNING_ORG", "HOSTING_ORG", "KEYWORD", "COUNTRY", "DECADE"]>
