@@ -49,7 +49,7 @@ sub vcl_recv {
 
   # first check for uat portal subdomain
   if (req.http.host == "uat.gbif.org") {
-    # PORTAL
+    # PORTAL - DONT CACHE THE HTML!!!
     # is this a user struts url? This is the only user page not served by drupal
     if ( req.url ~ "^/user/downloads") {
       set req.backend = jawa;
@@ -62,7 +62,7 @@ sub vcl_recv {
     } else {
       set req.backend = jawa;
     }
-    return (lookup);
+    return (pass);
 
   # API
   # first check API versions
