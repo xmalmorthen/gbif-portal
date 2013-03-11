@@ -74,8 +74,8 @@
            <p>Number of synonyms and accepted taxa.</p>
            <div id="synonyms" class="pieMultiLegend">
              <ul>
-               <li><a href="">Accepted</a> <span class="number" data-cnt="${(total - metrics.countSynonyms)?c}">${total - metrics.countSynonyms}</span></li>
-               <li><a href="">Synonyms</a> <span class="number" data-cnt="${metrics.countSynonyms?c}">${metrics.countSynonyms}</span></li>
+               <li><a href="<@s.url value='/species/search?dataset_key=${id}&status=accepted'/>">Accepted</a> <span class="number" data-cnt="${(total - metrics.countSynonyms)?c}">${total - metrics.countSynonyms}</span></li>
+               <li><a href="<@s.url value='/species/search?dataset_key=${id}&status=synonym'/>">Synonyms</a> <span class="number" data-cnt="${metrics.countSynonyms?c}">${metrics.countSynonyms}</span></li>
              </ul>
            </div>
          </li>
@@ -103,7 +103,7 @@
              <ul>
                <#list rankEnum as k>
                  <#if metrics.countByRank(k)?has_content>
-                   <li><a href=""><@s.text name="enum.rank.${k}"/> <span class="number" data-cnt="${(metrics.countByRank(k)!0)?c}">${metrics.countByRank(k)!0}</span></a></li>
+                   <li><a href="<@s.url value='/species/search?dataset_key=${id}&rank=${k}'/>"><@s.text name="enum.rank.${k}"/> <span class="number" data-cnt="${(metrics.countByRank(k)!0)?c}">${metrics.countByRank(k)!0}</span></a></li>
                  </#if>
                </#list>
              </ul>
@@ -119,11 +119,11 @@
 <div class="fullwidth">
     <ul class="pies">
        <li><h3>GBIF BACKBONE</h3>
-         <p>Percentage of name usages also found in the <a href="">GBIF Backbone</a>.</p>
+         <p>Percentage of name usages also found in the <a href="<@s.url value='/dataset/${nubKey}'/>">GBIF Backbone</a>.</p>
          <div id="pieNub"></div>
        </li>
        <li class="last"><h3>CATALOGUE OF LIFE</h3>
-           <p>Percentage of name usages also found in the <a href="">Catalogue of Life</a>.</p>
+           <p>Percentage of name usages also found in the <a href="<@s.url value='/dataset/${colKey}'/>">Catalogue of Life</a>.</p>
          <div id="pieCol"></div>
        </li>
      </ul>

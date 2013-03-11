@@ -1,7 +1,11 @@
 package org.gbif.portal.action.dataset;
 
-import org.gbif.portal.exception.NotFoundException;
+import org.gbif.api.model.Constants;
 import org.gbif.api.vocabulary.DatasetType;
+import org.gbif.portal.exception.NotFoundException;
+import org.gbif.portal.action.species.HomeAction;
+
+import java.util.UUID;
 
 /**
  * Extends the details action to return a different result name based on the dataset type, so we can use
@@ -26,4 +30,11 @@ public class StatsAction extends DetailAction {
     }
   }
 
+  public UUID getColKey() {
+    return HomeAction.COL_KEY;
+  }
+
+  public UUID getNubKey() {
+    return Constants.NUB_TAXONOMY_KEY;
+  }
 }
