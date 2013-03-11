@@ -98,7 +98,7 @@
         <a href="#" title="Constituents"><span>Constituents</span></a>
       </li>
     </#if>
-    <#if dataset.type! != "METADATA">
+    <#if dataset.type! != "METADATA" && !dataset.parentDatasetKey??>
     <li<#if (tab!)=="stats"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/dataset/${id!}/stats'/>" title="Stats"><span>Stats</span></a>
     </li>
