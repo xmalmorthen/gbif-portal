@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class DatasetSeleniumIT extends SeleniumTestBase {
 
@@ -21,7 +21,7 @@ public class DatasetSeleniumIT extends SeleniumTestBase {
     String sourceName = element.getText();
     element.click();
     String targetName = driver.findElement(By.xpath("//div[@id='infoband']/div/h1")).getText();
-    assertEquals("Link target and dataset name must be the same", sourceName, targetName);
+    assertTrue("Link target and dataset name must be the same", sourceName.contains(targetName.replaceAll("…", "")));
   }
 
 }
