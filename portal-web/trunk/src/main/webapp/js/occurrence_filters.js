@@ -936,7 +936,8 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       var minLng = truncCoord(latLngs[0].lng);
       var maxLat = truncCoord(latLngs[2].lat);
       var maxLng = truncCoord(latLngs[2].lng);
-      var value = "POLYGON((" + self.latLngsToPolygon(e.rect.getLatLngs()) + "))";
+      //var value = "POLYGON((" + self.latLngsToPolygon(e.rect.getLatLngs()) + "))";    
+      var value = "POLYGON((" + latLngs[1].lng + " " + latLngs[1].lat + "," +  latLngs[0].lng + " " + latLngs[0].lat + "," + latLngs[3].lng + " " + latLngs[3].lat + "," + latLngs[2].lng + " " + latLngs[2].lat + "," + latLngs[1].lng + " " + latLngs[1].lat + "))";
       var label = "From " + minLat + ',' + minLng + ' To ' + maxLat + ',' + maxLng;
       self.addFilter({label:label,value: value, key:null,paramName:self.getId(), submitted: false,targetParam:'BOUNDING_BOX',marker: self.mapGeometries.length});
       self.showFilters();            
