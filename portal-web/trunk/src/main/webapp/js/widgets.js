@@ -2466,17 +2466,6 @@ init();
 
   function _formatItem(row, i, max, data) {
     var clase = "";
-
-    if (max == 1) {
-      clase = ' unique';
-    } else if (max == 2 && i == 2) {
-      clase = ' last_double';
-    } else if (i == 1) {
-      clase = ' first';
-    } else if (i == max) {
-      clase = ' last';
-    }
-
     return  _.template(data.templates.row, {clase:clase, name:row.name, desc:row.desc});
   }
 

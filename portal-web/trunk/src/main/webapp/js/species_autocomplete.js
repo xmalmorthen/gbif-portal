@@ -47,14 +47,6 @@ $.fn.speciesAutosuggest = function(wsServiceUrl,limit,chklstKeysElementsSelector
   },
   open: function(event, ui) {
     $('.ui-autocomplete.ui-menu').addClass('species_autocomplete');
-    //sets child classes of li elements according to the returned elements
-    if ($(".ui-autocomplete li").length == 1) {
-      $(".ui-autocomplete li:first-child").addClass("unique");
-    }
-    else {
-      $(".ui-autocomplete li:first-child").addClass("first");
-      $(".ui-autocomplete li:last-child").addClass("last");
-    }
   },
   appendTo: appendToElement,
   focus: function( event, ui ) {//on focus: sets the value of the input[text] element
