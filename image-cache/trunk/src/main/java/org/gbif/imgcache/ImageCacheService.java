@@ -95,6 +95,7 @@ public class ImageCacheService {
     produceImage(url, ImageSize.THUMBNAIL);
     produceImage(url, ImageSize.SMALL);
     produceImage(url, ImageSize.MIDSIZE);
+    produceImage(url, ImageSize.LARGE);
   }
 
   private void produceImage(URL url, ImageSize size) throws IOException {

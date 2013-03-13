@@ -1,7 +1,6 @@
 package org.gbif.imgcache;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletException;
@@ -9,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -40,7 +40,8 @@ public class ImageCacheServlet extends HttpServlet {
     URL url = null;
     try {
       url = new URL(req.getParameter("url"));
-    } catch (MalformedURLException e) {
+      Preconditions.checkNotNull(url);
+    } catch (Exception e) {
       LOG.warn("Invalid image url requested: " + url);
       resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Please provide a valid image url parameter");
     }

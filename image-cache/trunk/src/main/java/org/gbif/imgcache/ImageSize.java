@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 
 public enum ImageSize {
   ORIGINAL(-1, -1),
-  LARGE(1024, 640),
+  LARGE(1024, 768),
   MIDSIZE(627, 442),
   SMALL(230, 172),
   THUMBNAIL(100, 100);
