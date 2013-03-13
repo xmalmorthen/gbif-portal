@@ -3,7 +3,7 @@
     <title>Dataset - GBIF</title>
     <content tag="extra_scripts">
       <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
-      <script type="text/javascript" src="<@s.url value='/js/dataset_autocomplete.js'/>"></script>
+      <script type="text/javascript" src="<@s.url value='/js/portal_autocomplete.js'/>"></script>
       <script>
         $("#q").datasetAutosuggest(cfg.wsRegSuggest, 6, 75, "#content",function(item){ window.location = cfg.baseUrl + "/dataset/" + item.key;});
       </script>

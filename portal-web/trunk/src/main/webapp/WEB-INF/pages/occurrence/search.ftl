@@ -7,10 +7,7 @@
 <!--    <link rel="stylesheet" href="<@s.url value='/css/combobox.css?v=2'/>"/>    -->
     <script src='<@s.url value='/js/vendor/jquery.url.js'/>' type='text/javascript'></script>
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/terms_suggest.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/species_autocomplete.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/dataset_autocomplete.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/country_autocomplete.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/portal_autocomplete.js'/>"></script>
     
     <!--Maps-->
     <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
