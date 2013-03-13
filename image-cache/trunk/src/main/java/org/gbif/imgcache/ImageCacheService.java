@@ -10,6 +10,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import javax.inject.Inject;
 
+import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Closeables;
 import com.google.inject.name.Named;
@@ -34,6 +35,8 @@ public class ImageCacheService {
   }
 
   public CachedImage get(URL url, ImageSize size) throws IOException {
+    Preconditions.checkNotNull(url);
+
     File imgFile = location(url, size);
     if (!imgFile.exists()) {
       cacheImage(url);
@@ -43,6 +46,21 @@ public class ImageCacheService {
   }
 
   private File location(URL url, ImageSize size) throws IOException {
+    File folder;
+    try {
+      folder = new File(repo, URLEncoder.encode(url.toString(), ENC));
+    } catch (UnsupportedEncodingException e) {
+      throw new IOException("UnsupportedEncodingException", e);
+    }
+
+    // try to get some sensible filename - optional
+    String fileName;
+    try {
+      fileName = new File(url.getPath()).getName();
+    } catch (Exception e) {
+      fileName = "image";
+    }
+
     String suffix;
     if (size == ImageSize.ORIGINAL){
       suffix = "";
@@ -50,18 +68,16 @@ public class ImageCacheService {
       suffix = "-" + size.name().charAt(0) + "." + format;
     }
 
-    try {
-      return new File(repo, URLEncoder.encode(url.toString() + suffix, ENC));
-
-    } catch (UnsupportedEncodingException e) {
-      throw new IOException("UnsupportedEncodingException", e);
-    }
+    return new File(folder, fileName + suffix);
   }
 
   private void cacheImage(URL url) throws IOException {
     // download original
     LOG.info("Caching image " + url);
     File origImg = location(url, ImageSize.ORIGINAL);
+    // create parent folder that is unque for the original image
+    origImg.getParentFile().mkdir();
+
     OutputStream out = null;
     InputStream source = null;
 
