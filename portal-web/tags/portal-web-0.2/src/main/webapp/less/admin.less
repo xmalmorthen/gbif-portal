@@ -1,0 +1,145 @@
+// Dataset
+#content article.dataset {
+  width: 702px;
+  margin: 40px auto 100px auto;
+
+  .content {
+    padding: 61px 0;
+    text-align: center;
+    background: url("../img/boxes/box_dataset_bkg.png") repeat-y;
+
+    form {
+      clear: both;
+      overflow: hidden;
+      width: 522px;
+      margin: 0 auto 20px auto;
+
+      input[type="text"]:focus { outline: none; }
+
+      button { margin-right: 0; }
+
+      input[type="text"] {
+        width: 360px;
+        height: 37px;
+        margin: 0;
+        padding: 0 40px 0 15px;
+        font-size: 17px;
+        color: @cGray1;
+        border: none;
+        background: url("../img/input_bkg.png") no-repeat left -62px;
+      }
+
+      .input_text {
+        float: left;
+        width: 368px;
+        height: 37px;
+        padding: 0px 20px 0 0;
+      }
+
+    }
+
+    ul.species {
+      clear: both;
+      overflow: hidden;
+      margin: auto;
+      text-align: center;
+      margin-bottom: 26px;
+
+
+      li {
+        background: none;
+        display: inline;
+        margin: 0px;
+        padding: 0;
+
+        a { text-decoration: none; }
+
+        &:after { content: "\00a0\00B7"; }
+        &:last-child:after { content: ""; }
+
+      }
+
+    }
+
+    h1 {
+      margin-bottom: 23px;
+      font-family: "DINOT-Medium", sans-serif;
+      color: @cGray2;
+      font-size: 35px;
+    }
+
+    .results {
+      float: left;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      padding-top: 5px;
+
+      ul {
+        position: relative;
+        clear: left;
+        float: left;
+        left: 50%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        text-align: center;
+
+        li:last-child {
+          margin-right: 0;
+          padding-right: 0;
+          border: none;
+        }
+
+        li {
+          display: block;
+          float: left;
+          margin: 0 14px 0 0;
+          padding: 1px 14px 0 0;
+          position: relative;
+          right: 50%;
+          background: none;
+          font-size: 13px;
+          color: @cGray3;
+          text-align: center;
+          border-right: 1px solid @cGray4;
+          list-style: none;
+
+          a {
+            display: block;
+            margin-bottom: 10px;
+            color: @cLink;
+            font-family: "DINOT-Medium", sans-serif;
+            font-size: 31px;
+            text-decoration: none;
+
+            &:hover {
+              color: @cGray1;
+              -webkit-transition: color @hover-speed ease-in-out;
+              -moz-transition: color @hover-speed ease-in-out;
+              -o-transition: color @hover-speed ease-in-out;
+              -ms-transition: color @hover-speed ease-in-out;
+              transition: color @hover-speed ease-in-out;
+            }
+          }
+        }
+
+        li.last {
+          margin-right: 0;
+          padding-right: 0;
+          border: none;
+        }
+      }
+    }
+  }
+
+  header {
+    width: 702px;
+    background: url("../img/boxes/box_dataset_top.png") no-repeat left top;
+  }
+
+  footer {
+    width: 702px;
+    background: url("../img/boxes/box_dataset_bottom.png") no-repeat left top;
+  }
+}
