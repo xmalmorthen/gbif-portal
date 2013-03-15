@@ -4,6 +4,8 @@ import org.gbif.api.model.common.User;
 import org.gbif.portal.config.Config;
 import org.gbif.portal.config.Constants;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
@@ -140,5 +142,13 @@ public abstract class BaseAction extends ActionSupport
   @Override
   public void setSession(Map<String, Object> session) {
     this.session = session;
+  }
+
+  public String getImageCache(String url, String size) {
+    try {
+      return cfg.getWsImageCache() + "?url=" + URLEncoder.encode(url, "utf8") + "&size=" + size;
+    } catch (UnsupportedEncodingException e) {
+      return cfg.getWsImageCache() + "?url=" + url + "&size=" + size;
+    }
   }
 }

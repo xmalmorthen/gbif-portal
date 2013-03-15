@@ -1659,84 +1659,122 @@ $.fn.bindDialogPopover = function(opt) {
 
 
 /*
-* =========
-* SLIDESHOW
-* =========
+* ==============
+* SPECIES IMAGES
+* ==============
 */
 
-$.fn.bindSlideshow = function(opt) {
+$.fn.speciesSlideshow = function(usageID) {
   var $this = $(this);
 
   var
   slideData        = [],
   photoWidth       = 627,
+  photoHeight      = 442,
   currentPhoto     = 0,
   transitionSpeed  = 500,
   easingMethod     = "easeOutQuart",
 
-  num_of_photos    = $this.find(".photos li").length,
-  downloads        = $this.find("div.download a"),
+  $previousCtr     = $this.find(".previous"),
+  $nextCtr         = $this.find(".next"),
+  $scroller        = $this.find(".scroller"),
+  $metadata        = $this.find(".scrollable");
+  $imgCounter      = $this.find(".counter");
 
-  $previous_button = $this.find(".previous_slide"),
-  $next_button     = $this.find(".next_slide"),
-  $slideshow       = $this.find('.slideshow'),
+  $.getJSON(cfg.wsClb + "name_usage/" + usageID + "/images", initImageData);
 
-  id               = $slideshow.attr("data-usageKey");
+function updateMetadata(currentPhoto, data) {
+  console.log(currentPhoto, data);
+  $imgCounter.text(1+currentPhoto + " / " + slideData.length);
 
-  function init()  {
-    if (id) {
-      var url = cfg.wsClb + "name_usage/" + id + "/images";
-      $.ajax({ url: url, dataType:"jsonp", success: initImageData });
+  // remove all other metadata
+  $metadata.empty();
+
+  // title is special
+  $metaTitle = $this.find(".title");
+  $metaTitle.fadeOut(150, function() {
+    if (data.title) {
+      $metaTitle.html(data.title);
+    } else {
+      $metaTitle.html("No title");
     }
+    $metaTitle.fadeIn(150);
+  });
+
+  // add source
+  $srcLink = data.link;
+  if (!data.link && data.usageKey != usageID) {
+    $srcLink = cfg.baseUrl + '/species/' + data.usageKey;
+  }
+  if ($srcLink) {
+    $metadata.append("<h3>Source</h3><p><a class='source'>" + data.datasetTitle +"</a></p>");
   }
 
-function updateSlideshow(data) {
+  updateMetaProp("Image publisher", data.publisher, null);
+  updateMetaProp("Photographer", data.creator + ", " + data.created, null);
+  updateMetaProp("Description", data.description, null);
+  updateMetaProp("Copyright", data.license, "No license");
 
-  if (data.title) {
-    $this.find(".title").fadeOut(150, function() {
-      $this.find(".title").html(data.title);
-      $this.find(".title").fadeIn(150);
-    });
-  } else {
-    $this.find(".title").html("No title");
+}
+
+function updateMetaProp(prop, value, defaultValue) {
+  if (!value) {
+    value = defaultValue;
   }
-
-  var sourceLink = $this.find(".source");
-  if (data.usageKey) {
-    var url = sourceLink.attr("data-baseurl") + data.usageKey;
-    sourceLink.attr("href", url);
-    sourceLink.html(data.datasetTitle);
-  } else {
-    sourceLink.attr("href", "#");
-    sourceLink.html("Unknown dataset");
+  if (value) {
+    $metadata.append("<h3>"+prop+"</h3><p>" + value +"</p>");
   }
+}
 
-  var license = $this.find("#imgLicense");
-  if (data.license) {
-    license.html(data.license);
-  } else {
-    license.html("No license");
-  }
+function activateNextController() {
+  $nextCtr.show();
+  $nextCtr.click(function(event) {
+    event.preventDefault();
 
+    if (currentPhoto == 0) {
+      activatePrevController();
+    }
+
+    $scroller.scrollTo('+=' + photoWidth + 'px', transitionSpeed, { easing:easingMethod, axis:'x' });
+    currentPhoto++;
+    updateMetadata(currentPhoto, slideData[currentPhoto]);
+
+    if (currentPhoto == slideData.length - 1) {
+      deactivateController($nextCtr);
+    }
+  });
+}
+function activatePrevController() {
+  $previousCtr.show();
+  $previousCtr.click(function(event) {
+    event.preventDefault();
+
+    if (currentPhoto == slideData.length - 1) {
+      activateNextController();
+    }
+    $scroller.scrollTo('-=' + photoWidth + 'px', transitionSpeed, { easing:easingMethod, axis:'x'} );
+    currentPhoto--;
+    updateMetadata(currentPhoto, slideData[currentPhoto]);
+
+    if (currentPhoto == 0) {
+      deactivateController($previousCtr);
+    }
+  });
+}
+function deactivateController(controller) {
+  console.log(currentPhoto + " deactivate " + controller);
+  controller.hide();
+  controller.off('click');
 }
 
 function initImageData(data) {
 
   var images = data.results;
-
-  var $photos = $slideshow.find(".photos");
-
-  num_of_photos = images.length;
-
-  $photos.css("width", num_of_photos * photoWidth);
-
-  if (num_of_photos == 1) {
-    $this.find(".controller").hide();
-  }
-
+  var $photos = $scroller.find(".photos");
   var n = 0;
 
   _.each(images, function(imgJson) {
+    console.debug(imgJson);
     n++;
     slideData.push(imgJson);
     // load dataset title and keep it with image
@@ -1744,82 +1782,46 @@ function initImageData(data) {
       imgJson.datasetTitle = dataset.title;
     });
 
-    $photos.append("<li><div class='spinner'/></div><img id='photo_"+n+"'src='" + imgJson.image + "' /></li>");
+    $photos.append("<li><div class='spinner'/></div><a href='"+imgJson.image+"' class='fancybox' title='"+imgJson.title+"'><img id='photo_"+n+"'src='" + imgJson.image + "' /></a></li>");
 
     var $img = $photos.find("#photo_" + n);
 
     $img.on("load", function() {
 
+      $(this).parent().parent().find(".spinner").fadeOut(100, function() { $(this).remove(); });
+
       var
-      $li      = $img.parent();
-      liWidth  = parseInt($(this).parent().css("width"), 10),
-      liHeight = parseInt($(this).parent().css("height"), 10),
-      h        = parseInt($(this).css("height"), 10),
-      w        = parseInt($(this).css("width"), 10);
-
-      $li.find(".spinner").fadeOut(100, function() { $(this).remove(); });
-
-      $img.css("top", liHeight/2 - h/2 );
-      $img.css("left", liWidth/2 - w/2 );
-      $img.fadeIn(250);
-
+      h   = parseInt($(this).css("height"), 10),
+      w   = parseInt($(this).css("width"), 10);
+      console.log("ph: " + h);
+      console.log("pw: " + w);
+      $img.css("top", photoHeight/2 - h/2 );
+      $img.css("left", photoWidth/2 - w/2 );
+      $img.fadeIn(100);
     });
+
+    updateMetadata(0, slideData[0]);
   });
+
+  $photos.css("width", slideData.length * photoWidth);
+
+  // attach fancybox links
+  $photos.find("a").fancybox({
+ 		'transitionIn'	:	'elastic',
+ 		'transitionOut'	:	'elastic',
+ 		'speedIn'		:	600,
+ 		'speedOut'		:	200,
+ 		'overlayShow'	:	false
+ 	});
+  console.log(slideData.length + " photos loaded");
+
+  if (slideData.length == 1) {
+    $this.find("div.controller").remove();
+  } else {
+    activateNextController();
+    deactivateController($previousCtr);
+  }
 }
-
-// The previous button is disabled by default
-$previous_button.addClass("disabled");
-
-// Calculate the width of the slideshow
-$this.find(".photos").width(num_of_photos * photoWidth);
-
-$previous_button.click(function(event) {
-  event.preventDefault();
-
-  if (currentPhoto > 0) {
-    $next_button.removeClass("disabled");
-
-    $slideshow.scrollTo('-=' + photoWidth + 'px', transitionSpeed, { easing:easingMethod, axis:'x'} );
-    $(downloads[currentPhoto]).parent().hide();
-    currentPhoto--;
-    $(downloads[currentPhoto]).parent().show();
-
-    if (slideData[currentPhoto]) {
-      updateSlideshow(slideData[currentPhoto]);
-    }
-
-    if (currentPhoto == 0) {
-      $previous_button.addClass("disabled");
-    }
-  }
-});
-
-$next_button.click(function(event) {
-  event.preventDefault();
-
-  if ($next_button.hasClass("disabled")) return;
-
-  if (currentPhoto + 1 < num_of_photos) {
-    $previous_button.removeClass("disabled");
-
-
-    $slideshow.scrollTo('+=' + photoWidth + 'px', transitionSpeed, { easing:easingMethod, axis:'x' });
-
-    $(downloads[currentPhoto]).parent().hide();
-    currentPhoto++;
-    $(downloads[currentPhoto]).parent().show();
-
-    if (slideData[currentPhoto]) {
-      updateSlideshow(slideData[currentPhoto]);
-    }
-
-    if (currentPhoto >= num_of_photos) {
-      $next_button.addClass("disabled");
-    }
-  }
-});
-
-init();
 
 };
 

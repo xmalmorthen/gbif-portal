@@ -43,8 +43,9 @@ public class Config {
   private String wsRegSuggest;
   private String wsMetrics;
   private String wsOccCollectionCodeSearch;
-
   private String wsOccInstitutionCodeSearch;
+  private String wsImageCache;
+
 
 
   /**
@@ -85,6 +86,7 @@ public class Config {
       cfg.wsOccCollectionCodeSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + COLLECTION_CODE_PATH;
       cfg.wsOccInstitutionCodeSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + INSTITUTION_CODE_PATH;
       cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
+      cfg.wsImageCache = getPropertyUrl(properties, "image-cache.url", false);
 
     } catch (IOException e) {
       throw new ConfigurationException("application.properties cannot be read", e);
@@ -189,5 +191,9 @@ public class Config {
 
   public void setTileServerBaseUrl(String tileServerBaseUrl) {
     this.tileServerBaseUrl = tileServerBaseUrl;
+  }
+
+  public String getWsImageCache() {
+    return wsImageCache;
   }
 }

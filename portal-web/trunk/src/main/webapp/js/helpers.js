@@ -260,4 +260,11 @@ function getDatasetDetail(key, func) {
   $.getJSON(cfg.wsReg+ "dataset/" + key + "?callback=?", func);
 }
 
+/**
+ * Builds up a image cache url
+ */
+function imageCacheUrl(url, size) {
+  return cfg.wsImageCache + "?url=" + encodeURIComponent(url) + "&size=" + size;
+}
+
 

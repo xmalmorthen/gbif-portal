@@ -12,9 +12,9 @@
 -->
 
 <#assign showBox = usage.nub && !(tabhl!false) />
-<#assign titleLength = 41 />
+<#assign titleLength = 38 />
 <#if !showBox>
-  <#assign titleLength = 51 />
+  <#assign titleLength = 50 />
 </#if>
 
 <content tag="infoband">

@@ -11,11 +11,13 @@
     <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
   </#if>
-    <script type="text/javascript">
+      <#-- shadowbox to view large images -->
+      <link rel="stylesheet" type="text/css" href="<@s.url value='/js/vendor/fancybox/jquery.fancybox.css?v=2.1.4'/>">
+      <script type="text/javascript" src="<@s.url value='/js/vendor/fancybox/jquery.fancybox.js?v=2.1.4'/>"></script>
+      <link rel="stylesheet" type="text/css" href="<@s.url value='/js/vendor/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5'/>">
+      <script type="text/javascript" src="<@s.url value='/js/vendor/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5'/>"></script>
 
-      // image slideshow
-      $(".photo_gallery").bindSlideshow();
-
+      <script type="text/javascript">
       // taxonomic tree state
       var $taxoffset= 0, loadedAllChildren=false;
 
@@ -78,6 +80,21 @@
         })
       }
 
+      function initDescriptions(){
+          var firstDescr = $("#description span.language:first");
+          if (firstDescr.length > 0) {
+            loadDescription(firstDescr.attr("data-descriptionKeys"));
+          };
+          $("#description span.language").click(function() {
+            loadDescription( $(this).attr("data-descriptionKeys") );
+          });
+          // adjust description height to ToC
+          var tocHeight = $("#description div.right").height() - 5;
+          if (tocHeight > 350) {
+            $("#description div.inner").height(tocHeight);
+          }
+      }
+      <#-- EXECUTED ON WINDOWS LOAD -->
       $(function() {
         loadChildren();
         $("#taxonomicChildren .inner").scroll(function(){
@@ -87,22 +104,13 @@
           }
         });
 
-        var firstDescr = $("#description span.language:first");
-        if (firstDescr.length > 0) {
-          loadDescription(firstDescr.attr("data-descriptionKeys"));
-        };
-        $("#description span.language").click(function() {
-          loadDescription( $(this).attr("data-descriptionKeys") );
-        });
-        // adjust description height to ToC
-        var tocHeight = $("#description div.right").height() - 5;
-        console.debug(tocHeight);
-        if (tocHeight > 350) {
-          $("#description div.inner").height(tocHeight);
-        }
-
+        // image slideshow
+        $("#images").speciesSlideshow(${id?c});
+        $(".fancybox").fancybox();
       });
     </script>
+    <style type="text/css">
+    </style>
   </content>
 <#-- RDFa -->
   <meta property="dwc:scientificName" content="${usage.scientificName!}"/>
@@ -148,9 +156,6 @@
     <h3>Full Name</h3>
     <p>${usage.scientificName}</p>
 
-    <h3>Rank</h3>
-    <p><@s.text name="enum.rank.${usage.rank!'UNKNOWN'}"/></p>
-
     <#if vernacularNames?has_content>
       <h3>Common names</h3>
       <ul>
@@ -185,18 +190,24 @@
   </div>
 
   <div class="col">
+    <h3>Taxonomic Status</h3>
+    <p>
+      <#if usage.synonym && usage.rank??>
+        <@s.text name="enum.rank.${usage.rank}"/>
+      </#if>
+      <@s.text name="enum.taxstatus.${usage.taxonomicStatus!'UNKNOWN'}"/>
+      <#if usage.synonym>
+        of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
+      <#elseif usage.rank??>
+
+        <@s.text name="enum.rank.${usage.rank}"/>
+      </#if>
+    </p>
+
     <#if usage.publishedIn?has_content>
       <h3>Published In</h3>
       <p>${usage.publishedIn}</p>
     </#if>
-
-    <h3>Taxonomic Status</h3>
-    <p>
-      <@s.text name="enum.taxstatus.${usage.taxonomicStatus!'UNKNOWN'}"/>
-      <#if usage.synonym>
-        of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
-      </#if>
-    </p>
 
     <#if basionym?has_content>
       <h3>Original Name</h3>
@@ -237,14 +248,20 @@
   </div>
 </div>
 
+<#-- Keep first image with url -->
+<#list usage.images as img>
+  <#if img.image??>
+    <#if !primeImage?exists><#assign primeImage=img/></#if>
+  </#if>
+</#list>
+
 <div class="right">
-  <#if usage.images?has_content>
-    <#assign img=usage.images[0]>
+  <#if primeImage?exists>
     <div class="species_image">
-      <a href="#images" class="images"><span><img src="${img.thumbnail!img.image!"image missing url"}" alt=""/></span></a>
+      <a href="#images" class="images"><span><img src="${action.getImageCache(primeImage.image,'s')}" /></span></a>
+      -->
     </div>
   </#if>
-
 
   <h3>External Links</h3>
   <ul>
@@ -340,16 +357,18 @@
 
   <div class="content">
     <div class="header">
-      <div class="right"><h2>${numGeoreferencedOccurrences!0} Georeferenced occurrences</h2></div>
+      <div class="right"><h2>Georeferenced Occurrences</h2></div>
     </div>
 	  <div class="right">
       <div class="inner">
-        <h3>View records</h3>
-        <p>
-          <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180'/>">All records</a>
-          |
-          <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}'/>" class='viewableAreaLink'>In viewable area</a>
-        </p>
+        <#if numGeoreferencedOccurrences gt 0>
+          <h3>View records</h3>
+          <p>
+            <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180'/>">All ${numGeoreferencedOccurrences} </a>
+            |
+            <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}'/>" class='viewableAreaLink'>In viewable area</a>
+          </p>
+        </#if>
 
         <#if usage.distributions?has_content>
           <h3>Distributions</h3>
@@ -442,65 +461,23 @@
   </@common.article>
 </#if>
 
-<#if (usage.images?size>0)>
-  <@common.article id="images" class="photo_gallery">
-    <div class="slideshow" data-usageKey="${id?c}">
-      <div class="photos">
-        <#list usage.images as img>
-          <#if img.image??>
-            <#-- remember first image to render metadata -->
-            <#if !img1?exists><#assign img1=img/></#if>
-          </#if>
-        </#list>
+<#if primeImage?exists>
+  <@common.article id="images">
+    <div class="species_images">
+      <a class="controller previous" href="#" title="Previous image"></a>
+      <a class="controller next" href="#" title="Next image"></a>
+      <div class="scroller">
+        <div class="photos"></div>
       </div>
     </div>
 
     <div class="right">
-      <#if img1?exists>
-        <div class="controllers">
-          <h2 class="title">${common.limit(img1.title!usage.canonicalOrScientificName!"",38)}</h2>
-          <a class="controller previous_slide" href="#" title="Previous image"></a>
-          <a class="controller next_slide" href="#" title="Next image"></a>
-        </div>
+      <h2 class="title">${common.limit(primeImage.title!usage.canonicalOrScientificName!"",28)}</h2>
+      <div class="scrollable small">
 
-        <div class="scrollable small">
-
-          <#if nub || img1.link?has_content>
-            <h3>Source</h3>
-            <#assign imgTitle=common.limit( (datasets.get(img1.datasetKey).title!"???"), 28) />
-            <p>
-              <#if img1.link?has_content>
-                <a href="${img1.link}">${imgTitle}</a>
-              <#else>
-                <#if nub>
-                  <a class="source" data-baseurl="<@s.url value='/species/'/>" href="<@s.url value='/species/${img1.usageKey?c}'/>">${imgTitle}</a>
-                <#else>
-                  ${imgTitle}
-                </#if>
-              </#if>
-            </p>
-          </#if>
-
-          <#if img1.publisher?has_content>
-            <h3>Image publisher</h3>
-            <p id="imgPublisher">${img1.publisher!"???"}</p>
-          </#if>
-
-          <#if (img1.creator!img1.created)?has_content>
-            <h3>Photographer</h3>
-            <p id="imgPhotographer">${img1.creator!"???"}<#if img1.created??>, ${img1.created?date?string.short}</#if></p>
-          </#if>
-
-          <#if img1.description?has_content>
-            <h3>Description</h3>
-            <p id="imgDescription">${img1.description}</p>
-          </#if>
-
-          <h3>Copyright</h3>
-          <p id="imgLicense">${img1.license!"No license"}</p>
-        </div>
-      </#if>
+      </div>
     </div>
+    <div class="counter">1 / 3</div>
   </@common.article>
 </#if>
 

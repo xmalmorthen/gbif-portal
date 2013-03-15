@@ -512,6 +512,7 @@
         <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
         <!-- trusted application credentials -->
         <application.key>gbif.portal</application.key>
+        <image-cache.url>http://api.gbif.org/uat/image</image-cache.url>
 
       </properties>
     </profile>
@@ -547,7 +548,7 @@
         <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
         <!-- trusted application credentials -->
         <application.key>gbif.portal</application.key>
-
+        <image-cache.url>http://api.gbif.org/dev/image</image-cache.url>
       </properties>
     </profile>
 
