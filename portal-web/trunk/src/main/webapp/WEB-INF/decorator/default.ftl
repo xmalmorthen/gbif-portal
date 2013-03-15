@@ -37,6 +37,7 @@
     cfg.wsOccCollectorNameSearch = "${cfg.wsOccCollectorNameSearch!}";
     cfg.wsOccCollectionCodeSearch = "${cfg.wsOccCollectionCodeSearch!}";
     cfg.wsOccInstitutionCodeSearch = "${cfg.wsOccInstitutionCodeSearch!}";
+    cfg.wsImageCache = "${cfg.wsImageCache!}";
   </script>
   <#-- Load bundle properties. The action class can filter out which properties to show according to their key's prefixes -->
   <#if resourceBundleProperties?has_content>
@@ -295,6 +296,9 @@
   <script type="text/javascript" src="<@s.url value='/js/app.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/raphael-min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/resourcebundle.js'/>"></script>
+  <#-- JIRA feedback buttons -->
+  <script type="text/javascript" src="http://dev.gbif.org/issues/s/en_UK-h3luf8-418945332/812/5/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=d0843c23"></script>
+  <script type="text/javascript" src="http://dev.gbif.org/issues/s/en_UK-h3luf8-418945332/812/5/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4"></script>
   <!-- end scripts-->
 
   <!--[if lt IE 7 ]>
