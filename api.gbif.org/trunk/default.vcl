@@ -58,9 +58,12 @@ sub vcl_recv {
   if (req.http.host == "uat.gbif.org") {
     # the portal is not yet public - only GBIFS can access it!
     if (!client.ip ~ GBIFS) {
-      error 403 "Not allowed, this page is private to the GBIF Secretariat.";
+      error 403 "Not allowed, this page is private to the GBIF Secretariat";
     }
-    # PORTAL - DONT CACHE THE HTML!!!
+    # is this a webservice call which should go to api.gbif.org?
+    if ( req.url ~ "^/[a-z-]-ws" ) {
+      error 404 "GBIF Webservices are hosted at http://api.gbif.org/uat";
+    }
     # is this a user struts url? This is the only user page not served by drupal
     if ( req.url ~ "^/user/downloads") {
       set req.backend = jawa;
@@ -73,7 +76,13 @@ sub vcl_recv {
     } else {
       set req.backend = jawa;
     }
-    return (pass);
+
+    # PORTAL - ONLY CACHE STATIC FILES !!!
+    if ( req.url ~ "^/(img|js|css|fonts|sites|misc|modules)" ) {
+      return (lookup);
+    } else {
+      return (pass);
+    }
 
   # API
   # first check API versions
@@ -142,8 +151,8 @@ sub vcl_recv {
 
 
 sub vcl_fetch {
+  # dont cache successful put, post,delete
   if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE") && (beresp.status < 400)) {
-    purge_url("/dev/(node|organization|network|technical_installation|dataset|graph|contact|endpoint|identifier)/*");
     return (pass);
     #vcl3 return (hit_for_pass);
   }
@@ -159,7 +168,7 @@ sub vcl_fetch {
     return (pass);
   }  
 
-  # cache for 12h
+  # cache for 2 days
   set beresp.ttl = 48h;
   return (deliver);
 }
