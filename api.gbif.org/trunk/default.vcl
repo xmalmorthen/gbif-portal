@@ -132,6 +132,9 @@ sub vcl_recv {
     } else if ( req.url ~ "^/dataset/(search|suggest)") {
       set req.url = regsub(req.url, "^/dataset/", "/registry-search-ws/");
 
+    } else if ( req.url ~ "^/image") {
+      set req.url = regsub(req.url, "^/image", "/image-cache/");
+
     } else {
       # anything left should be registry calls
       set req.url = regsub(req.url, "^/", "/registry-ws/");
