@@ -49,7 +49,7 @@ sub vcl_recv {
     if (!client.ip ~ purge) {
       error 403 "Forbidden.";
     } else {
-      purge_url(req.url);
+      ban_url(req.url);
       error 200 "Purged.";
     }
   }
