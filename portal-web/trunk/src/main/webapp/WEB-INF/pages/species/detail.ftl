@@ -529,24 +529,21 @@
   <@common.article id="typespecimen" title="Type specimens">
     <div class="left">
       <#list usage.typeSpecimens as ts>
-        <div class="col">
-            <#if types.isValidType(ts)>
-            <div>
+        <ul>
+          <#if types.isValidType(ts)>
+              <li>
               <#-- the scientific name must be present, or nothing gets shown -->
-              <#if ts.typeStatus?has_content>
-                ${ts.typeStatus?capitalize}
-                <#if ts.scientificName?has_content>
-                  - <a href="<@s.url value='/occurrence/search?q=${ts.scientificName}'/>">${ts.scientificName}</a>
+                <#if ts.typeStatus?has_content>
+                  <strong>${ts.typeStatus?capitalize}</strong>
+                  <#if ts.scientificName?has_content>
+                    - <a href="<@s.url value='/species/search?q=${ts.scientificName}'/>">${ts.scientificName}</a> <@common.usageSource component=ts showChecklistSource=nub />
+                  </#if>
+                  <@types.details ts />
                 </#if>
-              </#if>
-              <@common.usageSource component=ts showChecklistSource=nub />
+              </li>
+          </#if>
+        </ul>
 
-              <p class="no_bottom">
-                <@types.details ts />
-              </p>
-            </div>
-            </#if>
-        </div>
         <#-- only show 4 type specimens at max -->
         <#if ts_has_next && ts_index==3>
           <p class="more">
