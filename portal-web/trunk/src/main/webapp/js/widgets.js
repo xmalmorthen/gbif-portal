@@ -1684,7 +1684,6 @@ $.fn.speciesSlideshow = function(usageID) {
   $.getJSON(cfg.wsClb + "name_usage/" + usageID + "/images", initImageData);
 
 function updateMetadata(currentPhoto, data) {
-  console.log(currentPhoto, data);
   $imgCounter.text(1+currentPhoto + " / " + slideData.length);
 
   // remove all other metadata
@@ -1694,7 +1693,8 @@ function updateMetadata(currentPhoto, data) {
   $metaTitle = $this.find(".title");
   $metaTitle.fadeOut(150, function() {
     if (data.title) {
-      $metaTitle.html(data.title);
+      $metaTitle.html(limitText(data.title, 60));
+      $metaTitle.attr("title", data.title);
     } else {
       $metaTitle.html("No title");
     }
@@ -1762,7 +1762,6 @@ function activatePrevController() {
   });
 }
 function deactivateController(controller) {
-  console.log(currentPhoto + " deactivate " + controller);
   controller.hide();
   controller.off('click');
 }
@@ -1774,7 +1773,6 @@ function initImageData(data) {
   var n = 0;
 
   _.each(images, function(imgJson) {
-    console.debug(imgJson);
     n++;
     slideData.push(imgJson);
     // load dataset title and keep it with image
@@ -1793,8 +1791,6 @@ function initImageData(data) {
       var
       h   = parseInt($(this).css("height"), 10),
       w   = parseInt($(this).css("width"), 10);
-      console.log("ph: " + h);
-      console.log("pw: " + w);
       $img.css("top", photoHeight/2 - h/2 );
       $img.css("left", photoWidth/2 - w/2 );
       $img.fadeIn(100);
@@ -1813,7 +1809,7 @@ function initImageData(data) {
  		'speedOut'		:	200,
  		'overlayShow'	:	false
  	});
-  console.log(slideData.length + " photos loaded");
+  //console.log(slideData.length + " photos loaded");
 
   if (slideData.length == 1) {
     $this.find("div.controller").remove();
@@ -2264,14 +2260,12 @@ function initImageData(data) {
     // Calculate the number of pages we have to move
     var steps = level - gotoLevel;
 
-    console.debug("gotoLevel "+gotoLevel);
     if (gotoLevel == 0) { // if we're going to the first page
       $ps.find(".sp").scrollTo(0, steps * data.settings.transitionSpeed, {axis: "x", onAfter: function() {
 
         $breadcrumb.find("li").slice(1).animate({opacity:0}, 150, function() {
           $(this).remove();
 
-          console.debug("breadcrumb bad");
           $breadcrumb.html('<li class="last level0">All</a>');
           stopBack = false;
         });

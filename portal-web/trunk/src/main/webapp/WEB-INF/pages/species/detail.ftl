@@ -106,10 +106,13 @@
 
         // image slideshow
         $("#images").speciesSlideshow(${id?c});
-        $(".fancybox").fancybox();
       });
     </script>
     <style type="text/css">
+        #images .title {
+          overflow: hidden;
+          max-height: 85px;
+        }
     </style>
   </content>
 <#-- RDFa -->
@@ -471,7 +474,7 @@
     </div>
 
     <div class="right">
-      <h2 class="title">${common.limit(primeImage.title!usage.canonicalOrScientificName!"",28)}</h2>
+      <h2 class="title">Margerite (Leucanthemum vulgare), Asteroideae, Illustration: (2) zygomorphe Zungenblüte mit drei Kronzipfeln, (3),(4) und (5) radiäsymmetrische Röhrenblüte.</h2>
       <div class="scrollable small">
 
       </div>

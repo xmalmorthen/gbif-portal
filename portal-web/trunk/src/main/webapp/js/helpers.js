@@ -268,3 +268,14 @@ function imageCacheUrl(url, size) {
 }
 
 
+/**
+ * Limit the size of the text to max characters.
+ * If the size of the text is greater than max, the size is limited to that max and and ellipse is added to the end.
+ */
+function limitText(text, max) {
+  var newLabel = text;
+  if(newLabel.length >= max){
+    newLabel = newLabel.slice(0,max) + "…";
+  }
+  return newLabel;
+}

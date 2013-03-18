@@ -2192,22 +2192,23 @@ body.register footer {
       a.controller {
         position: absolute;
         height: @speciesImageHeight;
-        width: 100px;
+        width: 200px;
         z-index: 5;
+        display: none;
 
         &.next {
-          left: @speciesImageWidth - 150;
-          background: url("../img/buttons/button_grey_next.png") no-repeat 90% 50%;
+          left: @speciesImageWidth - 200;
           &:hover {
-            background: url("../img/buttons/button_grey_next_hover.png") no-repeat 90% 50%;
+            background: url("../img/buttons/button_grey_next.png") no-repeat 50% 50%;
           }
         }
-
         &.previous {
-          background: url("../img/buttons/button_grey_prev.png") no-repeat 10% 50%;
           &:hover {
-            background: url("../img/buttons/button_grey_prev_hover.png") no-repeat 10% 50%;
+            background: url("../img/buttons/button_grey_prev.png") no-repeat 50% 50%;
           }
+        }
+        &:hover {
+          display: inline-block;
         }
       }
 
