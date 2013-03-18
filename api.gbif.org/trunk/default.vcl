@@ -153,19 +153,17 @@ sub vcl_recv {
 sub vcl_fetch {
   # dont cache successful put, post,delete
   if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE") && (beresp.status < 400)) {
-    return (pass);
-    #vcl3 return (hit_for_pass);
+    return (hit_for_pass);
   }
   
   # dont cache redirects or errors - especially for staging errors can be temporary only
   if ( beresp.status >= 300 ) {
-    return (pass);
-    #vcl3 return (hit_for_pass);
+    return (hit_for_pass);
   }
   
   # do not cache changing metrics
   if ( req.url ~ "^/metrics-ws") {
-    return (pass);
+    return (hit_for_pass);
   }  
 
   # cache for 2 days
