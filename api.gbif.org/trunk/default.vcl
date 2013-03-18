@@ -30,12 +30,6 @@ backend staging {
   .between_bytes_timeout = 60s; 
 }
 
-acl purge {
-  "localhost";
-  "192.38.28.0"/25;
-  "130.226.238.128"/25;
-}
-
 acl GBIFS {
     "localhost";
     "192.38.28.0"/25; 
@@ -46,7 +40,7 @@ acl GBIFS {
 
 sub vcl_recv {
   if (req.request == "PURGE") {
-    if (!client.ip ~ purge) {
+    if (!client.ip ~ GBIFS) {
       error 403 "Forbidden.";
     } else {
       ban_url(req.url);
@@ -84,18 +78,16 @@ sub vcl_recv {
       return (pass);
     }
 
-  # API
+  # API UAT
   # first check API versions
-  } else if ( req.url ~ "^/dev/") {
-    set req.backend = staging;
-    set req.url = regsub(req.url, "^/dev/", "/");
-
-  } else if (req.url ~ "^/uat/") {
+  } else if (req.http.host == "api.gbif.org") {
     set req.backend = jawa;
-    set req.url = regsub(req.url, "^/uat/", "/");
+
+  } else if (req.http.host == "apidev.gbif.org") {
+    set req.backend = staging;
 
   } else {
-    error 404 "API version not existing";
+    error 404 "Unknown host";
   }
 
   if ( req.url ~ "^/favicon.ico") {
