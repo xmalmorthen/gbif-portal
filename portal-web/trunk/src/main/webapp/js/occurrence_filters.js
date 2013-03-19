@@ -383,23 +383,27 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
           //gets the HTML template for filters
           var templateFilter = _.template($(this.getFilterItemTemplate()).html());
           var self = this;
-          this.filterElement.find(".appliedFilters,.filtersTitle").toggle(this.filters.length > 0);
+          var filterAdded = false;
           for(var i=0; i < this.filters.length; i++) {
-            //title field used for attribute <INPU title="currentFilter.title">
-            var currentFilter = $.extend(this.filters[i], {title: this.filters[i].label, label:this.limitLabel(this.filters[i].label)});            
-            var newFilter = $(templateFilter(currentFilter));
-            if( i != this.filters.length - 1){
-              $(newFilter).append('</br>');
-            }
-            //adds each filter to the list using the HTML template
-            filtersContainer.append(newFilter);   
-            //The click event of element with css class "closeFilter" handles the filter removing and applying the filters 
-            newFilter.find(".closeFilter").click( function(e) {
-              var input = $(this).parent().find(':input[name=' + self.getId() + ']');              
-              self.removeFilter({value: input.val(), key: input.attr('key'), paramName: input.attr('name')});
-              self.showFilters();
-            });
-          }          
+            if( this.filters[i].hidden == undefined || !this.filters[i].hidden) {
+              filterAdded = true;
+              //title field used for attribute <INPU title="currentFilter.title">
+              var currentFilter = $.extend(this.filters[i], {title: this.filters[i].label, label:this.limitLabel(this.filters[i].label)});            
+              var newFilter = $(templateFilter(currentFilter));
+              if( i != this.filters.length - 1){
+                $(newFilter).append('</br>');
+              }
+              //adds each filter to the list using the HTML template
+              filtersContainer.append(newFilter);   
+              //The click event of element with css class "closeFilter" handles the filter removing and applying the filters 
+              newFilter.find(".closeFilter").click( function(e) {
+                var input = $(this).parent().find(':input[name=' + self.getId() + ']');              
+                self.removeFilter({value: input.val(), key: input.attr('key'), paramName: input.attr('name')});
+                self.showFilters();
+              });
+            }          
+          }
+          this.filterElement.find(".appliedFilters,.filtersTitle").toggle(filterAdded);
         }
       },
 
@@ -574,10 +578,10 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
               }
               self.close();
             } else {
-              self.manager.applyOccurrenceFilters(true);
+              self.manager.applyOccurrenceFilters(false);
             }
           } else {
-            self.manager.applyOccurrenceFilters(true);
+            self.manager.applyOccurrenceFilters(false);
           }
         });  
       },      
@@ -615,12 +619,11 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
           $(element).click(function(e){
             e.preventDefault();
             var
-            filterContainer = $(this).parent(),
+            filterContainer = $(this).parent().parent(),
             li = filterContainer.parent(),
             input = filterContainer.find(":input[type=hidden]");            
-            self.removeFilter({key:input.attr("key"), value:input.val()});
-            filterContainer.fadeOut(FADE_TIME, function(){            
-              self.removeFilter(filterContainer);
+            self.removeFilter({key:input.attr("key"), value:input.val(), paramName: input.attr("name")});
+            filterContainer.fadeOut(FADE_TIME, function(){                          
               $(this).remove();
               if(li.find("div.filter").length == 0){
                 var ul = li.parent();
@@ -631,7 +634,7 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
                 }
               }
               //call the onCloseEvent if any
-              self.manager.applyOccurrenceFilters(true);
+              self.manager.applyOccurrenceFilters(false);
               self.removeUnusedSuggestionBoxes();
             });        
           });
@@ -877,21 +880,18 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
         self.filterElement.find(":input[name=maxLongitude]:first").addClass(ERROR_CLASS);
         return;
       }
-
-      var value = minLng + " " + maxLat + ","  + minLng + " " + minLat + "," + maxLng + " " + minLat + "," + maxLng + " " + maxLat + "," + minLng + " " + maxLat;
+      
       var label = "From " + minLat + ',' + minLng + ' To ' + maxLat + ',' + maxLng;
       self.filterElement.find(".point").val('');
-      var numFilters = self.gelFilters().length;
-      self.addFilter({label: label, value: value, key: null, paramName: self.getId(), submitted: false, marker: self.mapGeometries.length, targetParam:'BOUNDING_BOX'});      
+      var numFilters = self.getFilters().length;
+      var bounds = new L.LatLngBounds(new L.LatLng(minLat,minLng), new L.LatLng(maxLat,maxLng));
+      var rectangle = new L.Rectangle(bounds,DEFAULT_SHAPE_OPTIONS);
+      self.addFilter({label: label, value: self.getPolygonFromRect(rectangle), key: null, paramName: self.getId(), submitted: false, marker: self.mapGeometries.length, targetParam:'BOUNDING_BOX'});      
       //GEOREFERENCED filters must be removed
-      self.removeFilterByParamName('GEOREFERENCED');
-      self.removeFilterByParamName('SPATIAL_ISSUES');
-      self.filterElement.find(':checkbox[name="GEOREFERENCED"]').removeAttr('checked');
-      self.filterElement.find(':checkbox[name="SPATIAL_ISSUES"]').removeAttr('checked');
-      if(numFilters < self.gelFilters().length) { //nothing changed
-        self.showFilters();      
-        var bounds = new L.LatLngBounds(new L.LatLng(minLat,minLng), new L.LatLng(maxLat,maxLng));
-        var rectangle = new L.Rectangle(bounds,DEFAULT_SHAPE_OPTIONS);
+      self.removeFilterByParamName('GEOREFERENCED');      
+      self.filterElement.find(':checkbox[name="GEOREFERENCED"]').removeAttr('checked');      
+      if(numFilters < self.getFilters().length) { //nothing changed
+        self.showFilters();              
         rectangle.bindPopup("Bounding box: " + label);
         self.mapGeometries.push(rectangle);
         defaultMapLayer.addLayer(rectangle);
@@ -916,13 +916,23 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
     $(document).on("add_polygon", function(e) {
       var coords =  self.latLngsToPolygon(e.poly.getLatLngs());  
       var coordsSplit = coords.split(",");
-      self.addFilter({label:coordsSplit[0] + "..." + coordsSplit[coordsSplit.length - 2],value: "POLYGON((" + coords + "))", key:null,paramName:self.getId(), submitted: false, targetParam:'POLYGON', marker: self.mapGeometries.length});
+      self.addFilter({label:coordsSplit[0] + "..." + coordsSplit[coordsSplit.length - 2],value: coords, key:null,paramName:self.getId(), submitted: false, targetParam:'POLYGON', marker: self.mapGeometries.length, hidden:false});
       self.showFilters();      
       e.poly.bindPopup('Polygon:' + coords);
       e.mapLayer.addLayer(e.poly);
       self.mapGeometries.push(e.poly);
       self.renumberMarkers();
     });
+  };
+  
+  
+  /**
+   * Binds the event handler to the add_polygon event.
+   */
+  InnerOccurrenceLocationWidget.prototype.getPolygonFromRect = function(rect){
+    var latLngs = rect.getLatLngs();            
+    return truncCoord(latLngs[1].lng) + " " + truncCoord(latLngs[1].lat) + "," +  truncCoord(latLngs[0].lng) + " " + truncCoord(latLngs[0].lat) 
+    + "," + truncCoord(latLngs[3].lng) + " " + truncCoord(latLngs[3].lat) + "," + truncCoord(latLngs[2].lng) + " " + truncCoord(latLngs[2].lat) + "," + truncCoord(latLngs[1].lng) + " " + truncCoord(latLngs[1].lat);
   };
 
   /**
@@ -936,10 +946,9 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       var minLng = truncCoord(latLngs[0].lng);
       var maxLat = truncCoord(latLngs[2].lat);
       var maxLng = truncCoord(latLngs[2].lng);
-      //var value = "POLYGON((" + self.latLngsToPolygon(e.rect.getLatLngs()) + "))";    
-      var value = "POLYGON((" + latLngs[1].lng + " " + latLngs[1].lat + "," +  latLngs[0].lng + " " + latLngs[0].lat + "," + latLngs[3].lng + " " + latLngs[3].lat + "," + latLngs[2].lng + " " + latLngs[2].lat + "," + latLngs[1].lng + " " + latLngs[1].lat + "))";
+      
       var label = "From " + minLat + ',' + minLng + ' To ' + maxLat + ',' + maxLng;
-      self.addFilter({label:label,value: value, key:null,paramName:self.getId(), submitted: false,targetParam:'BOUNDING_BOX',marker: self.mapGeometries.length});
+      self.addFilter({label:label,value: self.getPolygonFromRect(e.rect), key:null,paramName:self.getId(), submitted: false,targetParam:'BOUNDING_BOX',marker: self.mapGeometries.length, hidden:false});
       self.showFilters();            
       e.rect.bindPopup("Bounding box: from " + minLat + ',' + minLng + ' to ' + maxLat + ',' + maxLng);
       e.mapLayer.addLayer(e.rect);
@@ -953,12 +962,12 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
    */
   InnerOccurrenceLocationWidget.prototype.bindSelectGeoEvent = function() {
     var self = this;    
-    $(document).on("click",".geo_type", function(e) {
-      var input = $(this).next();
-      var firstCoord = input.val().replace("POLYGON((","").replace("))","").split(",")[0].split(" ");
-      var marker = parseInt(input.attr('data-marker'));
-      map.panTo(new L.LatLng(firstCoord[1], firstCoord[0]));
-      self.mapGeometries[marker].openPopup();
+    $(document).on("click",".geo_type", function(e) {      
+        var input = $(this).next();
+        var firstCoord = input.val().replace("POLYGON((","").replace("))","").split(",")[0].split(" ");
+        var marker = parseInt(input.attr('data-marker'));
+        map.panTo(new L.LatLng(firstCoord[1], firstCoord[0]));
+        self.mapGeometries[marker].openPopup();      
     });
   };
 
@@ -980,6 +989,15 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       self.renumberMarkers();
     });    
   };
+  
+  
+  
+  InnerOccurrenceLocationWidget.prototype.removeAllPolygons = function() {
+    var self = this;    
+    for(var i = 0; i < this.mapGeometries.length; i++) {
+      map.removeLayer(this.mapGeometries[i]);  
+    }    
+  };
 
   /**
    * Binds the event handler to the .checkbox[name="GEOREFERENCED"].change event.
@@ -987,11 +1005,29 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
   InnerOccurrenceLocationWidget.prototype.bindSelectGeoreferecendEvent = function() {
     var self = this;    
     this.filterElement.find(':checkbox[name="GEOREFERENCED"]').change( function(e) {
-      self.clearFilters();
+      self.removeFilterByParamName('GEOREFERENCED');      
       if ($(this).attr('checked')) {
-        self.addFilter({label:$(this).val() == 'true' ?'Yes':'No',value: $(this).val(), key:  $(this).val(),paramName:'GEOREFERENCED', submitted: false});
+        self.filterElement.find(".map_control,.leaflet-control-draw").hide();
+        self.removeFilterByParamName(self.getId());
+        self.removeAllPolygons();
+        var val = $(this).val();
+        self.filters.push({label:val == 'true' ?'Yes':'No',value: val, key: null,paramName:'GEOREFERENCED', submitted: false,hidden:true});
         self.filterElement.find(':checkbox[name="GEOREFERENCED"][id!=' + $(this).attr('id') + ']').removeAttr('checked');
+        if(val == 'false'){
+          self.removeFilterByParamName('SPATIAL_ISSUES');
+          self.filterElement.find(':checkbox[name="SPATIAL_ISSUES"]').removeAttr('checked');
+          self.filterElement.find('#spatial_issues > :input').attr('disabled','disabled');
+        } else {
+          self.filterElement.find('#spatial_issues > :input').removeAttr('disabled');          
+        }
+      } else {
+        self.filterElement.find(".map_control,.leaflet-control-draw").show();
       }
+      if ($(this).attr('id') == 'isNotGeoreferenced') {
+        self.filterElement.find('#spatial_issues > :input').removeAttr('disabled');        
+      }
+      self.showFilters();
+      self.filterElement.find(".apply").show();
     });
   };
   
@@ -1000,11 +1036,15 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
    */
   InnerOccurrenceLocationWidget.prototype.bindSelectSpatialIssuesEvent = function() {
     var self = this;    
-    this.filterElement.find(':checkbox[name="SPATIAL_ISSUES"]').change( function(e) {      
-      if ($(this).attr('checked')) {
-        self.addFilter({label:$(this).val() == 'true' ?'Yes':'No',value: $(this).val(), key:  $(this).val(),paramName:'SPATIAL_ISSUES', submitted: false});
-        self.filterElement.find(':checkbox[name="SPATIAL_ISSUES"][id!=' + $(this).attr('id') + ']').removeAttr('checked');
-      }
+    this.filterElement.find(':checkbox[name="SPATIAL_ISSUES"]').change( function(e) {  
+      self.removeFilterByParamName('SPATIAL_ISSUES');
+      self.filterElement.find(':checkbox[name="SPATIAL_ISSUES"]').each( function(idx,el) {
+        if ($(el).attr('checked')) {
+          self.filters.push({label:$(el).val() == 'true' ?'Yes':'No',value: $(el).val(), key:null,paramName:'SPATIAL_ISSUES', submitted: false, hidden:true});             
+        }
+      });
+      self.showFilters();
+      self.filterElement.find(".apply").show();
     });
   };
 
@@ -1020,6 +1060,24 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
     this.bindSelectGeoreferecendEvent();
     this.bindSelectSpatialIssuesEvent();
   };  
+  
+  /**
+   * Removes a filter and then re-display the list of filters.
+   */
+  InnerOccurrenceLocationWidget.prototype.removeFilter  = function(filter) {        
+    for (var i = 0; i < this.filters.length; i++) {
+      if(this.filters[i].paramName == filter.paramName && this.filters[i].value == filter.value){
+        var removedFilter = this.filters[i];
+        this.filters.splice(i,1);            
+        this.showFilters();
+        if(removedFilter.submitted){
+          this.filterElement.find(".apply").show();
+        }
+        return;            
+      }
+    }        
+  };
+
 
   return InnerOccurrenceLocationWidget;
 })(jQuery,_,OccurrenceWidget);
@@ -1666,7 +1724,7 @@ var OccurrenceWidgetManager = (function ($,_) {
                     occWidget.addGeometry(self.createPolygon(filter.value));
                   }
                 }
-                occWidget.addFilter(filter);                    
+                occWidget.filters.push(filter);                    
               }
             });
           });
