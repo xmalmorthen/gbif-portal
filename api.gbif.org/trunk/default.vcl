@@ -141,7 +141,14 @@ sub vcl_recv {
     }
   }
 
-  return (lookup);
+  # apparently varnish tries to cache POST requests by converting them to GETs :(
+  # https://www.varnish-cache.org/forum/topic/235
+  # we therefore make sure we only cache GET requests
+  if ( req.request == "GET") {
+    return (lookup);
+  } else {
+    return(pass);
+  }
 }
 
 
