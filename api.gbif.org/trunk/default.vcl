@@ -16,8 +16,8 @@ backend jawa {
   .host = "130.226.238.239";
   .port = "8080";
   .connect_timeout = 1s;
-  # this is insanely long because of slow specie page (/species) :(
-  .first_byte_timeout = 30s;
+  # this is insanely long because of slow species and dataset pages
+  .first_byte_timeout = 60s;
   .between_bytes_timeout = 5s;
   # never discard a backend
   .saintmode_threshold = 0;
