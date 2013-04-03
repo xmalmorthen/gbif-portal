@@ -1,9 +1,36 @@
+# TR: Removing this to experiment with more aggressively discarding 
+# stale connections below
+# backend jawa {    
+#  .host = "130.226.238.239";       
+#  .port = "8080";   
+#  .connect_timeout = 60s;
+#  .first_byte_timeout = 60s;
+#  .between_bytes_timeout = 60s;  
+#}
+
+# The tomcat backend serving the portal application and web services
+# Timeouts are aggressive to encourage Varnish to discard stale connections
+# The backend is never marked as bad (saintmode = 0)
+# Polling is added only for heartbeating, to keep connections open (just in case)
 backend jawa {    
   .host = "130.226.238.239";       
   .port = "8080";   
-  .connect_timeout = 60s;
-  .first_byte_timeout = 60s;
-  .between_bytes_timeout = 60s;  
+  .connect_timeout = 1s;
+  .first_byte_timeout = 10s;
+  .between_bytes_timeout = 5s;
+  # never discard a backend
+  .saintmode_threshold = 0;
+  # don't overload tomcat (it has 100 connection pool)
+  .max_connections = 75;
+  # probe the backend to keep connections open
+  .probe = { 
+    .url = "/portal";
+    .timeout = 1s; 
+    .interval = 30s; 
+    # 9/10 polls must succeed for the backend to be considered alive
+    .window = 10;
+    .threshold = 10;
+  }
 }
 
 backend drupal {    
