@@ -138,7 +138,6 @@ sub vcl_recv {
       set req.url = regsub(req.url, "^/", "/checklistbank-ws/");
 
     } else if ( req.url ~ "^/map") {
-      set req.backend = staging;
       set req.url = regsub(req.url, "^/map", "/tile-server");
 
     } else if ( req.url ~ "^/occurrence/(count|datasets)") {
@@ -197,6 +196,8 @@ sub vcl_fetch {
   }  
 
   # cache for 2 days
-  set beresp.ttl = 48h;
+  #set beresp.ttl = 172800s;
+  # cache for 30 days
+  set beresp.ttl = 2592000s;
   return (deliver);
 }
