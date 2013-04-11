@@ -73,6 +73,23 @@ public class HumanFilterBuilderTest {
     assertEquals(wkt, x.get(OccurrenceSearchParameter.GEOMETRY).getLast());
   }
 
+
+  @Test
+  public void testDate() throws Exception {
+    final String lower = "1871-03-21";
+    final String upper = "1888-01-01";
+    HumanFilterBuilder builder = new HumanFilterBuilder(action, null, null);
+    Map<OccurrenceSearchParameter, LinkedList<String>> x = builder.humanFilter(
+      new ConjunctionPredicate(Lists.<Predicate>newArrayList(
+        new GreaterThanOrEqualsPredicate(OccurrenceSearchParameter.DATE, lower),
+        new LessThanOrEqualsPredicate(OccurrenceSearchParameter.DATE, upper)
+      )
+    ));
+    assertEquals(1, x.size());
+    assertEquals(1, x.get(OccurrenceSearchParameter.DATE).size());
+    assertEquals(lower+"-"+upper, x.get(OccurrenceSearchParameter.DATE).getFirst());
+  }
+
   @Test
   public void testRange() throws Exception {
     HumanFilterBuilder builder = new HumanFilterBuilder(action, null, null);

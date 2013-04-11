@@ -11,11 +11,13 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.util.SearchTypeValidator;
 import org.gbif.api.util.VocabularyUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Range;
 
 /**
  * Utility for dealing with the decoding of the request parameters to the
@@ -29,7 +31,6 @@ import com.google.common.collect.Lists;
  */
 public class PredicateFactory {
   private final static String POLYGON = "POLYGON((%s))";
-  private final static Splitter RANGE_SPLITTER = Splitter.on(",").trimResults().limit(2);
 
   /**
    * Builds a full predicate filter from the parameters.
@@ -97,6 +98,10 @@ public class PredicateFactory {
     }
   }
 
+  private String toIsoDate(Date d) {
+    return new SimpleDateFormat("yyyy-MM-dd").format(d);
+  }
+
   /**
    * Converts a value with an optional predicate prefix into a real predicate instance, defaulting to EQUALS.
    */
@@ -108,21 +113,29 @@ public class PredicateFactory {
 
     // test for ranges
     if (SearchTypeValidator.isRange(value)) {
-      SearchTypeValidator.Range<?> range;
+      Range<?> range;
       if (Double.class.equals(param.type())) {
         range = SearchTypeValidator.parseDecimalRange(value);
       } else if (Integer.class.equals(param.type())) {
         range = SearchTypeValidator.parseIntegerRange(value);
+      } else if (Date.class.equals(param.type())) {
+        range = SearchTypeValidator.parseDateRange(value);
+        // convert date instances back to strings, but keep the new precision which is now always up to the day!
+        range = SearchTypeValidator.buildRange(
+          range.hasLowerBound() ? toIsoDate((Date) range.lowerEndpoint()) : null,
+          range.hasUpperBound() ? toIsoDate((Date) range.upperEndpoint()) : null
+        );
       } else {
-        throw new IllegalArgumentException("Ranges are only supported for numeric parameter types but received " + param);
+        throw new IllegalArgumentException("Ranges are only supported for numeric or date parameter types but received " + param);
       }
 
+
       List<Predicate> rangePredicates = Lists.newArrayList();
-      if (range.start != null) {
-        rangePredicates.add(new GreaterThanOrEqualsPredicate(param, range.start.toString()));
+      if (range.hasLowerBound()) {
+        rangePredicates.add(new GreaterThanOrEqualsPredicate(param, range.lowerEndpoint().toString()));
       }
-      if (range.end != null) {
-        rangePredicates.add(new LessThanOrEqualsPredicate(param, range.end.toString()));
+      if (range.hasUpperBound()) {
+        rangePredicates.add(new LessThanOrEqualsPredicate(param, range.upperEndpoint().toString()));
       }
 
       if (rangePredicates.size() == 1) {

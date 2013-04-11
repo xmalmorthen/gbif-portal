@@ -45,7 +45,7 @@
 
     <!-- dependency versions -->
     <dwc-api.version>1.2</dwc-api.version>
-    <gbif-api.version>0.2</gbif-api.version>
+    <gbif-api.version>0.3-SNAPSHOT</gbif-api.version>
     <checklistbank-ws-client.version>0.4</checklistbank-ws-client.version>
     <registry-ws-client.version>0.4</registry-ws-client.version>
     <occurrence-download-ws-client.version>0.4</occurrence-download-ws-client.version>
