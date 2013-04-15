@@ -27,7 +27,11 @@ public class DetailAction extends MemberBaseAction<Node> {
   @Override
   public String execute() throws Exception {
     super.execute();
-    // load first 10 orgs
+    // redirect to country page if this node is a country node
+    if (member.getCountry() != null) {
+      return "COUNTRY";
+    }
+
     PagingResponse<Organization> resp = nodeService.listEndorsedBy(id, new PagingRequest(0, 10));
     organizations = resp.getResults();
     more = !resp.isEndOfRecords();

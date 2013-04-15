@@ -106,6 +106,11 @@
 
         // image slideshow
         $("#images").speciesSlideshow(${id?c});
+
+      <#if nub>
+        $("#map").densityMap("${usage.key?c}", "TAXON");
+      </#if>
+
       });
     </script>
     <style type="text/css">
@@ -351,11 +356,7 @@
 <article class="map">
   <header></header>
 
-  <div id="zoom_in" class="zoom_in"></div>
-  <div id="zoom_out" class="zoom_out"></div>
-  <div id="zoom_fs" class="zoom_fs"></div>
-  
-  <div id="map" type="TAXON" key="${usage.key?c}"></div>
+  <div id="map" class="map"></div>
 
   <div class="content">
     <div class="header">

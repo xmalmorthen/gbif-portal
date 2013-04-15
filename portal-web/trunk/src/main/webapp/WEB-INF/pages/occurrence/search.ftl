@@ -66,7 +66,7 @@
 
     </content>
   </head>
-  <body class="search typesmap">
+  <body class="search">
 
 
     <content tag="infoband">

@@ -128,13 +128,13 @@
         </li>
 
         <li>
-        <a class="placeholder_temp" href="#" title="Community">Community</a>
+        <a href="#" title="Community">Community</a>
 
         <div class="community">
           <a href="#"></a>
           <ul>
             <li><a class="placeholder_temp" href="#">Regions</a></li>
-            <li><a class="placeholder_temp" href="#">Countries</a></li>
+            <li><a href="<@s.url value='/country'/>">Countries</a></li>
             <li><a class="placeholder_temp" href="#">Participant organizations</a></li>
             <li><a class="placeholder_temp" href="#">Data publishers</a></li>
             <li class="divider"></li>
@@ -287,7 +287,6 @@
   <script type="text/javascript" src="<@s.url value='/js/vendor/mousewheel.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jscrollpane.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-scrollTo-1.4.2-min.js'/>"></script>
-  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.autoellipsis-1.0.10.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/bootstrap.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/underscore-min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/helpers.js'/>"></script>
@@ -306,24 +305,6 @@
   <script>DD_belatedPNG
     .fix("img, .png_bg"); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
   <![endif]-->
-
-  <!-- keep this javascript here so we can use the s.url tag -->
-  <script type="text/javascript">
-    $(function() {
-      $('nav ul li a.more').bindLinkPopover({
-        links:{
-          "<@s.text name="menu.country"/>":"<@s.url value='/country'/>",
-          "<@s.text name="menu.member"/>":"<@s.url value='/member'/>",
-          "<@s.text name="menu.theme"/>":"<@s.url value='/theme'/>",
-          "<@s.text name="menu.stats"/>":"<@s.url value='/stats'/>",
-          <#if admin>
-          "<@s.text name="menu.admin"/>":"<@s.url value='/admin'/>",
-          </#if>
-          "<@s.text name="menu.about"/>":"${cfg.drupal}/about"
-        }
-      });
-    });
-  </script>
 
   <#if page.properties["page.extra_scripts"]?has_content>
   ${page.properties["page.extra_scripts"]}

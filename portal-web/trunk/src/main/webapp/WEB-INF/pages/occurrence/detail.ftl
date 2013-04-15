@@ -1,4 +1,5 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
+<#assign showMap=occ.longitude?? && occ.latitude??/>
 <html>
 <head>
   <title>Occurrence Detail ${id?c}</title>
@@ -10,30 +11,32 @@
   <meta property="dwc:datasetName" content="${dataset.title!}"/>
   <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${dataset.key}'/>"/>
   </#if>
-  <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
-  <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
-  <content tag="extra_scripts">
+
+  <#if showMap>
+    <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
     <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
-  </content>  
+    <script type="text/javascript">
+        $(function() {
+            $("#map").pointMap("${occ.latitude}", "${occ.longitude}", {});
+        });
+    </script>
+  </#if>
 </head>
 <body class="pointmap">
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/occurrence/inc/infoband.ftl">
 
-<#assign showMap=occ.longitude?? && occ.latitude??/>
 <#if showMap>
   <#assign titleRight="Geoposition"/>
 </#if>
 
-<@common.article id="location" title="Geoposition" titleRight=titleRight! class="map">
+
+<@common.article id="location" titleRight=titleRight! class="map">
   <#if showMap>
-
-  <div id="zoom_in" class="zoom_in"></div>
-  <div id="zoom_out" class="zoom_out"></div>
-
-    <div id="map" data-latitude="${occ.latitude}" data-longitude="${occ.longitude}"></div>
+    <div id="map" class="map"></div>
     <div class="right">
       <h3>Locality</h3>
         <p class="no_bottom">${occ.locality!}<#if occ.country??>, ${occ.country}</#if></p>

@@ -141,24 +141,27 @@ jQuery.fn.sortList = (function() {
 
 
 function setupZoom(map) {
+  // add custom controls
+  var container = $(map.getContainer());
+  container.before('<div class="zoom_in"></div> <div class="zoom_out"></div>  <div class="zoom_fs"></div>');
+
   var minZoom = 0;
   var fsControl = new ZoomFullscreen(map);
-  
-  $(".zoom_in").on("click", function() {
+
+  $(".zoom_in", container.parent()).click(function() {
     map.setZoom(map.getZoom() + 1);
   });
 
-  $(".zoom_out").on("click", function() {
+  $(".zoom_out", container.parent()).click(function() {
     var zoom;
     if ( map.getZoom() > minZoom ) {
       map.setZoom(map.getZoom() - 1);
     }
   });
   
-  $(".zoom_fs").on("click", function() {
+  $(".zoom_fs", container.parent()).click(function() {
     fsControl.fullscreen();
   });
-    
 }
 
 var ZoomFullscreen = function(map) {

@@ -4,10 +4,25 @@
   <title>${dataset.title!"???"} - Dataset detail</title>
   <content tag="extra_scripts">
     <#if renderMaps>
-    <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
-    <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
-    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
+      <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
+      <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
+      <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
       <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
+      <script type="text/javascript">
+          $(function() {
+              // create an array of the bounding boxes from the geographic coverages
+              // we ignore anything that is global as that tells us very little
+              var bboxes = [
+              <#list dataset.geographicCoverages as geo>
+                 <#if geo.boundingBox?has_content && (!geo.boundingBox.isGlobalCoverage())>
+                   [${geo.boundingBox.minLatitude?c},${geo.boundingBox.maxLatitude?c},${geo.boundingBox.minLongitude?c},${geo.boundingBox.maxLongitude?c}],
+                 </#if>
+              </#list>
+              ];
+
+              $("#map").densityMap("${dataset.key}", "DATASET", {"bboxes": bboxes});
+          });
+      </script>
     </#if>
   </content>  
 </head>
@@ -277,57 +292,33 @@
 
 <#-- MAPS -->
 <#if renderMaps>
-<article class="map">
-  <header></header>
-
-  <div id="zoom_in" class="zoom_in"></div>
-  <div id="zoom_out" class="zoom_out"></div>
-  <div id="zoom_fs" class="zoom_fs"></div>
-  <div id="map" type="DATASET" key="${dataset.key}"></div>
-  
-  <script>
-    // create an array of the bounding boxes from the geographic coverages
-    // we ignore anything that is global as that tells us very little
-    bboxes = [
-    <#list dataset.geographicCoverages as geo>
-       <#if geo.boundingBox?has_content && (!geo.boundingBox.isGlobalCoverage())>
-         [${geo.boundingBox.minLatitude?c},${geo.boundingBox.maxLatitude?c},${geo.boundingBox.minLongitude?c},${geo.boundingBox.maxLongitude?c}],
-       </#if>
-    </#list>
-    ];
-  </script>
-  
-  <div class="content">
-      <div class="header">
-        <div class="right"><h2>${numGeoreferencedOccurrences!0} Georeferenced occurrences</h2></div>
-      </div>
-	  <div class="right">
-      <div class="inner">
-        <h3>View records</h3>
+  <@common.article titleRight='${numGeoreferencedOccurrences!0} Georeferenced occurrences' class="map">
+    <div id="map" class="map"></div>
+    <div class="right">
+       <div class="inner">
+         <h3>View records</h3>
+         <p>
+           <a href="<@s.url value='/occurrence/search?datasetKey=${id!}&GEOREFERENCED=true'/>">All records</a>
+           |
+           <#-- Note this is intercepted in the map.js to append the bounding box -->
+           <a href="<@s.url value='/occurrence/search?datasetKey=${id!}'/>" class='viewableAreaLink'>In viewable area</a></li>
+         </p>
+         <#-- Truncate long coverages, and display with a more link -->
+         <#assign coverage><#list dataset.geographicCoverages as geo>${geo.description!}</#list></#assign>
+         <#if coverage?has_content>
+           <h3>Description</h3>
+           <#assign coverageUrl><@s.url value='/dataset/${id!}/geographicCoverage'/></#assign>
+           <p><@common.limitWithLink text=coverage max=200 link=coverageUrl/></p>
+         </#if>
+         <h3>About</h3>
         <p>
-          <a href="<@s.url value='/occurrence/search?datasetKey=${id!}&GEOREFERENCED=true'/>">All records</a>
-          |
-          <#-- Note this is intercepted in the map.js to append the bounding box -->
-          <a href="<@s.url value='/occurrence/search?datasetKey=${id!}'/>" class='viewableAreaLink'>In viewable area</a></li>
-        </p>
-        <#-- Truncate long coverages, and display with a more link -->      
-        <#assign coverage><#list dataset.geographicCoverages as geo>${geo.description!}</#list></#assign>
-        <#if coverage?has_content>
-          <h3>Description</h3>
-          <#assign coverageUrl><@s.url value='/dataset/${id!}/geographicCoverage'/></#assign>
-          <p><@common.limitWithLink text=coverage max=200 link=coverageUrl/></p>
-        </#if>
-        <h3>About</h3>
-				<p>        
-          <@common.explanation message="The map illustrates all known geographic information about the dataset.  
-          This includes any documented geographic coverage available through dataset metadata, and a data layer from any indexed data.  
-          The data layer can be customized with the controls above." label="What does this map show?" title="Help"/>
-        </p>
-      </div>
-	  </div>
-  </div>
-  <footer></footer>
-</article>
+           <@common.explanation message="The map illustrates all known geographic information about the dataset.
+           This includes any documented geographic coverage available through dataset metadata, and a data layer from any indexed data.
+           The data layer can be customized with the controls above." label="What does this map show?" title="Help"/>
+         </p>
+       </div>
+    </div>
+  </@common.article>
 </#if>
 
 <#if dataset.geographicCoverages?has_content>
