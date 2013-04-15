@@ -39,7 +39,7 @@
     <div id="map" class="map"></div>
     <div class="right">
       <h3>Locality</h3>
-        <p class="no_bottom">${occ.locality!}<#if occ.country??>, ${occ.country}</#if></p>
+        <p class="no_bottom">${occ.locality!}<#if occ.country??>, <a href="<@s.url value='/country/${occ.country.iso2LetterCode}'/>">${occ.country.title}</a></#if></p>
         <p class="light_note">${occ.longitude}, ${occ.latitude} (± 0.25)</p>
 
   <#else>
@@ -51,7 +51,7 @@
 
     <#if occ.country??>
         <h3>Country</h3>
-        <p>${occ.country}</p>
+        <p><a href="<@s.url value='/country/${occ.country.iso2LetterCode}'/>">${occ.country.title}</a></p>
     </#if>
 
     <#if occ.stateProvince??>
