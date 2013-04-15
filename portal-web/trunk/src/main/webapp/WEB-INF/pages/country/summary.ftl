@@ -46,5 +46,113 @@
     </div>
 </@common.article>
 
+
+<@common.article id="participation" title="${country.title} as a GBIF Participant" titleRight="Node Address">
+    <div class="left">
+        <h3>Member Status</h3>
+        <p>Voting Country Participant</p>
+
+        <h3>GBIF Participant Since</h3>
+        <p>2001</p>
+
+        <h3>GBIF Region</h3>
+        <p>Europe</p>
+
+        <h3>Contacts</h3>
+        <div class="col">
+            <div class="contact">
+               <div class="contactType">Head of Delegation</div>
+               <div class="contactName">Simon Tillier</div>
+               <div>Professor</div>
+             <address>
+              4101 rue Sherbrooke est,
+                Montreal,
+                Quebec,
+                H1X2B2,
+                Canada
+                <a href="mailto:#" title="email">luc.brouillet@umontreal.ca</a>
+             </address>
+            </div>
+          <div class="contact">
+              <div class="contactType">Node Manager</div>
+             <div class="contactName">
+              Luc Brouillet
+             </div>
+             <div>
+              Professor
+             </div>
+           <address>
+            <!-- remember Contact.Country is an Enum, and we want to display the title (ie. Great Britain, not the code GB) -->
+              4101 rue Sherbrooke est,
+              Montreal,
+              Quebec,
+              H1X2B2,
+              Canada
+
+              <a href="mailto:#" title="email">luc.brouillet@umontreal.ca</a>
+           </address>
+          </div>
+        </div>
+
+        <div class="col">
+            <div class="contact">
+                <div class="contactType">Node Manager</div>
+               <div class="contactName">
+                Luc Brouillet
+               </div>
+               <div>
+                Professor
+
+
+               </div>
+             <address>
+              <!-- remember Contact.Country is an Enum, and we want to display the title (ie. Great Britain, not the code GB) -->
+                4101 rue Sherbrooke est,
+                Montreal,
+                Quebec,
+                H1X2B2,
+                Canada
+
+                <a href="mailto:#" title="email">luc.brouillet@umontreal.ca</a>
+             </address>
+            </div>
+          <div class="contact">
+             <div class="contactType">Node Manager</div>
+             <div class="contactName">
+              Peter Desmet
+             </div>
+             <div>
+              Biodiversity Informatics Manager
+               at
+              Université de Montréal Biodiversity Centre
+             </div>
+           <address>
+            <!-- remember Contact.Country is an Enum, and we want to display the title (ie. Great Britain, not the code GB) -->
+              4101 rue Sherbrooke est,
+              Montreal,
+              Quebec,
+              H1X2B2,
+              Canada
+
+              <a href="mailto:#" title="email">peter.desmet@umontreal.ca</a>
+           </address>
+          </div>
+        </div>
+    </div>
+
+    <div class="right">
+    </div>
+</@common.article>
+
+
+<@common.article id="latest" title="Latest datasets published" titleRight="News">
+    <div class="left">
+    </div>
+
+    <div class="right">
+    </div>
+</@common.article>
+
+
 </body>
 </html>
