@@ -79,15 +79,32 @@
   <div class="message"><#nested></div>
 </#macro>
 
+
+<#-- Creates just an address block for a given WritableMember or Contact instance -->
+<#macro address address>
+<address>
+ <!-- members use zip, but Contact postalCode -->
+ <#assign props = ["${address.address!}", "${address.postalCode!}", "${address.zip!}", "${address.city!}", "${address.province!}", "${(address.country.title)!}" ]>
+ <#list props as k>
+   <#if k?has_content>
+   ${k}<#if k_has_next>, </#if>
+   </#if>
+ </#list>
+
+ <#if address.email?has_content>
+   <a href="mailto:#" title="email">${address.email!}</a>
+ </#if>
+ <#if address.phone?has_content>
+ ${address.phone!}
+ </#if>
+</address>
+</#macro>
+
+
 <#--
 	Construct a Contact. Parameter is the actual contact object.
-	@param componentIndex No idea, maybe Jose knows?
 -->
-<#macro contact con componentIndex=0>
-<#if admin!false>
-  <button class="editContact" componentIndex="${componentIndex}" agentKey="${id}">EDIT</button>
-  <img src="<@s.url value='/img/minus.png'/>">
-</#if>
+<#macro contact con>
 <div class="contact">
   <#if con.type?has_content>
    <div class="contactType">
@@ -108,22 +125,7 @@
     ${con.organizationName!}
    </div>
   </#if>
- <address>
-  <!-- remember Contact.Country is an Enum, and we want to display the title (ie. Great Britain, not the code GB) -->
-  <#assign props = ["${con.address!}","${con.city!}", "${con.province!}", "${con.postalCode!}", "${(con.country.title)!}" ]>
-  <#list props as k>
-    <#if k?has_content>
-    ${k}<#if k_has_next>, </#if>
-    </#if>
-  </#list>
-
-  <#if con.email?has_content>
-    <a href="mailto:#" title="email">${con.email!}</a>
-  </#if>
-  <#if con.phone?has_content>
-  ${con.phone!}
-  </#if>
- </address>
+  <@address address=con />
 </div>
 </#macro>
 
@@ -224,4 +226,3 @@
 <#macro cityAndCountry member>
 ${member.city!}<#if member.city?has_content && member.country?has_content>, </#if>${member.country!}
 </#macro>
-

@@ -23,10 +23,7 @@
 
   <div class="box">
     <div class="content">
-      <ul>
-        <li class="last"><h4>${numAbout}</h4>Occurrences In ${country.title}</li>
-      </ul>
-      <a href="<@s.url value='/occurrence/search?country=${id}'/>" title="View Occurrences" class="candy_blue_button"><span>View occurrences</span></a>
+      <img src="http://www.geonames.org/flags/x/${id?lower_case}.gif"/>
     </div>
   </div>
 </content>

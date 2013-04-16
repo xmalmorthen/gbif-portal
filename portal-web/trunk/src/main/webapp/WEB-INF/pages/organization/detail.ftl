@@ -10,8 +10,6 @@
 <#assign memberType="organization"/>
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
-<#include "/WEB-INF/pages/member/inc/admin.ftl">
-
 <@common.article id="information" title="Organization Information">
     <div class="left">
       <#include "/WEB-INF/pages/member/inc/basics.ftl">
@@ -36,9 +34,6 @@
         </a>
       </div>
       -->
-
-      <#assign type="organization"/>
-      <#include "/WEB-INF/inc/manage_tags.ftl">
 
     </div>
 </@common.article>

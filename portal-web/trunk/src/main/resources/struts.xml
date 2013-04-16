@@ -286,76 +286,6 @@
     </action>
   </package>
 
-  <!-- ADMIN area -->
-  <package name="admin" namespace="/admin" extends="default">
-    <default-interceptor-ref name="adminStack"/>
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="" class="org.gbif.portal.action.admin.HomeAction">
-      <result>/WEB-INF/pages/admin/home.ftl</result>
-    </action>
-
-    <!-- ADD ENTITIES -->
-    <action name="{1}/add" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddEntity">
-      <result>/WEB-INF/pages/admin/add_{1}.ftl</result>
-    </action>
-
-    <action name="{1}/add/step" class="org.gbif.portal.action.{1}.AdminAction" method="addEntity">
-      <result name="input">/WEB-INF/pages/admin/add_{1}.ftl</result>
-      <result name="success">/WEB-INF/pages/admin/success.ftl</result>
-    </action>
-
-    <!-- EDIT ENTITIES -->
-    <action name="{1}/{id}/edit" class="org.gbif.portal.action.{1}.AdminAction" method="prepareAddEntity">
-      <result>/WEB-INF/pages/admin/edit_{1}.ftl</result>
-    </action>
-
-    <action name="{1}/{id}/edit/step" class="org.gbif.portal.action.{1}.AdminAction" method="editEntity">
-      <result name="input">/WEB-INF/pages/admin/edit_{1}.ftl</result>
-      <result name="success">/WEB-INF/pages/admin/success.ftl</result>
-    </action>
-
-    <!-- add component -->
-    <!-- prepare -->
-    <action name="{1}/add/{2}" class="org.gbif.portal.action.{1}.AdminAction" method="prepareComponents">
-      <result>/WEB-INF/pages/admin/add_{2}.ftl</result>
-    </action>
-    <!-- add -->
-    <action name="{1}/add/{2}/step" class="org.gbif.portal.action.{1}.AdminAction" method="{2}Add">
-      <result name="input">/WEB-INF/pages/admin/add_{2}.ftl</result>
-      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>
-    </action>
-
-    <!-- delete component -->
-    <action name="{1}/delete/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction" method="{2}Delete">
-      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>
-    </action>
-
-    <!-- edit component -->
-    <action name="{1}/{id}/edit/{2}/{componentIndex}" class="org.gbif.portal.action.{1}.AdminAction"
-            method="{2}EditPrepare">
-      <result>/WEB-INF/pages/admin/edit_{2}.ftl</result>
-    </action>
-
-    <!-- edit component -->
-    <action name="{1}/{id}/edit/{2}/{componentIndex}/step" class="org.gbif.portal.action.{1}.AdminAction"
-            method="{2}Edit">
-      <result name="input">/WEB-INF/pages/admin/edit_{2}.ftl</result>
-      <result name="success">/WEB-INF/pages/admin/{2}_success.ftl</result>
-    </action>
-
-    <!-- TO BE DECIDED IF THIS SHOULD BE KEPT -->
-    <action name="organization/{id}" class="org.gbif.portal.action.admin.OrganizationAction">
-      <result>/WEB-INF/pages/admin/edit_organization.ftl</result>
-    </action>
-
-    <action name="dataset/{id}" class="org.gbif.portal.action.admin.DatasetAction">
-      <result>/WEB-INF/pages/admin/dataset.ftl</result>
-    </action>
-
-  </package>
-
   <package name="user" namespace="/user" extends="default">
     <default-interceptor-ref name="loginStack"/>
 
@@ -408,47 +338,6 @@
     </action>
 
   </package>
-
-
-  <!--
-   ###
-   ### UNIMPLEMENRTED PARTS WHICH MIGHT BE MOVED TO DRUPAL
-   ###
-  -->
-
-  <!-- THEMES -->
-  <!--
-  <package name="theme" namespace="/theme" extends="default">
-    <default-action-ref name=""/>
-
-    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/theme/home.ftl</result>
-    </action>
-
-    <action name="{id}" class="org.gbif.portal.action.theme.DetailAction">
-      <result>/WEB-INF/pages/theme/detail.ftl</result>
-    </action>
-  </package>
-  -->
-
-  <!-- STATS -->
-  <!--
-  <package name="stats" namespace="/stats" extends="default">
-    <default-action-ref name=""/>
-
-    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/stats/home.ftl</result>
-    </action>
-
-    <action name="activity" class="org.gbif.portal.action.stats.ActivityAction">
-      <result>/WEB-INF/pages/stats/activity.ftl</result>
-    </action>
-
-    <action name="history" class="org.gbif.portal.action.stats.HistoryAction">
-      <result>/WEB-INF/pages/stats/history.ftl</result>
-    </action>
-  </package>
-  -->
 
 
 </struts>

@@ -1,6 +1,6 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
 <#import "/WEB-INF/macros/common.ftl" as common>
-<#import "/WEB-INF/macros/network_entity/dataset.ftl" as dataset>
+<#import "/WEB-INF/macros/records.ftl" as records>
 <html>
 <head>
   <title>Published datasets by organization ${member.title!}</title>
@@ -31,7 +31,7 @@
       <div class="fullwidth">
 
       <#list page.results as item>
-        <@dataset.record dataset=item/>
+        <@records.dataset dataset=item/>
       </#list>
         <div class="footer">
         <@paging.pagination page=page url=currentUrl/>

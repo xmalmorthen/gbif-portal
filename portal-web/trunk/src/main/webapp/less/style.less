@@ -24,7 +24,6 @@
 
 @import "home";
 @import "newsroom";
-@import "admin";
 
 @import "scroll";
 @import "hacks";
@@ -3913,50 +3912,6 @@ div.uploader {
   display: none;
 }
 
-#adminPanel {
-  top: -50px;
-  position: relative;
-  font: bold small "Courier New", Courier, mono;
-  height: 0;
-  float: right;
-}
-
-#adminPanel ul {
-  float: right;
-  background-color: #d8ff6f;
-  border: 1px solid @cGray0;
-  padding: 5px;
-}
-
-#adminPanel ul li {
-  float: left;
-  padding-right: 6px;
-  padding-left: 6px;
-}
-
-#adminPanel ul li:not(:last-child) {
-  border-right-style: dotted;
-  border-right-width: 1px;
-}
-
-#adminPanel ul li a {
-  color: #174919;
-  text-decoration: underline;
-}
-
-.admin-tag-input {
-  border: 1px solid #AAA;
-  width: 220px;
-  color: @cGray2;
-  font-size: .9em;
-  margin: 2px 0 5px;
-  padding: 2px;
-}
-
-.admin-tag-caption {
-  color: @cGray2;
-  font-size: .8em;
-}
 
 // Placeholders style
 .input_text {
@@ -4074,3 +4029,21 @@ div.uploader {
 a.atlwdg-trigger {
   z-index: 1001;
 }
+
+
+// occurrence metrics tables
+table.metrics {
+  color: #666;
+  div {
+    display: inline-block;
+  }
+  .total, tr.total td {
+    font-weight: bold !important;
+    background-color: #FFFFDF !important;
+  }
+  td.title {
+    font-weight: bold !important;
+  }
+}
+
+

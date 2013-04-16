@@ -1,7 +1,4 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
-<#if admin>
-  <script type="text/javascript" src="<@s.url value='/js/custom/contact_form.js'/>"></script>
-</#if>
 
   <h3>Full Title</h3>
   <p>${member.title}</p>

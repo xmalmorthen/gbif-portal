@@ -98,7 +98,6 @@
   <#assign max_show_length = 30>
 
 <#assign type="dataset"/>
-<#include "/WEB-INF/inc/manage_tags.ftl">
 
   <#if dataset.logoURL?has_content>
     <div class="logo_holder">

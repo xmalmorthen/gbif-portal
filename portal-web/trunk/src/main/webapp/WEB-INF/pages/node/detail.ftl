@@ -9,8 +9,6 @@
 <#assign memberType="node"/>
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
-<#include "/WEB-INF/pages/member/inc/admin.ftl">
-
 
 <@common.notice title="Country pages in development">
   <p>

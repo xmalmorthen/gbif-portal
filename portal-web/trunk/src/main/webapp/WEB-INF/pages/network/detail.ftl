@@ -9,8 +9,6 @@
 <#assign memberType="network"/>
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
-<#include "/WEB-INF/pages/member/inc/admin.ftl">
-
 <@common.article id="information" title="Network Information">
     <div class="left">
       <#include "/WEB-INF/pages/member/inc/basics.ftl">
