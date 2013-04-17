@@ -6,10 +6,21 @@
   <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
   <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/feedek/FeedEk.js'/>"></script>
   <script type="text/javascript">
       $(function() {
           $("#mapAbout").densityMap("${id}", "COUNTRY");
           $("#mapBy").densityMap("${id}", "COUNTRY");
+
+          <#if feed??>
+            $('#news').FeedEk({
+                FeedUrl: '${feed}',
+                MaxCount: 5,
+                ShowDesc: false,
+                ShowPubDate: false,
+                DescCharacterLimit: 30
+            });
+          </#if>
       });
   </script>
 </head>
@@ -130,18 +141,25 @@
       <#if node??>
         <h3>Address</h3>
         <p>${node.organizationName!}</p>
-        <@address address=node />
+        <@common.address address=node />
       </#if>
     </div>
 </@common.article>
 
-
-<@common.article id="latest" title="Latest datasets published" titleRight="News">
+<#if feed??>
+  <#assign titleRight = "News" />
+<#else>
+  <#assign titleRight = "" />
+</#if>
+<@common.article id="latest" title="Latest datasets published" titleRight=titleRight>
     <div class="left">
     </div>
 
+  <#if feed??>
     <div class="right">
+        <div id="news"></div>
     </div>
+  </#if>
 </@common.article>
 
 

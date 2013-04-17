@@ -459,7 +459,6 @@
       <version>${jsp.version}</version>
       <scope>test</scope>
     </dependency>
-
     <!-- BVal validation framework - bval/guice plugin -->
     <dependency>
       <groupId>org.apache.bval</groupId>
