@@ -7,19 +7,32 @@
   <script type='text/javascript'>
       $(function() {
         // http://jvectormap.com/tutorials/getting-started/
+        var nodes = {
+          <#list nodes as n>
+              "${n.getIso2LetterCode()}": 1<#if n_has_next>,</#if>
+          </#list>
+        };
         $('#map').vectorMap({
             map: 'world_mill_en',
             backgroundColor: "white",
+            series: {
+              regions: [{
+                values: nodes,
+                scale: ['#4B8A08'],
+                min: '1',
+                max: '1'
+              }]
+            },
             regionStyle: {
               initial: {
-                fill: '#4B8A08',
+                fill: '#6EA038',
                 "fill-opacity": 0.8,
                 stroke: 'none',
                 "stroke-width": 0,
                 "stroke-opacity": 1
               },
               hover: {
-                "fill-opacity": 1
+                fill: '#E7C535'
               }
             },
             onRegionClick: function(e, code){
@@ -38,7 +51,6 @@
 </head>
 
 <body class="dataset">
-
 
   <article class="dataset">
     <header></header>
