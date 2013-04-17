@@ -728,32 +728,34 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
 /**
  * Occurrence date widget. Allows specify single and range of dates.
  */
-var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
+var OccurrenceMonthWidget = (function ($,_,OccurrenceWidget) {
 
-  var InnerOccurrenceDateWidget = function () {        
+  var InnerOccurrenceMonthWidget = function () {        
   };
 
   //Inherits everything from the OccurrenceWidget module.
-  InnerOccurrenceDateWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
+  InnerOccurrenceMonthWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
 
   /**
    * Validates if the filter value exists for the input predicate.
    */
-  InnerOccurrenceDateWidget.prototype.bindOnPredicateChange = function() {
+  InnerOccurrenceMonthWidget.prototype.bindOnPredicateChange = function() {
     var self = this;
-    this.filterElement.find(":input[name=predicate]").change( function(e){
-      if($(this).val() == 'bt'){
-        self.filterElement.find("#maxValue").show();
-      } else {
-        self.filterElement.find("#maxValue").hide();
-      }      
-    });          
+    this.filterElement.find(":input[name=predicate]").dropkick({
+      change: function (value, label) {
+        if(value == 'bt'){
+          self.filterElement.find("#maxValue").show();
+        } else {
+          self.filterElement.find("#maxValue").hide();
+        }     
+      }
+     });       
   };
 
   /**
    * Executes binding function bound during the object construction.
    */
-  InnerOccurrenceDateWidget.prototype.executeAdditionalBindings = function() {      
+  InnerOccurrenceMonthWidget.prototype.executeAdditionalBindings = function() {      
     this.bindingsExecutor.call();
     this.bindOnPredicateChange();
   };
@@ -761,7 +763,7 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
   /**
    * Validates if the date range is:monthMin < monthMax.
    */
-  InnerOccurrenceDateWidget.prototype.isValidMonthRange = function(monthMin, monthMax) {  
+  InnerOccurrenceMonthWidget.prototype.isValidMonthRange = function(monthMin, monthMax) {  
     if(monthMin == 0){
       this.filterElement.find(":input[name=monthMin]:first,#dk_container_monthMin").addClass(ERROR_CLASS);
       return false;
@@ -775,7 +777,7 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
   };
 
   //The bindAddFilterControl is re-defined, the define dates are validated and then added.
-  InnerOccurrenceDateWidget.prototype.bindAddFilterControl = function() {
+  InnerOccurrenceMonthWidget.prototype.bindAddFilterControl = function() {
     var self = this;
     $('.date-dropdown').dropkick(); // adds custom dropdowns
 
@@ -818,7 +820,7 @@ var OccurrenceDateWidget = (function ($,_,OccurrenceWidget) {
       }      
     });
   }      
-  return InnerOccurrenceDateWidget;
+  return InnerOccurrenceMonthWidget;
 })(jQuery,_,OccurrenceWidget);
 
 /**
@@ -899,6 +901,9 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
     })
   };
   
+  /**
+   * Converts a list of lat/lng into a String with the form: lng1 lat1,lng2 lat2...
+   */
   InnerOccurrenceLocationWidget.prototype.latLngsToPolygon = function(latLngs) {
     var value = "";
     $.each(latLngs, function(idx,el){
@@ -1099,13 +1104,15 @@ var OccurrenceComparatorWidget = (function ($,_,OccurrenceWidget) {
    */
   InnerOccurrenceComparatorWidget.prototype.bindOnPredicateChange = function() {
     var self = this;
-    this.filterElement.find(":input[name=predicate]").change( function(e){
-      if($(this).val() == 'bt'){
-        self.filterElement.find("#maxValue").show();
-      } else {
-        self.filterElement.find("#maxValue").hide();
-      }      
-    });          
+    this.filterElement.find(":input[name=predicate]").dropkick({
+      change: function (value, label) {
+        if(value == 'bt'){
+          self.filterElement.find("#maxValue").show();
+        } else {
+          self.filterElement.find("#maxValue").hide();
+        }     
+      }
+     });         
   };
 
   /**
@@ -1165,6 +1172,221 @@ var OccurrenceComparatorWidget = (function ($,_,OccurrenceWidget) {
     }
   };      
   return InnerOccurrenceComparatorWidget;
+})(jQuery,_,OccurrenceWidget);
+
+
+/**
+ * Comparator widget. Displays an selection list of available comparators (=,>,<) and an input box for the value.
+ */
+var OccurrenceDateComparatorWidget = (function ($,_,OccurrenceWidget) {
+  
+  var InnerOccurrenceDateComparatorWidget = function () {        
+  }; 
+  
+  //Inherits everything from the OccurrenceWidget module.
+  InnerOccurrenceDateComparatorWidget.prototype = $.extend(true,{}, new OccurrenceWidget());
+  
+  /**
+   * Validates if the filter value exists for the input predicate.
+   */
+  InnerOccurrenceDateComparatorWidget.prototype.bindOnPredicateChange = function() {
+    var self = this;
+    //Creates the dropdowns for predicates selection
+    self.filterElement.find(":input[name=predicate]").dropkick({
+      change: function (value, label) {
+        if(value == 'bt'){
+          self.filterElement.find(".max_value_cfg").show();
+          self.filterElement.find(".min_value_cfg").hide();
+        } else {
+          self.filterElement.find(".max_value_cfg").hide();
+          self.filterElement.find(".min_value_cfg").show();
+        }     
+      }
+     });
+     
+    //Creates the date formats dropdowns and datepickers
+    self.filterElement.find(":input.date_format").dropkick({ 
+      change: function() {
+        var selectedViewMode = $(this).find(":selected").val();
+        var datePicker = $(this).data("target");
+        if(datePicker == "dateFrom"){
+          self.bindDateFromControl(selectedViewMode);        
+        } else {
+          self.bindDateToControl(selectedViewMode);
+        }      
+      }
+    });
+    
+    //Shows the date format configuration section
+    self.filterElement.find(".configure_dates:first").click(function(e) {
+      e.preventDefault();
+      self.filterElement.find(".date_fmt_cfg:first").show();
+      if(self.isRangeQuery()){
+        self.filterElement.find(".max_value_cfg").show();
+      } else {
+        self.filterElement.find(".max_value_cfg").hide();
+      }
+    });
+    //Closes the date format configuration sectio
+    self.filterElement.find(".close_cfg:first").click(function(e) {
+      e.preventDefault();
+      self.filterElement.find(".date_fmt_cfg:first").hide();
+    });
+  };
+
+  /**
+   * Executes binding function bound during the object construction.
+   */
+  InnerOccurrenceDateComparatorWidget.prototype.executeAdditionalBindings = function() {      
+    this.bindingsExecutor.call();       
+    this.bindDateControls('months','months');
+    this.bindAutoAddControl(this.filterElement.find(":input[name=" + this.getId() + "Max]"));
+  };
+  
+  /**
+   * Checks is the current filter is a range query.
+   */
+  InnerOccurrenceDateComparatorWidget.prototype.isRangeQuery = function() {
+    return this.filterElement.find("#maxValue").is(":visible");
+  }
+
+  /**
+   * The bindAddFilterControl function is re-defined to validate and process the coordinates. 
+   */
+  InnerOccurrenceDateComparatorWidget.prototype.addFilterControlEvent = function (self,input) {        
+    //gets the value of the input field        
+    var inputMinValue = this.filterElement.find("input[name=" + this.getId() + "]");
+    var value = inputMinValue.val();     
+    var valueMax = null;
+    var inputMaxValue = this.filterElement.find("input[name=" + this.getId() + "Max]");
+    inputMinValue.removeClass(ERROR_CLASS);
+    inputMaxValue.removeClass(ERROR_CLASS);
+    var predicate = self.filterElement.find(':input[name=predicate] option:selected').val();
+    var predicateText = self.filterElement.find(':input[name=predicate] option:selected').text();
+    var label = value;
+    var isRangeQuery = this.filterElement.find("#maxValue").is(":visible");
+    if(isRangeQuery){
+      valueMax = inputMaxValue.val();
+      label = value + " and " +  valueMax;
+    }
+    var rangeValue = null;
+    if(predicate == 'bt') { // is between predicate
+      rangeValue = predicatePatternMap[predicate].replace('%v1',value).replace('%v2',valueMax);
+    } else {
+      rangeValue = predicatePatternMap[predicate].replace('%v',value);
+    }
+    if(!self.isBlank(value) && !this.existsFilter({value: rangeValue})){            
+      var key = null;
+      //Auto-complete stores the selected key in "key" attribute
+      if (inputMinValue.attr("key") !== undefined) {
+        key = inputMinValue.attr("key"); 
+      }
+      if(self.isBlank(value)){
+        inputMinValue.addClass(ERROR_CLASS);
+        return;
+      } 
+      
+      if(isRangeQuery && (self.isBlank(valueMax) || !self.isValidRange())) {        
+        inputMaxValue.addClass(ERROR_CLASS);
+        return;        
+      } 
+      
+      var rangePattern = predicatePatternMap[predicate];      
+      self.addFilter({label:predicateText + ' ' + label,value: rangeValue, key:key,paramName:self.getId(),submitted: false});
+      self.showFilters();
+      inputMinValue.val('');
+      inputMaxValue.val('');
+    }
+  };     
+  
+  /**
+   * Validates of the range date is valid.
+   */
+  InnerOccurrenceDateComparatorWidget.prototype.isValidRange = function() {
+    return this.dateTo.date.valueOf() > this.dateFrom.date.valueOf();
+  };
+  
+  /**
+   * Gets the date format related to the viewMode parameter.
+   */
+  InnerOccurrenceDateComparatorWidget.prototype.getDateFormat = function(viewMode) {
+    var defaultFormat = 'yyyy-mm'; 
+    if (viewMode == 'months') {
+      return defaultFormat;
+    } else if (viewMode == 'days') {
+      return 'yyyy-mm-dd';
+    } else if (viewMode == 'years') {
+      return 'yyyy';
+    } else {
+      return defaultFormat;
+    }
+  };
+  
+  /**
+   * Create datepickers components.
+   */
+  InnerOccurrenceDateComparatorWidget.prototype.bindDateControls = function(dateFromViewMode,dateToViewMode) {
+    this.bindDateFromControl(dateFromViewMode);
+    this.bindDateToControl(dateToViewMode)
+    this.bindOnPredicateChange();
+  };
+  
+  
+  /**
+   * Create datepickers components.
+   */
+  InnerOccurrenceDateComparatorWidget.prototype.bindDateToControl = function(dateToViewMode) {
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+    var self = this;
+    if (this.dateTo) {      
+      this.dateTo.remove();
+      $(self.filterElement.find(".max_value")[0]).val('');      
+    }
+    var dateTo = this.filterElement.find(".max_value").datepicker({format:self.getDateFormat(dateToViewMode),viewMode:dateToViewMode,minViewMode:dateToViewMode,endDate:now,
+      onRender: function(date) {
+        return self.dateFrom && date.valueOf() <= self.dateFrom.date.valueOf() ? 'disabled' : '';
+      }
+    }).on('changeDate', function(ev) {      
+      var newDate = new Date(ev.date);
+      newDate.setDate(newDate.getDate() - 1);                  
+      self.dateFrom.setEndDate(newDate);      
+      dateTo.hide();
+    }).data('datepicker');
+    this.dateTo = dateTo;
+  };
+  
+  
+  /**
+   * Create datepickers components.
+   */
+  InnerOccurrenceDateComparatorWidget.prototype.bindDateFromControl = function(dateFromViewMode) {
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+    var self = this;    
+    if (this.dateFrom) {
+      this.dateFrom.remove();
+      $(self.filterElement.find(".min_value")[0]).val('');
+    }
+    var dateFrom = this.filterElement.find(".min_value").datepicker({format:self.getDateFormat(dateFromViewMode),viewMode:dateFromViewMode,minViewMode:dateFromViewMode,endDate:now,
+      onRender: function(date) {
+        return date.valueOf() < now.valueOf() ? 'disabled' : '';
+      }
+    }).on('changeDate', function(ev) {
+      if(this.dateTo){
+        var newDate = new Date(ev.date);
+        newDate.setDate(newDate.getDate() + 1);      
+        self.dateTo.setStartDate(newDate);
+      }
+      dateFrom.hide();
+      if(self.dateTo && self.isBlank($(self.filterElement.find(".max_value")[0]).val())) {
+        self.filterElement.find(".max_value")[0].focus();
+      }
+    }).data('datepicker');    
+    this.dateFrom = dateFrom;    
+  };
+  
+  return InnerOccurrenceDateComparatorWidget;
 })(jQuery,_,OccurrenceWidget);
 
 
@@ -1299,7 +1521,7 @@ var OccurrenceWidgetManager = (function ($,_) {
 
       /**
        * Binds the filter rendering to a click event of HTML element.
-       * Creates an occurrence widgets depending of its names, for example: if the paramater name "DATE" exists an OccurrenceDateWidget instance is created.
+       * Creates an occurrence widgets depending of its names, for example: if the paramater name "DATE" exists an OccurrenceMonthWidget instance is created.
        */
       bindToWidgetsControl : function(element) {
         var self = this;
@@ -1333,8 +1555,11 @@ var OccurrenceWidgetManager = (function ($,_) {
             } else if (filterName == "GEOMETRY") {
               newWidget = new OccurrenceLocationWidget();
               newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindMap});            
+            } else if (filterName == "DATE" || filterName == "MODIFIED") {
+              newWidget = new OccurrenceDateComparatorWidget();
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});            
             } else if (filterName == "MONTH") {
-              newWidget = new OccurrenceDateWidget();
+              newWidget = new OccurrenceMonthWidget();
               newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});            
             } else if (filterName == "BASIS_OF_RECORD") {
               newWidget = new OccurrenceBasisOfRecordWidget();
@@ -1678,11 +1903,7 @@ var OccurrenceWidgetManager = (function ($,_) {
       /**
        * Checks if the list of coordinates forms a bounding box.
        */
-      isRectangle: function(value){
-        /*33 9
-          33 27
-          93 27
-          93 9*/
+      isRectangle: function(value){        
         var values = value.split(",");
         if(values.length == 5) {
           var point1 = values[0].split(" ");

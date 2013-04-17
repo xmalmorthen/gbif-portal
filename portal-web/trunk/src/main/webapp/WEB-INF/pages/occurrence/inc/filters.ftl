@@ -14,7 +14,7 @@
                     <table>   
                      <tr>
                       <td>                 
-                        <select name="predicate">
+                        <select name="predicate" class="predicate">
                           <option value="eq">Is</option>
                           <option value="lte">Is before</option>
                           <option value="gte">Is after</option>
@@ -188,7 +188,7 @@
                 <tr> 
                   <td>  
                     <h4>&nbsp;</h4>                                                                
-                    <select name="predicate">
+                    <select name="predicate" class="predicate">
                       <option value="eq">Is</option>
                       <% if (inputClasses.indexOf("temporal") == -1){%>                        
                         <option value="gte">Is greater than</option>
@@ -205,6 +205,79 @@
                       <span>and</span> 
                       <input type="text" size="17"  maxlength="15" name="<%=paramName%>Max" class="<%= inputClasses %>" placeholder="<%= placeholder %>" style="width:130px;"/>
                     </span>   
+                    <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">                    
+                  </td>
+                  <td>
+                    <h4 class="filtersTitle" style="display:none;">Filters</h4>
+                    <div class="appliedFilters filterlist" style="display:none;"></div>
+                  </td>                  
+                </tr>
+             </table>                        
+          </div>
+          <div>          
+            <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
+          </div>
+          <a class="close"></a>
+        </div>
+        <div class="summary_view">          
+          
+        </div> 
+      </td>      
+    </tr>
+  </script>
+  
+  
+  <script type="text/template" id="template-date-compare-filter">
+    <tr class="filter">
+      <td colspan="4">
+        <a class="edit" style="display:none;"/>        
+        <div class="inner filter_view">
+            <h4 class="title"><%= title %><img class="configure_dates" src="<@s.url value='/img/icons/cog_gray_small.png'/>"></h4>            
+            <div class="filter">                      
+            <table style="border:none !important;">    
+                <tr class="date_fmt_cfg" style="display:none;">
+                  <td>
+                    <div class="configure_dates_box" style="display:inline-block !important;">        
+                      <img class="configure_dates close_cfg" src="<@s.url value='/img/icons/filter_close.png'/>"></br>                                         
+                      <table> 
+                        <tr>
+                          <td>
+                          <span class="label">Search by</span>        
+                          <select name="formatDateFrom" data-target="dateFrom" class="date_format">                  
+                            <option value="months">Year and month</option>
+                            <option value="days">Full date</option>
+                            <option value="years">Year</option>
+                          </select>
+                          </td>
+                          <td>
+                          <span class="max_value_cfg">
+                            <span class="label">and by</span>
+                            <select name="formatDateTo" data-target="dateTo" class="date_format">                  
+                              <option value="months">Year and month</option>
+                              <option value="days">Full date</option>
+                              <option value="years">Year</option>
+                            </select>
+                          </span>
+                          </td>
+                        </tr>       
+                      </table>
+                    </div>
+                  </td>
+                </tr>            
+                <tr> 
+                  <td>                                                     
+                    <select name="predicate" class="predicate">                      
+                      <option value="eq">Is</option>                      
+                      <option value="lte">Is before</option>                        
+                      <option value="gte">Is after</option>
+                      <option value="bt">Between</option>
+                    </select>     
+                    <input type="text" size="17" maxlength="15" name="<%=paramName%>" class="min_value <%= inputClasses %>" placeholder="<%= placeholder %>" style="width:90px;" readonly/>
+                    <span style="display:none" class="erroMsg">Please enter a value</span>                 
+                    <span id="maxValue" style="display:none" class="max_value_cfg">
+                      <span>and</span>                                             
+                        <input type="text" size="17"  maxlength="15" name="<%=paramName%>Max" class="max_value <%= inputClasses %>" placeholder="<%= placeholder %>" style="width:90px;" readonly/>                      
+                    </span>                       
                     <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">                    
                   </td>
                   <td>
@@ -243,13 +316,9 @@
     <div style="display:inline-block"><h4>Location</h4></div>
     <% _.each(filters, function(filter) { %>
         <div class="filter"><div class="filter_content">
-           <%if (typeof(filter.targetParam) != "undefined" && filter.targetParam == 'POLYGON' ) {%><img src="../js/vendor/leaflet/draw/images/draw-polygon.png"/>
-            <%= filter.label.replace("POLYGON((","").replace("))","") %>            
-           <%} else {%>
-            <img src="../js/vendor/leaflet/draw/images/draw-rectangle.png"/>
-            <%= filter.label %>            
-           <%}%>           
-        <input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a class="closeFilter"></a></div></div>        
+           <%if (typeof(filter.targetParam) != "undefined" && filter.targetParam == 'POLYGON' ) {%><img src="../js/vendor/leaflet/draw/images/draw-polygon.png"/><%= filter.label.replace("POLYGON((","").replace("))","") %>
+           <%} else if (typeof(filter.targetParam) != "undefined" && filter.targetParam == 'BOUNDING_BOX' ) {%>
+            <img src="../js/vendor/leaflet/draw/images/draw-rectangle.png"/><%}%><%= filter.label %><input name="<%= filter.paramName %>" type="hidden" key="<%= filter.key %>" value="<%= filter.value %>"/><a class="closeFilter"></a></div></div>        
       <% }); %>                  
     </li>
     </ul>
@@ -461,7 +530,7 @@
                         <input name="maxLongitude" id="maxLongitude" class="point" type="text" size="10" style="width:60px;"/>
                       </span>
                       <br>
-                      <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">                      
+                      <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter map_control">                      
                       <br>                                            
                       <h4 class="filtersTitle" style="display:none;">Filters</h4>
                       <div class="appliedFilters filterlist" style="display:none;"></div>
@@ -471,14 +540,14 @@
               </table>
               </fieldset>
               <div style="width:490px;">
-                <fieldset class="location_option_geo">
+                <fieldset class="location_option_geo" id="spatial_issues">
                   <legend>Show records</legend>                
-                  <label for="isGeoreferenced">With NO known issues with coordinates</label> <input type="checkbox" name="SPATIAL_ISSUES" id="noSpatialIssues" value="true" <#if action.isInFilter('SPATIAL_ISSUES', 'true')> checked</#if>/>
+                  <label for="noSpatialIssues">With NO known issues with coordinates</label> <input type="checkbox" name="SPATIAL_ISSUES" id="noSpatialIssues" value="false" <#if action.isInFilter('SPATIAL_ISSUES', 'false')> checked</#if> <#if action.isInFilter('GEOREFERENCED', 'false')> disabled</#if>/>
                   <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                  <label for="isNotGeoreferenced">With known coordinate issues</label> <input type="checkbox" name="SPATIAL_ISSUES" id="spatialIssues" value="false" <#if action.isInFilter('SPATIAL_ISSUES', 'false')> checked</#if>/>
+                  <label for="spatialIssues">With known coordinate issues</label> <input type="checkbox" name="SPATIAL_ISSUES" id="spatialIssues" value="true" <#if action.isInFilter('SPATIAL_ISSUES', 'true')> checked</#if> <#if action.isInFilter('GEOREFERENCED', 'false')> disabled</#if>/>
                 </fieldset>
               </div>
-              <div>         
+              <div style="display:inline-block;">         
                 <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply</span></a>
                </div>         
            </div>                             

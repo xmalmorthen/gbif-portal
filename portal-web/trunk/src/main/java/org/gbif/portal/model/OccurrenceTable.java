@@ -25,7 +25,7 @@ public class OccurrenceTable {
    * Enum that represents the visible information of the summary column in the occurrence page.
    */
   public static enum OccurrenceSummaryField {
-    OCCURRENCE_KEY, CATALOG_NUMBER, COLLECTION_CODE, COLLECTOR_NAME, INSTITUTION, SCIENTIFIC_NAME, DATASET;
+    OCCURRENCE_KEY, CATALOG_NUMBER, COLLECTION_CODE, COLLECTOR_NAME, INSTITUTION, SCIENTIFIC_NAME, DATASET, MODIFIED;
   }
 
   private static final OccurrenceSearchParameter[] OCC_LOCATION_PARAMS = new OccurrenceSearchParameter[] {
@@ -205,6 +205,9 @@ public class OccurrenceTable {
     }
     if (isParameterPresent(searchRequest, OccurrenceSearchParameter.TAXON_KEY)) {
       fields.add(OccurrenceSummaryField.SCIENTIFIC_NAME);
+    }
+    if (isParameterPresent(searchRequest, OccurrenceSearchParameter.MODIFIED)) {
+      fields.add(OccurrenceSummaryField.MODIFIED);
     }
     return fields;
   }

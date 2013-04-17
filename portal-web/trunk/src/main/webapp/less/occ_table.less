@@ -232,6 +232,49 @@
         outline: none;
         font-size: 13px;
       }
+      
+      .configure_dates {  
+            float:right;
+            font-size:10px; 
+            cursor:pointer;
+            i {
+              margin-top: -3px;
+              .size(18px);
+              background: url(../img/icons/cog.png) no-repeat;
+            }   
+       }
+       
+       .configure_dates_box {
+          border: 1px solid @cGray4; 
+          border-radius:4px;
+          background-color:#F2FAFB;
+          margin:0px;
+          padding: 5px;
+          display:inline-block;
+          table tr td{
+            padding: 3px 3px; 
+          }
+          .label{
+            text-transform: uppercase;
+            color: #9DA0A4;
+            font-family: "DINOT-Medium",sans-serif;
+            font-size: 11px;
+            padding-right: 5px;
+          }
+          .dk_container{
+            float: right;
+            font-size: 11px;
+            margin-bottom: 2px;
+            line-height: 10px;
+            * {
+              font-size: 11px;
+            }
+          }
+          .date_format {
+            width: 78px;
+            font-size: 11px;
+          }
+        }
     }
 
    tr.results-header td {
@@ -310,7 +353,7 @@
 
           }
         }
-
+          
         .dropdown-menu.filters, .dropdown-menu.configure {          
                     
           label{vertical-align: baseline; font-size:12px;}
@@ -693,4 +736,12 @@ header #infoband .content {
   height:266px !important;
   width:455px !important;
   display:block !important;
+}
+
+.dk_options{
+  background-color:white !important;
+}
+
+select.predicate {
+  width: 50px;
 }

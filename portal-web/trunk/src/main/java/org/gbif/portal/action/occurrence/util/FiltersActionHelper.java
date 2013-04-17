@@ -149,6 +149,10 @@ public class FiltersActionHelper {
 
   private static final String GEOREFERENCING_LEGEND = "Georeferenced records only";
 
+  private static final String SPATIAL_ISSUES_LEGEND = "With known coordinate issues";
+
+  private static final String NOSPATIAL_ISSUES_LEGEND = "With NO known coordinate issues";
+
   // List of official countries
   private static final Set<Country> COUNTRIES = Sets.immutableEnumSet(Sets.filter(
     Sets.newHashSet(Country.values()),
@@ -250,10 +254,14 @@ public class FiltersActionHelper {
         return getCountryTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.DEPTH || parameter == OccurrenceSearchParameter.ALTITUDE) {
         return getRangeTitle(filterValue);
+      } else if (parameter == OccurrenceSearchParameter.DATE || parameter == OccurrenceSearchParameter.MODIFIED) {
+        return getDateRangeTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.YEAR) {
         return getTemporalRangeTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.MONTH) {
         return getMonthRangeTitle(filterValue);
+      } else if (parameter == OccurrenceSearchParameter.SPATIAL_ISSUES) {
+        return getSpatialIssuesTitle(filterValue);
       }
     }
     return filterValue;
@@ -294,6 +302,14 @@ public class FiltersActionHelper {
       }
     }
     return taxonKey;
+  }
+
+  public String getSpatialIssuesTitle(String value) {
+    if (Boolean.parseBoolean(value)) {
+      return SPATIAL_ISSUES_LEGEND;
+    } else {
+      return NOSPATIAL_ISSUES_LEGEND;
+    }
   }
 
   /**
@@ -450,6 +466,24 @@ public class FiltersActionHelper {
   }
 
   /**
+   * Returns the displayable label/value of a range filter.
+   */
+  private String getDateRangeTitle(String value) {
+    final String[] rangeValue = value.split(",");
+    if (rangeValue.length == 2) {
+      if (rangeValue[0].equals(QUERY_WILDCARD)) {
+        return String.format(BEFORE_FMT, rangeValue[1]);
+      } else if (rangeValue[1].equals(QUERY_WILDCARD)) {
+        return String.format(AFTER_FMT, rangeValue[0]);
+      } else {
+        return String.format(BETWEEN_FMT, rangeValue[0], rangeValue[1]);
+      }
+    } else {
+      return String.format(IS_FMT, value);
+    }
+  }
+
+  /**
    * Returns the displayable label/value of geometry filter.
    */
   private String getGeometryTitle(String value) {
@@ -478,6 +512,7 @@ public class FiltersActionHelper {
     }
   }
 
+
   /**
    * Gets the name of the month int parameter.
    */
@@ -486,7 +521,6 @@ public class FiltersActionHelper {
     cal.set(Calendar.MONTH, month - 1); // Java indexes month from 0
     return new SimpleDateFormat("MMMM", getLocale()).format(cal.getTime());
   }
-
 
   /**
    * Returns the displayable label/value of a range filter.
