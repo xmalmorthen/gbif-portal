@@ -6,11 +6,11 @@ If the page.count does not exist (is null), it renders the simple pagination (wi
  - page: a mandatory PagingResponse instance
  - url: mandatory, current url
 -->
-<#macro pagination page url>
+<#macro pagination page url maxOffset=-1>
   <#if page.count??>
     <#-- do not show pagination at all if count is less or equal to the total limit -->
     <#if (page.count > page.limit)>
-      <@numberedPagination page url/>
+      <@numberedPagination page url maxOffset/>
     </#if>
   <#else>
     <@simplepagination page url/>
@@ -72,13 +72,26 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
     <li><a href="#">Last</a></li>
   </ul>
  -->
-<#macro numberedPagination page url maxLink=5 >
+<#macro numberedPagination page url maxOffset=-1 maxLink=5>
+  <#-- New maximum offset is calculated -->
+  <#if maxOffset != -1 && page.count gt maxOffset>
+    <#assign count = maxOffset/>
+  <#else>
+    <#assign count = page.count/>
+  </#if>
+  
+  <#if maxOffset != -1 && page.offset gt (maxOffset - page.limit)>    
+    <#assign offset = maxOffset - page.limit/>
+  <#else>
+    <#assign offset = page.offset/>
+  </#if>
+  
   <#-- Total number of pages for the resultset -->
-  <#assign totalPages = (page.count/page.limit)?ceiling />
+  <#assign totalPages = (count/page.limit)?ceiling />
   <#-- current url with paging params removed -->
   <#assign currUrl = getStripUrl(url) />
   <#-- the current page number, first page = 1 -->
-  <#assign currPage = (page.offset/page.limit)?round + 1 />
+  <#assign currPage = (offset/page.limit)?round + 1 />
   <#-- the first numbered page to show. If only 1 page exists its a special case caught below -->
   <#assign minPage = common.max(currPage - (maxLink/2)?floor, 2) />
   <#-- the last numbered page to show -->

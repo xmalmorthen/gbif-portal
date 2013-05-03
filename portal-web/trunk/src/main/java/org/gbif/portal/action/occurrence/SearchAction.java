@@ -50,6 +50,15 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
   private SearchSuggestions<String> collectionCodeSuggestions;
 
+  // Maximum offset allowed
+  private static final Integer MAX_OFFSET = 1000000;
+
+  // Message key in resource bundle
+  private static final String MAXOFFSET_ERROR_KEY = "max.offset.error";
+
+  // Name of the offset field, used to display error messages related to the offset parameter
+  private static final String OFFSET_FIELD = "offset";
+
 
   // List of parameters that should be excluded during the regular validation.
   // These parameters are excluded since they could contain String values that will be processed as suggestions.
@@ -72,10 +81,22 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    */
   @Override
   public String execute() {
+
     // read filter parameters in order to have them available even when the search wasn't executed.
     readFilterParams();
 
     table = new OccurrenceTable(request, getSearchRequest());
+
+    initSuggestions();
+
+    if (!isValidOffset()) {
+      addFieldError(
+        OFFSET_FIELD,
+        getText(MAXOFFSET_ERROR_KEY,
+          new String[] {Long.toString(getSearchRequest().getOffset()), getMaxAllowedOffset().toString()}));
+
+      return SUCCESS;
+    }
 
     // process taxon/scientific-name suggestions
     nameUsagesSuggestions = filtersActionHelper.processNameUsagesSuggestions(request);
@@ -88,11 +109,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
     // replace known datasets
     filtersActionHelper.processDatasetReplacements(searchRequest, datasetsSuggestions);
-
-    collectorSuggestions = new SearchSuggestions<String>();
-    catalogNumberSuggestions = new SearchSuggestions<String>();
-    institutionCodeSuggestions = new SearchSuggestions<String>();
-    collectionCodeSuggestions = new SearchSuggestions<String>();
 
     // Search is executed only if there aren't suggestions that need to be notified to the user
     if (!hasSuggestions()
@@ -122,7 +138,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     LOG.debug("Search for [{}] returned {} results", getQ(), searchResponse.getCount());
     return SUCCESS;
   }
-
 
   /**
    * Returns the list of {@link BasisOfRecord} literals.
@@ -161,7 +176,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return filtersActionHelper.getCountries();
   }
 
-
   /**
    * Gets the current year.
    * This value is used by occurrence filters to determine the maximum year that is allowed for the
@@ -171,6 +185,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return filtersActionHelper.getCurrentYear();
   }
 
+
   /**
    * Suggestions for dataset title search.
    * 
@@ -179,6 +194,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   public SearchSuggestions<DatasetSearchResult> getDatasetsSuggestions() {
     return datasetsSuggestions;
   }
+
 
   /**
    * Gets the Dataset title, the key parameter is returned if either the Dataset doesn't exists or it
@@ -211,6 +227,13 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   }
 
   /**
+   * Return the maximum default offset.
+   */
+  public int getMaxOffset() {
+    return MAX_OFFSET;
+  }
+
+  /**
    * Suggestions for scientific name search.
    * 
    * @return the nameUsagesSuggestions
@@ -235,7 +258,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return Constants.NUB_TAXONOMY_KEY.toString();
   }
 
-
   /**
    * Gets the configuration of fields and information to display.
    * 
@@ -244,6 +266,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   public OccurrenceTable getTable() {
     return table;
   }
+
 
   /**
    * Checks if there are suggestions available.
@@ -269,11 +292,37 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   }
 
   /**
+   * Calculates the maximum offset allowed using the current limit parameter.
+   */
+  private Integer getMaxAllowedOffset() {
+    return MAX_OFFSET - getSearchRequest().getLimit();
+  }
+
+  /**
+   * Initializes the suggestion objects with emtpy values.
+   */
+  private void initSuggestions() {
+    nameUsagesSuggestions = new SearchSuggestions<NameUsageSearchResult>();
+    datasetsSuggestions = new SearchSuggestions<DatasetSearchResult>();
+    collectorSuggestions = new SearchSuggestions<String>();
+    catalogNumberSuggestions = new SearchSuggestions<String>();
+    institutionCodeSuggestions = new SearchSuggestions<String>();
+    collectionCodeSuggestions = new SearchSuggestions<String>();
+  }
+
+  /**
    * Checks if the parameter is in any lists of suggestions.
    */
   private boolean isSuggestion(String value) {
     return nameUsagesSuggestions.getSuggestions().containsKey(value)
       || datasetsSuggestions.getSuggestions().containsKey(value);
+  }
+
+  /**
+   * Verifies if the offset parameter is not greater than the maximum value allowed.
+   */
+  private boolean isValidOffset() {
+    return getSearchRequest().getOffset() <= MAX_OFFSET - getSearchRequest().getLimit();
   }
 
   /**
