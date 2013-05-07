@@ -130,7 +130,7 @@
                   <h4>Summary fields</h4>
                   <ul id="summary_fields">
                     <li><input type="checkbox" name="summary" value="OCCURRENCE_KEY" id="chk-OCCURRENCE_KEY" <#if showOccurrenceKey>checked</#if>/> <label for="chk-OCCURRENCE_KEY">Occurrence key</label></li>
-                    <li><input type="checkbox" name="summary" value="CATALOG_NUMBER" id="chk-CATALOG_NUMBER" <#if showCatalogNumber>checked</#if>/> <label for="chk-CATALOG_NUMBER">Catalog number</label></li>
+                    <li><input type="checkbox" name="summary" value="CATALOG_NUMBER" id="chk-CATALOG_NUMBER" <#if showCatalogNumber>checked</#if>/> <label for="chk-CATALOG_NUMBER">Catalogue number</label></li>
                     <li><input type="checkbox" name="summary" value="COLLECTION_CODE" id="chk-COLLECTION_CODE" <#if showCollectionCode>checked</#if>/> <label for="chk-COLLECTION_CODE">Collection code</label></li>
                     <li><input type="checkbox" name="summary" value="INSTITUTION" id="chk-INSTITUTION" <#if showInstitution>checked</#if>/> <label for="chk-INSTITUTION">Institution</label></li>
                     <li><input type="checkbox" name="summary" value="COLLECTOR_NAME" id="chk-COLLECTOR_NAME" <#if showCollectorName>checked</#if>/> <label for="chk-COLLECTOR_NAME">Collector name</label></li>
@@ -152,7 +152,7 @@
                     <!--Next li is a place holder to map GEOREFERENCED to the bounding box widget-->
                     <li style="display:none;"><a tabindex="-1" href="#" data-filter="GEOREFERENCED" title="Bounding Box" data-template-filter="map-template-filter" data-template-summary="template-filter" class="filter-control">Location</a></li>
                     <li style="display:none;"><a tabindex="-1" href="#" data-filter="SPATIAL_ISSUES" title="Bounding Box" data-template-filter="map-template-filter" data-template-summary="template-filter" class="filter-control">Location</a></li>
-                    <li><a tabindex="-1" href="#" data-placeholder="Select a country..." data-filter="COUNTRY" title="Country" data-template-filter="template-simple-filter" data-template-summary="template-filter" class="filter-control" data-input-classes="">Country</a></li>
+                    <li><a tabindex="-1" href="#" data-placeholder="Type a country name..." data-filter="COUNTRY" title="Country" data-template-filter="template-simple-filter" data-template-summary="template-filter" class="filter-control" data-input-classes="">Country</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="COLLECTOR_NAME" title="Collector name" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value collector_name_autosuggest auto_add" class="filter-control">Collector</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="BASIS_OF_RECORD" title="Basis Of Record" data-template-filter="template-basis-of-record-filter" data-template-summary="template-filter" class="filter-control">Basis of record</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="DATASET_KEY" title="Dataset" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value dataset_autosuggest auto_add" class="filter-control">Dataset</a></li>
@@ -160,10 +160,10 @@
                     <li><a tabindex="-1" href="#" data-placeholder="Select a date..." data-filter="MODIFIED" title="Date last modified" data-template-filter="template-date-compare-filter" data-template-summary="template-filter" class="filter-control">Date last modified</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a year..." data-filter="YEAR" title="Occurrence year" data-template-filter="template-compare-filter" data-template-summary="template-filter" data-input-classes="value auto_add temporal" class="filter-control">Year</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Select a month..." data-filter="MONTH" title="Occurrence month" data-template-filter="template-month-filter" data-template-summary="template-filter" data-input-classes="value auto_add" class="filter-control">Month</a></li>
-                    <li><a tabindex="-1" href="#" data-placeholder="Type a catalog number..." data-filter="CATALOG_NUMBER" title="Catalog number" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value catalog_number_autosuggest auto_add" class="filter-control">Catalog number</a></li>
-                    <li><a tabindex="-1" href="#" data-placeholder="Type a institution code..." data-filter="INSTITUTION_CODE" title="Institution code" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value institution_code_autosuggest auto_add" class="filter-control">Institution code</a></li>
-                    <li><a tabindex="-1" href="#" data-placeholder="Type a collection code..." data-filter="COLLECTION_CODE" title="Collection code" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value collection_code_autosuggest auto_add" class="filter-control">Collection code</a></li>
-                    <li><a tabindex="-1" href="#" data-placeholder="Type a altitude..." data-filter="ALTITUDE" title="Altitude" data-template-filter="template-compare-filter" data-template-summary="template-filter" data-input-classes="value auto_add" class="filter-control">Altitude</a></li>
+                    <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="CATALOG_NUMBER" title="Catalog number" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value catalog_number_autosuggest auto_add" class="filter-control">Catalogue number</a></li>
+                    <li><a tabindex="-1" href="#" data-placeholder="Type an institution code..." data-filter="INSTITUTION_CODE" title="Institution code" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value institution_code_autosuggest auto_add" class="filter-control">Institution code</a></li>
+                    <li><a tabindex="-1" href="#" data-placeholder="Type an collection code..." data-filter="COLLECTION_CODE" title="Collection code" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value collection_code_autosuggest auto_add" class="filter-control">Collection code</a></li>
+                    <li><a tabindex="-1" href="#" data-placeholder="Type an altitude..." data-filter="ALTITUDE" title="Altitude" data-template-filter="template-compare-filter" data-template-summary="template-filter" data-input-classes="value auto_add" class="filter-control">Altitude</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a depth..." data-filter="DEPTH" title="Depth" data-template-filter="template-compare-filter" data-template-summary="template-filter" data-input-classes="value auto_add" class="filter-control">Depth</a></li>
                   </ul>
                   <input type="hidden" id="nubTaxonomyKey" value="${nubTaxonomyKey}"/>
@@ -286,16 +286,16 @@
   <div class="content">
   
     <div class="header">
-      <h2>Download ${searchResponse.count} occurrences for your search</h2>
+      <h2>Download ${searchResponse.count} occurrences from your search</h2>
     </div>
 
     <div>
       <a href="#" class="candy_blue_button download_button"><span>Download</span></a>
     </div>    
     <div id="notifications">
-        <a href="#">Additional notifications?</a>
+        <a href="#">Notify others of results?</a>
         <div id="emails">
-            Additional email addresses seperated by ; that should get notified:
+            Enter additional email addresses to be notified, separated by ';'
             <input type="text" name="emails" title="emails"/>
         </div>
     </div>

@@ -325,7 +325,7 @@
   <header></header>
   <div class="content">
     <div class="header">
-      <div class="left"><h2>Geographic Coverages</h2></div>
+      <div class="left"><h2>Geographic Coverage</h2></div>
     </div>
     <div class="fullwidth">
       <div class="scrollable">

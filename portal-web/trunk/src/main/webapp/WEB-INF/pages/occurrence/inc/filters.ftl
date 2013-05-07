@@ -499,10 +499,10 @@
           <div id="bboxContainer">  
               <div style="width:300px;">
                 <fieldset class="location_option_geo">
-                  <legend>Show only records</legend>                
-                  <label for="isGeoreferenced">Georeferenced</label> <input type="checkbox" name="GEOREFERENCED" id="isGeoreferenced" value="true" <#if action.isInFilter('GEOREFERENCED', 'true')> checked</#if>/>
+                  <legend>Show only records that are</legend>                
+                  <label for="isGeoreferenced">georeferenced</label> <input type="checkbox" name="GEOREFERENCED" id="isGeoreferenced" value="true" <#if action.isInFilter('GEOREFERENCED', 'true')> checked</#if>/>
                   <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                  <label for="isNotGeoreferenced">NON georeferenced</label> <input type="checkbox" name="GEOREFERENCED" id="isNotGeoreferenced" value="false" <#if action.isInFilter('GEOREFERENCED', 'false') && !action.isInFilter('GEOREFERENCED', 'true')> checked</#if>/>
+                  <label for="isNotGeoreferenced">not georeferenced</label> <input type="checkbox" name="GEOREFERENCED" id="isNotGeoreferenced" value="false" <#if action.isInFilter('GEOREFERENCED', 'false') && !action.isInFilter('GEOREFERENCED', 'true')> checked</#if>/>
                 </fieldset>
               </div>                            
               <fieldset class="location_option_geo">  
@@ -541,10 +541,10 @@
               </fieldset>
               <div style="width:490px;">
                 <fieldset class="location_option_geo" id="spatial_issues">
-                  <legend>Show records</legend>                
-                  <label for="noSpatialIssues">With NO known issues with coordinates</label> <input type="checkbox" name="SPATIAL_ISSUES" id="noSpatialIssues" value="false" <#if action.isInFilter('SPATIAL_ISSUES', 'false')> checked</#if> <#if action.isInFilter('GEOREFERENCED', 'false')> disabled</#if>/>
+                  <legend>Show only records</legend>                
+                  <label for="noSpatialIssues">with no known coordinate issues</label> <input type="checkbox" name="SPATIAL_ISSUES" id="noSpatialIssues" value="false" <#if action.isInFilter('SPATIAL_ISSUES', 'false')> checked</#if> <#if action.isInFilter('GEOREFERENCED', 'false')> disabled</#if>/>
                   <span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                  <label for="spatialIssues">With known coordinate issues</label> <input type="checkbox" name="SPATIAL_ISSUES" id="spatialIssues" value="true" <#if action.isInFilter('SPATIAL_ISSUES', 'true')> checked</#if> <#if action.isInFilter('GEOREFERENCED', 'false')> disabled</#if>/>
+                  <label for="spatialIssues">with known coordinate issues</label> <input type="checkbox" name="SPATIAL_ISSUES" id="spatialIssues" value="true" <#if action.isInFilter('SPATIAL_ISSUES', 'true')> checked</#if> <#if action.isInFilter('GEOREFERENCED', 'false')> disabled</#if>/>
                 </fieldset>
               </div>
               <div style="display:inline-block;">         

@@ -12,8 +12,8 @@
             
       <div class="results">
         <ul>
-          <li><a href="<@s.url value='/occurrence/search'/>" title="">${numOccurrences!0}</a>total ocurrences</li>
-          <li><a href="<@s.url value='/occurrence/search?GEOREFERENCED=true'/>" title="">${numGeoreferenced!0}</a>geolocated</li>          
+          <li><a href="<@s.url value='/occurrence/search'/>" title="">${numOccurrences!0}</a>Total occurrences</li>
+          <li><a href="<@s.url value='/occurrence/search?GEOREFERENCED=true'/>" title="">${numGeoreferenced!0}</a>Georeferenced</li>          
         </ul>
       </div>
     </div>

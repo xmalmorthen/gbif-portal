@@ -11,13 +11,13 @@
       <h1>
           Search ${colSpecies} species
       </h1>
-      <p>${nubMetrics.countSynonyms} synonyms and
-          <br/> ${nubSpecies-colSpecies} species under review
-          <br/> of the <a href="<@s.url value='/dataset/${nubDatasetKey}'/>">GBIF Backbone Taxonomy</a></p>
+      <p>of the <a href="<@s.url value='/dataset/${nubDatasetKey}'/>">GBIF Backbone Taxonomy</a>
+          <br/>${nubMetrics.countSynonyms} synonyms and
+          <br/> ${nubSpecies-colSpecies} species under review</p>
 
       <form action="<@s.url value='/species/search'/>" method="GET">
         <span class="input_text">
-         <input id="q" type="text" value="" name="q" placeholder="Search scientific name, common name, checklist description..."/>
+         <input id="q" type="text" value="" name="q" placeholder="Scientific or common name, descriptions..."/>
         </span>
         <button id="submitSearch" type="submit" class="search_button"><span>Search</span></button>
         <input id="checklist" name="dataset_key" type="hidden" value="${nubDatasetKey}"/>
