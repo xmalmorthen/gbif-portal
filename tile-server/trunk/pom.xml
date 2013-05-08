@@ -56,22 +56,17 @@
   </distributionManagement>
 
   <properties>
-    <!-- 
-      Note: Fixed this to the version used in the cube as it is brought in through
-      DataCube and HBase.  Mixing certain versions reports inconsistency issues.
-    -->
-    <!--  slf4j.version>1.5.8</slf4j.version> -->
-    <gbif-api.version>0.1</gbif-api.version>
-    <slf4j.version>1.6.4</slf4j.version> 
-    <logback.version>1.0.6</logback.version>
+    <gbif-api.version>0.3-SNAPSHOT</gbif-api.version>
+    <slf4j.version>1.7.5</slf4j.version>
+    <logback.version>1.0.11</logback.version>
     <cube.version>0.4-SNAPSHOT</cube.version>
     <servlet-api.version>2.4</servlet-api.version>
     <guice.version>3.0</guice.version>
     <metrics.version>2.1.2</metrics.version>
-    <guava.version>12.0</guava.version>
-    <datacube.version>1.2.2-GIT-20120729</datacube.version>
-    <hbase.version>0.90.4-cdh3u2</hbase.version>
-    <hadoop.version>0.20.2-cdh3u2</hadoop.version>
+    <guava.version>13.0.1</guava.version>
+    <datacube.version>1.2.4-GIT-20130508</datacube.version>
+    <hbase.version>0.94.2-cdh4.2.1</hbase.version>
+    <hadoopMR.version>2.0.0-mr1-cdh4.2.1</hadoopMR.version>
   </properties>
 
   <repositories>
@@ -85,13 +80,13 @@
     </repository>
     <repository>
       <id>repository.cloudera.com</id>
-      <url>https://repository.cloudera.com/content/repositories/releases/</url>	
-      <snapshots>	
-        <enabled>false</enabled>	
+      <url>https://repository.cloudera.com/content/repositories/releases/</url>
+      <snapshots>
+        <enabled>false</enabled>
       </snapshots>
     </repository>
   </repositories>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -101,7 +96,7 @@
     <dependency>
       <groupId>org.gbif</groupId>
       <artifactId>gbif-api</artifactId>
-      <version>0.1</version>
+      <version>${gbif-api.version}</version>
     </dependency>
     <dependency>
       <groupId>org.gbif.metrics</groupId>
@@ -115,7 +110,7 @@
         </exclusion>
       </exclusions>
     </dependency>
-    <!--  
+    <!--
       Note: this is in the GBIF repository referenced above
       See https://github.com/urbanairship/datacube/issues/21
     -->
@@ -123,10 +118,10 @@
       <groupId>com.urbanairship</groupId>
       <artifactId>datacube</artifactId>
       <version>${datacube.version}</version>
-      <classifier>hbase${hbase.version}-hadoop${hadoop.version}</classifier>
+      <classifier>hbase${hbase.version}-hadoop${hadoopMR.version}</classifier>
       <exclusions>
-        <!-- 
-          Overwrite the version of HBase 
+        <!--
+          Overwrite the version of HBase
           DataCube has a profile always activated to 0.90.4
         -->
         <exclusion>
@@ -171,7 +166,7 @@
       <artifactId>logback-classic</artifactId>
       <version>${logback.version}</version>
       <scope>runtime</scope>
-    </dependency>  
+    </dependency>
     <!-- To ship JUL (e.g. Guice) logging to SLF4J -->
     <dependency>
       <groupId>org.slf4j</groupId>

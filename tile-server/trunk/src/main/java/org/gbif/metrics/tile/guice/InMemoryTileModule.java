@@ -57,7 +57,7 @@ public class InMemoryTileModule extends AbstractModule {
     this.numZooms = numberZooms;
     this.pixelsPerCluster = pixelsPerCluster;
     ConcurrentMap<BoxedByteArray, byte[]> backingMap = Maps.newConcurrentMap();
-    IdService idService = new CachingIdService(4, new MapIdService());
+    IdService idService = new CachingIdService(4, new MapIdService(), "id");
     DbHarness<DensityTile> densityDbHarness =
       new MapDbHarness<DensityTile>(backingMap, DensityTile.DESERIALIZER, CommitType.OVERWRITE, idService);
     DbHarness<PointTile> pointDbHarness =
