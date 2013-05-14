@@ -1,13 +1,3 @@
-# TR: Removing this to experiment with more aggressively discarding 
-# stale connections below
-# backend jawa {    
-#  .host = "130.226.238.239";       
-#  .port = "8080";   
-#  .connect_timeout = 60s;
-#  .first_byte_timeout = 60s;
-#  .between_bytes_timeout = 60s;  
-#}
-
 # The tomcat backend serving the portal application and web services
 # Timeouts are aggressive to encourage Varnish to discard stale connections
 # The backend is never marked as bad (saintmode = 0)
@@ -76,27 +66,34 @@ sub vcl_recv {
     }
   }
 
-  # first check for uat portal subdomain
+  # first check for uat PORTAL subdomain
   if (req.http.host == "uat.gbif.org") {
+
     # the portal is not yet public - only GBIFS can access it!
     if (!client.ip ~ GBIFS) {
       error 403 "Not allowed, this page is private to the GBIF Secretariat";
     }
+
     # is this a webservice call which should go to api.gbif.org?
     if ( req.url ~ "^/[a-z-]-ws" ) {
       error 404 "GBIF Webservices are hosted at http://api.gbif.org/uat";
     }
-    # is this a user struts url? This is the only user page not served by drupal
-    if ( req.url ~ "^/user/downloads") {
-      set req.backend = jawa;
 
-    # any known drupal path?
-    } else if ( req.url ~ "^/(user|newsroom|page|sites|misc|modules)" || req.url ~ "^/?$") {
+    # a known drupal path?
+    if ( req.url ~ "^/(newsroom|page|sites|misc|modules)" || (req.url ~ "^/user" && !req.url ~ "^/user/downloads") || req.url ~ "^/?$") {
       set req.http.host="drupallive.gbif.org";
       set req.backend = drupal;
 
+    } else if (req.url ~ "^/portal/") {
+      # we should not get any uat urls using the /portal context
+      # BUT the current portal generates such redirect urls and we redirect them in varnsih back to the real thing
+      # This needs to be adressed on the portal!
+      # error is caught in the vcl_error routine and a redirect issued there
+      error 750 regsub(req.url, "^/portal/", "/"); 
+
     } else {
       set req.backend = jawa;
+      set req.url = regsub(req.url, "^/", "/portal/");
     }
 
     # PORTAL - ONLY CACHE STATIC FILES !!!
@@ -106,8 +103,11 @@ sub vcl_recv {
       return (pass);
     }
 
-  # API UAT
+  
+  # ONLY WEBSERVICE CALLS IF WE REACH HERE !!!
+  #
   # first check API versions
+  # 
   } else if (req.http.host == "api.gbif.org") {
     set req.backend = jawa;
 
@@ -178,6 +178,15 @@ sub vcl_recv {
   }
 }
 
+
+# only added because of bad portal redirects, see above!
+sub vcl_error {
+    if (obj.status == 750) {
+        set obj.http.Location = obj.response;
+	set obj.status = 302;
+        return(deliver);
+    }
+}
 
 sub vcl_fetch {
   # dont cache successful put, post,delete
