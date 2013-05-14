@@ -25,9 +25,9 @@ backend jawa {
   .max_connections = 75;
   # probe the backend to keep connections open
   .probe = {
-    .url = "/";
+    .url = "/registry-ws/dataset?limit=1";
     .timeout = 5s;
-    .interval = 30s;
+    .interval = 60s;
     # 9/10 polls must succeed for the backend to be considered alive
     .window = 10;
     .threshold = 10;
