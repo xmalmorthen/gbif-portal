@@ -1,6 +1,5 @@
 package org.gbif.portal.config;
 
-import com.google.inject.AbstractModule;
 import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
 import org.gbif.metrics.ws.client.guice.MetricsWsClientModule;
 import org.gbif.occurrence.ws.client.guice.OccurrenceWsClientModule;
@@ -12,14 +11,14 @@ import org.gbif.utils.file.properties.PropertiesUtil;
 import java.io.IOException;
 import java.util.Properties;
 
-public class PortalModule extends AbstractModule {
+import com.google.inject.AbstractModule;
 
-  private static final String PROPERTIES_FILE = "application.properties";
+public class PortalModule extends AbstractModule {
 
   @Override
   protected void configure() {
     try {
-      Properties properties = PropertiesUtil.loadProperties(PROPERTIES_FILE);
+      Properties properties = PropertiesUtil.loadProperties(Config.APPLICATION_PROPERTIES);
 
       install(new PrivatePortalModule(properties));
 
@@ -40,6 +39,7 @@ public class PortalModule extends AbstractModule {
 
       // bind the metrics service
       install(new MetricsWsClientModule(properties));
+
     } catch (IllegalArgumentException e) {
       this.addError(e);
     } catch (IOException e) {

@@ -50,25 +50,31 @@ public abstract class BaseAction extends ActionSupport
 
 
   /**
-   * Returns the application's base url. Exposed to simplify freemarker.
-   * 
-   * @return the base url
-   */
-  public String getBaseUrl() {
-    return cfg.getServerName() + ctx.getContextPath();
-  }
-
-  /**
-   * Exposed to simplify freemarker.
+   * Exposed to make configurations available to javascript.
    */
   public Config getCfg() {
     return cfg;
   }
 
   /**
-   * Returns the absolute url to the current page. Exposed to simplify freemarker.
+   * Returns the application's base url. Exposed to simplify javascript.
+   * It takes into account the includeContext struts settings to strip of the context if not used.
+   *
+   * @return the base url of the application
+   */
+  public String getBaseUrl() {
+    if (cfg.isIncludeContext()) {
+      return cfg.getServerName() + ctx.getContextPath();
+    }
+    return cfg.getServerName();
+  }
+
+  /**
+   * Returns the absolute url to the current page including the query string.
+   * Exposed to simplify freemarker and javascript.
+   * It takes into account the includeContext struts settings to strip of the context if not used.
    * 
-   * @return the absolute url
+   * @return the absolute, current url
    */
   public String getCurrentUrl() {
     StringBuffer currentUrl = request.getRequestURL();
@@ -76,7 +82,11 @@ public abstract class BaseAction extends ActionSupport
       currentUrl.append("?");
       currentUrl.append(request.getQueryString());
     }
-    return currentUrl.toString();
+    if (cfg.isIncludeContext()) {
+      return currentUrl.toString();
+    } else {
+      return currentUrl.toString().replace(ctx.getContextPath(), "");
+    }
   }
 
   /**

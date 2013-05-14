@@ -99,7 +99,7 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <configuration>
           <webAppConfig>
-            <contextPath>/portal</contextPath>
+            <contextPath>/</contextPath>
           </webAppConfig>
           <stopKey>stop</stopKey>
           <stopPort>9362</stopPort>

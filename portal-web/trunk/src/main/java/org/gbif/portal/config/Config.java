@@ -21,14 +21,18 @@ import static org.gbif.ws.paths.OccurrencePaths.OCC_SEARCH_PATH;
  */
 public class Config {
 
-  public static final String APPLICATION_PROPERTIES = "application.properties";
   private static final Logger LOG = LoggerFactory.getLogger(Config.class);
+
+  public static final String APPLICATION_PROPERTIES = "application.properties";
+  private static final String STRUTS_PROPERTIES = "struts.properties";
+
   public static final String SERVERNAME = "servername";
   public static final String SUGGEST_PATH = "suggest";
 
   private String drupal;
   private String drupalCookieName;
   private String serverName;
+  private boolean includeContext;
   private String tileServerBaseUrl;
   private String wsClb;
   private String wsClbSearch;
@@ -58,6 +62,7 @@ public class Config {
     Config cfg = new Config();
     try {
       Properties properties = PropertiesUtil.loadProperties(APPLICATION_PROPERTIES);
+      properties.putAll(PropertiesUtil.loadProperties(STRUTS_PROPERTIES));
 
       // prefer system variable if existing, required (e.g.) by selenim
       try {
@@ -87,6 +92,7 @@ public class Config {
       cfg.wsOccInstitutionCodeSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + INSTITUTION_CODE_PATH;
       cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
       cfg.wsImageCache = getPropertyUrl(properties, "image-cache.url", false);
+      cfg.includeContext = Boolean.parseBoolean(properties.getProperty("struts.url.includeContext"));
 
     } catch (IOException e) {
       throw new ConfigurationException("application.properties cannot be read", e);
@@ -121,6 +127,10 @@ public class Config {
 
   public String getServerName() {
     return serverName;
+  }
+
+  public boolean isIncludeContext() {
+    return includeContext;
   }
 
   public String getTileServerBaseUrl() {
