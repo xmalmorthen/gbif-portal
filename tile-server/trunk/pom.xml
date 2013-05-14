@@ -25,16 +25,16 @@
 
   <groupId>org.gbif.portal</groupId>
   <artifactId>tile-server</artifactId>
-  <version>0.3</version>
+  <version>0.4-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>tile-server</name>
   <description>A web service that can write map tiles very quickly</description>
 
   <scm>
-    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/tile-server/tags/tile-server-0.3</connection>
-    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/tile-server/tags/tile-server-0.3</developerConnection>
-    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/tile-server/tags/tile-server-0.3</url>
+    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/tile-server/trunk</connection>
+    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/tile-server/trunk</developerConnection>
+    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/tile-server/trunk</url>
   </scm>
 
   <issueManagement>
