@@ -8,7 +8,7 @@
   <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
   <script type="text/javascript">
       $(function() {
-          $("#mapBy").densityMap("${id}", "COUNTRY");
+          $("#mapBy").densityMap("${id}", "PUBLISHING_COUNTRY");
       });
   </script>
 </head>

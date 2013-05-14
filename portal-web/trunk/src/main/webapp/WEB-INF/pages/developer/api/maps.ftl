@@ -424,6 +424,7 @@
             <select id="type">
               <option value="TAXON">Taxon</option>
               <option value="COUNTRY">Country</option>
+              <option value="PUBLISHING_COUNTRY">Publishing Country</option>
               <option value="DATASET">Dataset</option>
               <option value="PUBLISHER">Publisher</option>
             </select> 

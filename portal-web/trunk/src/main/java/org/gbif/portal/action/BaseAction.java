@@ -78,15 +78,17 @@ public abstract class BaseAction extends ActionSupport
    */
   public String getCurrentUrl() {
     StringBuffer currentUrl = request.getRequestURL();
+
+    if (!cfg.isIncludeContext()) {
+      final int start = currentUrl.indexOf(ctx.getContextPath());
+      currentUrl.replace(start, start+ctx.getContextPath().length(), "");
+    }
+
     if (request.getQueryString() != null) {
       currentUrl.append("?");
       currentUrl.append(request.getQueryString());
     }
-    if (cfg.isIncludeContext()) {
-      return currentUrl.toString();
-    } else {
-      return currentUrl.toString().replace(ctx.getContextPath(), "");
-    }
+    return currentUrl.toString();
   }
 
   /**

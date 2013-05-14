@@ -10,7 +10,7 @@
   <script type="text/javascript">
       $(function() {
           $("#mapAbout").densityMap("${id}", "COUNTRY");
-          $("#mapBy").densityMap("${id}", "COUNTRY");
+          $("#mapBy").densityMap("${id}", "PUBLISHING_COUNTRY");
 
           <#if feed??>
             $('#news').FeedEk({
