@@ -1,0 +1,19 @@
+Tile-server is a web application suitable for helping with tile based mapping.
+
+This first implementation uses the cube project to source the data from tiles, which resides in HBase.  Currently
+the cube holds content in Avro format, and this project is therefore concerned with delivering that to the browser.
+Currently there is a DensityTile renderer, which produces PNGs, and an experimental servlet which produces GeoJSON.
+Only the density tile servlet is wired up in Guice and suitable for use at this stage.
+
+To run this project, simply run 
+  mvn jetty:run
+  
+Please be aware that this has hard coded config, and an open Jira exists to correct this:
+  http://dev.gbif.org/issues/browse/POR-256
+  
+
+FOR DEVELOPERS:
+To assist in development, there is an implementation of a memory backed cube which can be activated in the application.properties.
+Please see the example in /conf which has detailed comments.  The memory backed cube expects a GZipped CSV file containing latitude, 
+longitude and numRecords, which is then read into memory and assembled into the cube.  This is not meant for production use, but only
+to assist those developing rendering services.
