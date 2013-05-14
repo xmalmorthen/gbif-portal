@@ -84,13 +84,6 @@ sub vcl_recv {
       set req.http.host="drupallive.gbif.org";
       set req.backend = drupal;
 
-    } else if (req.url ~ "^/portal/") {
-      # we should not get any uat urls using the /portal context
-      # BUT the current portal generates such redirect urls and we redirect them in varnsih back to the real thing
-      # This needs to be adressed on the portal!
-      # error is caught in the vcl_error routine and a redirect issued there
-      error 750 regsub(req.url, "^/portal/", "/"); 
-
     } else {
       set req.backend = jawa;
       set req.url = regsub(req.url, "^/", "/portal/");
@@ -179,21 +172,17 @@ sub vcl_recv {
 }
 
 
-# only added because of bad portal redirects, see above!
-sub vcl_error {
-    if (obj.status == 750) {
-        set obj.http.Location = obj.response;
-	set obj.status = 302;
-        return(deliver);
-    }
-}
-
 sub vcl_fetch {
   # dont cache successful put, post,delete
   if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE") && (beresp.status < 400)) {
     return (hit_for_pass);
   }
-  
+ 
+  # remove portal context from redirects
+  if ( beresp.status == 302 && beresp.http.Location ~ "/portal/" ) {
+    set beresp.http.Location = regsub(beresp.http.Location, "/portal/", "/");
+  }
+ 
   # dont cache redirects or errors - especially for staging errors can be temporary only
   if ( beresp.status >= 300 ) {
     return (hit_for_pass);
