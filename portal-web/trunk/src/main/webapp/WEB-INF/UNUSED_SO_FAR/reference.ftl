@@ -29,7 +29,7 @@
         <li><a href="dataset/discussion">Discussion</a></li>
         <li><a href="dataset/external">External</a></li>
         <li><a href="dataset/search?q=botanic">Search</a></li>
-        <li><a href="dataset">Results</a></li>
+        <li><a href="../pages/dataset">Results</a></li>
         <!--<li><a href="dataset/process_detail.html">Process detail</a></li>-->
         <li><strong>Register</strong>: <a href="dataset/step0.html">step 0</a>, <a href="dataset/step1.html">step 1</a>,
           <a href="dataset/step2.html">step 2</a>.

@@ -90,34 +90,37 @@
 
 
   <package name="root" namespace="/" extends="default">
-    <action name="" class="org.gbif.portal.action.DefaultHomeAction">
+    <!-- catches everything that doesn't match below! -->
+    <default-action-ref name="home" />
+
+    <action name="home" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/home.ftl</result>
     </action>
 
-    <!-- reference developer page TO BE DELETED IN PRODUCTION -->
-    <action name="reference" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/reference.ftl</result>
+    <action name="dataset" class="org.gbif.portal.action.dataset.HomeAction">
+      <result>/WEB-INF/pages/dataset/home.ftl</result>
     </action>
 
-    <action name="{url}" class="org.gbif.portal.action.RedirectAction">
-      <result type="redirect">
-        <param name="parse">true</param>
-        <param name="location">${url}/</param>
-      </result>
+    <action name="occurrence" class="org.gbif.portal.action.occurrence.HomeAction">
+     <result>/WEB-INF/pages/occurrence/home.ftl</result>
+    </action>
+
+    <action name="species" class="org.gbif.portal.action.species.HomeAction">
+      <result>/WEB-INF/pages/species/home.ftl</result>
+    </action>
+
+    <action name="country" class="org.gbif.portal.action.country.HomeAction">
+      <result>/WEB-INF/pages/country/home.ftl</result>
+    </action>
+
+    <action name="developer">
+      <result type="redirect">/developer/maps</result>
     </action>
 
   </package>
 
   <!-- DATASETS -->
   <package name="dataset" namespace="/dataset" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <!--
-    <default-action-ref name=""/>
-    -->
-    <action name="" class="org.gbif.portal.action.dataset.HomeAction">
-      <result>/WEB-INF/pages/dataset/home.ftl</result>
-    </action>
-
     <action name="search" class="org.gbif.portal.action.dataset.SearchAction">
       <result>/WEB-INF/pages/dataset/search.ftl</result>
     </action>
@@ -159,10 +162,6 @@
 
   <!-- OCCURRENCES -->
   <package name="occurrence" namespace="/occurrence" extends="default">
-    <!-- catches everything that doesn't match below! -->
-     <action name="" class="org.gbif.portal.action.occurrence.HomeAction">
-      <result>/WEB-INF/pages/occurrence/home.ftl</result>
-    </action>
 
     <action name="search" class="org.gbif.portal.action.occurrence.SearchAction">
       <result>/WEB-INF/pages/occurrence/search.ftl</result>
@@ -197,12 +196,6 @@
 
   <!-- SPECIES -->
   <package name="species" namespace="/species" extends="default">
-    <!-- catches everything that doesn't match below! -->
-    <default-action-ref name=""/>
-
-    <action name="" class="org.gbif.portal.action.species.HomeAction">
-      <result>/WEB-INF/pages/species/home.ftl</result>
-    </action>
 
     <action name="search" class="org.gbif.portal.action.species.SearchAction">
       <result>/WEB-INF/pages/species/search.ftl</result>
@@ -286,6 +279,7 @@
     </action>
   </package>
 
+  <!-- USER (most of user is served from drupal) -->
   <package name="user" namespace="/user" extends="default">
     <default-interceptor-ref name="loginStack"/>
 
@@ -302,8 +296,8 @@
     </action>
   </package>
 
+  <!-- API DOCS -->
   <package name="developer" namespace="/developer" extends="default">
-    <default-action-ref name="maps"/>
     <action name="maps" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/developer/api/maps.ftl</result>
     </action>
@@ -311,11 +305,6 @@
 
   <!-- COUNTRIES -->
   <package name="country" namespace="/country" extends="default">
-    <default-action-ref name=""/>
-
-    <action name="" class="org.gbif.portal.action.country.HomeAction">
-      <result>/WEB-INF/pages/country/home.ftl</result>
-    </action>
 
     <action name="{id}" class="org.gbif.portal.action.country.SummaryAction">
       <result>/WEB-INF/pages/country/summary.ftl</result>
@@ -338,6 +327,5 @@
     </action>
 
   </package>
-
 
 </struts>
