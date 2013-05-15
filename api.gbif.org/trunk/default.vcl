@@ -80,7 +80,7 @@ sub vcl_recv {
     }
 
     # a known drupal path?
-    if ( req.url ~ "^/(newsroom|page|sites|misc|modules)" || (req.url ~ "^/user" && !req.url ~ "^/user/(downloads|namelist)") || req.url ~ "^/?$") {
+    if ( req.url ~ "^/(newsroom|page|sites|misc|modules)" || (req.url ~ "^/user" && !req.url ~ "^/user/(downloads|namelist|cancel)") || req.url ~ "^/?$") {
       set req.http.host="drupallive.gbif.org";
       set req.backend = drupal;
 
@@ -138,6 +138,8 @@ sub vcl_recv {
 
     } else if ( req.url ~ "^/occurrence/download") {
       set req.url = regsub(req.url, "^/", "/occurrence-download-ws/");
+      # not cache any download response, for this new downloads should evict the cache which is not the case
+      return (pass);
 
     } else if ( req.url ~ "^/occurrence") {
       set req.url = regsub(req.url, "^/", "/occurrence-ws/");
