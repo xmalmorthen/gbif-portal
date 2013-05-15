@@ -80,7 +80,7 @@ sub vcl_recv {
     }
 
     # a known drupal path?
-    if ( req.url ~ "^/(newsroom|page|sites|misc|modules)" || (req.url ~ "^/user" && !req.url ~ "^/user/downloads") || req.url ~ "^/?$") {
+    if ( req.url ~ "^/(newsroom|page|sites|misc|modules)" || (req.url ~ "^/user" && !req.url ~ "^/user/(downloads|namelist)") || req.url ~ "^/?$") {
       set req.http.host="drupallive.gbif.org";
       set req.backend = drupal;
 
