@@ -7,6 +7,7 @@ import org.gbif.api.model.metrics.cube.Dimension;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry2.Dataset;
+import org.gbif.api.model.registry2.Endpoint;
 import org.gbif.api.model.registry2.Node;
 import org.gbif.api.model.registry2.search.DatasetSearchParameter;
 import org.gbif.api.model.registry2.search.DatasetSearchRequest;
@@ -20,11 +21,11 @@ import org.gbif.api.service.registry2.NodeService;
 import org.gbif.api.service.registry2.OrganizationService;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.registry2.DatasetType;
+import org.gbif.api.vocabulary.registry2.EndpointType;
 import org.gbif.portal.exception.NotFoundException;
 import org.gbif.portal.model.CountWrapper;
 import org.gbif.portal.model.CountryMetrics;
 
-import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,6 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +47,6 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
   private List<CountWrapper<Country>> countries = Lists.newArrayList();
   private CountryMetrics about;
   private CountryMetrics by;
-  protected StopWatch watch = new StopWatch();
 
   @Inject
   protected NodeService nodeService;
@@ -66,14 +65,12 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
 
   @Override
   public String execute() throws Exception {
-    watch.start();
     country = Country.fromIsoCode(id);
     if (country == null) {
       throw new NotFoundException("No country found with ISO code" + id);
     }
 
     node = nodeService.getByCountry(country);
-    LOG.info("Building node basics on page {} for {} took: {}", getClass().getSimpleName(), id, watch.toString());
     return SUCCESS;
   }
 
@@ -105,7 +102,6 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
     int countryCount = getCountryMetrics(true, numCountriesToLoad);
 
     about = new CountryMetrics(occDatasets, occRecords, chkDatasets, chkRecords, extDatasets, institutions, countryCount);
-    LOG.info("Build About Metrics for id {} in: {}", id, watch.toString());
   }
 
   protected void buildByMetrics(int numDatasetsToLoad, int numCountriesToLoad) {
@@ -146,11 +142,9 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
     int countryCount = getCountryMetrics(false, numCountriesToLoad);
 
     by = new CountryMetrics(occDatasets, occRecords, chkDatasets, chkRecords, extDatasets, institutions, countryCount);
-    LOG.info("Build By Metrics for {} in: {}", id, watch.toString());
   }
 
   private int getCountryMetrics(boolean isAboutCountry, int numCountriesToLoad) {
-    LOG.info("Start build country metrics for {} : {}", id, watch.toString());
     final Dimension<Country> staticFilter;
     final Dimension<Country> dynamicFilter;
     if (isAboutCountry) {
@@ -188,7 +182,6 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
       LOG.error("Cannot get country metrics", e);
     }
 
-    LOG.info("Build country metrics with {} geoCounts for {} in: {}", numCountriesToLoad, id, watch.toString());
     return count;
   }
 
@@ -238,10 +231,14 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
     return countries;
   }
 
-  public URL getFeed() {
+  public String getFeed() {
     //TODO: use real endpoints when available in API
-    if (node != null && !node.getIdentifiers().isEmpty()) {
-      // return node.getEndpointsByType(EndpointType.FEED).get(0).getUrl();
+    if (node != null && !node.getEndpoints().isEmpty()) {
+      for (Endpoint e : node.getEndpoints()) {
+        if (EndpointType.FEED == e.getType()) {
+          return e.getUrl();
+        }
+      }
     }
     return null;
   }

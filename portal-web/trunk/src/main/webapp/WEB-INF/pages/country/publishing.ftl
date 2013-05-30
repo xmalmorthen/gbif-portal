@@ -25,39 +25,47 @@
 
 <@common.article id="datasets" title="Latest datasets from ${country.title}">
   <div class="fullwidth">
-    <ul class="notes">
-    <#list datasets as cw>
-      <#if cw_index==6>
-          <li class="more"><a href="<@s.url value='/dataset/search?hostCountry=${id}'/>">${by.occurrenceDatasets + by.checklistDatasets - 6} more</a></li>
-          <#break />
-      </#if>
-        <li>
-          <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
-          <span class="note">${cw.count} records<#if cw.geoCount gt 0>, ${cw.geoCount} georeferenced</#if></span>
-        </li>
-    </#list>
-    </ul>
+    <#if datasets?has_content>
+      <ul class="notes">
+      <#list datasets as cw>
+        <#if cw_index==6>
+            <li class="more"><a href="<@s.url value='/dataset/search?hostCountry=${id}'/>">${by.occurrenceDatasets + by.checklistDatasets - 6} more</a></li>
+            <#break />
+        </#if>
+          <li>
+            <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
+            <span class="note">${cw.count} records<#if cw.geoCount gt 0>, ${cw.geoCount} georeferenced</#if></span>
+          </li>
+      </#list>
+      </ul>
+    <#else>
+      <p>None published.</p>
+    </#if>
   </div>
 </@common.article>
 
 <@common.article id="countries" title="Countries of origin">
   <div class="fullwidth">
-    <p class="placeholder_temp">
-      ${country.title} hosts 987,796 records for 242 other countries & territories.
-      This accounts for 6.64% of the total data hosted by ${country.title}.
-    </p>
-    <ul>
-    <#list countries as cw>
-      <#if cw_index==6>
-          <li class="more"><a href="#">${by.countries - 6} more</a></li>
-          <#break />
-      </#if>
-        <li>
-          <a title="${cw.obj.getTitle()}" href="<@s.url value='/country/${cw.obj.getIso2LetterCode()}'/>">${cw.obj.getTitle()}</a>
-          <span class="note"> ${cw.count} occurrences, ${cw.geoCount} georeferenced</span>
-        </li>
-    </#list>
-    </ul>
+    <#if countries?has_content>
+      <p class="placeholder_temp">
+        ${country.title} hosts 987,796 records for 242 other countries & territories.
+        This accounts for 6.64% of the total data hosted by ${country.title}.
+      </p>
+      <ul>
+      <#list countries as cw>
+        <#if cw_index==6>
+            <li class="more"><a href="#">${by.countries - 6} more</a></li>
+            <#break />
+        </#if>
+          <li>
+            <a title="${cw.obj.getTitle()}" href="<@s.url value='/country/${cw.obj.getIso2LetterCode()}'/>">${cw.obj.getTitle()}</a>
+            <span class="note"> ${cw.count} occurrences, ${cw.geoCount} georeferenced</span>
+          </li>
+      </#list>
+      </ul>
+    <#else>
+      <p>None.</p>
+    </#if>
   </div>
 </@common.article>
 

@@ -18,7 +18,7 @@
   <h1>${country.title}</h1>
 
   <#if node??>
-    <h3>A GBIF Node<#if node.since??> since ${node.since}</#if></h3>
+    <h3>A <@s.text name="enum.participantstatus.${node.participationStatus!}"/> from <@s.text name="enum.region.${node.gbifRegion!}"/></h3>
   </#if>
 
   <#--

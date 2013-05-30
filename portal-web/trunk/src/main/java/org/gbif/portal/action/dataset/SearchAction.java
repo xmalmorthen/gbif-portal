@@ -17,7 +17,6 @@ import org.gbif.api.model.registry2.search.DatasetSearchResult;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry2.DatasetSearchService;
-import org.gbif.api.service.registry2.NetworkService;
 import org.gbif.api.service.registry2.OrganizationService;
 import org.gbif.api.vocabulary.registry2.DatasetType;
 import org.gbif.portal.action.BaseFacetedSearchAction;
@@ -48,9 +47,7 @@ public class SearchAction
 
   private static final Logger LOG = LoggerFactory.getLogger(SearchAction.class);
   private final OrganizationService orgService;
-  private final NetworkService networkService;
   private Function<String, String> getOrgTitle;
-  private Function<String, String> getNetworkTitle;
   private Function<String, String> getDatasetTypeTitle;
   private final CubeService occurrenceCube;
   private final DatasetMetricsService checklistMetricsService;
@@ -61,10 +58,9 @@ public class SearchAction
 
   @Inject
   public SearchAction(DatasetSearchService datasetSearchService, OrganizationService orgService,
-    CubeService occurrenceCube, DatasetMetricsService checklistMetricsService, NetworkService networkService) {
+    CubeService occurrenceCube, DatasetMetricsService checklistMetricsService) {
     super(datasetSearchService, DatasetSearchParameter.class, new DatasetSearchRequest());
     this.orgService = orgService;
-    this.networkService = networkService;
     this.occurrenceCube = occurrenceCube;
     this.checklistMetricsService = checklistMetricsService;
     initGetTitleFunctions();
@@ -88,20 +84,6 @@ public class SearchAction
       }
     };
 
-    getNetworkTitle = new Function<String, String>() {
-
-      @Override
-      public String apply(String key) {
-        if (!Strings.isNullOrEmpty(key)) {
-          try {
-            return networkService.get(UUID.fromString(key)).getTitle();
-          } catch (Exception e) {
-          }
-        }
-        return null;
-      }
-    };
-
     getDatasetTypeTitle = new Function<String, String>() {
 
       @Override
@@ -117,7 +99,6 @@ public class SearchAction
     // replace organisation keys with real names
     lookupFacetTitles(DatasetSearchParameter.HOSTING_ORG, getOrgTitle);
     lookupFacetTitles(DatasetSearchParameter.OWNING_ORG, getOrgTitle);
-    lookupFacetTitles(DatasetSearchParameter.NETWORK_ORIGIN, getNetworkTitle);
     lookupFacetTitles(DatasetSearchParameter.TYPE, getDatasetTypeTitle);
 
     // populate counts
@@ -131,15 +112,6 @@ public class SearchAction
         DatasetMetrics metrics = checklistMetricsService.get(dsr.getKey());
         if (metrics != null) {
           recordCounts.put(dsr.getKey(), Long.valueOf(metrics.getCountIndexed()));
-        }
-      }
-      // load network titles
-      if (dsr.getNetworkOfOriginKey() != null && !titles.containsKey(dsr.getNetworkOfOriginKey())) {
-        try {
-          titles.put(dsr.getNetworkOfOriginKey(), networkService.get(dsr.getNetworkOfOriginKey()).getTitle());
-        } catch (Exception e) {
-          LOG.error("Failed to load network title with key {}", dsr.getNetworkOfOriginKey());
-          titles.put(dsr.getNetworkOfOriginKey(), null);
         }
       }
     }

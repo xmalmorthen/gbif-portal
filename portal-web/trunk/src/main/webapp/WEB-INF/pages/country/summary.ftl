@@ -37,95 +37,25 @@
 
 <@common.article id="participation" title="${country.title} as a GBIF Participant" titleRight="Node Address">
     <div class="left">
-        <h3>Member Status</h3>
-        <p>Voting Country Participant</p>
+      <h3>Member Status</h3>
+  <#if node??>
+      <p><@s.text name="enum.participantstatus.${node.participationStatus!}"/></p>
 
+      <#if node.participantSince??>
         <h3>GBIF Participant Since</h3>
-        <p>2001</p>
+        <p>${node.participantSince}</p>
+      </#if>
 
-        <h3>GBIF Region</h3>
-        <p>Europe</p>
+      <h3>GBIF Region</h3>
+      <p><@s.text name="enum.region.${node.gbifRegion!}"/></p>
 
+      <#if node.contacts?has_content>
         <h3>Contacts</h3>
-        <div class="col">
-            <div class="contact">
-               <div class="contactType">Head of Delegation</div>
-               <div class="contactName">Simon Tillier</div>
-               <div>Professor</div>
-             <address>
-              4101 rue Sherbrooke est,
-                Montreal,
-                Quebec,
-                H1X2B2,
-                Canada
-                <a href="mailto:#" title="email">luc.brouillet@umontreal.ca</a>
-             </address>
-            </div>
-          <div class="contact">
-              <div class="contactType">Node Manager</div>
-             <div class="contactName">
-              Luc Brouillet
-             </div>
-             <div>
-              Professor
-             </div>
-           <address>
-            <!-- remember Contact.Country is an Enum, and we want to display the title (ie. Great Britain, not the code GB) -->
-              4101 rue Sherbrooke est,
-              Montreal,
-              Quebec,
-              H1X2B2,
-              Canada
-
-              <a href="mailto:#" title="email">luc.brouillet@umontreal.ca</a>
-           </address>
-          </div>
-        </div>
-
-        <div class="col">
-            <div class="contact">
-                <div class="contactType">Node Manager</div>
-               <div class="contactName">
-                Luc Brouillet
-               </div>
-               <div>
-                Professor
-
-
-               </div>
-             <address>
-              <!-- remember Contact.Country is an Enum, and we want to display the title (ie. Great Britain, not the code GB) -->
-                4101 rue Sherbrooke est,
-                Montreal,
-                Quebec,
-                H1X2B2,
-                Canada
-
-                <a href="mailto:#" title="email">luc.brouillet@umontreal.ca</a>
-             </address>
-            </div>
-          <div class="contact">
-             <div class="contactType">Node Manager</div>
-             <div class="contactName">
-              Peter Desmet
-             </div>
-             <div>
-              Biodiversity Informatics Manager
-               at
-              Université de Montréal Biodiversity Centre
-             </div>
-           <address>
-            <!-- remember Contact.Country is an Enum, and we want to display the title (ie. Great Britain, not the code GB) -->
-              4101 rue Sherbrooke est,
-              Montreal,
-              Quebec,
-              H1X2B2,
-              Canada
-
-              <a href="mailto:#" title="email">peter.desmet@umontreal.ca</a>
-           </address>
-          </div>
-        </div>
+        <@common.contactList node.contacts />
+      </#if>
+  <#else>
+      <p>None</p>
+  </#if>
     </div>
 
     <div class="right">
@@ -150,18 +80,22 @@
 </#if>
 <@common.article id="latest" title="Latest datasets published" titleRight=titleRight>
     <div class="left">
+      <#if datasets?has_content>
         <ul class="notes">
-        <#list datasets as cw>
-          <#if cw_index==6>
-              <li class="more"><a href="<@s.url value='/dataset/search?hostCountry=${id}'/>">${by.occurrenceDatasets + by.checklistDatasets - 6} more</a></li>
-              <#break />
-          </#if>
-            <li>
-              <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
-              <span class="note">${cw.count} records<#if cw.geoCount gt 0>, ${cw.geoCount} georeferenced</#if></span>
-            </li>
-        </#list>
+          <#list datasets as cw>
+            <#if cw_index==6>
+                <li class="more"><a href="<@s.url value='/dataset/search?hostCountry=${id}'/>">${by.occurrenceDatasets + by.checklistDatasets - 6} more</a></li>
+                <#break />
+            </#if>
+              <li>
+                <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
+                <span class="note">${cw.count} records<#if cw.geoCount gt 0>, ${cw.geoCount} georeferenced</#if></span>
+              </li>
+          </#list>
         </ul>
+      <#else>
+        <p>None published.</p>
+      </#if>
     </div>
 
   <#if feed??>

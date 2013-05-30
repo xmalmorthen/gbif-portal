@@ -12,7 +12,6 @@ public class PublishingAction extends CountryBaseAction {
 
     buildByMetrics(7, 7);
 
-    LOG.info("Render complete country publishing page for {} in: {}", country, watch.toString());
     return SUCCESS;
   }
 

@@ -15,9 +15,6 @@
           <li>
               <a href="<@s.url value='/dataset/search?hostCountry=${id}&type=METADATA'/>">${by.externalDatasets} metadata documents</a>.
           </li>
-          <!--
-          <li><a href="#">${by.institutions} institutions</a> in ${country.title} publish data.</li>
-          -->
           <li>${country.title} publishes data covering <a href="<@s.url value='/country/${id}/by#countries'/>">${by.countries} countries</a>.</li>
       </ul>
     </div>

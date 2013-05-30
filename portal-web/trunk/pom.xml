@@ -551,6 +551,39 @@
       </properties>
     </profile>
 
+
+    <profile>
+      <!--
+        configured to use the api.gbif.org/dev services and the develop drupal.
+        All settings exist but we need these passwords from somewhere else:
+          <drupal.db.url>
+          <drupal.db.username>
+          <drupal.db.password>
+          <application.secret>
+      -->
+      <id>staging</id>
+      <properties>
+        <devMode>false</devMode>
+        <notDevMode>true</notDevMode>
+        <baseurl>http://localhost:8080</baseurl>
+        <servername>http://localhost:8080</servername>
+        <registry.ws.url>http://staging.gbif.org:8080/registry2-ws</registry.ws.url>
+        <checklistbank.ws.url>http://staging.gbif.org:8080/checklistbank-ws/</checklistbank.ws.url>
+        <checklistbank.search.ws.url>http://staging.gbif.org:8080/checklistbank-search-ws/</checklistbank.search.ws.url>
+        <checklistbank.match.ws.url>http://staging.gbif.org:8080/lookup/name_usage/</checklistbank.match.ws.url>
+        <occurrence.ws.url>http://staging.gbif.org:8080/occurrence-ws/</occurrence.ws.url>
+        <occurrencedownload.ws.url>http://staging.gbif.org:8080/occurrence-download-ws/</occurrencedownload.ws.url>
+        <tile-server.url>http://staging.gbif.org:8080/tile-server/</tile-server.url>
+        <metrics.ws.url>http://staging.gbif.org:8080/metrics-ws</metrics.ws.url>
+        <drupal.url>http://staging.gbif.org/drupal</drupal.url>
+        <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
+        <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
+        <!-- trusted application credentials -->
+        <application.key>gbif.portal</application.key>
+        <image-cache.url>http://staging.gbif.org:8080/image-cache/</image-cache.url>
+      </properties>
+    </profile>
+
   </profiles>
 
 </project>

@@ -12,7 +12,6 @@ public class AboutAction extends CountryBaseAction {
 
     buildAboutMetrics(7, 7);
 
-    LOG.info("Render complete country about page for {} in: {}", country, watch.toString());
     return SUCCESS;
   }
 

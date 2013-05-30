@@ -14,7 +14,6 @@ public class SummaryAction extends CountryBaseAction {
     // load 6 latest published datasets
     buildByMetrics(7,0);
 
-    LOG.info("Render complete country summary page for {} in: {}", country, watch.toString());
     return SUCCESS;
   }
 

@@ -25,35 +25,43 @@
 
 <@common.article id="datasets" title="Largest occurrence datasets about ${country.title}">
   <div class="fullwidth">
-    <ul class="notes">
-    <#list datasets as cw>
-      <#if cw_index==6>
-          <li class="more"><a href="<@s.url value='/dataset/search?country=${id}&type=OCCURRENCE'/>">${about.occurrenceDatasets - 6} more</a></li>
-          <#break />
-      </#if>
-        <li>
-          <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
-          <span class="note">${cw.count} occurrences, ${cw.geoCount} georeferenced</span>
-        </li>
-    </#list>
-    </ul>
+    <#if datasets?has_content>
+      <ul class="notes">
+      <#list datasets as cw>
+        <#if cw_index==6>
+            <li class="more"><a href="<@s.url value='/dataset/search?country=${id}&type=OCCURRENCE'/>">${about.occurrenceDatasets - 6} more</a></li>
+            <#break />
+        </#if>
+          <li>
+            <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
+            <span class="note">${cw.count} occurrences, ${cw.geoCount} georeferenced</span>
+          </li>
+      </#list>
+      </ul>
+    <#else>
+      <p>None.</p>
+    </#if>
   </div>
 </@common.article>
 
 <@common.article id="countries" title="Countries, territories or islands publishing occurrences about ${country.title}">
   <div class="fullwidth">
-    <ul>
-    <#list countries as cw>
-      <#if cw_index==6>
-          <li class="more"><a href="#">${about.countries - 6} more</a></li>
-          <#break />
-      </#if>
-        <li>
-          <a title="${cw.obj.getTitle()}" href="<@s.url value='/country/${cw.obj.getIso2LetterCode()}'/>">${cw.obj.getTitle()}</a>
-          <span class="note"> ${cw.count} occurrences, ${cw.geoCount} georeferenced</span>
-        </li>
-    </#list>
-    </ul>
+    <#if countries?has_content>
+      <ul>
+      <#list countries as cw>
+        <#if cw_index==6>
+            <li class="more"><a href="#">${about.countries - 6} more</a></li>
+            <#break />
+        </#if>
+          <li>
+            <a title="${cw.obj.getTitle()}" href="<@s.url value='/country/${cw.obj.getIso2LetterCode()}'/>">${cw.obj.getTitle()}</a>
+            <span class="note"> ${cw.count} occurrences, ${cw.geoCount} georeferenced</span>
+          </li>
+      </#list>
+      </ul>
+    <#else>
+      <p>None.</p>
+    </#if>
   </div>
 </@common.article>
 
