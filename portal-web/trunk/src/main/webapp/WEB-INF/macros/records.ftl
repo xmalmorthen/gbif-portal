@@ -1,7 +1,9 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
+
 <#--
 	Construct a Dataset record.
 -->
-<#macro dataset dataset>
+<#macro dataset dataset maxDescriptionLength=500>
   <div class="result">
     <h2>
       <strong>
@@ -18,7 +20,7 @@
 
     <div class="footer">
       <#if dataset.description?has_content>
-        <p class="note semi_bottom">${dataset.description}</p>
+        <p class="note semi_bottom">${common.limit(dataset.description, maxDescriptionLength)}</p>
       </#if>
     </div>
   </div>
@@ -40,7 +42,7 @@
 
       </strong>
       <#-- If anything needs to be placed next to the organization title, put it here -->
-      <span class="note">${organization.numDatasets} published datasets.</span>
+      <span class="note">${organization.numOwnedDatasets} published datasets.</span>
     </h2>
 
     <div class="footer">

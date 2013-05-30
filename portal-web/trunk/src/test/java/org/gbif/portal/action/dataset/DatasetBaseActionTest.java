@@ -1,8 +1,9 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.api.model.common.InterpretedEnum;
-import org.gbif.api.model.registry.taxonomic.TaxonomicCoverage;
-import org.gbif.api.model.registry.taxonomic.TaxonomicCoverages;
+import org.gbif.api.model.registry2.eml.TaxonomicCoverage;
+import org.gbif.api.model.registry2.eml.TaxonomicCoverages;
+import org.gbif.api.service.registry2.DatasetService;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.portal.action.dataset.util.DisplayableTaxonomicCoverage;
 import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverage;
@@ -14,12 +15,13 @@ import java.util.List;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 public class DatasetBaseActionTest {
 
   @Test
   public void testPopulateOrganizedCoverages() {
-    DatasetBaseAction action = new DatasetBaseAction();
+    DatasetBaseAction action = new DatasetBaseAction(mock(DatasetService.class));
 
     // create coverages #1
     TaxonomicCoverages coverages1 = new TaxonomicCoverages();

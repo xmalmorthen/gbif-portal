@@ -11,15 +11,15 @@ package org.gbif.portal.action.dataset;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
-import org.gbif.api.model.registry.search.DatasetSearchParameter;
-import org.gbif.api.model.registry.search.DatasetSearchRequest;
-import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.model.registry2.search.DatasetSearchParameter;
+import org.gbif.api.model.registry2.search.DatasetSearchRequest;
+import org.gbif.api.model.registry2.search.DatasetSearchResult;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.metrics.CubeService;
-import org.gbif.api.service.registry.DatasetSearchService;
-import org.gbif.api.service.registry.NetworkService;
-import org.gbif.api.service.registry.OrganizationService;
-import org.gbif.api.vocabulary.DatasetType;
+import org.gbif.api.service.registry2.DatasetSearchService;
+import org.gbif.api.service.registry2.NetworkService;
+import org.gbif.api.service.registry2.OrganizationService;
+import org.gbif.api.vocabulary.registry2.DatasetType;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 import org.gbif.portal.action.BaseSearchAction;
 
@@ -57,7 +57,7 @@ public class SearchAction
   private static final Joiner TOKEN_JOINER = Joiner.on(' ').skipNulls();
 
   // Index of the record counts (occurrence or taxa)
-  private final Map<String, Long> recordCounts = Maps.newHashMap();
+  private final Map<UUID, Long> recordCounts = Maps.newHashMap();
 
   @Inject
   public SearchAction(DatasetSearchService datasetSearchService, OrganizationService orgService,
@@ -123,13 +123,12 @@ public class SearchAction
     // populate counts
     for (DatasetSearchResult dsr : getSearchResponse().getResults()) {
       if (DatasetType.OCCURRENCE == dsr.getType()) {
-        UUID k = UUID.fromString(dsr.getKey());
-        Long count = occurrenceCube.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, k));
+        Long count = occurrenceCube.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, dsr.getKey()));
         recordCounts.put(dsr.getKey(), count);
       } else if (DatasetType.CHECKLIST == dsr.getType()) {
         // Client response status 204 (Equal to no content) gets converted into NULL
         // See HttpErrorResponseInterceptor.java in gbif-common-ws for more information
-        DatasetMetrics metrics = checklistMetricsService.get(UUID.fromString(dsr.getKey()));
+        DatasetMetrics metrics = checklistMetricsService.get(dsr.getKey());
         if (metrics != null) {
           recordCounts.put(dsr.getKey(), Long.valueOf(metrics.getCountIndexed()));
         }
@@ -273,7 +272,7 @@ public class SearchAction
     return true;
   }
 
-  public Map<String, Long> getRecordCounts() {
+  public Map<UUID, Long> getRecordCounts() {
     return recordCounts;
   }
 }

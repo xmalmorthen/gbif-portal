@@ -18,14 +18,16 @@
   <h1>${country.title}</h1>
 
   <#if node??>
-    <h3>A GBIF Node since ${node.since!"1889"}</h3>
+    <h3>A GBIF Node<#if node.since??> since ${node.since}</#if></h3>
   </#if>
 
+  <#--
   <div class="box">
     <div class="content">
       <img src="http://www.geonames.org/flags/x/${id?lower_case}.gif"/>
     </div>
   </div>
+  -->
 </content>
 
 <content tag="tabs">

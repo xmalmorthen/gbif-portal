@@ -132,9 +132,6 @@
       <div class="logo_holder">
         <#if node?? && node.logoURL?has_content>
             <img src="${node.logoURL}"/>
-        <#else>
-          <!-- show country flag -->
-          <img src="http://www.geonames.org/flags/x/${id?lower_case}.gif"/>
         </#if>
       </div>
 
@@ -153,6 +150,18 @@
 </#if>
 <@common.article id="latest" title="Latest datasets published" titleRight=titleRight>
     <div class="left">
+        <ul class="notes">
+        <#list datasets as cw>
+          <#if cw_index==6>
+              <li class="more"><a href="<@s.url value='/dataset/search?hostCountry=${id}'/>">${by.occurrenceDatasets + by.checklistDatasets - 6} more</a></li>
+              <#break />
+          </#if>
+            <li>
+              <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
+              <span class="note">${cw.count} records<#if cw.geoCount gt 0>, ${cw.geoCount} georeferenced</#if></span>
+            </li>
+        </#list>
+        </ul>
     </div>
 
   <#if feed??>

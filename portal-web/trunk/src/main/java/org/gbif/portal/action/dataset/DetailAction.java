@@ -10,13 +10,12 @@ package org.gbif.portal.action.dataset;
 
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.registry.Contact;
-import org.gbif.api.model.registry.Dataset;
-import org.gbif.api.model.registry.Endpoint;
-import org.gbif.api.model.registry.Organization;
-import org.gbif.api.model.registry.TechnicalInstallation;
-import org.gbif.api.model.registry.geospatial.GeospatialCoverage;
-import org.gbif.api.service.registry.TechnicalInstallationService;
+import org.gbif.api.model.registry2.Contact;
+import org.gbif.api.model.registry2.Dataset;
+import org.gbif.api.model.registry2.Endpoint;
+import org.gbif.api.model.registry2.eml.geospatial.GeospatialCoverage;
+import org.gbif.api.service.registry2.DatasetService;
+import org.gbif.api.service.registry2.InstallationService;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.Extension;
 import org.gbif.api.vocabulary.Kingdom;
@@ -24,7 +23,6 @@ import org.gbif.api.vocabulary.Rank;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
@@ -44,10 +42,6 @@ public class DetailAction extends DatasetBaseAction {
     Kingdom.CHROMISTA,
     Kingdom.FUNGI, Kingdom.PLANTAE, Kingdom.PROTOZOA, Kingdom.VIRUSES, Kingdom.INCERTAE_SEDIS);
 
-  @Nullable
-  private Organization hostingOrganization;
-  @Nullable
-  private Dataset parentDataset;
   private final List<Contact> preferredContacts = Lists.newArrayList();
   private final List<Contact> otherContacts = Lists.newArrayList();
   private final List<Endpoint> links = Lists.newArrayList();
@@ -58,32 +52,28 @@ public class DetailAction extends DatasetBaseAction {
   private boolean renderMaps = false; // flag controlling map article rendering or not
 
   @Inject
-  private TechnicalInstallationService installationService;
+  private InstallationService installationService;
+
+  @Inject
+  public DetailAction(DatasetService datasetService) {
+    super(datasetService);
+  }
 
   @Override
   public String execute() {
     loadDetail();
-    populateContacts(dataset.getContacts());
-    populateLinks(dataset.getEndpoints());
-    parentDataset = dataset.getParentDatasetKey() != null ? datasetService.get(dataset.getParentDatasetKey()) : null;
+    populateContacts(member.getContacts());
+    populateLinks(member.getEndpoints());
     // only datasets with a key (internal) can have constituents
-    if (key != null) {
-      constituents = datasetService.listConstituents(key, new PagingRequest(0, 10));
-    }
-
-    // populate hosting organization only if it differs from the owning organization
-    if (dataset.getTechnicalInstallationKey() != null) {
-      TechnicalInstallation installation = installationService.get(dataset.getTechnicalInstallationKey());
-      if (!dataset.getOwningOrganizationKey().equals(installation.getHostingOrganizationKey())) {
-        hostingOrganization = organizationService.get(installation.getHostingOrganizationKey());
-      }
+    if (id != null) {
+      constituents = datasetService.listConstituents(id, new PagingRequest(0, 10));
     }
 
     // the map article is rendered only if the cube has indicated georeferenced records, or if there are
     // coverages that are not global (they don't really warrant visualizing).
     renderMaps = getNumGeoreferencedOccurrences() != null && getNumGeoreferencedOccurrences() > 0;
     if (!renderMaps) {
-      for (GeospatialCoverage gc : dataset.getGeographicCoverages()) {
+      for (GeospatialCoverage gc : member.getGeographicCoverages()) {
         renderMaps = renderMaps ||
           (gc.getBoundingBox() != null && !gc.getBoundingBox().isGlobalCoverage());
         if (renderMaps) {
@@ -113,14 +103,6 @@ public class DetailAction extends DatasetBaseAction {
    */
   public List<Extension> getExtensions() {
     return EXTENSIONS;
-  }
-
-  /**
-   * @return The hosting Organization only if it differs from the owning organization, otherwise null
-   */
-  @Nullable
-  public Organization getHostingOrganization() {
-    return hostingOrganization;
   }
 
   /**
@@ -179,7 +161,7 @@ public class DetailAction extends DatasetBaseAction {
     preferredContacts.clear(); // for safety
     otherContacts.clear();
     for (Contact contact : contacts) {
-      if (contact.isPreferred()) {
+      if (contact.isPrimary()) {
         preferredContacts.add(contact);
       } else {
         otherContacts.add(contact);
@@ -195,7 +177,7 @@ public class DetailAction extends DatasetBaseAction {
     dataLinks.clear(); // for safety
     metaLinks.clear();
     links.clear();
-    for (Endpoint p : dataset.getEndpoints()) {
+    for (Endpoint p : member.getEndpoints()) {
       if (EndpointType.DATA_CODES.contains(p.getType())) {
         dataLinks.add(p);
       } else if (EndpointType.METADATA_CODES.contains(p.getType())) {

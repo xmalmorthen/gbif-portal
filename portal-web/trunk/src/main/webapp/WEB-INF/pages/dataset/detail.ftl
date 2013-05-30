@@ -115,19 +115,14 @@
     <p><a href="<@s.url value='/dataset/${parentDataset.key}'/>" title="${parentDataset.title!"Unknown"}">${parentDataset.title!"Unknown"}</a></p>
   </#if>
 
-  <!-- Only show network of origin, if there was no owning organization, as is case for external datasets -->
   <#if owningOrganization??>
     <h3>Published by</h3>
     <p><a href="<@s.url value='/organization/${owningOrganization.key}'/>"
           title="${owningOrganization.title!"Unknown"}">${owningOrganization.title!"Unknown"}</a></p>
-  <#elseif networkOfOrigin??>
-    <h3>Originates from</h3>
-    <p><a href="<@s.url value='/network/${networkOfOrigin.key}'/>"
-          title="${networkOfOrigin.title!"Unknown"}">${networkOfOrigin.title!"Unknown"}</a></p>
   </#if>
 
   <!-- Only show hosting organization if it's different from owning / publishing org -->
-  <#if hostingOrganization??>
+  <#if hostingOrganization.key! != owningOrganization.key!>
     <h3>Hosted by</h3>
     <p><a href="<@s.url value='/organization/${hostingOrganization.key}'/>"
           title="${hostingOrganization.title!"Unknown"}">${hostingOrganization.title!"Unknown"}</a></p>

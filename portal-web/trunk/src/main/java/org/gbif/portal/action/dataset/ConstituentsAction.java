@@ -10,8 +10,10 @@ package org.gbif.portal.action.dataset;
 
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry2.Dataset;
+import org.gbif.api.service.registry2.DatasetService;
 
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,13 +24,18 @@ public class ConstituentsAction extends DatasetBaseAction {
   private PagingResponse<Dataset> page;
   private long offset = 0;
 
+  @Inject
+  public ConstituentsAction(DatasetService datasetService) {
+    super(datasetService);
+  }
+
   @Override
   public String execute() {
     loadDetail();
 
     // load constituents
     PagingRequest p = new PagingRequest(offset, 25);
-    page = datasetService.listConstituents(key, p);
+    page = datasetService.listConstituents(id, p);
 
     return SUCCESS;
   }

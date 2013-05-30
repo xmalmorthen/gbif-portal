@@ -1,14 +1,14 @@
 package org.gbif.portal.action.occurrence;
 
-import org.gbif.portal.exception.NotFoundException;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.model.occurrence.Occurrence;
-import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry2.Dataset;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.occurrence.OccurrenceService;
-import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry2.DatasetService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.exception.NotFoundException;
 import org.gbif.portal.exception.ReferentialIntegrityException;
 
 import com.google.common.base.Strings;

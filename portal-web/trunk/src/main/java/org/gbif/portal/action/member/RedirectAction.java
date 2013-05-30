@@ -1,12 +1,12 @@
 package org.gbif.portal.action.member;
 
-import org.gbif.portal.exception.NotFoundException;
-import org.gbif.api.model.registry.WritableMember;
-import org.gbif.api.service.registry.NetworkService;
-import org.gbif.api.service.registry.NodeService;
-import org.gbif.api.service.registry.OrganizationService;
-import org.gbif.api.service.registry.TechnicalInstallationService;
+import org.gbif.api.model.registry2.NetworkEntity;
+import org.gbif.api.service.registry2.InstallationService;
+import org.gbif.api.service.registry2.NetworkService;
+import org.gbif.api.service.registry2.NodeService;
+import org.gbif.api.service.registry2.OrganizationService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.exception.NotFoundException;
 
 import java.util.UUID;
 
@@ -23,7 +23,7 @@ public class RedirectAction extends BaseAction {
   @Inject
   private NetworkService networkService;
   @Inject
-  private TechnicalInstallationService technicalInstallationService;
+  private InstallationService technicalInstallationService;
 
   private UUID id;
   private String redirectUrl;
@@ -32,7 +32,7 @@ public class RedirectAction extends BaseAction {
   public String execute() {
     if (id != null) {
       // check organisation
-      WritableMember member = organizationService.get(id);
+      NetworkEntity member = organizationService.get(id);
       if (member != null){
         return redirect("organization");
       }

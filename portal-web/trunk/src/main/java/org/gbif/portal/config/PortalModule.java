@@ -4,7 +4,7 @@ import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
 import org.gbif.metrics.ws.client.guice.MetricsWsClientModule;
 import org.gbif.occurrence.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.occurrencestore.download.ws.client.guice.OccurrenceDownloadWsClientModule;
-import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
+import org.gbif.registry2.ws.client.guice.RegistryWsClientModule;
 import org.gbif.user.guice.DrupalMyBatisModule;
 import org.gbif.utils.file.properties.PropertiesUtil;
 
@@ -23,7 +23,7 @@ public class PortalModule extends AbstractModule {
       install(new PrivatePortalModule(properties));
 
       // bind registry API
-      install(new RegistryWsClientModule(properties, true, true));
+      install(new RegistryWsClientModule(properties));
 
       // bind drupal mybatis services
       install(new DrupalMyBatisModule(properties));
@@ -38,6 +38,7 @@ public class PortalModule extends AbstractModule {
       install(new OccurrenceWsClientModule(properties));
 
       // bind the metrics service
+      System.out.println(properties);
       install(new MetricsWsClientModule(properties));
 
     } catch (IllegalArgumentException e) {

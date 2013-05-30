@@ -137,26 +137,30 @@
       <result>/WEB-INF/pages/dataset/register/step3.ftl</result>
     </action>
 
-    <action name="{id}/constituents" class="org.gbif.portal.action.dataset.ConstituentsAction">
+    <action name="*" class="org.gbif.portal.action.dataset.DetailAction">
+      <param name="id">{1}</param>
+      <result>/WEB-INF/pages/dataset/detail.ftl</result>
+    </action>
+
+    <action name="*/constituents" class="org.gbif.portal.action.dataset.ConstituentsAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/dataset/constituents.ftl</result>
     </action>
 
-    <action name="{id}/contacts" class="org.gbif.portal.action.dataset.DetailAction">
+    <action name="*/contacts" class="org.gbif.portal.action.dataset.DetailAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/dataset/contacts.ftl</result>
     </action>
 
-    <action name="{id}/geographicCoverage" class="org.gbif.portal.action.dataset.DetailAction">
+    <action name="*/geographicCoverage" class="org.gbif.portal.action.dataset.DetailAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/dataset/geographicCoverage.ftl</result>
     </action>
 
-    <action name="{id}/stats" class="org.gbif.portal.action.dataset.StatsAction">
+    <action name="*/stats" class="org.gbif.portal.action.dataset.StatsAction">
+      <param name="id">{1}</param>
       <result name="occurrence">/WEB-INF/pages/dataset/stats-occurrence.ftl</result>
       <result name="checklist">/WEB-INF/pages/dataset/stats-checklist.ftl</result>
-    </action>
-
-    <!-- {id} matches anything but "/" -->
-    <action name="{id}" class="org.gbif.portal.action.dataset.DetailAction">
-      <result>/WEB-INF/pages/dataset/detail.ftl</result>
     </action>
   </package>
 
@@ -174,12 +178,13 @@
       <result>/WEB-INF/pages/occurrence/download.ftl</result>
     </action>
 
-    <!-- {id} matches anything but "/" -->
-    <action name="{id}/verbatim" class="org.gbif.portal.action.occurrence.DetailAction" method="verbatim">
+    <action name="*/verbatim" class="org.gbif.portal.action.occurrence.DetailAction" method="verbatim">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/occurrence/verbatim.ftl</result>
     </action>
 
-    <action name="{id}/fragment" class="org.gbif.portal.action.occurrence.FragmentAction">
+    <action name="*/fragment" class="org.gbif.portal.action.occurrence.FragmentAction">
+      <param name="id">{1}</param>
       <result name="success" type="stream">
         <param name="contentType">text/plain</param>
         <param name="contentCharSet">UTF-8</param>
@@ -188,7 +193,8 @@
       </result>
     </action>
 
-    <action name="{id}" class="org.gbif.portal.action.occurrence.DetailAction">
+    <action name="*" class="org.gbif.portal.action.occurrence.DetailAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/occurrence/detail.ftl</result>
     </action>
 
@@ -201,41 +207,50 @@
       <result>/WEB-INF/pages/species/search.ftl</result>
     </action>
 
-    <action name="{id}/synonyms" class="org.gbif.portal.action.species.SynonymsAction">
+    <action name="*/synonyms" class="org.gbif.portal.action.species.SynonymsAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/species/synonyms.ftl</result>
     </action>
 
-    <action name="{id}/classification" class="org.gbif.portal.action.species.ClassificationAction">
+    <action name="*/classification" class="org.gbif.portal.action.species.ClassificationAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/species/classification.ftl</result>
     </action>
 
-    <action name="{id}/verbatim" class="org.gbif.portal.action.species.VerbatimAction">
+    <action name="*/verbatim" class="org.gbif.portal.action.species.VerbatimAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/species/verbatim.ftl</result>
     </action>
 
     <!-- name usage subresources / see more-->
-    <action name="{id}/datasets" class="org.gbif.portal.action.species.DatasetAction">
+    <action name="*/datasets" class="org.gbif.portal.action.species.DatasetAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/species/datasets.ftl</result>
     </action>
 
-    <action name="{id}/distributions" class="org.gbif.portal.action.species.DistributionAction">
+    <action name="*/distributions" class="org.gbif.portal.action.species.DistributionAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/species/distributions.ftl</result>
     </action>
 
-    <action name="{id}/references" class="org.gbif.portal.action.species.ReferenceAction">
+    <action name="*/references" class="org.gbif.portal.action.species.ReferenceAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/species/references.ftl</result>
     </action>
 
-    <action name="{id}/typespecimens" class="org.gbif.portal.action.species.TypeSpecimenAction">
+    <action name="*/typespecimens" class="org.gbif.portal.action.species.TypeSpecimenAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/species/typespecimens.ftl</result>
     </action>
 
-    <action name="{id}/vernaculars" class="org.gbif.portal.action.species.VernacularNameAction">
+    <action name="*/vernaculars" class="org.gbif.portal.action.species.VernacularNameAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/species/vernaculars.ftl</result>
     </action>
 
     <!-- nub or checklist usage -->
-    <action name="{id}" class="org.gbif.portal.action.species.DetailAction">
+    <action name="*" class="org.gbif.portal.action.species.DetailAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/species/detail.ftl</result>
     </action>
 
@@ -243,38 +258,45 @@
 
   <!-- MEMBERS -->
   <package name="member" namespace="/member" extends="default">
-    <action name="{id}" class="org.gbif.portal.action.member.RedirectAction">
+    <action name="*" class="org.gbif.portal.action.member.RedirectAction">
+      <param name="id">{1}</param>
       <result type="redirect">${redirectUrl}</result>
     </action>
   </package>
 
   <!-- NODE -->
   <package name="node" namespace="/node" extends="default">
-    <!-- {id} matches anything but "/" -->
-    <action name="{id}" class="org.gbif.portal.action.node.DetailAction">
+    <action name="*" class="org.gbif.portal.action.node.DetailAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/node/detail.ftl</result>
-      <result name="country" type="redirect">/country/${member.country.getIso2LetterCode()}</result>
+      <result name="country" type="redirectAction">
+        <param name="namespace">/country</param>
+        <param name="actionName">${member.country.getIso2LetterCode()}</param>
+        <param name="parse">true</param>
+      </result>
     </action>
-    <action name="{id}/organizations" class="org.gbif.portal.action.node.EndorsedOrganizationAction">
+    <action name="*/organizations" class="org.gbif.portal.action.node.DetailAction" method="organizations">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/node/endorsed_organizations.ftl</result>
     </action>
   </package>
 
   <!-- NETWORK -->
   <package name="network" namespace="/network" extends="default">
-    <!-- {id} matches anything but "/" -->
-    <action name="{id}" class="org.gbif.portal.action.network.DetailAction">
+    <action name="*" class="org.gbif.portal.action.network.DetailAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/network/detail.ftl</result>
     </action>
   </package>
 
   <!-- ORGANIZATION -->
   <package name="organization" namespace="/organization" extends="default">
-    <!-- {id} matches anything but "/" -->
-    <action name="{id}" class="org.gbif.portal.action.organization.DetailAction">
+    <action name="*" class="org.gbif.portal.action.organization.DetailAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/organization/detail.ftl</result>
     </action>
-    <action name="{id}/datasets" class="org.gbif.portal.action.organization.OwnedDatasetAction">
+    <action name="*/datasets" class="org.gbif.portal.action.organization.DetailAction" method="datasets">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/organization/owned_datasets.ftl</result>
     </action>
   </package>
@@ -306,23 +328,28 @@
   <!-- COUNTRIES -->
   <package name="country" namespace="/country" extends="default">
 
-    <action name="{id}" class="org.gbif.portal.action.country.SummaryAction">
+    <action name="*" class="org.gbif.portal.action.country.SummaryAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/country/summary.ftl</result>
     </action>
 
-    <action name="{id}/about" class="org.gbif.portal.action.country.AboutAction">
+    <action name="*/about" class="org.gbif.portal.action.country.AboutAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/country/about.ftl</result>
     </action>
 
-    <action name="{id}/publishing" class="org.gbif.portal.action.country.PublishingAction">
+    <action name="*/publishing" class="org.gbif.portal.action.country.PublishingAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/country/publishing.ftl</result>
     </action>
 
-    <action name="{id}/participation" class="org.gbif.portal.action.country.ParticipationAction">
+    <action name="*/participation" class="org.gbif.portal.action.country.ParticipationAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/country/participation.ftl</result>
     </action>
 
-    <action name="{id}/news" class="org.gbif.portal.action.country.NewsAction">
+    <action name="*/news" class="org.gbif.portal.action.country.NewsAction">
+      <param name="id">{1}</param>
       <result>/WEB-INF/pages/country/news.ftl</result>
     </action>
 

@@ -9,18 +9,18 @@ import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
 import org.gbif.api.model.checklistbank.search.NameUsageSuggestRequest;
 import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-import org.gbif.api.model.registry.Dataset;
-import org.gbif.api.model.registry.Network;
-import org.gbif.api.model.registry.search.DatasetSearchParameter;
-import org.gbif.api.model.registry.search.DatasetSearchResult;
-import org.gbif.api.model.registry.search.DatasetSuggestRequest;
+import org.gbif.api.model.registry2.Dataset;
+import org.gbif.api.model.registry2.Network;
+import org.gbif.api.model.registry2.search.DatasetSearchParameter;
+import org.gbif.api.model.registry2.search.DatasetSearchResult;
+import org.gbif.api.model.registry2.search.DatasetSuggestRequest;
 import org.gbif.api.service.checklistbank.NameUsageMatchingService;
 import org.gbif.api.service.checklistbank.NameUsageSearchService;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.occurrence.OccurrenceSearchService;
-import org.gbif.api.service.registry.DatasetSearchService;
-import org.gbif.api.service.registry.DatasetService;
-import org.gbif.api.service.registry.NetworkService;
+import org.gbif.api.service.registry2.DatasetSearchService;
+import org.gbif.api.service.registry2.DatasetService;
+import org.gbif.api.service.registry2.NetworkService;
 import org.gbif.api.util.SearchTypeValidator;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
@@ -39,7 +39,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
-
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 
@@ -110,7 +109,7 @@ public class FiltersActionHelper {
       @Override
       public String apply(@Nullable DatasetSearchResult input) {
         Preconditions.checkNotNull(input);
-        return input.getKey();
+        return input.getKey().toString();
       }
     };
 
@@ -226,11 +225,15 @@ public class FiltersActionHelper {
    * doesn't have a title.
    */
   public String getDatasetTitle(String key) {
-    Dataset dataset = datasetService.get(key);
-    if (dataset != null && dataset.getTitle() != null) {
-      return dataset.getTitle();
+    try {
+      Dataset dataset = datasetService.get(UUID.fromString(key));
+      if (dataset != null && dataset.getTitle() != null) {
+        return dataset.getTitle();
+      }
+    } catch (IllegalArgumentException e) {
+      // no uuid
     }
-    return key;
+    return key.toString();
   }
 
   /**

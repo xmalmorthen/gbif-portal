@@ -2,15 +2,12 @@ package org.gbif.portal.action.organization;
 
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.registry.Dataset;
-import org.gbif.api.model.registry.Node;
-import org.gbif.api.model.registry.Organization;
-import org.gbif.api.service.registry.DatasetService;
-import org.gbif.api.service.registry.NodeService;
-import org.gbif.api.service.registry.OrganizationService;
+import org.gbif.api.model.registry2.Dataset;
+import org.gbif.api.model.registry2.Node;
+import org.gbif.api.model.registry2.Organization;
+import org.gbif.api.service.registry2.NodeService;
+import org.gbif.api.service.registry2.OrganizationService;
 import org.gbif.portal.action.member.MemberBaseAction;
-
-import java.util.List;
 
 import com.google.inject.Inject;
 
@@ -18,16 +15,16 @@ public class DetailAction extends MemberBaseAction<Organization> {
 
   @Inject
   private NodeService nodeService;
-  @Inject
-  private DatasetService datasetService;
+  private final OrganizationService organizationService;
 
   private Node node;
-  private List<Dataset> datasets;
-  private boolean more;
+  private PagingResponse<Dataset> page;
+  private long offset = 0;
 
   @Inject
   public DetailAction(OrganizationService organizationService) {
     super(organizationService);
+    this.organizationService = organizationService;
   }
 
   @Override
@@ -38,22 +35,28 @@ public class DetailAction extends MemberBaseAction<Organization> {
       node = nodeService.get(member.getEndorsingNodeKey());
     }
     // load first 10 datasets
-    PagingResponse<Dataset> resp = datasetService.listOwnedBy(id, new PagingRequest(0, 10));
-    datasets = resp.getResults();
-    more = !resp.isEndOfRecords();
+    page = organizationService.ownedDatasets(id, new PagingRequest(0, 10));
 
     return SUCCESS;
   }
 
-  public List<Dataset> getDatasets() {
-    return datasets;
+  public String datasets() throws Exception {
+    super.execute();
+    page = organizationService.ownedDatasets(id, new PagingRequest(offset, 25));
+    return SUCCESS;
+  }
+
+  public void setOffset(long offset) {
+    if (offset >= 0) {
+      this.offset = offset;
+    }
   }
 
   public Node getNode() {
     return node;
   }
 
-  public boolean isMore() {
-    return more;
+  public PagingResponse<Dataset> getPage() {
+    return page;
   }
 }

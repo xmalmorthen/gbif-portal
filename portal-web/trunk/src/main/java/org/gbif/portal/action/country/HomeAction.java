@@ -2,8 +2,8 @@ package org.gbif.portal.action.country;
 
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.registry.Node;
-import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.model.registry2.Node;
+import org.gbif.api.service.registry2.NodeService;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.portal.action.BaseAction;
 

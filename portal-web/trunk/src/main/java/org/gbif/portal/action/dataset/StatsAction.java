@@ -1,11 +1,14 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.api.model.Constants;
-import org.gbif.api.vocabulary.DatasetType;
-import org.gbif.portal.exception.NotFoundException;
+import org.gbif.api.service.registry2.DatasetService;
+import org.gbif.api.vocabulary.registry2.DatasetType;
 import org.gbif.portal.action.species.HomeAction;
+import org.gbif.portal.exception.NotFoundException;
 
 import java.util.UUID;
+
+import com.google.inject.Inject;
 
 /**
  * Extends the details action to return a different result name based on the dataset type, so we can use
@@ -17,13 +20,18 @@ public class StatsAction extends DetailAction {
   private static final String OCCURRENCE_RESULT = "occurrence";
   private static final String CHECKLIST_RESULT = "checklist";
 
+  @Inject
+  public StatsAction(DatasetService datasetService) {
+    super(datasetService);
+  }
+
   @Override
   public String execute() {
     super.execute();
 
-    if (DatasetType.OCCURRENCE == dataset.getType()) {
+    if (DatasetType.OCCURRENCE == member.getType()) {
       return OCCURRENCE_RESULT;
-    } else if (DatasetType.CHECKLIST == dataset.getType()) {
+    } else if (DatasetType.CHECKLIST == member.getType()) {
       return CHECKLIST_RESULT;
     } else {
       throw new NotFoundException("External datasets don't have a stats page");

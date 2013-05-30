@@ -21,7 +21,6 @@ $(window).ready(function() {
 
     if ($target.closest("tr").attr("data-kingdom") != null) {
       address = address + "&nubKey=" + $target.closest("tr").attr("data-kingdom");
-
     }
 
     if ($target.closest("td").attr("data-bor") != null) {

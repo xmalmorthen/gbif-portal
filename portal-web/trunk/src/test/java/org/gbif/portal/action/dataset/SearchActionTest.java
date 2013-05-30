@@ -1,6 +1,6 @@
 package org.gbif.portal.action.dataset;
 
-import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.model.registry2.search.DatasetSearchResult;
 import org.gbif.portal.action.ActionTestUtil;
 
 import java.util.LinkedList;

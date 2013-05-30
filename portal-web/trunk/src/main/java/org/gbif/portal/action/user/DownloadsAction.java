@@ -15,7 +15,7 @@ import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.occurrence.DownloadService;
-import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry2.DatasetService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.util.HumanFilterBuilder;
 import org.gbif.portal.action.occurrence.util.QueryParameterFilterBuilder;
@@ -25,12 +25,16 @@ import java.util.Map;
 
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Manages user downloads. Default action lists a page of downloads,
  * the cancel method can be used to cancel a single download and then return the list again.
  */
 public class DownloadsAction extends BaseAction {
+  private static Logger LOG = LoggerFactory.getLogger(DownloadsAction.class);
+
   private String key;
   private PagingResponse<Download> page;
   private long offset = 0;

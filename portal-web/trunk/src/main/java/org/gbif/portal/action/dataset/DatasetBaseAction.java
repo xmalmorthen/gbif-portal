@@ -1,30 +1,29 @@
 package org.gbif.portal.action.dataset;
 
-import org.gbif.portal.exception.NotFoundException;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
-import org.gbif.api.model.registry.Dataset;
-import org.gbif.api.model.registry.Network;
-import org.gbif.api.model.registry.Organization;
-import org.gbif.api.model.registry.taxonomic.TaxonomicCoverage;
-import org.gbif.api.model.registry.taxonomic.TaxonomicCoverages;
+import org.gbif.api.model.registry2.Dataset;
+import org.gbif.api.model.registry2.Installation;
+import org.gbif.api.model.registry2.Organization;
+import org.gbif.api.model.registry2.eml.TaxonomicCoverage;
+import org.gbif.api.model.registry2.eml.TaxonomicCoverages;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.metrics.CubeService;
-import org.gbif.api.service.registry.DatasetService;
-import org.gbif.api.service.registry.NetworkService;
-import org.gbif.api.service.registry.OrganizationService;
+import org.gbif.api.service.registry2.DatasetService;
+import org.gbif.api.service.registry2.InstallationService;
+import org.gbif.api.service.registry2.OrganizationService;
 import org.gbif.api.vocabulary.Rank;
-import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.dataset.util.DisplayableTaxonomicCoverage;
 import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverage;
 import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverages;
+import org.gbif.portal.action.member.MemberBaseAction;
+import org.gbif.portal.exception.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.UUID;
-
 import javax.annotation.Nullable;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -42,15 +41,15 @@ import org.slf4j.LoggerFactory;
  * TODO: This will be removed as there is no need for such hierarchy.
  */
 @SuppressWarnings("serial")
-public class DatasetBaseAction extends BaseAction {
+public class DatasetBaseAction extends MemberBaseAction<Dataset> {
 
   private static final Logger LOG = LoggerFactory.getLogger(DatasetBaseAction.class);
-  protected String id;
-  protected UUID key;
-  protected Dataset dataset;
   protected DatasetMetrics metrics;
+  protected Installation installation;
   protected Organization owningOrganization;
-  protected Network networkOfOrigin;
+  protected Organization hostingOrganization;
+  protected Dataset parentDataset;
+
   private List<OrganizedTaxonomicCoverages> organizedCoverages = Lists.newArrayList();
   @Nullable
   private Long numOccurrences;
@@ -58,15 +57,20 @@ public class DatasetBaseAction extends BaseAction {
   private Long numGeoreferencedOccurrences;
 
   @Inject
-  protected DatasetService datasetService;
-  @Inject
   protected DatasetMetricsService metricsService;
   @Inject
   protected OrganizationService organizationService;
   @Inject
-  protected NetworkService networkService;
+  protected InstallationService installationService;
   @Inject
   private CubeService occurrenceCubeService;
+
+  protected DatasetService datasetService;
+
+  public DatasetBaseAction(DatasetService datasetService) {
+    super(datasetService);
+    this.datasetService = datasetService;
+  }
 
 
   /**
@@ -123,31 +127,27 @@ public class DatasetBaseAction extends BaseAction {
   }
 
   public Dataset getDataset() {
-    return dataset;
+    return member;
   }
 
   public DatasetService getDatasetService() {
     return datasetService;
   }
 
-  public String getId() {
+  public UUID getId() {
     return id;
-  }
-
-  public UUID getKey() {
-    return key;
-  }
-
-  public Dataset getMember() {
-    return dataset;
   }
 
   public DatasetMetrics getMetrics() {
     return metrics;
   }
 
-  public Network getNetworkOfOrigin() {
-    return networkOfOrigin;
+  public Organization getHostingOrganization() {
+    return hostingOrganization;
+  }
+
+  public Installation getInstallation() {
+    return installation;
   }
 
   /**
@@ -169,31 +169,31 @@ public class DatasetBaseAction extends BaseAction {
   }
 
   protected void loadDetail() {
-    if (Strings.isNullOrEmpty(id)) {
+    if (id == null) {
       throw new NotFoundException("No identifier provided to load the dataset");
     }
 
-    dataset = datasetService.get(id);
-    if (dataset == null) {
+    member = datasetService.get(id);
+    if (member == null) {
       throw new NotFoundException("No dataset found with id " + id);
     }
 
-    owningOrganization = dataset.getOwningOrganizationKey() != null ?
-      organizationService.get(dataset.getOwningOrganizationKey()) : owningOrganization;
+    parentDataset = member.getParentDatasetKey() != null ? datasetService.get(member.getParentDatasetKey()) : null;
 
-    networkOfOrigin = dataset.getNetworkOfOriginKey() != null ?
-      networkService.get(dataset.getNetworkOfOriginKey()) : networkOfOrigin;
+    owningOrganization = member.getOwningOrganizationKey() != null ?
+      organizationService.get(member.getOwningOrganizationKey()) : owningOrganization;
 
-    organizedCoverages = dataset.getTaxonomicCoverages() != null ?
-      constructOrganizedTaxonomicCoverages(dataset.getTaxonomicCoverages()) : organizedCoverages;
+    installation = installationService.get(member.getInstallationKey());
+
+    hostingOrganization = organizationService.get(installation.getOrganizationKey());
+
+    organizedCoverages = member.getTaxonomicCoverages() != null ?
+      constructOrganizedTaxonomicCoverages(member.getTaxonomicCoverages()) : organizedCoverages;
 
     try {
-      key = UUID.fromString(id);
-      metrics = metricsService.get(key);
-    } catch (IllegalArgumentException e) {
-      // ignore external datasets without a uuid
+      metrics = metricsService.get(id);
     } catch (Exception e) {
-      LOG.warn("Cant get metrics for dataset {}", key, e);
+      LOG.warn("Cant get metrics for dataset {}", id, e);
     }
 
     populateOccurrenceCounts(); // only when a key exists
@@ -203,14 +203,14 @@ public class DatasetBaseAction extends BaseAction {
    * Populates the occurrence counts using the cube, only when the key exists.
    */
   private void populateOccurrenceCounts() {
-    if (key != null) {
+    if (id != null) {
       try {
-        numOccurrences = occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, key));
+        numOccurrences = occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, id));
         numGeoreferencedOccurrences =
-          occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, key).at(
+          occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, id).at(
             OccurrenceCube.IS_GEOREFERENCED, true));
       } catch (Exception e) {
-        LOG.error("Failed to load occurrence metrics for dataset {}", key, e);
+        LOG.error("Failed to load occurrence metrics for dataset {}", id, e);
       }
     }
   }
@@ -234,7 +234,11 @@ public class DatasetBaseAction extends BaseAction {
   }
 
   public void setId(String id) {
-    this.id = id;
+    try {
+      this.id = UUID.fromString(id);
+    } catch (IllegalArgumentException e) {
+      this.id = null;
+    }
   }
 
   /**
@@ -294,5 +298,9 @@ public class DatasetBaseAction extends BaseAction {
   @Nullable
   public Long getNumGeoreferencedOccurrences() {
     return numGeoreferencedOccurrences;
+  }
+
+  public Dataset getParentDataset() {
+    return parentDataset;
   }
 }

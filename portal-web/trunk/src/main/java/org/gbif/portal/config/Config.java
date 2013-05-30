@@ -80,7 +80,7 @@ public class Config {
       cfg.wsClbSearch = getPropertyUrl(properties, "checklistbank.search.ws.url", true);
       cfg.wsClbSuggest = cfg.wsClbSearch + SUGGEST_PATH;
       cfg.wsReg = getPropertyUrl(properties, "registry.ws.url", true);
-      cfg.wsRegSearch = getPropertyUrl(properties, "registry.search.ws.url", true);
+      cfg.wsRegSearch = cfg.wsReg + "search/";
       cfg.wsRegSuggest = cfg.wsRegSearch + SUGGEST_PATH;
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
       cfg.wsOccSearch = cfg.wsOcc + OCC_SEARCH_PATH;

@@ -19,12 +19,5 @@ public class DetailActionTest {
     // Checklist: "Orthoptera Species File"
     da.setId("af66d4cf-0fd2-434b-9334-9806a5efa6f7");
     assertEquals(Action.SUCCESS, da.execute());
-    // Dataset title = "OCNMS: Physical Oceanography: moored temperature data: Makah Bay, Washington, USA (MB015)"
-    da.setId("2344f83d-eefb-4635-afed-fb2a1c9bd466:MB015X_015MTBD005R00_20060606.50.6");
-    assertEquals(Action.SUCCESS, da.execute());
-    // External - escaped
-    // Dataset title = "OCNMS: Physical Oceanography: moored temperature data: Makah Bay, Washington, USA (MB015)"
-    da.setId("2344f83d-eefb-4635-afed-fb2a1c9bd466%MB015X_015MTBD005R00_20060606.50.6");
-    assertEquals(Action.SUCCESS, da.execute());
   }
 }

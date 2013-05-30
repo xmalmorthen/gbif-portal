@@ -24,7 +24,7 @@
 
       <div class="header">
         <div class="left">
-          <h2>${page.count!} Published datasets for "${member.title!}"</h2>
+          <h2>${page.count!} Published datasets</h2>
         </div>
       </div>
 

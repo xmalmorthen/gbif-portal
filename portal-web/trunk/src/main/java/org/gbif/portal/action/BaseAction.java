@@ -17,6 +17,8 @@ import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A base class that provides accession to utilities for freemarker.
@@ -24,6 +26,8 @@ import org.apache.struts2.util.ServletContextAware;
 @SuppressWarnings("serial")
 public abstract class BaseAction extends ActionSupport
   implements SessionAware, ServletRequestAware, ServletContextAware {
+
+  protected static Logger LOG = LoggerFactory.getLogger(BaseAction.class);
 
   protected Map<String, Object> session;
   protected HttpServletRequest request;

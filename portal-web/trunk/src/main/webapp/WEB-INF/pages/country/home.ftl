@@ -1,3 +1,4 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
   <title>Countries</title>
@@ -39,6 +40,13 @@
               window.location = cfg.baseUrl + "/country/" + code;
             }
         });
+        $('#country_list').hide();
+        $("#toggleCountryList").click(function() {
+          $('#country_list').slideToggle({
+              "easing":"easeOutBounce",
+              "duration":"3000"
+          });
+        });
       });
   </script>
     <style type="text/css">
@@ -59,10 +67,35 @@
       <p>
         <div id="map"></div>
       </p>
+      <p><a id="toggleCountryList" href="#">List of all countries</a></p>
     </div>
 
     <footer></footer>
   </article>
+
+<#assign leftColSize = (countries.size()/2)?ceiling />
+<@common.article id="country_list" title="Country List">
+  <div class="fullwidth">
+      <div class="col">
+          <ul>
+            <#list countries as c>
+              <#if c.isOfficial() && c_index lt leftColSize>
+                <li><a href="<@s.url value='/country/${c.getIso2LetterCode()}'/>">${c.getTitle()}</a></li>
+              </#if>
+            </#list>
+          </ul>
+      </div>
+      <div class="col">
+          <ul>
+            <#list countries as c>
+              <#if c.isOfficial() && c_index +1 gt leftColSize>
+                <li><a href="<@s.url value='/country/${c.getIso2LetterCode()}'/>">${c.getTitle()}</a></li>
+              </#if>
+            </#list>
+          </ul>
+      </div>
+  </div>
+</@common.article>
 
 </body>
 </html>

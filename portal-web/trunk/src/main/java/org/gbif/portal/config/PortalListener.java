@@ -40,8 +40,6 @@ public class PortalListener extends GuiceServletContextListener {
 
     @Override
     protected void configureServlets() {
-      LOG.info("Configuring CAS filters with portal server name {}", cfg.getServerName());
-
       // Struts2
       bind(StrutsPrepareFilter.class).in(Singleton.class);
       bind(FreemarkerPageFilter.class).in(Singleton.class);

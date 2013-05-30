@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Class similar to TaxonomicCoverages, but the list of TaxonomicCoverage are OrganizedTaxonomicKeywords.
  *
- * @see org.gbif.api.model.registry.taxonomic.TaxonomicCoverages
+ * @see org.gbif.api.model.registry2.eml.TaxonomicCoverages
  */
 public class OrganizedTaxonomicCoverages {
 

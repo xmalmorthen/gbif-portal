@@ -5,7 +5,7 @@ import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
 import org.gbif.api.model.occurrence.Occurrence;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchRequest;
-import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.model.registry2.search.DatasetSearchResult;
 import org.gbif.api.service.occurrence.OccurrenceSearchService;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;

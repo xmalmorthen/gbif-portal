@@ -38,18 +38,18 @@
     </div>
 </@common.article>
 
-<#if datasets?has_content>
+<#if page.results?has_content>
 <@common.article id="datasets" title="Published Datasets">
   <div class="left">
       <ul class="notes">
-        <#list datasets as d>
+        <#list page.results as d>
           <li>
             <a href="<@s.url value='/dataset/${d.key}'/>">${d.title!"???"}</a>
             <span class="note">A ${d.subtype!} <@s.text name="enum.datasettype.${d.type!}"/>
               <#if d.pubDate??>${d.pubDate?date?string.medium}</#if></span>
           </li>
         </#list>
-        <#if more>
+        <#if !page.isEndOfRecords()>
           <li class="more">
             <a href="<@s.url value='/organization/${member.key}/datasets'/>">more</a>
           </li>
