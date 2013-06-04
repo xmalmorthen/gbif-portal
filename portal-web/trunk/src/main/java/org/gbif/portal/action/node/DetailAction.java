@@ -31,14 +31,14 @@ public class DetailAction extends MemberBaseAction<Node> {
       return "country";
     }
 
-    page = nodeService.organizationsEndorsedBy(id, new PagingRequest(0, 10));
+    page = nodeService.endorsedOrganizations(id, new PagingRequest(0, 10));
     return SUCCESS;
   }
 
   public String organizations() throws Exception {
     super.execute();
 
-    page = nodeService.organizationsEndorsedBy(id, new PagingRequest(offset, 25));
+    page = nodeService.endorsedOrganizations(id, new PagingRequest(offset, 25));
     return SUCCESS;
   }
 
