@@ -77,11 +77,12 @@ public class Config {
       cfg.drupal = getPropertyUrl(properties, "drupal.url", false);
       cfg.drupalCookieName = properties.getProperty("drupal.cookiename");
       cfg.wsClb = getPropertyUrl(properties, "checklistbank.ws.url", true);
-      cfg.wsClbSearch = getPropertyUrl(properties, "checklistbank.search.ws.url", true);
-      cfg.wsClbSuggest = cfg.wsClbSearch + SUGGEST_PATH;
+      final String clbSearchWs = getPropertyUrl(properties, "checklistbank.search.ws.url", true);
+      cfg.wsClbSearch = clbSearchWs + "search";
+      cfg.wsClbSuggest = clbSearchWs + "suggest";
       cfg.wsReg = getPropertyUrl(properties, "registry.ws.url", true);
-      cfg.wsRegSearch = cfg.wsReg + "search/";
-      cfg.wsRegSuggest = cfg.wsRegSearch + SUGGEST_PATH;
+      cfg.wsRegSearch = cfg.wsReg + "dataset/search";
+      cfg.wsRegSuggest = cfg.wsRegSearch + "dataset/suggest";
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
       cfg.wsOccSearch = cfg.wsOcc + OCC_SEARCH_PATH;
       cfg.wsOccDownload = getPropertyUrl(properties, "occurrencedownload.ws.url", true);

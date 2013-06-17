@@ -28,14 +28,14 @@
     p { font-size:13px; }
   }
 
-  .copyright, .address, .contact {
+  .copyright, .address, .contact, .social {
 
     float:left;
 
     line-height: 17px;
 
-    margin: 0 34px 0 0;
-    width: 275px;
+    margin: 0 24px 0 0;
+    width: 204px;
   }
 
   .contact { 
@@ -68,6 +68,28 @@
   .inner {
     width: @width;
     margin:auto;
+
+    ul li {
+      &.s_icons {
+        background-repeat: no-repeat;
+        background-size: 25px 25px;
+        background-position: 0px 0px;
+        padding: 2px 0 0 28px;
+        height: 28px;
+      }
+      &.twitter {
+      	background-image: url(../img/social/twitter.png) ;
+      }
+      &.facebook {
+      	background-image: url(../img/social/facebook.png) ;
+      }
+      &.linkedin {
+      	background-image: url(../img/social/linkedin.png) ;
+      }
+      &.vimeo {
+      	background-image: url(../img/social/vimeo.png) ;
+      }
+    }
   }
 
 }
@@ -97,8 +119,8 @@ body > footer {
   .inner ul {
     display: block;
     float: left;
-    margin: 0 34px 36px 0;
-    width: 275px;
+    margin: 0 24px 36px 0;
+    width: 204px;
 
     text-align: left;
 

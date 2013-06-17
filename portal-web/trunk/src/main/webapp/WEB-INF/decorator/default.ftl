@@ -104,64 +104,69 @@
       </div>
     </#if>
 
+    <a href="<@s.url value='/disclaimer'/>">
+      <img id="beta" src="http://ecat-dev.gbif.org/img/beta.gif">
+    </a>
+
       <nav>
       <ul>
         <li>
-        <a href="#" title="Data">Data</a>
-
-        <div class="data">
-          <a href="#"></a>
-          <ul>
-            <li><a href="<@s.url value='/occurrence'/>"><@s.text name="menu.occurrence"/></a></li>
-            <li><a href="<@s.url value='/dataset'/>"><@s.text name="menu.dataset"/></a></li>
-            <li><a href="<@s.url value='/species'/>"><@s.text name="menu.species"/></a></li>
-            <li class="divider"></li>
-            <li><a class="placeholder_temp" href="#">Themes</a></li>
-            <li><a class="placeholder_temp" href="#">Statistics</a></li>
-            <li><a class="placeholder_temp" href="#">GBIF Data usage</a></li>
-            <li class="divider"></li>
-            <li><a class="placeholder_temp" href="#">Publish your data</a></li>
-            <li><a class="placeholder_temp" href="#">Publishing workflow</a></li>
-          </ul>
-        </div>
-
+          <a href="#" title="Data">Data</a>
+          <div class="data">
+            <a href="#"></a>
+            <ul>
+              <li><a href="<@s.url value='/occurrence'/>"><@s.text name="menu.occurrence"/></a></li>
+              <li><a href="<@s.url value='/dataset'/>"><@s.text name="menu.dataset"/></a></li>
+              <li><a href="<@s.url value='/species'/>"><@s.text name="menu.species"/></a></li>
+              <li><a href="<@s.url value='/country'/>"><@s.text name="menu.country"/></a></li>
+              <li class="divider"></li>
+              <li><a class="placeholder_temp" href="#">Publishing data</a></li>
+              <li><a class="placeholder_temp" href="#">Using data</a></li>
+              <li><a class="placeholder_temp" href="#">Infrastructure</a></li>
+            </ul>
+          </div>
         </li>
 
         <li>
-        <a href="#" title="Community">Community</a>
-
-        <div class="community">
-          <a href="#"></a>
-          <ul>
-            <li><a class="placeholder_temp" href="#">Regions</a></li>
-            <li><a href="<@s.url value='/country'/>">Countries</a></li>
-            <li><a class="placeholder_temp" href="#">Participant organizations</a></li>
-            <li><a class="placeholder_temp" href="#">Data publishers</a></li>
-            <li class="divider"></li>
-            <li><a class="placeholder_temp" href="#">Capacity bulding</a></li>
-            <li><a class="placeholder_temp" href="#">Training</a></li>
-            <li><a class="placeholder_temp" href="#">BIF building</a></li>
-            <li><a class="placeholder_temp" href="#">Whitepages</a></li>
-          </ul>
-        </div>
-
+          <a href="#" title="About GBIF">About GBIF</a>
+          <div class="about">
+            <a href="#"></a>
+            <ul>
+              <li><a href="${cfg.drupal}/about">What is GBIF?</a></li>
+              <li><a class="placeholder_temp" href="#">Key information</a></li>
+              <li><a class="placeholder_temp" href="#">Governance</a></li>
+              <li><a class="placeholder_temp" href="#">Who we work with</a></li>
+              <li><a class="placeholder_temp" href="#">Contact us</a></li>
+            </ul>
+          </div>
         </li>
 
-        <li>
-        <a href="#" title="About GBIF">About GBIF</a>
 
-        <div class="about">
+        <li>
+          <a href="#" title="Community">Community</a>
+          <div class="community">
+            <a href="#"></a>
+            <ul>
+                <li><a class="placeholder_temp" href="#">Participation</a></li>
+                <li><a class="placeholder_temp" href="#">Training/Capacity</a></li>
+                <li><a class="placeholder_temp" href="#">Networking</a></li>
+                <li><a class="placeholder_temp" href="#">Resources</a></li>
+            </ul>
+          </div>
+        </li>
+
+
+        <li>
+        <a href="#" title="About GBIF">Newsroom</a>
+
+        <div class="news">
           <a href="#"></a>
           <ul>
-            <li><a href="${cfg.drupal}/newsroom/summary">News</a></li>
-            <li class="divider"></li>
-            <li><a class="placeholder_temp" href="#">Key partners</a></li>
-            <li><a class="placeholder_temp" href="#">Mission</a></li>
-            <li><a class="placeholder_temp" href="#">Governance details</a></li>
-            <li><a class="placeholder_temp" href="#">Work programs</a></li>
-            <li><a class="placeholder_temp" href="#">Key facts</a></li>
-            <li class="divider"></li>
-            <li><a href="<@s.url value='/developer'/>">Developer API</a></li>
+            <li><a href="${cfg.drupal}/newsroom/summary">GBIF news</a></li>
+            <li><a href="${cfg.drupal}/newsroom/uses">Featured data use</a></li>
+            <li><a href="${cfg.drupal}/newsroom/opportunities">Opportunities</a></li>
+            <li><a href="${cfg.drupal}/newsroom/events">Events</a></li>
+            <li><a class="placeholder_temp" href="#">GBIF in the news</a></li>
           </ul>
         </div>
 
@@ -208,34 +213,40 @@
   </div>
 
   <footer>
-  <div class="inner">
-    <ul>
-      <li><h3>EXPLORE THE DATA</h3></li>
-      <li><a href="<@s.url value='/occurrence'/>"><@s.text name="menu.occurrence"/></a></li>
-      <li><a href="<@s.url value='/dataset'/>"><@s.text name="menu.dataset"/></a></li>
-      <li><a href="<@s.url value='/species'/>"><@s.text name="menu.species"/></a></li>
-      <li><a href="#"><@s.text name="menu.country"/></a></li>
-      <li><a href="#"><@s.text name="menu.member"/></a></li>
-      <li><a href="#"><@s.text name="menu.theme"/></a></li>
-    </ul>
+    <div class="inner">
+        <ul>
+            <li><h3>JOIN THE COMMUNITY</h3></li>
+            <li><a class="placeholder_temp" href="#">Join GBIF Community Site</a></li>
+            <li><a class="placeholder_temp" href="#">Sign up to GBits newsletter</a></li>
+            <li><a class="placeholder_temp" href="#">GBIF Online Resource Centre</a></li>
+        </ul>
 
-    <ul>
-      <li><h3>VIEW THE STATISTICS</h3></li>
-      <li><a href="#">Global numbers</a></li>
-      <li><a href="#">Taxonomic coverage</a></li>
-      <li><a href="#">Providers</a></li>
-      <li><a href="#">Countries</a></li>
-    </ul>
+        <ul>
+            <li><h3>WHO’S PARTICIPATING</h3></li>
+            <li><a class="placeholder_temp" href="#">Countries</a></li>
+            <li><a class="placeholder_temp" href="#">Organizations</a></li>
+            <li><a class="placeholder_temp" href="#">Data publishers</a></li>
+        </ul>
 
-    <ul class="last">
-      <li><h3>JOIN THE COMMUNITY</h3></li>
-      <li><a href="${cfg.drupal}/user/register"><@s.text name="menu.register"/></a></li>
-      <li><a href="<@s.url value='/dataset/register/step1'/>"><@s.text name="menu.share"/></a></li>
-      <li><a href="${cfg.drupal}/terms"><@s.text name="menu.terms"/></a></li>
-      <li><a href="${cfg.drupal}/about"><@s.text name="menu.about"/></a></li>
-    </ul>
+        <ul>
+            <li><h3>KEY DOCUMENTS</h3></li>
+            <li><a class="placeholder_temp" href="#">Data use agreement</a></li>
+            <li><a class="placeholder_temp" href="#">Data sharing agreement</a></li>
+            <li><a class="placeholder_temp" href="#">Memorandum of Understanding</a></li>
+            <li><a class="placeholder_temp" href="#">Annual Report</a></li>
+            <li><a class="placeholder_temp" href="#">GBIF Strategic Plan</a></li>
+            <li><a class="placeholder_temp" href="#">GBIF Work Programme</a></li>
+        </ul>
 
-  </div>
+        <ul class="last">
+            <li><h3>FOR DEVELOPERS</h3></li>
+            <li><a href="<@s.url value='/developer'/>">Portal API</a></li>
+            <li><a href="http://gbif.blogspot.com">Developer blog</a></li>
+            <li><a href="http://tools.gbif.org">Tools</a></li>
+            <li><a class="placeholder_temp" href="#">Standards</a></li>
+        </ul>
+
+      </div>
   </footer>
 
   <div class="contact_footer">
@@ -243,12 +254,11 @@
       <!--<p>2012 &copy; GBIF. Data publishers retain all rights to data.</p>-->
       <div class="copyright">
         <div class="logo"></div>
-        <p>2011 © GBIF</p>
+        <p>2011 &copy; GBIF</p>
       </div>
 
       <div class="address">
         <h3>GBIF Secretariat</h3>
-
         <address>
           Universitetsparken 15<br />
           DK-2100 Copenhagen Ø<br />
@@ -266,9 +276,17 @@
         <p>
         You can also check the <a href="#">GBIF Directory</a>
         </p>
-
       </div>
 
+      <div class="social">
+        <ul>
+            <li><h3>SOCIAL MEDIA</h3></li>
+            <li class="s_icons twitter"><a href="https://twitter.com/GBIF"><strong>Follow</strong> GBIF on Twitter</a></li>
+            <li class="s_icons facebook"><a href="https://www.facebook.com/gbifnews"><strong>Like</strong> GBIF on Facebook</a></li>
+            <li class="s_icons linkedin"><a href="http://www.linkedin.com/groups/GBIF-55171"><strong>Join</strong> GBIF on Linkedin</a></li>
+            <li class="s_icons vimeo"><a href="http://vimeo.com/gbif"><strong>View</strong> GBIF on Vimeo</a></li>
+        </ul>
+      </div>
 
     </div>
   </div>
