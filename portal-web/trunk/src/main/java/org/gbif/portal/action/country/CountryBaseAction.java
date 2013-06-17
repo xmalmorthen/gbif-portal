@@ -232,7 +232,6 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
   }
 
   public String getFeed() {
-    //TODO: use real endpoints when available in API
     if (node != null && !node.getEndpoints().isEmpty()) {
       for (Endpoint e : node.getEndpoints()) {
         if (EndpointType.FEED == e.getType()) {

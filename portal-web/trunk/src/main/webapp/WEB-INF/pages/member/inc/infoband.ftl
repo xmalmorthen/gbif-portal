@@ -11,11 +11,7 @@
 
   <h1>${common.limit(member.title!"???", 50)}</h1>
 
-  <#if keywords?has_content>
-    <h3>
-  <#else>
-    <h3>
-  </#if>
+  <h3>
     ${memberType?capitalize}<#if member.homepage?has_content>. More info at:
     <a href="${member.homepage}" target="_blank" title="Homepage">${member.homepage}</a>
   </#if>

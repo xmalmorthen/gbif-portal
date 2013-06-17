@@ -224,5 +224,6 @@
 </#macro>
 
 <#macro cityAndCountry member>
-${member.city!}<#if member.city?has_content && member.country?has_content>, </#if>${member.country!}
+  <#if member.city?has_content>${member.city}<#if member.country?has_content>, </#if></#if>
+  <#if member.country?has_content>${member.country.title}</#if>
 </#macro>
