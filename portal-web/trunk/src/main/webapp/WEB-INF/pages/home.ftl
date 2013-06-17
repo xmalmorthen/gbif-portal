@@ -15,6 +15,12 @@
           });
         });
     </script>
+      <style type="text/css">
+          header #beta {
+            left: 200px;
+            top: 10px;
+          }
+      </style>
   </head>
 
   <content tag="logo_header">
