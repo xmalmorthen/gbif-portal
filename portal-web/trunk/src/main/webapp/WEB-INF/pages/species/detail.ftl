@@ -590,7 +590,7 @@
       <h3>External Sources</h3>
       <ul>
         <#if usage.canonicalName??>
-          <li><a target="_blank" href="http://www.biodiversitylibrary.org/name/${usage.canonicalName?replace(' ','_')}">Biodiveristy Heritage Library</a></li>
+          <li><a target="_blank" href="http://www.biodiversitylibrary.org/name/${usage.canonicalName?replace(' ','_')}">Biodiversity Heritage Library</a></li>
         </#if>
       </ul>
     </div>
