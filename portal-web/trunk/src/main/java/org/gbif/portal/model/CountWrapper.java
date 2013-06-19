@@ -5,14 +5,31 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.google.common.primitives.Longs;
 
 /**
  * Simple wrapper that adds a record count and a geo reference count to any object instance.
  */
 public class CountWrapper<T> implements Comparable<CountWrapper<?>> {
+
   private final T obj;
   private long count;
   private long geoCount;
+
+  public CountWrapper(T obj) {
+    this.obj = obj;
+  }
+
+  public CountWrapper(T obj, long count) {
+    this.obj = obj;
+    this.count = count;
+  }
+
+  public CountWrapper(T obj, long count, long geoCount) {
+    this.obj = obj;
+    this.count = count;
+    this.geoCount = geoCount;
+  }
 
   /**
    * Creates a new list of given CountWrapper instances sorted by their counts.
@@ -35,19 +52,9 @@ public class CountWrapper<T> implements Comparable<CountWrapper<?>> {
     return total;
   }
 
-  public CountWrapper(T obj) {
-    this.obj = obj;
-  }
-
-  public CountWrapper(T obj, long count) {
-    this.obj = obj;
-    this.count = count;
-  }
-
-  public CountWrapper(T obj, long count, long geoCount) {
-    this.obj = obj;
-    this.count = count;
-    this.geoCount = geoCount;
+  @Override
+  public int compareTo(CountWrapper<?> o) {
+    return Longs.compare(this.getCount(), o.getCount());
   }
 
   public long getCount() {
@@ -58,14 +65,6 @@ public class CountWrapper<T> implements Comparable<CountWrapper<?>> {
     return geoCount;
   }
 
-  public void setGeoCount(long geoCount) {
-    this.geoCount = geoCount;
-  }
-
-  public void setCount(long count) {
-    this.count = count;
-  }
-
   public T getObj() {
     return obj;
   }
@@ -74,9 +73,12 @@ public class CountWrapper<T> implements Comparable<CountWrapper<?>> {
     count += value;
   }
 
-  @Override
-  public int compareTo(CountWrapper<?> o) {
-    return Long.compare(this.getCount(), o.getCount());
+  public void setCount(long count) {
+    this.count = count;
+  }
+
+  public void setGeoCount(long geoCount) {
+    this.geoCount = geoCount;
   }
 
 }
