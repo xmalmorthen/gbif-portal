@@ -1440,7 +1440,6 @@ var disclaimer = (function() {
 
   var template = ['<div id="disclaimer_popover" class="infowindow">',
         '<div class="lheader"></div>',
-        '<span class="close"></span>',
         '<div class="content">',
           '<h2>DISCLAIMER</h2>',
           '<p>You are viewing the new GBIF portal in a testing environment prior to full public release later in 2013.</p>',
@@ -1451,9 +1450,11 @@ var disclaimer = (function() {
             '<li>By using this service you agree to abide by the terms of usage set out <a href="http://data.gbif.org/tutorial/datauseagreement">here</a></li>',
             '<li>Any user accounts created may be deleted; users might need to recreate their accounts in the future</li>',
           '</ol>',
-          '<p>Please use the feedback buttons to report bugs or suggest feature enhancements.</p>',
+          '<br/><p>Please use the feedback buttons to report bugs or suggest feature enhancements.</p>',
+          '<a class="candy_blue_button close"><span>OK, I understand</span></a>',
         '</div>',
-        '<div class="lfooter"></div>',
+        '<div class="lfooter white">',
+        '</div>',
       '</div>'].join(' ');
 
   function toggle(e, event) {
