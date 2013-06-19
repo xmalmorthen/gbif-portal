@@ -1,11 +1,9 @@
 package org.gbif.portal.model;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
-import com.google.common.collect.Lists;
-import com.google.common.primitives.Longs;
+import com.google.common.base.Objects;
+import com.google.common.collect.ComparisonChain;
 
 /**
  * Simple wrapper that adds a record count and a geo reference count to any object instance.
@@ -32,16 +30,8 @@ public class CountWrapper<T> implements Comparable<CountWrapper<?>> {
   }
 
   /**
-   * Creates a new list of given CountWrapper instances sorted by their counts.
-   */
-  public static <T> List<CountWrapper<T>> newSortedList(Collection<CountWrapper<T>> values) {
-    List<CountWrapper<T>> byCount = Lists.newArrayList(values);
-    Collections.sort(byCount);
-    return byCount;
-  }
-
-  /**
    * @param values of counts
+   *
    * @return the sum of all count values
    */
   public static <T> long sum(Collection<CountWrapper<T>> values) {
@@ -52,17 +42,20 @@ public class CountWrapper<T> implements Comparable<CountWrapper<?>> {
     return total;
   }
 
-  @Override
-  public int compareTo(CountWrapper<?> o) {
-    return Longs.compare(this.getCount(), o.getCount());
-  }
-
   public long getCount() {
     return count;
   }
 
+  public void setCount(long count) {
+    this.count = count;
+  }
+
   public long getGeoCount() {
     return geoCount;
+  }
+
+  public void setGeoCount(long geoCount) {
+    this.geoCount = geoCount;
   }
 
   public T getObj() {
@@ -73,12 +66,28 @@ public class CountWrapper<T> implements Comparable<CountWrapper<?>> {
     count += value;
   }
 
-  public void setCount(long count) {
-    this.count = count;
+  @Override
+  public int compareTo(CountWrapper<?> that) {
+    return ComparisonChain.start()
+      .compare(this.count, that.count)
+      .compare(this.geoCount, that.geoCount)
+      .compare(this.obj.hashCode(), that.obj.hashCode())
+      .result();
   }
 
-  public void setGeoCount(long geoCount) {
-    this.geoCount = geoCount;
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof CountWrapper) {
+      CountWrapper that = (CountWrapper) o;
+      return Objects.equal(this.obj, that.obj)
+             && Objects.equal(this.count, that.count)
+             && Objects.equal(this.geoCount, that.geoCount);
+    }
+    return false;
   }
 
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(obj, count, geoCount);
+  }
 }

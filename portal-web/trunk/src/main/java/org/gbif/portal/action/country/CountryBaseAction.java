@@ -3,7 +3,6 @@ package org.gbif.portal.action.country;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.search.SearchResponse;
-import org.gbif.api.model.metrics.cube.Dimension;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry2.Dataset;
@@ -14,6 +13,7 @@ import org.gbif.api.model.registry2.search.DatasetSearchRequest;
 import org.gbif.api.model.registry2.search.DatasetSearchResult;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.metrics.CubeService;
+import org.gbif.api.service.occurrence.OccurrenceCountryIndexService;
 import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
 import org.gbif.api.service.registry2.DatasetSearchService;
 import org.gbif.api.service.registry2.DatasetService;
@@ -26,7 +26,6 @@ import org.gbif.portal.exception.NotFoundException;
 import org.gbif.portal.model.CountWrapper;
 import org.gbif.portal.model.CountryMetrics;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
@@ -53,7 +52,9 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
   @Inject
   protected CubeService cubeService;
   @Inject
-  protected OccurrenceDatasetIndexService indexService;
+  protected OccurrenceDatasetIndexService datasetIndexService;
+  @Inject
+  protected OccurrenceCountryIndexService countryIndexService;
   @Inject
   protected DatasetService datasetService;
   @Inject
@@ -87,7 +88,7 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
 
     final long occRecords = cubeService.get(new ReadBuilder().at(OccurrenceCube.COUNTRY, country));
 
-    SortedMap<UUID, Integer> datasetIndex = indexService.occurrenceDatasetsForCountry(country);
+    SortedMap<UUID, Integer> datasetIndex = datasetIndexService.occurrenceDatasetsForCountry(country);
     final long occDatasets = datasetIndex.size();
     loadDatasets(datasetIndex, numDatasetsToLoad);
 
@@ -145,44 +146,21 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
   }
 
   private int getCountryMetrics(boolean isAboutCountry, int numCountriesToLoad) {
-    final Dimension<Country> staticFilter;
-    final Dimension<Country> dynamicFilter;
-    if (isAboutCountry) {
-      staticFilter = OccurrenceCube.COUNTRY;
-      dynamicFilter = OccurrenceCube.HOST_COUNTRY;
-    } else {
-      staticFilter = OccurrenceCube.HOST_COUNTRY;
-      dynamicFilter = OccurrenceCube.COUNTRY;
-    }
-
-    int count = 0;
     try {
-      // load metrics for all countries so we can sort them :(
-      for (Country c : Country.values()) {
-        if (c.isOfficial()) {
-          long cnt = cubeService.get(new ReadBuilder().at(staticFilter, country).at(dynamicFilter, c));
-          if (cnt > 0) {
-            count++;
-            if (numCountriesToLoad > 0) {
-              countries.add(new CountWrapper<Country>(c, cnt));
-            }
-          }
-        }
+      Map<Country, Long> cMap;
+      if (isAboutCountry) {
+        cMap = countryIndexService.publishingCountriesForCountry(country);
+      } else {
+        cMap = countryIndexService.countriesForPublishingCountry(country);
       }
-      Collections.sort(countries);
 
-      // load geo ref counts for first x records
-      for (int idx = 0; idx < numCountriesToLoad && idx < countries.size(); idx++) {
-        CountWrapper<Country> cw = countries.get(idx);
-        cw.setGeoCount(cubeService.get(new ReadBuilder()
-          .at(staticFilter, country).at(dynamicFilter, cw.getObj()).at(OccurrenceCube.IS_GEOREFERENCED, true)
-        ));
-      }
+      loadCountries(cMap, isAboutCountry, numCountriesToLoad);
+      return cMap.size();
+
     } catch (RuntimeException e) {
       LOG.error("Cannot get country metrics", e);
     }
-
-    return count;
+    return 0;
   }
 
   private void loadDatasets(SortedMap<UUID, Integer> dsMetrics, int numberToLoad) {
@@ -196,6 +174,31 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
         .at(OccurrenceCube.DATASET_KEY, d.getKey())
         .at(OccurrenceCube.IS_GEOREFERENCED, true));
       datasets.add(new CountWrapper(d, metric.getValue(), geoCnt));
+    }
+  }
+
+  private void loadCountries(Map<Country, Long> cMetrics, boolean isAboutCountry, int numberToLoad) {
+    ReadBuilder rb = new ReadBuilder().at(OccurrenceCube.IS_GEOREFERENCED, true);
+    if (isAboutCountry) {
+      rb.at(OccurrenceCube.COUNTRY, country);
+    } else {
+      rb.at(OccurrenceCube.HOST_COUNTRY, country);
+    }
+
+    for (Map.Entry<Country, Long> metric : cMetrics.entrySet()) {
+      if (numberToLoad <= 0) {
+        break;
+      }
+      numberToLoad--;
+
+      if (isAboutCountry) {
+        rb.at(OccurrenceCube.HOST_COUNTRY, metric.getKey());
+      } else {
+        rb.at(OccurrenceCube.COUNTRY, metric.getKey());
+      }
+
+      long geoCnt = cubeService.get(rb);
+      countries.add(new CountWrapper(metric.getKey(), metric.getValue(), geoCnt));
     }
   }
 

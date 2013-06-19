@@ -54,7 +54,8 @@ public class PortalModuleIT {
   @Test
   public void testRegistryWsClientModuleInstalled() {
     DatasetService ds = injector.getInstance(org.gbif.api.service.registry2.DatasetService.class);
-    Dataset dataset = ds.get(UUID.randomUUID());
+    UUID key = UUID.randomUUID();
+    Dataset dataset = ds.get(key);
     assertNull(dataset);
   }
 }

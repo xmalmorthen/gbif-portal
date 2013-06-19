@@ -38,7 +38,6 @@ public class PortalModule extends AbstractModule {
       install(new OccurrenceWsClientModule(properties));
 
       // bind the metrics service
-      System.out.println(properties);
       install(new MetricsWsClientModule(properties));
 
     } catch (IllegalArgumentException e) {
