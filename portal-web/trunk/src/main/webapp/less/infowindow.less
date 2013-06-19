@@ -1,96 +1,210 @@
 @import "helpers";
 
-.infowindow form {
-  clear: both;
-  overflow: hidden;
+
+#content div.infowindow {
+  display: none;
+  .absolute-landscape-center(404px);
+  top: 208px;
+
+  text-align: left;
+  color: @cGray1;
+
+  z-index: 500000;
+
+  h2 {
+    margin-bottom: 20px;
+    font-family: "DINOT-Medium", sans-serif;
+    font-size: 23px;
+    line-height: 28px;
+    color: @cGray1;
+    text-shadow: 0 1px white;
+    filter: progid:DXImageTransform.Microsoft.DropShadow(offx = 0, offy = 1, color = #FFFFFF);
+  }
+
+  h3 {
+    margin-bottom: 8px;
+    font-family: "DINOT-Medium", sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: @cGray1;
+    text-shadow: 0 1px white;
+    filter: progid:DXImageTransform.Microsoft.DropShadow(offx = 0, offy = 1, color = #FFFFFF);
+  }
+
+  div.lheader {
+    position: absolute;
+    top: -20px;
+    width: 404px;
+    height: 20px;
+    padding: 0;
+    background: url("../img/boxes/box_min_top.png") no-repeat left top;
+  }
+
+  div.lfooter {
+    position: absolute;
+    bottom: -54px;
+    width: 404px;
+    height: 54px;
+    padding: 0;
+    background: url("../img/boxes/box_min_bottom.png") no-repeat left bottom;
+  }
+
+  span.close {
+    position: absolute;
+    width: 8px;
+    height: 6px;
+    top: -12px;
+    right: 8px;
+    padding: 5px 5px 10px;
+    background: url("../img/icons/close.png") no-repeat center center;
+    cursor: pointer;
+  }
+
+  .content {
+    clear: both;
+    overflow: hidden;
+    padding: 0 34px;
+    background: url("../img/boxes/box_min_bkg.png") repeat-y;
+    p {
+      margin-bottom: 14px;
+      font-size: 13px;
+      color: @cGray2;
+      a {
+        text-decoration: underline;
+      }
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    ol {
+      list-style-type: lower-roman;
+      list-style-image: none;
+
+      li {
+        margin-bottom: 10px;
+      }
+    }
+    button {
+      float: right;
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+
+    .light_box {
+      clear: both;
+      overflow: hidden;
+      margin-bottom: 20px;
+      padding: 27px 0 13px 25px;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: -30px;
+      z-index: 100;
+      width: 336px;
+      text-align: center;
+      color: @cGray2;
+      font-size: 13px;
+      a {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .light_box {
+    background: #e5f5fa;
+    position: relative;
+    padding: 11px 0 4px 7px;
+  }
+
 }
 
-.infowindow form h2, #content article form h2 {
-  float: left;
-  width: 100%;
-  padding-bottom: 21px;
-  margin-bottom: 30px;
-  border-bottom: 1px solid #e0e0e0;
+
+.infowindow {
+  // all entries here existed also for #content article form, but been removed as they seem not needed
+  // revert if they are
+  form {
+    clear: both;
+    overflow: hidden;
+
+    h2 {
+      float: left;
+      width: 100%;
+      padding-bottom: 21px;
+      margin-bottom: 30px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    button {
+      float: right;
+      margin-right: 4px;
+    }
+
+    div.fields {
+      clear: both;
+      overflow: hidden;
+      margin-bottom: 23px;
+
+      div.field {
+        width: auto;
+        float: left;
+        margin: 0 17px 0 0;
+        padding: 0;
+      }
+    }
+    div.field {
+      position: relative;
+      float: left;
+      margin-bottom: 23px;
+      &.last {
+        margin-right: 0;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+      h3 span {
+        float: right;
+        margin-right: 1px;
+        font-weight: normal;
+        font-style: italic;
+        font-size: 13px;
+        color: #cccccc;
+        text-transform: none;
+        text-shadow: none;
+      }
+      textarea {
+        width: 560px;
+        height: 122px;
+        margin: 0;
+        padding: 10px;
+        border: none;
+        overflow: auto;
+        font-size: 13px;
+        background: url("../img/textarea_big_bkg.png") no-repeat;
+        font-family: "Arial", "Helvetica", Sans-Serif;
+        resize: none;
+        &:focus {
+          outline: none;
+        }
+      }
+      span.input_text {
+        float: left;
+        height: 31px;
+        padding: 0 0 0 5px;
+        background: url("../img/input_bkg.png") no-repeat left -99px;
+        &.error {
+          background-position: left -130px;
+        }
+      }
+      &.error span.input_text {
+        background-position: left -130px;
+      }
+    }
+  }
 }
 
-.infowindow form button, #content article form button {
-  float: right;
-  margin-right: 4px;
-}
 
-.infowindow form div.fields, #content article form div.fields {
-  clear: both;
-  overflow: hidden;
-  margin-bottom: 23px;
-}
 
-.infowindow form div.fields div.field, #content article form div.fields div.field {
-  width: auto;
-  float: left;
-  margin: 0 17px 0 0;
-  padding: 0;
-}
-
-.infowindow form div.fields div.field.last, #content article form div.fields div.field.last {
-  margin-right: 0;
-}
-
-.infowindow form div.fields div.field:last-child, #content article form div.fields div.field:last-child {
-  margin-right: 0;
-}
-
-.infowindow form div.field, #content article form div.field {
-  position: relative;
-  float: left;
-  margin-bottom: 23px;
-}
-
-.infowindow form div.field.last, #content article form div.field.last {
-  margin: 0;
-}
-
-.infowindow form div.field:last-child, #content article form div.field:last-child {
-  margin: 0;
-}
-
-.infowindow form div.field h3 span, #content article form div.field h3 span {
-  float: right;
-  margin-right: 1px;
-  font-weight: normal;
-  font-style: italic;
-  font-size: 13px;
-  color: #cccccc;
-  text-transform: none;
-  text-shadow: none;
-}
-
-.infowindow form div.field textarea, #content article form div.field textarea {
-  width: 560px;
-  height: 122px;
-  margin: 0;
-  padding: 10px;
-  border: none;
-  overflow: auto;
-  font-size: 13px;
-  background: url("../img/textarea_big_bkg.png") no-repeat;
-  font-family: "Arial", "Helvetica", Sans-Serif;
-  resize: none;
-}
-
-.infowindow form div.field textarea:focus, #content article form div.field textarea:focus {
-  outline: none;
-}
-
-.infowindow form div.field span.input_text, #content article form div.field span.input_text {
-  float: left;
-  height: 31px;
-  padding: 0 0 0 5px;
-  background: url("../img/input_bkg.png") no-repeat left -99px;
-}
-
-.infowindow form div.field.error span.input_text, .infowindow form div.field span.input_text.error, #content article form div.field.error span.input_text, #content article form div.field span.input_text.error {
-  background-position: left -130px;
-}
 
 .infowindow form div.field.error span.input_text input[type="text"], .infowindow form div.field.error span.input_text input[type="password"], .infowindow form div.field span.input_text.error input[type="text"], .infowindow form div.field span.input_text.error input[type="password"], #content article form div.field.error span.input_text input[type="text"], #content article form div.field.error span.input_text input[type="password"], #content article form div.field span.input_text.error input[type="text"], #content article form div.field span.input_text.error input[type="password"] {
   background-position: right -161px;
@@ -131,61 +245,6 @@
 
 
 
-
-#content div.infowindow {
-  display: none;
-  .absolute-landscape-center(404px);
-  top: 208px;
-
-  text-align: left;
-  color: @cGray1;
-
-  z-index: 500000;
-}
-
-#content div.infowindow h2 {
-  margin-bottom: 20px;
-  font-family: "DINOT-Medium", sans-serif;
-  font-size: 23px;
-  line-height: 28px;
-  color: @cGray1;
-  text-shadow: 0 1px white;
-  filter: progid:DXImageTransform.Microsoft.DropShadow(offx = 0, offy = 1, color = #FFFFFF);
-}
-
-#content div.infowindow h3 {
-  margin-bottom: 8px;
-  font-family: "DINOT-Medium", sans-serif;
-  font-size: 13px;
-  text-transform: uppercase;
-  color: @cGray1;
-  text-shadow: 0 1px white;
-  filter: progid:DXImageTransform.Microsoft.DropShadow(offx = 0, offy = 1, color = #FFFFFF);
-}
-
-#content div.infowindow div.lheader {
-  position: absolute;
-  top: -20px;
-  width: 404px;
-  height: 20px;
-  padding: 0;
-  background: url("../img/boxes/box_min_top.png") no-repeat left top;
-}
-
-#content div.infowindow div.lfooter {
-  position: absolute;
-  bottom: -54px;
-  width: 404px;
-  height: 54px;
-  padding: 0;
-  background: url("../img/boxes/box_min_bottom.png") no-repeat left bottom;
-}
-
-#content div.infowindow .light_box {
-  background: #e5f5fa;
-  position: relative;
-  padding: 11px 0 4px 7px;
-}
 
 #content div.infowindow .light_box.contact .content ul {
   float: left;
@@ -338,92 +397,6 @@
   margin: 0;
 }
 
-#content div.infowindow.download_selector .content p {
-  line-height: 18px;
-  font-size: 13px;
-}
-
-#content div.infowindow.download_selector .content .light_box {
-  padding-top: 22px;
-  padding-bottom: 10px;
-}
-
-#content div.infowindow.download_selector .content .light_box h3 {
-  margin: 0 0 13px 0;
-}
-
-#content div.infowindow.download_selector div.lfooter {
-  position: absolute;
-  bottom: -32px;
-  width: 404px;
-  height: 32px;
-  padding: 0;
-  background: url("../img/boxes/box_min_bottom.png") no-repeat left top;
-}
-
-#content div.infowindow.direct_download .content {
-  font-size: 13px;
-  margin: 0;
-  padding: 0 34px;
-}
-
-#content div.infowindow.direct_download .content p {
-  line-height: 18px;
-  font-size: 13px;
-}
-
-#content div.infowindow.direct_download .content .light_box {
-  clear: both;
-  overflow: hidden;
-  margin-bottom: 20px;
-  padding: 7px 0 13px 15px;
-}
-
-#content div.infowindow.direct_download .content .light_box p {
-  line-height: 18px;
-  font-size: 13px;
-}
-
-#content div.infowindow.direct_download div.lfooter {
-  position: absolute;
-  bottom: -32px;
-  width: 404px;
-  height: 32px;
-  padding: 0;
-  background: url("../img/boxes/box_min_bottom.png") no-repeat left top;
-}
-
-#content div.infowindow.download_has_started .content {
-  font-size: 13px;
-  margin: 0;
-  padding: 0 34px;
-}
-
-#content div.infowindow.download_has_started .content p {
-  line-height: 18px;
-  font-size: 13px;
-}
-
-#content div.infowindow.download_has_started div.lfooter {
-  position: absolute;
-  bottom: -32px;
-  width: 404px;
-  height: 32px;
-  padding: 0;
-  background: url("../img/boxes/box_min_bottom.png") no-repeat left top;
-}
-
-#content div.infowindow span.close {
-  position: absolute;
-  width: 8px;
-  height: 6px;
-  top: -12px;
-  right: 8px;
-  padding: 5px 5px 10px;
-  background: url("../img/icons/close.png") no-repeat center center;
-  cursor: pointer;
-}
-
 #content div.infowindow a.back_to_login, #content div.infowindow a.recover_password {
   float: left;
   margin-top: 20px;
@@ -443,13 +416,6 @@
 #content div.infowindow .filetype strong {
   font-weight: bold;
   color: @cGray2;
-}
-
-#content div.infowindow .content {
-  clear: both;
-  overflow: hidden;
-  padding: 0 34px;
-  background: url("../img/boxes/box_min_bkg.png") repeat-y;
 }
 
 #content div.infowindow.dialogPopover {
@@ -483,20 +449,6 @@
   }
 }
 
-#content div.infowindow .content p {
-  margin-bottom: 14px;
-  font-size: 13px;
-  color: @cGray2;
-}
-
-#content div.infowindow .content p a {
-  text-decoration: underline;
-}
-
-#content div.infowindow .content h2 {
-  margin-bottom: 20px;
-}
-
 #content div.infowindow .content .candy_white_button, #content div.infowindow .content .candy_blue_button {
   display: block;
   float: right;
@@ -505,29 +457,4 @@
   cursor: pointer;
 }
 
-#content div.infowindow .content button {
-  float: right;
-  margin-right: 0;
-  margin-bottom: 20px;
-}
 
-#content div.infowindow .content .light_box {
-  clear: both;
-  overflow: hidden;
-  margin-bottom: 20px;
-  padding: 27px 0 13px 25px;
-}
-
-#content div.infowindow .content .footer {
-  position: absolute;
-  bottom: -30px;
-  z-index: 100;
-  width: 336px;
-  text-align: center;
-  color: @cGray2;
-  font-size: 13px;
-}
-
-#content div.infowindow .content .footer a {
-  text-decoration: underline;
-}

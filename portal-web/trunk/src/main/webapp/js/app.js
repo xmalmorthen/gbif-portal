@@ -100,10 +100,7 @@ $(function() {
     $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).parent().find(".message").html(),"remarks":$(obj).parent().find(".remarks").html()});
   });
 
-  $("a.download")
-  .bindDownloadPopover({explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
-  $("a.download_2")
-  .bindDownloadPopover({template: "direct_download", explanation:"Occurrences of \"Puma concolor\", collected between Jan 1sr, 2000 and Jan 1st, 2010, from dataset \"Felines of the world\"."});
+  $("#disclaimerToggle").bindDisclaimerPopover({});
 
   // setup taxonomic browser
   $("#taxonomicBrowser").taxonomicExplorer({transitionSpeed:300});

@@ -1432,77 +1432,34 @@ var dialogPopover = (function() {
 * ================
 */
 
-var downloadPopover = (function() {
+var disclaimer = (function() {
   var
   el,
   displayed       = false,
-  explanation     = "",
-  transitionSpeed = 200,
-  selected_template;
+  transitionSpeed = 200;
 
-  var templates = {
-
-    download_selector: ['<div class="infowindow download_popover download_selector">',
-      '<div class="lheader"></div>',
-      '<span class="close"></span>',
-      '<div class="content">',
-      '<h2>DOWNLOAD DATA</h2>',
-      '<p><%= explanation %></p>',
-      '<div class="light_box">',
-      '<h3>Select a format</h3>',
-      '<ul>',
-      '<li><input type="radio" name="format" value="csv" id="format_csv" /> <label for="format_csv">CSV</label> <span class="size">(≈150Kb)</span></li>',
-      '<li><input type="radio" name="format" value="xls" id="format_xls" /> <label for="format_xls">XLS</label></li>',
-      '<li><input type="radio" name="format" value="xml" id="format_xml" /> <label for="format_xml">XML</label></li>',
-      '</ul>',
-      '<div class="tl"></div><div class="tr"></div><div class="bl"></div><div class="br"></div>',
-      '</div>',
-      '<a class="candy_blue_button download" target="_blank" href="http://localhost:3000/tmp/download.zip"><span>Download</span></a>',
-      '</div>',
-      '<div class="lfooter"></div>',
-      '</div>'].join(' '),
-
-      direct_download: ['<div class="infowindow download_popover direct_download">',
+  var template = ['<div id="disclaimer_popover" class="infowindow">',
         '<div class="lheader"></div>',
         '<span class="close"></span>',
         '<div class="content">',
-        '<h2>DOWNLOAD DATA</h2>',
-        '<div class="light_box package">',
-        '<div class="content">',
-        '<p><%= explanation %></p>',
-        '</div>',
-        '</div>',
-        '<span class="filetype"><strong>CSV file</strong> <span class="size">(≈150Kb)</span></span> <a class="candy_blue_button download" target="_blank" href="http://localhost:3000/tmp/download.zip"><span>Download</span></a>',
+          '<h2>DISCLAIMER</h2>',
+          '<p>You are viewing the new GBIF portal in a testing environment prior to full public release later in 2013.</p>',
+          '<p><strong>Please note that:</strong></p>',
+          '<ol>',
+            '<li>While data and news are intended to be valid and up to date, many areas are still under development and URLs from this site should not be cited publicly or shared through social media.</li>',
+            '<li>This service may not be online permanently, and will periodically be updated</li>',
+            '<li>By using this service you agree to abide by the terms of usage set out <a href="http://data.gbif.org/tutorial/datauseagreement">here</a></li>',
+            '<li>Any user accounts created may be deleted; users might need to recreate their accounts in the future</li>',
+          '</ol>',
+          '<p>Please use the feedback buttons to report bugs or suggest feature enhancements.</p>',
         '</div>',
         '<div class="lfooter"></div>',
-        '</div>'].join(' '),
+      '</div>'].join(' ');
 
-        download_started: ['<div class="infowindow download_has_started">',
-          '<div class="lheader"></div>',
-          '<span class="close"></span>',
-          '<div class="content">',
-          '<h2>DOWNLOAD STARTED</h2>',
-          '<p>Remember that the downloaded data has to be correctly cited if it is used in publications. You will receive a citation text vbundled in the file with your download.</p>',
-          '<p>If you have any doubt about the legal terms, please check our <a href="/static/terms_and_conditions.html" class="about" title="GBIF Data Terms and Conditions">GBIF Data Terms and Conditions</a>.</p>',
-          '<a href="#" class="candy_white_button close"><span>Close</span></a>',
-          '</div>',
-          '<div class="lfooter"></div>',
-          '</div>'].join(' ')
-  };
-
-  function toggle(e, event, opt) {
+  function toggle(e, event) {
     event.stopPropagation();
     event.preventDefault();
     el = e;
-
-    selected_template = templates.download_selector;
-
-    if (opt) {
-      explanation = opt.explanation;
-      if (opt.template && opt.template == "direct_download") {
-        selected_template = templates.direct_download;
-      }
-    }
 
     displayed ? hide() : show();
   }
@@ -1512,13 +1469,6 @@ var downloadPopover = (function() {
   }
 
   function setupBindings() {
-    $popover.find(".about").click(function(event) {
-      event.preventDefault();
-      displayed && hide(function() {
-        window.location.href = $(this).attr("href");
-      });
-    });
-
     $popover.find(".close").click(function(event) {
       event.preventDefault();
       displayed && hide();
@@ -1529,50 +1479,9 @@ var downloadPopover = (function() {
     });
   }
 
-  function showDownloadHasStarted(url) {
-
-    $popover.fadeOut(transitionSpeed, function() {
-
-      // let's remove the old popover and unbind the old buttons
-      $popover.find('a.download, a.close').unbind("click");
-      $popover.remove();
-
-      // we can now open the new popover: "download_has_started"
-      rendered_template = _.template(templates.download_started);
-      $("#content").prepend(rendered_template);
-      $popover = $(".download_has_started");
-
-      $popover.find("p a").click(function(event) {
-        window.location.href = $(this).attr("href");
-      });
-
-      // bind everyhting so it keeps working
-      setupBindings();
-
-      $popover.css("top", getTopPosition() + "px");
-      $popover.fadeIn(transitionSpeed, function() {
-        window.location.href = url;
-      });
-
-    });
-  }
-
   function show() {
-    var rendered_template = _.template(selected_template, {explanation:explanation});
-    $("#content").prepend(rendered_template);
-    $popover = $(".download_popover");
-
-    $popover.find("input[type='radio']").uniform();
-
-    $popover.find(".download").click(function(event) {
-      event.stopPropagation();
-      event.preventDefault();
-      var url = $(this).attr("href");
-
-      var checked = $popover.find("ul li input:checked");
-
-      showDownloadHasStarted(url);
-    });
+    $("#content").prepend(template);
+    $popover = $("#disclaimer_popover");
 
     setupBindings();
     $popover.css("top", getTopPosition() + "px");
@@ -1594,6 +1503,7 @@ var downloadPopover = (function() {
     $popover.fadeOut(transitionSpeed, function() {
       $popover.remove();
       displayed = false;
+      $.cookie('GBIFdisclaimer', true, { expires: 30 });
     });
 
     $("#lock_screen").fadeOut(transitionSpeed, function() {
@@ -1604,6 +1514,7 @@ var downloadPopover = (function() {
 
   return {
     toggle: toggle,
+    show: show,
     hide: hide
   };
 })();
@@ -1631,10 +1542,14 @@ $.fn.bindSlider = function(min, max, values) {
   $legend.val("BETWEEN " + $slider.slider("values", 0) + " AND " + $slider.slider("values", 1));
 };
 
-$.fn.bindDownloadPopover = function(opt) {
+$.fn.bindDisclaimerPopover = function(opt) {
   $(this).click(function(event) {
-    downloadPopover.toggle($(this), event, opt);
+    disclaimer.toggle($(this), event, opt);
   });
+  // if no cookie exists show disclaimer
+  if (!$.cookie('GBIFdisclaimer')) {
+    disclaimer.show();
+  }
 };
 
 $.fn.bindLinkPopover = function(opt) {

@@ -65,9 +65,9 @@
   <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
   <link rel="stylesheet" type="text/css" media="print" href="<@s.url value='/css/print.css'/>">
 
-
   <script src="<@s.url value='/js/vendor/modernizr-1.7.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
+  <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.cookie.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/menu.js'/>"></script>
   <!-- we have issues with firefox, not only IE: http://dev.gbif.org/issues/browse/POR-412 -->
   <script type="text/javascript" src="<@s.url value='/js/vendor/css_browser_selector.js'/>"></script>
@@ -104,11 +104,11 @@
       </div>
     </#if>
 
-    <a href="<@s.url value='/disclaimer'/>">
+    <a id="disclaimerToggle" href="<@s.url value='/disclaimer'/>">
       <img id="beta" src="http://ecat-dev.gbif.org/img/beta.gif">
     </a>
 
-      <nav>
+    <nav>
       <ul>
         <li>
           <a href="#" title="Data">Data</a>
