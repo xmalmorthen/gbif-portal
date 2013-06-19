@@ -14,8 +14,7 @@ public class DatasetSeleniumIT extends SeleniumTestBase {
    */
   @Test
   public void testSearchForAnyDataset() {
-    getUrl(getBaseUrl());
-    driver.findElement(By.linkText("Datasets")).click();
+    getUrl(getBaseUrl() + "/dataset");
     driver.findElement(By.cssSelector("button.search_button")).click();
     WebElement element = driver.findElement(By.xpath("//div[@class='result' and position() = 2]/h2/a"));
     String sourceName = element.getText();
