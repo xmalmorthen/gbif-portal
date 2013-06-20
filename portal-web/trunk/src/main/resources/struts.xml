@@ -97,6 +97,13 @@
       <result>/WEB-INF/pages/home.ftl</result>
     </action>
 
+    <action name="cfg" class="org.gbif.portal.action.DefaultHomeAction">
+      <result name="success">
+        <param name="location">/WEB-INF/pages/cfg.ftl</param>
+        <param name="contentType">application/javascript</param>
+      </result>
+    </action>
+
     <action name="dataset" class="org.gbif.portal.action.dataset.HomeAction">
       <result>/WEB-INF/pages/dataset/home.ftl</result>
     </action>

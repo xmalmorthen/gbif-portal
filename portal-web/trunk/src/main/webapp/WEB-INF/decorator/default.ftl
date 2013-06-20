@@ -16,29 +16,6 @@
 <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <script type="text/javascript">
-    <#-- dynamic js configuration, so we can use java configs in js -->
-    var cfg = new Object();
-    cfg.context="<@s.url value="/"/>";
-    cfg.currentUrl="${currentUrl!}";
-    cfg.serverName= "${cfg.serverName!}";
-    cfg.baseUrl = "${baseUrl!}";
-    cfg.wsClb="${cfg.wsClb!}";
-    cfg.wsClbSearch="${cfg.wsClbSearch!}";
-    cfg.wsClbSuggest="${cfg.wsClbSuggest!}";
-    cfg.wsReg="${cfg.wsReg!}";
-    cfg.wsRegSearch="${cfg.wsRegSearch!}";
-    cfg.wsRegSuggest="${cfg.wsRegSuggest!}";
-    cfg.wsOcc="${cfg.wsOcc!}";
-    cfg.wsMetrics="${cfg.wsMetrics!}";
-    cfg.wsOccSearch="${cfg.wsOccSearch!}";
-    cfg.tileServerBaseUrl="${cfg.tileServerBaseUrl!}";
-    cfg.wsOccCatalogNumberSearch = "${cfg.wsOccCatalogNumberSearch!}";
-    cfg.wsOccCollectorNameSearch = "${cfg.wsOccCollectorNameSearch!}";
-    cfg.wsOccCollectionCodeSearch = "${cfg.wsOccCollectionCodeSearch!}";
-    cfg.wsOccInstitutionCodeSearch = "${cfg.wsOccInstitutionCodeSearch!}";
-    cfg.wsImageCache = "${cfg.wsImageCache!}";
-  </script>
   <#-- Load bundle properties. The action class can filter out which properties to show according to their key's prefixes -->
   <#if resourceBundleProperties?has_content>
   <script id="resources" type="text/plain">
@@ -65,6 +42,7 @@
   <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
   <link rel="stylesheet" type="text/css" media="print" href="<@s.url value='/css/print.css'/>">
 
+  <script src="<@s.url value='/cfg'/>"></script>
   <script src="<@s.url value='/js/vendor/modernizr-1.7.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-1.7.1.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jquery.cookie.js'/>"></script>
