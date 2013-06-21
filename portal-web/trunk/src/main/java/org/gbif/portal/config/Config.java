@@ -29,6 +29,9 @@ public class Config {
   public static final String SERVERNAME = "servername";
   public static final String SUGGEST_PATH = "suggest";
 
+  private static final String PROP_CONF_ERROR_MSG =
+    "%s is no valid URL for property %s . Please configure application.properties appropriately!";
+
   private String drupal;
   private String drupalCookieName;
   private String serverName;
@@ -51,7 +54,6 @@ public class Config {
   private String wsImageCache;
 
 
-
   /**
    * To safeguard against configuration issues, this ensures that trailing slashes exist where required.
    * A future enhancement would be for those not to be required by the depending components, but currently
@@ -64,16 +66,7 @@ public class Config {
       Properties properties = PropertiesUtil.loadProperties(APPLICATION_PROPERTIES);
       properties.putAll(PropertiesUtil.loadProperties(STRUTS_PROPERTIES));
 
-      // prefer system variable if existing, required (e.g.) by selenim
-      try {
-        URI uri = URI.create(System.getProperty(SERVERNAME));
-        cfg.serverName = uri.toString();
-        LOG.debug("Using servername system variable");
-      } catch (Exception e) {
-        cfg.serverName = getPropertyUrl(properties, SERVERNAME, false);
-      }
-      LOG.debug("Setting servername to {}", cfg.serverName);
-
+      cfg.serverName = getServerName(properties);
       cfg.drupal = getPropertyUrl(properties, "drupal.url", false);
       cfg.drupalCookieName = properties.getProperty("drupal.cookiename");
       cfg.wsClb = getPropertyUrl(properties, "checklistbank.ws.url", true);
@@ -94,12 +87,12 @@ public class Config {
       cfg.tileServerBaseUrl = getPropertyUrl(properties, "tile-server.url", false);
       cfg.wsImageCache = getPropertyUrl(properties, "image-cache.url", false);
       cfg.includeContext = Boolean.parseBoolean(properties.getProperty("struts.url.includeContext"));
-
     } catch (IOException e) {
       throw new ConfigurationException("application.properties cannot be read", e);
     }
     return cfg;
   }
+
 
   /**
    * Reads the property as a URL, and will optionally force a trailing slash as required by
@@ -109,13 +102,28 @@ public class Config {
     String value = null;
     try {
       value = properties.getProperty(propName);
-      value = (forceTrailingSlash && !value.endsWith("/")) ? value + "/" : value;
+      value = (forceTrailingSlash && !value.endsWith("/")) ? value + '/' : value;
       URI uri = URI.create(value);
       return uri.toString();
     } catch (Exception e) {
-      throw new ConfigurationException(value + " is no valid URL for property " + propName
-        + ". Please configure application.properties appropriately!", e);
+      throw new ConfigurationException(String.format(PROP_CONF_ERROR_MSG, value, propName), e);
     }
+  }
+
+  /**
+   * Gets the server name parameter from the properties.
+   */
+  private static String getServerName(Properties properties) {
+    // prefer system variable if existing, required (e.g.) by selenim
+    String serverName;
+    try {
+      serverName = URI.create(System.getProperty(SERVERNAME)).toString();
+      LOG.debug("Using servername system variable");
+    } catch (Exception e) {
+      serverName = getPropertyUrl(properties, SERVERNAME, false);
+    }
+    LOG.debug("Setting servername to {}", serverName);
+    return serverName;
   }
 
   public String getDrupal() {
@@ -128,10 +136,6 @@ public class Config {
 
   public String getServerName() {
     return serverName;
-  }
-
-  public boolean isIncludeContext() {
-    return includeContext;
   }
 
   public String getTileServerBaseUrl() {
@@ -148,6 +152,10 @@ public class Config {
 
   public String getWsClbSuggest() {
     return wsClbSuggest;
+  }
+
+  public String getWsImageCache() {
+    return wsImageCache;
   }
 
   public String getWsMetrics() {
@@ -200,11 +208,11 @@ public class Config {
     return wsRegSuggest;
   }
 
-  public void setTileServerBaseUrl(String tileServerBaseUrl) {
-    this.tileServerBaseUrl = tileServerBaseUrl;
+  public boolean isIncludeContext() {
+    return includeContext;
   }
 
-  public String getWsImageCache() {
-    return wsImageCache;
+  public void setTileServerBaseUrl(String tileServerBaseUrl) {
+    this.tileServerBaseUrl = tileServerBaseUrl;
   }
 }

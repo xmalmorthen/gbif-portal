@@ -1,5 +1,4 @@
 //
-// LESS documentation: http://lesscss.org/#docs
 //
 
 @import "reset";
@@ -2878,6 +2877,114 @@ article.static {
   }
 }
 
+article.occurrence_home {
+  
+  margin: 0 auto 56px !important;
+  
+  div.fullwidth {        
+    padding-top: 10px !important;
+    padding-left: 6px !important;
+    border-top: 1px solid #E0E0E0;
+    
+    ul.pies li {
+      margin: 0 20px 0 0 !important;      
+    }
+  }
+  
+  div.graph .start, div.graph .end {
+    display: block;    
+    bottom: 0px;
+    font-size: 9px;
+    color: #cccccc;
+    font-family: "DINOT-Medium", sans-serif;
+    margin-top: -20px;
+  }  
+  
+  div.graph .start {
+    float: left;  
+  }
+  
+  div.graph .end {
+    float: right;  
+  }
+  
+  div.chart_caption {
+    color: #999999;
+    display: block;
+    float: left;
+    font-size: 11px;
+    margin: 0 4px 0 0;
+    padding: 2px 10px 0 0;
+    text-align: left;    
+    position:absolute; 
+    bottom:0;  
+  }
+  div.header {  
+    
+    div.description{
+      width:90%; 
+      height:50px;
+      margin: 0 auto;
+      border: 1px solid #E0E0E0; 
+      padding: 8px;      
+    }   
+    
+    ul {
+      position: relative;
+      clear: left;
+      float: left;
+      left: 50%;
+      margin: 0 !important;
+      padding: 14px;
+      list-style: none;
+      text-align: center;
+
+      li:last-child {
+        margin-right: 0;
+        padding-right: 0;
+        border: none;
+      }
+
+      li {
+        display: block;
+        float: left;
+        margin: 0 14px 0 0;
+        padding: 1px 20px 0 0;
+        position: relative;
+        right: 50%;
+        background: none;
+        font-size: 13px;
+        color: @cGray3;
+        text-align: center;
+        list-style: none;
+
+        a {
+          display: block;
+          margin-bottom: 10px;
+          color: @cLink;
+          font-family: "DINOT-Medium", sans-serif;
+          font-size: 31px;
+          text-decoration: none;
+
+          &:hover {
+            color: @cGray1;
+            -webkit-transition: color @hover-speed ease-in-out;
+            -moz-transition: color @hover-speed ease-in-out;
+            -o-transition: color @hover-speed ease-in-out;
+            -ms-transition: color @hover-speed ease-in-out;
+            transition: color @hover-speed ease-in-out;
+          }
+        }
+      }
+
+      li.last {
+        margin-right: 0;
+        padding-right: 0;
+        border: none;
+      }
+    }   
+  }    
+}
 
 // Dataset
 #content article.dataset {
