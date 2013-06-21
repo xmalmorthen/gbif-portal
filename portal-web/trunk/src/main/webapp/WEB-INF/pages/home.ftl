@@ -13,6 +13,9 @@
           $.getJSON(cfg.wsRegSearch + '?limit=1&callback=?', function (data) {
             $("#countDatasets").html(data.count);
           });
+          $.getJSON(cfg.wsReg + 'organization?limit=1&callback=?', function (data) {
+            $("#countPublishers").html(data.count);
+          });
         });
     </script>
       <style type="text/css">

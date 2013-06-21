@@ -6,7 +6,6 @@ import org.gbif.api.model.common.search.SearchResponse;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry2.Dataset;
-import org.gbif.api.model.registry2.Endpoint;
 import org.gbif.api.model.registry2.Node;
 import org.gbif.api.model.registry2.search.DatasetSearchParameter;
 import org.gbif.api.model.registry2.search.DatasetSearchRequest;
@@ -18,10 +17,9 @@ import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
 import org.gbif.api.service.registry2.DatasetSearchService;
 import org.gbif.api.service.registry2.DatasetService;
 import org.gbif.api.service.registry2.NodeService;
-import org.gbif.api.service.registry2.OrganizationService;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.registry2.DatasetType;
-import org.gbif.api.vocabulary.registry2.EndpointType;
+import org.gbif.portal.action.node.DetailAction;
 import org.gbif.portal.exception.NotFoundException;
 import org.gbif.portal.model.CountWrapper;
 import org.gbif.portal.model.CountryMetrics;
@@ -36,33 +34,30 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
+public class CountryBaseAction extends DetailAction {
   private static Logger LOG = LoggerFactory.getLogger(CountryBaseAction.class);
 
   private String id;
   protected Country country;
-  protected Node node;
-  private List<CountWrapper<Dataset>> datasets = Lists.newArrayList();
-  private List<CountWrapper<Country>> countries = Lists.newArrayList();
   private CountryMetrics about;
   private CountryMetrics by;
+  private List<CountWrapper<Country>> countries = Lists.newArrayList();
+
+  protected OccurrenceDatasetIndexService datasetIndexService;
+  protected OccurrenceCountryIndexService countryIndexService;
+  protected DatasetService datasetService;
+  protected DatasetSearchService datasetSearchService;
+  protected DatasetMetricsService datasetMetricsService;
 
   @Inject
-  protected NodeService nodeService;
-  @Inject
-  protected CubeService cubeService;
-  @Inject
-  protected OccurrenceDatasetIndexService datasetIndexService;
-  @Inject
-  protected OccurrenceCountryIndexService countryIndexService;
-  @Inject
-  protected DatasetService datasetService;
-  @Inject
-  protected DatasetSearchService datasetSearchService;
-  @Inject
-  protected OrganizationService organizationService;
-  @Inject
-  protected DatasetMetricsService datasetMetricsService;
+  public CountryBaseAction(NodeService nodeService, CubeService cubeService, OccurrenceDatasetIndexService datasetIndexService, OccurrenceCountryIndexService countryIndexService, DatasetService datasetService, DatasetSearchService datasetSearchService, DatasetMetricsService datasetMetricsService) {
+    super(nodeService, cubeService);
+    this.datasetIndexService = datasetIndexService;
+    this.countryIndexService = countryIndexService;
+    this.datasetService = datasetService;
+    this.datasetSearchService = datasetSearchService;
+    this.datasetMetricsService = datasetMetricsService;
+  }
 
   @Override
   public String execute() throws Exception {
@@ -71,7 +66,8 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
       throw new NotFoundException("No country found with ISO code" + id);
     }
 
-    node = nodeService.getByCountry(country);
+    member = nodeService.getByCountry(country);
+
     return SUCCESS;
   }
 
@@ -84,7 +80,7 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
     //TODO: use checklist search to populate this???
     final long chkRecords = -1;
     final long chkDatasets = -1;
-    final int institutions = -1;
+    final int organizations = -1;
 
     final long occRecords = cubeService.get(new ReadBuilder().at(OccurrenceCube.COUNTRY, country));
 
@@ -102,7 +98,7 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
 
     int countryCount = getCountryMetrics(true, numCountriesToLoad);
 
-    about = new CountryMetrics(occDatasets, occRecords, chkDatasets, chkRecords, extDatasets, institutions, countryCount);
+    about = new CountryMetrics(occDatasets, occRecords, chkDatasets, chkRecords, extDatasets, organizations, countryCount);
   }
 
   protected void buildByMetrics(int numDatasetsToLoad, int numCountriesToLoad) {
@@ -115,10 +111,10 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
     final long occDatasets = datasetService.listByCountry(country, DatasetType.OCCURRENCE, p).getCount();
     final long chkDatasets = datasetService.listByCountry(country, DatasetType.CHECKLIST, p).getCount();
     final long extDatasets = datasetService.listByCountry(country, DatasetType.METADATA, p).getCount();
-    final int institutions = -1;
+    final int organizations = -1;
 
     // load full datasets preview if requested
-    if (numCountriesToLoad > 0) {
+    if (numDatasetsToLoad > 0) {
       p = new PagingRequest(0, numDatasetsToLoad);
       for (Dataset d : datasetService.listByCountry(country, null, p).getResults()) {
         final long dsCnt;
@@ -142,7 +138,7 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
 
     int countryCount = getCountryMetrics(false, numCountriesToLoad);
 
-    by = new CountryMetrics(occDatasets, occRecords, chkDatasets, chkRecords, extDatasets, institutions, countryCount);
+    by = new CountryMetrics(occDatasets, occRecords, chkDatasets, chkRecords, extDatasets, organizations, countryCount);
   }
 
   private int getCountryMetrics(boolean isAboutCountry, int numCountriesToLoad) {
@@ -202,16 +198,12 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
     }
   }
 
-  public String getId() {
-    return country == null ? null : country.getIso2LetterCode();
-  }
-
   public void setId(String id) {
     this.id = id;
   }
 
   public Node getNode() {
-    return node;
+    return member;
   }
 
   public Country getCountry() {
@@ -226,22 +218,11 @@ public class CountryBaseAction extends org.gbif.portal.action.BaseAction {
     return by;
   }
 
-  public List<CountWrapper<Dataset>> getDatasets() {
-    return datasets;
-  }
-
   public List<CountWrapper<Country>> getCountries() {
     return countries;
   }
 
-  public String getFeed() {
-    if (node != null && !node.getEndpoints().isEmpty()) {
-      for (Endpoint e : node.getEndpoints()) {
-        if (EndpointType.FEED == e.getType()) {
-          return e.getUrl();
-        }
-      }
-    }
-    return null;
+  public String getIsocode() {
+    return country.getIso2LetterCode();
   }
 }

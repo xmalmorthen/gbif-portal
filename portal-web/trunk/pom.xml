@@ -551,7 +551,6 @@
       </properties>
     </profile>
 
-
     <profile>
       <!--
         configured to use the api.gbif.org/dev services and the develop drupal.
@@ -584,6 +583,39 @@
       </properties>
     </profile>
 
+    <profile>
+      <!--
+        configured to use a local varnish cache on port 7001 using the same VCL as we use on api.gbif.org:
+        https://code.google.com/p/gbif-portal/source/browse/api.gbif.org/trunk/default.vcl
+
+        All settings exist but we need these passwords from somewhere else:
+          <drupal.db.url>
+          <drupal.db.username>
+          <drupal.db.password>
+          <application.secret>
+      -->
+      <id>localcache</id>
+      <properties>
+        <devMode>true</devMode>
+        <notDevMode>false</notDevMode>
+        <baseurl>http://localhost:8080</baseurl>
+        <servername>http://localhost:8080</servername>
+        <registry.ws.url>http://localhost:7001/</registry.ws.url>
+        <checklistbank.ws.url>http://localhost:7001/</checklistbank.ws.url>
+        <checklistbank.search.ws.url>http://localhost:7001/name_usage/</checklistbank.search.ws.url>
+        <checklistbank.match.ws.url>http://localhost:7001/lookup/name_usage/</checklistbank.match.ws.url>
+        <occurrence.ws.url>http://localhost:7001/</occurrence.ws.url>
+        <occurrencedownload.ws.url>http://staging.gbif.org:8080/occurrence-download-ws/</occurrencedownload.ws.url>
+        <tile-server.url>http://localhost:7001/map</tile-server.url>
+        <metrics.ws.url>http://localhost:7001/</metrics.ws.url>
+        <drupal.url>http://staging.gbif.org/drupal</drupal.url>
+        <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
+        <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
+        <!-- trusted application credentials -->
+        <application.key>gbif.portal</application.key>
+        <image-cache.url>http://localhost:7001/image</image-cache.url>
+      </properties>
+    </profile>
   </profiles>
 
 </project>

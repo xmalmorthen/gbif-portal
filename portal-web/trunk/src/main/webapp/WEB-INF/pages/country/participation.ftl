@@ -9,13 +9,18 @@
 <#include "/WEB-INF/pages/country/inc/infoband.ftl">
 
 
-<@common.article id="about" title="GBIF Participation">
-    <div class="left">
-    </div>
+<#assign showDescription=true/>
+<#include "/WEB-INF/pages/country/inc/participation.ftl">
 
-    <div class="right">
+<#if node.contacts?has_content>
+<@common.article id="contacts" title="Contacts">
+    <div class="fullwidth">
+      <#if node.contacts?has_content>
+        <@common.contactList node.contacts />
+      </#if>
     </div>
 </@common.article>
+</#if>
 
 
 </body>

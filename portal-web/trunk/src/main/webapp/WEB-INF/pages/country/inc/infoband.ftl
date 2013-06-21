@@ -21,13 +21,6 @@
     <h3>A <@s.text name="enum.participantstatus.${node.participationStatus!}"/> from <@s.text name="enum.region.${node.gbifRegion!}"/></h3>
   </#if>
 
-  <#--
-  <div class="box">
-    <div class="content">
-      <img src="http://www.geonames.org/flags/x/${id?lower_case}.gif"/>
-    </div>
-  </div>
-  -->
 </content>
 
 <content tag="tabs">
@@ -36,19 +29,19 @@
   </#if>
   <ul class="${hl!}">
     <li<#if (tab!"")=="summary"> class='selected ${hl!}'</#if>>
-      <a href="<@s.url value='/country/${id}'/>" title="Summary"><span>Summary</span></a>
+      <a href="<@s.url value='/country/${isocode}'/>" title="Summary"><span>Summary</span></a>
     </li>
     <li<#if (tab!"")=="about"> class='selected ${hl!}'</#if>>
-      <a href="<@s.url value='/country/${id}/about'/>" title="About"><span>Data About</span></a>
+      <a href="<@s.url value='/country/${isocode}/about'/>" title="About"><span>Data About</span></a>
     </li>
     <li<#if (tab!"")=="publishing"> class='selected ${hl!}'</#if>>
-      <a href="<@s.url value='/country/${id}/publishing'/>" title="Publishing"><span>Data Publishing</span></a>
+      <a href="<@s.url value='/country/${isocode}/publishing'/>" title="Publishing"><span>Data Publishing</span></a>
     </li>
     <li<#if (tab!"")=="participation"> class='selected ${hl!}'</#if>>
-      <a href="<@s.url value='/country/${id}/participation'/>" title="Participation"><span>Participation</span></a>
+      <a href="<@s.url value='/country/${isocode}/participation'/>" title="Participation"><span>Participation</span></a>
     </li>
     <li<#if (tab!"")=="news"> class='selected ${hl!}'</#if>>
-      <a href="<@s.url value='/country/${id}/news'/>" title="News"><span>News</span></a>
+      <a href="<@s.url value='/country/${isocode}/news'/>" title="News"><span>News</span></a>
     </li>
     <li<#if (tab!"")=="use"> class='selected ${hl!}'</#if>>
       <a href="#" title="Data Use"><span>Data Use</span></a>

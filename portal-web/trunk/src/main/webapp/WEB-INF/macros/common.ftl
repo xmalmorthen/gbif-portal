@@ -81,23 +81,39 @@
 
 
 <#-- Creates just an address block for a given WritableMember or Contact instance -->
-<#macro address address>
-<address>
- <!-- members use zip, but Contact postalCode -->
- <#assign props = ["${address.address!}", "${address.postalCode!}", "${address.zip!}", "${address.city!}", "${address.province!}", "${(address.country.title)!}" ]>
- <#list props as k>
-   <#if k?has_content>
-   ${k}<#if k_has_next>, </#if>
-   </#if>
- </#list>
+<#macro address address >
+<div class="address">
+  <#if address.address?has_content>
+    <span>${address.address}</span>
+  </#if>
 
- <#if address.email?has_content>
-   <a href="mailto:#" title="email">${address.email!}</a>
- </#if>
- <#if address.phone?has_content>
- ${address.phone!}
- </#if>
-</address>
+  <#if address.postalCode?has_content || address.zip?has_content || address.city?has_content>
+    <span>
+    <#-- members use zip, but Contact postalCode -->
+    <#if address.postalCode?has_content || address.zip?has_content>
+      ${address.postalCode!address.zip}
+    </#if>
+    ${address.city!}
+    </span>
+  </#if>
+
+  <#if address.province?has_content>
+    <span>${address.province}</span>
+  </#if>
+
+  <#if address.country?has_content>
+    <span>${address.country.title}</span>
+  </#if>
+
+  <#if address.email?has_content>
+      <span><a href="mailto:#" title="email">${address.email!}</a></span>
+  </#if>
+
+  <#if address.phone?has_content>
+    <span>${address.phone}</span>
+  </#if>
+
+</div>
 </#macro>
 
 
@@ -108,21 +124,19 @@
 <div class="contact">
   <#if con.type?has_content>
    <div class="contactType">
-    <#if con.type.interpreted?has_content>
-      <@s.text name="enum.contacttype.${con.type.interpreted}"/>
-    <#elseif con.type.verbatim?has_content>
-      ${con.type.verbatim?string!}
+    <#if con.type?has_content>
+      <@s.text name="enum.contacttype.${con.type}"/>
     </#if>
    </div>
   </#if>
    <div class="contactName">
     ${con.firstName!} ${con.lastName!}
    </div>
-  <#if con.position?has_content || con.organizationName?has_content>
+  <#if con.position?has_content || con.organization?has_content>
    <div>
     ${con.position!}
-    <#if con.position?has_content && con.organizationName?has_content> at </#if>
-    ${con.organizationName!}
+    <#if con.position?has_content && con.organization?has_content> at </#if>
+    ${con.organization!}
    </div>
   </#if>
   <@address address=con />
@@ -138,6 +152,7 @@
     </#if>
   </#list>
 </div>
+
 <div class="col">
   <#list contacts as c>
     <#if c_index%2==1>
