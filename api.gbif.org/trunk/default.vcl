@@ -15,7 +15,7 @@ backend jawa {
   .max_connections = 75;
   # probe the backend to keep connections open
   .probe = {
-    .url = "/registry-ws/dataset?limit=1";
+    .url = "/registry2-ws/dataset?limit=1";
     .timeout = 5s;
     .interval = 60s;
     # 9/10 polls must succeed for the backend to be considered alive
@@ -76,7 +76,7 @@ sub vcl_recv {
 
     # is this a webservice call which should go to api.gbif.org?
     if ( req.url ~ "^/[a-z-]-ws" ) {
-      error 404 "GBIF Webservices are hosted at http://api.gbif.org/uat";
+      error 404 "GBIF Webservices are hosted at http://api.gbif.org/";
     }
 
     # a known drupal path?
@@ -104,7 +104,7 @@ sub vcl_recv {
   } else if (req.http.host == "api.gbif.org") {
     set req.backend = jawa;
 
-  } else if (req.http.host == "apidev.gbif.org") {
+  } else if (req.http.host == "apidev.gbif.org" || req.http.host ~ "^localhost") {
     set req.backend = staging;
 
   } else {
@@ -133,7 +133,7 @@ sub vcl_recv {
     } else if ( req.url ~ "^/map") {
       set req.url = regsub(req.url, "^/map", "/tile-server");
 
-    } else if ( req.url ~ "^/occurrence/(count|datasets)") {
+    } else if ( req.url ~ "^/occurrence/(count|counts|datasets|countries|publishing_countries)") {
       set req.url = regsub(req.url, "^/", "/metrics-ws/");
 
     } else if ( req.url ~ "^/occurrence/download") {
@@ -151,15 +151,12 @@ sub vcl_recv {
     } else if ( req.url ~ "^/dataset/process") {
       set req.url = regsub(req.url, "^/", "/crawler-ws/");
 
-    } else if ( req.url ~ "^/dataset/(search|suggest)") {
-      set req.url = regsub(req.url, "^/dataset/", "/registry-search-ws/");
-
     } else if ( req.url ~ "^/image") {
       set req.url = regsub(req.url, "^/image", "/image-cache/");
 
     } else {
       # anything left should be registry calls
-      set req.url = regsub(req.url, "^/", "/registry-ws/");
+      set req.url = regsub(req.url, "^/", "/registry2-ws/");
     }
   }
 
@@ -190,14 +187,17 @@ sub vcl_fetch {
     return (hit_for_pass);
   }
   
-  # do not cache changing metrics
+  # cache metrics only for a very short time
   if ( req.url ~ "^/metrics-ws") {
-    return (hit_for_pass);
-  }  
+    set beresp.ttl = 60s;
+    # do not cache quickly changing count metrics
+    if ( req.url ~ "count") {
+      return (hit_for_pass);
+    }
+  } else {
+    # cache for 30 days
+    set beresp.ttl = 2592000s;
+  }
 
-  # cache for 2 days
-  #set beresp.ttl = 172800s;
-  # cache for 30 days
-  set beresp.ttl = 2592000s;
   return (deliver);
 }
