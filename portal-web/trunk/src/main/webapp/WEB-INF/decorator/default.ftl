@@ -191,7 +191,7 @@
   </div>
 
   <footer>
-    <div class="inner">
+    <div class="footer">
         <ul>
             <li><h3>JOIN THE COMMUNITY</h3></li>
             <li><a class="placeholder_temp" href="#">Join GBIF Community Site</a></li>
@@ -227,47 +227,39 @@
       </div>
   </footer>
 
-  <div class="contact_footer">
-    <div class="inner">
-      <!--<p>2012 &copy; GBIF. Data publishers retain all rights to data.</p>-->
-      <div class="copyright">
-        <div class="logo"></div>
-        <p>2011 &copy; GBIF</p>
-      </div>
+  <div id="contact_footer">
+    <div class="footer">
+      <ul>
+          <li><h3>2013 &copy; GBIF</h3></li>
+          <li><div class="logo"></div></li>
+      </ul>
 
-      <div class="address">
-        <h3>GBIF Secretariat</h3>
-        <address>
-          Universitetsparken 15<br />
-          DK-2100 Copenhagen Ø<br />
-          DENMARK
-        </address>
-      </div>
+      <ul>
+          <li><h3>GBIF Secretariat</h3></li>
+          <li>Universitetsparken 15</li>
+          <li>DK-2100 Copenhagen Ø</li>
+          <li>DENMARK</li>
+      </ul>
 
-      <div class="contact">
-        <h3>Contact</h3>
-        <ul>
-          <li><strong>Email</strong> info@gbif.org</li>
-          <li><strong>Tel</strong> +45 35 32 14 70</li>
-          <li><strong>Fax</strong> +45 35 32 14 80</li>
-        </ul>
-        <p>
-        You can also check the <a href="#">GBIF Directory</a>
-        </p>
-      </div>
+      <ul>
+        <li><h3>Contact</h3></li>
+        <li><strong>Email</strong> info@gbif.org</li>
+        <li><strong>Tel</strong> +45 35 32 14 70</li>
+        <li><strong>Fax</strong> +45 35 32 14 80</li>
+        <li>You can also check the <a class="placeholder_temp" href="#">GBIF Directory</a></li>
+      </ul>
 
-      <div class="social">
-        <ul>
-            <li><h3>SOCIAL MEDIA</h3></li>
-            <li class="s_icons twitter"><a href="https://twitter.com/GBIF"><strong>Follow</strong> GBIF on Twitter</a></li>
-            <li class="s_icons facebook"><a href="https://www.facebook.com/gbifnews"><strong>Like</strong> GBIF on Facebook</a></li>
-            <li class="s_icons linkedin"><a href="http://www.linkedin.com/groups/GBIF-55171"><strong>Join</strong> GBIF on Linkedin</a></li>
-            <li class="s_icons vimeo"><a href="http://vimeo.com/gbif"><strong>View</strong> GBIF on Vimeo</a></li>
-        </ul>
-      </div>
+      <ul class="last">
+          <li><h3>SOCIAL MEDIA</h3></li>
+          <li class="twitter"><a href="https://twitter.com/GBIF">Follow GBIF on Twitter</a></li>
+          <li class="facebook"><a href="https://www.facebook.com/gbifnews">Like GBIF on Facebook</a></li>
+          <li class="linkedin"><a href="http://www.linkedin.com/groups/GBIF-55171">Join GBIF on Linkedin</a></li>
+          <li class="vimeo"><a href="http://vimeo.com/gbif">View GBIF on Vimeo</a></li>
+      </ul>
 
     </div>
   </div>
+
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->
