@@ -2,9 +2,9 @@
 <head>
   <title>Occurrences - GBIF</title>
    <content tag="extra_scripts"> 
-    <link rel="stylesheet" href="/js/vendor/leaflet/leaflet.css" />
-      <!--[if lte IE 8]><link rel="stylesheet" href="/js/vendor/leaflet/leaflet.ie.css" /><![endif]-->
-      <script type="text/javascript" src="/js/vendor/leaflet/leaflet.js"></script>      
+    <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
+      <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
+      <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>      
     <script>    
       $(document).ready(function() {
         function setupPie(legend) {
