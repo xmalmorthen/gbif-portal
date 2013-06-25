@@ -13,12 +13,17 @@ import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry2.NodeService;
 import org.gbif.api.vocabulary.registry2.ContactType;
 import org.gbif.api.vocabulary.registry2.EndpointType;
+import org.gbif.api.vocabulary.registry2.NodeType;
 import org.gbif.portal.action.member.MemberBaseAction;
 import org.gbif.portal.model.CountWrapper;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 
 public class DetailAction extends MemberBaseAction<Node> {
@@ -31,6 +36,43 @@ public class DetailAction extends MemberBaseAction<Node> {
 
   protected List<CountWrapper<Dataset>> datasets = Lists.newArrayList();
 
+  private static List<ContactType> contactTypeOrder = Lists.newArrayList(
+    ContactType.HEAD_OF_DELEGATION,
+    ContactType.REGIONAL_NODE_REPRESENTATIVE,
+    ContactType.NODE_MANAGER,
+    ContactType.NODE_STAFF
+  );
+
+  static {
+    for (ContactType ct : ContactType.values()) {
+      if (!contactTypeOrder.contains(ct)) {
+        contactTypeOrder.add(ct);
+      }
+    }
+  }
+
+  private static Comparator<Contact> nodeContactOrder = new NodeContactOrder ();
+
+  /**
+   * Ordering based on contact types with head of delegation and node managers coming first.
+   */
+  public static class NodeContactOrder implements Comparator<Contact> {
+
+    @Override
+    public int compare(Contact o1, Contact o2) {
+      if (o1.getType() != null && o2.getType() != null && o1.getType() != o2.getType()) {
+        return contactTypeOrder.indexOf(o1.getType()) - contactTypeOrder.indexOf(o2.getType());
+      }
+      return ComparisonChain.start()
+        .compare(o1.isPrimary(), o2.isPrimary(), Ordering.natural().nullsLast())
+        .compare(o1.getType(), o2.getType(), Ordering.natural().nullsLast())
+        .compare(o1.getFirstName(), o2.getFirstName(), Ordering.natural().nullsLast())
+        .compare(o1.getLastName(), o2.getLastName(), Ordering.natural().nullsLast())
+        .compare(o1.getKey(), o2.getKey())
+        .result();
+    }
+  }
+
   @Inject
   public DetailAction(NodeService nodeService, CubeService cubeService) {
     super(nodeService);
@@ -42,17 +84,20 @@ public class DetailAction extends MemberBaseAction<Node> {
   public String execute() throws Exception {
     super.execute();
     // redirect to country page if this node is a country node
-    if (member.getCountry() != null) {
+    if (NodeType.COUNTRY ==  member.getType()) {
       id = null;
       return "country";
     }
 
     loadLatestDatasetsPublished(10);
     loadOrganizations(10);
-
+    sortContacts();
     return SUCCESS;
   }
 
+  protected void sortContacts() {
+    Collections.sort(member.getContacts(), nodeContactOrder);
+  }
   /**
    * Page through endorsed organizations main method used in struts.xml
    */

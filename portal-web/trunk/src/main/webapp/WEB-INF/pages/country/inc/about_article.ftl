@@ -7,8 +7,8 @@
       <ul>
           <li>
             <#if about.occurrenceDatasets gt 0>
-              <a href="<@s.url value='/dataset/search?country=${id}&type=OCCURRENCE'/>">${about.occurrenceDatasets} occurrence datasets</a>
-              with <a href="<@s.url value='/occurrence/search?country=${id}'/>">${about.occurrenceRecords} records</a>.
+              <a href="<@s.url value='/dataset/search?country=${isocode}&type=OCCURRENCE'/>">${about.occurrenceDatasets} occurrence datasets</a>
+              with <a href="<@s.url value='/occurrence/search?country=${isocode}'/>">${about.occurrenceRecords} records</a>.
             <#else>
               No occurrence datasets
             </#if>
@@ -16,7 +16,7 @@
 
           <li>
             <#if about.checklistDatasets gt 0>
-              <a href="<@s.url value='/dataset/search?country=${id}&type=CHECKLIST'/>">${about.checklistDatasets} checklists</a>
+              <a href="<@s.url value='/dataset/search?country=${isocode}&type=CHECKLIST'/>">${about.checklistDatasets} checklists</a>
               with ${about.checklistRecords} records.
             <#else>
               No checklists.
@@ -25,7 +25,7 @@
 
           <li>
             <#if about.externalDatasets gt 0>
-              <a href="<@s.url value='/dataset/search?country=${id}&type=METADATA'/>">${about.externalDatasets} external datasets</a>
+              <a href="<@s.url value='/dataset/search?country=${isocode}&type=METADATA'/>">${about.externalDatasets} external datasets</a>
             <#else>
               No external datasets
             </#if>
@@ -34,7 +34,7 @@
 
           <li>
               <#if about.countries gt 0>
-                  <a href="<@s.url value='/country/${id}/about#countries'/>">${about.countries} countries</a>
+                  <a href="<@s.url value='/country/${isocode}/about#countries'/>">${about.countries} countries</a>
               <#else>
                   No countries
               </#if>

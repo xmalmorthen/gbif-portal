@@ -2,7 +2,7 @@
 <head>
   <title>Out of Sync</title>
 </head>
-<body class="dataset">
+<body class="infobandless">
 
     <article class="dataset">
     <header></header>

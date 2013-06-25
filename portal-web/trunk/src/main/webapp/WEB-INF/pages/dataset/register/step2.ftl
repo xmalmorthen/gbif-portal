@@ -41,7 +41,7 @@
     </script>
   </content>
 </head>
-<body class="dataset">
+<body class="infobandless">
 
   <article id="step-1" class="tunnel">
     <header></header>

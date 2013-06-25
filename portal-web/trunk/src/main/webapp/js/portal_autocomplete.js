@@ -248,9 +248,6 @@ $.fn.termsAutosuggest = function(wsServiceUrl,appendToElement,limit,onSelectEven
     open: function(event, ui) {
       //a high z-index ensures that the autocomplete will be "always" visible on top of other elements
       $(".ui-autocomplete").css("z-index",1000);
-
-      // Uncomment the following line if you want bigger autocompletes panes.
-      //  $(".ui-autocomplete").addClass("big");
     },
     appendTo: appendToElement,
     focus: function( event, ui ) {//on focus: sets the value of the input[text] element

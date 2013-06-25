@@ -7,8 +7,8 @@
       <ul>
           <li>
             <#if by.occurrenceDatasets gt 0>
-              <a href="<@s.url value='/dataset/search?hostCountry=${id}&type=OCCURRENCE'/>">${by.occurrenceDatasets} occurrence datasets</a>
-              with <a href="<@s.url value='/occurrence/search?hostCountry=${id}'/>">${by.occurrenceRecords} records</a>.
+              <a href="<@s.url value='/dataset/search?publishingCountry=${isocode}&type=OCCURRENCE'/>">${by.occurrenceDatasets} occurrence datasets</a>
+              with <a href="<@s.url value='/occurrence/search?publishingCountry=${isocode}'/>">${by.occurrenceRecords} records</a>.
             <#else>
               No occurrence datasets.
             </#if>
@@ -16,7 +16,7 @@
 
           <li>
             <#if by.checklistDatasets gt 0>
-              <a href="<@s.url value='/dataset/search?hostCountry=${id}&type=CHECKLIST'/>">${by.checklistDatasets} checklists</a>
+              <a href="<@s.url value='/dataset/search?publishingCountry=${isocode}&type=CHECKLIST'/>">${by.checklistDatasets} checklists</a>
               with ${by.checklistRecords} records.
             <#else>
               No checklist datasets.
@@ -25,7 +25,7 @@
 
           <li>
             <#if by.externalDatasets gt 0>
-              <a href="<@s.url value='/dataset/search?hostCountry=${id}&type=METADATA'/>">${by.externalDatasets} metadata documents</a>.
+              <a href="<@s.url value='/dataset/search?publishingCountry=${isocode}&type=METADATA'/>">${by.externalDatasets} metadata documents</a>.
             <#else>
               No external metadata documents.
             </#if>
@@ -34,7 +34,7 @@
           <li>
             ${country.title} publishes data covering
             <#if by.countries gt 0>
-                <a href="<@s.url value='/country/${id}/by#countries'/>">${by.countries} countries</a>.
+                <a href="<@s.url value='/country/${isocode}/by#countries'/>">${by.countries} countries</a>.
             <#else>
               no countries.
             </#if>

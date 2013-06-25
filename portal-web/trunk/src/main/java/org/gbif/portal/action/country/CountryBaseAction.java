@@ -26,7 +26,6 @@ import org.gbif.portal.model.CountryMetrics;
 
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
@@ -67,6 +66,7 @@ public class CountryBaseAction extends DetailAction {
     }
 
     member = nodeService.getByCountry(country);
+    sortContacts();
 
     return SUCCESS;
   }
@@ -84,7 +84,7 @@ public class CountryBaseAction extends DetailAction {
 
     final long occRecords = cubeService.get(new ReadBuilder().at(OccurrenceCube.COUNTRY, country));
 
-    SortedMap<UUID, Integer> datasetIndex = datasetIndexService.occurrenceDatasetsForCountry(country);
+    Map<UUID, Integer> datasetIndex = datasetIndexService.occurrenceDatasetsForCountry(country);
     final long occDatasets = datasetIndex.size();
     loadDatasets(datasetIndex, numDatasetsToLoad);
 
@@ -159,7 +159,7 @@ public class CountryBaseAction extends DetailAction {
     return 0;
   }
 
-  private void loadDatasets(SortedMap<UUID, Integer> dsMetrics, int numberToLoad) {
+  private void loadDatasets(Map<UUID, Integer> dsMetrics, int numberToLoad) {
     for (Map.Entry<UUID, Integer> metric : dsMetrics.entrySet()) {
       if (numberToLoad <= 0) {
         break;

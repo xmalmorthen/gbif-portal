@@ -36,6 +36,6 @@
 </#if>
 
 <#if (member.contacts?size>0) >
-<h3>Contacts</h3>
+  <#-- <h3>Contacts</h3> -->
   <@common.contactList contacts=member.contacts/>
 </#if>

@@ -51,7 +51,7 @@
       </script>
    </content>
 </head>
-<body class="home_section">    
+<body class="infobandless">
   <article class="occurrence_home">
    <header>      
    </header>

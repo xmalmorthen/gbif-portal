@@ -9,8 +9,8 @@
   <script type="text/javascript" src="<@s.url value='/js/vendor/feedek/FeedEk.js'/>"></script>
   <script type="text/javascript">
       $(function() {
-          $("#mapAbout").densityMap("${id}", "COUNTRY");
-          $("#mapBy").densityMap("${id}", "PUBLISHING_COUNTRY");
+          $("#mapAbout").densityMap("${isocode}", "COUNTRY");
+          $("#mapBy").densityMap("${isocode}", "PUBLISHING_COUNTRY");
 
           <#if feed??>
             $('#news').FeedEk({
@@ -43,12 +43,12 @@
   <#assign titleRight = "" />
 </#if>
 <@common.article id="latest" title="Latest datasets published" titleRight=titleRight>
-    <div class="left">
+    <div class="<#if feed??>left<#else>fullwidth</#if>">
       <#if datasets?has_content>
         <ul class="notes">
           <#list datasets as cw>
             <#if cw_index==6>
-                <li class="more"><a href="<@s.url value='/dataset/search?hostCountry=${id}'/>">${by.occurrenceDatasets + by.checklistDatasets - 6} more</a></li>
+                <li class="more"><a href="<@s.url value='/dataset/search?hostCountry=${isocode}'/>">${by.occurrenceDatasets + by.checklistDatasets - 6} more</a></li>
                 <#break />
             </#if>
               <li>

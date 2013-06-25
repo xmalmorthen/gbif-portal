@@ -111,7 +111,7 @@
           </p>
           <p>
             The following features are supported:
-            <ul class="simple">  
+            <ul>
               <li>Map layers available for a <strong>country</strong>, <strong>dataset</strong>, <strong>taxon</strong> (species, subspecies or higher taxon), <strong>publisher</strong></li>
               <li>User defined styling by selecting a predefined color palette, or by providing styling rules</li>
               <li>Density of content is clustered to 4px clusters (regardless of zoom level)</li>             
@@ -206,7 +206,7 @@
           <p>
             The following layers may be used to instruct the server to combine the content into a single density layer.  All layers declared will be combined by the server on rendering.  
             Thus, for a given taxon, country, dataset or provider, it is possible to retrieve e.g:
-            <ul class="simple">
+            <ul>
               <li>A map of specimens only</li>
               <li>A map of specimens and observations</li>
               <li>A map of specimens only, and collected after 1970</li>
@@ -218,7 +218,7 @@
           </p>
           <p>
             The quickest way to experiment with this is to use the <a href="#preview">preview functionality</a>.  The specification for the layers are provided below.  
-            <ul class="simple">
+            <ul>
               <li>This is a <strong>multivalue field</strong> so it is expected that several layers are requested in any single URL</li>
               <li>
                 Should <strong>no layers be specified, a sensible default is provided</strong>.  This is to preserve backwards compatibility since layering was an additional feature, and considered
@@ -383,7 +383,7 @@
             For example, suppose one wishes to define the following rules:
           </p>
           <p>
-            <ul class="simple">
+            <ul>
               <li>Where less than 100 records exist, use a transparent red (#FF000033)</li>
               <li>Where 100-10000 records exist, use a transparent green (#00FF0033)</li>
               <li>Where 10000 or more records exist, use a transparent blue (#0000FF33)</li>

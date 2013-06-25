@@ -122,6 +122,7 @@
 -->
 <#macro contact con>
 <div class="contact">
+  <a name="contact${con.key?c!}"></a>
   <#if con.type?has_content>
    <div class="contactType">
     <#if con.type?has_content>
@@ -145,21 +146,15 @@
 
 <#-- Creates a 2 column list of contacts-->
 <#macro contactList contacts>
-<div class="col">
   <#list contacts as c>
     <#if c_index%2==0>
-      <@contact con=c />
+      <div class="row">
+    </#if>
+    <@contact con=c />
+    <#if c_index%2==1 || (c_index%2==0 && !c_has_next) >
+      </div>
     </#if>
   </#list>
-</div>
-
-<div class="col">
-  <#list contacts as c>
-    <#if c_index%2==1>
-      <@contact con=c />
-    </#if>
-  </#list>
-</div>
 </#macro>
 
 <#--
@@ -194,11 +189,7 @@
 </#macro>
 
 <#macro enumParagraph enum>
-  <#if enum.interpreted?has_content>
-  <p>${enum.interpreted?string}</p>
-    <#else>
-    <p class="verbatim_temp">${enum.verbatim?string!}</p>
-  </#if>
+  <p><#if enum.interpreted?has_content>${enum.interpreted?string}<#else>${enum.verbatim?string!}</#if></p>
 </#macro>
 
 <#macro article id="" title="" titleRight="" class="">

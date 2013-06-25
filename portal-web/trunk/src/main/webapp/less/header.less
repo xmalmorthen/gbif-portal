@@ -1,8 +1,5 @@
 @import "helpers";
 
-body.organization header #infoband .content h1 {
-  width:auto;
-}
 
 header {
   position: relative;
@@ -528,122 +525,110 @@ header {
 }
 
 
-
-
 /* HEADERS */
-
-body.user header #infoband,
-body.static header #infoband {
-  border-bottom: 1px solid #4b8741;
-  height: 96px;
-}
-
-body.big header {
-  height: 326px;
-
-  #infoband {
-    border-bottom: 1px solid #4b8741;
-    height: 195px;
+body {
+  header #top .content #logo {
+    top: 42px;
   }
-
-  h2 { margin-left: 25px; }
-
-}
-
-body.themes header {
-  height: 226px;
-
-  #infoband {
-    border-bottom: 1px solid #4b8741;
-    height: 107px;
-  }
-
-  h2 { margin-left: 25px; }
-}
-
-body.search header {
-  height: 226px;
-
-  #infoband {
-    border-bottom: 1px solid #4b8741;
-    height: 120px;
-  }
-
-  h2 { margin-left: 25px; }
-}
-
-
-
-body.themes_detail header {
-  height: 98px;
-
-  #infoband {
-    border-bottom: 1px solid #4b8741;
-    height: 107px;
-  }
-
-  #top {
-    border-bottom: 1px solid #cccccc;
-
-    .content #logo {
-      top: 42px;
-    }
-
-  }
-
-  h2 { margin-left: 25px; }
-}
-
-body.dataset header #top .content #logo,
-body.register header #top .content #logo {
-  top: 42px;
-}
-
-body.register header {
-  height: 98px;
-
-  #top .content {
-    position: absolute;
-    width: 810px;
-    margin-left: -405px;
-    left: 50%;
-    right: 50%;
-  }
-
-  h2 { margin-left: 25px; }
-}
-
-body.user header, 
-body.static header {
-  height: 226px;
-}
-
-body.reference header {
-  height: 226px;
-
-  #infoband {
-    border-bottom: 1px solid #4b8741;
-    height: 96px;
-
-    .content h3 {
-      background: none;
+  &.user, &.static{
+    header {
+      height: 226px;
+      #infoband {
+        border-bottom: 1px solid #4b8741;
+        height: 96px;
+      }
     }
   }
+  &.themes header {
+    height: 226px;
+
+    #infoband {
+      border-bottom: 1px solid #4b8741;
+      height: 107px;
+    }
+
+    h2 { margin-left: 25px; }
+  }
+  &.themes_detail header {
+    height: 98px;
+
+    #infoband {
+      border-bottom: 1px solid #4b8741;
+      height: 107px;
+    }
+
+    #top {
+      border-bottom: 1px solid #cccccc;
+
+      .content #logo {
+        top: 42px;
+      }
+
+    }
+
+    h2 { margin-left: 25px; }
+  }
+  &.search header {
+    height: 226px;
+
+    #infoband {
+      border-bottom: 1px solid #4b8741;
+      height: 120px;
+    }
+
+    h2 { margin-left: 25px; }
+  }
+  &.register header {
+    height: 98px;
+
+    #top .content {
+      position: absolute;
+      width: 810px;
+      margin-left: -405px;
+      left: 50%;
+      right: 50%;
+      nav ul {
+        li.selected a,
+        li a:hover {
+          background: none;
+        }
+      }
+    }
+    h2 { margin-left: 25px; }
+  }
+  &.infobandless {
+    header {
+      height: 98px;
+    }
+
+    #top {
+      border-bottom: 1px solid #cccccc;
+    }
+    h2  {
+      margin-left: 25px;
+    }
+  }
+  &.reference {
+    header {
+      height: 226px;
+
+      #infoband {
+        border-bottom: 1px solid #4b8741;
+        height: 96px;
+
+        .content h3 {
+          background: none;
+        }
+      }
+    }
+    article .header .right h4 {
+      margin-top: 22px;
+    }
+  }
+  &.organization header #infoband .content h1 {
+    width:auto;
+  }
 }
 
-body.reference article .header .right h4 {
-  margin-top: 22px;
-}
 
-body.register header #top .content nav ul li.selected a,
-body.register header #top .content nav ul li a:hover {
-  background: none;
-}
-
-body.dataset, body.home_section header {
-  height: 98px;
-
-  #top { border-bottom: 1px solid #cccccc; }
-  h2  { margin-left: 25px; }
-}
 

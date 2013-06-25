@@ -78,7 +78,7 @@
   </#if>
 
   <#if (preferredContacts?size>0) >
-    <h3>Primary Contacts</h3>
+    <#--<h3>Primary Contacts</h3>-->
     <@common.contactList contacts=preferredContacts/>
   </#if>
 
@@ -227,7 +227,7 @@
     
     
     <li class="download">
-      <a href="${cfg.wsReg}dataset/${dataset.key}/eml">GBIF annotated version (EML)</a> 
+      <a href="${cfg.wsReg}dataset/${dataset.key}/document">GBIF annotated version (EML)</a>
       <@common.popup message="The GBIF annotated version is created based on available content according to the <a href='http://www.gbif.org/orc/?doc_id=2820'>GBIF Metadata Profile</a>. Please note that it might not be as rich as the original version and the document will vary over time as content is indexed, and algorithms for producing the document are improved" title="Note"/>
     </li>
   </ul>
