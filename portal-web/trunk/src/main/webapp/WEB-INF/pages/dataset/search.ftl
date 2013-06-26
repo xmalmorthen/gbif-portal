@@ -113,8 +113,8 @@
           <input id="resetFacetsButton" value="reset" type="button"/>
         </div>
 
-      <#assign seeAllFacets = ["OWNING_ORG", "HOSTING_ORG", "KEYWORD", "COUNTRY", "DECADE"]>
-      <#assign facets= ["TYPE", "SUBTYPE", "NETWORK_ORIGIN", "KEYWORD", "OWNING_ORG", "HOSTING_ORG", "COUNTRY", "DECADE"]>
+      <#assign seeAllFacets = ["OWNING_ORG", "HOSTING_ORG", "KEYWORD", "PUBLISHING_COUNTRY", "COUNTRY", "DECADE"]>
+      <#assign facets= ["TYPE", "SUBTYPE", "KEYWORD", "OWNING_ORG", "HOSTING_ORG", "PUBLISHING_COUNTRY", "COUNTRY", "DECADE"]>
       <#include "/WEB-INF/inc/facets.ftl">
 
       </div>

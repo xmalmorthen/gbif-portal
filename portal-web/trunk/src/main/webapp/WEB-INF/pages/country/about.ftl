@@ -29,7 +29,7 @@
       <ul class="notes">
       <#list datasets as cw>
         <#if cw_index==6>
-            <li class="more"><a href="<@s.url value='/dataset/search?country=${isocode}&type=OCCURRENCE'/>">${about.occurrenceDatasets - 6} more</a></li>
+            <li class="more"><a href="<@s.url value='/country/${isocode}/about/datasets'/>">${about.occurrenceDatasets - 6} more</a></li>
             <#break />
         </#if>
           <li>
@@ -50,7 +50,7 @@
       <ul>
       <#list countries as cw>
         <#if cw_index==6>
-            <li class="more"><a href="#">${about.countries - 6} more</a></li>
+            <li class="more"><a href="<@s.url value='/country/${isocode}/about/countries'/>">${about.countries - 6} more</a></li>
             <#break />
         </#if>
           <li>

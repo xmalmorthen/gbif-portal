@@ -7,7 +7,7 @@
       <ul>
           <li>
             <#if about.occurrenceDatasets gt 0>
-              <a href="<@s.url value='/country/${isocode}/about#datasets'/>">${about.occurrenceDatasets} occurrence datasets</a>
+              <a href="<@s.url value='/country/${isocode}/about/datasets'/>">${about.occurrenceDatasets} occurrence datasets</a>
               with <a href="<@s.url value='/occurrence/search?country=${isocode}'/>">${about.occurrenceRecords} records</a>.
             <#else>
               No occurrence datasets
@@ -37,7 +37,7 @@
 
           <li>
               <#if about.countries gt 0>
-                  <a href="<@s.url value='/country/${isocode}/about#countries'/>">${about.countries} countries</a>
+                  <a href="<@s.url value='/country/${isocode}/about/countries'/>">${about.countries} countries</a>
               <#else>
                   No countries
               </#if>

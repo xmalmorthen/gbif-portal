@@ -2,6 +2,7 @@ package org.gbif.portal.action.country;
 
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.common.paging.PagingRequest;
+import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.common.search.SearchResponse;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
@@ -42,6 +43,7 @@ public class CountryBaseAction extends DetailAction {
   private CountryMetrics about;
   private CountryMetrics by;
   private List<CountWrapper<Country>> countries = Lists.newArrayList();
+  private PagingResponse<Country> countryPage;
 
   protected OccurrenceDatasetIndexService datasetIndexService;
   protected OccurrenceCountryIndexService countryIndexService;
@@ -85,9 +87,7 @@ public class CountryBaseAction extends DetailAction {
 
     final long occRecords = cubeService.get(new ReadBuilder().at(OccurrenceCube.COUNTRY, country));
 
-    Map<UUID, Integer> datasetIndex = datasetIndexService.occurrenceDatasetsForCountry(country);
-    final long occDatasets = datasetIndex.size();
-    loadDatasets(datasetIndex, numDatasetsToLoad);
+    final long occDatasets = loadAboutDatasetsPage(numDatasetsToLoad);
 
     // find number of external datasets
     DatasetSearchRequest search = new DatasetSearchRequest();
@@ -97,7 +97,7 @@ public class CountryBaseAction extends DetailAction {
     SearchResponse<DatasetSearchResult, DatasetSearchParameter> resp  = datasetSearchService.search(search);
     final long extDatasets = resp.getCount();
 
-    int countryCount = getCountryMetrics(true, numCountriesToLoad);
+    int countryCount = loadCountryPage(true, numCountriesToLoad);
 
     about = new CountryMetrics(occDatasets, occRecords, chkDatasets, chkRecords, extDatasets, organizations, countryCount);
   }
@@ -154,12 +154,12 @@ public class CountryBaseAction extends DetailAction {
       }
     }
 
-    int countryCount = getCountryMetrics(false, numCountriesToLoad);
+    int countryCount = loadCountryPage(false, numCountriesToLoad);
 
     by = new CountryMetrics(occDatasets, occRecords, chkDatasets, chkRecords, extDatasets, organizations, countryCount);
   }
 
-  private int getCountryMetrics(boolean isAboutCountry, int numCountriesToLoad) {
+  protected int loadCountryPage(boolean isAboutCountry, int limit) {
     try {
       Map<Country, Long> cMap;
       if (isAboutCountry) {
@@ -168,7 +168,9 @@ public class CountryBaseAction extends DetailAction {
         cMap = countryIndexService.countriesForPublishingCountry(country);
       }
 
-      loadCountries(cMap, isAboutCountry, numCountriesToLoad);
+      countryPage = new PagingResponse<Country>(getOffset(), limit, (long) cMap.size());
+      loadCountryList(cMap, isAboutCountry, limit);
+
       return cMap.size();
 
     } catch (RuntimeException e) {
@@ -177,21 +179,39 @@ public class CountryBaseAction extends DetailAction {
     return 0;
   }
 
-  private void loadDatasets(Map<UUID, Integer> dsMetrics, int numberToLoad) {
+  /**
+   * Honors the offset paging parameter.
+   * @return the number of all datasets having data about this country
+   */
+  protected int loadAboutDatasetsPage(int limit) {
+    Map<UUID, Integer> dsMetrics = datasetIndexService.occurrenceDatasetsForCountry(country);
+    int idx = 0;
     for (Map.Entry<UUID, Integer> metric : dsMetrics.entrySet()) {
-      if (numberToLoad <= 0) {
+      if (idx >= getOffset() + limit) {
         break;
       }
-      numberToLoad--;
-      Dataset d = datasetService.get(metric.getKey());
-      long geoCnt = cubeService.get(new ReadBuilder()
-        .at(OccurrenceCube.DATASET_KEY, d.getKey())
-        .at(OccurrenceCube.IS_GEOREFERENCED, true));
-      datasets.add(new CountWrapper(d, metric.getValue(), geoCnt));
+      // only load the requested page
+      if (idx >= getOffset()) {
+        Dataset d = datasetService.get(metric.getKey());
+        if (d == null) {
+          LOG.warn("Dataset in cube, but not in registry; {}", metric.getKey());
+
+        } else {
+          long geoCnt = cubeService.get(new ReadBuilder()
+            .at(OccurrenceCube.DATASET_KEY, d.getKey())
+            .at(OccurrenceCube.IS_GEOREFERENCED, true));
+          datasets.add(new CountWrapper(d, metric.getValue(), geoCnt));
+        }
+      }
+      idx++;
     }
+
+    dsPage = new PagingResponse<Dataset>(getOffset(), limit, (long) dsMetrics.size());
+
+    return dsMetrics.size();
   }
 
-  private void loadCountries(Map<Country, Long> cMetrics, boolean isAboutCountry, int numberToLoad) {
+  private void loadCountryList(Map<Country, Long> cMetrics, boolean isAboutCountry, int limit) {
     ReadBuilder rb = new ReadBuilder().at(OccurrenceCube.IS_GEOREFERENCED, true);
     if (isAboutCountry) {
       rb.at(OccurrenceCube.COUNTRY, country);
@@ -199,20 +219,25 @@ public class CountryBaseAction extends DetailAction {
       rb.at(OccurrenceCube.HOST_COUNTRY, country);
     }
 
+    int idx = 0;
     for (Map.Entry<Country, Long> metric : cMetrics.entrySet()) {
-      if (numberToLoad <= 0) {
+      if (idx >= getOffset() + limit) {
         break;
       }
-      numberToLoad--;
 
-      if (isAboutCountry) {
-        rb.at(OccurrenceCube.HOST_COUNTRY, metric.getKey());
-      } else {
-        rb.at(OccurrenceCube.COUNTRY, metric.getKey());
+      // only load the requested page
+      if (idx >= getOffset()) {
+        if (isAboutCountry) {
+          rb.at(OccurrenceCube.HOST_COUNTRY, metric.getKey());
+        } else {
+          rb.at(OccurrenceCube.COUNTRY, metric.getKey());
+        }
+
+        long geoCnt = cubeService.get(rb);
+        countries.add(new CountWrapper(metric.getKey(), metric.getValue(), geoCnt));
       }
 
-      long geoCnt = cubeService.get(rb);
-      countries.add(new CountWrapper(metric.getKey(), metric.getValue(), geoCnt));
+      idx++;
     }
   }
 
@@ -242,5 +267,9 @@ public class CountryBaseAction extends DetailAction {
 
   public String getIsocode() {
     return country.getIso2LetterCode();
+  }
+
+  public PagingResponse<Country> getCountryPage() {
+    return countryPage;
   }
 }

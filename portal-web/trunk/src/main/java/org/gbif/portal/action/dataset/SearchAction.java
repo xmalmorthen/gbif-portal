@@ -18,6 +18,8 @@ import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry2.DatasetSearchService;
 import org.gbif.api.service.registry2.OrganizationService;
+import org.gbif.api.util.VocabularyUtils;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.registry2.DatasetType;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 import org.gbif.portal.action.BaseSearchAction;
@@ -49,6 +51,7 @@ public class SearchAction
   private final OrganizationService orgService;
   private Function<String, String> getOrgTitle;
   private Function<String, String> getDatasetTypeTitle;
+  private Function<String, String> getCountryTitle;
   private final CubeService occurrenceCube;
   private final DatasetMetricsService checklistMetricsService;
   private static final Joiner TOKEN_JOINER = Joiner.on(' ').skipNulls();
@@ -91,6 +94,20 @@ public class SearchAction
         return getEnumTitle("datasettype", name);
       }
     };
+
+    getCountryTitle = new Function<String, String>() {
+
+      @Override
+      public String apply(String name) {
+        try {
+          Country c = (Country) VocabularyUtils.lookupEnum(name, Country.class);
+          return c.getTitle();
+
+        } catch (IllegalArgumentException e) {
+          return name;
+        }
+      }
+    };
   }
 
   @Override
@@ -100,6 +117,7 @@ public class SearchAction
     lookupFacetTitles(DatasetSearchParameter.HOSTING_ORG, getOrgTitle);
     lookupFacetTitles(DatasetSearchParameter.OWNING_ORG, getOrgTitle);
     lookupFacetTitles(DatasetSearchParameter.TYPE, getDatasetTypeTitle);
+    lookupFacetTitles(DatasetSearchParameter.PUBLISHING_COUNTRY, getCountryTitle);
 
     // populate counts
     for (DatasetSearchResult dsr : getSearchResponse().getResults()) {
