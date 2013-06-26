@@ -22,6 +22,5 @@
 </@common.article>
 </#if>
 
-
 </body>
 </html>

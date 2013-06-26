@@ -21,6 +21,9 @@
     <h3>A <@s.text name="enum.participantstatus.${node.participationStatus!}"/> from <@s.text name="enum.region.${node.gbifRegion!}"/></h3>
   </#if>
 
+    <h3>Countries, territories and islands are based on the
+        <a href="http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm">ISO 3166-1</a> standard.
+    </h3>
 </content>
 
 <content tag="tabs">

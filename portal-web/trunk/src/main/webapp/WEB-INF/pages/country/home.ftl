@@ -55,6 +55,10 @@
             height: 400px;
             padding-left: 30px;
         }
+        #content article.dataset .content {
+            padding-top: 31px;
+            padding-bottom: 0px;
+        }
     </style>
 </head>
 
@@ -66,6 +70,9 @@
       <h1>Countries</h1>
       <p>
         <div id="map"></div>
+      </p>
+      <p>Countries, territories and islands are based on the
+          <a href="http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm">ISO 3166-1</a> standard.
       </p>
       <p><a id="toggleCountryList" href="#">List of all countries</a></p>
     </div>
@@ -96,6 +103,7 @@
       </div>
   </div>
 </@common.article>
+
 
 </body>
 </html>
