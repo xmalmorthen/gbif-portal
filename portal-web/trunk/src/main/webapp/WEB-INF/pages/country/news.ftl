@@ -51,7 +51,7 @@
 
 
 <@common.article id="news" title="GBIF News" titleRight="News from node" class="news">
-    <div class="left" id="gbifnews">
+    <div class="left placeholder_temp" id="gbifnews">
         <ul>
         		  <li>
         				<h4 class="date">April 7th, 2013</h4>

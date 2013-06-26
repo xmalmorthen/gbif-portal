@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
-import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
@@ -42,18 +41,20 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
     final HttpServletRequest request = (HttpServletRequest) invocation.getInvocationContext().get(StrutsStatics.HTTP_REQUEST);
     final Cookie cookie = findDrupalCookie(request);
 
-    // TODO: FOR DEBUGGING DURING DEVELOPMENT ONLY - you can switch a user without authenticating him!!!
-    if (!Strings.isNullOrEmpty(request.getParameter(DEBUG_USER_PARAM))) {
+    // FOR DEBUGGING DURING DEVELOPMENT ONLY - you can switch a user without authenticating him!!!
+/*    if (!Strings.isNullOrEmpty(request.getParameter(DEBUG_USER_PARAM))) {
+      LOG.info("Force login for user {}", request.getParameter(DEBUG_USER_PARAM));
       User user = userService.get(request.getParameter(DEBUG_USER_PARAM));
       session.put(SESSION_USER, user);
       session.put(DRUPAL_SESSION_NAME, "");
       return invocation.invoke();
-    }
+}*/
 
     User user = (User) session.get(SESSION_USER);
 
     // invalidate current user if cookie is missing or drupal session is different
     if (user != null && (cookie == null || !cookie.getValue().equals(session.get(DRUPAL_SESSION_NAME)))) {
+      LOG.info("Invalidate session for user {}", user.getUserName());
       user = null;
       session.clear();
     }
@@ -66,6 +67,7 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
       } else {
         session.put(SESSION_USER, user);
         session.put(DRUPAL_SESSION_NAME, cookie.getValue());
+        LOG.info("Activate session {} for user {}", cookie.getValue(), user.getUserName());
       }
     }
 
