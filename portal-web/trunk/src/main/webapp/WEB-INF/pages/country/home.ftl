@@ -2,6 +2,10 @@
 <html>
 <head>
   <title>Countries</title>
+  <#--
+
+  COMMENTED OUT MAP IN THIS RELEASE
+
   <link rel="stylesheet" href="<@s.url value='/js/vendor/jvectormap/jquery-jvectormap-1.2.2.css'/>" type="text/css" media="screen"/>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jvectormap/jquery-jvectormap-1.2.2.min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/jvectormap/jquery-jvectormap-world-mill-en.js'/>"></script>
@@ -60,10 +64,12 @@
             padding-bottom: 0px;
         }
     </style>
+    -->
 </head>
 
 <body class="infobandless">
 
+<#--
   <article class="dataset">
     <header></header>
     <div class="content">
@@ -79,7 +85,7 @@
 
     <footer></footer>
   </article>
-
+-->
 <#assign leftColSize = (countries.size()/2)?ceiling />
 <@common.article id="country_list" title="Country List">
   <div class="fullwidth">

@@ -7,7 +7,7 @@
       <ul>
           <li>
             <#if about.occurrenceDatasets gt 0>
-              <a href="<@s.url value='/dataset/search?country=${isocode}&type=OCCURRENCE'/>">${about.occurrenceDatasets} occurrence datasets</a>
+              <a href="<@s.url value='/country/${isocode}/about#datasets'/>">${about.occurrenceDatasets} occurrence datasets</a>
               with <a href="<@s.url value='/occurrence/search?country=${isocode}'/>">${about.occurrenceRecords} records</a>.
             <#else>
               No occurrence datasets
@@ -16,7 +16,10 @@
 
           <li>
             <#if about.checklistDatasets gt 0>
-              <a href="<@s.url value='/dataset/search?country=${isocode}&type=CHECKLIST'/>">${about.checklistDatasets} checklists</a>
+              <#--
+              <@s.url value='/dataset/search?country=${isocode}&type=CHECKLIST'/>
+              -->
+              <a href="#">${about.checklistDatasets} checklists</a>
               with ${about.checklistRecords} records.
             <#else>
               No checklists.

@@ -62,7 +62,7 @@
     <div class="content">
       <div class="account">
         <#if currentUser??>
-        <a href="${cfg.drupal}/user/${currentUser.key}/edit" title='Account'>Hello ${currentUser.firstName!currentUser.userName}</a>
+        <a href="${cfg.drupal}/user/${currentUser.key}/edit" title='Account'>Hello ${currentUser.firstName!currentUser.accountName}</a>
         or
         <a href="${cfg.drupal}/user/logout?destination=${currentUrl}" title='<@s.text name="menu.logout"/>'><@s.text name="menu.logout"/></a>
         <#else>
@@ -259,7 +259,6 @@
 
     </div>
   </div>
-
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->

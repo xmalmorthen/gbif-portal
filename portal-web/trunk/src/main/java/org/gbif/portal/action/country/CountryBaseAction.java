@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,8 +104,6 @@ public class CountryBaseAction extends DetailAction {
 
   protected void buildByMetrics(int numDatasetsToLoad, int numCountriesToLoad) {
     final long occRecords = cubeService.get(new ReadBuilder().at(OccurrenceCube.HOST_COUNTRY, country));
-    //TODO: load all checklist metrics to populate this???
-    final long chkRecords = -1;
 
     // we only want the counts here
     PagingRequest p = new PagingRequest(0, 0);
@@ -112,6 +111,25 @@ public class CountryBaseAction extends DetailAction {
     final long chkDatasets = datasetService.listByCountry(country, DatasetType.CHECKLIST, p).getCount();
     final long extDatasets = datasetService.listByCountry(country, DatasetType.METADATA, p).getCount();
     final int organizations = -1;
+
+    long chkRecords = 0;
+    // for total checklist counts we need to retrieve the stats for every single checklist
+    // we do not have a checklist cube yet
+
+    // quick checklist count cache as checklist metrics are performance critical
+    Map<UUID, Integer> checklistCounts = Maps.newHashMap();
+
+    p = new PagingRequest(0, 200);  // there are only 100 checklists alltogether!
+    for (Dataset chkl : datasetService.listByCountry(country, DatasetType.CHECKLIST, p).getResults()) {
+      DatasetMetrics metric = datasetMetricsService.get(chkl.getKey());
+      if (metric != null) {
+        checklistCounts.put(chkl.getKey(), metric.getCountIndexed());
+        // count them all
+        chkRecords += metric.getCountIndexed();
+      } else {
+        checklistCounts.put(chkl.getKey(), 0);
+      }
+    }
 
     // load full datasets preview if requested
     if (numDatasetsToLoad > 0) {
@@ -124,9 +142,9 @@ public class CountryBaseAction extends DetailAction {
           dsGeoCnt = cubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, d.getKey()).at(OccurrenceCube.IS_GEOREFERENCED, true));
 
         } else if (DatasetType.CHECKLIST == d.getType()) {
-          DatasetMetrics checklistMetric = datasetMetricsService.get(d.getKey());
-          dsCnt = checklistMetric.getCountIndexed();
-          dsGeoCnt = -1;
+          // we have all checklist counts cached
+          dsCnt = checklistCounts.get(d.getKey());
+          dsGeoCnt = 0;
 
         } else {
           dsCnt = 0;
