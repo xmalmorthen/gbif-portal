@@ -53,6 +53,7 @@
         });
       });
   </script>
+    -->
     <style type="text/css">
         #map {
             width: 640px;
@@ -63,8 +64,10 @@
             padding-top: 31px;
             padding-bottom: 0px;
         }
+        .node {
+          text-decoration: underline;
+        }
     </style>
-    -->
 </head>
 
 <body class="infobandless">
@@ -93,7 +96,7 @@
           <ul>
             <#list countries as c>
               <#if c.isOfficial() && c_index lt leftColSize>
-                <li><a href="<@s.url value='/country/${c.getIso2LetterCode()}'/>">${c.getTitle()}</a></li>
+                <li<#if nodes.contains(c)> class="node"</#if>><a href="<@s.url value='/country/${c.getIso2LetterCode()}'/>">${c.getTitle()}</a></li>
               </#if>
             </#list>
           </ul>
