@@ -96,8 +96,11 @@ public class DetailAction extends MemberBaseAction<Node> {
   }
 
   protected void sortContacts() {
-    Collections.sort(member.getContacts(), nodeContactOrder);
+    if (member != null) {
+      Collections.sort(member.getContacts(), nodeContactOrder);
+    }
   }
+
   /**
    * Page through endorsed organizations main method used in struts.xml
    */

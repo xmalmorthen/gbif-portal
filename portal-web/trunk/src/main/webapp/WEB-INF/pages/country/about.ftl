@@ -12,7 +12,7 @@
     <script type="text/javascript" src="<@s.url value='/js/occ_metrics.js'/>"></script>
     <script type="text/javascript">
         $(function() {
-            $("#mapAbout").densityMap("${id}", "COUNTRY");
+            $("#mapAbout").densityMap("${isocode}", "COUNTRY");
         });
     </script>
 </head>
@@ -29,7 +29,7 @@
       <ul class="notes">
       <#list datasets as cw>
         <#if cw_index==6>
-            <li class="more"><a href="<@s.url value='/dataset/search?country=${id}&type=OCCURRENCE'/>">${about.occurrenceDatasets - 6} more</a></li>
+            <li class="more"><a href="<@s.url value='/dataset/search?country=${isocode}&type=OCCURRENCE'/>">${about.occurrenceDatasets - 6} more</a></li>
             <#break />
         </#if>
           <li>

@@ -12,7 +12,7 @@
 <#assign showDescription=true/>
 <#include "/WEB-INF/pages/country/inc/participation.ftl">
 
-<#if node.contacts?has_content>
+<#if node?? && node.contacts?has_content>
 <@common.article id="contacts" title="Contacts">
     <div class="fullwidth">
       <#if node.contacts?has_content>

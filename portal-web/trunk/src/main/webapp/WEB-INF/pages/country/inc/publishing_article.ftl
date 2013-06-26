@@ -34,7 +34,7 @@
           <li>
             ${country.title} publishes data covering
             <#if by.countries gt 0>
-                <a href="<@s.url value='/country/${isocode}/by#countries'/>">${by.countries} countries</a>.
+                <a href="<@s.url value='/country/${isocode}/publishing#countries'/>">${by.countries} countries</a>.
             <#else>
               no countries.
             </#if>
