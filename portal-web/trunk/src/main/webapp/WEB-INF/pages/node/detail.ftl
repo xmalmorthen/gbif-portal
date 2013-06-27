@@ -23,8 +23,6 @@
 <body class="species">
 
 <#assign tab="info"/>
-<#assign memberType="node"/>
-<#assign memberTypeLabel="node"/>
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
 <#include "/WEB-INF/pages/country/inc/participation.ftl">

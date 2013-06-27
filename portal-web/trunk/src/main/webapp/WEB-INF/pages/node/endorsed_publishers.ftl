@@ -9,8 +9,6 @@
 <body class="species">
 
 <#assign tabhl=true />
-<#assign memberType="node"/>
-<#assign memberTypeLabel="node"/>
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
   <div class="back">
