@@ -75,7 +75,7 @@
            <a href="<@s.url value='/occurrence/search?GEOREFERENCED=true'/>">All records</a>
            |
            <#-- Note this is intercepted in the map.js to append the bounding box -->
-           <a href="<@s.url value='/occurrence/search?GEOREFERENCED=true'/>" class='viewableAreaLink'>In viewable area</a></li>
+           <a href="<@s.url value='/occurrence/search'/>" class='viewableAreaLink'>In viewable area</a></li>
          </p>
          <h3>About</h3>
          <p>

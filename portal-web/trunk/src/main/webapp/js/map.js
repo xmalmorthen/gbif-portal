@@ -164,8 +164,10 @@ $.fn.occurrenceMap = function(id, options) {
       var ne=bounds.getNorthEast();
       var se=bounds.getSouthEast();
       var nw=bounds.getNorthWest();
-
-      $(this).attr("href", target + "&GEOMETRY="
+      
+      var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+      
+      $(this).attr("href", target + separator + "GEOMETRY="
         + sw.lng + " " + sw.lat + ","
         + nw.lng + " " + nw.lat + ","
         + ne.lng + " " + ne.lat + ","
