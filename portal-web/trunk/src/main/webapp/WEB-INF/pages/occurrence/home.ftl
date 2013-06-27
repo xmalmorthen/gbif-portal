@@ -129,10 +129,10 @@
             <#if bofCounts.get(k) gt 0>       
               <li class="no_bullets">
               <div class="light_box">
-                <h4><@s.text name="enum.basisofrecord.${k}"/> <br/> <br/> </h4>
                 <h3><a href="<@s.url value='/occurrence/search?BASIS_OF_RECORD='/>${k}">${(bofCounts.get(k)!0)}</a></h3>
                 <div><span class="number" data-cnt="${(bofCounts.get(k)!0)?c}">(${(bofCounts.get(k) * 100 / numOccurrences)?string("0.###")}%)</span></div>
-                <br/> 
+                <br/>
+                <h4><@s.text name="enum.basisofrecord.${k}"/> records <br/> <br/> </h4> 
               </div>
               </li>
             </#if>
