@@ -89,24 +89,26 @@
     <footer></footer>
   </article>
 -->
+<#macro countryLi c shift=0>
+  <#if c.isOfficial() && c_index + shift lt leftColSize>
+    <li<#if nodes.contains(c)> class="node"</#if>><a href="<@s.url value='/country/${c.getIso2LetterCode()}'/>">${c.getTitle()}</a></li>
+  </#if>
+</#macro>
+
 <#assign leftColSize = (countries.size()/2)?ceiling />
 <@common.article id="country_list" title="Country List">
   <div class="fullwidth">
       <div class="col">
           <ul>
             <#list countries as c>
-              <#if c.isOfficial() && c_index lt leftColSize>
-                <li<#if nodes.contains(c)> class="node"</#if>><a href="<@s.url value='/country/${c.getIso2LetterCode()}'/>">${c.getTitle()}</a></li>
-              </#if>
+              <@countryLi c/>
             </#list>
           </ul>
       </div>
       <div class="col">
           <ul>
             <#list countries as c>
-              <#if c.isOfficial() && c_index +1 gt leftColSize>
-                <li><a href="<@s.url value='/country/${c.getIso2LetterCode()}'/>">${c.getTitle()}</a></li>
-              </#if>
+              <@countryLi c=c shift=1/>
             </#list>
           </ul>
       </div>
