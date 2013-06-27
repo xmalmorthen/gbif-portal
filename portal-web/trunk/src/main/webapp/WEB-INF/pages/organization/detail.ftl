@@ -8,9 +8,10 @@
 
 <#assign tab="info"/>
 <#assign memberType="organization"/>
+<#assign memberTypeLabel="data publisher"/>
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
-<@common.article id="information" title="Organization Information">
+<@common.article id="information" title="Data publisher information">
     <div class="left">
       <#include "/WEB-INF/pages/member/inc/basics.ftl">
     </div>

@@ -10,6 +10,7 @@
 
 <#assign tabhl=true />
 <#assign memberType="organization"/>
+<#assign memberTypeLabel="data publisher"/>
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
   <div class="back">

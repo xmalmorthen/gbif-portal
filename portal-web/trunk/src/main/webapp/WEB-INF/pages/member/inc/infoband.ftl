@@ -12,7 +12,7 @@
   <h1>${common.limit(member.title!"???", 50)}</h1>
 
   <h3>
-    ${memberType?capitalize}<#if member.homepage?has_content>. More info at:
+    ${memberTypeLabel?capitalize}<#if member.homepage?has_content>. More info at:
     <a href="${member.homepage}" target="_blank" title="Homepage">${member.homepage}</a>
   </#if>
   </h3>

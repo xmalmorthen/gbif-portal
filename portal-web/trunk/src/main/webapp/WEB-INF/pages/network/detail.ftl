@@ -7,6 +7,7 @@
 
 <#assign tab="info"/>
 <#assign memberType="network"/>
+<#assign memberTypeLabel="network"/>
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
 <@common.article id="information" title="Network Information">
