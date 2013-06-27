@@ -20,4 +20,12 @@ public class ParticipationAction extends CountryBaseAction {
     super(nodeService, cubeService, datasetIndexService, countryIndexService, datasetService, datasetSearchService,
       datasetMetricsService);
   }
+
+  @Override
+  public String execute() throws Exception {
+    super.execute();
+    loadPublishers(10);
+    return SUCCESS;
+  }
+
 }

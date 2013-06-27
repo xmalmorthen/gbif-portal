@@ -8,7 +8,7 @@
 
       <#if node.participantSince??>
         <h3>GBIF Participant Since</h3>
-        <p>${node.participantSince}</p>
+        <p>${node.participantSince?c}</p>
       </#if>
 
       <h3>GBIF Region</h3>

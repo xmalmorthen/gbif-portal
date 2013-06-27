@@ -7,7 +7,6 @@ import org.gbif.api.model.common.search.SearchResponse;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry2.Dataset;
-import org.gbif.api.model.registry2.Node;
 import org.gbif.api.model.registry2.search.DatasetSearchParameter;
 import org.gbif.api.model.registry2.search.DatasetSearchRequest;
 import org.gbif.api.model.registry2.search.DatasetSearchResult;
@@ -206,7 +205,7 @@ public class CountryBaseAction extends DetailAction {
       idx++;
     }
 
-    dsPage = new PagingResponse<Dataset>(getOffset(), limit, (long) dsMetrics.size());
+    datasetPage = new PagingResponse<Dataset>(getOffset(), limit, (long) dsMetrics.size());
 
     return dsMetrics.size();
   }
@@ -243,10 +242,6 @@ public class CountryBaseAction extends DetailAction {
 
   public void setId(String id) {
     this.id = id;
-  }
-
-  public Node getNode() {
-    return member;
   }
 
   public Country getCountry() {

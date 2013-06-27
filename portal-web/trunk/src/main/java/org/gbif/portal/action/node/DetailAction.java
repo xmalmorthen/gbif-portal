@@ -32,8 +32,8 @@ public class DetailAction extends MemberBaseAction<Node> {
   protected final NodeService nodeService;
   protected CubeService cubeService;
 
-  private PagingResponse<Organization> page;
-  protected PagingResponse<Dataset> dsPage;
+  private PagingResponse<Organization> publisherPage;
+  protected PagingResponse<Dataset> datasetPage;
   private long offset = 0;
 
   protected List<CountWrapper<Dataset>> datasets = Lists.newArrayList();
@@ -114,9 +114,9 @@ public class DetailAction extends MemberBaseAction<Node> {
   }
 
   protected void loadLatestDatasetsPublished(int limit) {
-    dsPage = nodeService.endorsedDatasets(member.getKey(), new PagingRequest(offset, limit));
-    datasetsCount = dsPage.getCount();
-    for (Dataset d : dsPage.getResults()) {
+    datasetPage = nodeService.endorsedDatasets(member.getKey(), new PagingRequest(offset, limit));
+    datasetsCount = datasetPage.getCount();
+    for (Dataset d : datasetPage.getResults()) {
       long cnt = cubeService.get(new ReadBuilder()
         .at(OccurrenceCube.DATASET_KEY, d.getKey()));
 
@@ -129,16 +129,16 @@ public class DetailAction extends MemberBaseAction<Node> {
   }
 
   protected void loadPublishers(int limit) {
-    page = nodeService.endorsedOrganizations(member.getKey(), new PagingRequest(offset, limit));
+    publisherPage = nodeService.endorsedOrganizations(member.getKey(), new PagingRequest(offset, limit));
   }
 
 
-  public PagingResponse<Organization> getPage() {
-    return page;
+  public PagingResponse<Organization> getPublisherPage() {
+    return publisherPage;
   }
 
-  public PagingResponse<Dataset> getDsPage() {
-    return dsPage;
+  public PagingResponse<Dataset> getDatasetPage() {
+    return datasetPage;
   }
 
   public void setOffset(long offset) {
@@ -202,4 +202,9 @@ public class DetailAction extends MemberBaseAction<Node> {
   public long getOffset() {
     return offset;
   }
+
+  public Node getNode() {
+    return member;
+  }
+
 }

@@ -44,6 +44,14 @@ public class SeeMoreAction extends CountryBaseAction {
     return countriesPublished();
   }
 
+  public String publishers() throws Exception {
+    super.execute();
+
+    loadPublishers(25);
+
+    return SUCCESS;
+  }
+
   public boolean isAbout() {
     return about;
   }

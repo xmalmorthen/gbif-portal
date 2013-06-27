@@ -89,29 +89,24 @@
     <footer></footer>
   </article>
 -->
-<#macro countryLi c shift=0>
-  <#if c.isOfficial() && c_index + shift lt leftColSize>
-    <li<#if nodes.contains(c)> class="node"</#if>><a href="<@s.url value='/country/${c.getIso2LetterCode()}'/>">${c.getTitle()}</a></li>
-  </#if>
+
+<#macro countryList minIdx maxIdx>
+  <div class="col">
+      <ul>
+        <#list countries as c>
+          <#if c.isOfficial() && c_index lt maxIdx && c_index gt minIdx>
+            <li<#if nodes.contains(c)> class="node"</#if>><a href="<@s.url value='/country/${c.getIso2LetterCode()}'/>">${c.getTitle()}</a></li>
+          </#if>
+        </#list>
+      </ul>
+  </div>
 </#macro>
 
-<#assign leftColSize = (countries.size()/2)?ceiling />
+<#assign maxLftIdx = (countries.size()/2)?ceiling - 2 />
 <@common.article id="country_list" title="Country List">
   <div class="fullwidth">
-      <div class="col">
-          <ul>
-            <#list countries as c>
-              <@countryLi c/>
-            </#list>
-          </ul>
-      </div>
-      <div class="col">
-          <ul>
-            <#list countries as c>
-              <@countryLi c=c shift=1/>
-            </#list>
-          </ul>
-      </div>
+    <@countryList minIdx=-1 maxIdx=maxLftIdx />
+    <@countryList minIdx=maxLftIdx-1 maxIdx=10+maxLftIdx*2/>
   </div>
 </@common.article>
 

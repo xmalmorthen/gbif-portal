@@ -11,11 +11,18 @@
 
   <h1>${common.limit(member.title!"???", 50)}</h1>
 
-  <h3>
-    <@s.text name="enum.membertype.${type}"/><#if member.homepage?has_content>.
-      More info at: <a href="${member.homepage}" target="_blank" title="Homepage">${member.homepage}</a>
-    </#if>
-  </h3>
+  <#if type=='NODE'>
+    <h3>A GBIF <@s.text name="enum.participantstatus.${member.participationStatus}"/>
+      <@s.text name="enum.nodetype.${member.type}"/> Participant
+      <#if member.gbifRegion??> from <@s.text name="enum.region.${member.gbifRegion!}"/></#if>
+      </h3>
+  <#else>
+    <h3>
+      <@s.text name="enum.membertype.${type}"/><#if member.homepage?has_content>.
+        More info at: <a href="${member.homepage}" target="_blank" title="Homepage">${member.homepage}</a>
+      </#if>
+    </h3>
+  </#if>
 
   <#if keywords?has_content>
     <ul class="tags">
@@ -29,7 +36,10 @@
 </content>
 
 <content tag="tabs">
-  <ul>
+  <#if tabhl!false>
+    <#assign hl="highlighted" />
+  </#if>
+  <ul class="${hl!}">
     <li<#if (tab!"")=="info"> class='selected'</#if>>
       <a href="<@s.url value='/${type.name()?lower_case}/${id}'/>" title="Information"><span>Information</span></a>
     </li>

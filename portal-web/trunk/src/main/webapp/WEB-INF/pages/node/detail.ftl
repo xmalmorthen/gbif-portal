@@ -27,26 +27,8 @@
 
 <#include "/WEB-INF/pages/country/inc/participation.ftl">
 
-<@common.article id="publishers" title="Endorsed Publishers">
-  <div class="fullwidth">
-      <ul class="notes">
-        <#list page.results as org>
-          <li>
-            <a href="<@s.url value='/publisher/${org.key}'/>">${org.title!"???"}</a>
-            <span class="note">A data publisher
-              <#if org.city?? || org.country??>from <@common.cityAndCountry org/></#if>
-              <#if (org.numOwnedDatasets > 0)>with ${org.numOwnedDatasets} published datasets</#if>
-             </span>
-          </li>
-        </#list>
-        <#if !page.endOfRecords>
-          <li class="more">
-            <a href="<@s.url value='/node/${member.key}/publishers'/>">more</a>
-          </li>
-        </#if>
-      </ul>
-  </div>
-</@common.article>
+<#include "/WEB-INF/pages/country/inc/endorsing_article.ftl">
+
 
 <#if feed??>
    <#assign titleRight = "News" />

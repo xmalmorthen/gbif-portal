@@ -282,9 +282,10 @@
         <param name="parse">true</param>
       </result>
     </action>
+
     <action name="*/publishers" class="org.gbif.portal.action.node.DetailAction" method="publishers">
       <param name="id">{1}</param>
-      <result>/WEB-INF/pages/node/endorsed_organizations.ftl</result>
+      <result>/WEB-INF/pages/country/publishers.ftl</result>
     </action>
   </package>
 
@@ -304,7 +305,7 @@
     </action>
     <action name="*/datasets" class="org.gbif.portal.action.publisher.DetailAction" method="datasets">
       <param name="id">{1}</param>
-      <result>/WEB-INF/pages/publisher/owned_datasets.ftl</result>
+      <result>/WEB-INF/pages/publisher/published_datasets.ftl</result>
     </action>
   </package>
 
@@ -368,6 +369,11 @@
     <action name="*/participation" class="org.gbif.portal.action.country.ParticipationAction">
       <param name="id">{1}</param>
       <result>/WEB-INF/pages/country/participation.ftl</result>
+    </action>
+
+    <action name="*/publishers" class="org.gbif.portal.action.country.SeeMoreAction" method="publishers">
+      <param name="id">{1}</param>
+      <result>/WEB-INF/pages/country/publishers.ftl</result>
     </action>
 
     <action name="*/news" class="org.gbif.portal.action.country.NewsAction">

@@ -23,7 +23,7 @@
 
       <div class="header">
         <div class="left">
-          <h2>${dsPage.count!0} occurrence datasets about ${country.title}</h2>
+          <h2>${datasetPage.count!0} occurrence datasets about ${country.title}</h2>
         </div>
       </div>
 
@@ -46,7 +46,7 @@
       </#list>
 
       <div class="footer">
-        <@paging.pagination page=dsPage url=currentUrl/>
+        <@paging.pagination page=datasetPage url=currentUrl/>
       </div>
 
       </div>

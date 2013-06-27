@@ -9,11 +9,21 @@
 <body class="species">
 
 <#assign tabhl=true />
-<#include "/WEB-INF/pages/member/inc/infoband.ftl">
+<#if country??>
+  <#assign tab="participation"/>
+  <#include "/WEB-INF/pages/country/inc/infoband.ftl">
+<#else>
+  <#assign tab="info"/>
+  <#include "/WEB-INF/pages/member/inc/infoband.ftl">
+</#if>
 
   <div class="back">
     <div class="content">
-      <a href="<@s.url value='/node/${id}'/>" title="Back to node page">Back to node page</a>
+    <#if country??>
+      <a href="<@s.url value='/country/${isocode}/participation'/>" title="Back to participation page">Back to participation page</a>
+    <#else>
+      <a href="<@s.url value='/node/${member.key}'/>" title="Back to node page">Back to node page</a>
+    </#if>
     </div>
   </div>
 
@@ -23,17 +33,17 @@
 
       <div class="header">
         <div class="left">
-          <h2>${page.count!} Endorsed data publishers for "${member.title!}"</h2>
+          <h2>${publisherPage.count!} Endorsed data publishers for "${member.title!}"</h2>
         </div>
       </div>
 
       <div class="fullwidth">
 
-      <#list page.results as item>
+      <#list publisherPage.results as item>
         <@records.publisher publisher=item/>
       </#list>
         <div class="footer">
-        <@paging.pagination page=page url=currentUrl/>
+        <@paging.pagination page=publisherPage url=currentUrl/>
         </div>
       </div>
 

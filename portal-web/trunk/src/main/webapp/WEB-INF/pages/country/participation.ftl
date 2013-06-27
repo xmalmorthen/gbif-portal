@@ -22,5 +22,7 @@
 </@common.article>
 </#if>
 
+<#include "/WEB-INF/pages/country/inc/endorsing_article.ftl">
+
 </body>
 </html>
