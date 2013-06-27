@@ -23,9 +23,9 @@ public class HomeAction extends BaseAction {
 
   private static final long serialVersionUID = 374193477998601641L;
 
-  private static final int MIN_YEAR = 1700;
+  private static final int MIN_YEAR = 1950;
 
-  private final int maxYear = Calendar.getInstance().get(Calendar.YEAR);
+  private static final int maxYear = Calendar.getInstance().get(Calendar.YEAR); // this year
 
   protected CubeService occurrenceCubeService;
 
