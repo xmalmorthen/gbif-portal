@@ -17,9 +17,10 @@
 <content tag="infoband">
   <h1>${country.title}</h1>
 
-
-  <#if node??>
-    <h3>A <@s.text name="enum.participantstatus.${node.participationStatus!}"/> from <@s.text name="enum.region.${node.gbifRegion!}"/></h3>
+  <#if isocode='TW'>
+    <h3>A GBIF Associate Participant Economy</h3>
+  <#elseif node??>
+    <h3>A GBIF <@s.text name="enum.participantstatus.${node.participationStatus}"/> <@s.text name="enum.nodetype.${node.type}"/> Participant from <@s.text name="enum.region.${node.gbifRegion!}"/></h3>
   <#else>
     <h3>&nbsp;</h3>
   </#if>
@@ -40,6 +41,7 @@
     <li<#if (tab!"")=="about"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/country/${isocode}/about'/>" title="About"><span>Data About</span></a>
     </li>
+   <#if node??>
     <li<#if (tab!"")=="publishing"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/country/${isocode}/publishing'/>" title="Publishing"><span>Data Publishing</span></a>
     </li>
@@ -49,8 +51,11 @@
     <li<#if (tab!"")=="news"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/country/${isocode}/news'/>" title="News"><span>News</span></a>
     </li>
+   </#if>
+    <#--
     <li<#if (tab!"")=="use"> class='selected ${hl!}'</#if>>
       <a href="#" title="Data Use"><span>Data Use</span></a>
     </li>
+    -->
   </ul>
 </content>

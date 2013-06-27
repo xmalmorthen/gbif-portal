@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,7 @@ public class Config {
   private static final String PROP_CONF_ERROR_MSG =
     "%s is no valid URL for property %s . Please configure application.properties appropriately!";
 
+  private String googleAnalytics;
   private String drupal;
   private String drupalCookieName;
   private String serverName;
@@ -67,6 +69,7 @@ public class Config {
       properties.putAll(PropertiesUtil.loadProperties(STRUTS_PROPERTIES));
 
       cfg.serverName = getServerName(properties);
+      cfg.googleAnalytics = StringUtils.trimToNull(properties.getProperty("google.analytics"));
       cfg.drupal = getPropertyUrl(properties, "drupal.url", false);
       cfg.drupalCookieName = properties.getProperty("drupal.cookiename");
       cfg.wsClb = getPropertyUrl(properties, "checklistbank.ws.url", true);
@@ -214,5 +217,9 @@ public class Config {
 
   public void setTileServerBaseUrl(String tileServerBaseUrl) {
     this.tileServerBaseUrl = tileServerBaseUrl;
+  }
+
+  public String getGoogleAnalytics() {
+    return googleAnalytics;
   }
 }
