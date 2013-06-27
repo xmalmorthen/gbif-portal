@@ -99,6 +99,7 @@
             <div class="light_box">
               <h3><a href="<@s.url value='/occurrence/search?TAXON_KEY='/>${action.getKingdomNubUsageId(k)}">${(kingdomCounts.get(k)!0)}</a></h3>
               <div><span class="number" data-cnt="${(kingdomCounts.get(k)!0)?c}">(${(kingdomCounts.get(k) * 100 / numOccurrences)?string("0.####")}%)</span></div>
+              <br/>
               <h4><@s.text name="enum.kingdom.${k}"/> records <br/> <br/> </h4>
             </div>
             </li>
@@ -127,6 +128,7 @@
                 <h4><@s.text name="enum.basisofrecord.${k}"/> <br/> <br/> </h4>
                 <h3><a href="<@s.url value='/occurrence/search?BASIS_OF_RECORD='/>${k}">${(bofCounts.get(k)!0)}</a></h3>
                 <div><span class="number" data-cnt="${(bofCounts.get(k)!0)?c}">(${(bofCounts.get(k) * 100 / numOccurrences)?string("0.###")}%)</span></div>
+                <br/> 
               </div>
               </li>
             </#if>
