@@ -25,24 +25,22 @@
 <body class="infobandless">
 
 
-<article class="occurrence_home">
-  <header></header>
-  <div class="content">
-    <div class="header">
-      <h2>Occurrence data</h2>
-    </div>
-    <div class="fullwidth header">
+<article class="dataset">
+    <header></header>
+    <div class="content">
+      <h1>Explore <a href="<@s.url value='/occurrence/search'/>" title="">${numOccurrences!0}</a> occurrences</h1>
       <p>Occurrence records document evidence of a named organism in nature.  
       Through this portal, you can <a href="<@s.url value='/occurrence/search'/>" title=""><strong>search</strong>, <strong>view</strong> and <strong>download</strong></a> records that are published through the GBIF network.
-      <a href="<@s.url value='/occurrence/search'/>" title="">Start exploring</a>:   
       </p>
-      <ul class="header">
-        <li><a href="<@s.url value='/occurrence/search'/>" title="">${numOccurrences!0}</a> occurrence records</li>
-        <li><a href="<@s.url value='/occurrence/search?GEOREFERENCED=true'/>" title="">${numGeoreferenced!0}</a>georeferenced records</li>          
-      </ul>
+
+      <div class="results">
+        <ul>
+          <li><a href="<@s.url value='/occurrence/search'/>" title="">${numOccurrences!0}</a>occurrences records</li>
+          <li class="last"><a href="<@s.url value='/occurrence/search?GEOREFERENCED=true'/>" title="">${numGeoreferenced!0}</a>georeferenced records</li>
+        </ul>
+      </div>
     </div>
-  </div>
-  <footer></footer>
+    <footer></footer>
 </article>
 
 
@@ -77,7 +75,7 @@
            <a href="<@s.url value='/occurrence/search?GEOREFERENCED=true'/>">All records</a>
            |
            <#-- Note this is intercepted in the map.js to append the bounding box -->
-           <a href="<@s.url value='/occurrence/search'/>" class='viewableAreaLink'>In viewable area</a></li>
+           <a href="<@s.url value='/occurrence/search?GEOREFERENCED=true'/>" class='viewableAreaLink'>In viewable area</a></li>
          </p>
          <h3>About</h3>
          <p>
