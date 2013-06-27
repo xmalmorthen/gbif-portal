@@ -20,7 +20,7 @@
   <#if isocode='TW'>
     <h3>A GBIF Associate Participant Economy</h3>
   <#elseif node??>
-    <h3>A GBIF <@s.text name="enum.participantstatus.${node.participationStatus}"/> <@s.text name="enum.nodetype.${node.type}"/> Participant from <@s.text name="enum.region.${node.gbifRegion!}"/></h3>
+    <h3>A GBIF <@s.text name="enum.participantstatus.${node.participationStatus}"/> <@s.text name="enum.nodetype.${node.type}"/> <#if node.participationStatus!='Observer'>Participant</#if> from <@s.text name="enum.region.${node.gbifRegion!}"/></h3>
   <#else>
     <h3>&nbsp;</h3>
   </#if>

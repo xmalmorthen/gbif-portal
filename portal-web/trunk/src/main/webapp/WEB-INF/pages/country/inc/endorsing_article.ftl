@@ -14,6 +14,7 @@
         </#list>
         <#if !publisherPage.endOfRecords>
           <li class="more">
+            ${publisherPage.count - publisherPage.limit}
             <#if country??>
               <a href="<@s.url value='/country/${isocode}/publishers'/>">more</a>
             <#else>
