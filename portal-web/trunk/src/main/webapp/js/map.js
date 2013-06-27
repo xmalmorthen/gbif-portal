@@ -167,6 +167,16 @@ $.fn.occurrenceMap = function(id, options) {
       
       var separator = target.indexOf('?') !== -1 ? "&" : "?";
       
+      // limit bounds or SOLR barfs
+      sw.lng = sw.lng<-180 ? -180 : sw.lng;
+      sw.lat = sw.lat<-90 ? -90 : sw.lat;
+      nw.lng = nw.lng<-180 ? -180 : nw.lng;
+      nw.lat = nw.lat>90 ? 90 : nw.lat;
+      ne.lng = ne.lng>180 ? 180 : ne.lng;
+      ne.lat = ne.lat>90 ? 90 : ne.lat;
+      se.lng = se.lng>180 ? 180 : se.lng;
+      se.lat = se.lat<-90 ? -90 : se.lat;  
+      
       $(this).attr("href", target + separator + "GEOMETRY="
         + sw.lng + " " + sw.lat + ","
         + nw.lng + " " + nw.lat + ","
