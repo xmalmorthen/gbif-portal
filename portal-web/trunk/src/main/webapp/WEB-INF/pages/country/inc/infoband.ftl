@@ -17,8 +17,11 @@
 <content tag="infoband">
   <h1>${country.title}</h1>
 
+
   <#if node??>
     <h3>A <@s.text name="enum.participantstatus.${node.participationStatus!}"/> from <@s.text name="enum.region.${node.gbifRegion!}"/></h3>
+  <#else>
+    <h3>&nbsp;</h3>
   </#if>
 
     <h3>Countries, territories and islands are based on the
