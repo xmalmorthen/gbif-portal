@@ -39,15 +39,17 @@
     </div>
 
     <div class="right">
-      <div class="logo_holder">
-        <#if node?? && node.logoURL?has_content>
-            <img src="${node.logoURL}"/>
-        </#if>
-      </div>
+      <#if node?? && node.logoURL?has_content>
+        <div class="logo_holder">
+          <img src="${node.logoURL}"/>
+        </div>
+      </#if>
 
       <#if node??>
         <h3>Address</h3>
-        <p>${node.organizationName!}</p>
+        <#if node.institution?has_content>
+          <p>${node.institution}</p>
+        </#if>
         <@common.address address=node />
 
         <#if node.homepage?has_content>

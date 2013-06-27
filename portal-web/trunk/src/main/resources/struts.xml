@@ -282,7 +282,7 @@
         <param name="parse">true</param>
       </result>
     </action>
-    <action name="*/organizations" class="org.gbif.portal.action.node.DetailAction" method="organizations">
+    <action name="*/publishers" class="org.gbif.portal.action.node.DetailAction" method="publishers">
       <param name="id">{1}</param>
       <result>/WEB-INF/pages/node/endorsed_organizations.ftl</result>
     </action>
@@ -296,15 +296,15 @@
     </action>
   </package>
 
-  <!-- ORGANIZATION -->
-  <package name="organization" namespace="/organization" extends="default">
-    <action name="*" class="org.gbif.portal.action.organization.DetailAction">
+  <!-- DATA PUBLISHER -->
+  <package name="publisher" namespace="/publisher" extends="default">
+    <action name="*" class="org.gbif.portal.action.publisher.DetailAction">
       <param name="id">{1}</param>
-      <result>/WEB-INF/pages/organization/detail.ftl</result>
+      <result>/WEB-INF/pages/publisher/detail.ftl</result>
     </action>
-    <action name="*/datasets" class="org.gbif.portal.action.organization.DetailAction" method="datasets">
+    <action name="*/datasets" class="org.gbif.portal.action.publisher.DetailAction" method="datasets">
       <param name="id">{1}</param>
-      <result>/WEB-INF/pages/organization/owned_datasets.ftl</result>
+      <result>/WEB-INF/pages/publisher/owned_datasets.ftl</result>
     </action>
   </package>
 

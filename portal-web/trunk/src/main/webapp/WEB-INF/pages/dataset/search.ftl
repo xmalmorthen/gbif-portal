@@ -59,9 +59,9 @@
               <#else>
                 Published by
               </#if>
-              <a href="<@s.url value='/organization/${dataset.owningOrganizationKey}'/>" title="${action.removeHighlighting(dataset.owningOrganizationTitle!)}">${dataset.owningOrganizationTitle!"Unknown"}</a></p>
+              <a href="<@s.url value='/publisher/${dataset.owningOrganizationKey}'/>" title="${action.removeHighlighting(dataset.owningOrganizationTitle!)}">${dataset.owningOrganizationTitle!"Unknown"}</a></p>
           <#elseif dataset.hostingOrganizationKey?has_content>
-            <p>Hosted by <a href="<@s.url value='/organization/${dataset.hostingOrganizationKey}'/>" title="${action.removeHighlighting(dataset.hostingOrganizationTitle!)}">${dataset.hostingOrganizationTitle!"Unknown"}</a></p>
+            <p>Hosted by <a href="<@s.url value='/publisher/${dataset.hostingOrganizationKey}'/>" title="${action.removeHighlighting(dataset.hostingOrganizationTitle!)}">${dataset.hostingOrganizationTitle!"Unknown"}</a></p>
           </#if>
 
           <!-- iterate through keywords and generate concatenated string composed of highlighted text in keywords -->

@@ -3,7 +3,7 @@
 <#import "/WEB-INF/macros/records.ftl" as records>
 <html>
 <head>
-  <title>Endorsed organizations by node ${member.title!}</title>
+  <title>Endorsed data publishers by node ${member.title!}</title>
 </head>
 
 <body class="species">
@@ -25,14 +25,14 @@
 
       <div class="header">
         <div class="left">
-          <h2>${page.count!} Endorsed organizations for "${member.title!}"</h2>
+          <h2>${page.count!} Endorsed data publishers for "${member.title!}"</h2>
         </div>
       </div>
 
       <div class="fullwidth">
 
       <#list page.results as item>
-        <@records.organization organization=item/>
+        <@records.publisher publisher=item/>
       </#list>
         <div class="footer">
         <@paging.pagination page=page url=currentUrl/>

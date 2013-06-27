@@ -12,9 +12,9 @@
   <h1>${common.limit(member.title!"???", 50)}</h1>
 
   <h3>
-    ${memberTypeLabel?capitalize}<#if member.homepage?has_content>. More info at:
-    <a href="${member.homepage}" target="_blank" title="Homepage">${member.homepage}</a>
-  </#if>
+    <@s.text name="enum.membertype.${type}"/><#if member.homepage?has_content>.
+      More info at: <a href="${member.homepage}" target="_blank" title="Homepage">${member.homepage}</a>
+    </#if>
   </h3>
 
   <#if keywords?has_content>
@@ -31,13 +31,15 @@
 <content tag="tabs">
   <ul>
     <li<#if (tab!"")=="info"> class='selected'</#if>>
-      <a href="<@s.url value='/${memberType?lower_case}/${id}'/>" title="Information"><span>Information</span></a>
+      <a href="<@s.url value='/${type.name()?lower_case}/${id}'/>" title="Information"><span>Information</span></a>
     </li>
+    <#--
     <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>>
       <a href="#" title="Activity"><span>Activity</span></a>
     </li>
     <li<#if (tab!"")=="stats"> class='selected highlighted'</#if>>
       <a href="#" title="Stats"><span>Stats</span></a>
     </li>
+    -->
   </ul>
 </content>

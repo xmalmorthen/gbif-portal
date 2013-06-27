@@ -29,13 +29,13 @@
 
 <#include "/WEB-INF/pages/country/inc/participation.ftl">
 
-<@common.article id="organizations" title="Endorsed Organizations">
+<@common.article id="publishers" title="Endorsed Publishers">
   <div class="fullwidth">
       <ul class="notes">
         <#list page.results as org>
           <li>
-            <a href="<@s.url value='/organization/${org.key}'/>">${org.title!"???"}</a>
-            <span class="note">An organization
+            <a href="<@s.url value='/publisher/${org.key}'/>">${org.title!"???"}</a>
+            <span class="note">A data publisher
               <#if org.city?? || org.country??>from <@common.cityAndCountry org/></#if>
               <#if (org.numOwnedDatasets > 0)>with ${org.numOwnedDatasets} published datasets</#if>
              </span>
@@ -43,7 +43,7 @@
         </#list>
         <#if !page.endOfRecords>
           <li class="more">
-            <a href="<@s.url value='/node/${member.key}/organizations'/>">more</a>
+            <a href="<@s.url value='/node/${member.key}/publishers'/>">more</a>
           </li>
         </#if>
       </ul>

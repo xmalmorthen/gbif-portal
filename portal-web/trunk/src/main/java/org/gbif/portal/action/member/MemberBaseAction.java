@@ -23,9 +23,11 @@ public class MemberBaseAction<T extends NetworkEntity & Taggable> extends org.gb
   protected UUID id;
   protected T member;
   private final NetworkEntityService<T> memberService;
+  private final MemberType type;
 
-  protected MemberBaseAction(NetworkEntityService<T> memberService) {
+  protected MemberBaseAction(MemberType type, NetworkEntityService<T> memberService) {
     this.memberService = memberService;
+    this.type = type;
   }
 
   @Override
@@ -82,5 +84,9 @@ public class MemberBaseAction<T extends NetworkEntity & Taggable> extends org.gb
     }
 
     return Lists.newArrayList(keywords);
+  }
+
+  public MemberType getType() {
+    return type;
   }
 }

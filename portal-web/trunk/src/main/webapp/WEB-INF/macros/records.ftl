@@ -28,26 +28,26 @@
 
 
 <#--
-	Construct an Organization record.
+	Construct a data publisher record.
 -->
-<#macro organization organization>
+<#macro publisher publisher>
   <div class="result">
     <h2>
       <strong>
 
-      <#-- organization name and hyperlinked to its corresponding page -->
-      <#if organization.title?has_content>
-        <a href="<@s.url value='/organization/${organization.key}'/>">${organization.title}</a>
+      <#-- name and hyperlinked to its corresponding page -->
+      <#if publisher.title?has_content>
+        <a href="<@s.url value='/publisher/${publisher.key}'/>">${publisher.title}</a>
       </#if>
 
       </strong>
-      <#-- If anything needs to be placed next to the organization title, put it here -->
-      <span class="note">${organization.numOwnedDatasets} published datasets.</span>
+      <#-- If anything needs to be placed next to the title, put it here -->
+      <span class="note">${publisher.numOwnedDatasets} published datasets.</span>
     </h2>
 
     <div class="footer">
-      <#if organization.description?has_content>
-        <p class="note semi_bottom">${organization.description}</p>
+      <#if publisher.description?has_content>
+        <p class="note semi_bottom">${publisher.description}</p>
       </#if>
     </div>
   </div>

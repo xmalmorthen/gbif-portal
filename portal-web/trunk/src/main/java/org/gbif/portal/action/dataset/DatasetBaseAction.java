@@ -18,6 +18,7 @@ import org.gbif.portal.action.dataset.util.DisplayableTaxonomicCoverage;
 import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverage;
 import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverages;
 import org.gbif.portal.action.member.MemberBaseAction;
+import org.gbif.portal.action.member.MemberType;
 import org.gbif.portal.exception.NotFoundException;
 
 import java.util.ArrayList;
@@ -46,8 +47,8 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
   private static final Logger LOG = LoggerFactory.getLogger(DatasetBaseAction.class);
   protected DatasetMetrics metrics;
   protected Installation installation;
-  protected Organization owningOrganization;
-  protected Organization hostingOrganization;
+  protected Organization publisher;
+  protected Organization host;
   protected Dataset parentDataset;
 
   private List<OrganizedTaxonomicCoverages> organizedCoverages = Lists.newArrayList();
@@ -68,7 +69,7 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
   protected DatasetService datasetService;
 
   public DatasetBaseAction(DatasetService datasetService) {
-    super(datasetService);
+    super(MemberType.DATASET, datasetService);
     this.datasetService = datasetService;
   }
 
@@ -142,8 +143,8 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
     return metrics;
   }
 
-  public Organization getHostingOrganization() {
-    return hostingOrganization;
+  public Organization getHost() {
+    return host;
   }
 
   public Installation getInstallation() {
@@ -157,8 +158,8 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
     return organizedCoverages;
   }
 
-  public Organization getOwningOrganization() {
-    return owningOrganization;
+  public Organization getPublisher() {
+    return publisher;
   }
 
   /**
@@ -180,12 +181,12 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
 
     parentDataset = member.getParentDatasetKey() != null ? datasetService.get(member.getParentDatasetKey()) : null;
 
-    owningOrganization = member.getOwningOrganizationKey() != null ?
-      organizationService.get(member.getOwningOrganizationKey()) : owningOrganization;
+    publisher = member.getOwningOrganizationKey() != null ?
+      organizationService.get(member.getOwningOrganizationKey()) : publisher;
 
     installation = installationService.get(member.getInstallationKey());
 
-    hostingOrganization = organizationService.get(installation.getOrganizationKey());
+    host = organizationService.get(installation.getOrganizationKey());
 
     organizedCoverages = member.getTaxonomicCoverages() != null ?
       constructOrganizedTaxonomicCoverages(member.getTaxonomicCoverages()) : organizedCoverages;

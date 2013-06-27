@@ -1,4 +1,4 @@
-package org.gbif.portal.action.organization;
+package org.gbif.portal.action.publisher;
 
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
@@ -8,6 +8,7 @@ import org.gbif.api.model.registry2.Organization;
 import org.gbif.api.service.registry2.NodeService;
 import org.gbif.api.service.registry2.OrganizationService;
 import org.gbif.portal.action.member.MemberBaseAction;
+import org.gbif.portal.action.member.MemberType;
 
 import com.google.inject.Inject;
 
@@ -23,7 +24,7 @@ public class DetailAction extends MemberBaseAction<Organization> {
 
   @Inject
   public DetailAction(OrganizationService organizationService) {
-    super(organizationService);
+    super(MemberType.PUBLISHER, organizationService);
     this.organizationService = organizationService;
   }
 

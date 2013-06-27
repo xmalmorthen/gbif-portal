@@ -3,19 +3,17 @@
 <#import "/WEB-INF/macros/records.ftl" as records>
 <html>
 <head>
-  <title>Published datasets by organization ${member.title!}</title>
+  <title>Published datasets by ${member.title!}</title>
 </head>
 
 <body class="species">
 
 <#assign tabhl=true />
-<#assign memberType="organization"/>
-<#assign memberTypeLabel="data publisher"/>
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
   <div class="back">
     <div class="content">
-      <a href="<@s.url value='/organization/${id}'/>" title="Back to organization page">Back to organization page</a>
+      <a href="<@s.url value='/publisher/${id}'/>" title="Back to data publisher">Back to data publisher</a>
     </div>
   </div>
 

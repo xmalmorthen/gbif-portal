@@ -30,11 +30,15 @@
 <#include "/WEB-INF/pages/occurrence/inc/infoband.ftl">
 
 <#if showMap>
+  <#assign title=""/>
   <#assign titleRight="Geoposition"/>
+<#else>
+  <#assign title="Geoposition"/>
+  <#assign titleRight=""/>
 </#if>
 
 
-<@common.article id="location" titleRight=titleRight! class="map">
+<@common.article id="location" title=title titleRight=titleRight class="map">
   <#if showMap>
     <div id="map" class="map"></div>
     <div class="right">
@@ -43,7 +47,7 @@
         <p class="light_note">${occ.longitude}, ${occ.latitude} (± 0.25)</p>
 
   <#else>
-    <div class="left">
+    <div class="fullwidth">
     <#if occ.continent??>
         <h3>Continent</h3>
         <p>${occ.continent}</p>
@@ -87,7 +91,7 @@
     <div class="left">
       <h3>Data publisher</h3>
       <p>
-        <a href="<@s.url value='/organization/${publisher.key}'/>" title="">${publisher.title}</a>
+        <a href="<@s.url value='/publisher/${publisher.key}'/>" title="">${publisher.title}</a>
       </p>
 
       <h3>Dataset</h3>

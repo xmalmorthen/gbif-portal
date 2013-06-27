@@ -11,17 +11,7 @@
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
 <@common.article id="information" title="Network Information">
-    <div class="left">
-      <#include "/WEB-INF/pages/member/inc/basics.ftl">
-    </div>
-
-    <div class="right">
-      <#if member.logoURL?has_content>
-        <div class="logo_holder">
-          <img src="${member.logoURL}"/>
-        </div>
-      </#if>
-    </div>
+  <#include "/WEB-INF/pages/member/inc/basics.ftl">
 </@common.article>
 
 </body>

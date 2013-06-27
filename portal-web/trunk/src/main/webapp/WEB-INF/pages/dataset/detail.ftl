@@ -115,24 +115,24 @@
     <p><a href="<@s.url value='/dataset/${parentDataset.key}'/>" title="${parentDataset.title!"Unknown"}">${parentDataset.title!"Unknown"}</a></p>
   </#if>
 
-  <#if owningOrganization??>
+  <#if publisher??>
     <h3>Published by</h3>
-    <p><a href="<@s.url value='/organization/${owningOrganization.key}'/>"
-          title="${owningOrganization.title!"Unknown"}">${owningOrganization.title!"Unknown"}</a></p>
+    <p><a href="<@s.url value='/publisher/${publisher.key}'/>"
+          title="${publisher.title!"Unknown"}">${publisher.title!"Unknown"}</a></p>
   </#if>
 
-  <!-- Only show hosting organization if it's different from owning / publishing org -->
-  <#if hostingOrganization.key! != owningOrganization.key!>
+  <!-- Only show host if it's different from owning publisher -->
+  <#if host.key! != publisher.key!>
     <h3>Hosted by</h3>
-    <p><a href="<@s.url value='/organization/${hostingOrganization.key}'/>"
-          title="${hostingOrganization.title!"Unknown"}">${hostingOrganization.title!"Unknown"}</a></p>
+    <p><a href="<@s.url value='/publisher/${host.key}'/>"
+          title="${host.title!"Unknown"}">${host.title!"Unknown"}</a></p>
   </#if>
 
   <!-- Could be an external dataset, with an owning org, but no endorsing node since it's not in GBIF Network -->
-  <#if (owningOrganization.endorsingNode)?has_content>
+  <#if (publisher.endorsingNode)?has_content>
     <h3>Endorsed by</h3>
-    <p><a href="<@s.url value='/node/${owningOrganization.endorsingNode.key}'/>"
-          title="${owningOrganization.endorsingNode.title!"Unknown"}">${owningOrganization.endorsingNode.title!"Unknown"}</a>
+    <p><a href="<@s.url value='/node/${publisher.endorsingNode.key}'/>"
+          title="${publisher.endorsingNode.title!"Unknown"}">${publisher.endorsingNode.title!"Unknown"}</a>
     </p>
   </#if>
 

@@ -15,6 +15,7 @@ import org.gbif.api.vocabulary.registry2.ContactType;
 import org.gbif.api.vocabulary.registry2.EndpointType;
 import org.gbif.api.vocabulary.registry2.NodeType;
 import org.gbif.portal.action.member.MemberBaseAction;
+import org.gbif.portal.action.member.MemberType;
 import org.gbif.portal.model.CountWrapper;
 
 import java.util.Collections;
@@ -77,7 +78,7 @@ public class DetailAction extends MemberBaseAction<Node> {
 
   @Inject
   public DetailAction(NodeService nodeService, CubeService cubeService) {
-    super(nodeService);
+    super(MemberType.NODE, nodeService);
     this.nodeService = nodeService;
     this.cubeService = cubeService;
   }
@@ -92,7 +93,7 @@ public class DetailAction extends MemberBaseAction<Node> {
     }
 
     loadLatestDatasetsPublished(10);
-    loadOrganizations(10);
+    loadPublishers(10);
     sortContacts();
     return SUCCESS;
   }
@@ -106,9 +107,9 @@ public class DetailAction extends MemberBaseAction<Node> {
   /**
    * Page through endorsed organizations main method used in struts.xml
    */
-  public String organizations() throws Exception {
+  public String publishers() throws Exception {
     super.execute();
-    loadOrganizations(25);
+    loadPublishers(25);
     return SUCCESS;
   }
 
@@ -127,7 +128,7 @@ public class DetailAction extends MemberBaseAction<Node> {
     }
   }
 
-  protected void loadOrganizations(int limit) {
+  protected void loadPublishers(int limit) {
     page = nodeService.endorsedOrganizations(member.getKey(), new PagingRequest(offset, limit));
   }
 
