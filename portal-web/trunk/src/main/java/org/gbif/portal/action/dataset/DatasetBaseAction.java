@@ -93,7 +93,7 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
     for (TaxonomicCoverages coverage : coverages) {
       OrganizedTaxonomicCoverages organizedCoverage = new OrganizedTaxonomicCoverages();
       organizedCoverage.setDescription(coverage.getDescription());
-      organizedCoverage.setCoverages(setOrganizedTaxonomicCoverages(coverage.getCoverages()));
+      organizedCoverage.setCoverages(organizeTaxonomicCoverages(coverage.getCoverages()));
       organizedCoverages.add(organizedCoverage);
     }
     return organizedCoverages;
@@ -252,7 +252,7 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
    * @return list of OrganizedTaxonomicCoverage (one for each unique rank represented in the list of
    *         TaxonomicCoverage), or an empty list if none were added
    */
-  private List<OrganizedTaxonomicCoverage> setOrganizedTaxonomicCoverages(List<TaxonomicCoverage> coverages) {
+  private List<OrganizedTaxonomicCoverage> organizeTaxonomicCoverages(List<TaxonomicCoverage> coverages) {
     List<OrganizedTaxonomicCoverage> organizedTaxonomicCoveragesList = new ArrayList<OrganizedTaxonomicCoverage>();
 
     // create Rank name list, made from Rank vocab names + uninterpreted rank names discovered from coverages list
@@ -264,21 +264,18 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
 
       // iterate through all coverages, and match all with same rank
       for (TaxonomicCoverage coverage : coverages) {
-        // proceed if rank is not null
-        if (coverage.getRank() != null) {
-          // create display name
-          String displayName = createDisplayNameForCoverage(coverage);
-          // proceed if display name created (meaning coverage has at least a scientific name)
-          if (!Strings.isNullOrEmpty(displayName)) {
-            // if the interpreted rank or the verbatim rank matches..
-            Rank interpreted = coverage.getRank().getInterpreted();
-            String verbatim = coverage.getRank().getVerbatim();
-            if ((interpreted != null && rankName.equalsIgnoreCase(interpreted.name())) || (verbatim != null && rankName
-              .equalsIgnoreCase(verbatim))) {
-              // add DisplayableTaxonomicCoverage into OrganizedTaxonomicCoverage
-              DisplayableTaxonomicCoverage displayable = new DisplayableTaxonomicCoverage(coverage, displayName);
-              organizedCoverage.getDisplayableNames().add(displayable);
-            }
+        // create display name
+        String displayName = createDisplayNameForCoverage(coverage);
+        // proceed if display name created (meaning coverage has at least a scientific name)
+        if (!Strings.isNullOrEmpty(displayName)) {
+          // if the interpreted rank or the verbatim rank matches.
+          Rank interpreted = coverage.getRank() == null ? null : coverage.getRank().getInterpreted();
+          String verbatim = coverage.getRank() == null ? null : coverage.getRank().getVerbatim();
+          if ((interpreted != null && rankName.equalsIgnoreCase(interpreted.name())) || (verbatim != null && rankName
+            .equalsIgnoreCase(verbatim) || rankName.equalsIgnoreCase(Rank.UNRANKED.name()))) {
+            // add DisplayableTaxonomicCoverage into OrganizedTaxonomicCoverage
+            DisplayableTaxonomicCoverage displayable = new DisplayableTaxonomicCoverage(coverage, displayName);
+            organizedCoverage.getDisplayableNames().add(displayable);
           }
         }
       }

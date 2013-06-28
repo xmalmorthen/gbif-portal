@@ -5,7 +5,10 @@
   <title>${dataset.title} - Contacts</title>
   <style type="text/css">
     #content div.contact {
-      min-height: 125px;
+      width: 275px !important;
+    }
+    #content h2 {
+      clear: both;
     }
   </style>
 </head>
@@ -34,16 +37,16 @@
       <div class="fullwidth">
 
         <h2>Primary Contacts</h2>
-        <@common.contactList preferredContacts />
+        <@common.contactList contacts=preferredContacts columns=3/>
 
         <#if (dataset.project.contacts)?has_content>
           <h2>Project Personnel</h2>
-          <@common.contactList dataset.project.contacts />
+          <@common.contactList contacts=dataset.project.contacts columns=3 />
         </#if>
 
         <#if otherContacts?has_content >
           <h2>Associated Parties</h2>
-          <@common.contactList otherContacts/>
+          <@common.contactList contacts=otherContacts columns=3/>
         </#if>
 
       </div>

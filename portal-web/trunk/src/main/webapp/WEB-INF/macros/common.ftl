@@ -146,14 +146,14 @@
 </div>
 </#macro>
 
-<#-- Creates a 2 column list of contacts-->
-<#macro contactList contacts>
+<#-- Creates a column list of contacts, defaults to 2 columns -->
+<#macro contactList contacts columns=2>
   <#list contacts as c>
-    <#if c_index%2==0>
+    <#if c_index%columns==0>
       <div class="row">
     </#if>
     <@contact con=c />
-    <#if c_index%2==1 || (c_index%2==0 && !c_has_next) >
+    <#if c_index%columns==columns-1 || (c_index%columns==0 && !c_has_next) >
       </div>
     </#if>
   </#list>
@@ -191,7 +191,7 @@
 </#macro>
 
 <#macro enumParagraph enum>
-  <p><#if enum.interpreted?has_content>${enum.interpreted?string}<#else>${enum.verbatim!}</#if></p>
+  <p><#if enum.interpreted?has_content>${enum.interpreted?string}<#else>${enum.verbatim!"&nbsp;"}</#if></p>
 </#macro>
 
 <#macro article id="" title="" titleRight="" fullWidthTitle=false class="">

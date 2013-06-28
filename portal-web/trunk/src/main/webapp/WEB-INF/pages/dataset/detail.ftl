@@ -24,7 +24,13 @@
           });
       </script>
     </#if>
-  </content>  
+    <style type="text/css">
+        #primaryContacts .contact {
+          width: 199px;
+          float: left;
+        }
+    </style>
+  </content>
 </head>
 <body class="densitymap">
 
@@ -78,8 +84,11 @@
   </#if>
 
   <#if (preferredContacts?size>0) >
-    <#--<h3>Primary Contacts</h3>-->
-    <@common.contactList contacts=preferredContacts/>
+    <div id="primaryContacts">
+      <#list preferredContacts as c>
+        <@common.contact con=c />
+      </#list>
+    </div>
   </#if>
 
   <#-- Display the full keywords / tags if they were too many to show in the title (see infoband.ftl) -->
@@ -255,7 +264,7 @@
             <dt>${oc.rank}</dt>
             <dd>
               <#list oc.displayableNames as dis>
-                <a href="<@s.url value='/species/search?q=${dis.scientificName!dis.commonName}'/><#if dis.rank.interpreted?has_content>&rank=${dis.rank.interpreted!}</#if>">${dis.displayName}</a><#if dis_has_next>, </#if>
+                <a href="<@s.url value='/species/search?q=${dis.scientificName!dis.commonName}'/><#if (dis.rank.interpreted)?has_content>&rank=${dis.rank.interpreted!}</#if>">${dis.displayName}</a><#if dis_has_next>, </#if>
               </#list>
             </dd>
         </#list>
