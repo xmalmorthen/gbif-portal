@@ -66,6 +66,11 @@ sub vcl_recv {
     }
   }
 
+  # the registry console is not public - only GBIFS can access it
+  if ((req.url ~ "^/web" && !client.ip ~ GBIFS)) {
+    error 403 "Not allowed, this page is private to the GBIF Secretariat";
+  }
+
   # first check for uat PORTAL subdomain
   if (req.http.host == "uat.gbif.org") {
 
