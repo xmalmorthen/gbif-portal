@@ -47,7 +47,7 @@
           </h2>
 
           <div class="footer">
-            ${cw.count} occurrence records, ${cw.geoCount} georeferenced
+            ${cw.count} occurrence records<#if cw.geoCount gt 0>, ${100.0 * cw.geoCount / cw.count} % georeferenced</#if>.
           </div>
 
         </div>

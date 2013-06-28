@@ -105,11 +105,6 @@
     </div>
   </#if>
 
-  <#if dataset.pubDate?has_content>
-    <h3>Publication Date</h3>
-    <p>${(dataset.pubDate?date)}</p>
-  </#if>
-
   <#if parentDataset??>
     <h3>Constituent of</h3>
     <p><a href="<@s.url value='/dataset/${parentDataset.key}'/>" title="${parentDataset.title!"Unknown"}">${parentDataset.title!"Unknown"}</a></p>
@@ -120,6 +115,14 @@
     <p><a href="<@s.url value='/publisher/${publisher.key}'/>"
           title="${publisher.title!"Unknown"}">${publisher.title!"Unknown"}</a></p>
   </#if>
+
+  <#if dataset.pubDate?has_content>
+    <h3>Publication Date</h3>
+    <p>${(dataset.pubDate?date)}</p>
+  </#if>
+
+  <h3>Registration Date</h3>
+  <p>${dataset.created?date}</p>
 
   <!-- Only show host if it's different from owning publisher -->
   <#if host.key! != publisher.key!>

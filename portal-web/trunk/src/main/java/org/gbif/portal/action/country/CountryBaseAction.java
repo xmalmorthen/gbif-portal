@@ -196,10 +196,9 @@ public class CountryBaseAction extends DetailAction {
           LOG.warn("Dataset in cube, but not in registry; {}", metric.getKey());
 
         } else {
-          long geoCnt = cubeService.get(new ReadBuilder()
-            .at(OccurrenceCube.DATASET_KEY, d.getKey())
-            .at(OccurrenceCube.IS_GEOREFERENCED, true));
-          datasets.add(new CountWrapper(d, metric.getValue(), geoCnt));
+          long total = cubeService.get(new ReadBuilder()
+            .at(OccurrenceCube.DATASET_KEY, d.getKey()));
+          datasets.add(new CountWrapper(d, metric.getValue(), total));
         }
       }
       idx++;

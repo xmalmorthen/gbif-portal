@@ -34,7 +34,7 @@
         </#if>
           <li>
             <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
-            <span class="note">${cw.count} occurrences, ${cw.geoCount} georeferenced</span>
+            <span class="note">${cw.count} occurrences out of ${cw.geoCount} <#if cw.geoCount gt 0>(${100.0 * cw.count / cw.geoCount} %)</#if></span>
           </li>
       </#list>
       </ul>
@@ -44,7 +44,7 @@
   </div>
 </@common.article>
 
-<@common.article id="countries" title="Countries, territories or islands publishing occurrences about ${country.title}">
+<@common.article id="countries" title="Countries, territories or islands publishing data about ${country.title}" fullWidthTitle=true>
   <div class="fullwidth">
     <#if countries?has_content>
       <ul>
@@ -55,7 +55,7 @@
         </#if>
           <li>
             <a title="${cw.obj.getTitle()}" href="<@s.url value='/country/${cw.obj.getIso2LetterCode()}'/>">${cw.obj.getTitle()}</a>
-            <span class="note"> ${cw.count} occurrences, ${cw.geoCount} georeferenced</span>
+            <span class="note"> ${cw.count} occurrences<#if cw.geoCount gt 0>, ${100.0 * cw.geoCount / cw.count} % georeferenced</#if>.</span>
           </li>
       </#list>
       </ul>

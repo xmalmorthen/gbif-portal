@@ -51,7 +51,7 @@
     <li<#if (tab!"")=="publishing"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/country/${isocode}/publishing'/>" title="Publishing"><span>Data Publishing</span></a>
     </li>
-    <#if node.participationStatus!='FORMER'>
+    <#if node.participationStatus!='FORMER' && node.participationStatus!='OBSERVER'>
       <li<#if (tab!"")=="participation"> class='selected ${hl!}'</#if>>
         <a href="<@s.url value='/country/${isocode}/participation'/>" title="Participation"><span>Participation</span></a>
       </li>

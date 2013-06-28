@@ -13,7 +13,7 @@
 
   <div class="back">
     <div class="content">
-      <a href="<@s.url value='/country/${isocode}/about'/>" title="Back to summary about">Back to summary about ${country.title}</a>
+      <a href="<@s.url value='/country/${isocode}/about'/>" title="Back to data about">Back to data about ${country.title}</a>
     </div>
   </div>
 
@@ -39,7 +39,8 @@
 
           <div class="footer">
             <@s.text name="enum.datasettype.${ds.type!'UNKNOWN'}"/>
-            with <a href="<@s.url value='/occurrence/search?country=${isocode}&datasetKey=${ds.key}'/>">${cw.count} records, ${cw.geoCount} georeferenced</a>
+            with <a href="<@s.url value='/occurrence/search?country=${isocode}&datasetKey=${ds.key}'/>">${cw.count} occurrence<#if cw.count gt 1>s</#if></a>
+              in ${country.title} out of ${cw.geoCount} <#if cw.geoCount gt 0>(${100.0 * cw.count / cw.geoCount} %)</#if>.
           </div>
 
         </div>

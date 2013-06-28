@@ -192,7 +192,7 @@
   <p><#if enum.interpreted?has_content>${enum.interpreted?string}<#else>${enum.verbatim?string!}</#if></p>
 </#macro>
 
-<#macro article id="" title="" titleRight="" class="">
+<#macro article id="" title="" titleRight="" fullWidthTitle=false class="">
 <article<#if id?has_content> id="${id}"</#if> class="${class!}">
   <header></header>
   <#if id?has_content>
@@ -201,7 +201,7 @@
   <div class="content">
     <div class="header">
       <#if title?has_content>
-        <div class="left">
+        <div <#if !fullWidthTitle> class="left"</#if>>
           <h2>${title}</h2>
         </div>
       </#if>

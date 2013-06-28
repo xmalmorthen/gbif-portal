@@ -23,26 +23,8 @@
 
 <#include "/WEB-INF/pages/country/inc/publishing_article.ftl">
 
-<@common.article id="datasets" title="Latest datasets from ${country.title}">
-  <div class="fullwidth">
-    <#if datasets?has_content>
-      <ul class="notes">
-      <#list datasets as cw>
-        <#if cw_index==6>
-            <li class="more"><a href="<@s.url value='/dataset/search?publishingCountry=${country.name()}'/>">${by.occurrenceDatasets + by.checklistDatasets - 6} more</a></li>
-            <#break />
-        </#if>
-          <li>
-            <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
-            <span class="note">${cw.count} records<#if cw.geoCount gt 0>, ${cw.geoCount} georeferenced</#if></span>
-          </li>
-      </#list>
-      </ul>
-    <#else>
-      <p>None published.</p>
-    </#if>
-  </div>
-</@common.article>
+<#include "/WEB-INF/pages/country/inc/latest_datasets_article.ftl">
+
 
 <@common.article id="countries" title="Countries of origin">
   <div class="fullwidth">
@@ -59,7 +41,7 @@
         </#if>
           <li>
             <a title="${cw.obj.getTitle()}" href="<@s.url value='/country/${cw.obj.getIso2LetterCode()}'/>">${cw.obj.getTitle()}</a>
-            <span class="note"> ${cw.count} occurrences, ${cw.geoCount} georeferenced</span>
+            <span class="note"> ${cw.count} occurrences<#if cw.geoCount gt 0>, ${100.0 * cw.geoCount / cw.count} % georeferenced</#if>.</span>
           </li>
       </#list>
       </ul>

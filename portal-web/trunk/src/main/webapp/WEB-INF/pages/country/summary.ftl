@@ -39,37 +39,7 @@
 <#include "/WEB-INF/pages/country/inc/participation.ftl">
 
 <#if node??>
-  <#if feed??>
-    <#assign titleRight = "News" />
-  <#else>
-    <#assign titleRight = "" />
-  </#if>
-  <@common.article id="latest" title="Latest datasets published" titleRight=titleRight>
-      <div class="<#if feed??>left<#else>fullwidth</#if>">
-        <#if datasets?has_content>
-          <ul class="notes">
-            <#list datasets as cw>
-              <#if cw_index==6>
-                  <li class="more"><a href="<@s.url value='/dataset/search?hostCountry=${isocode}'/>">${by.occurrenceDatasets + by.checklistDatasets - 6} more</a></li>
-                  <#break />
-              </#if>
-                <li>
-                  <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
-                  <span class="note">${cw.count} records<#if cw.geoCount gt 0>, ${cw.geoCount} georeferenced</#if></span>
-                </li>
-            </#list>
-          </ul>
-        <#else>
-          <p>None published.</p>
-        </#if>
-      </div>
-
-    <#if feed??>
-      <div class="right">
-          <div id="news"></div>
-      </div>
-    </#if>
-  </@common.article>
+  <#include "/WEB-INF/pages/country/inc/latest_datasets_article.ftl">
 </#if>
 
 
