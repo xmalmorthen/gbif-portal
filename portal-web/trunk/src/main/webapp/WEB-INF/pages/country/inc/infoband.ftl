@@ -18,9 +18,15 @@
   <h1>${country.title}</h1>
 
   <#if isocode='TW'>
+    <#-- dirty hack just for troublesome Taiwain -->
     <h3>A GBIF Associate Participant Economy</h3>
   <#elseif node??>
-    <h3>A GBIF <@s.text name="enum.participantstatus.${node.participationStatus}"/> <@s.text name="enum.nodetype.${node.type}"/> <#if node.participationStatus!='Observer'>Participant</#if> from <@s.text name="enum.region.${node.gbifRegion!}"/></h3>
+    <h3>A GBIF
+      <@s.text name="enum.participantstatus.${node.participationStatus}"/>
+      <#if node.type!='OTHER'> <@s.text name="enum.nodetype.${node.type}"/></#if>
+      <#if node.participationStatus!='OBSERVER'>Participant</#if>
+        from <@s.text name="enum.region.${node.gbifRegion!}"/>
+    </h3>
   <#else>
     <h3>&nbsp;</h3>
   </#if>
@@ -45,9 +51,11 @@
     <li<#if (tab!"")=="publishing"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/country/${isocode}/publishing'/>" title="Publishing"><span>Data Publishing</span></a>
     </li>
-    <li<#if (tab!"")=="participation"> class='selected ${hl!}'</#if>>
-      <a href="<@s.url value='/country/${isocode}/participation'/>" title="Participation"><span>Participation</span></a>
-    </li>
+    <#if node.participationStatus!='FORMER'>
+      <li<#if (tab!"")=="participation"> class='selected ${hl!}'</#if>>
+        <a href="<@s.url value='/country/${isocode}/participation'/>" title="Participation"><span>Participation</span></a>
+      </li>
+    </#if>
     <li<#if (tab!"")=="news"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/country/${isocode}/news'/>" title="News"><span>News</span></a>
     </li>
