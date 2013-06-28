@@ -507,7 +507,7 @@
         <checklistbank.search.ws.url>http://api.gbif.org/name_usage/</checklistbank.search.ws.url>
         <checklistbank.match.ws.url>http://api.gbif.org/lookup/name_usage/</checklistbank.match.ws.url>
         <occurrence.ws.url>http://api.gbif.org/</occurrence.ws.url>
-        <occurrencedownload.ws.url>http://jawa.gbif.org:8080/occurrence-download-ws/</occurrencedownload.ws.url>
+        <occurrence-download.ws.url>http://jawa.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url>
         <tile-server.url>http://api.gbif.org/map</tile-server.url>
         <metrics.ws.url>http://api.gbif.org/</metrics.ws.url>
         <drupal.url>http://uat.gbif.org</drupal.url>
