@@ -58,9 +58,9 @@
       </div>
     </div>
     <div class="right">
-      <p>This visualization shows the growth in occurrences reco <a href="<@s.url value='/occurrence/search?YEAR=1950%2C*'/>">after 1950</a>. 
+      <p>This visualization shows the growth in occurrences recorded <a href="<@s.url value='/occurrence/search?YEAR=1950%2C*'/>">after 1950</a>. 
       GBIF provides access to many older records, and you can add date range filters to search content for any period.</p>
-      <p>For example, here is a filtered view for records <a href="<@s.url value='/occurrence/search?YEAR=1850%2C1950'/>">between 1850 and 1950</a>.</p>
+      <p>For example, <a href="<@s.url value='/occurrence/search?YEAR=1850%2C1950'/>">here is a filtered view</a> for records between 1850 and 1950.</p>
     </div>
   </div>
   <footer></footer>
