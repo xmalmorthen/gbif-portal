@@ -514,7 +514,7 @@
         <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
         <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
         <!-- trusted application credentials -->
-        <application.key>gbif.portal</application.key>
+        <portal.application.key>gbif.portal</portal.application.key>
         <image-cache.url>http://api.gbif.org/image</image-cache.url>
 
       </properties>
