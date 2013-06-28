@@ -122,7 +122,9 @@
 -->
 <#macro contact con>
 <div class="contact">
-  <a name="contact${con.key?c!}"></a>
+  <#if con.key??>
+    <a name="contact${con.key?c!}"></a>
+  </#if>
   <#if con.type?has_content>
    <div class="contactType">
     <#if con.type?has_content>
@@ -189,7 +191,7 @@
 </#macro>
 
 <#macro enumParagraph enum>
-  <p><#if enum.interpreted?has_content>${enum.interpreted?string}<#else>${enum.verbatim?string!}</#if></p>
+  <p><#if enum.interpreted?has_content>${enum.interpreted?string}<#else>${enum.verbatim!}</#if></p>
 </#macro>
 
 <#macro article id="" title="" titleRight="" fullWidthTitle=false class="">
