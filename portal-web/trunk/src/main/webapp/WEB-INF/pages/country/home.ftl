@@ -110,6 +110,11 @@
   </div>
 </@common.article>
 
+<@common.notice title="Names of countries, territories and islands">
+    <p>Names of countries, territories and islands are based on the
+        <a href="http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm">ISO 3166-1</a> standard.
+    </p>
+</@common.notice>
 
 </body>
 </html>

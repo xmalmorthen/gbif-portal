@@ -15,7 +15,7 @@
 -->
 
 <content tag="infoband">
-  <h1>${country.title}</h1>
+  <h1 class="fullwidth">${common.limit(country.title, 70)}</h1>
 
   <#if isocode='TW'>
     <#-- dirty hack just for troublesome Taiwain -->
@@ -31,7 +31,7 @@
     <h3>&nbsp;</h3>
   </#if>
 
-    <h3>Countries, territories and islands are based on the
+    <h3>Names of countries, territories and islands are based on the
         <a href="http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm">ISO 3166-1</a> standard.
     </h3>
 </content>
