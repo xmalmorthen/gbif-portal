@@ -245,9 +245,9 @@
       <result>/WEB-INF/pages/species/references.ftl</result>
     </action>
 
-    <action name="*/typespecimens" class="org.gbif.portal.action.species.TypeSpecimenAction">
+    <action name="*/types" class="org.gbif.portal.action.species.TypesAction">
       <param name="id">{1}</param>
-      <result>/WEB-INF/pages/species/typespecimens.ftl</result>
+      <result>/WEB-INF/pages/species/types.ftl</result>
     </action>
 
     <action name="*/vernaculars" class="org.gbif.portal.action.species.VernacularNameAction">

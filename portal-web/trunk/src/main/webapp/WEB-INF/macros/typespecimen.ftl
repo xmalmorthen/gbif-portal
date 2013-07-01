@@ -1,21 +1,4 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
-<#--
-	Checks if a Type Specimen record is valid and returns true or false.
-	Records are invalid only if they have a type status of typegenus,typespecies,genus or species
-	and no scientific name is given.
-
-	See http://dev.gbif.org/issues/browse/POR-409
--->
-<#function isValidType ts>
-  <#if ts.typeStatus?has_content && !ts.scientificName?has_content>
-    <#list ["typegenus","typespecies","genus","species"] as test>
-      <#if ts.typeStatus?replace(" ","")?lower_case = test>
-        <#return false />
-      </#if>
-    </#list>
-  </#if>
-  <#return true />
-</#function>
 
 <#--
 	Construct a Type Specimen header with the type status and scientific name if given.

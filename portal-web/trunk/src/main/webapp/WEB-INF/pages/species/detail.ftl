@@ -96,6 +96,7 @@
       }
       <#-- EXECUTED ON WINDOWS LOAD -->
       $(function() {
+        // taxonomic tree
         loadChildren();
         $("#taxonomicChildren .inner").scroll(function(){
           var triggerHeight = $("#taxonomicChildren .sp").height() - $(this).height() - 100;
@@ -103,6 +104,9 @@
             loadChildren();
           }
         });
+
+        // description TOC
+        initDescriptions();
 
         // image slideshow
         $("#images").speciesSlideshow(${id?c});
@@ -375,30 +379,9 @@
 
         <#if usage.distributions?has_content>
           <h3>Distributions</h3>
-          <ul>
-          <#-- Show first 7 distributions only -->
-          <#assign skipped=0/> 
-          <#list usage.distributions as d>
-            <#if d.locationId?? || d.country?? || d.locality?? >
-              <li>            
-                <#if d.country??>${d.country.title}</#if>
-                ${d.locationId!} ${d.locality!}
-                <span class="note">
-                  ${d.lifeStage!} ${d.temporal!} <@s.text name='enum.occurrencestatus.${d.status!"PRESENT"}'/>
-                  <#if d.threatStatus??><@s.text name="enum.threatstatus.${d.threatStatus}"/></#if>
-                  <#if d.establishmentMeans??><@s.text name='enum.establishmentmeans.${d.establishmentMeans}'/></#if>
-                  <#if d.appendixCites??>Cites ${d.appendixCites}</#if>
-                </span>
-              </li>
-            <#else>
-              <#assign skipped=skipped+1/>
-            </#if>
-            <#if d_has_next && d_index==6+skipped>
-             <li class="more"><a href="<@s.url value='/species/${id?c}/distributions'/>">more</a></li>
-             <#break>
-            </#if>
-          </#list>
-          </ul>
+          <p>
+             Text based <a href="<@s.url value='/species/${id?c}/distributions'/>">distributions</a> present in some sources.
+          </p>
         </#if>
       </div>
     </div>
@@ -475,12 +458,12 @@
     </div>
 
     <div class="right">
-      <h2 class="title">Margerite (Leucanthemum vulgare), Asteroideae, Illustration: (2) zygomorphe Zungenblüte mit drei Kronzipfeln, (3),(4) und (5) radiäsymmetrische Röhrenblüte.</h2>
+      <h2 class="title">...</h2>
       <div class="scrollable small">
 
       </div>
     </div>
-    <div class="counter">1 / 3</div>
+    <div class="counter">1 / 1</div>
   </@common.article>
 </#if>
 
@@ -530,40 +513,30 @@
 </#if>
 
 <#if (usage.typeSpecimens?size>0)>
-  <@common.article id="typespecimen" title="Type specimens">
-    <div class="left">
+  <@common.article id="types" title="Types">
+    <div class="fullwidth">
       <#list usage.typeSpecimens as ts>
         <ul>
-          <#if types.isValidType(ts)>
-              <li>
-              <#-- the scientific name must be present, or nothing gets shown -->
-                <#if ts.typeStatus?has_content>
-                  <strong>${ts.typeStatus?capitalize}</strong>
-                  <#if ts.scientificName?has_content>
-                    - <a href="<@s.url value='/species/search?q=${ts.scientificName}'/>">${ts.scientificName}</a> <@common.usageSource component=ts showChecklistSource=nub />
-                  </#if>
-                  <@types.details ts />
-                </#if>
-              </li>
-          </#if>
+          <li>
+          <#-- the scientific name must be present, or nothing gets shown -->
+            <#if ts.typeStatus?has_content>
+              <strong>${ts.typeStatus?capitalize}</strong>
+              <#if ts.scientificName?has_content>
+                - <a href="<@s.url value='/species/search?q=${ts.scientificName}'/>">${ts.scientificName}</a> <@common.usageSource component=ts showChecklistSource=nub />
+              </#if>
+              <@types.details ts />
+            </#if>
+          </li>
         </ul>
 
         <#-- only show 4 type specimens at max -->
         <#if ts_has_next && ts_index==3>
           <p class="more">
-            <a href="<@s.url value='/species/${id?c}/typespecimens'/>">more</a>
+            <a href="<@s.url value='/species/${id?c}/types'/>">more</a>
           </p>
           <#break>
         </#if>
       </#list>
-    </div>
-    <div class="right">
-      <h3>Specimens by type</h3>
-      <ul>
-        <#list typeStatusCounts?keys as prop>
-          <li>${prop} <a class="number">${typeStatusCounts.get(prop)}</a></li>
-        </#list>
-      </ul>
     </div>
   </@common.article>
 </#if>

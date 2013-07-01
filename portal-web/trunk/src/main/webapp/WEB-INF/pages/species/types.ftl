@@ -24,14 +24,13 @@
 
       <div class="header">
         <div class="left">
-          <h2>${page.count!} Type Specimens for "${usage.canonicalOrScientificName!}"</h2>
+          <h2>${page.count!} Types for "${usage.canonicalOrScientificName!}"</h2>
         </div>
       </div>
 
       <div class="fullwidth">
 
       <#list page.results as item>
-        <#if types.isValidType(item)>
         <div class="result">
           <h2>
             <strong>
@@ -45,7 +44,6 @@
           </div>
 
         </div>
-        </#if>
       </#list>
         <div class="footer">
         <@paging.pagination page=page url=currentUrl/>

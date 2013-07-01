@@ -3,7 +3,6 @@ package org.gbif.portal.action.species;
 import org.gbif.api.model.checklistbank.Description;
 import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.model.checklistbank.NameUsageComponent;
-import org.gbif.api.model.checklistbank.TypeSpecimen;
 import org.gbif.api.model.checklistbank.VernacularName;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingRequest;
@@ -74,7 +73,6 @@ public class DetailAction extends UsageBaseAction {
   private final DescriptionToc descriptionToc = new DescriptionToc();
   private final List<String> habitats = Lists.newArrayList();
   private final List<NameUsage> related = Lists.newArrayList();
-  private final Map<String, Integer> typeStatusCounts = Maps.newHashMap();
   private SortedMap<UUID, Integer> occurrenceDatasetCounts = Maps.newTreeMap(); // not final, since replaced
   private final LinkedHashMap<String, List<VernacularName>> vernacularNames = Maps.newLinkedHashMap();
   private boolean nubSourceExists = false;
@@ -114,6 +112,7 @@ public class DetailAction extends UsageBaseAction {
     loadUsageDetails();
     populateVernacularNames();
     populateHabitats();
+
     for (NameUsage u : sublist(related, MAX_COMPONENTS)) {
       loadDataset(u.getDatasetKey());
     }
@@ -135,7 +134,7 @@ public class DetailAction extends UsageBaseAction {
     for (UUID uuid : sublist(Lists.newArrayList(occurrenceDatasetCounts.keySet()), MAX_COMPONENTS)) {
       loadDataset(uuid);
     }
-    populateTypeSpecimenFacets();
+
     return SUCCESS;
   }
 
@@ -180,11 +179,6 @@ public class DetailAction extends UsageBaseAction {
   }
 
   @NotNull
-  public Map<String, Integer> getTypeStatusCounts() {
-    return typeStatusCounts;
-  }
-
-  @NotNull
   public Map<String, List<VernacularName>> getVernacularNames() {
     return vernacularNames;
   }
@@ -212,6 +206,7 @@ public class DetailAction extends UsageBaseAction {
     usage.setDistributions(distributionService.listByUsage(id, page10).getResults());
     usage.setImages(imageService.listByUsage(id, page1).getResults()); // first only
     usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
+    TypesAction.removeInvalidTypes(usage.getTypeSpecimens());
     usage.setSpeciesProfiles(speciesProfileService.listByUsage(id, page20).getResults());
     for (Description d : descriptionService.listByUsage(id, page50).getResults()) {
       descriptionToc.addDescription(d);
@@ -236,20 +231,6 @@ public class DetailAction extends UsageBaseAction {
     appendHabitat(usage.isFreshwater(), "enum.habitat.freshwater");
     for (String h : usage.getHabitats()) {
       habitats.add(h);
-    }
-  }
-
-  /**
-   * Iterate through all types and count the number of times each different typeStatus appears. Store this information
-   * in a map, key=typeStatus and value=count. This map is used in the .ftl to filter the TypeSpecimen.
-   */
-  private void populateTypeSpecimenFacets() {
-    for (TypeSpecimen ts : usage.getTypeSpecimens()) {
-      String typeStatus = Strings.emptyToNull(ts.getTypeStatus());
-      if (typeStatus != null) {
-        int count = typeStatusCounts.containsKey(typeStatus) ? typeStatusCounts.get(typeStatus) : 1;
-        typeStatusCounts.put(typeStatus, count);
-      }
     }
   }
 
