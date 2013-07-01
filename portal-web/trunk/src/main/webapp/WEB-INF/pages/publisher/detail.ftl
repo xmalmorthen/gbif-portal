@@ -24,7 +24,7 @@
         <#list page.results as d>
           <li>
             <a href="<@s.url value='/dataset/${d.key}'/>">${d.title!"???"}</a>
-            <span class="note">A ${d.subtype!} <@s.text name="enum.datasettype.${d.type!}"/>
+            <span class="note">${d.subtype!} <@s.text name="enum.datasettype.${d.type!}"/>
               <#if d.pubDate??>${d.pubDate?date?string.medium}</#if></span>
           </li>
         </#list>
