@@ -45,6 +45,7 @@ import org.slf4j.LoggerFactory;
 public class DatasetBaseAction extends MemberBaseAction<Dataset> {
 
   private static final Logger LOG = LoggerFactory.getLogger(DatasetBaseAction.class);
+  protected static final String EMPTY_RANK = "RANK_NOT_SPECIFIED";
   protected DatasetMetrics metrics;
   protected Installation installation;
   protected Organization publisher;
@@ -231,6 +232,8 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
         s.add(cov.getRank().getVerbatim().toUpperCase().trim());
       }
     }
+    // include "RANK NOT SPECIFIED" used to categorize coverages with no rank specified
+    s.add(EMPTY_RANK);
     return ImmutableList.<String>copyOf(s);
   }
 
@@ -268,11 +271,13 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
         String displayName = createDisplayNameForCoverage(coverage);
         // proceed if display name created (meaning coverage has at least a scientific name)
         if (!Strings.isNullOrEmpty(displayName)) {
-          // if the interpreted rank or the verbatim rank matches.
+          // Check if the interpreted rank or the verbatim rank matches.
+          // Check for cases where there is no rank specified, only scientific name (grouped under RANK NOT SPECIFIED)
           Rank interpreted = coverage.getRank() == null ? null : coverage.getRank().getInterpreted();
           String verbatim = coverage.getRank() == null ? null : coverage.getRank().getVerbatim();
           if ((interpreted != null && rankName.equalsIgnoreCase(interpreted.name())) || (verbatim != null && rankName
-            .equalsIgnoreCase(verbatim) || rankName.equalsIgnoreCase(Rank.UNRANKED.name()))) {
+            .equalsIgnoreCase(verbatim)) || (verbatim == null && interpreted == null && rankName
+            .equalsIgnoreCase(EMPTY_RANK))) {
             // add DisplayableTaxonomicCoverage into OrganizedTaxonomicCoverage
             DisplayableTaxonomicCoverage displayable = new DisplayableTaxonomicCoverage(coverage, displayName);
             organizedCoverage.getDisplayableNames().add(displayable);

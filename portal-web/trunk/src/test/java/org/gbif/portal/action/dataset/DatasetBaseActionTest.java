@@ -62,10 +62,15 @@ public class DatasetBaseActionTest {
     coverage_2_3.setScientificName("Pteridophyta");
     coverage_2_3.setRank(new InterpretedEnum("FEYELUM", null));
 
+    // only having scientific name
+    TaxonomicCoverage coverage_2_4 = new TaxonomicCoverage();
+    coverage_2_4.setScientificName("Euphyllophytina");
+
     List<TaxonomicCoverage> coverageList2 = new ArrayList<TaxonomicCoverage>();
     coverageList2.add(coverage_2_1);
     coverageList2.add(coverage_2_2);
     coverageList2.add(coverage_2_3);
+    coverageList2.add(coverage_2_4);
 
     coverages2.setCoverages(coverageList2);
     coverages2.setDescription("Coverages #2 description");
@@ -95,7 +100,7 @@ public class DatasetBaseActionTest {
     // assert some things about 2nd coverages
     assertEquals("Coverages #2 description", organizedCoverages.get(1).getDescription());
     // assert there is an OrganizedTaxonomicCoverage for each unique Rank encountered in TaxonomicCoverage list
-    assertEquals(2, organizedCoverages.get(1).getCoverages().size());
+    assertEquals(3, organizedCoverages.get(1).getCoverages().size());
 
     // check OrganizedTaxonomicCoverage
     OrganizedTaxonomicCoverage organizedCoverage2_1 = organizedCoverages.get(1).getCoverages().get(0);
@@ -106,6 +111,11 @@ public class DatasetBaseActionTest {
     OrganizedTaxonomicCoverage organizedCoverage2_2 = organizedCoverages.get(1).getCoverages().get(1);
     assertEquals(1, organizedCoverage2_2.getDisplayableNames().size());
     assertEquals("FEYELUM", organizedCoverage2_2.getRank());
+
+    // check OrganizedTaxonomicCoverage for coverage having no rank, only scientific name
+    OrganizedTaxonomicCoverage organizedCoverage2_3 = organizedCoverages.get(1).getCoverages().get(2);
+    assertEquals(1, organizedCoverage2_3.getDisplayableNames().size());
+    assertEquals("Euphyllophytina", organizedCoverage2_3.getDisplayableNames().get(0).getScientificName());
   }
 
 }
