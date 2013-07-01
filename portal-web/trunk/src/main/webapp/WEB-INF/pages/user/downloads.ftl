@@ -57,7 +57,8 @@
                   <dt>Status</dt>
                   <dd>
                     <#if d.available>
-                        Ready for <a href="${cfg.wsOccDownload}occurrence/download/${d.key}.zip">download</a> since ${d.completed?datetime?string.short_medium}
+                        <!-- cfg.wsOccDownload is not public, but needed for authentication. Therefore wsOccDownloadForPublicLink was created which is public -->
+                        Ready for <a href="${cfg.wsOccDownloadForPublicLink}occurrence/download/${d.key}.zip">download</a> since ${d.completed?datetime?string.short_medium}
                     <#else>
                         Still running. Do you want to <a href="<@s.url value='/user/cancel?key=${d.key}'/>">cancel</a> the query?
                     </#if>

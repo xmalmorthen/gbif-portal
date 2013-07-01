@@ -12,7 +12,8 @@
 
 <@common.article id="started" title="Download Started">
     <div>
-        <p>Your <a href="${cfg.wsOccDownload}occurrence/download/${jobId}">download #${jobId}</a> is running</p>
+        <!-- cfg.wsOccDownload is not public, but needed for authentication. Therefore wsOccDownloadForPublicLink was created which is public -->
+        <p>Your <a href="${cfg.wsOccDownloadForPublicLink}occurrence/download/${jobId}">download #${jobId}</a> is running</p>
         <p>Please expect 10 to 15 minutes for the download to complete. <br/>
            A notification email with a link to download the results will be sent to the following addresses once ready:
           <ul>

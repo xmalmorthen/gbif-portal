@@ -508,6 +508,7 @@
         <checklistbank.match.ws.url>http://api.gbif.org/lookup/name_usage/</checklistbank.match.ws.url>
         <occurrence.ws.url>http://api.gbif.org/</occurrence.ws.url>
         <occurrence-download.ws.url>http://jawa.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url>
+        <occurrence-download.ws.url.for.public.link>http://api.gbif.org/</occurrence-download.ws.url.for.public.link>
         <tile-server.url>http://api.gbif.org/map</tile-server.url>
         <metrics.ws.url>http://api.gbif.org/</metrics.ws.url>
         <drupal.url>http://uat.gbif.org</drupal.url>
@@ -542,6 +543,7 @@
         <checklistbank.match.ws.url>http://apidev.gbif.org/lookup/name_usage/</checklistbank.match.ws.url>
         <occurrence.ws.url>http://apidev.gbif.org/</occurrence.ws.url>
         <occurrence-download.ws.url>http://staging.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url>
+        <occurrence-download.ws.url.for.public.link>http://staging.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url.for.public.link>
         <tile-server.url>http://apidev.gbif.org/map</tile-server.url>
         <metrics.ws.url>http://apidev.gbif.org/</metrics.ws.url>
         <drupal.url>http://staging.gbif.org/drupal</drupal.url>
@@ -574,6 +576,7 @@
         <checklistbank.match.ws.url>http://staging.gbif.org:8080/lookup/name_usage/</checklistbank.match.ws.url>
         <occurrence.ws.url>http://staging.gbif.org:8080/occurrence-ws/</occurrence.ws.url>
         <occurrence-download.ws.url>http://staging.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url>
+        <occurrence-download.ws.url.for.public.link>http://staging.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url.for.public.link>
         <tile-server.url>http://staging.gbif.org:8080/tile-server/</tile-server.url>
         <metrics.ws.url>http://staging.gbif.org:8080/metrics-ws</metrics.ws.url>
         <drupal.url>http://staging.gbif.org/drupal</drupal.url>
@@ -608,6 +611,7 @@
         <checklistbank.match.ws.url>http://localhost:7001/lookup/name_usage/</checklistbank.match.ws.url>
         <occurrence.ws.url>http://localhost:7001/</occurrence.ws.url>
         <occurrence-download.ws.url>http://staging.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url>
+        <occurrence-download.ws.url.for.public.link>http://staging.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url.for.public.link>
         <tile-server.url>http://localhost:7001/map</tile-server.url>
         <metrics.ws.url>http://localhost:7001/</metrics.ws.url>
         <drupal.url>http://staging.gbif.org/drupal</drupal.url>

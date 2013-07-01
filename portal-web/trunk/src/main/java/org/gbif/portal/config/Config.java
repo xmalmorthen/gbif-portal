@@ -47,6 +47,7 @@ public class Config {
   private String wsOccCollectorNameSearch;
   private String wsOccSearch;
   private String wsOccDownload;
+  private String wsOccDownloadForPublicLink;
   private String wsReg;
   private String wsRegSearch;
   private String wsRegSuggest;
@@ -82,6 +83,7 @@ public class Config {
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
       cfg.wsOccSearch = cfg.wsOcc + OCC_SEARCH_PATH;
       cfg.wsOccDownload = getPropertyUrl(properties, "occurrencedownload.ws.url", true);
+      cfg.wsOccDownloadForPublicLink = getPropertyUrl(properties, "occurrencedownload.ws.url.for.public.link", true);
       cfg.wsMetrics = getPropertyUrl(properties, "metrics.ws.url", true);
       cfg.wsOccCatalogNumberSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + CATALOG_NUMBER_PATH;
       cfg.wsOccCollectorNameSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + COLLECTOR_NAME_PATH;
@@ -221,5 +223,14 @@ public class Config {
 
   public String getGoogleAnalytics() {
     return googleAnalytics;
+  }
+
+  /**
+   * Get the occurrence download web service url that uses the public API used in links.
+   *
+   * @return the occurrence download web service url that uses the public API
+   */
+  public String getWsOccDownloadForPublicLink() {
+    return wsOccDownloadForPublicLink;
   }
 }
