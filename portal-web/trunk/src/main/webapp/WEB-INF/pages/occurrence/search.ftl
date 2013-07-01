@@ -44,9 +44,18 @@
              $(this).hide();
              $("#emails").show();
          });
-         $('a.download_button').click(function() {
-             console.log("download!")
-             widgetManager.submit({emails:$('#emails').val()}, "<@s.url value='/occurrence/download'/>?");
+         $('a.download_button').click(function(event) {
+             var runDownload = function() {
+               widgetManager.submit({emails:$('#emails').val()}, "<@s.url value='/occurrence/download'/>?");
+             } 
+             // TODO: configurify if we are keeping this
+             if (${searchResponse.count!0} > 1000000) {
+               download.toggle($(this), event, runDownload);               
+             } else {
+               runDownload();
+             }
+                          
+             
          });
       });
     </script>
@@ -73,8 +82,6 @@
     </content>
   </head>
   <body class="search">
-
-
     <content tag="infoband">
         <div class="content">
         <h1>Search occurrences</h1>

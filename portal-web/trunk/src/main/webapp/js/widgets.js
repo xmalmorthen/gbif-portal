@@ -1431,6 +1431,99 @@ var dialogPopover = (function() {
 * DOWNLOAD POPOVER
 * ================
 */
+var download = (function() {
+  var
+  el,
+  callback,
+  displayed       = false,
+  transitionSpeed = 200;
+  // reusing the ID based disclaimer CSS rules - they can't both exist at the same time
+  var template = ['<div id="download_popover" class="infowindow">',
+        '<div class="lheader"></div>',
+        '<div class="content">',
+          '<h2>Confirmation</h2>',
+          '<p>You are about to run a large download.</p>',
+          '<p>While this system is still under test, please be considerate and don\'t run <strong>unnnecessary</strong> large downloads</p>',
+          '<p>Running a large download spawns significant processing, which might reduce service levels for others.</p>',
+          '<p>Large downloads may result in 100s gigabytes of data.</p>',
+          '<a id="run-download" class="candy_blue_button close"><span>OK, run the download</span></a>',
+          '<a class="candy_blue_button close" style="margin-right:20px"><span>Cancel</span></a>',
+        '</div>',
+        '<div class="lfooter white">',
+        '</div>',
+      '</div>'].join(' ');
+
+  function toggle(e, event, cb) {
+    event.stopPropagation();
+    event.preventDefault();
+    el = e;
+    callback = cb;
+    displayed ? hide() : show();
+  }
+
+  function getTopPosition() {
+    return (( $(window).height() - $popover.height()) / 2) + $(window).scrollTop() - 50;
+  }
+
+  function setupBindings() {
+    $popover.find(".close").click(function(event) {
+      event.preventDefault();
+      displayed && hide();
+    });
+    
+    $popover.find("#run-download").click(function (event) {
+      callback(); // run it
+    });
+    
+    $popover.click(function(event) {
+      event.stopPropagation();
+    });
+  }
+
+  function show() {
+    $("#content").prepend(template);
+    $popover = $("#download_popover");
+
+    setupBindings();
+    $popover.css("top", getTopPosition() + "px");
+    $popover.fadeIn("slow", function() {
+      hidden = false;
+    });
+
+    $("body").append("<div id='lock_screen'></div>");
+    $("#lock_screen").height($(document).height());
+    $("#lock_screen").fadeIn("slow");
+    $("#lock_screen").on("click", hide);
+
+    displayed = true;
+  }
+
+  function hide(callback) {
+    $popover.find('a.close').unbind("click");
+
+    $popover.fadeOut(transitionSpeed, function() {
+      $popover.remove();
+      displayed = false;
+    });
+
+    $("#lock_screen").fadeOut(transitionSpeed, function() {
+      $("#lock_screen").remove();
+      callback && callback();
+    });
+  }
+
+  return {
+    toggle: toggle,
+    show: show,
+    hide: hide
+  };
+})();
+
+/*
+* ================
+* DISCLAIMER POPOVER
+* ================
+*/
 
 var disclaimer = (function() {
   var
