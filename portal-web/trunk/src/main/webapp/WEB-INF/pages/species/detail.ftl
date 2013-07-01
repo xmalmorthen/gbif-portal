@@ -638,7 +638,7 @@
       <#if nubSourceExists>
         <br/>View the <a class="source" data-baseurl="<@s.url value='/species/'/>" href="<@s.url value='/species/${usage.sourceId}'/>">primary source name usage</a>.
       <#else>
-        The primary source name usage (${usage.sourceId}) has since been removed from Checklistbank.
+        The primary source name usage (${usage.sourceId}) has since been removed from the portal.
       </#if>
     <#else>
       <@s.text name="enum.origin.${usage.origin}"/>.
