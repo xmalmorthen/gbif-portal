@@ -11,12 +11,10 @@
       <h1>Oops</h1>
 
       <p>It seems you have discovered an unforseen error! <br/>
-        Would you mind helping us to improve the GBIF Portal and
-        <a href="http://code.google.com/p/gbif-dataportal/issues/entry?summary=portal%20error">file a small bug
-          report</a> for this exception?
+        Please use the <strong>Report a bug</strong> button on the right to file an issue. 
       </p>
 
-      <p>Thanks a million, the GBIF development team.</p>
+      <p>Thank you for helping to improve the service.</p>
 
     </div>
     <footer></footer>
