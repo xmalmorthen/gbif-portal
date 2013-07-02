@@ -31,10 +31,5 @@ public class SpeciesDetailSeleniumIT extends SeleniumTestBase {
     // its 6 checklists & 6 occurrences plus 2 see more links
     assertEquals("Expected appears in entries", 14, content.findElements(By.cssSelector("#appearsin div.col li"))
       .size());
-
-    // this species id should bring back 7 distributions
-    assertEquals("Expected distribution entries", 8, map.findElements(By.cssSelector(".right li")).size());
-
   }
-
 }
