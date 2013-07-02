@@ -75,9 +75,9 @@ sub vcl_recv {
   if (req.http.host == "uat.gbif.org") {
 
     # the portal is not yet public - only GBIFS can access it!
-    if (!client.ip ~ GBIFS) {
-      error 403 "Not allowed, this page is private to the GBIF Secretariat";
-    }
+    #if (!client.ip ~ GBIFS) {
+      #error 403 "Not allowed, this page is private to the GBIF Secretariat";
+    #}
 
     # is this a webservice call which should go to api.gbif.org?
     if ( req.url ~ "^/[a-z-]-ws" ) {
