@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>Countries</title>
+  <title>Countries, territories and islands</title>
   <#--
 
   COMMENTED OUT MAP IN THIS RELEASE
@@ -83,7 +83,8 @@
       <p>Countries, territories and islands are based on the
           <a href="http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm">ISO 3166-1</a> standard.
       </p>
-      <p><a id="toggleCountryList" href="#">List of all countries</a></p>
+      <p><a id="toggleCountryList" href="#">List of all countries, territories and islands</a></p>
+    </h3>
     </div>
 
     <footer></footer>
@@ -102,19 +103,21 @@
   </div>
 </#macro>
 
+<@common.notice title="Names of countries, territories and islands">
+    <p>Names of countries, territories and islands are based on the
+        <a href="http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm">ISO 3166-1</a> standard.
+    </p>
+</@common.notice>
+
+
 <#assign maxLftIdx = (countries.size()/2)?ceiling - 2 />
-<@common.article id="country_list" title="Country List">
+<@common.article id="country_list" title="Countries, territories and islands">
   <div class="fullwidth">
     <@countryList minIdx=-1 maxIdx=maxLftIdx />
     <@countryList minIdx=maxLftIdx-1 maxIdx=10+maxLftIdx*2/>
   </div>
 </@common.article>
 
-<@common.notice title="Names of countries, territories and islands">
-    <p>Names of countries, territories and islands are based on the
-        <a href="http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm">ISO 3166-1</a> standard.
-    </p>
-</@common.notice>
 
 </body>
 </html>
