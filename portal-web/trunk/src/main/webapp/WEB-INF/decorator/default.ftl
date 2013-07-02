@@ -110,7 +110,7 @@
           <div class="about">
             <a href="#"></a>
             <ul>
-              <li><a href="${cfg.drupal}/about">What is GBIF?</a></li>
+              <li><a class="placeholder_temp" href="#">What is GBIF?</a></li>
               <li><a class="placeholder_temp" href="#">Key information</a></li>
               <li><a class="placeholder_temp" href="#">Governance</a></li>
               <li><a class="placeholder_temp" href="#">Who we work with</a></li>
