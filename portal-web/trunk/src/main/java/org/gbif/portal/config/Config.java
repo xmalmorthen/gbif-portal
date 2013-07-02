@@ -79,7 +79,7 @@ public class Config {
       cfg.wsClbSuggest = clbSearchWs + "suggest";
       cfg.wsReg = getPropertyUrl(properties, "registry.ws.url", true);
       cfg.wsRegSearch = cfg.wsReg + "dataset/search";
-      cfg.wsRegSuggest = cfg.wsRegSearch + "dataset/suggest";
+      cfg.wsRegSuggest = cfg.wsReg + "dataset/suggest";
       cfg.wsOcc = getPropertyUrl(properties, "occurrence.ws.url", true);
       cfg.wsOccSearch = cfg.wsOcc + OCC_SEARCH_PATH;
       cfg.wsOccDownload = getPropertyUrl(properties, "occurrencedownload.ws.url", true);

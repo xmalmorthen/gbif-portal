@@ -28,9 +28,9 @@
 
           <li>
             <#if by.externalDatasets gt 0>
-              <a href="<@s.url value='/dataset/search?publishingCountry=${country.name()}&type=METADATA'/>">${by.externalDatasets} metadata documents</a>.
+              <a href="<@s.url value='/dataset/search?publishingCountry=${country.name()}&type=METADATA'/>">${by.externalDatasets} metadata only datasets</a>.
             <#else>
-              No external metadata documents.
+              No metadata only datasets.
             </#if>
           </li>
 

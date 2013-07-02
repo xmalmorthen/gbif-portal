@@ -28,9 +28,9 @@
 
           <li>
             <#if about.externalDatasets gt 0>
-              <a href="<@s.url value='/dataset/search?country=${isocode}&type=METADATA'/>">${about.externalDatasets} external datasets</a>
+              <a href="<@s.url value='/dataset/search?country=${isocode}&type=METADATA'/>">${about.externalDatasets} metadata only datasets</a>
             <#else>
-              No external datasets
+              No metadata only datasets
             </#if>
               relevant to ${country.title}.
           </li>
