@@ -64,7 +64,7 @@ public class CountryBaseAction extends DetailAction {
   public String execute() throws Exception {
     country = Country.fromIsoCode(id);
     if (country == null) {
-      throw new NotFoundException("No country found with ISO code" + id);
+      throw new NotFoundException("No country found with ISO code [" + id + ']');
     }
 
     member = nodeService.getByCountry(country);
