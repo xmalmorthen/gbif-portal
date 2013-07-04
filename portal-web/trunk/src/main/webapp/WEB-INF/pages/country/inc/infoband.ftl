@@ -25,7 +25,7 @@
       <@s.text name="enum.participantstatus.${node.participationStatus}"/>
       <#if node.type!='OTHER'> <@s.text name="enum.nodetype.${node.type}"/></#if>
       <#if node.participationStatus!='OBSERVER'>Participant</#if>
-        from <@s.text name="enum.region.${node.gbifRegion!}"/>
+      <#if node.gbifRegion??> from <@s.text name="enum.region.${node.gbifRegion}"/></#if>
     </h3>
   <#else>
     <h3>&nbsp;</h3>

@@ -14,8 +14,8 @@
   <#if type=='NODE'>
     <h3>A GBIF <@s.text name="enum.participantstatus.${member.participationStatus}"/>
       <@s.text name="enum.nodetype.${member.type}"/> Participant
-      <#if member.gbifRegion??> from <@s.text name="enum.region.${member.gbifRegion!}"/></#if>
-      </h3>
+      <#if member.gbifRegion??> from <@s.text name="enum.region.${member.gbifRegion}"/></#if>
+    </h3>
   <#else>
     <h3>
       <@s.text name="enum.membertype.${type}"/><#if member.homepage?has_content>.

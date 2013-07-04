@@ -11,8 +11,10 @@
         <p>${node.participantSince?c}</p>
       </#if>
 
-      <h3>GBIF Region</h3>
-      <p><@s.text name="enum.region.${node.gbifRegion!}"/></p>
+      <#if node.gbifRegion??>
+        <h3>GBIF Region</h3>
+        <p><@s.text name="enum.region.${node.gbifRegion}"/></p>
+      </#if>
 
       <#if headOfDelegation??>
         <h3>Head of Delegation</h3>
