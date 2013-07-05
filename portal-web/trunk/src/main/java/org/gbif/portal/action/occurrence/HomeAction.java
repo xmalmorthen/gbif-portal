@@ -34,6 +34,12 @@ public class HomeAction extends BaseAction {
   private Integer numGeoreferenced;
 
   private Integer numOccurrences;
+  
+  private Map<Kingdom, Long> kingdomCounts; 
+  
+  private Map<BasisOfRecord, Long> borCounts;
+  
+  private Map<Integer, Long> yearCounts;
 
   @Inject
   public HomeAction(CubeService occurrenceCubeService,
@@ -50,11 +56,13 @@ public class HomeAction extends BaseAction {
   }
 
   public Map<BasisOfRecord, Long> getBasisOfRecordCounts() {
-    return occurrenceDistributionIndexService.getBasisOfRecordCounts();
+    // only call once per Action 
+    return borCounts == null ? occurrenceDistributionIndexService.getBasisOfRecordCounts() : borCounts;
   }
 
   public Map<Kingdom, Long> getKingdomCounts() {
-    return occurrenceDistributionIndexService.getKingdomCounts();
+    // only call once per Action 
+    return kingdomCounts == null ? occurrenceDistributionIndexService.getKingdomCounts() : kingdomCounts;
   }
 
 
@@ -70,26 +78,20 @@ public class HomeAction extends BaseAction {
     return maxYear;
   }
 
-
   public Integer getMinYear() {
     return MIN_YEAR;
   }
 
-  /**
-   * @return the numGeoreferenced
-   */
   public Integer getNumGeoreferenced() {
     return numGeoreferenced;
   }
 
-  /**
-   * @return the numOccurrences
-   */
   public Integer getNumOccurrences() {
     return numOccurrences;
   }
 
   public Map<Integer, Long> getYearCounts() {
-    return occurrenceDistributionIndexService.getYearCounts(MIN_YEAR, maxYear);
+    // only call once per Action 
+    return yearCounts == null ? occurrenceDistributionIndexService.getYearCounts(MIN_YEAR, maxYear) : yearCounts;
   }
 }
