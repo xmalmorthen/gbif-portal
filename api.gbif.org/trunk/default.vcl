@@ -66,18 +66,22 @@ sub vcl_recv {
     }
   }
 
-  # the registry console is not public - only GBIFS can access it
-  if ((req.url ~ "^/web" && !client.ip ~ GBIFS)) {
-    error 403 "Not allowed, this page is private to the GBIF Secretariat";
-  }
-
   # first check for uat PORTAL subdomain
   if (req.http.host == "uat.gbif.org") {
 
-    # the portal is not yet public - only GBIFS can access it!
-    #if (!client.ip ~ GBIFS) {
-      #error 403 "Not allowed, this page is private to the GBIF Secretariat";
-    #}
+    # the registry console
+    # TODO: this only exposes the html, but the vital css & js files are not exposed yet as they clash with the portal path. 
+    # Maybe not needed to expose in UAT at all?
+    if ( req.url ~ "^/console" ) {
+      # the console is not public - only GBIFS can access it!
+      if (!client.ip ~ GBIFS) {
+        error 403 "Not allowed, this page is private to the GBIF Secretariat";
+      }
+      set req.backend = jawa;
+      set req.url = regsub(req.url, "^/console", "/registry2-ws/web/index.html");
+      # dont cache any console files
+      return (pass);
+    }
 
     # is this a webservice call which should go to api.gbif.org?
     if ( req.url ~ "^/[a-z-]-ws" ) {
@@ -159,8 +163,8 @@ sub vcl_recv {
     } else if ( req.url ~ "^/image") {
       set req.url = regsub(req.url, "^/image", "/image-cache/");
 
-    } else {
-      # anything left should be registry calls
+    } else if (req.url !~ "^/web") {
+      # anything left should be registry calls - BUT do not expose the console in the API!
       set req.url = regsub(req.url, "^/", "/registry2-ws/");
     }
   }
