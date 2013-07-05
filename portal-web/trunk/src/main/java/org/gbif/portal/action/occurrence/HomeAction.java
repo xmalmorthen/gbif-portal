@@ -52,17 +52,18 @@ public class HomeAction extends BaseAction {
   public String execute() {
     numGeoreferenced = (int) occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.IS_GEOREFERENCED, true));
     numOccurrences = (int) occurrenceCubeService.get(new ReadBuilder());
+    borCounts = occurrenceDistributionIndexService.getBasisOfRecordCounts();
+    kingdomCounts = occurrenceDistributionIndexService.getKingdomCounts();
+    yearCounts = occurrenceDistributionIndexService.getYearCounts(MIN_YEAR, maxYear);
     return SUCCESS;
   }
 
   public Map<BasisOfRecord, Long> getBasisOfRecordCounts() {
-    // only call once per Action 
-    return borCounts == null ? occurrenceDistributionIndexService.getBasisOfRecordCounts() : borCounts;
+    return borCounts;
   }
 
   public Map<Kingdom, Long> getKingdomCounts() {
-    // only call once per Action 
-    return kingdomCounts == null ? occurrenceDistributionIndexService.getKingdomCounts() : kingdomCounts;
+    return kingdomCounts;
   }
 
 
@@ -91,7 +92,6 @@ public class HomeAction extends BaseAction {
   }
 
   public Map<Integer, Long> getYearCounts() {
-    // only call once per Action 
-    return yearCounts == null ? occurrenceDistributionIndexService.getYearCounts(MIN_YEAR, maxYear) : yearCounts;
+    return yearCounts;
   }
 }
