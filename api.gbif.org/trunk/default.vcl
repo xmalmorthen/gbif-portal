@@ -14,14 +14,14 @@ backend jawa {
   # don't overload tomcat (it has 100 connection pool)
   .max_connections = 75;
   # probe the backend to keep connections open
-  .probe = {
-    .url = "/registry2-ws/dataset?limit=1";
-    .timeout = 5s;
-    .interval = 60s;
-    # 9/10 polls must succeed for the backend to be considered alive
-    .window = 10;
-    .threshold = 10;
-  }
+  #.probe = {
+  #  .url = "/registry2-ws/dataset?limit=1";
+  #  .timeout = 5s;
+  #  .interval = 60s;
+  #  # 10/10 polls must succeed for the backend to be considered alive
+  #  .window = 10;
+  #  .threshold = 10;
+  #}
 }
 
 backend drupal {    
