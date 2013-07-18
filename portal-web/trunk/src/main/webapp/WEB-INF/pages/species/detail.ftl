@@ -141,6 +141,9 @@
           overflow: hidden;
           max-height: 85px;
         }
+        #images .scrollable {
+          height: 300px;
+        }
     </style>
   </content>
 <#-- RDFa -->
@@ -482,7 +485,7 @@
 
     <div class="right">
       <h2 class="title">...</h2>
-      <div class="scrollable small">
+      <div class="scrollable">
 
       </div>
     </div>
