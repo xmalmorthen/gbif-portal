@@ -17,29 +17,29 @@ import com.google.common.collect.Maps;
  */
 public class DescriptionToc {
 
-  private final Map<String, Map<Language, List<Integer>>> descriptionToc = Maps.newTreeMap();
+  private final Map<Language, Map<String, List<Integer>>> descriptionToc = Maps.newTreeMap();
 
   public void addDescription(Description description) {
     String topic = "general";
     if (!Strings.isNullOrEmpty(description.getType())) {
       topic = description.getType().toLowerCase();
     }
-    if (!descriptionToc.containsKey(topic)) {
-      descriptionToc.put(topic, Maps.<Language, List<Integer>>newTreeMap());
+
+    Language lang;
+    if (description.getLanguage() == null) {
+      // default to english
+      lang = Language.ENGLISH;
+    } else {
+      lang = description.getLanguage();
     }
 
-    // default as english
-    Language lang = Language.ENGLISH;
-    if (description.getLanguage() != null) {
-      Language l = description.getLanguage();
-      if (l != null) {
-        lang = l;
-      }
+    if (!descriptionToc.containsKey(lang)) {
+      descriptionToc.put(lang, Maps.<String, List<Integer>>newTreeMap());
     }
-    if (!descriptionToc.get(topic).containsKey(lang)) {
-      descriptionToc.get(topic).put(lang, Lists.<Integer>newArrayList());
+    if (!descriptionToc.get(lang).containsKey(topic)) {
+      descriptionToc.get(lang).put(topic, Lists.<Integer>newArrayList());
     }
-    descriptionToc.get(topic).get(lang).add(description.getKey());
+    descriptionToc.get(lang).get(topic).add(description.getKey());
   }
 
   public boolean isEmpty() {
@@ -47,19 +47,20 @@ public class DescriptionToc {
   }
 
   /**
-   * @return map of all languages available for this topic with a list of description keys for each language
+   * @return list of all languages available for this ToC
    */
-  public Map<Language, List<Integer>> listTopicEntries(String topic) {
-    if (descriptionToc.containsKey(topic)) {
-      return descriptionToc.get(topic);
+  public List<Language> listLanguages() {
+    return Lists.newArrayList(descriptionToc.keySet());
+  }
+
+  /**
+   * @return map of all topics for a given language with a list of description keys for each language
+   */
+  public Map<String, List<Integer>> listTopicEntries(Language lang) {
+    if (descriptionToc.containsKey(lang)) {
+      return descriptionToc.get(lang);
     }
     return Maps.newHashMap();
   }
 
-  /**
-   * @return list of all topics available in this toc
-   */
-  public List<String> listTopics() {
-    return Lists.newArrayList(descriptionToc.keySet());
-  }
 }

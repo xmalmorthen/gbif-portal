@@ -1716,13 +1716,25 @@ function updateMetadata(currentPhoto, data) {
     $srcLink = cfg.baseUrl + '/species/' + data.usageKey;
   }
   if ($srcLink) {
-    $metadata.append("<h3>Source</h3><p><a class='source'>" + data.datasetTitle +"</a></p>");
+    // load dataset title and keep it with image
+    getDatasetDetail(data.datasetKey, function(dataset) {
+      $metadata.prepend("<h3>Source</h3><p><a title='" + dataset.title + "' href='" + $srcLink + "'>" + limitText(dataset.title, 28) +"</a></p>");
+    });
   }
 
   updateMetaProp("Image publisher", data.publisher, null);
-  updateMetaProp("Photographer", data.creator + ", " + data.created, null);
+  if (data.creator || data.created) {
+    if (data.creator && data.created) {
+      $val = data.creator + ", " + data.created;
+    } else if (data.creator) {
+      $val = data.creator;
+    } else {
+      $val = data.created;
+    }
+    updateMetaProp("Photographer", $val, null);
+  }
+  updateMetaProp("Copyright", data.license, "No license provided");
   updateMetaProp("Description", data.description, null);
-  updateMetaProp("Copyright", data.license, "No license");
 
 }
 
@@ -1784,10 +1796,6 @@ function initImageData(data) {
   _.each(images, function(imgJson) {
     n++;
     slideData.push(imgJson);
-    // load dataset title and keep it with image
-    getDatasetDetail(imgJson.datasetKey, function(dataset) {
-      imgJson.datasetTitle = dataset.title;
-    });
 
     $photos.append("<li><div class='spinner'/></div><a href='"+imgJson.image+"' class='fancybox' title='"+imgJson.title+"'><img id='photo_"+n+"'src='" + imgJson.image + "' /></a></li>");
 
@@ -1805,8 +1813,9 @@ function initImageData(data) {
       $img.fadeIn(100);
     });
 
-    updateMetadata(0, slideData[0]);
   });
+
+  updateMetadata(0, slideData[0]);
 
   $photos.css("width", slideData.length * photoWidth);
 

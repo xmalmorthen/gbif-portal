@@ -60,10 +60,14 @@
           if (key) {
             var $wsUrl = cfg.wsClb + "description/" + key;
             $.getJSON($wsUrl + '?callback=?', function(data) {
-              $htmlContent = '<p id="descriptionSrc'+index+'" class="note"><strong>Source</strong>: </p>';
-              $htmlContent += "<h3>"+(data.type || "Description") +"</h3>";
-              $htmlContent += "<p>"+data.description+"</p><br/><br/>";
+              $htmlContent = "<h3>"+(data.type || "Description") +"</h3>";
+              $htmlContent += "<p>"+data.description+"</p>";
+              $htmlContent += '<p id="descriptionSrc'+index+'" class="note"><strong>Source</strong>: </p>';
+              if (data.license) {
+                  $htmlContent += '<p class="note"><strong>License</strong>: '+data.license+'</p>';
+              }
               $("#description div.inner").append($htmlContent);
+              $("#description div.inner").append("<br/><br/>");
               if (data.source) {
                 $("#descriptionSrc"+index).append(data.source);
               } else {
@@ -80,21 +84,36 @@
         })
       }
 
-      function initDescriptions(){
-          var firstDescr = $("#description span.language:first");
-          if (firstDescr.length > 0) {
-            loadDescription(firstDescr.attr("data-descriptionKeys"));
+      // show topics for a language
+      function showLanguageTopics(lang){
+          $("#description .topics").hide();
+          $("#topics"+lang).show();
+          $topicLi = $("#topics"+lang + " .topic:first");
+          if ($topicLi.length > 0) {
+            loadDescription($topicLi.attr("data-descriptionKeys"));
           };
-          $("#description span.language").click(function() {
-            loadDescription( $(this).attr("data-descriptionKeys") );
-          });
           // adjust description height to ToC
           var tocHeight = $("#description div.right").height() - 5;
           if (tocHeight > 350) {
             $("#description div.inner").height(tocHeight);
           }
       }
-      <#-- EXECUTED ON WINDOWS LOAD -->
+
+      function initDescriptions(){
+        <#if !descriptionToc.listLanguages().isEmpty()>
+            $showLang = "${descriptionToc.listLanguages()[0].getIso3LetterCode()?upper_case}";
+            showLanguageTopics($showLang);
+            $("#description .topic").click(function(event) {
+              event.preventDefault();
+              loadDescription( $(this).attr("data-descriptionKeys") );
+            });
+            $("#description .toclang").click(function(event) {
+              event.preventDefault();
+              showLanguageTopics($(this).attr("data-lang"));
+            });
+        </#if>
+      }
+
       $(function() {
         // taxonomic tree
         loadChildren();
@@ -432,17 +451,21 @@
 
     <div class="right">
       <h3>Table of Contents</h3>
-      <br/>
-      <ul class="no_bottom">
-        <#list descriptionToc.listTopics() as topic>
-          <li>${topic?capitalize}
-            <#assign entries=descriptionToc.listTopicEntries(topic) />
-            <#list entries?keys as lang>
-              <span class="language" data-descriptionKeys="<#list entries.get(lang) as did>${did?c} </#list>">${lang.getIso3LetterCode()?upper_case}</span>
-            </#list>
-          </li>
+      <#if descriptionToc.listLanguages().size() gt 1>
+        <#list descriptionToc.listLanguages() as lang>
+          <a class="toclang" href="#" data-lang="${lang}"><#if lang.getIso3LetterCode()?has_content>${lang.getIso3LetterCode()?upper_case}<#else>${lang.name()}</#if></a><#if lang_has_next>, </#if>
         </#list>
-      </ul>
+        <br/><br/>
+      </#if>
+
+      <#list descriptionToc.listLanguages() as lang>
+        <ul id="topics${lang}" class="topics" class="no_bottom">
+          <#assign topicMap = descriptionToc.listTopicEntries(lang)>
+          <#list topicMap?keys as topic>
+            <li><a class="topic" data-descriptionKeys="<#list topicMap.get(topic) as did>${did?c} </#list>">${topic?capitalize}</a></li>
+          </#list>
+        </ul>
+      </#list>
     </div>
   </@common.article>
 </#if>
