@@ -29,11 +29,13 @@ import org.slf4j.LoggerFactory;
  */
 @Singleton
 public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
-
+  private static final String TILE_CUBE_AS_JSON_SUFFIX = ".tcjson";
   private final Logger LOG = LoggerFactory.getLogger(DensityTileRenderer.class);
   private static final long serialVersionUID = 8681716273998041332L;
   // allow monitoring of cube lookup, rendering speed and the throughput per second
-  private final Timer renderTimer = Metrics.newTimer(DensityTileRenderer.class, "renderDuration",
+  private final Timer pngRenderTimer = Metrics.newTimer(DensityTileRenderer.class, "pngRenderDuration",
+    TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
+  private final Timer tcJsonRenderTimer = Metrics.newTimer(DensityTileRenderer.class, "tileCubeJsonRenderDuration",
     TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
   private final Meter requests = Metrics.newMeter(DensityTileRenderer.class, "requests", "requests", TimeUnit.SECONDS);
 
@@ -42,15 +44,22 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
     super(cubeIo);
   }
 
-
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    requests.mark();
+    if (req.getRequestURI().endsWith(TILE_CUBE_AS_JSON_SUFFIX)) {
+      renderTileCubeAsJson(req, resp);
+    } else {
+      renderPNG(req, resp);
+    }
+  }
+
+  protected void renderPNG(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     resp.setHeader("Content-Type", "image/png");
     try {
       Optional<DensityTile> tile = getTile(req, DensityCube.INSTANCE);
       if (tile.isPresent()) {
-        requests.mark();
-        final TimerContext context = renderTimer.time();
+        final TimerContext context = pngRenderTimer.time();
         try {
           String[] layerStrings = req.getParameterValues("layer");
           List<Layer> l = Lists.newArrayList();
@@ -95,4 +104,28 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
     }
     resp.flushBuffer();
   }
+  
+  protected void renderTileCubeAsJson(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    resp.setHeader("Content-Type", "application/json");
+    try {
+      Optional<DensityTile> tile = getTile(req, DensityCube.INSTANCE);
+      if (tile.isPresent()) {
+        final TimerContext context = tcJsonRenderTimer.time();
+        try {
+          TileCubesWriter.jsonNotation(tile.get(), resp.getOutputStream());
+        } finally {
+          context.stop();
+        }
+      } else {
+        resp.getOutputStream().write(PNGWriter.EMPTY_TILE);
+      }
+    } catch (IllegalArgumentException e) {
+      // If we couldn't get the content from the request
+      resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
+    } catch (Exception e) {
+      // We are unable to get or render the tile
+      resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Tile server is out of action, please try later");
+    }
+    resp.flushBuffer();
+  }  
 }
