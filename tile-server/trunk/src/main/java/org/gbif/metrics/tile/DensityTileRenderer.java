@@ -47,6 +47,8 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     requests.mark();
+    resp.setHeader("Access-Control-Allow-Origin", "*");
+    resp.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Prototype-Version, X-CSRF-Token");
     if (req.getRequestURI().endsWith(TILE_CUBE_AS_JSON_SUFFIX)) {
       renderTileCubeAsJson(req, resp);
     } else {

@@ -35,6 +35,8 @@ public class PointTileRenderer extends CubeTileRenderer<PointTile> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     resp.setHeader("Content-Type", "application/json");
+    resp.setHeader("Access-Control-Allow-Origin", "*");
+    resp.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Prototype-Version, X-CSRF-Token");
     try {
       Optional<PointTile> tile = getTile(req, PointCube.INSTANCE);
       if (tile.isPresent()) {
