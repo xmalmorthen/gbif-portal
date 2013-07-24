@@ -101,14 +101,36 @@ public class TileCubesWriter {
    */
   @VisibleForTesting
   static int[] fromCellId(int cellId, int clusterSize) {
+    int cellsPerRow = DensityTile.TILE_SIZE / clusterSize;
+    int offsetX = clusterSize * (cellId % cellsPerRow);
+    int offsetY = clusterSize * (cellId / cellsPerRow);    
+    
     // we divide by 2 because in GBIF we call them 4 pixel clusters, but in TileCubes that is called resolution 2
     int resolution = clusterSize > 1 ? clusterSize/2 : 1;
-    int tpc = DensityTile.TILE_SIZE / resolution;
     
+    offsetX = offsetX/resolution;
+    offsetY = offsetY/resolution;
     // in GBIF we address tiles where the top left is 0,0 but in TileCubes the bottom left is 0,0
-    return new int[]{
-      cellId % tpc, // X
-      tpc - ((int) cellId / tpc) - 1 // Y inverts, and starts -1 to address from 0
-    };
+    
+    offsetY = (DensityTile.TILE_SIZE / resolution) - offsetY - 1;
+    
+    return new int[]{offsetX,offsetY};
+//    
+//    int tpc = DensityTile.TILE_SIZE / resolution;
+//    
+//    return new int[]{
+//      cellId % tpc, // X
+//      tpc - ((int) cellId / tpc) - 1 // Y inverts, and starts -1 to address from 0
+//    };
+  }  
+  
+  /**
+   * Based on the cluster size, generates the cell id from the offset X and Y within
+   * the tile. This is a linear form of the usual google tile addressing scheme, where
+   * the top row goes left to right 0,1,2,3 etc for as many cells as are in the row.
+   */
+  public static int toCellId(int x, int y, int clusterSize) {
+    int tpc = DensityTile.TILE_SIZE / clusterSize;
+    return (x / clusterSize) + (tpc * (y / clusterSize));
   }  
 }
