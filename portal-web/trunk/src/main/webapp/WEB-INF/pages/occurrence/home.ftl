@@ -13,8 +13,7 @@
         <#assign yearCounts=action.yearCounts>  
         <#list yearCounts?keys as k>
           yearsValues.push(${yearCounts.get(k)?c});
-        </#list>              
-       console.debug("Years: " + yearsValues);
+        </#list>                     
         $("#yearChart").addGraph(yearsValues, {height:240});
       });     
     
