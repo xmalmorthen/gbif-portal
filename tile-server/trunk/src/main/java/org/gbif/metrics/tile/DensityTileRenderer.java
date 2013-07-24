@@ -119,7 +119,7 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
           context.stop();
         }
       } else {
-        resp.getOutputStream().write(PNGWriter.EMPTY_TILE);
+        resp.getOutputStream().write(TileCubesWriter.EMPTY_TILE_CUBE);
       }
     } catch (IllegalArgumentException e) {
       // If we couldn't get the content from the request
