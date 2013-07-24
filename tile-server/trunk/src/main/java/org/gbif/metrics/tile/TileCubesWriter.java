@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 public class TileCubesWriter {
   private final static Logger LOG = LoggerFactory.getLogger(TileCubesWriter.class);
   private final static ObjectMapper MAPPER = new ObjectMapper();
+  public static final byte[] EMPTY_TILE_CUBE = "{total_rows:0}".getBytes();
   
   /**
    * Renders the tile to the outputstream as json format.
@@ -57,7 +58,10 @@ public class TileCubesWriter {
     
     // build the JSON
     ObjectNode tileCubesNode = MAPPER.createObjectNode();
-    tileCubesNode.put("pixel_size", tile.getClusterSize());
+    // 4px cluster is called resolution 2
+    // 8px cluster is called resolution 4 etc
+    // 16px cluster is called resolution 8 etc
+    tileCubesNode.put("resolution", tile.getClusterSize() / 2); 
     tileCubesNode.put("total_rows", tileCube.size());
     
     ArrayNode dimensionsNode = tileCubesNode.putArray("dimension_mapping");
@@ -95,11 +99,13 @@ public class TileCubesWriter {
    */
   @VisibleForTesting
   static int[] fromCellId(int cellId, int clusterSize) {
-    int tpc = DensityTile.TILE_SIZE / clusterSize;
+    // we divide by 2 because in GBIF we call them 4 pixel clusters, but in TileCubes that is called resolution 2
+    int tpc = DensityTile.TILE_SIZE / clusterSize/2;
     
+    // in GBIF we address tiles where the top left is 0,0 but in TileCubes the bottom left is 0,0
     return new int[]{
       cellId % tpc, // X
-      (int) cellId / tpc
+      tpc - ((int) cellId / tpc) - 1 // Y inverts, and starts -1 to address from 0
     };
   }  
 }
