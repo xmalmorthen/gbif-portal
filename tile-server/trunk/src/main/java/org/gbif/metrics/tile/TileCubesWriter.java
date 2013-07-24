@@ -58,10 +58,12 @@ public class TileCubesWriter {
     
     // build the JSON
     ObjectNode tileCubesNode = MAPPER.createObjectNode();
+    // 1px cluster is called resolution 1 (careful of a divide by 0)
     // 4px cluster is called resolution 2
-    // 8px cluster is called resolution 4 etc
-    // 16px cluster is called resolution 8 etc
-    tileCubesNode.put("resolution", tile.getClusterSize() / 2); 
+    // 8px cluster is called resolution 4
+    // 16px cluster is called resolution 8 
+    int resolution = tile.getClusterSize() > 1 ? tile.getClusterSize()/2 : 1;
+    tileCubesNode.put("resolution", resolution); 
     tileCubesNode.put("total_rows", tileCube.size());
     
     ArrayNode dimensionsNode = tileCubesNode.putArray("dimension_mapping");
@@ -100,7 +102,8 @@ public class TileCubesWriter {
   @VisibleForTesting
   static int[] fromCellId(int cellId, int clusterSize) {
     // we divide by 2 because in GBIF we call them 4 pixel clusters, but in TileCubes that is called resolution 2
-    int tpc = DensityTile.TILE_SIZE / (clusterSize/2);
+    int resolution = clusterSize > 1 ? clusterSize/2 : 1;
+    int tpc = DensityTile.TILE_SIZE / resolution;
     
     // in GBIF we address tiles where the top left is 0,0 but in TileCubes the bottom left is 0,0
     return new int[]{
