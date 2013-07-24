@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
+
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 
@@ -76,7 +77,7 @@ public class FiltersActionHelper {
 
   private static final Logger LOG = LoggerFactory.getLogger(FiltersActionHelper.class);
 
-  public static final String POLYGON_PATTERN = "POLYGON((%S))";
+  public static final String POLYGON_PATTERN = "POLYGON((%s))";
 
 
   public static final String BEFORE_FMT = "Is before %s";
