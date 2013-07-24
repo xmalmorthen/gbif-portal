@@ -67,9 +67,6 @@
     <datacube.version>1.2.4-GIT-20130508</datacube.version>
     <hbase.version>0.94.2-cdh4.2.1</hbase.version>
     <hadoopMR.version>2.0.0-mr1-cdh4.2.1</hadoopMR.version>
-    <junit.version>4.11</junit.version>
-    <jackson.version>1.9.12</jackson.version>
-    <jaxb-api.version>2.1</jaxb-api.version>
   </properties>
 
   <repositories>
@@ -97,6 +94,11 @@
       <version>${slf4j.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.gbif</groupId>
+      <artifactId>gbif-api</artifactId>
+      <version>${gbif-api.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.gbif.metrics</groupId>
       <artifactId>cube</artifactId>
       <version>${cube.version}</version>
@@ -105,22 +107,6 @@
         <exclusion>
           <artifactId>org.slf4j</artifactId>
           <groupId>slf4j-log4j12</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>log4j</artifactId>
-          <groupId>log4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>slf4j-log4j12</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>commons-logging</artifactId>
-          <groupId>commons-logging</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>servlet-api-2.5</artifactId>
-          <groupId>org.mortbay.jetty</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -188,16 +174,10 @@
       <version>${slf4j.version}</version>
       <scope>runtime</scope>
     </dependency>
+    <!-- To ship log4j (e.g. HBase) logging to SLF4J -->
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-      <version>${slf4j.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>log4j-over-slf4j</artifactId>
+      <artifactId>slf4j-log4j12</artifactId>
       <version>${slf4j.version}</version>
       <scope>runtime</scope>
     </dependency>
@@ -208,28 +188,5 @@
       <version>${servlet-api.version}</version>
       <scope>provided</scope>
     </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-core-asl</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
-      <version>${jackson.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>javax.xml.bind</groupId>
-      <artifactId>jaxb-api</artifactId>
-      <version>${jaxb-api.version}</version>
-    </dependency>
-
-
   </dependencies>
 </project>
