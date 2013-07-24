@@ -100,7 +100,7 @@ public class TileCubesWriter {
   @VisibleForTesting
   static int[] fromCellId(int cellId, int clusterSize) {
     // we divide by 2 because in GBIF we call them 4 pixel clusters, but in TileCubes that is called resolution 2
-    int tpc = DensityTile.TILE_SIZE / clusterSize/2;
+    int tpc = DensityTile.TILE_SIZE / (clusterSize/2);
     
     // in GBIF we address tiles where the top left is 0,0 but in TileCubes the bottom left is 0,0
     return new int[]{
