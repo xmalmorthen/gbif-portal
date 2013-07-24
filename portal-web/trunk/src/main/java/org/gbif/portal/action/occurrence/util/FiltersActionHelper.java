@@ -415,7 +415,7 @@ public class FiltersActionHelper {
       for (String value : values) {
         if (Ints.tryParse(value) == null) { // Is not a integer
           NameUsageMatch nameUsageMatch =
-            nameUsageMatchingService.match(value, null, null, null, null, null, null, null);
+            nameUsageMatchingService.match(value, null, null, null, null, null, null, null, true, false);
           if (nameUsageMatch.getMatchType() == MatchType.NONE) {
             List<NameUsageSearchResult> suggestions = nameUsageSearchService.suggest(suggestRequest);
             suggestRequest.setQ(value);
