@@ -61,9 +61,8 @@ public class TileCubesWriter {
     tileCubesNode.put("resolution", tile.getClusterSize()); 
     tileCubesNode.put("total_rows", tileCube.size());
     
-    ArrayNode dimensionsNode = tileCubesNode.putArray("dimension_mapping");
+    ObjectNode dimensionNode = tileCubesNode.putObject("dimension_mapping");
     for (Layer l : Layer.values()) {
-      ObjectNode dimensionNode = dimensionsNode.addObject();
       dimensionNode.put(l.toString(), l.ordinal());
     }
     
