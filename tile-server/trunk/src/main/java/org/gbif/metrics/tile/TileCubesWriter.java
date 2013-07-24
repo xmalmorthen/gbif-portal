@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 public class TileCubesWriter {
   private final static Logger LOG = LoggerFactory.getLogger(TileCubesWriter.class);
   private final static ObjectMapper MAPPER = new ObjectMapper();
-  public static final byte[] EMPTY_TILE_CUBE = "{total_rows:0}".getBytes();
+  public static final byte[] EMPTY_TILE_CUBE = "{\"total_rows\":0}".getBytes();
   
   /**
    * Renders the tile to the outputstream as json format.
@@ -58,12 +58,7 @@ public class TileCubesWriter {
     
     // build the JSON
     ObjectNode tileCubesNode = MAPPER.createObjectNode();
-    // 1px cluster is called resolution 1 (careful of a divide by 0)
-    // 4px cluster is called resolution 2
-    // 8px cluster is called resolution 4
-    // 16px cluster is called resolution 8 
-    int resolution = tile.getClusterSize() > 1 ? tile.getClusterSize()/2 : 1;
-    tileCubesNode.put("resolution", resolution); 
+    tileCubesNode.put("resolution", tile.getClusterSize()); 
     tileCubesNode.put("total_rows", tileCube.size());
     
     ArrayNode dimensionsNode = tileCubesNode.putArray("dimension_mapping");
@@ -102,26 +97,14 @@ public class TileCubesWriter {
   @VisibleForTesting
   static int[] fromCellId(int cellId, int clusterSize) {
     int cellsPerRow = DensityTile.TILE_SIZE / clusterSize;
-    int offsetX = clusterSize * (cellId % cellsPerRow);
-    int offsetY = clusterSize * (cellId / cellsPerRow);    
     
-    // we divide by 2 because in GBIF we call them 4 pixel clusters, but in TileCubes that is called resolution 2
-    int resolution = clusterSize > 1 ? clusterSize/2 : 1;
+    int offsetX = cellId % cellsPerRow;
+    int offsetY = cellId / cellsPerRow;    
     
-    offsetX = offsetX/resolution;
-    offsetY = offsetY/resolution;
     // in GBIF we address tiles where the top left is 0,0 but in TileCubes the bottom left is 0,0
-    
-    offsetY = (DensityTile.TILE_SIZE / resolution) - offsetY - 1;
+    offsetY = (DensityTile.TILE_SIZE / clusterSize) - offsetY - 1;
     
     return new int[]{offsetX,offsetY};
-//    
-//    int tpc = DensityTile.TILE_SIZE / resolution;
-//    
-//    return new int[]{
-//      cellId % tpc, // X
-//      tpc - ((int) cellId / tpc) - 1 // Y inverts, and starts -1 to address from 0
-//    };
   }  
   
   /**
