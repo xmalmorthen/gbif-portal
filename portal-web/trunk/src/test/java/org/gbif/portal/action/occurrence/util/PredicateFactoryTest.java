@@ -191,7 +191,7 @@ public class PredicateFactoryTest {
       return Country.SPAIN.getIso2LetterCode();
 
     } else if (OccurrenceSearchParameter.GEOMETRY == p){
-      return "10.12 -90.12, 30 10, 10 20, 20 40";
+      return "30.12 10, 10 20, 20 40, 40 40, 30.12 10";
 
     } else if (UUID.class.isAssignableFrom(p.type())){
       return UUID.randomUUID().toString();
