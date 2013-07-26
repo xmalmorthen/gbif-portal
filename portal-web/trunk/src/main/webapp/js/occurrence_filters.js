@@ -68,8 +68,8 @@ function truncCoord(value) {
   var values = newValue.split('.');
   if (values.length > 1) {
     var decimalValue = values[1];
-    if(decimalValue.length > 2) {
-      decimalValue = decimalValue.slice(0, 3);
+    if(decimalValue.length > 6) {
+      decimalValue = decimalValue.slice(0, 6);
     }
     newValue = values[0] + '.' + decimalValue;
   }        
@@ -856,7 +856,8 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
   InnerOccurrenceLocationWidget.prototype.bindAddFilterControl = function() {
     var self = this;
     this.filterElement.find(".addFilter").click( function(e) { 
-      e.preventDefault();     
+      e.preventDefault();
+      $(".bbox_error").hide();
       self.filterElement.find('.' + ERROR_CLASS).removeClass(ERROR_CLASS);
       var minLat = self.filterElement.find(":input[name=minLatitude]:first").val();
       var minLng = self.filterElement.find(":input[name=minLongitude]:first").val();
@@ -883,20 +884,25 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
         return;
       }
       
-      var label = "From " + minLat + ',' + minLng + ' To ' + maxLat + ',' + maxLng;
-      self.filterElement.find(".point").val('');
-      var numFilters = self.getFilters().length;
-      var bounds = new L.LatLngBounds(new L.LatLng(minLat,minLng), new L.LatLng(maxLat,maxLng));
-      var rectangle = new L.Rectangle(bounds,DEFAULT_SHAPE_OPTIONS);
-      self.addFilter({label: label, value: self.getPolygonFromRect(rectangle), key: null, paramName: self.getId(), submitted: false, marker: self.mapGeometries.length, targetParam:'BOUNDING_BOX'});      
-      //GEOREFERENCED filters must be removed
-      self.removeFilterByParamName('GEOREFERENCED');      
-      self.filterElement.find(':checkbox[name="GEOREFERENCED"]').removeAttr('checked');      
-      if(numFilters < self.getFilters().length) { //nothing changed
-        self.showFilters();              
-        rectangle.bindPopup("Bounding box: " + label);
-        self.mapGeometries.push(rectangle);
-        defaultMapLayer.addLayer(rectangle);
+      var bounds = self.truncateLatLngBounds(new L.LatLngBounds(new L.LatLng(minLat,minLng), new L.LatLng(maxLat,maxLng)));    
+      if(self.isValidBBox(bounds)) {
+        $(".bbox_error").hide();
+        var label = "From " + minLat + ',' + minLng + ' To ' + maxLat + ',' + maxLng;
+        self.filterElement.find(".point").val('');
+        var numFilters = self.getFilters().length;        
+        var rectangle = new L.Rectangle(bounds,DEFAULT_SHAPE_OPTIONS);
+        self.addFilter({label: label, value: self.getPolygonFromRect(rectangle), key: null, paramName: self.getId(), submitted: false, marker: self.mapGeometries.length, targetParam:'BOUNDING_BOX'});      
+        //GEOREFERENCED filters must be removed
+        self.removeFilterByParamName('GEOREFERENCED');      
+        self.filterElement.find(':checkbox[name="GEOREFERENCED"]').removeAttr('checked');      
+        if(numFilters < self.getFilters().length) { //nothing changed
+          self.showFilters();              
+          rectangle.bindPopup("Bounding box: " + label);
+          self.mapGeometries.push(rectangle);
+          defaultMapLayer.addLayer(rectangle);
+        }        
+      } else {
+        $(".bbox_error").addClass(ERROR_CLASS).show();
       }
     })
   };
@@ -939,23 +945,43 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
     return truncCoord(latLngs[1].lng) + " " + truncCoord(latLngs[1].lat) + "," +  truncCoord(latLngs[0].lng) + " " + truncCoord(latLngs[0].lat) 
     + "," + truncCoord(latLngs[3].lng) + " " + truncCoord(latLngs[3].lat) + "," + truncCoord(latLngs[2].lng) + " " + truncCoord(latLngs[2].lat) + "," + truncCoord(latLngs[1].lng) + " " + truncCoord(latLngs[1].lat);
   };
+  
+  
+  /**
+   * Binds the event handler to the add_polygon event.
+   */
+  InnerOccurrenceLocationWidget.prototype.truncateLatLngBounds = function(latLngBounds){
+    var southWest = new L.LatLng(truncCoord(latLngBounds.getSouthWest().lat), truncCoord(latLngBounds.getSouthWest().lng)),      
+    northEast = new L.LatLng(truncCoord(latLngBounds.getNorthEast().lat), truncCoord(latLngBounds.getNorthEast().lng));
+    return new L.LatLngBounds(southWest, northEast);
+  };
+  
+  
+  /**
+   * Checks if the bounding box is valid.
+   */
+  InnerOccurrenceLocationWidget.prototype.isValidBBox = function(latLngBounds) {
+    return latLngBounds.isValid() && latLngBounds.getCenter().distanceTo(latLngBounds.getSouthWest()) > 1 &&
+    latLngBounds.getSouthWest().distanceTo(latLngBounds.getNorthWest()) != 0 && latLngBounds.getSouthWest().distanceTo(latLngBounds.getSouthEast()) != 0;
+  };
 
   /**
    * Binds the event handler to the add_bounding_box event.
    */
   InnerOccurrenceLocationWidget.prototype.bindAddBBoxEvent = function() {
     var self = this;    
-    $(document).on("add_bounding_box",function(e) {
-      var latLngs = e.rect.getLatLngs();
-      var minLat = truncCoord(latLngs[0].lat);
-      var minLng = truncCoord(latLngs[0].lng);
-      var maxLat = truncCoord(latLngs[2].lat);
-      var maxLng = truncCoord(latLngs[2].lng);
-      
-      var label = "From " + minLat + ',' + minLng + ' To ' + maxLat + ',' + maxLng;
+    $(document).on("add_bounding_box",function(e) {      
+      var calcLatLngBounds = self.truncateLatLngBounds(e.rect.getBounds());
+      //BBoxes with a diagonal and squared distnace less than 1 meter are not valid
+      if(!self.isValidBBox(calcLatLngBounds)) {
+        map.removeLayer(e.rect);
+        return;
+      }
+      var pointsLabel = calcLatLngBounds.getSouthWest().lat + ',' + calcLatLngBounds.getSouthWest().lng + ' To ' + calcLatLngBounds.getNorthEast().lat + ',' + calcLatLngBounds.getNorthEast().lng;
+      var label = "From " + pointsLabel;
       self.addFilter({label:label,value: self.getPolygonFromRect(e.rect), key:null,paramName:self.getId(), submitted: false,targetParam:'BOUNDING_BOX',marker: self.mapGeometries.length, hidden:false});
       self.showFilters();            
-      e.rect.bindPopup("Bounding box: from " + minLat + ',' + minLng + ' to ' + maxLat + ',' + maxLng);
+      e.rect.bindPopup("Bounding box: from " + pointsLabel);
       e.mapLayer.addLayer(e.rect);
       self.mapGeometries.push(e.rect);
       self.renumberMarkers();
@@ -995,8 +1021,9 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
     });    
   };
   
-  
-  
+  /**
+   * Removes all the polygons from the map.
+   */
   InnerOccurrenceLocationWidget.prototype.removeAllPolygons = function() {
     var self = this;    
     for(var i = 0; i < this.mapGeometries.length; i++) {

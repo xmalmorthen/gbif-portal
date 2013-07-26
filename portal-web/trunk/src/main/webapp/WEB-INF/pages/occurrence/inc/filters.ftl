@@ -515,8 +515,9 @@
                      <div id="map" class="map_widget"/> 
                      <input name="polygon" id="polygon" type="hidden"/>                
                   </td>
-                   <td>    
-                      <h4>Bounding box from</h4>   
+                   <td>                          
+                      <h4>Bounding box from</h4>  
+                      <div style="display:none;" class="error bbox_error">The specified coordinates don't represent a valid bounding box, please verify the entered values.</div>                       
                       <br>            
                       <span>
                         <input name="minLatitude" id="minLatitude"  class="point" type="text" size="10" style="width:60px;"/>
@@ -533,7 +534,7 @@
                       <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter map_control">                      
                       <br>                                            
                       <h4 class="filtersTitle" style="display:none;">Filters</h4>
-                      <div class="appliedFilters filterlist" style="display:none;"></div>
+                      <div class="appliedFilters filterlist" style="display:none;"></div>                      
                       <br>                      
                   </td>
                 </tr>                                 
