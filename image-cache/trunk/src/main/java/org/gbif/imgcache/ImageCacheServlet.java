@@ -2,7 +2,6 @@ package org.gbif.imgcache;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,9 +11,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.yammer.metrics.Metrics;
-import com.yammer.metrics.core.Meter;
-import com.yammer.metrics.core.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 @Singleton
@@ -22,10 +18,6 @@ public class ImageCacheServlet extends HttpServlet {
 
   private final Logger LOG = LoggerFactory.getLogger(ImageCacheServlet.class);
   private static final long serialVersionUID = 8681716273998041332L;
-  // allow monitoring of cube lookup, rendering speed and the throughput per second
-  private final Timer renderTimer = Metrics.newTimer(ImageCacheServlet.class, "renderDuration",
-    TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
-  private final Meter requests = Metrics.newMeter(ImageCacheServlet.class, "requests", "requests", TimeUnit.SECONDS);
   private ImageCacheService cache;
 
   @Inject

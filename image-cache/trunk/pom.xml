@@ -46,14 +46,12 @@
   </distributionManagement>
 
   <properties>
-    <gbif-api.version>0.2</gbif-api.version>
-    <slf4j.version>1.7.2</slf4j.version>
-    <logback.version>1.0.9</logback.version>
+    <slf4j.version>1.7.5</slf4j.version>
+    <logback.version>1.0.13</logback.version>
     <servlet-api.version>2.5</servlet-api.version>
     <guice.version>3.0</guice.version>
     <guava.version>13.0.1</guava.version>
-    <metrics.version>2.1.2</metrics.version>
-    <thumbnailator.version>0.4.3</thumbnailator.version>
+    <thumbnailator.version>0.4.5</thumbnailator.version>
   </properties>
 
   <repositories>
@@ -81,11 +79,6 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.gbif</groupId>
-      <artifactId>gbif-api</artifactId>
-      <version>0.1</version>
     </dependency>
     <dependency>
       <groupId>net.coobird</groupId>
@@ -127,22 +120,6 @@
       <artifactId>servlet-api</artifactId>
       <version>${servlet-api.version}</version>
       <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.yammer.metrics</groupId>
-      <artifactId>metrics-core</artifactId>
-      <version>${metrics.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.yammer.metrics</groupId>
-      <artifactId>metrics-ganglia</artifactId>
-      <version>${metrics.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.yammer.metrics</groupId>
-      <artifactId>metrics-guice</artifactId>
-      <version>${metrics.version}</version>
     </dependency>
 
   </dependencies>
