@@ -39,7 +39,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
-
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 
@@ -411,11 +410,10 @@ public class FiltersActionHelper {
       // request instance is created here for future reuse
       NameUsageSuggestRequest suggestRequest = new NameUsageSuggestRequest();
       suggestRequest.setLimit(SUGGESTIONS_LIMIT);
-      suggestRequest.addParameter(NameUsageSearchParameter.DATASET_KEY, Constants.NUB_TAXONOMY_KEY.toString());
+      suggestRequest.addParameter(NameUsageSearchParameter.DATASET_KEY, Constants.NUB_DATASET_KEY.toString());
       for (String value : values) {
         if (Ints.tryParse(value) == null) { // Is not a integer
-          NameUsageMatch nameUsageMatch =
-            nameUsageMatchingService.match(value, null, null, null, null, null, null, null, true, false);
+          NameUsageMatch nameUsageMatch = nameUsageMatchingService.match(value, null, null, true, false);
           if (nameUsageMatch.getMatchType() == MatchType.NONE) {
             List<NameUsageSearchResult> suggestions = nameUsageSearchService.suggest(suggestRequest);
             suggestRequest.setQ(value);

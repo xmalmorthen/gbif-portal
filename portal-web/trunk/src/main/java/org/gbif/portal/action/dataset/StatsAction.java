@@ -43,6 +43,6 @@ public class StatsAction extends DetailAction {
   }
 
   public UUID getNubKey() {
-    return Constants.NUB_TAXONOMY_KEY;
+    return Constants.NUB_DATASET_KEY;
   }
 }

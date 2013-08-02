@@ -255,7 +255,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    * Gets the NUB key value.
    */
   public String getNubTaxonomyKey() {
-    return Constants.NUB_TAXONOMY_KEY.toString();
+    return Constants.NUB_DATASET_KEY.toString();
   }
 
   /**

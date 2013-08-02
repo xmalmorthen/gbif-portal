@@ -11,7 +11,7 @@ import java.util.UUID;
 
 import com.google.inject.Inject;
 
-import static org.gbif.api.model.Constants.NUB_TAXONOMY_KEY;
+import static org.gbif.api.model.Constants.NUB_DATASET_KEY;
 
 @SuppressWarnings("serial")
 public class HomeAction extends BaseAction {
@@ -27,7 +27,7 @@ public class HomeAction extends BaseAction {
 
   @Override
   public String execute() {
-    nubMetrics = metricsService.get(Constants.NUB_TAXONOMY_KEY);
+    nubMetrics = metricsService.get(Constants.NUB_DATASET_KEY);
     colMetrics = metricsService.get(COL_KEY);
 
     return SUCCESS;
@@ -37,7 +37,7 @@ public class HomeAction extends BaseAction {
    * Exposed to allow easy access in freemarker.
    */
   public UUID getNubDatasetKey() {
-    return NUB_TAXONOMY_KEY;
+    return NUB_DATASET_KEY;
   }
 
   public DatasetMetrics getNubMetrics() {

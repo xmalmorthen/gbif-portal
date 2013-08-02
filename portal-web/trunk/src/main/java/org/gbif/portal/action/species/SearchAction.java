@@ -25,7 +25,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 
-import static org.gbif.api.model.Constants.NUB_TAXONOMY_KEY;
+import static org.gbif.api.model.Constants.NUB_DATASET_KEY;
 
 /**
  * The action for all species search operations.
@@ -205,7 +205,7 @@ public class SearchAction
    * Exposed to allow easy access in freemarker.
    */
   public UUID getNubDatasetKey() {
-    return NUB_TAXONOMY_KEY;
+    return NUB_DATASET_KEY;
   }
 
 }

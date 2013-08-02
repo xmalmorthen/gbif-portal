@@ -15,7 +15,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.gbif.api.model.Constants.NUB_TAXONOMY_KEY;
+import static org.gbif.api.model.Constants.NUB_DATASET_KEY;
 
 public class DetailAction extends OccurrenceBaseAction {
 
@@ -46,7 +46,7 @@ public class DetailAction extends OccurrenceBaseAction {
    * Exposed to allow easy access in freemarker.
    */
   public UUID getNubDatasetKey() {
-    return NUB_TAXONOMY_KEY;
+    return NUB_DATASET_KEY;
   }
 
   public Organization getPublisher() {
