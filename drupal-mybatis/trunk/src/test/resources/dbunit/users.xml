@@ -5,9 +5,9 @@
   <role rid="3" name="administrator" />
   <role rid="4" name="Editors" />
   <users uid="0" name="" pass="" created="0" access="0" login="0" status="0"/>
-  <users uid="1" name="admin" pass="49b8802c656a2cd1aa73f3c50090df76" mail="admin@mailinator.com" created="1333538796" access="1334764770" login="1334763693" status="1"/>
-  <users uid="2" name="GBIFtest" pass="f35f77e8761b3216a0fcd0ebfeb6b364" mail="GBIFtest@mailinator.com" created="1333545767" access="1333614536" login="1333551595" status="1"/>
-  <users uid="3" name="editor" pass="49b8802c656a2cd1aa73f3c50090df76" mail="editor@mailinator.com" created="1333545767" access="1333614536" login="1333551595" status="1"/>
+  <users uid="1" name="admin" pass="$S$D6M/UldEsZ8ryFPa7fyd72aSVj99ApAMmziIZe3CSPsWCq5cKJI5" mail="admin@mailinator.com" created="1333538796" access="1334764770" login="1334763693" status="1"/>
+  <users uid="2" name="GBIFtest" pass="$S$D6M/UldEsZ8ryFPa7fyd72aSVj99ApAMmziIZe3CSPsWCq5cKJI5" mail="GBIFtest@mailinator.com" created="1333545767" access="1333614536" login="1333551595" status="1"/>
+  <users uid="3" name="editor" pass="$S$D6M/UldEsZ8ryFPa7fyd72aSVj99ApAMmziIZe3CSPsWCq5cKJI5" mail="editor@mailinator.com" created="1333545767" access="1333614536" login="1333551595" status="1"/>
   <users_roles uid="1" rid="3"/>
   <users_roles uid="2" rid="2"/>
   <users_roles uid="3" rid="4"/>

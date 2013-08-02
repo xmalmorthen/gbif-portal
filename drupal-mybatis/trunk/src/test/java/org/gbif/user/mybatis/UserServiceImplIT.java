@@ -25,7 +25,7 @@ public class UserServiceImplIT {
 
   @Test
   public void testGetBySession() throws Exception {
-    User nonExisting = ((UserServiceImpl) ddt.getService()).getBySession("FAKE");
+    User nonExisting = ddt.getService().getBySession("FAKE");
     Assert.assertNull(nonExisting);
   }
 
@@ -35,7 +35,7 @@ public class UserServiceImplIT {
     Assert.assertNotNull(editor);
     Assert.assertEquals("editor", editor.getUserName());
     Assert.assertEquals("editor@mailinator.com", editor.getEmail());
-    Assert.assertEquals("49b8802c656a2cd1aa73f3c50090df76", editor.getPasswordHash());
+    Assert.assertEquals("$S$D6M/UldEsZ8ryFPa7fyd72aSVj99ApAMmziIZe3CSPsWCq5cKJI5", editor.getPasswordHash());
     Assert.assertEquals(1, editor.getRoles().size());
     Assert.assertTrue(editor.getRoles().contains(UserRole.EDITOR));
 
