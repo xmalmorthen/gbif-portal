@@ -2,7 +2,7 @@ package org.gbif.user.mybatis;
 
 import org.gbif.api.model.common.User;
 import org.gbif.api.service.common.UserService;
-import org.gbif.user.util.PasswordEncoder;
+import org.gbif.user.util.DrupalEncoder;
 
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
   private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
   private final UserMapper mapper;
-  private final PasswordEncoder encoder = new PasswordEncoder("MD5");
+  private final DrupalEncoder encoder = new DrupalEncoder();
 
   @Inject
   public UserServiceImpl(UserMapper mapper) {
@@ -44,8 +44,8 @@ public class UserServiceImpl implements UserService {
 
     User u = get(username);
     if (u != null) {
-      // build password hash stored in drupal
-      String phash = encoder.encode(password);
+      // build password hash stored in drupal, using the existing hash which contains also encoding settings
+      String phash = encoder.encode(password, u.getPasswordHash());
       if (phash.equalsIgnoreCase(u.getPasswordHash())) {
         return u;
       }
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     return null;
   }
 
-
+  @Override
   public User getBySession(String session) {
     if (Strings.isNullOrEmpty(session)) {
       return null;
