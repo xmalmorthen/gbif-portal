@@ -25,7 +25,7 @@ import org.gbif.api.util.SearchTypeValidator;
 import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
-import org.gbif.api.vocabulary.DatasetType;
+import org.gbif.api.vocabulary.registry2.DatasetType;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.model.SearchSuggestions;
 
