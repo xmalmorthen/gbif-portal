@@ -41,7 +41,7 @@ public class PublishingAction extends CountryBaseAction {
       new ReadBuilder().at(OccurrenceCube.HOST_COUNTRY, country).at(OccurrenceCube.COUNTRY, country)
     );
     otherCountryRecords = getBy().getOccurrenceRecords() - inCountryRecords;
-    otherCountryPercentage = (double) otherCountryRecords / getBy().getOccurrenceRecords();
+    otherCountryPercentage = 100d * (double) otherCountryRecords / getBy().getOccurrenceRecords();
     otherCountries = getBy().getCountries() - 1;
 
     return SUCCESS;
