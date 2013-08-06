@@ -23,11 +23,13 @@ import org.gbif.api.vocabulary.Rank;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
@@ -41,6 +43,13 @@ public class DetailAction extends DatasetBaseAction {
   private static final List<Kingdom> KINGDOMS = ImmutableList.of(Kingdom.ANIMALIA, Kingdom.ARCHAEA, Kingdom.BACTERIA,
     Kingdom.CHROMISTA,
     Kingdom.FUNGI, Kingdom.PLANTAE, Kingdom.PROTOZOA, Kingdom.VIRUSES, Kingdom.INCERTAE_SEDIS);
+
+  private static final Set<EndpointType> DATA_CODES = ImmutableSet.<EndpointType>builder()
+    .add(EndpointType.BIOCASE).add(EndpointType.TAPIR).add(EndpointType.DIGIR).add(EndpointType.DIGIR_MANIS)
+    .add(EndpointType.DWC_ARCHIVE).add(EndpointType.TCS_RDF).add(EndpointType.TCS_XML).add(EndpointType.WFS)
+    .build();
+  private static final Set<EndpointType> METADATA_CODES = ImmutableSet.<EndpointType>builder()
+    .add(EndpointType.EML).add(EndpointType.OAI_PMH).build();
 
   private final List<Contact> preferredContacts = Lists.newArrayList();
   private final List<Contact> otherContacts = Lists.newArrayList();
@@ -178,9 +187,9 @@ public class DetailAction extends DatasetBaseAction {
     metaLinks.clear();
     links.clear();
     for (Endpoint p : member.getEndpoints()) {
-      if (EndpointType.DATA_CODES.contains(p.getType())) {
+      if (DATA_CODES.contains(p.getType())) {
         dataLinks.add(p);
-      } else if (EndpointType.METADATA_CODES.contains(p.getType())) {
+      } else if (METADATA_CODES.contains(p.getType())) {
         metaLinks.add(p);
       } else {
         links.add(p);
