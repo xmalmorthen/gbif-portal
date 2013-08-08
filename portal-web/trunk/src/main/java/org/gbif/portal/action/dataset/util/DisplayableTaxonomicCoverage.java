@@ -1,6 +1,6 @@
 package org.gbif.portal.action.dataset.util;
 
-import org.gbif.api.model.registry2.eml.TaxonomicCoverage;
+import org.gbif.api.model.registry.eml.TaxonomicCoverage;
 
 import javax.validation.constraints.NotNull;
 

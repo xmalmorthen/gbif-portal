@@ -1,11 +1,11 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.api.model.common.search.SearchResponse;
-import org.gbif.api.model.registry2.search.DatasetSearchParameter;
-import org.gbif.api.model.registry2.search.DatasetSearchRequest;
-import org.gbif.api.model.registry2.search.DatasetSearchResult;
-import org.gbif.api.service.registry2.DatasetSearchService;
-import org.gbif.api.vocabulary.registry2.DatasetType;
+import org.gbif.api.model.registry.search.DatasetSearchParameter;
+import org.gbif.api.model.registry.search.DatasetSearchRequest;
+import org.gbif.api.model.registry.search.DatasetSearchResult;
+import org.gbif.api.service.registry.DatasetSearchService;
+import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.portal.action.BaseAction;
 
 import com.google.inject.Inject;

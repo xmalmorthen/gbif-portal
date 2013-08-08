@@ -2,9 +2,9 @@ package org.gbif.portal.action.species;
 
 import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.registry2.Dataset;
+import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
-import org.gbif.api.vocabulary.registry2.DatasetType;
+import org.gbif.api.vocabulary.DatasetType;
 
 import java.util.Iterator;
 import java.util.List;

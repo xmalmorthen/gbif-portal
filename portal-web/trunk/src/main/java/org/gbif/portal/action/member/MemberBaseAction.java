@@ -1,9 +1,9 @@
 package org.gbif.portal.action.member;
 
-import org.gbif.api.model.registry2.NetworkEntity;
-import org.gbif.api.model.registry2.Tag;
-import org.gbif.api.model.registry2.Taggable;
-import org.gbif.api.service.registry2.NetworkEntityService;
+import org.gbif.api.model.registry.NetworkEntity;
+import org.gbif.api.model.registry.Tag;
+import org.gbif.api.model.registry.Taggable;
+import org.gbif.api.service.registry.NetworkEntityService;
 import org.gbif.portal.exception.NotFoundException;
 
 import java.util.List;

@@ -10,8 +10,8 @@ package org.gbif.portal.action.dataset;
 
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.registry2.Dataset;
-import org.gbif.api.service.registry2.DatasetService;
+import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.service.registry.DatasetService;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;

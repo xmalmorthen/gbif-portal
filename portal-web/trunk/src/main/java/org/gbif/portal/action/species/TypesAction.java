@@ -2,6 +2,7 @@ package org.gbif.portal.action.species;
 
 import org.gbif.api.model.checklistbank.TypeSpecimen;
 import org.gbif.api.service.checklistbank.TypeSpecimenService;
+import org.gbif.api.vocabulary.TypeStatus;
 
 import java.util.Iterator;
 import java.util.List;
@@ -10,11 +11,10 @@ import java.util.Set;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
-import org.apache.commons.lang3.StringUtils;
 
 
 public class TypesAction extends SeeMoreAction<TypeSpecimen> {
-  private static final Set<String> TYPE_NAME_STATUS = Sets.newHashSet("typegenus","typespecies","genus","species");
+  private static final Set<TypeStatus> TYPE_NAME_STATUS = Sets.newHashSet(TypeStatus.TYPE_GENUS, TypeStatus.TYPE_SPECIES);
   @Inject
   public TypesAction(TypeSpecimenService service) {
     super(service);
@@ -35,8 +35,7 @@ public class TypesAction extends SeeMoreAction<TypeSpecimen> {
     Iterator<TypeSpecimen> iter = types.iterator();
     while (iter.hasNext()) {
       TypeSpecimen ts = iter.next();
-      String status = StringUtils.deleteWhitespace(ts.getTypeStatus()).toLowerCase();
-      if (ts == null || (Strings.isNullOrEmpty(ts.getScientificName()) && TYPE_NAME_STATUS.contains(status))) {
+      if (ts == null || (TYPE_NAME_STATUS.contains(ts.getTypeStatus()) && Strings.isNullOrEmpty(ts.getScientificName()))) {
         iter.remove();
       }
     }

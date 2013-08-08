@@ -15,7 +15,7 @@ import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.occurrence.DownloadService;
-import org.gbif.api.service.registry2.DatasetService;
+import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.util.HumanFilterBuilder;
 import org.gbif.portal.action.occurrence.util.QueryParameterFilterBuilder;

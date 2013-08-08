@@ -14,7 +14,7 @@ import org.gbif.api.model.checklistbank.search.NameUsageSearchRequest;
 import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
 import org.gbif.api.service.checklistbank.NameUsageSearchService;
 import org.gbif.api.service.checklistbank.NameUsageService;
-import org.gbif.api.service.registry2.DatasetService;
+import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 
 import java.util.Iterator;

@@ -1,11 +1,11 @@
 package org.gbif.portal.action.member;
 
-import org.gbif.api.model.registry2.NetworkEntity;
-import org.gbif.api.service.registry2.DatasetService;
-import org.gbif.api.service.registry2.InstallationService;
-import org.gbif.api.service.registry2.NetworkService;
-import org.gbif.api.service.registry2.NodeService;
-import org.gbif.api.service.registry2.OrganizationService;
+import org.gbif.api.model.registry.NetworkEntity;
+import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.InstallationService;
+import org.gbif.api.service.registry.NetworkService;
+import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.exception.NotFoundException;
 

@@ -4,20 +4,21 @@ import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
-import org.gbif.api.model.registry2.Contact;
-import org.gbif.api.model.registry2.Dataset;
-import org.gbif.api.model.registry2.Endpoint;
-import org.gbif.api.model.registry2.Node;
-import org.gbif.api.model.registry2.Organization;
+import org.gbif.api.model.registry.Contact;
+import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Endpoint;
+import org.gbif.api.model.registry.Node;
+import org.gbif.api.model.registry.Organization;
 import org.gbif.api.service.metrics.CubeService;
-import org.gbif.api.service.registry2.NodeService;
-import org.gbif.api.vocabulary.registry2.ContactType;
-import org.gbif.api.vocabulary.registry2.EndpointType;
-import org.gbif.api.vocabulary.registry2.NodeType;
+import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.vocabulary.ContactType;
+import org.gbif.api.vocabulary.EndpointType;
+import org.gbif.api.vocabulary.NodeType;
 import org.gbif.portal.action.member.MemberBaseAction;
 import org.gbif.portal.action.member.MemberType;
 import org.gbif.portal.model.CountWrapper;
 
+import java.net.URI;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -151,7 +152,7 @@ public class DetailAction extends MemberBaseAction<Node> {
     return datasets;
   }
 
-  public String getFeed() {
+  public URI getFeed() {
     if (member != null && !member.getEndpoints().isEmpty()) {
       for (Endpoint e : member.getEndpoints()) {
         if (EndpointType.FEED == e.getType()) {

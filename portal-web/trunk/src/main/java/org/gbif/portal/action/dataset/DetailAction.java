@@ -10,12 +10,12 @@ package org.gbif.portal.action.dataset;
 
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.registry2.Contact;
-import org.gbif.api.model.registry2.Dataset;
-import org.gbif.api.model.registry2.Endpoint;
-import org.gbif.api.model.registry2.eml.geospatial.GeospatialCoverage;
-import org.gbif.api.service.registry2.DatasetService;
-import org.gbif.api.service.registry2.InstallationService;
+import org.gbif.api.model.registry.Contact;
+import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Endpoint;
+import org.gbif.api.model.registry.eml.geospatial.GeospatialCoverage;
+import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.InstallationService;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.Extension;
 import org.gbif.api.vocabulary.Kingdom;

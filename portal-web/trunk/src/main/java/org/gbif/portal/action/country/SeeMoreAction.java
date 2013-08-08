@@ -4,9 +4,9 @@ import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.occurrence.OccurrenceCountryIndexService;
 import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
-import org.gbif.api.service.registry2.DatasetSearchService;
-import org.gbif.api.service.registry2.DatasetService;
-import org.gbif.api.service.registry2.NodeService;
+import org.gbif.api.service.registry.DatasetSearchService;
+import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.NodeService;
 
 import com.google.inject.Inject;
 

@@ -1,7 +1,7 @@
 package org.gbif.portal.action.dataset;
 
-import org.gbif.api.model.registry2.Contact;
-import org.gbif.api.vocabulary.registry2.ContactType;
+import org.gbif.api.model.registry.Contact;
+import org.gbif.api.vocabulary.ContactType;
 import org.gbif.portal.action.node.DetailAction;
 
 import java.util.Collections;

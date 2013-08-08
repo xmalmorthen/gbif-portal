@@ -1,8 +1,8 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.api.model.Constants;
-import org.gbif.api.service.registry2.DatasetService;
-import org.gbif.api.vocabulary.registry2.DatasetType;
+import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.portal.action.species.HomeAction;
 import org.gbif.portal.exception.NotFoundException;
 

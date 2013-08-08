@@ -1,9 +1,9 @@
 package org.gbif.portal.config;
 
 import org.gbif.api.model.checklistbank.DatasetMetrics;
-import org.gbif.api.model.registry2.Dataset;
+import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
-import org.gbif.api.service.registry2.DatasetService;
+import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.ActionTestUtil;
 
 import java.util.UUID;
