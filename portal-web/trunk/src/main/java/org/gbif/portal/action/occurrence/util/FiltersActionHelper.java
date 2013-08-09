@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
+
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 
@@ -454,7 +455,7 @@ public class FiltersActionHelper {
                 }
               }
             } catch (IllegalArgumentException ex) {
-              action.addFieldError(param, "Wrong parameter value " + value);
+              action.addFieldError(param, value);
               valid = false;
             }
           }

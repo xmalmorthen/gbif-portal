@@ -13,6 +13,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class NodeContactOrderTest {
+
   int nextContactId = 1;
 
   @Test
@@ -27,7 +28,7 @@ public class NodeContactOrderTest {
       build(ContactType.REGIONAL_NODE_REPRESENTATIVE, "Retro", "Mayer"),
       build(null, null, null),
       build(ContactType.HEAD_OF_DELEGATION, "Tip", "Top")
-    );
+      );
 
     Collections.sort(contacts, new DetailAction.NodeContactOrder());
 
@@ -45,7 +46,6 @@ public class NodeContactOrderTest {
     assertEquals((Integer) 2, contacts.get(7).getKey());
     assertEquals((Integer) 8, contacts.get(8).getKey());
   }
-
 
 
   private Contact build(ContactType type, String first, String last) {

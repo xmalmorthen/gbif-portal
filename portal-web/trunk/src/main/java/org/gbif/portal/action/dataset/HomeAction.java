@@ -16,20 +16,21 @@ import com.google.inject.Singleton;
  */
 @Singleton
 public class HomeAction extends BaseAction {
+
   private static final long serialVersionUID = 3791960822111920288L;
-  
+
   private long numOccurrenceDatasets;
   private long numChecklistDatasets;
   private long numMetadataDatasets;
   private long numDatasets;
-  
+
   private final DatasetSearchService service;
-  
+
   @Inject
   public HomeAction(DatasetSearchService service) {
     this.service = service;
   }
-  
+
   @Override
   public String execute() {
     numOccurrenceDatasets = count(DatasetType.OCCURRENCE);
@@ -39,8 +40,25 @@ public class HomeAction extends BaseAction {
     return SUCCESS;
   }
 
+  public long getNumChecklistDatasets() {
+    return numChecklistDatasets;
+  }
+
+  public long getNumDatasets() {
+    return numDatasets;
+  }
+
+  public long getNumMetadataDatasets() {
+    return numMetadataDatasets;
+  }
+
+  public long getNumOccurrenceDatasets() {
+    return numOccurrenceDatasets;
+  }
+
   /**
    * Uses the {@link DatasetSearchService} to find the count of records.
+   * 
    * @param type To count
    * @return The count, or 0 should the service be unresponsive
    */
@@ -50,21 +68,5 @@ public class HomeAction extends BaseAction {
     dsr.addParameter(DatasetSearchParameter.TYPE, type);
     SearchResponse<DatasetSearchResult, DatasetSearchParameter> response = service.search(dsr);
     return (response == null || response.getCount() == null) ? 0 : response.getCount(); // NPE safe
-  }
-  
-  public long getNumOccurrenceDatasets() {
-    return numOccurrenceDatasets;
-  }
-  
-  public long getNumChecklistDatasets() {
-    return numChecklistDatasets;
-  }
-  
-  public long getNumMetadataDatasets() {
-    return numMetadataDatasets;
-  }
-
-  public long getNumDatasets() {
-    return numDatasets;
   }
 }

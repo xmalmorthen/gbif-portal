@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SummaryAction extends CountryBaseAction {
+
   private static Logger LOG = LoggerFactory.getLogger(SummaryAction.class);
 
   @Inject
@@ -28,9 +29,9 @@ public class SummaryAction extends CountryBaseAction {
   public String execute() throws Exception {
     super.execute();
 
-    buildAboutMetrics(0,0);
+    buildAboutMetrics(0, 0);
     // load 6 latest published datasets
-    buildByMetrics(7,0);
+    buildByMetrics(7, 0);
 
     return SUCCESS;
   }

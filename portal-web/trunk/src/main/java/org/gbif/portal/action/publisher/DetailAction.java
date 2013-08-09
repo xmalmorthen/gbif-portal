@@ -28,6 +28,12 @@ public class DetailAction extends MemberBaseAction<Organization> {
     this.organizationService = organizationService;
   }
 
+  public String datasets() throws Exception {
+    super.execute();
+    page = organizationService.ownedDatasets(id, new PagingRequest(offset, 25));
+    return SUCCESS;
+  }
+
   @Override
   public String execute() throws Exception {
     super.execute();
@@ -41,23 +47,17 @@ public class DetailAction extends MemberBaseAction<Organization> {
     return SUCCESS;
   }
 
-  public String datasets() throws Exception {
-    super.execute();
-    page = organizationService.ownedDatasets(id, new PagingRequest(offset, 25));
-    return SUCCESS;
-  }
-
-  public void setOffset(long offset) {
-    if (offset >= 0) {
-      this.offset = offset;
-    }
-  }
-
   public Node getNode() {
     return node;
   }
 
   public PagingResponse<Dataset> getPage() {
     return page;
+  }
+
+  public void setOffset(long offset) {
+    if (offset >= 0) {
+      this.offset = offset;
+    }
   }
 }

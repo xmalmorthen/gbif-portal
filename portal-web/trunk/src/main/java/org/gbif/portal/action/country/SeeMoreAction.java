@@ -23,12 +23,9 @@ public class SeeMoreAction extends CountryBaseAction {
       datasetMetricsService);
   }
 
-  public String datasets() throws Exception {
-    super.execute();
-
-    loadAboutDatasetsPage(25);
-
-    return SUCCESS;
+  public String countriesAbout() throws Exception {
+    about = true;
+    return countriesPublished();
   }
 
   public String countriesPublished() throws Exception {
@@ -39,20 +36,24 @@ public class SeeMoreAction extends CountryBaseAction {
     return SUCCESS;
   }
 
-  public String countriesAbout() throws Exception {
-    about=true;
-    return countriesPublished();
-  }
-
-  public String publishers() throws Exception {
+  public String datasets() throws Exception {
     super.execute();
 
-    loadPublishers(25);
+    loadAboutDatasetsPage(25);
 
     return SUCCESS;
   }
 
   public boolean isAbout() {
     return about;
+  }
+
+  @Override
+  public String publishers() throws Exception {
+    super.execute();
+
+    loadPublishers(25);
+
+    return SUCCESS;
   }
 }

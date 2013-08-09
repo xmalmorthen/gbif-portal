@@ -44,26 +44,6 @@ public class SearchActionTest {
   }
 
   @Test
-  public void testIsFullTextMatchOnly() {
-    // there was no highlighting in any of the test object's fields, thereby it can be inferred that the match must have happened on full_text
-    assertTrue(sa.isFullTextMatchOnly(result, "Pon"));
-  }
-
-  @Test
-  public void testIsFullTextMatchOnlyFalse() {
-    // override title with one that contains some (solr) highlighting
-    result.setTitle("<em class=\"gbifHl\">Pon&lt;/em>Taurus collection");
-    // there was no highlighting in any of the above fields, so infer match must have happened on full_text
-    assertFalse(sa.isFullTextMatchOnly(result, "Pon"));
-  }
-
-  @Test
-  public void testIsFullTextMatchOnlyForEmptyQueryText() {
-    // there was no query text, and thus no match can be reported
-    assertFalse(sa.isFullTextMatchOnly(result, ""));
-  }
-
-  @Test
   public void testAddMissingHighlighting() {
     assertEquals("<em class=\"gbifHl\">pon</em>taurus", sa.addMissingHighlighting("pontaurus", "pon"));
     assertEquals("<em class=\"gbifHl\">pon</em>taurus <em class=\"gbifHl\">pon</em>TAURUS",
@@ -87,9 +67,30 @@ public class SearchActionTest {
     assertEquals("strasse Imagenes", sa.foldToAscii("straße Imágenes"));
   }
 
+  @Test
+  public void testIsFullTextMatchOnly() {
+    // there was no highlighting in any of the test object's fields, thereby it can be inferred that the match must have
+// happened on full_text
+    assertTrue(sa.isFullTextMatchOnly(result, "Pon"));
+  }
+
+  @Test
+  public void testIsFullTextMatchOnlyFalse() {
+    // override title with one that contains some (solr) highlighting
+    result.setTitle("<em class=\"gbifHl\">Pon&lt;/em>Taurus collection");
+    // there was no highlighting in any of the above fields, so infer match must have happened on full_text
+    assertFalse(sa.isFullTextMatchOnly(result, "Pon"));
+  }
+
+  @Test
+  public void testIsFullTextMatchOnlyForEmptyQueryText() {
+    // there was no query text, and thus no match can be reported
+    assertFalse(sa.isFullTextMatchOnly(result, ""));
+  }
+
   /**
    * Create a test DatasetSearchResult populated without any (solr) highlighting.
-   *
+   * 
    * @return populated test object
    */
   private DatasetSearchResult populateTestDatasetSearchResult() {

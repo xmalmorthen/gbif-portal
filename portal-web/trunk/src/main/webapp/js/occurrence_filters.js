@@ -864,22 +864,22 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
       var maxLat = self.filterElement.find(":input[name=maxLatitude]:first").val();
       var maxLng = self.filterElement.find(":input[name=maxLongitude]:first").val();
 
-      if((!self.isBlank(minLat) && !self.isValidNumber(minLat,true,null,null)) || self.isBlank(minLat)){
+      if((!self.isBlank(minLat) && !self.isValidNumber(minLat,true,-90,90)) || self.isBlank(minLat)){
         self.filterElement.find(":input[name=minLatitude]:first").addClass(ERROR_CLASS);
         return;
       }
 
-      if((!self.isBlank(minLng) && !self.isValidNumber(minLng,true,null,null)) || self.isBlank(minLng)){
+      if((!self.isBlank(minLng) && !self.isValidNumber(minLng,true,-180,180)) || self.isBlank(minLng)){
         self.filterElement.find(":input[name=minLongitude]:first").addClass(ERROR_CLASS);
         return;
       }
 
-      if((!self.isBlank(maxLat) && !self.isValidNumber(maxLat,true,null,null)) || self.isBlank(maxLat)){
+      if((!self.isBlank(maxLat) && !self.isValidNumber(maxLat,true,-90,90)) || self.isBlank(maxLat)){
         self.filterElement.find(":input[name=maxLatitude]:first").addClass(ERROR_CLASS);
         return;
       }
 
-      if((!self.isBlank(maxLng) && !self.isValidNumber(maxLng,true,null,null)) || self.isBlank(maxLng)){
+      if((!self.isBlank(maxLng) && !self.isValidNumber(maxLng,true,-180,180)) || self.isBlank(maxLng)){
         self.filterElement.find(":input[name=maxLongitude]:first").addClass(ERROR_CLASS);
         return;
       }

@@ -30,7 +30,7 @@ import static org.gbif.api.model.Constants.NUB_DATASET_KEY;
 /**
  * The action for all species search operations.
  */
-public class SearchAction 
+public class SearchAction
   extends BaseFacetedSearchAction<NameUsageSearchResult, NameUsageSearchParameter, NameUsageSearchRequest> {
 
   private static final long serialVersionUID = -3736915206911951300L;
@@ -49,27 +49,14 @@ public class SearchAction
   private Function<String, String> getNameTypeTitle;
 
   @Inject
-  public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService, DatasetService checklistService) {
+  public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService,
+    DatasetService checklistService) {
     super(nameUsageSearchService, NameUsageSearchParameter.class, new NameUsageSearchRequest());
     this.usageService = usageService;
     this.checklistService = checklistService;
     initGetTitleFunctions();
   }
 
-
-  /**
-   * Removes all vernacular names from the given list which are not highlighted, ie matching the query.
-   * @param vernacularNames
-   */
-  private void filterVernacularMatches(List<VernacularName> vernacularNames, boolean removeAll) {
-    Iterator<VernacularName> iter = vernacularNames.iterator();
-    while (iter.hasNext()) {
-      VernacularName vn = iter.next();
-      if (removeAll || vn.getVernacularName() == null || !isHighlightedText(vn.getVernacularName())) {
-        iter.remove();
-      }
-    }
-  }
 
   @Override
   public String execute() {
@@ -109,11 +96,33 @@ public class SearchAction
   }
 
   /**
+   * Exposed to allow easy access in freemarker.
+   */
+  public UUID getNubDatasetKey() {
+    return NUB_DATASET_KEY;
+  }
+
+  /**
    * @return true if the checklist facet filter contains a single checklist only.
    */
   public boolean getShowAccordingTo() {
     return !searchRequest.getParameters().containsKey(NameUsageSearchParameter.DATASET_KEY)
       || searchRequest.getParameters().get(NameUsageSearchParameter.DATASET_KEY).size() != 1;
+  }
+
+  /**
+   * Removes all vernacular names from the given list which are not highlighted, ie matching the query.
+   * 
+   * @param vernacularNames
+   */
+  private void filterVernacularMatches(List<VernacularName> vernacularNames, boolean removeAll) {
+    Iterator<VernacularName> iter = vernacularNames.iterator();
+    while (iter.hasNext()) {
+      VernacularName vn = iter.next();
+      if (removeAll || vn.getVernacularName() == null || !isHighlightedText(vn.getVernacularName())) {
+        iter.remove();
+      }
+    }
   }
 
   private String getBooleanTitle(String resourceEntry, String value) {
@@ -125,6 +134,8 @@ public class SearchAction
     }
     return getText("not") + " " + getText(resourceEntry).toLowerCase();
   }
+
+
   /**
    * Initializes the getTitle* functions: getChecklistTitle and getHigherTaxaTitle.
    * Because we need the non static resource bundle lookup method getText() these methods
@@ -154,6 +165,7 @@ public class SearchAction
     };
 
     getExtinctTitle = new Function<String, String>() {
+
       @Override
       public String apply(String name) {
         return getBooleanTitle("search.facet.EXTINCT", name);
@@ -161,6 +173,7 @@ public class SearchAction
     };
 
     getHabitatTitle = new Function<String, String>() {
+
       @Override
       public String apply(String name) {
         return getBooleanTitle("search.facet.MARINE", name);
@@ -198,14 +211,6 @@ public class SearchAction
         return getEnumTitle("nametype", name);
       }
     };
-  }
-
-
-  /**
-   * Exposed to allow easy access in freemarker.
-   */
-  public UUID getNubDatasetKey() {
-    return NUB_DATASET_KEY;
   }
 
 }

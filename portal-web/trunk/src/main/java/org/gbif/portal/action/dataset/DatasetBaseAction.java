@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.UUID;
+
 import javax.annotation.Nullable;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -82,52 +83,6 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
     return !Strings.isNullOrEmpty(s) && !s.trim().isEmpty();
   }
 
-  /**
-   * Takes a list of the resource's TaxonomicCoverages, and for each one, creates a new OrganizedTaxonomicCoverage
-   * that gets added to this class' list of OrganizedTaxonomicCoverage.
-   * 
-   * @param coverages list of resource's OrganizedTaxonomicCoverage
-   */
-  @VisibleForTesting
-  List<OrganizedTaxonomicCoverages> constructOrganizedTaxonomicCoverages(List<TaxonomicCoverages> coverages) {
-    List<OrganizedTaxonomicCoverages> organizedCoverages = new ArrayList<OrganizedTaxonomicCoverages>();
-    for (TaxonomicCoverages coverage : coverages) {
-      OrganizedTaxonomicCoverages organizedCoverage = new OrganizedTaxonomicCoverages();
-      organizedCoverage.setDescription(coverage.getDescription());
-      organizedCoverage.setCoverages(organizeTaxonomicCoverages(coverage.getCoverages()));
-      organizedCoverages.add(organizedCoverage);
-    }
-    return organizedCoverages;
-  }
-
-  /**
-   * Construct the display name from TaxonomicCoverage's scientific name and common name properties. It will look like:
-   * scientific name (common name) provided both properties are not null. Otherwise, it will be either the scientific
-   * name or common name by themselves.
-   * 
-   * @return constructed display name or an empty string if none could be constructed
-   */
-  private String createDisplayNameForCoverage(TaxonomicCoverage coverage) {
-    String combined = null;
-    if (coverage != null) {
-
-      String scientificName = hasNonWhitespace(coverage.getScientificName()) ?
-        CharMatcher.WHITESPACE.trimFrom(coverage.getScientificName()) : null;
-
-      String commonName = hasNonWhitespace(coverage.getCommonName()) ?
-        CharMatcher.WHITESPACE.trimFrom(coverage.getCommonName()) : null;
-
-      if (!Strings.isNullOrEmpty(scientificName) && !Strings.isNullOrEmpty(commonName)) {
-        combined = scientificName + " (" + commonName + ")";
-      } else if (scientificName != null) {
-        combined = Strings.emptyToNull(scientificName);
-      } else if (commonName != null) {
-        combined = Strings.emptyToNull(commonName);
-      }
-    }
-    return Strings.nullToEmpty(combined);
-  }
-
   public Dataset getDataset() {
     return member;
   }
@@ -136,20 +91,31 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
     return datasetService;
   }
 
+  public Organization getHost() {
+    return host;
+  }
+
+  @Override
   public UUID getId() {
     return id;
+  }
+
+  public Installation getInstallation() {
+    return installation;
   }
 
   public DatasetMetrics getMetrics() {
     return metrics;
   }
 
-  public Organization getHost() {
-    return host;
+  @Nullable
+  public Long getNumGeoreferencedOccurrences() {
+    return numGeoreferencedOccurrences;
   }
 
-  public Installation getInstallation() {
-    return installation;
+  @Nullable
+  public Long getNumOccurrences() {
+    return numOccurrences;
   }
 
   /**
@@ -157,6 +123,10 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
    */
   public List<OrganizedTaxonomicCoverages> getOrganizedCoverages() {
     return organizedCoverages;
+  }
+
+  public Dataset getParentDataset() {
+    return parentDataset;
   }
 
   public Organization getPublisher() {
@@ -170,6 +140,16 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
     return Rank.SPECIES;
   }
 
+  @Override
+  public void setId(String id) {
+    try {
+      this.id = UUID.fromString(id);
+    } catch (IllegalArgumentException e) {
+      this.id = null;
+    }
+  }
+
+  @Override
   protected void loadDetail() {
     if (id == null) {
       throw new NotFoundException("No identifier provided to load the dataset");
@@ -202,19 +182,21 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
   }
 
   /**
-   * Populates the occurrence counts using the cube, only when the key exists.
+   * Takes a list of the resource's TaxonomicCoverages, and for each one, creates a new OrganizedTaxonomicCoverage
+   * that gets added to this class' list of OrganizedTaxonomicCoverage.
+   * 
+   * @param coverages list of resource's OrganizedTaxonomicCoverage
    */
-  private void populateOccurrenceCounts() {
-    if (id != null) {
-      try {
-        numOccurrences = occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, id));
-        numGeoreferencedOccurrences =
-          occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, id).at(
-            OccurrenceCube.IS_GEOREFERENCED, true));
-      } catch (Exception e) {
-        LOG.error("Failed to load occurrence metrics for dataset {}", id, e);
-      }
+  @VisibleForTesting
+  List<OrganizedTaxonomicCoverages> constructOrganizedTaxonomicCoverages(List<TaxonomicCoverages> coverages) {
+    List<OrganizedTaxonomicCoverages> organizedCoverages = new ArrayList<OrganizedTaxonomicCoverages>();
+    for (TaxonomicCoverages coverage : coverages) {
+      OrganizedTaxonomicCoverages organizedCoverage = new OrganizedTaxonomicCoverages();
+      organizedCoverage.setDescription(coverage.getDescription());
+      organizedCoverage.setCoverages(organizeTaxonomicCoverages(coverage.getCoverages()));
+      organizedCoverages.add(organizedCoverage);
     }
+    return organizedCoverages;
   }
 
   /**
@@ -237,12 +219,32 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
     return ImmutableList.<String>copyOf(s);
   }
 
-  public void setId(String id) {
-    try {
-      this.id = UUID.fromString(id);
-    } catch (IllegalArgumentException e) {
-      this.id = null;
+  /**
+   * Construct the display name from TaxonomicCoverage's scientific name and common name properties. It will look like:
+   * scientific name (common name) provided both properties are not null. Otherwise, it will be either the scientific
+   * name or common name by themselves.
+   * 
+   * @return constructed display name or an empty string if none could be constructed
+   */
+  private String createDisplayNameForCoverage(TaxonomicCoverage coverage) {
+    String combined = null;
+    if (coverage != null) {
+
+      String scientificName = hasNonWhitespace(coverage.getScientificName()) ?
+        CharMatcher.WHITESPACE.trimFrom(coverage.getScientificName()) : null;
+
+      String commonName = hasNonWhitespace(coverage.getCommonName()) ?
+        CharMatcher.WHITESPACE.trimFrom(coverage.getCommonName()) : null;
+
+      if (!Strings.isNullOrEmpty(scientificName) && !Strings.isNullOrEmpty(commonName)) {
+        combined = scientificName + " (" + commonName + ")";
+      } else if (scientificName != null) {
+        combined = Strings.emptyToNull(scientificName);
+      } else if (commonName != null) {
+        combined = Strings.emptyToNull(commonName);
+      }
     }
+    return Strings.nullToEmpty(combined);
   }
 
   /**
@@ -293,17 +295,19 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
     return organizedTaxonomicCoveragesList;
   }
 
-  @Nullable
-  public Long getNumOccurrences() {
-    return numOccurrences;
-  }
-
-  @Nullable
-  public Long getNumGeoreferencedOccurrences() {
-    return numGeoreferencedOccurrences;
-  }
-
-  public Dataset getParentDataset() {
-    return parentDataset;
+  /**
+   * Populates the occurrence counts using the cube, only when the key exists.
+   */
+  private void populateOccurrenceCounts() {
+    if (id != null) {
+      try {
+        numOccurrences = occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, id));
+        numGeoreferencedOccurrences =
+          occurrenceCubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, id).at(
+            OccurrenceCube.IS_GEOREFERENCED, true));
+      } catch (Exception e) {
+        LOG.error("Failed to load occurrence metrics for dataset {}", id, e);
+      }
+    }
   }
 }

@@ -9,7 +9,7 @@ import com.google.inject.Inject;
 
 public class DetailAction extends MemberBaseAction<Network> {
 
-  private NetworkService networkService;
+  private final NetworkService networkService;
 
   @Inject
   public DetailAction(NetworkService networkService) {

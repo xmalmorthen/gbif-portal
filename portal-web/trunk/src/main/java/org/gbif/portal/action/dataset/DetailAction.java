@@ -24,6 +24,7 @@ import org.gbif.api.vocabulary.Rank;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
@@ -136,6 +137,7 @@ public class DetailAction extends DatasetBaseAction {
     return otherContacts;
   }
 
+  @Override
   @Nullable
   public Dataset getParentDataset() {
     return parentDataset;

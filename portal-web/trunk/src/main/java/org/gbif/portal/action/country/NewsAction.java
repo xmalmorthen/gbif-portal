@@ -13,7 +13,8 @@ import com.google.inject.Inject;
 public class NewsAction extends CountryBaseAction {
 
   @Inject
-  public NewsAction(NodeService nodeService, CubeService cubeService, OccurrenceDatasetIndexService datasetIndexService,
+  public NewsAction(NodeService nodeService, CubeService cubeService,
+    OccurrenceDatasetIndexService datasetIndexService,
     OccurrenceCountryIndexService countryIndexService, DatasetService datasetService,
     DatasetSearchService datasetSearchService, DatasetMetricsService datasetMetricsService) {
     super(nodeService, cubeService, datasetIndexService, countryIndexService, datasetService, datasetSearchService,

@@ -14,8 +14,9 @@ import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.service.checklistbank.NameUsageService;
-import org.gbif.api.service.occurrence.DownloadService;
+import org.gbif.api.service.occurrence.DownloadRequestService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.OccurrenceDownloadService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.util.HumanFilterBuilder;
 import org.gbif.portal.action.occurrence.util.QueryParameterFilterBuilder;
@@ -33,43 +34,58 @@ import org.slf4j.LoggerFactory;
  * the cancel method can be used to cancel a single download and then return the list again.
  */
 public class DownloadsAction extends BaseAction {
+
   private static Logger LOG = LoggerFactory.getLogger(DownloadsAction.class);
 
   private String key;
   private PagingResponse<Download> page;
-  private long offset = 0;
+  private long offset;
+
   @Inject
-  private DownloadService downloadService;
+  private DownloadRequestService downloadRequestService;
+
+  @Inject
+  private OccurrenceDownloadService downloadService;
+
   @Inject
   private NameUsageService usageService;
   @Inject
   private DatasetService datasetService;
 
-  @Override
-  public String execute() throws Exception {
-    // never null, guaranteed by the LoginInterceptor stack
-    page = downloadService.list(getCurrentUser().getUserName(), new PagingRequest(offset, 25));
+  public String cancel() throws Exception {
+    if (!Strings.isNullOrEmpty(key)) {
+      downloadRequestService.cancel(key);
+    }
+    // to be used via POST/REDIRECT/GET
     return SUCCESS;
   }
 
-  public String cancel () throws Exception {
-    if (!Strings.isNullOrEmpty(key)) {
-      downloadService.delete(key);
-    }
-    // to be used via POST/REDIRECT/GET
+  @Override
+  public String execute() throws Exception {
+    // never null, guaranteed by the LoginInterceptor stack
+    page = downloadService.listByUser(getCurrentUser().getUserName(), new PagingRequest(offset, 25));
     return SUCCESS;
   }
 
   public Map<OccurrenceSearchParameter, LinkedList<String>> getHumanFilter(Predicate p) {
     try {
       // not thread safe!
-      HumanFilterBuilder builder = new  HumanFilterBuilder(this, datasetService, usageService);
+      HumanFilterBuilder builder = new HumanFilterBuilder(this, datasetService, usageService);
       return builder.humanFilter(p);
 
     } catch (IllegalArgumentException e) {
       LOG.warn("Cannot create human representation for predicate " + p);
       return null;
     }
+  }
+
+  public String getKey() {
+    return key;
+  }
+
+
+  public PagingResponse<Download> getPage() {
+    return page;
   }
 
   public String getQueryParams(Predicate p) {
@@ -84,21 +100,11 @@ public class DownloadsAction extends BaseAction {
     }
   }
 
-
-
   public void setKey(String key) {
     this.key = key;
   }
 
   public void setOffset(long offset) {
     this.offset = offset;
-  }
-
-  public String getKey() {
-    return key;
-  }
-
-  public PagingResponse<Download> getPage() {
-    return page;
   }
 }

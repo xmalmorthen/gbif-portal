@@ -49,14 +49,14 @@
     <!-- dependency versions -->
     <dwc-api.version>1.3</dwc-api.version>
     <gbif-api.version>0.5-SNAPSHOT</gbif-api.version>
-    <checklistbank-ws-client.version>2.0-SNAPSHOT</checklistbank-ws-client.version>
+    <checklistbank-ws-client.version>0.6-SNAPSHOT</checklistbank-ws-client.version>
     <registry-ws-client.version>2.1-SNAPSHOT</registry-ws-client.version>
-    <occurrence-download-ws-client.version>0.5</occurrence-download-ws-client.version>
-    <occurrence-ws-client.version>0.5</occurrence-ws-client.version>
-    <metrics-ws-client.version>0.5</metrics-ws-client.version>
-    <gbif-postal-service.version>0.3</gbif-postal-service.version>
+    <occurrence-download-ws-client.version>0.8-SNAPSHOT</occurrence-download-ws-client.version>
+    <occurrence-ws-client.version>0.7-SNAPSHOT</occurrence-ws-client.version>
+    <metrics-ws-client.version>0.6-SNAPSHOT</metrics-ws-client.version>
+    <gbif-postal-service.version>0.4-SNAPSHOT</gbif-postal-service.version>
     <drupal-mybatis.version>0.6-SNAPSHOT</drupal-mybatis.version>
-    <gbif-common.version>0.12</gbif-common.version>
+    <gbif-common.version>0.13-SNAPSHOT</gbif-common.version>
     <gbif-common-ws.version>0.9-SNAPSHOT</gbif-common-ws.version>
     
     <freemarker.version>2.3.19</freemarker.version>
@@ -76,7 +76,6 @@
     <findbugs-jsr305.version>2.0.1</findbugs-jsr305.version>
     <commons-io.version>2.4</commons-io.version>
     <javax-validation-api.version>1.0.0.GA</javax-validation-api.version>
-    <lucene.version>4.2.0</lucene.version>
   </properties>
 
   <scm>
@@ -469,16 +468,6 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>${commons-io.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-core</artifactId>
-      <version>${lucene.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.lucene</groupId>
-      <artifactId>lucene-analyzers-common</artifactId>
-      <version>${lucene.version}</version>
     </dependency>
   </dependencies>
 

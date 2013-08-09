@@ -17,6 +17,7 @@ import org.gbif.portal.model.SearchSuggestions;
 import java.util.EnumSet;
 import java.util.Set;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
@@ -106,7 +107,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
     // replace known name usages
     filtersActionHelper.processNameUsageReplacements(searchRequest, nameUsagesSuggestions);
-
     // replace known datasets
     filtersActionHelper.processDatasetReplacements(searchRequest, datasetsSuggestions);
 
@@ -153,7 +153,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return catalogNumberSuggestions;
   }
 
-
   /**
    * @return the collectionCodeSuggestions
    */
@@ -195,7 +194,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return datasetsSuggestions;
   }
 
-
   /**
    * Gets the Dataset title, the key parameter is returned if either the Dataset doesn't exists or it
    * doesn't have a title.
@@ -204,10 +202,12 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return filtersActionHelper.getDatasetTitle(key);
   }
 
+
   // this method is only a convenience one exposing the request filters so the ftl templates dont need to be adapted
   public Multimap<OccurrenceSearchParameter, String> getFilters() {
     return searchRequest.getParameters();
   }
+
 
   /**
    * Gets the readable value of filter parameter.
@@ -258,6 +258,11 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return Constants.NUB_DATASET_KEY.toString();
   }
 
+  public String getParameterErrors(String parameter) {
+    Joiner COMMA_JOINER = Joiner.on(',').skipNulls();
+    return COMMA_JOINER.join(getFieldErrors().get(parameter));
+  }
+
   /**
    * Gets the configuration of fields and information to display.
    * 
@@ -265,6 +270,10 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    */
   public OccurrenceTable getTable() {
     return table;
+  }
+
+  public boolean hasParameterErrors(String parameter) {
+    return (getFieldErrors().containsKey(parameter));
   }
 
 
@@ -299,7 +308,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   }
 
   /**
-   * Initializes the suggestion objects with emtpy values.
+   * Initializes the suggestion objects with empty values.
    */
   private void initSuggestions() {
     nameUsagesSuggestions = new SearchSuggestions<NameUsageSearchResult>();

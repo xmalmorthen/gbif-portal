@@ -36,6 +36,7 @@ public class PortalModuleIT {
    * This test tries to retrieve metrics for a checklist calling: public DatasetMetrics get(UUID datasetKey).
    * This test intentionally uses a checklist that doesn't exist. The service returns a 204 (no content) response.
    * If the HttpErrorResponseInterceptor has been bound, the 204 response is converted to NULL.
+   * 
    * @see org.gbif.ws.client.interceptor.HttpErrorResponseInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
    */
   @Test
@@ -49,6 +50,7 @@ public class PortalModuleIT {
    * This test tries to retrieve a dataset calling: public Dataset get(@PathParam("key") String key).
    * This test intentionally uses a dataset that doesn't exist. The web service returns a 404 (not found) response.
    * The final response should be NULL, no exception.
+   * 
    * @see org.gbif.ws.client.interceptor.HttpErrorResponseInterceptor#invoke(org.aopalliance.intercept.MethodInvocation)
    */
   @Test

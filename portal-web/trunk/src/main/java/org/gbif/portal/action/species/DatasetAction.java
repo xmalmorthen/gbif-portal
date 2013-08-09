@@ -16,23 +16,24 @@ import com.google.inject.Inject;
 
 public class DatasetAction extends UsageBaseAction {
 
-  @Inject
-  private OccurrenceDatasetIndexService occurrenceDatasetService;
+  public class DatasetResult implements Comparable<DatasetResult> {
 
-  private DatasetType type;
-  private PagingResponse<DatasetResult> page;
-  private int offset = 0;
-  private static final int pageSize = 25;
-
-  public class DatasetResult implements Comparable<DatasetResult>{
-    private Dataset dataset;
-    private Integer numOccurrences;
-    private NameUsage usage;
+    private final Dataset dataset;
+    private final Integer numOccurrences;
+    private final NameUsage usage;
 
     public DatasetResult(Dataset dataset, Integer numOccurrences, NameUsage usage) {
       this.dataset = dataset;
       this.numOccurrences = numOccurrences;
       this.usage = usage;
+    }
+
+    @Override
+    public int compareTo(DatasetResult that) {
+      if (this == that) {
+        return 0;
+      }
+      return dataset.getTitle().toLowerCase().compareTo(that.getDataset().getTitle().toLowerCase());
     }
 
     public Dataset getDataset() {
@@ -46,13 +47,15 @@ public class DatasetAction extends UsageBaseAction {
     public NameUsage getUsage() {
       return usage;
     }
-
-    @Override
-    public int compareTo(DatasetResult that) {
-      if ( this == that ) return 0;
-      return dataset.getTitle().toLowerCase().compareTo(that.getDataset().getTitle().toLowerCase());
-    }
   }
+
+  @Inject
+  private OccurrenceDatasetIndexService occurrenceDatasetService;
+  private DatasetType type;
+  private PagingResponse<DatasetResult> page;
+  private int offset = 0;
+
+  private static final int pageSize = 25;
 
   @Override
   public String execute() {
@@ -64,21 +67,22 @@ public class DatasetAction extends UsageBaseAction {
       List<NameUsage> relatedUsages = usageService.listRelated(usage.getNubKey(), getLocale());
       // remove nub usage itself
       Iterator<NameUsage> iter = relatedUsages.iterator();
-      while (iter.hasNext()){
+      while (iter.hasNext()) {
         if (iter.next().getKey().equals(usage.getKey())) {
           iter.remove();
         }
       }
 
-      page.setCount( (long) relatedUsages.size());
+      page.setCount((long) relatedUsages.size());
       for (NameUsage u : sublist(relatedUsages, offset, offset + pageSize)) {
         page.getResults().add(new DatasetResult(datasetService.get(u.getDatasetKey()), null, u));
       }
     }
 
     if ((type == null || type == DatasetType.OCCURRENCE) && usage.getNubKey() != null) {
-      SortedMap<UUID, Integer> occurrenceDatasetCounts = occurrenceDatasetService.occurrenceDatasetsForNubKey(usage.getNubKey());
-      page.setCount( (long) occurrenceDatasetCounts.size());
+      SortedMap<UUID, Integer> occurrenceDatasetCounts =
+        occurrenceDatasetService.occurrenceDatasetsForNubKey(usage.getNubKey());
+      page.setCount((long) occurrenceDatasetCounts.size());
       for (UUID uuid : sublist(Lists.newArrayList(occurrenceDatasetCounts.keySet()), offset, offset + pageSize)) {
         page.getResults().add(new DatasetResult(datasetService.get(uuid), occurrenceDatasetCounts.get(uuid), null));
       }
@@ -87,23 +91,23 @@ public class DatasetAction extends UsageBaseAction {
     return SUCCESS;
   }
 
-  public DatasetType getType() {
-    return type;
-  }
-
-  public void setType(DatasetType type) {
-    this.type = type;
+  public int getOffset() {
+    return offset;
   }
 
   public PagingResponse<DatasetResult> getPage() {
     return page;
   }
 
-  public int getOffset() {
-    return offset;
+  public DatasetType getType() {
+    return type;
   }
 
   public void setOffset(int offset) {
     this.offset = offset;
+  }
+
+  public void setType(DatasetType type) {
+    this.type = type;
   }
 }

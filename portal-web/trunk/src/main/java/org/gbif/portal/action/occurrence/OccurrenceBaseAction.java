@@ -54,33 +54,13 @@ public class OccurrenceBaseAction extends BaseAction {
     return occ;
   }
 
-  protected void loadDetail() {
-    if (id == null) {
-      throw new NotFoundException("No occurrence id given");
-    }
-    occ = occurrenceService.get(id);
-    if (occ == null) {
-      throw new NotFoundException("No occurrence found with id " + id);
-    }
-    // load dataset
-    dataset = datasetService.get(occ.getDatasetKey());
-    if (dataset == null) {
-      throw new ReferentialIntegrityException(Occurrence.class, id, "Missing dataset " + occ.getDatasetKey());
-    }
-    // load name usage nub object
-    if (occ.getNubKey() != null) {
-      nub = usageService.get(occ.getNubKey(), getLocale());
-      if (nub == null) {
-        throw new ReferentialIntegrityException(Occurrence.class, id, "Missing nub usage " + occ.getNubKey());
-      }
-    }
-    // TODO: load metrics for occurrence once implemented
-    metrics = null;
-    // construct partial gathering date if occurrenceDate was empty and there is at least a year or month
-    if (occ.getOccurrenceDate() == null && (occ.getOccurrenceYear() != null || occ.getOccurrenceMonth() != null)) {
-      partialGatheringDate =
-        constructPartialGatheringDate(occ.getOccurrenceYear(), occ.getOccurrenceMonth(), occ.getOccurrenceDay());
-    }
+  /**
+   * The partial gathering date, constructed from individual occurrence day, month, year.
+   * 
+   * @return partial gathering date
+   */
+  public String getPartialGatheringDate() {
+    return partialGatheringDate;
   }
 
   public void setId(Integer id) {
@@ -92,7 +72,7 @@ public class OccurrenceBaseAction extends BaseAction {
    * Basically, only valid integers gets persisted to the index, and any invalid data will be flagged/logged.
    * This method must ensure the values gets displayed exactly as they are persisted so that if there are errors
    * they can be detected via the occurrence page also.
-   *
+   * 
    * @return date string
    */
   protected String constructPartialGatheringDate(Integer year, Integer month, Integer day) {
@@ -162,12 +142,32 @@ public class OccurrenceBaseAction extends BaseAction {
     return st.toString();
   }
 
-  /**
-   * The partial gathering date, constructed from individual occurrence day, month, year.
-   *
-   * @return partial gathering date
-   */
-  public String getPartialGatheringDate() {
-    return partialGatheringDate;
+  protected void loadDetail() {
+    if (id == null) {
+      throw new NotFoundException("No occurrence id given");
+    }
+    occ = occurrenceService.get(id);
+    if (occ == null) {
+      throw new NotFoundException("No occurrence found with id " + id);
+    }
+    // load dataset
+    dataset = datasetService.get(occ.getDatasetKey());
+    if (dataset == null) {
+      throw new ReferentialIntegrityException(Occurrence.class, id, "Missing dataset " + occ.getDatasetKey());
+    }
+    // load name usage nub object
+    if (occ.getNubKey() != null) {
+      nub = usageService.get(occ.getNubKey(), getLocale());
+      if (nub == null) {
+        throw new ReferentialIntegrityException(Occurrence.class, id, "Missing nub usage " + occ.getNubKey());
+      }
+    }
+    // TODO: load metrics for occurrence once implemented
+    metrics = null;
+    // construct partial gathering date if occurrenceDate was empty and there is at least a year or month
+    if (occ.getOccurrenceDate() == null && (occ.getOccurrenceYear() != null || occ.getOccurrenceMonth() != null)) {
+      partialGatheringDate =
+        constructPartialGatheringDate(occ.getOccurrenceYear(), occ.getOccurrenceMonth(), occ.getOccurrenceDay());
+    }
   }
 }

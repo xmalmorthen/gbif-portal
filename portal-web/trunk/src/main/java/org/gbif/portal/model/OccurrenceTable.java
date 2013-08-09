@@ -3,11 +3,13 @@ package org.gbif.portal.model;
 
 import org.gbif.api.model.common.search.SearchRequest;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
-import org.gbif.api.util.VocabularyUtils;
 
 import java.util.EnumSet;
 
 import javax.servlet.http.HttpServletRequest;
+
+import com.google.common.base.Enums;
+import com.google.common.base.Optional;
 
 /**
  * Class that represents the configuration for the HTML table shown in the occurrence search page.
@@ -169,9 +171,9 @@ public class OccurrenceTable {
     if (values != null) {
       for (String paramValue : values) {
         for (String value : paramValue.split(",")) {
-          Enum<?> enumLiteral = VocabularyUtils.lookupEnum(value, enumClass);
-          if (enumLiteral != null) {
-            allCols.add((T) enumLiteral);
+          Optional<T> optValue = Enums.getIfPresent(enumClass, value);
+          if (optValue.isPresent()) {
+            allCols.add(optValue.get());
           }
         }
       }

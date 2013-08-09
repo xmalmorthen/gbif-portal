@@ -17,9 +17,13 @@ import com.google.inject.Inject;
 public class HomeAction extends BaseAction {
 
   private static List<Country> countries = Lists.newArrayList(Country.values());
-  private Set<Country> nodes = Sets.newHashSet();
+  private final Set<Country> nodes = Sets.newHashSet();
   @Inject
   private NodeService nodeService;
+
+  public static List<Country> getCountries() {
+    return countries;
+  }
 
   @Override
   public String execute() throws Exception {
@@ -30,10 +34,6 @@ public class HomeAction extends BaseAction {
       }
     }
     return SUCCESS;
-  }
-
-  public static List<Country> getCountries() {
-    return countries;
   }
 
   public Set<Country> getNodes() {

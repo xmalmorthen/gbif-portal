@@ -17,6 +17,7 @@ import com.google.inject.Inject;
  * Redirects to the typed url for the member or throws NotFoundException.
  */
 public class RedirectAction extends BaseAction {
+
   @Inject
   private OrganizationService organizationService;
   @Inject
@@ -35,36 +36,35 @@ public class RedirectAction extends BaseAction {
   public String execute() {
     if (id != null) {
       NetworkEntity member = organizationService.get(id);
-      if (member != null){
+      if (member != null) {
         return redirect(MemberType.PUBLISHER);
       }
 
       member = nodeService.get(id);
-      if (member != null){
+      if (member != null) {
         return redirect(MemberType.NODE);
       }
 
       member = networkService.get(id);
-      if (member != null){
+      if (member != null) {
         return redirect(MemberType.NETWORK);
       }
 
       member = technicalInstallationService.get(id);
-      if (member != null){
+      if (member != null) {
         return redirect(MemberType.INSTALLATION);
       }
 
       member = datasetService.get(id);
-      if (member != null){
+      if (member != null) {
         return redirect(MemberType.DATASET);
       }
     }
     throw new NotFoundException();
   }
 
-  private String redirect(MemberType type){
-    redirectUrl = getBaseUrl() + "/" + type.name().toLowerCase() + "/" + id.toString();
-    return SUCCESS;
+  public String getRedirectUrl() {
+    return redirectUrl;
   }
 
   public void setId(String id) {
@@ -75,7 +75,8 @@ public class RedirectAction extends BaseAction {
     }
   }
 
-  public String getRedirectUrl() {
-    return redirectUrl;
+  private String redirect(MemberType type) {
+    redirectUrl = getBaseUrl() + "/" + type.name().toLowerCase() + "/" + id.toString();
+    return SUCCESS;
   }
 }

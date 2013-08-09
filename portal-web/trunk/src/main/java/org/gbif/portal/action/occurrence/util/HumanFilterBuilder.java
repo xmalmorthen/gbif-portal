@@ -1,12 +1,9 @@
 /*
  * Copyright 2012 Global Biodiversity Information Facility (GBIF)
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,12 +46,15 @@ import org.slf4j.LoggerFactory;
  * This class builds a human readable filter from a {@link org.gbif.api.model.occurrence.predicate.Predicate} hierarchy.
  * This class is not thread safe, create a new instance for every use if concurrent calls to {#humanFilter} is expected.
  * The IN predicate is not yet supported and you'll get an IllegalArgumentException.
- *
  * This builder only supports predicates that follow our search query parameters style with multiple values for the same
  * parameter being logically disjunct (OR) while different search parameters are logically combined (AND). Therefore
  * the {#humanFilter(Predicate p)} result is a map of OccurrenceSearchParameter (AND'ed) to a list of values (OR'ed).
  */
 public class HumanFilterBuilder {
+
+  private enum State {
+    ROOT, AND, OR
+  }
 
   private static final Logger LOG = LoggerFactory.getLogger(HumanFilterBuilder.class);
   private static final String EQUALS_OPERATOR = "";
@@ -62,10 +62,9 @@ public class HumanFilterBuilder {
   private static final String GREATER_THAN_EQUALS_OPERATOR = "&gt;=";
   private static final String LESS_THAN_OPERATOR = "&lt;";
   private static final String LESS_THAN_EQUALS_OPERATOR = "&lt;=";
-  private static final String LIKE_OPERATOR = "~";
 
-  private Map<OccurrenceSearchParameter, LinkedList<String>> filter;
-  private enum State { ROOT, AND, OR };
+  private static final String LIKE_OPERATOR = "~";
+  private Map<OccurrenceSearchParameter, LinkedList<String>> filter;;
   private State state;
   private OccurrenceSearchParameter lastParam;
   private final DatasetService datasetService;
@@ -89,106 +88,6 @@ public class HumanFilterBuilder {
     lastParam = null;
     visit(p);
     return filter;
-  }
-
-  private void visit(ConjunctionPredicate and) throws IllegalStateException {
-    // ranges are allowed underneath root - try first
-    try {
-      visitRange(and);
-      return;
-    } catch (IllegalArgumentException e) {
-      // must be a root AND
-    }
-
-    if (state != State.ROOT) {
-      throw new IllegalStateException("AND must be a root predicate or a valid range");
-    }
-    state = State.AND;
-
-    for (Predicate p : and.getPredicates()) {
-      lastParam = null;
-      visit(p);
-    }
-    state = State.ROOT;
-  }
-
-  private void visitRange(ConjunctionPredicate and){
-    if (and.getPredicates().size() != 2){
-      throw new IllegalArgumentException("no valid range");
-    }
-    GreaterThanOrEqualsPredicate lower = null;
-    LessThanOrEqualsPredicate upper = null;
-    for (Predicate p : and.getPredicates()) {
-      if (p instanceof GreaterThanOrEqualsPredicate) {
-        lower = (GreaterThanOrEqualsPredicate) p;
-      } else if (p instanceof LessThanOrEqualsPredicate) {
-        upper = (LessThanOrEqualsPredicate) p;
-      }
-    }
-    if (lower == null || upper == null || lower.getKey() != upper.getKey()) {
-      throw new IllegalArgumentException("no valid range");
-    }
-    addParamValue(lower.getKey(), "", lower.getValue() + "-" + upper.getValue());
-  }
-
-  private void visit(DisjunctionPredicate or) throws IllegalStateException {
-    State oldState = state;
-    if (state == State.OR) {
-      throw new IllegalStateException("OR within OR filters not supported");
-    }
-    state = State.OR;
-
-    for (Predicate p : or.getPredicates()) {
-      visit(p);
-    }
-    state = oldState;
-  }
-
-  private void visit(EqualsPredicate predicate) {
-    addParamValue(predicate.getKey(), EQUALS_OPERATOR, predicate.getValue());
-  }
-
-  private void visit(LikePredicate predicate) {
-    addParamValue(predicate.getKey(), LIKE_OPERATOR, predicate.getValue());
-  }
-
-  private void visit(GreaterThanPredicate predicate) {
-    addParamValue(predicate.getKey(), GREATER_THAN_OPERATOR, predicate.getValue());
-  }
-
-  private void visit(GreaterThanOrEqualsPredicate predicate) {
-    addParamValue(predicate.getKey(), GREATER_THAN_EQUALS_OPERATOR, predicate.getValue());
-  }
-
-  private void visit(LessThanPredicate predicate) {
-    addParamValue(predicate.getKey(), LESS_THAN_OPERATOR, predicate.getValue());
-  }
-
-  private void visit(LessThanOrEqualsPredicate predicate) {
-    addParamValue(predicate.getKey(), LESS_THAN_EQUALS_OPERATOR, predicate.getValue());
-  }
-
-  private void visit(WithinPredicate within) {
-    addParamValue(OccurrenceSearchParameter.GEOMETRY, "", within.getGeometry());
-  }
-
-  private void visit(InPredicate in) {
-    for (String val : in.getValues()) {
-      addParamValue(in.getKey(), EQUALS_OPERATOR, val);
-    }
-  }
-
-  private void visit(NotPredicate not) throws IllegalStateException {
-    if (not.getPredicate() instanceof SimplePredicate) {
-      visit(not.getPredicate());
-      SimplePredicate sp = (SimplePredicate) not.getPredicate();
-      // now prefix the last value with NOT
-      String notValue = "NOT (" + filter.get(sp.getKey()).removeLast() + ")";
-      filter.get(sp.getKey()).add(notValue);
-
-    } else {
-      throw new IllegalArgumentException("NOT predicate must be followed by a simple predicate");
-    }
   }
 
   private void addParamValue(OccurrenceSearchParameter param, String op, String value) {
@@ -228,7 +127,7 @@ public class HumanFilterBuilder {
   }
 
   private String lookupBasisOfRecord(String value) {
-    return action.getText("enum.basisofrecord."+value);
+    return action.getText("enum.basisofrecord." + value);
   }
 
   private String lookupCountryCode(String code) {
@@ -237,19 +136,6 @@ public class HumanFilterBuilder {
       return c.getTitle();
     }
     return code;
-  }
-
-  private String lookupMonth(String month) {
-    return action.getText("enum.month."+month);
-  }
-
-  private String lookupTaxonKey(String value) {
-    try {
-      return nameUsageService.get(Integer.parseInt(value), null).getScientificName();
-    } catch (Exception e) {
-      LOG.warn("Cannot get name for usage {}", value);
-    }
-    return value;
   }
 
   private String lookupDatasetKey(String value) {
@@ -261,26 +147,142 @@ public class HumanFilterBuilder {
     return value;
   }
 
+  private String lookupMonth(String month) {
+    return action.getText("enum.month." + month);
+  }
+
+  private String lookupTaxonKey(String value) {
+    try {
+      return nameUsageService.get(Integer.parseInt(value), null).getScientificName();
+    } catch (Exception e) {
+      LOG.warn("Cannot get name for usage {}", value);
+    }
+    return value;
+  }
+
+  private void visit(ConjunctionPredicate and) throws IllegalStateException {
+    // ranges are allowed underneath root - try first
+    try {
+      visitRange(and);
+      return;
+    } catch (IllegalArgumentException e) {
+      // must be a root AND
+    }
+
+    if (state != State.ROOT) {
+      throw new IllegalStateException("AND must be a root predicate or a valid range");
+    }
+    state = State.AND;
+
+    for (Predicate p : and.getPredicates()) {
+      lastParam = null;
+      visit(p);
+    }
+    state = State.ROOT;
+  }
+
+  private void visit(DisjunctionPredicate or) throws IllegalStateException {
+    State oldState = state;
+    if (state == State.OR) {
+      throw new IllegalStateException("OR within OR filters not supported");
+    }
+    state = State.OR;
+
+    for (Predicate p : or.getPredicates()) {
+      visit(p);
+    }
+    state = oldState;
+  }
+
+  private void visit(EqualsPredicate predicate) {
+    addParamValue(predicate.getKey(), EQUALS_OPERATOR, predicate.getValue());
+  }
+
+  private void visit(GreaterThanOrEqualsPredicate predicate) {
+    addParamValue(predicate.getKey(), GREATER_THAN_EQUALS_OPERATOR, predicate.getValue());
+  }
+
+  private void visit(GreaterThanPredicate predicate) {
+    addParamValue(predicate.getKey(), GREATER_THAN_OPERATOR, predicate.getValue());
+  }
+
+  private void visit(InPredicate in) {
+    for (String val : in.getValues()) {
+      addParamValue(in.getKey(), EQUALS_OPERATOR, val);
+    }
+  }
+
+  private void visit(LessThanOrEqualsPredicate predicate) {
+    addParamValue(predicate.getKey(), LESS_THAN_EQUALS_OPERATOR, predicate.getValue());
+  }
+
+  private void visit(LessThanPredicate predicate) {
+    addParamValue(predicate.getKey(), LESS_THAN_OPERATOR, predicate.getValue());
+  }
+
+  private void visit(LikePredicate predicate) {
+    addParamValue(predicate.getKey(), LIKE_OPERATOR, predicate.getValue());
+  }
+
+  private void visit(NotPredicate not) throws IllegalStateException {
+    if (not.getPredicate() instanceof SimplePredicate) {
+      visit(not.getPredicate());
+      SimplePredicate sp = (SimplePredicate) not.getPredicate();
+      // now prefix the last value with NOT
+      String notValue = "NOT (" + filter.get(sp.getKey()).removeLast() + ")";
+      filter.get(sp.getKey()).add(notValue);
+
+    } else {
+      throw new IllegalArgumentException("NOT predicate must be followed by a simple predicate");
+    }
+  }
+
   private void visit(Predicate p) throws IllegalStateException {
     Method method = null;
     try {
       method = getClass().getDeclaredMethod("visit", new Class[] {p.getClass()});
     } catch (NoSuchMethodException e) {
-      LOG.warn(
-        "Visit method could not be found. That means a Predicate has been passed in that is unknown to this " + "class",
-        e);
+      LOG
+        .warn(
+          "Visit method could not be found. That means a Predicate has been passed in that is unknown to this "
+            + "class",
+          e);
       throw new IllegalArgumentException("Unknown Predicate", e);
     }
     try {
       method.setAccessible(true);
       method.invoke(this, p);
     } catch (IllegalAccessException e) {
-      LOG.error("This should never happen as we set accessible to true explicitly before. Probably a programming error", e);
+      LOG.error(
+        "This should never happen as we set accessible to true explicitly before. Probably a programming error", e);
       throw new RuntimeException("Programming error", e);
     } catch (InvocationTargetException e) {
       LOG.info("Exception thrown while building the Hive Download", e);
       throw new IllegalArgumentException(e);
     }
+  }
+
+  private void visit(WithinPredicate within) {
+    addParamValue(OccurrenceSearchParameter.GEOMETRY, "", within.getGeometry());
+  }
+
+  private void visitRange(ConjunctionPredicate and) {
+    if (and.getPredicates().size() != 2) {
+      throw new IllegalArgumentException("no valid range");
+    }
+    GreaterThanOrEqualsPredicate lower = null;
+    LessThanOrEqualsPredicate upper = null;
+    for (Predicate p : and.getPredicates()) {
+      if (p instanceof GreaterThanOrEqualsPredicate) {
+        lower = (GreaterThanOrEqualsPredicate) p;
+      } else if (p instanceof LessThanOrEqualsPredicate) {
+        upper = (LessThanOrEqualsPredicate) p;
+      }
+    }
+    if (lower == null || upper == null || lower.getKey() != upper.getKey()) {
+      throw new IllegalArgumentException("no valid range");
+    }
+    addParamValue(lower.getKey(), "", lower.getValue() + "-" + upper.getValue());
   }
 
 }

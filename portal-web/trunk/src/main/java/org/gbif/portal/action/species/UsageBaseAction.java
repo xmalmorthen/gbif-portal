@@ -46,6 +46,30 @@ public class UsageBaseAction extends BaseAction {
   private long numGeoreferencedOccurrences;
   protected Map<UUID, Dataset> datasets = new HashMap<UUID, Dataset>();
 
+  /**
+   * @param maxSize
+   * @param <T>
+   * @return list of a size not larger then maxSize
+   */
+  protected static <T> List<T> sublist(List<T> list, int maxSize) {
+    return sublist(list, 0, maxSize);
+  }
+
+  /**
+   * @param maxSize
+   * @param <T>
+   * @return list of a size not larger then maxSize
+   */
+  protected static <T> List<T> sublist(List<T> list, int start, int maxSize) {
+    if (list.size() <= maxSize) {
+      if (start == 0) {
+        return list;
+      }
+      return list.subList(start, list.size());
+    }
+    return list.subList(start, maxSize);
+  }
+
   public String getChecklistName(UUID key) {
     if (key != null && datasets.containsKey(key)) {
       return datasets.get(key).getTitle();
@@ -69,12 +93,12 @@ public class UsageBaseAction extends BaseAction {
     return metrics;
   }
 
-  public long getNumOccurrences() {
-    return numOccurrences;
-  }
-
   public long getNumGeoreferencedOccurrences() {
     return numGeoreferencedOccurrences;
+  }
+
+  public long getNumOccurrences() {
+    return numOccurrences;
   }
 
   public NameUsageContainer getUsage() {
@@ -83,27 +107,6 @@ public class UsageBaseAction extends BaseAction {
 
   public boolean isNub() {
     return usage.isNub();
-  }
-
-  /**
-   * Populates the checklists map with the checklists for the given keys.
-   * The method does not remove existing entries and can be called many times to add additional, new checklists.
-   */
-  protected void loadChecklists(Collection<UUID> checklistKeys) {
-    for (UUID u : checklistKeys) {
-      loadDataset(u);
-    }
-  }
-
-  protected void loadDataset(UUID datasetKey) {
-    if (datasetKey != null && !datasets.containsKey(datasetKey)) {
-      try {
-        datasets.put(datasetKey, datasetService.get(datasetKey));
-      } catch (ServiceUnavailableException e) {
-        LOG.error("Failed to load dataset with key {}", datasetKey);
-        datasets.put(datasetKey, null);
-      }
-    }
   }
 
   /**
@@ -147,26 +150,23 @@ public class UsageBaseAction extends BaseAction {
   }
 
   /**
-   * @param maxSize
-   * @param <T>
-   * @return list of a size not larger then maxSize
+   * Populates the checklists map with the checklists for the given keys.
+   * The method does not remove existing entries and can be called many times to add additional, new checklists.
    */
-  protected static <T> List<T> sublist(List<T> list, int maxSize) {
-    return sublist(list, 0, maxSize);
+  protected void loadChecklists(Collection<UUID> checklistKeys) {
+    for (UUID u : checklistKeys) {
+      loadDataset(u);
+    }
   }
 
-  /**
-   * @param maxSize
-   * @param <T>
-   * @return list of a size not larger then maxSize
-   */
-  protected static <T> List<T> sublist(List<T> list, int start, int maxSize) {
-    if (list.size() <= maxSize){
-      if (start == 0) {
-        return list;
+  protected void loadDataset(UUID datasetKey) {
+    if (datasetKey != null && !datasets.containsKey(datasetKey)) {
+      try {
+        datasets.put(datasetKey, datasetService.get(datasetKey));
+      } catch (ServiceUnavailableException e) {
+        LOG.error("Failed to load dataset with key {}", datasetKey);
+        datasets.put(datasetKey, null);
       }
-      return list.subList(start, list.size());
     }
-    return list.subList(start, maxSize);
   }
 }

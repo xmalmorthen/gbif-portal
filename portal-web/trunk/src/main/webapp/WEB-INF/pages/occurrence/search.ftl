@@ -44,18 +44,8 @@
              $(this).hide();
              $("#emails").show();
          });
-         $('a.download_button').click(function(event) {
-             var runDownload = function() {
-               widgetManager.submit({emails:$('#emails').val()}, "<@s.url value='/occurrence/download'/>?");
-             } 
-             // TODO: configurify if we are keeping this
-             if (${(searchResponse.count!0)?c} > 1000000) {
-               download.toggle($(this), event, runDownload);               
-             } else {
-               runDownload();
-             }
-                          
-             
+         $('a.download_button').click(function(event) {             
+            widgetManager.submit({emails:$('#emails').val()}, "<@s.url value='/occurrence/download'/>?");             
          });
       });
     </script>

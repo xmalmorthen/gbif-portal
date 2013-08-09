@@ -53,6 +53,10 @@ public class MemberBaseAction<T extends NetworkEntity & Taggable> extends org.gb
     return member;
   }
 
+  public MemberType getType() {
+    return type;
+  }
+
   public void setId(String id) {
     try {
       this.id = UUID.fromString(id);
@@ -71,7 +75,7 @@ public class MemberBaseAction<T extends NetworkEntity & Taggable> extends org.gb
 
   /**
    * Lists a unique set of lower cased, plain string keywords derived from public tags.
-   *
+   * 
    * @return a list of unique plain keywords in lower case
    */
   private List<String> getKeywords(T member) {
@@ -84,9 +88,5 @@ public class MemberBaseAction<T extends NetworkEntity & Taggable> extends org.gb
     }
 
     return Lists.newArrayList(keywords);
-  }
-
-  public MemberType getType() {
-    return type;
   }
 }

@@ -1,12 +1,11 @@
 package org.gbif.portal.action.occurrence;
 
-import org.gbif.api.model.occurrence.Download;
+import org.gbif.api.model.occurrence.DownloadRequest;
 import org.gbif.api.model.occurrence.predicate.Predicate;
-import org.gbif.api.service.occurrence.DownloadService;
+import org.gbif.api.service.occurrence.DownloadRequestService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.util.PredicateFactory;
 
-import java.util.Date;
 import java.util.Set;
 
 import com.google.common.base.Splitter;
@@ -23,7 +22,7 @@ public class DownloadAction extends BaseAction {
   private final PredicateFactory predicateFactory = new PredicateFactory();
 
   @Inject
-  private DownloadService downloadService;
+  private DownloadRequestService downloadRequestService;
 
   private String jobId;
   // optional additional email notifications
@@ -38,8 +37,8 @@ public class DownloadAction extends BaseAction {
     LOG.info("Predicate build for passing to download [{}]", p);
 
     emails.add(getCurrentUser().getEmail());
-    Download download = new Download(null, p, getCurrentUser().getUserName(), new Date(), null, emails);
-    jobId = downloadService.create(download);
+    DownloadRequest download = new DownloadRequest(p, getCurrentUser().getUserName(), emails);
+    jobId = downloadRequestService.create(download);
 
     return SUCCESS;
   }

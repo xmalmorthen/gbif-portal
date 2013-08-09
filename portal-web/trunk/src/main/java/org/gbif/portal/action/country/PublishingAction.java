@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PublishingAction extends CountryBaseAction {
+
   private static Logger LOG = LoggerFactory.getLogger(PublishingAction.class);
 
   private int otherCountries;
@@ -30,6 +31,14 @@ public class PublishingAction extends CountryBaseAction {
       datasetMetricsService);
   }
 
+  public static void main(String[] args) {
+    long all = 14721982;
+    long home = 446987;
+    double perc = (double) home / all;
+
+    System.out.print(perc);
+  }
+
   @Override
   public String execute() throws Exception {
     super.execute();
@@ -39,9 +48,9 @@ public class PublishingAction extends CountryBaseAction {
     // calc other countries metrics
     long inCountryRecords = cubeService.get(
       new ReadBuilder().at(OccurrenceCube.HOST_COUNTRY, country).at(OccurrenceCube.COUNTRY, country)
-    );
+      );
     otherCountryRecords = getBy().getOccurrenceRecords() - inCountryRecords;
-    otherCountryPercentage = 100d * (double) otherCountryRecords / getBy().getOccurrenceRecords();
+    otherCountryPercentage = 100d * otherCountryRecords / getBy().getOccurrenceRecords();
     otherCountries = getBy().getCountries() - 1;
 
     return SUCCESS;
@@ -51,19 +60,11 @@ public class PublishingAction extends CountryBaseAction {
     return otherCountries;
   }
 
-  public long getOtherCountryRecords() {
-    return otherCountryRecords;
-  }
-
   public double getOtherCountryPercentage() {
     return otherCountryPercentage;
   }
 
-  public static void main (String[] args) {
-    long all = 14721982;
-    long home = 446987;
-    double perc = (double) home / all;
-
-    System.out.print(perc);
+  public long getOtherCountryRecords() {
+    return otherCountryRecords;
   }
 }

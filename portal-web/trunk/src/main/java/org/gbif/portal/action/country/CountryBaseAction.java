@@ -35,13 +35,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CountryBaseAction extends DetailAction {
+
   private static Logger LOG = LoggerFactory.getLogger(CountryBaseAction.class);
 
   private String id;
   protected Country country;
   private CountryMetrics about;
   private CountryMetrics by;
-  private List<CountWrapper<Country>> countries = Lists.newArrayList();
+  private final List<CountWrapper<Country>> countries = Lists.newArrayList();
   private PagingResponse<Country> countryPage;
 
   protected OccurrenceDatasetIndexService datasetIndexService;
@@ -51,7 +52,10 @@ public class CountryBaseAction extends DetailAction {
   protected DatasetMetricsService datasetMetricsService;
 
   @Inject
-  public CountryBaseAction(NodeService nodeService, CubeService cubeService, OccurrenceDatasetIndexService datasetIndexService, OccurrenceCountryIndexService countryIndexService, DatasetService datasetService, DatasetSearchService datasetSearchService, DatasetMetricsService datasetMetricsService) {
+  public CountryBaseAction(NodeService nodeService, CubeService cubeService,
+    OccurrenceDatasetIndexService datasetIndexService, OccurrenceCountryIndexService countryIndexService,
+    DatasetService datasetService, DatasetSearchService datasetSearchService,
+    DatasetMetricsService datasetMetricsService) {
     super(nodeService, cubeService);
     this.datasetIndexService = datasetIndexService;
     this.countryIndexService = countryIndexService;
@@ -73,13 +77,43 @@ public class CountryBaseAction extends DetailAction {
     return SUCCESS;
   }
 
+  public CountryMetrics getAbout() {
+    return about;
+  }
+
+  public CountryMetrics getBy() {
+    return by;
+  }
+
+  public List<CountWrapper<Country>> getCountries() {
+    return countries;
+  }
+
+  public Country getCountry() {
+    return country;
+  }
+
+  public PagingResponse<Country> getCountryPage() {
+    return countryPage;
+  }
+
+  public String getIsocode() {
+    return country.getIso2LetterCode();
+  }
+
+  @Override
+  public void setId(String id) {
+    this.id = id;
+  }
+
   /**
    * populates the about field and optionally also loads the first requested datasets into the datasets property.
    * This allows to only call the index service once effectively and process its response.
+   * 
    * @param numDatasetsToLoad number of datasets to load, if zero or negative doesnt load any
    */
   protected void buildAboutMetrics(int numDatasetsToLoad, int numCountriesToLoad) {
-    //TODO: use checklist search to populate this???
+    // TODO: use checklist search to populate this???
     final long chkRecords = -1;
     final long chkDatasets = -1;
     final int organizations = -1;
@@ -93,12 +127,13 @@ public class CountryBaseAction extends DetailAction {
     search.addTypeFilter(DatasetType.METADATA);
     search.addCountryFilter(country);
     search.setLimit(0);
-    SearchResponse<DatasetSearchResult, DatasetSearchParameter> resp  = datasetSearchService.search(search);
+    SearchResponse<DatasetSearchResult, DatasetSearchParameter> resp = datasetSearchService.search(search);
     final long extDatasets = resp.getCount();
 
     int countryCount = loadCountryPage(true, numCountriesToLoad);
 
-    about = new CountryMetrics(occDatasets, occRecords, chkDatasets, chkRecords, extDatasets, organizations, countryCount);
+    about =
+      new CountryMetrics(occDatasets, occRecords, chkDatasets, chkRecords, extDatasets, organizations, countryCount);
   }
 
   protected void buildByMetrics(int numDatasetsToLoad, int numCountriesToLoad) {
@@ -138,7 +173,9 @@ public class CountryBaseAction extends DetailAction {
         final long dsGeoCnt;
         if (DatasetType.OCCURRENCE == d.getType()) {
           dsCnt = cubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, d.getKey()));
-          dsGeoCnt = cubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, d.getKey()).at(OccurrenceCube.IS_GEOREFERENCED, true));
+          dsGeoCnt =
+            cubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, d.getKey()).at(
+              OccurrenceCube.IS_GEOREFERENCED, true));
 
         } else if (DatasetType.CHECKLIST == d.getType()) {
           // we have all checklist counts cached
@@ -147,7 +184,7 @@ public class CountryBaseAction extends DetailAction {
 
         } else {
           dsCnt = 0;
-          dsGeoCnt= 0;
+          dsGeoCnt = 0;
         }
         datasets.add(new CountWrapper<Dataset>(d, dsCnt, dsGeoCnt));
       }
@@ -158,28 +195,9 @@ public class CountryBaseAction extends DetailAction {
     by = new CountryMetrics(occDatasets, occRecords, chkDatasets, chkRecords, extDatasets, organizations, countryCount);
   }
 
-  protected int loadCountryPage(boolean isAboutCountry, int limit) {
-    try {
-      Map<Country, Long> cMap;
-      if (isAboutCountry) {
-        cMap = countryIndexService.publishingCountriesForCountry(country);
-      } else {
-        cMap = countryIndexService.countriesForPublishingCountry(country);
-      }
-
-      countryPage = new PagingResponse<Country>(getOffset(), limit, (long) cMap.size());
-      loadCountryList(cMap, isAboutCountry, limit);
-
-      return cMap.size();
-
-    } catch (RuntimeException e) {
-      LOG.error("Cannot get country metrics", e);
-    }
-    return 0;
-  }
-
   /**
    * Honors the offset paging parameter.
+   * 
    * @return the number of all datasets having data about this country
    */
   protected int loadAboutDatasetsPage(int limit) {
@@ -207,6 +225,26 @@ public class CountryBaseAction extends DetailAction {
     datasetPage = new PagingResponse<Dataset>(getOffset(), limit, (long) dsMetrics.size());
 
     return dsMetrics.size();
+  }
+
+  protected int loadCountryPage(boolean isAboutCountry, int limit) {
+    try {
+      Map<Country, Long> cMap;
+      if (isAboutCountry) {
+        cMap = countryIndexService.publishingCountriesForCountry(country);
+      } else {
+        cMap = countryIndexService.countriesForPublishingCountry(country);
+      }
+
+      countryPage = new PagingResponse<Country>(getOffset(), limit, (long) cMap.size());
+      loadCountryList(cMap, isAboutCountry, limit);
+
+      return cMap.size();
+
+    } catch (RuntimeException e) {
+      LOG.error("Cannot get country metrics", e);
+    }
+    return 0;
   }
 
   private void loadCountryList(Map<Country, Long> cMetrics, boolean isAboutCountry, int limit) {
@@ -237,33 +275,5 @@ public class CountryBaseAction extends DetailAction {
 
       idx++;
     }
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public Country getCountry() {
-    return country;
-  }
-
-  public CountryMetrics getAbout() {
-    return about;
-  }
-
-  public CountryMetrics getBy() {
-    return by;
-  }
-
-  public List<CountWrapper<Country>> getCountries() {
-    return countries;
-  }
-
-  public String getIsocode() {
-    return country.getIso2LetterCode();
-  }
-
-  public PagingResponse<Country> getCountryPage() {
-    return countryPage;
   }
 }
