@@ -83,7 +83,7 @@
     </#if>
 
     <a id="disclaimerToggle" href="<@s.url value='/disclaimer'/>">
-      <img id="beta" src="http://ecat-dev.gbif.org/img/beta.gif">
+      <img id="beta" src="<@s.url value='/img/beta.gif'/>">
     </a>
 
     <nav>
