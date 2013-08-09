@@ -4,7 +4,7 @@ import org.gbif.checklistbank.ws.client.guice.ChecklistBankWsClientModule;
 import org.gbif.metrics.ws.client.guice.MetricsWsClientModule;
 import org.gbif.occurrence.ws.client.guice.OccurrenceWsClientModule;
 import org.gbif.occurrencestore.download.ws.client.guice.OccurrenceDownloadWsClientModule;
-import org.gbif.registry2.ws.client.guice.RegistryWsClientModule;
+import org.gbif.registry.ws.client.guice.RegistryWsClientModule;
 import org.gbif.user.guice.DrupalMyBatisModule;
 import org.gbif.utils.file.properties.PropertiesUtil;
 

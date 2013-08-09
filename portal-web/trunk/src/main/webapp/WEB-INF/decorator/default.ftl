@@ -60,6 +60,7 @@
   <!-- top -->
   <div id="top">
     <div class="content">
+
       <div class="account">
         <#if currentUser??>
         <a href="${cfg.drupal}/user/${currentUser.key}/edit" title='Account'>Hello ${currentUser.firstName!currentUser.accountName!}</a>
