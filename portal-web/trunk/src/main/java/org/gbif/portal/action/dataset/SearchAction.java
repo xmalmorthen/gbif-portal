@@ -209,7 +209,7 @@ public class SearchAction
         // See HttpErrorResponseInterceptor.java in gbif-common-ws for more information
         DatasetMetrics metrics = checklistMetricsService.get(dsr.getKey());
         if (metrics != null) {
-          recordCounts.put(dsr.getKey(), Long.valueOf(metrics.getCountIndexed()));
+          recordCounts.put(dsr.getKey(), Long.valueOf(metrics.getUsagesCount()));
         }
       }
     }

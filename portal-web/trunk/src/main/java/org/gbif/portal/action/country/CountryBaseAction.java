@@ -157,9 +157,9 @@ public class CountryBaseAction extends DetailAction {
     for (Dataset chkl : datasetService.listByCountry(country, DatasetType.CHECKLIST, p).getResults()) {
       DatasetMetrics metric = datasetMetricsService.get(chkl.getKey());
       if (metric != null) {
-        checklistCounts.put(chkl.getKey(), metric.getCountIndexed());
+        checklistCounts.put(chkl.getKey(), metric.getUsagesCount());
         // count them all
-        chkRecords += metric.getCountIndexed();
+        chkRecords += metric.getUsagesCount();
       } else {
         checklistCounts.put(chkl.getKey(), 0);
       }
