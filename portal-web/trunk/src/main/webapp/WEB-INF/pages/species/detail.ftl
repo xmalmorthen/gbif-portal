@@ -353,7 +353,7 @@
             <#else>
               <a href="<@s.url value='/species/${usage.getHigherRankKey(r)?c}'/>">${usage.getHigherRank(r)}</a>
             </#if>
-          <#elseif (usageMetrics.getNumByRank(r)>0)>
+          <#elseif (usageMetrics.getNumByRank(r)!0) gt 0>
             <a href="<@s.url value='/species/search?status=ACCEPTED&dataset_key=${usage.datasetKey}&rank=${r}&highertaxon_key=${usage.key?c}'/>">${usageMetrics.getNumByRank(r)}</a>
           <#else>
             ---
@@ -633,7 +633,7 @@
       <#if nubSourceExists>
         <br/>View the <a class="source" data-baseurl="<@s.url value='/species/'/>" href="<@s.url value='/species/${usage.sourceId}'/>">primary source name usage</a>.
       <#else>
-        The primary source name usage (${usage.sourceId}) has since been removed from the portal.
+        The primary source name usage <#if usage.sourceId?has_content>(${usage.sourceId})</#if> has since been removed from the portal.
       </#if>
     <#else>
       <@s.text name="enum.origin.${usage.origin}"/>.

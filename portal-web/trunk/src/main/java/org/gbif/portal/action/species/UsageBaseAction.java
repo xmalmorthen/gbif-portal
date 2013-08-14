@@ -130,7 +130,7 @@ public class UsageBaseAction extends BaseAction {
     }
     usage = new NameUsageContainer(u);
     usageMetrics = usageService.getMetrics(id);
-    // make sure we got an empty one at least - its all ints
+    // make sure we got an empty one at least - its all ints and its references from lots of templates
     if (usageMetrics == null) {
       usageMetrics = new NameUsageMetrics();
       usageMetrics.setKey(id);

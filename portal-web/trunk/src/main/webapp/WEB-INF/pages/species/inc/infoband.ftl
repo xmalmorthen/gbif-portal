@@ -39,7 +39,7 @@
         <#if usage.rank.isSpeciesOrBelow()>
           <li class="last"><h4>${usage.numDescendants}</h4>Infraspecies</li>
         <#else>
-          <li class="last"><h4>${usage.numSpecies}</h4>Species</li>
+          <li class="last"><h4>${usageMetrics.numSpecies}</h4>Species</li>
         </#if>
       </ul>
       <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}'/>" title="View Occurrences" class="candy_blue_button"><span>View occurrences</span></a>

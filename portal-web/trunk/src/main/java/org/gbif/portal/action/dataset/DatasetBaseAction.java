@@ -172,10 +172,9 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
     organizedCoverages = member.getTaxonomicCoverages() != null ?
       constructOrganizedTaxonomicCoverages(member.getTaxonomicCoverages()) : organizedCoverages;
 
-    try {
-      metrics = metricsService.get(id);
-    } catch (Exception e) {
-      LOG.warn("Cant get metrics for dataset {}", id, e);
+    metrics = metricsService.get(id);
+    if (metrics == null) {
+      metrics = new DatasetMetrics();
     }
 
     populateOccurrenceCounts(); // only when a key exists

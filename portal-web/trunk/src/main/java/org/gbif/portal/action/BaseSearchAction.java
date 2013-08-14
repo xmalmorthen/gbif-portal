@@ -174,7 +174,7 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
     readFilterParams();
     // issues the search operation
     searchResponse = searchService.search(searchRequest);
-    LOG.debug("Search for [{}] returned {} results", getQ(), searchResponse.getCount());
+    LOG.debug("Search for [{}] returned {} results", getQ(), searchResponse == null ? "null" : searchResponse.getCount());
     return SUCCESS;
   }
 
