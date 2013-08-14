@@ -169,6 +169,11 @@
       <result name="occurrence">/WEB-INF/pages/dataset/stats-occurrence.ftl</result>
       <result name="checklist">/WEB-INF/pages/dataset/stats-checklist.ftl</result>
     </action>
+    
+    <action name="*/activity" class="org.gbif.portal.action.dataset.ActivityAction">
+      <param name="id">{1}</param>
+      <result>/WEB-INF/pages/dataset/activity.ftl</result>
+    </action>
   </package>
 
   <!-- OCCURRENCES -->

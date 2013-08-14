@@ -93,7 +93,7 @@
       </li>
     </#if>
     <li<#if (tab!)=="activity"> class='selected ${hl!}'</#if>>
-      <a href="#" title="Activity"><span>Activity</span></a>
+      <a href="<@s.url value='/dataset/${id!}/activity'/>" title="Activity"><span>Activity</span></a>
     </li>
     <li<#if (tab!)=="discussion"> class='selected ${hl!}'</#if>>
       <a href="#" title="Discussion"><span>Discussion</span></a>

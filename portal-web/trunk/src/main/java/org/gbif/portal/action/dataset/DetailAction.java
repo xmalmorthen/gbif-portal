@@ -15,7 +15,6 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Endpoint;
 import org.gbif.api.model.registry.eml.geospatial.GeospatialCoverage;
 import org.gbif.api.service.registry.DatasetService;
-import org.gbif.api.service.registry.InstallationService;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.Extension;
 import org.gbif.api.vocabulary.Kingdom;
@@ -61,8 +60,7 @@ public class DetailAction extends DatasetBaseAction {
   private PagingResponse<Dataset> constituents;
   private boolean renderMaps = false; // flag controlling map article rendering or not
 
-  @Inject
-  private InstallationService installationService;
+  private static final int PAGE_SIZE = 10;
 
   @Inject
   public DetailAction(DatasetService datasetService) {
@@ -76,7 +74,7 @@ public class DetailAction extends DatasetBaseAction {
     populateLinks(member.getEndpoints());
     // only datasets with a key (internal) can have constituents
     if (id != null) {
-      constituents = datasetService.listConstituents(id, new PagingRequest(0, 10));
+      constituents = datasetService.listConstituents(id, new PagingRequest(0, PAGE_SIZE));
     }
 
     // the map article is rendered only if the cube has indicated georeferenced records, or if there are
@@ -84,8 +82,8 @@ public class DetailAction extends DatasetBaseAction {
     renderMaps = getNumGeoreferencedOccurrences() != null && getNumGeoreferencedOccurrences() > 0;
     if (!renderMaps) {
       for (GeospatialCoverage gc : member.getGeographicCoverages()) {
-        renderMaps = renderMaps ||
-          (gc.getBoundingBox() != null && !gc.getBoundingBox().isGlobalCoverage());
+        renderMaps = renderMaps
+          || (gc.getBoundingBox() != null && !gc.getBoundingBox().isGlobalCoverage());
         if (renderMaps) {
           break; // for speed
         }

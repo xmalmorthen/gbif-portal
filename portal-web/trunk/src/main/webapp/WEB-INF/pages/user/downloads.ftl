@@ -21,16 +21,16 @@
 
   <@common.article title="Your Downloads" class="results">
     <div class="fullwidth">
-      <#list page.results as d>
+      <#list page.results as download>
         <div class="result">
-          <h2><strong>${d.key}</strong></h2>
+          <h2><strong>${download.key}</strong></h2>
 
           <div class="footer">
               <dl>
                   <dt>Filter</dt>
                   <dd>
-                      <#assign filterMap=action.getHumanFilter(d.predicate)!""/>
-                      <#assign queryParams=action.getQueryParams(d.predicate)!""/>
+                      <#assign filterMap=action.getHumanFilter(download.request.predicate)!""/>
+                      <#assign queryParams=action.getQueryParams(download.request.predicate)!""/>
                       <#if queryParams?has_content>
                         <a href="<@s.url value='/occurrence/search?${queryParams}'/>">
                       </#if>
@@ -45,7 +45,7 @@
                       <#else>
                           <tr>
                             <th>Raw Filter</th>
-                            <td>${d.predicate}</td>
+                            <td>${download.request.predicate}</td>
                           </tr>
                       </#if>
                       </table>
@@ -56,16 +56,16 @@
 
                   <dt>Status</dt>
                   <dd>
-                    <#if d.available>
+                    <#if download.available>
                         <!-- cfg.wsOccDownload is not public, but needed for authentication. Therefore wsOccDownloadForPublicLink was created which is public -->
-                        Ready for <a href="${cfg.wsOccDownloadForPublicLink}occurrence/download/${d.key}.zip">download</a> since ${d.completed?datetime?string.short_medium}
+                        Ready for <a href="${cfg.wsOccDownloadForPublicLink}occurrence/download/${download.key}.zip">download</a> since ${download.modified?datetime?string.short_medium}
                     <#else>
-                        Still running. Do you want to <a href="<@s.url value='/user/cancel?key=${d.key}'/>">cancel</a> the query?
+                        Still running. Do you want to <a href="<@s.url value='/user/cancel?key=${download.key}'/>">cancel</a> the query?
                     </#if>
                   </dd>
 
                   <dt>Created</dt>
-                  <dd>${d.created?datetime?string.full}</dd>
+                  <dd>${download.created?datetime?string.full}</dd>
               </dl>
           </div>
 
