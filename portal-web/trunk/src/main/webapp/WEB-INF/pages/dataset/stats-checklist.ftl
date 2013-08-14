@@ -1,7 +1,7 @@
 <html>
 <head>
   <title>${dataset.title} - Metrics</title>
-  <#assign total = metrics.countIndexed!0 />
+  <#assign total = metrics.usagesCount />
   <content tag="extra_scripts">
     <script type="text/javascript" charset="utf-8">
         $(function() {
@@ -27,12 +27,12 @@
               setupPie($("#ranks"));
 
               // overlap
-              $("#pieNub").bindPie(36.5, Math.floor(${metrics.nubCoverage!0}));
-              $("#pieCol").bindPie(36.5, Math.floor(${metrics.colCoverage!0}));
+              $("#pieNub").bindPie(36.5, Math.floor(${metrics.nubCoveragePct}));
+              $("#pieCol").bindPie(36.5, Math.floor(${metrics.colCoveragePct}));
 
               // vernaculars & extensions
-              <#list metrics.countExtensionRecords?keys as ext>
-                <#assign count = metrics.getCountExtensionRecords().get(ext) />
+              <#list metrics.countExtRecordsByExtension?keys as ext>
+                <#assign count = metrics.getExtensionRecordCount(ext) />
                 <#if count gt 0>
                   $("#extensions").append("<p><div id='pieExt${ext_index}'></div></p>");
                   $("#pieExt${ext_index}").bindLabelPie(36, Math.floor(${count?c} / total * 100), '<@s.text name="enum.extension.${ext}"/>', "${count}", 16);
@@ -74,8 +74,8 @@
            <p>Number of synonyms and accepted taxa.</p>
            <div id="synonyms" class="pieMultiLegend">
              <ul>
-               <li><a href="<@s.url value='/species/search?dataset_key=${id}&status=accepted'/>">Accepted</a> <span class="number" data-cnt="${(total - metrics.countSynonyms)?c}">${total - metrics.countSynonyms}</span></li>
-               <li><a href="<@s.url value='/species/search?dataset_key=${id}&status=synonym'/>">Synonyms</a> <span class="number" data-cnt="${metrics.countSynonyms?c}">${metrics.countSynonyms}</span></li>
+               <li><a href="<@s.url value='/species/search?dataset_key=${id}&status=accepted'/>">Accepted</a> <span class="number" data-cnt="${(total - metrics.synonymsCount)?c}">${total - metrics.synonymsCount}</span></li>
+               <li><a href="<@s.url value='/species/search?dataset_key=${id}&status=synonym'/>">Synonyms</a> <span class="number" data-cnt="${metrics.synonymsCount?c}">${metrics.synonymsCount}</span></li>
              </ul>
            </div>
          </li>

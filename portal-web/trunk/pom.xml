@@ -610,6 +610,7 @@
         <image-cache.url>http://localhost:7001/image</image-cache.url>
       </properties>
     </profile>
+
   </profiles>
 
 </project>

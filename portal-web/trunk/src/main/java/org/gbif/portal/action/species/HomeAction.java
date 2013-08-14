@@ -29,7 +29,14 @@ public class HomeAction extends BaseAction {
   public String execute() {
     nubMetrics = metricsService.get(Constants.NUB_DATASET_KEY);
     colMetrics = metricsService.get(COL_KEY);
-
+    // make sure we have at least an empty one
+    // this should hardly ever happen, but maybe we just killed all metrics or just start a fresh CLB
+    if (nubMetrics==null) {
+      nubMetrics = new DatasetMetrics();
+    }
+    if (colMetrics==null) {
+      colMetrics = new DatasetMetrics();
+    }
     return SUCCESS;
   }
 
@@ -44,23 +51,23 @@ public class HomeAction extends BaseAction {
     return nubMetrics;
   }
 
-  public Integer getNubCommonNames() {
+  public int getNubCommonNames() {
     return nubMetrics.getExtensionRecordCount(Extension.VERNACULAR_NAME);
   }
 
-  public Integer getNubInfraSpecies() {
+  public int getNubInfraSpecies() {
     return nubMetrics.getCountByRank(Rank.INFRASPECIFIC_NAME);
   }
 
-  public Integer getNubLanguages() {
+  public int getNubLanguages() {
     return nubMetrics.getCountNamesByLanguage().size();
   }
 
-  public Integer getNubSpecies() {
+  public int getNubSpecies() {
     return nubMetrics.getCountByRank(Rank.SPECIES);
   }
 
-  public Integer getColSpecies() {
+  public int getColSpecies() {
     return colMetrics.getCountByRank(Rank.SPECIES);
   }
 
@@ -71,4 +78,5 @@ public class HomeAction extends BaseAction {
   public static UUID getColKey() {
     return COL_KEY;
   }
+
 }

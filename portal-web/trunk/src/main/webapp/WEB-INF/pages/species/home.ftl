@@ -12,7 +12,7 @@
           Search ${colSpecies} species
       </h1>
       <p>of the <a href="<@s.url value='/dataset/${nubDatasetKey}'/>">GBIF Backbone Taxonomy</a>
-          <br/>${nubMetrics.countSynonyms} synonyms and
+          <br/>${nubMetrics.synonymsCount} synonyms and
           <br/> ${nubSpecies-colSpecies} species under review</p>
 
       <form action="<@s.url value='/species/search'/>" method="GET">

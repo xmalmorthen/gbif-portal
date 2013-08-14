@@ -4,6 +4,7 @@ import org.gbif.api.exception.ServiceUnavailableException;
 import org.gbif.api.model.checklistbank.DatasetMetrics;
 import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.model.checklistbank.NameUsageContainer;
+import org.gbif.api.model.checklistbank.NameUsageMetrics;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry.Dataset;
@@ -40,6 +41,7 @@ public class UsageBaseAction extends BaseAction {
 
   protected Integer id;
   protected NameUsageContainer usage;
+  private NameUsageMetrics usageMetrics;
   protected Dataset dataset;
   protected DatasetMetrics metrics;
   private long numOccurrences;
@@ -105,6 +107,10 @@ public class UsageBaseAction extends BaseAction {
     return usage;
   }
 
+  public NameUsageMetrics getUsageMetrics() {
+    return usageMetrics;
+  }
+
   public boolean isNub() {
     return usage.isNub();
   }
@@ -123,6 +129,12 @@ public class UsageBaseAction extends BaseAction {
       throw new NotFoundException("No usage found with id " + id);
     }
     usage = new NameUsageContainer(u);
+    usageMetrics = usageService.getMetrics(id);
+    // make sure we got an empty one at least - its all ints
+    if (usageMetrics == null) {
+      usageMetrics = new NameUsageMetrics();
+      usageMetrics.setKey(id);
+    }
     // load checklist
     dataset = datasetService.get(usage.getDatasetKey());
     if (dataset == null) {
