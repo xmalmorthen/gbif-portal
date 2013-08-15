@@ -22,9 +22,7 @@
     <h3>A GBIF Associate Participant Economy</h3>
   <#elseif node??>
     <h3>A GBIF
-      <@s.text name="enum.participantstatus.${node.participationStatus}"/>
-      <#if node.type!='OTHER'> <@s.text name="enum.nodetype.${node.type}"/></#if>
-      <#if node.participationStatus!='OBSERVER'>Participant</#if>
+      <@s.text name="enum.nodestatus.${node.participationStatus}.${node.type}"/>
       <#if node.gbifRegion??> from <@s.text name="enum.region.${node.gbifRegion}"/></#if>
     </h3>
   <#else>

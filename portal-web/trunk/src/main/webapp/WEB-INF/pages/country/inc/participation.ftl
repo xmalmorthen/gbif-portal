@@ -4,14 +4,14 @@
     <div class="left">
       <h3>Member Status</h3>
   <#if node??>
-      <p><@s.text name="enum.participantstatus.${node.participationStatus!}"/></p>
+      <p><@s.text name="enum.memberstatus.${node.participationStatus}.${node.type}"/></p>
 
       <#if node.participantSince??>
         <h3>GBIF Participant Since</h3>
         <p>${node.participantSince?c}</p>
       </#if>
 
-      <#if node.gbifRegion??>
+      <#if node.gbifRegion?has_content>
         <h3>GBIF Region</h3>
         <p><@s.text name="enum.region.${node.gbifRegion}"/></p>
       </#if>

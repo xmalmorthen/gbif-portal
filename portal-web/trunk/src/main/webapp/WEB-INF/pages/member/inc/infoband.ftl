@@ -12,8 +12,8 @@
   <h1>${common.limit(member.title!"???", 50)}</h1>
 
   <#if type=='NODE'>
-    <h3>A GBIF <@s.text name="enum.participantstatus.${member.participationStatus}"/>
-      <@s.text name="enum.nodetype.${member.type}"/> Participant
+    <h3>A GBIF
+      <@s.text name="enum.nodestatus.${member.participationStatus}.${member.type}"/>
       <#if member.gbifRegion??> from <@s.text name="enum.region.${member.gbifRegion}"/></#if>
     </h3>
   <#else>
