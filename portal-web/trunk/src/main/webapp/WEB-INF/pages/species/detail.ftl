@@ -227,6 +227,7 @@
     <h3>Taxonomic Status</h3>
     <p>
       <@s.text name="enum.taxstatus.${usage.taxonomicStatus!'UNKNOWN'}"/>
+
       <#if usage.synonym>
         of <a href="<@s.url value='/species/${usage.acceptedKey?c}'/>">${usage.accepted!"???"}</a>
       <#elseif usage.rank??>

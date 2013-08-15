@@ -275,7 +275,7 @@
 </@common.article>
 </#if>
 
-<#if dataset.type! == "CHECKLIST">
+<#if dataset.type! == "CHECKLIST" && (metrics.usagesCount)!0 gt 0>
 <@common.article id="taxonomy" title="Browse Classification" class="taxonomies">
 <div class="fullwidth">
   <div id="taxonomicBrowser">
