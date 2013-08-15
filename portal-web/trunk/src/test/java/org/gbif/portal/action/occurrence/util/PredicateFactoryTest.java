@@ -201,7 +201,13 @@ public class PredicateFactoryTest {
 
     } else if (OccurrenceSearchParameter.MONTH == p){
       return String.format("%02d", 1 + rnd.nextInt(11));
-
+      
+    } else if (OccurrenceSearchParameter.LONGITUDE == p){
+      return Integer.toString(rnd.nextInt(180));
+          
+    } else if (OccurrenceSearchParameter.LATITUDE == p){
+        return Integer.toString(rnd.nextInt(90));
+        
     } else if (Enum.class.isAssignableFrom(p.type())){
       Class<? extends Enum<?>> vocab = (Class<? extends Enum<?>>) p.type();
       return vocab.getEnumConstants()[0].name();
