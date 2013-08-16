@@ -15,6 +15,8 @@ import org.gbif.api.model.checklistbank.search.NameUsageSearchResult;
 import org.gbif.api.service.checklistbank.NameUsageSearchService;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.util.VocabularyUtils;
+import org.gbif.api.vocabulary.NomenclaturalStatus;
 import org.gbif.portal.action.BaseFacetedSearchAction;
 
 import java.util.Iterator;
@@ -44,6 +46,7 @@ public class SearchAction
   private Function<String, String> getExtinctTitle;
   private Function<String, String> getHabitatTitle;
   private Function<String, String> getTaxStatusTitle;
+  private Function<String, String> getNomStatusTitle;
   private Function<String, String> getRankTitle;
   private Function<String, String> getThreatStatusTitle;
   private Function<String, String> getNameTypeTitle;
@@ -76,6 +79,9 @@ public class SearchAction
 
     // replace taxonomic status keys with labels
     lookupFacetTitles(NameUsageSearchParameter.STATUS, getTaxStatusTitle);
+
+    // replace taxonomic status keys with labels
+    lookupFacetTitles(NameUsageSearchParameter.NOMENCLATURAL_STATUS, getNomStatusTitle);
 
     // replace rank keys with labels
     lookupFacetTitles(NameUsageSearchParameter.RANK, getRankTitle);
@@ -193,6 +199,21 @@ public class SearchAction
       @Override
       public String apply(String name) {
         return getEnumTitle("taxstatus", name);
+      }
+    };
+
+    getNomStatusTitle = new Function<String, String>() {
+
+      @Override
+      public String apply(String name) {
+        try {
+          NomenclaturalStatus status = (NomenclaturalStatus) VocabularyUtils.lookupEnum(name, NomenclaturalStatus.class);
+          return status.getAbbreviatedLabel() != null ? status.getAbbreviatedLabel() :
+            status.name().replace("_", " ").toLowerCase();
+        } catch (IllegalArgumentException e) {
+          // ignore
+        }
+        return name;
       }
     };
 

@@ -107,8 +107,8 @@
             <input class="defaultFacet" type="hidden" name="dataset_key" value="${nubDatasetKey}"/>
           </div>
 
-          <#assign seeAllFacets = ["HIGHERTAXON_KEY","RANK","DATASET_KEY"]>
-          <#assign facets= ["DATASET_KEY","HIGHERTAXON_KEY","RANK","STATUS","EXTINCT","THREAT","HABITAT", "NAME_TYPE"]>
+          <#assign seeAllFacets = ["HIGHERTAXON_KEY","RANK","DATASET_KEY", "NOMENCLATURAL_STATUS"]>
+          <#assign facets= ["DATASET_KEY","HIGHERTAXON_KEY","RANK","STATUS","EXTINCT","THREAT","HABITAT", "NOMENCLATURAL_STATUS", "NAME_TYPE"]>
           <#include "/WEB-INF/inc/facets.ftl">
         </div>
       </div>
