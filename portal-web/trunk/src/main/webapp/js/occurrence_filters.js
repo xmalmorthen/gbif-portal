@@ -702,7 +702,7 @@ var OccurrenceWidget = (function ($,_,OccurrenceWidgetManager) {
             self.showSummaryView();            
             //remove the container div
             $(this).parent().remove();                       
-            self.manager.applyOccurrenceFilters(true);  
+            self.manager.applyOccurrenceFilters(false);  
             return true;
           }
         });
