@@ -7,6 +7,8 @@ import com.google.common.collect.Maps;
 
 /**
  * Utility class that holds the list of suggestions and replacements done for a scientific name search.
+ * 
+ * @param <T> suggestion type
  */
 public class SearchSuggestions<T> {
 

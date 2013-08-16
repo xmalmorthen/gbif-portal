@@ -26,7 +26,6 @@ import org.gbif.api.util.VocabularyUtils;
 import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetType;
-import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.model.SearchSuggestions;
 
 import java.lang.reflect.InvocationTargetException;
@@ -43,9 +42,12 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.base.Enums;
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Ints;
@@ -434,29 +436,29 @@ public class FiltersActionHelper {
    * Checks if the search parameter contains correct values.
    * The occurrence parameter in the EnumSey discarded are not validated.
    */
-  public boolean validateSearchParameters(BaseAction action, HttpServletRequest request,
+  public List<ParameterValidationError<OccurrenceSearchParameter>> validateSearchParameters(HttpServletRequest request,
     EnumSet<OccurrenceSearchParameter> discardedParams) {
-    boolean valid = true;
+    List<ParameterValidationError<OccurrenceSearchParameter>> errors = Lists.newArrayList();
     for (Enumeration<String> params = request.getParameterNames(); params.hasMoreElements();) {
       String param = params.nextElement();
-      Enum<?> occParam = null;
+      Optional<OccurrenceSearchParameter> occParam = null;
       try {
-        occParam = VocabularyUtils.lookupEnum(param, OccurrenceSearchParameter.class);
-        if (occParam != null) {
+        occParam = Enums.getIfPresent(OccurrenceSearchParameter.class, param.toUpperCase());
+        if (occParam.isPresent()) {
           for (String value : request.getParameterValues(param)) {
             try {
-              if (!discardedParams.contains(occParam)) {
+              if (!discardedParams.contains(occParam.get())) {
                 // discarded parameters are not validated those could be an integer or a string
-                if (occParam == OccurrenceSearchParameter.GEOMETRY) {
+                if (occParam.get() == OccurrenceSearchParameter.GEOMETRY) {
                   final String polygonValue = String.format(POLYGON_PATTERN, value);
-                  SearchTypeValidator.validate((OccurrenceSearchParameter) occParam, polygonValue);
+                  SearchTypeValidator.validate(occParam.get(), polygonValue);
                 } else {
-                  SearchTypeValidator.validate((OccurrenceSearchParameter) occParam, value);
+                  SearchTypeValidator.validate(occParam.get(), value);
                 }
               }
             } catch (IllegalArgumentException ex) {
-              action.addFieldError(param, value);
-              valid = false;
+              String newUrl = removeParamFromURL(request, param, value);
+              errors.add(new ParameterValidationError<OccurrenceSearchParameter>(occParam.get(), value, ex, newUrl));
             }
           }
         }
@@ -465,7 +467,7 @@ public class FiltersActionHelper {
         LOG.error("Error validating parameters", e);
       }
     }
-    return valid;
+    return errors;
   }
 
   /**
@@ -515,7 +517,6 @@ public class FiltersActionHelper {
     }
   }
 
-
   /**
    * Gets the name of the month int parameter.
    */
@@ -524,6 +525,7 @@ public class FiltersActionHelper {
     cal.set(Calendar.MONTH, month - 1); // Java indexes month from 0
     return new SimpleDateFormat("MMMM", getLocale()).format(cal.getTime());
   }
+
 
   /**
    * Returns the displayable label/value of a range filter.
@@ -543,7 +545,6 @@ public class FiltersActionHelper {
       return String.format(IS_FMT, getMonthName(Integer.parseInt(value)));
     }
   }
-
 
   /**
    * Returns the displayable label/value of a range filter.
@@ -581,6 +582,7 @@ public class FiltersActionHelper {
       return String.format(IS_FMT, value);
     }
   }
+
 
   /**
    * Validates if the list of coordinates forms a rectangle.
@@ -641,6 +643,18 @@ public class FiltersActionHelper {
       }
     }
     return searchSuggestions;
+  }
+
+  /**
+   * Remove the parameter/value pair from the query string.
+   */
+  private String removeParamFromURL(HttpServletRequest request, String param, String value) {
+    String queryString = request.getQueryString().replaceAll("(&?)" + param + '=' + value, "");
+    if (queryString.startsWith("&")) {
+      queryString = queryString.replaceFirst("&", "");
+    }
+    return Strings.isNullOrEmpty(queryString) ? request.getRequestURI() : request.getRequestURI() + '?'
+      + queryString;
   }
 
   /**

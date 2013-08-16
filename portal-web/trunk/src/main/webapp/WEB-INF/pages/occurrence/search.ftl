@@ -105,7 +105,7 @@
     <#assign showInstitution =  table.hasSummaryField('INSTITUTION')>
     <#assign showModified =  table.hasSummaryField('MODIFIED')>
     <table class="results">
-      <#if !action.hasErrors()>
+      <#if !action.hasErrors()>        
         <tr class="header">
 
           <td class="summary" colspan="${table.summaryColspan}">
@@ -254,18 +254,20 @@
         </#if>
       <#else>
         <tr class="header">
-          <td class="filters">
-            <ul>
-            <#list action.fieldErrors.keySet() as field>
-                  <li><h4>${field}</h4>
-                  <#list action.fieldErrors.get(field) as error>
-                      <div class="filter filter-error">${error}</div>
-                  </#list>
-                  </li>
-            </#list>
-            </ul>
-          </td>
-         </tr>
+          <td>          
+            <h2>Error processing your search!</h2>
+            <h3>please check your search criteria</h3>                  
+           </td>
+        </tr>
+        <#list action.getValidationErrors() as error>
+          <tr class="result error_summary">
+            <td>          
+              <div>The value <div class="filter-error">"${error.value}"</div> for the parameter "<@s.text name="search.facet.${error.parameter}"/>" is incorrect.</div>
+              <br/>              
+              <div>Try your <a href='${error.urlWithoutError}'>search</a> without this parameter.</div>                  
+             </td>
+          </tr>  
+        </#list>
       </#if>
     </table>
     <div class="footer">

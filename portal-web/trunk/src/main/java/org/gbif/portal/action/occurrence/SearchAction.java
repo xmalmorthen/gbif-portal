@@ -11,14 +11,17 @@ import org.gbif.api.vocabulary.BasisOfRecord;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.portal.action.BaseSearchAction;
 import org.gbif.portal.action.occurrence.util.FiltersActionHelper;
+import org.gbif.portal.action.occurrence.util.ParameterValidationError;
 import org.gbif.portal.model.OccurrenceTable;
 import org.gbif.portal.model.SearchSuggestions;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -48,8 +51,9 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
   private SearchSuggestions<String> institutionCodeSuggestions;
 
-
   private SearchSuggestions<String> collectionCodeSuggestions;
+
+  private List<ParameterValidationError<OccurrenceSearchParameter>> validationErrors = Lists.newArrayList();
 
   // Maximum offset allowed
   private static final Integer MAX_OFFSET = 1000000;
@@ -111,8 +115,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     filtersActionHelper.processDatasetReplacements(searchRequest, datasetsSuggestions);
 
     // Search is executed only if there aren't suggestions that need to be notified to the user
-    if (!hasSuggestions()
-      && filtersActionHelper.validateSearchParameters(this, this.request, OCC_VALIDATION_DISCARDED)) {
+    if (!hasSuggestions() && validateSearchParameters()) {
       return executeSearch();
     }
     return SUCCESS;
@@ -167,13 +170,13 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return collectorSuggestions;
   }
 
-
   /**
    * Returns the list of {@link Country} literals.
    */
   public Set<Country> getCountries() {
     return filtersActionHelper.getCountries();
   }
+
 
   /**
    * Gets the current year.
@@ -184,7 +187,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return filtersActionHelper.getCurrentYear();
   }
 
-
   /**
    * Suggestions for dataset title search.
    * 
@@ -194,6 +196,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return datasetsSuggestions;
   }
 
+
   /**
    * Gets the Dataset title, the key parameter is returned if either the Dataset doesn't exists or it
    * doesn't have a title.
@@ -201,7 +204,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   public String getDatasetTitle(String key) {
     return filtersActionHelper.getDatasetTitle(key);
   }
-
 
   // this method is only a convenience one exposing the request filters so the ftl templates dont need to be adapted
   public Multimap<OccurrenceSearchParameter, String> getFilters() {
@@ -218,6 +220,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     }
     return filterValue;
   }
+
 
   /**
    * @return the institutionCodeSuggestions
@@ -272,10 +275,19 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
     return table;
   }
 
+  public List<ParameterValidationError<OccurrenceSearchParameter>> getValidationErrors() {
+    return validationErrors;
+  }
+
+  @Override
+  public boolean hasErrors() {
+    return super.hasErrors() || !validationErrors.isEmpty();
+  }
+
+
   public boolean hasParameterErrors(String parameter) {
     return (getFieldErrors().containsKey(parameter));
   }
-
 
   /**
    * Checks if there are suggestions available.
@@ -352,5 +364,14 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
         institutionCodeSuggestions = filtersActionHelper.processCatalogNumberSuggestions(request);
       }
     }
+  }
+
+  /**
+   * Process the occurrence search parameters to validate if the values are correct.
+   * The list of errors is store in the "errors" field.
+   */
+  private boolean validateSearchParameters() {
+    validationErrors = filtersActionHelper.validateSearchParameters(request, OCC_VALIDATION_DISCARDED);
+    return validationErrors.isEmpty();
   }
 }
