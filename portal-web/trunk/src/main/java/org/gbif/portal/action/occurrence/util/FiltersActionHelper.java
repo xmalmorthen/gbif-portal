@@ -416,12 +416,16 @@ public class FiltersActionHelper {
       suggestRequest.addParameter(NameUsageSearchParameter.DATASET_KEY, Constants.NUB_DATASET_KEY.toString());
       for (String value : values) {
         if (Ints.tryParse(value) == null) { // Is not a integer
-          NameUsageMatch nameUsageMatch = nameUsageMatchingService.match(value, null, null, true, false);
-          if (nameUsageMatch.getMatchType() == MatchType.NONE) {
-            List<NameUsageSearchResult> suggestions = nameUsageSearchService.suggest(suggestRequest);
+          NameUsageMatch nameUsageMatch = nameUsageMatchingService.match(value, null, null, true, true);
+          boolean hasAlternatives =
+            nameUsageMatch.getAlternatives() != null && !nameUsageMatch.getAlternatives().isEmpty();
+          if (nameUsageMatch.getMatchType() == MatchType.NONE && !hasAlternatives) {
             suggestRequest.setQ(value);
+            List<NameUsageSearchResult> suggestions = nameUsageSearchService.suggest(suggestRequest);
             // suggestions are stored in map: "parameter value" -> list of suggestions
             nameUsagesSuggestion.getSuggestions().put(value, suggestions);
+          } else if (nameUsageMatch.getMatchType() == MatchType.NONE && hasAlternatives) {
+            nameUsagesSuggestion.getSuggestions().put(value, toNameUsageResult(nameUsageMatch.getAlternatives()));
           } else {
             NameUsageSearchResult nameUsageSearchResult = toNameUsageResult(nameUsageMatch);
             nameUsagesSuggestion.getReplacements().put(value, nameUsageSearchResult);
@@ -656,6 +660,18 @@ public class FiltersActionHelper {
     return Strings.isNullOrEmpty(queryString) ? request.getRequestURI() : request.getRequestURI() + '?'
       + queryString;
   }
+
+  /**
+   * Converts a list of NameUsageMatch into a list of NameUsageSearchResult.
+   */
+  private List<NameUsageSearchResult> toNameUsageResult(List<NameUsageMatch> nameUsageMatches) {
+    List<NameUsageSearchResult> suggestions = Lists.newArrayList();
+    for (NameUsageMatch matchAlt : nameUsageMatches) {
+      suggestions.add(toNameUsageResult(matchAlt));
+    }
+    return suggestions;
+  }
+
 
   /**
    * Converts a NameUsageMatch into a NameUsageSearchResult.
