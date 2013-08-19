@@ -95,8 +95,10 @@
     <li<#if (tab!)=="activity"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/dataset/${id!}/activity'/>" title="Activity"><span>Activity</span></a>
     </li>
+    <#-- Commented out http://dev.gbif.org/issues/browse/PF-56
     <li<#if (tab!)=="discussion"> class='selected ${hl!}'</#if>>
       <a href="#" title="Discussion"><span>Discussion</span></a>
     </li>
+    -->
   </ul>
 </content>
