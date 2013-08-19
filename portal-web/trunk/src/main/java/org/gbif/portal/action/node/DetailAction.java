@@ -129,8 +129,23 @@ public class DetailAction extends MemberBaseAction<Node> {
     }
   }
 
+  /**
+   * Load the list of a country's endorsed publishers. Sort the list alphabetically by publisher title, ascending A-Z.
+   *
+   * @param limit the maximum number of publishers to return
+   */
   protected void loadPublishers(int limit) {
     publisherPage = nodeService.endorsedOrganizations(member.getKey(), new PagingRequest(offset, limit));
+    // sort alphabetically by publisher title
+    List<Organization> results = publisherPage.getResults();
+    if (!results.isEmpty()) {
+      Collections.sort(results, new Comparator<Organization>() {
+        @Override
+        public int compare(final Organization object1, final Organization object2) {
+          return object1.getTitle().compareTo(object2.getTitle());
+        }
+      } );
+    }
   }
 
 
