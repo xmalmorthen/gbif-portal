@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.inject.Inject;
 
-public class DetailAction extends MemberBaseAction<Node> {
+public class NodeAction extends MemberBaseAction<Node> {
 
   protected final NodeService nodeService;
   protected CubeService cubeService;
@@ -78,7 +78,7 @@ public class DetailAction extends MemberBaseAction<Node> {
   }
 
   @Inject
-  public DetailAction(NodeService nodeService, CubeService cubeService) {
+  public NodeAction(NodeService nodeService, CubeService cubeService) {
     super(MemberType.NODE, nodeService);
     this.nodeService = nodeService;
     this.cubeService = cubeService;
@@ -129,23 +129,8 @@ public class DetailAction extends MemberBaseAction<Node> {
     }
   }
 
-  /**
-   * Load the list of a country's endorsed publishers. Sort the list alphabetically by publisher title, ascending A-Z.
-   *
-   * @param limit the maximum number of publishers to return
-   */
   protected void loadPublishers(int limit) {
     publisherPage = nodeService.endorsedOrganizations(member.getKey(), new PagingRequest(offset, limit));
-    // sort alphabetically by publisher title
-    List<Organization> results = publisherPage.getResults();
-    if (!results.isEmpty()) {
-      Collections.sort(results, new Comparator<Organization>() {
-        @Override
-        public int compare(final Organization object1, final Organization object2) {
-          return object1.getTitle().compareTo(object2.getTitle());
-        }
-      } );
-    }
   }
 
 

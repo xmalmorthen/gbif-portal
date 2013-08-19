@@ -7,6 +7,7 @@ import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
 import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.service.registry.OrganizationService;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -20,9 +21,9 @@ public class SummaryAction extends CountryBaseAction {
   public SummaryAction(NodeService nodeService, CubeService cubeService,
     OccurrenceDatasetIndexService datasetIndexService, OccurrenceCountryIndexService countryIndexService,
     DatasetService datasetService, DatasetSearchService datasetSearchService,
-    DatasetMetricsService datasetMetricsService) {
+    DatasetMetricsService datasetMetricsService, OrganizationService organizationService) {
     super(nodeService, cubeService, datasetIndexService, countryIndexService, datasetService, datasetSearchService,
-      datasetMetricsService);
+      datasetMetricsService, organizationService);
   }
 
   @Override
@@ -30,7 +31,7 @@ public class SummaryAction extends CountryBaseAction {
     super.execute();
 
     buildAboutMetrics(0, 0);
-    // load 6 latest published datasets
+    // load 7 latest published datasets
     buildByMetrics(7, 0);
 
     return SUCCESS;

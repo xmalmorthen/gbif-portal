@@ -2,7 +2,7 @@ package org.gbif.portal.action.dataset;
 
 import org.gbif.api.model.registry.Contact;
 import org.gbif.api.vocabulary.ContactType;
-import org.gbif.portal.action.node.DetailAction;
+import org.gbif.portal.action.node.NodeAction;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +30,7 @@ public class NodeContactOrderTest {
       build(ContactType.HEAD_OF_DELEGATION, "Tip", "Top")
       );
 
-    Collections.sort(contacts, new DetailAction.NodeContactOrder());
+    Collections.sort(contacts, new NodeAction.NodeContactOrder());
 
     for (Contact c : contacts) {
       System.out.println(c);

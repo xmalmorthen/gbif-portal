@@ -32,15 +32,11 @@
 
 <#include "/WEB-INF/pages/country/inc/about_article.ftl">
 
-<#if node??>
-  <#include "/WEB-INF/pages/country/inc/publishing_article.ftl">
-</#if>
+<#include "/WEB-INF/pages/country/inc/publishing_article.ftl">
 
 <#include "/WEB-INF/pages/country/inc/participation.ftl">
 
-<#if node??>
-  <#include "/WEB-INF/pages/country/inc/latest_datasets_article.ftl">
-</#if>
+<#include "/WEB-INF/pages/country/inc/latest_datasets_article.ftl">
 
 
 </body>

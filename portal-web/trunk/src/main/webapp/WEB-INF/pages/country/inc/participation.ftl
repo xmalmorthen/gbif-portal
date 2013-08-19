@@ -1,9 +1,9 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 
+<#if node??>
 <@common.article id="participation" title="GBIF Participant Information" titleRight="Node Address">
     <div class="left">
       <h3>Member Status</h3>
-  <#if node??>
       <p><@s.text name="enum.memberstatus.${node.participationStatus}.${node.type}"/></p>
 
       <#if node.participantSince??>
@@ -35,9 +35,6 @@
         <p>${node.description}</p>
       </#if>
 
-  <#else>
-      <p>None</p>
-  </#if>
     </div>
 
     <div class="right">
@@ -61,3 +58,4 @@
       </#if>
     </div>
 </@common.article>
+</#if>

@@ -16,7 +16,13 @@
             </#if>
               <li>
                 <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
-                <span class="note">${cw.obj.modified?date}. ${cw.count} records indexed<#if cw.geoCount gt 0>, ${cw.geoCount} georeferenced</#if></span>
+                <span class="note">${cw.obj.modified?date}. ${cw.count} records <#if cw.geoCount gt 0>(${cw.geoCount} georeferenced)</#if>
+                  <#if cw.obj.owningOrganizationKey??>
+                    published by <a href="<@s.url value='/publisher/${cw.obj.owningOrganizationKey}'/>" title="${action.getOrganization(cw.obj.owningOrganizationKey).title}">${action.getOrganization(cw.obj.owningOrganizationKey).title}</a>
+                  <#else>
+                    indexed.
+                  </#if>
+                </span>
               </li>
           </#list>
         </ul>

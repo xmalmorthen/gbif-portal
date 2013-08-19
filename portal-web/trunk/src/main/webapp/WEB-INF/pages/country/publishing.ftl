@@ -60,7 +60,7 @@
   </div>
 </@common.article>
 
-
+<#--
 <@common.article id="networks" title="International Networks">
   <div class="fullwidth placeholder_temp">
     <p>
@@ -99,7 +99,7 @@
       </ul>
   </div>
 </@common.article>
-
+-->
 
 </body>
 </html>

@@ -278,7 +278,7 @@
 
   <!-- NODE -->
   <package name="node" namespace="/node" extends="default">
-    <action name="*" class="org.gbif.portal.action.node.DetailAction">
+    <action name="*" class="org.gbif.portal.action.node.NodeAction">
       <param name="id">{1}</param>
       <result>/WEB-INF/pages/node/detail.ftl</result>
       <result name="country" type="redirectAction">
@@ -288,7 +288,7 @@
       </result>
     </action>
 
-    <action name="*/publishers" class="org.gbif.portal.action.node.DetailAction" method="publishers">
+    <action name="*/publishers" class="org.gbif.portal.action.node.NodeAction" method="publishers">
       <param name="id">{1}</param>
       <result>/WEB-INF/pages/country/publishers.ftl</result>
     </action>

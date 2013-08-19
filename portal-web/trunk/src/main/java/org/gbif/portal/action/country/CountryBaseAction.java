@@ -7,6 +7,7 @@ import org.gbif.api.model.common.search.SearchResponse;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.DatasetSearchParameter;
 import org.gbif.api.model.registry.search.DatasetSearchRequest;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
@@ -17,9 +18,10 @@ import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
 import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.DatasetType;
-import org.gbif.portal.action.node.DetailAction;
+import org.gbif.portal.action.node.NodeAction;
 import org.gbif.portal.exception.NotFoundException;
 import org.gbif.portal.model.CountWrapper;
 import org.gbif.portal.model.CountryMetrics;
@@ -34,7 +36,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CountryBaseAction extends DetailAction {
+public class CountryBaseAction extends NodeAction {
 
   private static Logger LOG = LoggerFactory.getLogger(CountryBaseAction.class);
 
@@ -44,24 +46,27 @@ public class CountryBaseAction extends DetailAction {
   private CountryMetrics by;
   private final List<CountWrapper<Country>> countries = Lists.newArrayList();
   private PagingResponse<Country> countryPage;
+  private Map<UUID, Organization> orgMap = Maps.newHashMap();
 
   protected OccurrenceDatasetIndexService datasetIndexService;
   protected OccurrenceCountryIndexService countryIndexService;
   protected DatasetService datasetService;
   protected DatasetSearchService datasetSearchService;
   protected DatasetMetricsService datasetMetricsService;
+  protected OrganizationService organizationService;
 
   @Inject
   public CountryBaseAction(NodeService nodeService, CubeService cubeService,
     OccurrenceDatasetIndexService datasetIndexService, OccurrenceCountryIndexService countryIndexService,
     DatasetService datasetService, DatasetSearchService datasetSearchService,
-    DatasetMetricsService datasetMetricsService) {
+    DatasetMetricsService datasetMetricsService, OrganizationService organizationService) {
     super(nodeService, cubeService);
     this.datasetIndexService = datasetIndexService;
     this.countryIndexService = countryIndexService;
     this.datasetService = datasetService;
     this.datasetSearchService = datasetSearchService;
     this.datasetMetricsService = datasetMetricsService;
+    this.organizationService = organizationService;
   }
 
   @Override
@@ -153,7 +158,7 @@ public class CountryBaseAction extends DetailAction {
     // quick checklist count cache as checklist metrics are performance critical
     Map<UUID, Integer> checklistCounts = Maps.newHashMap();
 
-    p = new PagingRequest(0, 200);  // there are only 100 checklists alltogether!
+    p = new PagingRequest(0, 1000);  // there are only 100 checklists alltogether!
     for (Dataset chkl : datasetService.listByCountry(country, DatasetType.CHECKLIST, p).getResults()) {
       DatasetMetrics metric = datasetMetricsService.get(chkl.getKey());
       if (metric != null) {
@@ -275,5 +280,18 @@ public class CountryBaseAction extends DetailAction {
 
       idx++;
     }
+  }
+
+  /**
+   * Utility method to access node infos using a small map cache.
+   * Used in templates to show the endorsing node for datasets for example.
+   */
+  public Organization getOrganization(UUID key) {
+    if (orgMap.containsKey(key)) {
+      return orgMap.get(key);
+    }
+    Organization o = organizationService.get(key);
+    orgMap.put(key, o);
+    return o;
   }
 }

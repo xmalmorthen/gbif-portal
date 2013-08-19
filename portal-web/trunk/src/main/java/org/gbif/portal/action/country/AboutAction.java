@@ -7,6 +7,7 @@ import org.gbif.api.service.occurrence.OccurrenceDatasetIndexService;
 import org.gbif.api.service.registry.DatasetSearchService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.service.registry.OrganizationService;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -20,9 +21,9 @@ public class AboutAction extends CountryBaseAction {
   public AboutAction(NodeService nodeService, CubeService cubeService,
     OccurrenceDatasetIndexService datasetIndexService, OccurrenceCountryIndexService countryIndexService,
     DatasetService datasetService, DatasetSearchService datasetSearchService,
-    DatasetMetricsService datasetMetricsService) {
+    DatasetMetricsService datasetMetricsService, OrganizationService organizationService) {
     super(nodeService, cubeService, datasetIndexService, countryIndexService, datasetService, datasetSearchService,
-      datasetMetricsService);
+      datasetMetricsService, organizationService);
   }
 
   @Override
