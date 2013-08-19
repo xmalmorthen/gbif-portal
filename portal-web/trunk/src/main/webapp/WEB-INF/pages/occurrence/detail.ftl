@@ -31,9 +31,9 @@
 
 <#if showMap>
   <#assign title=""/>
-  <#assign titleRight="Geoposition"/>
+  <#assign titleRight="Location"/>
 <#else>
-  <#assign title="Geoposition"/>
+  <#assign title="Location"/>
   <#assign titleRight=""/>
 </#if>
 
