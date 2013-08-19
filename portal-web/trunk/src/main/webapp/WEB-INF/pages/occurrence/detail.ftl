@@ -19,7 +19,7 @@
     <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
     <script type="text/javascript">
         $(function() {
-            $("#map").pointMap("${occ.latitude}", "${occ.longitude}", {});
+            $("#map").pointMap("${occ.latitude?c}", "${occ.longitude?c}", {});
         });
     </script>
   </#if>
@@ -44,7 +44,7 @@
     <div class="right">
       <h3>Locality</h3>
         <p class="no_bottom">${occ.locality!}<#if occ.country??>, <a href="<@s.url value='/country/${occ.country.iso2LetterCode}'/>">${occ.country.title}</a></#if></p>
-        <p class="light_note">${occ.longitude}, ${occ.latitude} (± 0.25)</p>
+        <p class="light_note">${occ.longitude}, ${occ.latitude}</p>
 
   <#else>
     <div class="fullwidth">
