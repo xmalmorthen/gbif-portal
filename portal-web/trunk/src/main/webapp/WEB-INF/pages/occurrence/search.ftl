@@ -44,9 +44,11 @@
              $(this).hide();
              $("#emails").show();
          });
+       <#if action.showDownload()>
          $('a.download_button').click(function(event) {             
             widgetManager.submit({emails:$('#emails').val()}, "<@s.url value='/occurrence/download'/>?");             
          });
+       </#if>
       });
     </script>
 
@@ -279,7 +281,7 @@
   <footer></footer>
 </article>
 
-<#if action.showDownload()>
+ <#if action.showDownload()>
   <article class="download_ocurrences">
   <header></header>
   <div class="content">

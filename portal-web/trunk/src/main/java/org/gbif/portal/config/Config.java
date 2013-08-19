@@ -55,6 +55,7 @@ public class Config {
   private String wsOccCollectionCodeSearch;
   private String wsOccInstitutionCodeSearch;
   private String wsImageCache;
+  private Integer maxOccDowloadSize;
 
 
   /**
@@ -84,6 +85,7 @@ public class Config {
       cfg.wsOccSearch = cfg.wsOcc + OCC_SEARCH_PATH;
       cfg.wsOccDownload = getPropertyUrl(properties, "occurrencedownload.ws.url", true);
       cfg.wsOccDownloadForPublicLink = getPropertyUrl(properties, "occurrencedownload.ws.url.for.public.link", true);
+      cfg.maxOccDowloadSize = Integer.parseInt(properties.getProperty("occurrencedownload.size.limit"));
       cfg.wsMetrics = getPropertyUrl(properties, "metrics.ws.url", true);
       cfg.wsOccCatalogNumberSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + CATALOG_NUMBER_PATH;
       cfg.wsOccCollectorNameSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + COLLECTOR_NAME_PATH;
@@ -139,6 +141,18 @@ public class Config {
     return drupalCookieName;
   }
 
+  public String getGoogleAnalytics() {
+    return googleAnalytics;
+  }
+
+  /**
+   * Maximum amount of records allowed in occurrence download file.
+   * A negative value means that any size is allowed.
+   */
+  public Integer getMaxOccDowloadSize() {
+    return maxOccDowloadSize;
+  }
+
   public String getServerName() {
     return serverName;
   }
@@ -191,6 +205,15 @@ public class Config {
   }
 
   /**
+   * Get the occurrence download web service url that uses the public API used in links.
+   * 
+   * @return the occurrence download web service url that uses the public API
+   */
+  public String getWsOccDownloadForPublicLink() {
+    return wsOccDownloadForPublicLink;
+  }
+
+  /**
    * @return the wsOccInstitutionCodeSearch
    */
   public String getWsOccInstitutionCodeSearch() {
@@ -213,24 +236,12 @@ public class Config {
     return wsRegSuggest;
   }
 
+
   public boolean isIncludeContext() {
     return includeContext;
   }
 
   public void setTileServerBaseUrl(String tileServerBaseUrl) {
     this.tileServerBaseUrl = tileServerBaseUrl;
-  }
-
-  public String getGoogleAnalytics() {
-    return googleAnalytics;
-  }
-
-  /**
-   * Get the occurrence download web service url that uses the public API used in links.
-   *
-   * @return the occurrence download web service url that uses the public API
-   */
-  public String getWsOccDownloadForPublicLink() {
-    return wsOccDownloadForPublicLink;
   }
 }

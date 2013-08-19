@@ -300,8 +300,9 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    * Validates if the download functionality should be shown.
    */
   public boolean showDownload() {
-    return (searchResponse != null && searchResponse.getCount() > 0) && !hasErrors()
-      && !hasSuggestions();
+    return searchResponse != null && searchResponse.getCount() > 0
+      && (getCfg().getMaxOccDowloadSize() < 0 || searchResponse.getCount() <= getCfg().getMaxOccDowloadSize())
+      && !hasErrors() && !hasSuggestions();
   }
 
   @Override
