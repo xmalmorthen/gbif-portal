@@ -140,6 +140,22 @@
           title="${host.title!"Unknown"}">${host.title!"Unknown"}</a></p>
   </#if>
 
+  <!-- find IPT RSS feed endpoint -->
+  <#assign feedURL = ""/>
+  <#list installation.endpoints as end>
+    <#if end.type?string == 'FEED'>
+      <#assign feedURL = end.url?string/>
+    </#if>
+  </#list>
+  <!-- Only show Served by installation-title, for datasets served through an IPT with a non-empty title and resolvable IPT URL -->
+  <#if installation?? && installation.type?string == 'IPT_INSTALLATION' && feedURL != "" && installation.title?has_content>
+      <h3>Served by</h3>
+      <!-- parse out IPT base URL from feed URL, so basically everything up until rss.do -->
+      <#assign rssIndex = feedURL?index_of("rss.do")/>
+      <#assign iptBaseUrl = feedURL?substring(0, rssIndex)/>
+      <p><a href="<@s.url value=iptBaseUrl/>" title="${installation.title}">${installation.title}</a></p>
+  </#if>
+
   <!-- Could be an external dataset, with an owning org, but no endorsing node since it's not in GBIF Network -->
   <#if (publisher.endorsingNode)?has_content>
     <h3>Endorsed by</h3>
