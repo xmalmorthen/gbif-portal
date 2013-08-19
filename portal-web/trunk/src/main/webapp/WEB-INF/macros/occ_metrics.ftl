@@ -7,10 +7,10 @@ with the help of occ_metrics.js
     <td width="10%" class="title">${kingdom}</td>
     <#list ["PRESERVED_SPECIMEN", "OBSERVATION", "FOSSIL_SPECIMEN", "LIVING_SPECIMEN"] as bor>
       <td class="nonGeo" width="9%" data-bor="${bor}"><div>-</div></td>
-      <td width="9%" data-bor="${bor}">(<div class="geo">-</div>)</td>
+      <td width="9%" data-bor="${bor}"><div class="geo">-</div></td>
     </#list>
     <td class="nonGeo total" width="9%" class='total'><div>-</div></td>
-    <td width="9%" class='totalgeo total'>(<div class="geo">-</div>)</td>
+    <td width="9%" class='totalgeo total'><div class="geo">-</div></td>
   </tr>
 </#macro>
 

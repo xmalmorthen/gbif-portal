@@ -57,9 +57,6 @@
     <p>
       <@metrics.metricsTable baseAddress="hostCountry=${country}"/>
     </p>
-    <p>
-      <em>Note</em>: The numbers in brackets represent records that are georeferenced (i.e. with coordinates).
-    </p>
   </div>
 </@common.article>
 
