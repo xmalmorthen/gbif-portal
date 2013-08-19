@@ -582,7 +582,7 @@
         <occurrence.ws.url>http://staging.gbif.org:8080/occurrence-ws/</occurrence.ws.url>
         <occurrence-download.ws.url>http://staging.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url>
         <occurrence-download.ws.url.for.public.link>http://staging.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url.for.public.link>
-        <tile-server.url>http://staging.gbif.org:8080/tile-server/</tile-server.url>
+        <tile-server.url>http://staging.gbif.org:8080/tile-server</tile-server.url>
         <metrics.ws.url>http://staging.gbif.org:8080/metrics-ws</metrics.ws.url>
         <drupal.url>http://staging.gbif.org/drupal</drupal.url>
         <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
