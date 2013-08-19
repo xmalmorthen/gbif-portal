@@ -71,7 +71,7 @@
               </#list>
             </tbody>
           </table>
-          <@macro.pagination page=action.getResponse() url=action.getCurrentUrl()/>
+          <@macro.pagination page=action.getResponse() url=currentUrlWithoutPage/>
         </#if>
       </div>
 </@common.article>

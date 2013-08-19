@@ -43,7 +43,7 @@
         <@records.publisher publisher=item/>
       </#list>
         <div class="footer">
-        <@paging.pagination page=publisherPage url=currentUrl/>
+        <@paging.pagination page=publisherPage url=currentUrlWithoutPage/>
         </div>
       </div>
 

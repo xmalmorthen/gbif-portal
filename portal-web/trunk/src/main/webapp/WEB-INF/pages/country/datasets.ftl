@@ -47,7 +47,7 @@
       </#list>
 
       <div class="footer">
-        <@paging.pagination page=datasetPage url=currentUrl/>
+        <@paging.pagination page=datasetPage url=currentUrlWithoutPage/>
       </div>
 
       </div>

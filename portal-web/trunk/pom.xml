@@ -45,6 +45,8 @@
     <devMode>true</devMode>
     <notDevMode>false</notDevMode>
     <google.analytics />
+    <!-- TODO: change to something sensible -->
+    <occurrencedownload.size.limit>10000</occurrencedownload.size.limit>
 
     <!-- dependency versions -->
     <dwc-api.version>1.3</dwc-api.version>
@@ -102,6 +104,8 @@
           <webAppConfig>
             <contextPath>/</contextPath>
           </webAppConfig>
+          <!-- no scan if used with JRebel -->
+          <scanIntervalSeconds>0</scanIntervalSeconds>
           <stopKey>stop</stopKey>
           <stopPort>9362</stopPort>
           <systemProperties>
@@ -185,6 +189,19 @@
                   </goals>
               </execution>
           </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.zeroturnaround</groupId>
+        <artifactId>jrebel-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-rebel-xml</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
     <resources>

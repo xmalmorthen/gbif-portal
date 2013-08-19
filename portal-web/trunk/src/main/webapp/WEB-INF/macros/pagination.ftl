@@ -4,7 +4,7 @@ Macro for rendering pagination on the web app.
 If the page.count exists, it renders a numbered pagination.
 If the page.count does not exist (is null), it renders the simple pagination (without numbered pages) 
  - page: a mandatory PagingResponse instance
- - url: mandatory, current url
+ - url: mandatory, current url without paging parameters
 -->
 <#macro pagination page url maxOffset=-1>
   <#if page.count??>
@@ -36,15 +36,14 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
 <#macro simplepagination page url>
   <#assign offset = page.offset>
   <#assign limit = page.limit>
-  <#assign stripUrl = getStripUrl(url) >
   <#if (offset>1) && (offset < limit) >
-    <a href="${getFullUrl(stripUrl, 0, limit)}" class="candy_white_button previous"><span>Previous page</span></a>
+    <a href="${getPageUrl(stripUrl, 0)}" class="candy_white_button previous"><span>Previous page</span></a>
   <#elseif (limit > 0) && (offset > 0) >
-    <a href="${getFullUrl(stripUrl, (offset-limit), limit)}" class="candy_white_button previous"><span>Previous page</span></a>
+    <a href="${getPageUrl(stripUrl, (offset-limit))}" class="candy_white_button previous"><span>Previous page</span></a>
   </#if>
 
   <#if !page.isEndOfRecords()>
-    <a href="${getFullUrl(stripUrl, (offset+limit), limit)}" class="candy_white_button next"><span>Next page</span></a>
+    <a href="${getPageUrl(stripUrl, (offset+limit))}" class="candy_white_button next"><span>Next page</span></a>
   </#if>
   <div class="pagination">viewing page ${getCurrentPage(offset, limit)}
     <#if ((page.count!0)>0)> of ${(page.count / limit)?ceiling}</#if>
@@ -88,8 +87,6 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
   
   <#-- Total number of pages for the resultset -->
   <#assign totalPages = (count/page.limit)?ceiling />
-  <#-- current url with paging params removed -->
-  <#assign currUrl = getStripUrl(url) />
   <#-- the current page number, first page = 1 -->
   <#assign currPage = (offset/page.limit)?round + 1 />
   <#-- the first numbered page to show. If only 1 page exists its a special case caught below -->
@@ -98,17 +95,17 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
   <#assign maxPage = common.max(minPage, common.min(minPage + maxLink - 1, totalPages - 1))/>
 
   <ul class="numbered-pagination">
-  <@pageLink title="First" url=getFullUrl(currUrl, 0, page.limit) current=(currPage=1) />
+  <@pageLink title="First" url=getPageUrl(url, 0) current=(currPage=1) />
   <#if totalPages gt 1 >
     <#if totalPages gt 2 >
       <#list minPage .. maxPage as p>
-        <@pageLink title=p url=getFullUrl(currUrl, page.limit*(p-1), page.limit) current=(currPage=p) />
+        <@pageLink title=p url=getPageUrl(url, page.limit*(p-1)) current=(currPage=p) />
       </#list>
       <#if totalPages gt maxPage + 1>
         <li>...</li>
       </#if>
     </#if>
-    <@pageLink title="Last" url=getFullUrl(currUrl, page.limit*(totalPages-1), page.limit) current=(currPage=totalPages) />
+    <@pageLink title="Last" url=getPageUrl(url, page.limit*(totalPages-1)) current=(currPage=totalPages) />
   </#if>
   </ul>
 </#macro>
@@ -132,51 +129,17 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
 </#function>
 
 
-
-
-
-<#-- 
-	Takes an URL and strips off any "limit" or "offset" query parameter (along with its value). 
-	Any other query parameters are left untouched.
--->
-<#function getStripUrl url>
-	<#assign stripUrl = "">
-	<#assign baseUrl = "">
-	<#assign queryString = "">
-	<#if url?contains("?")>
-	   <#assign urlSplit = url?split("?")>
-	   <#assign baseUrl = urlSplit[0] + "?">
-       <#assign queryString = urlSplit[1]>
-	<#else>
-	   <#assign baseUrl = url>
-	</#if>
-	<#list queryString?split("&") as queryParam>
-	  <#if !queryParam?contains("limit") && !queryParam?contains("offset")>
-		  <#assign stripUrl = stripUrl+"&"+queryParam>
-		</#if>
-	</#list>  
-	<#if stripUrl?starts_with("&")>
-		<#return baseUrl + stripUrl?substring(1)>
-	<#else>
-		<#return baseUrl + stripUrl>
-	</#if>
-</#function>
-
-
-
-
-
-<#-- 
+<#--
 	Appends the "offset" query parameters to an existing URL assuming the limit is static and defined by the action alone.
 	If there existing query parameters, the append is done using an ampersand (&).
 	If there are no existing query parameters, the append is done using the (?).
 -->
-<#function getFullUrl stripUrl offset limit>
+<#function getPageUrl url offset>
 	<#assign fullUrl = "">
-		<#if stripUrl?contains("?")>
-			<#assign fullUrl = stripUrl+"&offset="+offset?c>
+		<#if url?contains("?")>
+			<#assign fullUrl = url+"&offset="+offset?c>
 		<#else>
-			<#assign fullUrl = stripUrl+"?offset="+offset?c>
+			<#assign fullUrl = url+"?offset="+offset?c>
 		</#if>
 	<#return fullUrl>	
 </#function>

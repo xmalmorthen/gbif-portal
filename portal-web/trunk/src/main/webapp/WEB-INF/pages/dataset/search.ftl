@@ -42,6 +42,7 @@
 
 
       <div class="left">
+
       <#assign max_show_length = 68>
       <#list searchResponse.results as dataset>
         <div class="result">
@@ -101,7 +102,7 @@
       </#list>
 
         <div class="footer">
-        <@macro.pagination page=searchResponse url=currentUrl/>
+          <@macro.pagination page=searchResponse url=currentUrlWithoutPage/>
         </div>
       </div>
 

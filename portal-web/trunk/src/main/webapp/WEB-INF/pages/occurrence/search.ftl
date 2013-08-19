@@ -274,7 +274,7 @@
     </table>
     <div class="footer">
       <#if !action.hasSuggestions() && !action.hasErrors()>
-        <@macro.pagination page=searchResponse url=currentUrl maxOffset=maxOffset/>
+        <@macro.pagination page=searchResponse url=currentUrlWithoutPage maxOffset=maxOffset/>
       </#if>
     </div>
   </div>

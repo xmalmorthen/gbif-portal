@@ -54,7 +54,7 @@
       </#list>
 
         <div class="footer">
-        <@paging.pagination page=page url=currentUrl/>
+        <@paging.pagination page=page url=currentUrlWithoutPage/>
         </div>
 
       </div>

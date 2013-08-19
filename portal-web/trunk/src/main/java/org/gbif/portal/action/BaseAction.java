@@ -9,9 +9,14 @@ import java.net.URLEncoder;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
+import javax.annotation.Nullable;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.struts2.interceptor.ServletRequestAware;
@@ -28,6 +33,8 @@ public abstract class BaseAction extends ActionSupport
   implements SessionAware, ServletRequestAware, ServletContextAware {
 
   protected static Logger LOG = LoggerFactory.getLogger(BaseAction.class);
+  private static Joiner QUERY_JOINER = Joiner.on('&');
+  private static Splitter QUERY_SPLITTER = Splitter.on("&");
 
   protected Map<String, Object> session;
   protected HttpServletRequest request;
@@ -81,6 +88,19 @@ public abstract class BaseAction extends ActionSupport
    * @return the absolute, current url
    */
   public String getCurrentUrl() {
+    return getCurrentUrl(false);
+  }
+
+  /**
+   * Returns the absolute url to the current page including the query string, but having the paging
+   * parameters offset and limit removed.
+   * Exposed for the paging macros to not have to deal with this complexity in freemarker.
+   */
+  public String getCurrentUrlWithoutPage() {
+    return getCurrentUrl(true);
+  }
+
+  private String getCurrentUrl(boolean removePagingParams) {
     StringBuffer currentUrl = request.getRequestURL();
 
     if (!cfg.isIncludeContext()) {
@@ -90,10 +110,26 @@ public abstract class BaseAction extends ActionSupport
 
     if (request.getQueryString() != null) {
       currentUrl.append("?");
-      currentUrl.append(request.getQueryString());
+      if (removePagingParams) {
+        currentUrl.append(QUERY_JOINER.join(
+          Iterables.filter(QUERY_SPLITTER.split(request.getQueryString()), new Predicate<String>() {
+            @Override
+            public boolean apply(@Nullable String input) {
+              if (input.toLowerCase().startsWith("offset=") || input.toLowerCase().startsWith("limit=")) {
+                return false;
+              }
+              return true;
+            }
+          })
+        ));
+      } else {
+        currentUrl.append(request.getQueryString());
+      }
     }
     return currentUrl.toString();
   }
+
+
 
   /**
    * @return the currently logged in user.

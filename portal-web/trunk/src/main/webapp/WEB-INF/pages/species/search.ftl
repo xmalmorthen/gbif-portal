@@ -95,7 +95,7 @@
         </#list>
 
           <div class="footer">
-          <@macro.pagination page=searchResponse url=currentUrl/>
+          <@macro.pagination page=searchResponse url=currentUrlWithoutPage/>
           </div>
         </div>
 
