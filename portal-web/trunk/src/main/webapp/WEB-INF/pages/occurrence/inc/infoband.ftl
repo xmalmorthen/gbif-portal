@@ -33,11 +33,13 @@
     <li<#if tab=="info" || tab=="info-verbatim"> class='selected ${hl}'</#if>>
       <a href="<@s.url value='/occurrence/${id?c}'/>" title="Information"><span>Information</span></a>
     </li>
+    <#-- Commented out http://dev.gbif.org/issues/browse/PF-55
     <li<#if tab=="activity"> class='selected ${hl}'</#if>>
       <a href="#" title="Activity"><span>Activity</span></a>
     </li>
     <li<#if tab=="stats"> class='selected ${hl}'</#if>>
       <a href="#" title="Stats"><span>Stats</span></a>
     </li>
+    -->
   </ul>
 </content>
