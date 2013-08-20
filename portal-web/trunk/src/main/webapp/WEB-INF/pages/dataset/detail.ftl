@@ -524,9 +524,7 @@
   <h3>How to cite</h3>
   <p>
     <#if dataset.citation??>
-      <@common.citation dataset.citation />
-    <#else>
-      missing, see <a href="http://dev.gbif.org/issues/browse/REG-229">REG-229</a>
+      <@common.citation dataset.citation />    
     </#if>
   </p>
 
