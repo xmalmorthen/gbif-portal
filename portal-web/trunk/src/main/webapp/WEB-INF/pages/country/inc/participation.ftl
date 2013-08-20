@@ -4,7 +4,7 @@
 <@common.article id="participation" title="GBIF Participant Information" titleRight="Node Address">
     <div class="left">
       <h3>Member Status</h3>
-      <p><@s.text name="enum.memberstatus.${node.participationStatus}.${node.type}"/></p>
+      <p><@s.text name="enum.memberstatus.${node.type}.${node.participationStatus}"/></p>
 
       <#if node.participantSince??>
         <h3>GBIF Participant Since</h3>
