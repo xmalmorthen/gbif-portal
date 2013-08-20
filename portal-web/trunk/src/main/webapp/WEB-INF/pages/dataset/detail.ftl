@@ -221,13 +221,18 @@
         </li>
       </#if>
     </#list>
+    <#-- URL, name, charset, and format are all required by the GBIF Metadata Schema, but not required by the GBIF API -->
+    <#-- The URL must be present here, otherwise there is nothing to display in the list -->
+    <#-- This restriction was added Aug 20 2013 in order to fix http://dev.gbif.org/issues/browse/PF-75 -->
     <#list dataset.dataDescriptions as dd>
-      <li>
-        <a href="${dd.url}">${dd.name!dd.url}</a>
-        <#if dd.format?has_content || dd.charset?has_content>
-          <span class="note">${dd.format!} ${dd.formatVersion!}<#if dd.format?has_content && dd.charset?has_content>&middot;</#if> ${dd.charset!}</span>
-        </#if>
-      </li>
+      <#if dd.url?has_content>
+        <li>
+          <a href="${dd.url}">${dd.name!dd.url}</a>
+          <#if dd.format?has_content || dd.charset?has_content>
+            <span class="note">${dd.format!} ${dd.formatVersion!}<#if dd.format?has_content && dd.charset?has_content>&middot;</#if> ${dd.charset!}</span>
+          </#if>
+        </li>
+      </#if>
     </#list>
     </ul>
     </p>
