@@ -120,7 +120,7 @@ public class PNGWriter {
   /**
    * Writes the tile to the stream as a PNG.
    */
-  public static void write(DensityTile tile, OutputStream out, DensityColorPalette palette, Layer... layers)
+  public static void write(DensityTile tile, OutputStream out, ColorPalette palette, Layer... layers)
     throws IOException {
     // don't waste time setting up PNG if no data
     if (tile != null && !tile.layers().isEmpty()) {

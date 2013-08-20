@@ -28,7 +28,7 @@ import com.google.common.cache.CacheBuilder;
  */
 public class DensityColorPaletteFactory {
 
-  // Utility to provide hex string to byts
+  // Utility to provide hex string to bytes
   private static final HexBinaryAdapter adapter = new HexBinaryAdapter();
   // For parsing the strings
   private static final Pattern COMMA = Pattern.compile(",");
@@ -54,7 +54,6 @@ public class DensityColorPaletteFactory {
   // The classical yellow to red GBIF have been using for years
   public static final DensityColorPalette YELLOWS_REDS = defaultFrom(
     "#FFFF00", "#FFCC00", "#FF9900", "#FF6600", "#FF3300", "#CC0000");
-  
   
   
   /**

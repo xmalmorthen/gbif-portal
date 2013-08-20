@@ -79,7 +79,7 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
           }
 
           // determine if there is a named palette
-          DensityColorPalette p = DensityColorPaletteFactory.YELLOWS_REDS;
+          ColorPalette p = DensityColorPaletteFactory.YELLOWS_REDS;
           String paletteName = req.getParameter("palette");
           if (paletteName != null) {
             try {

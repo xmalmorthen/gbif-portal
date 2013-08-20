@@ -15,7 +15,7 @@ import com.google.common.collect.Maps;
 /**
  * Responsible for assigning the color and transparency (alpha) for a given count.
  */
-public class DensityColorPalette {
+public class DensityColorPalette implements ColorPalette {
 
   public static class Builder {
 

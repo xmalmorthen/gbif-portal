@@ -1,0 +1,28 @@
+<style>
+  img {position: relative;}
+</style>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+<img id="image" src="density/tile/density/tile?key=1&x=0&y=0&z=0&type=TAXON&palette=diagnostic"></img>
+<pre id="output"></pre>
+
+<script>
+
+$('img').mousemove(function(e) {
+
+        if(!this.canvas) {
+            this.canvas = $('<canvas/>').css({width:this.width + 'px', height: this.height + 'px'})[0];
+            this.canvas.getContext('2d').drawImage(this, 0, 0, this.width, this.height);
+        }
+        
+        var pixelData = this.canvas.getContext('2d').getImageData(event.offsetX, event.offsetY, 1, 1).data;
+        
+        $('#output').html('X,Y: ' + event.offsetX + "," +  event.offsetY + '<br>R: ' + pixelData[0] + '<br>G: ' + pixelData[1] + '<br>B: ' + pixelData[2] 
+        + '<br>Count: ' + ((pixelData[0]<<16) + (pixelData[1]<<8) + pixelData[2]));
+        
+        
+    });        
+
+</script>

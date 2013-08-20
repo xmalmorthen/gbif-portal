@@ -7,15 +7,15 @@ public enum NamedPalette {
   blues(DensityColorPaletteFactory.BLUES), greens(DensityColorPaletteFactory.GREENS), greys(
     DensityColorPaletteFactory.GREYS), oranges(DensityColorPaletteFactory.ORANGES), purples(
     DensityColorPaletteFactory.PURPLES), reds(DensityColorPaletteFactory.REDS), yellows_reds(
-    DensityColorPaletteFactory.YELLOWS_REDS);
+    DensityColorPaletteFactory.YELLOWS_REDS), diagnostic(DiagnosticDensityColorPalette.INSTANCE);
 
-  private final DensityColorPalette pallete;
+  private final ColorPalette pallete;
 
-  private NamedPalette(DensityColorPalette p) {
+  private NamedPalette(ColorPalette p) {
     this.pallete = p;
   }
 
-  public DensityColorPalette getPalette() {
+  public ColorPalette getPalette() {
     return pallete;
   }
 }
