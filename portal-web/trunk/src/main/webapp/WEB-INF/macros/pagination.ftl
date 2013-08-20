@@ -7,13 +7,15 @@ If the page.count does not exist (is null), it renders the simple pagination (wi
  - url: mandatory, current url without paging parameters
 -->
 <#macro pagination page url maxOffset=-1>
-  <#if page.count??>
-    <#-- do not show pagination at all if count is less or equal to the total limit -->
-    <#if (page.count > page.limit)>
-      <@numberedPagination page url maxOffset/>
+  <#if page.offset gt 0 || !page.isEndOfRecords()>
+    <#if page.count??>
+      <#-- do not show pagination at all if count is less or equal to the total limit -->
+      <#if (page.count > page.limit)>
+        <@numberedPagination page url maxOffset/>
+      </#if>
+    <#else>
+      <@simplepagination page url/>
     </#if>
-  <#else>
-    <@simplepagination page url/>
   </#if>
 </#macro>
 
@@ -33,21 +35,26 @@ Pagination macro for rendering NEXT & PREVIOUS buttons, whenever applicable
  
  Please feel free to improve the code in any way.
 -->
-<#macro simplepagination page url>
-  <#assign offset = page.offset>
-  <#assign limit = page.limit>
-  <#if (offset>1) && (offset < limit) >
-    <a href="${getPageUrl(stripUrl, 0)}" class="candy_white_button previous"><span>Previous page</span></a>
-  <#elseif (limit > 0) && (offset > 0) >
-    <a href="${getPageUrl(stripUrl, (offset-limit))}" class="candy_white_button previous"><span>Previous page</span></a>
-  </#if>
+<#macro simplepagination page url numNumbered=4>
+  <#-- the current page number, first page = 1 -->
+  <#assign currPage = (page.offset/page.limit)?round + 1 />
+  <#-- the first numbered page to show. If only 1 page exists its a special case caught below -->
+  <#assign firstNum = common.max(2, currPage - numNumbered +1) />
 
-  <#if !page.isEndOfRecords()>
-    <a href="${getPageUrl(stripUrl, (offset+limit))}" class="candy_white_button next"><span>Next page</span></a>
-  </#if>
-  <div class="pagination">viewing page ${getCurrentPage(offset, limit)}
-    <#if ((page.count!0)>0)> of ${(page.count / limit)?ceiling}</#if>
-  </div>
+  <ul class="numbered-pagination">
+    <@pageLink title="First" url=getPageUrl(url, 0) current=(currPage=1) />
+    <#if !page.isEndOfRecords()>
+      <#if currPage gt 1>
+        <#if currPage-numNumbered gt 1>
+          <li>...</li>
+        </#if>
+        <#list firstNum .. currPage as p>
+          <@pageLink title=p url=getPageUrl(url, page.limit*(p-1)) current=(currPage=p) />
+        </#list>
+      </#if>
+      <@pageLink title="Next" url=getPageUrl(url, page.limit*(currPage)) current=false />
+    </#if>
+  </ul>
 </#macro>
 
 

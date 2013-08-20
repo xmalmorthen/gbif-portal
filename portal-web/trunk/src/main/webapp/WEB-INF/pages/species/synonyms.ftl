@@ -30,7 +30,7 @@
 
       <#list page.results as u>
         <div class="result">
-          <h3>${u.taxonomicStatus!} ${u.nomenclaturalStatus!}</h3>
+          <h3>${u.taxonomicStatus!} <@common.renderNomStatusList u.nomenclaturalStatus /></h3>
           <h2>
             <a href="<@s.url value='/species/${u.key?c}'/>"><strong>${u.scientificName}</strong></a>
             <span class="note"><@s.text name='enum.rank.${u.rank!"UNKNOWN"}'/></span>

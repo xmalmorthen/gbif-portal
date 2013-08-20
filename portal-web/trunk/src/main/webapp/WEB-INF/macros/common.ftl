@@ -235,3 +235,8 @@
   <#if member.city?has_content>${member.city}<#if member.country?has_content>, </#if></#if>
   <#if member.country?has_content>${member.country.title}</#if>
 </#macro>
+
+<#macro renderNomStatusList nomStatusList>
+  <#list nomStatusList as ns><#if ns.abbreviated?has_content>${ns.abbreviated}<#else>${ns?replace("_", " ")?lower_case}</#if><#if ns_has_next>, </#if></#list>
+</#macro>
+

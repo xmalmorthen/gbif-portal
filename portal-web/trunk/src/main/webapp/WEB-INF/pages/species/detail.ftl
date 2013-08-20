@@ -247,7 +247,7 @@
 
     <#if usage.nomenclaturalStatus?has_content>
       <h3>Nomenclatural Status</h3>
-      <p><#list usage.nomenclaturalStatus as ns>${ns?replace("_", " ")?lower_case}<#if ns_has_next>, </#if></#list></p>
+      <p><@common.renderNomStatusList usage.nomenclaturalStatus /></p>
     </#if>
 
     <#if usage.isExtinct()??>

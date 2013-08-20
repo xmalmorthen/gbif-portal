@@ -28,32 +28,37 @@
       </div>
 
       <div class="fullwidth">
-      <#list page.results as item>
-        <div class="result">
-          <h2><strong><#if item.country??>${item.country.title}</#if> ${item.locality!} ${item.locationId!}</strong>
-            <span class="note"><@s.text name='enum.occurrencestatus.${item.status!"PRESENT"}'/>
-              <#if item.establishmentMeans??>, <@s.text name='enum.establishmentmeans.${item.establishmentMeans}'/></#if>
-            </span>
-          </h2>
-          <div class="footer">
-            <#if item.lifeStage?? || item.temporal?? || item.startDayOfYear?? || item.endDayOfYear??>
-              <p>
-                ${item.lifeStage!} ${item.temporal!}
-                <#if item.startDayOfYear?? || item.endDayOfYear??>Days of the year: ${item.startDayOfYear!}-${item.endDayOfYear!}</#if>
-              </p>
-            </#if>
-            <#if item.threatStatus?? || item.appendixCites??>
-              <p>
-              <#if item.threatStatus??><@s.text name="enum.threatstatus.${item.threatStatus}"/></#if>
-              <#if item.appendixCites??>Cites: ${item.appendixCites}</#if>
-              </p>
-            </#if>
-            <#if usage.nub>
-              <p>Source: <a href='<@s.url value='/species/${item.usageKey?c}'/>'>${(datasets.get(item.datasetKey).title)!"???"}</a></p>
-            </#if>
-          </div>
-        </div>
-      </#list>
+          <#if page.results?has_content>
+            <#list page.results as item>
+              <div class="result">
+                <h2><strong><#if item.country??>${item.country.title}: </#if>${item.locality!} ${item.locationId!}</strong>
+                  <span class="note">
+                    <@s.text name='enum.occurrencestatus.${item.status!"PRESENT"}'/><#if item.establishmentMeans??>, <@s.text name='enum.establishmentmeans.${item.establishmentMeans}'/></#if>
+                  </span>
+                </h2>
+                <div class="footer">
+                  <#if item.lifeStage?? || item.temporal?? || item.startDayOfYear?? || item.endDayOfYear??>
+                    <p>
+                      ${item.lifeStage!} ${item.temporal!}
+                      <#if item.startDayOfYear?? || item.endDayOfYear??>Days of the year: ${item.startDayOfYear!}-${item.endDayOfYear!}</#if>
+                    </p>
+                  </#if>
+                  <#if item.threatStatus?? || item.appendixCites??>
+                    <p>
+                    <#if item.threatStatus??><@s.text name="enum.threatstatus.${item.threatStatus}"/></#if>
+                    <#if item.appendixCites??>Cites: ${item.appendixCites}</#if>
+                    </p>
+                  </#if>
+                  <#if usage.nub>
+                    <p>Source: <a href='<@s.url value='/species/${item.usageKey?c}'/>'>${(datasets.get(item.datasetKey).title)!"???"}</a></p>
+                  </#if>
+                </div>
+              </div>
+            </#list>
+          <#else>
+            <h3>None</h3>
+            <p>&nbsp;</p>
+          </#if>
 
         <div class="footer">
         <@paging.pagination page=page url=currentUrlWithoutPage/>
