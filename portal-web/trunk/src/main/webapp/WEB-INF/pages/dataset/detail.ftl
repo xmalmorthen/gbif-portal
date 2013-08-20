@@ -108,9 +108,9 @@
 
 <#assign type="dataset"/>
 
-  <#if dataset.logoURL?has_content>
+  <#if dataset.logoUrl?has_content>
     <div class="logo_holder">
-      <img src="<@s.url value='${dataset.logoURL}'/>"/>
+      <img src="<@s.url value='${dataset.logoUrl}'/>"/>
     </div>
   </#if>
 
