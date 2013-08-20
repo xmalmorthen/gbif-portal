@@ -31,9 +31,9 @@
 </div>
 
 <div class="right">
-  <#if member.logoURL?has_content>
+  <#if member.logoUrl?has_content>
     <div class="logo_holder">
-      <img src="${member.logoURL}"/>
+      <img src="<@s.url value='${member.logoUrl}'/>"/>
     </div>
   </#if>
 
