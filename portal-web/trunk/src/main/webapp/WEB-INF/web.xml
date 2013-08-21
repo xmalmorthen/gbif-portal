@@ -30,7 +30,7 @@
   <!--  Correct the mapping for the font which some browsers do not recognise -->
   <mime-mapping>
     <extension>woff</extension>
-    <mime-type>application/x-font-woff</mime-type>
+    <mime-type>application/font-woff</mime-type>
   </mime-mapping>
   <mime-mapping>
     <extension>ttf</extension>
