@@ -47,6 +47,9 @@ var EQ = "eq";
 
 var DEFAULT_SHAPE_OPTIONS = {color:"#f06eaa",weight:4};
 
+//Default limit to all auto-complete widgets
+var SUGGEST_LIMIT = 10;
+
 //This is needed as a nasty way to address http://dev.gbif.org/issues/browse/POR-365
 //The map is not correctly displayed, and requires a map.invalidateSize(); to be fired
 //After the filter div is rendered.  Because of this the map scope is public.
@@ -1698,7 +1701,7 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindSpeciesAutosuggest: function(){
         $(':input.species_autosuggest').each( function(idx,el){
-          $(el).speciesAutosuggest(cfg.wsClbSuggest, 4, "#nubTaxonomyKey[value]", "#content",buildOnSelectHandler('TAXON_KEY',el));
+          $(el).speciesAutosuggest(cfg.wsClbSuggest, SUGGEST_LIMIT, "#nubTaxonomyKey[value]", "#content",buildOnSelectHandler('TAXON_KEY',el));
         });   
       },
 
@@ -1717,7 +1720,7 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindDatasetAutosuggest: function(){        
         $(':input.dataset_autosuggest').each( function(idx,el){
-          $(el).datasetAutosuggest(cfg.wsRegSuggest, 6, 70, "#content", buildOnSelectHandler('DATASET_KEY',el),'OCCURRENCE');
+          $(el).datasetAutosuggest(cfg.wsRegSuggest, SUGGEST_LIMIT, 70, "#content", buildOnSelectHandler('DATASET_KEY',el),'OCCURRENCE');
         });   
       },
 
@@ -1726,7 +1729,7 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindCollectorNameAutosuggest : function(){        
         $(':input.collector_name_autosuggest').each( function(idx,el){
-          $(el).termsAutosuggest(cfg.wsOccCollectorNameSearch, "#content",4,buildOnSelectHandler('COLLECTOR_NAME',el));
+          $(el).termsAutosuggest(cfg.wsOccCollectorNameSearch, "#content",SUGGEST_LIMIT,buildOnSelectHandler('COLLECTOR_NAME',el));
         });        
       },
 
@@ -1735,7 +1738,7 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindCatalogNumberAutosuggest : function(){                
         $(':input.catalog_number_autosuggest').each( function(idx,el){
-          $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",4, buildOnSelectHandler('CATALOG_NUMBER',el));
+          $(el).termsAutosuggest(cfg.wsOccCatalogNumberSearch, "#content",SUGGEST_LIMIT, buildOnSelectHandler('CATALOG_NUMBER',el));
         });
       },  
 
@@ -1744,7 +1747,7 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindInstitutionCodeAutosuggest : function(){                
         $(':input.institution_code_autosuggest').each( function(idx,el){
-          $(el).termsAutosuggest(cfg.wsOccInstitutionCodeSearch, "#content",4, buildOnSelectHandler('INSTITUTION_CODE',el));
+          $(el).termsAutosuggest(cfg.wsOccInstitutionCodeSearch, "#content",SUGGEST_LIMIT, buildOnSelectHandler('INSTITUTION_CODE',el));
         });
       },  
 
@@ -1753,7 +1756,7 @@ var OccurrenceWidgetManager = (function ($,_) {
        */
       bindCollectionCodeAutosuggest : function(){                
         $(':input.collection_code_autosuggest').each( function(idx,el){
-          $(el).termsAutosuggest(cfg.wsOccCollectionCodeSearch, "#content",4, buildOnSelectHandler('COLLECTION_CODE',el));
+          $(el).termsAutosuggest(cfg.wsOccCollectionCodeSearch, "#content",SUGGEST_LIMIT, buildOnSelectHandler('COLLECTION_CODE',el));
         });
       },  
 
