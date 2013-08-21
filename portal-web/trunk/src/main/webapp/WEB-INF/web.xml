@@ -11,6 +11,8 @@
   <session-config>
     <session-timeout>-1</session-timeout>
   </session-config>
+  
+  
 
   <!-- The Guice configuration -->
   <listener>
@@ -24,4 +26,22 @@
     <filter-name>guice</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  
+  <!--  Correct the mapping for the font which some browsers do not recognise -->
+  <mime-mapping>
+    <extension>woff</extension>
+    <mime-type>font/woff</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>ttf</extension>
+    <mime-type>font/ttf</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>eot</extension>
+    <mime-type>font/eot</mime-type>
+  </mime-mapping>
+  <mime-mapping>
+    <extension>otf</extension>
+    <mime-type>font/otf</mime-type>
+  </mime-mapping>
 </web-app>
