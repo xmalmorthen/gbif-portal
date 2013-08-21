@@ -777,15 +777,11 @@ html.gecko #content{
         p {
           a { text-decoration: none; }
 
-          -ms-word-break: break-all;
-          word-break: break-all;
-
-          // Non standard for webkit
-          word-break: break-word;
-
-          -webkit-hyphens: auto;
-          -moz-hyphens: auto;
-          hyphens: auto;
+          // we dont want words to break automatically with or without a hyphen
+          // http://stackoverflow.com/questions/15261605/how-to-use-automatic-css-hyphens-with-word-break-break-all
+          word-break: normal;
+          // this allows only very, very long words to break that take up the whole line by themselves
+          word-wrap: break-word;
         }
 
         ul.taxonomy {
