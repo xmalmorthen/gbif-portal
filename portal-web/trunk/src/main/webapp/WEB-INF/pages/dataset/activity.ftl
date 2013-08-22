@@ -10,26 +10,21 @@
   <#assign tab="activity"/>
   <#include "/WEB-INF/pages/dataset/inc/infoband.ftl">
 
-  <@common.article id="activity" title="${action.getResponse().getCount()} dataset downloads">
+  <#assign downloadTitle="${action.getResponse().getCount()} download event${(action.getResponse().getCount() == 1)?string('','s')}"/>
+  <@common.article id="activity" title="${downloadTitle}">    
       <div class="fullwidth">
         <#if action.getResponse().getCount() gt 0>
           <table class='table table-bordered table-striped'>
             <thead>
-            <tr>              
-              <th width="9%">Download</th>
-              <th width="9%">Filter</th>
-              <th width="9%">Creator</th>
-              <th width="9%">Date</th>
-              <th width="9%">Status</th>
+            <tr>                            
+              <th width="9%">Filter</th>              
+              <th width="9%">Date</th>              
               <th width="9%" class='total'># of records</th>
             </tr>    
             </thead>      
             <tbody>
               <#list action.getResponse().getResults()  as downloadUsage>
-                <tr>
-                  <td>
-                    ${downloadUsage.getDownload().getKey()}                             
-                  </td>
+                <tr>                  
                   <td>
                     <#assign filterMap=action.toHumanReadable(downloadUsage.download.request.predicate)!""/>                                       
                     <table class="table table-bordered table-striped">
@@ -47,23 +42,10 @@
                         </tr>
                     </#if>
                     </table>                    
-                  </td>
-                  <td>
-                    ${downloadUsage.download.request.creator}
-                  </td>
+                  </td>                  
                   <td>
                     ${downloadUsage.download.created?date}
-                  </td>
-                  <td>
-                    ${downloadUsage.download.status}
-                    <br/>
-                    <#if downloadUsage.getDownload().isAvailable()>
-                      <div style="font-size:11px;">
-                        <!-- cfg.wsOccDownload is not public, but needed for authentication. Therefore wsOccDownloadForPublicLink was created which is public -->
-                        Ready for <a href="${cfg.wsOccDownloadForPublicLink}occurrence/download/${downloadUsage.getDownload().getKey()}.zip">download</a> since ${downloadUsage.getDownload().getModified()?datetime?string.short_medium}
-                      </div>                    
-                    </#if>
-                  </td>
+                  </td>                  
                   <td>
                     ${downloadUsage.numberRecords?c}
                   </td>
