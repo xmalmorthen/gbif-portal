@@ -122,10 +122,18 @@
          <p>Percentage of name usages also found in the <a href="<@s.url value='/dataset/${nubKey}'/>">GBIF Backbone</a>.</p>
          <div id="pieNub"></div>
        </li>
-       <li class="last"><h3>CATALOGUE OF LIFE</h3>
-           <p>Percentage of name usages also found in the <a href="<@s.url value='/dataset/${colKey}'/>">Catalogue of Life</a>.</p>
+       <li><h3>CATALOGUE OF LIFE</h3>
+         <p>Percentage of name usages also found in the <a href="<@s.url value='/dataset/${colKey}'/>">Catalogue of Life</a>.</p>
          <div id="pieCol"></div>
        </li>
+        <li class="last"><h3>UNIQUE NAMES</h3>
+          <p>There are ${metrics.distinctNamesCount} unique names in this dataset
+          <#if metrics.distinctNamesCount gt 0>
+            which means that on average ${100 * (metrics.usagesCount - metrics.distinctNamesCount) / metrics.distinctNamesCount}%
+            of the names are found in more than one taxon.
+          </#if>.
+          </p>
+        </li>
      </ul>
 </div>
 </@common.article>
