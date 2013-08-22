@@ -20,6 +20,7 @@ import org.gbif.api.vocabulary.Extension;
 import org.gbif.api.vocabulary.Kingdom;
 import org.gbif.api.vocabulary.Rank;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -149,8 +150,10 @@ public class DetailAction extends DatasetBaseAction {
   /**
    * Exposed to allow easy access in freemarker.
    */
-  public List<Rank> getRankEnum() {
-    return Rank.LINNEAN_RANKS;
+  public List<Rank> getSortedMetricRanks() {
+    List<Rank> sortedRanks = Lists.newArrayList(metrics.getCountByRank().keySet());
+    Collections.sort(sortedRanks);
+    return sortedRanks;
   }
 
   @NotNull

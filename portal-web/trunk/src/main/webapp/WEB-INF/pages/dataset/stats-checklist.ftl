@@ -101,9 +101,10 @@
          <#if metrics.countByRank?has_content>
            <div id="ranks" class="pieMultiLegend">
              <ul>
-               <#list rankEnum as k>
-                 <#if metrics.countByRank(k)?has_content>
-                   <li><a href="<@s.url value='/species/search?dataset_key=${id}&rank=${k}'/>"><@s.text name="enum.rank.${k}"/> <span class="number" data-cnt="${(metrics.countByRank(k)!0)?c}">${metrics.countByRank(k)!0}</span></a></li>
+               <#list sortedMetricRanks as r>
+                 <#if metrics.countByRank(r) gt 0>
+                 <#assign cnt = metrics.countByRank(r)!0 />
+                   <li><a href="<@s.url value='/species/search?dataset_key=${id}&rank=${r}'/>"><@s.text name="enum.rank.${r}"/> <span class="number" data-cnt="${cnt?c}">${cnt}</span></a></li>
                  </#if>
                </#list>
              </ul>
