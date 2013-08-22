@@ -17,6 +17,13 @@
     </div>
   </div>
 
+
+  <@common.notice title="Named Area Identifiers">
+    <p>
+      Geographical distributions are currently not interpreted, but many area identifiers used <br/>
+      should follow the <a href="http://rs.gbif.org/areas/">Named Area Standards</a> recommended by GBIF to publishers.
+    </p>
+  </@common.notice>
   <article class="results">
     <header></header>
     <div class="content">
@@ -28,6 +35,7 @@
       </div>
 
       <div class="fullwidth">
+
           <#if page.results?has_content>
             <#list page.results as item>
               <div class="result">
