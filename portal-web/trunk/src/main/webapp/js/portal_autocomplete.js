@@ -33,9 +33,11 @@ $.fn.countryAutosuggest = function(countryList,appendToElement, onSelectEventHan
     create: function(event, ui) {
       //forcibly css classes are removed because of conflicts between existing styles and jquery ui styles
       $(".ui-autocomplete").removeClass("ui-widget-content ui-corner-all");
+      $(".ui-autocomplete").css("z-index",1000);
     },
     open: function(event, ui) {
       $('.ui-autocomplete.ui-menu').addClass('autocomplete');
+      $(".ui-autocomplete").css("z-index",1000);
     },
     appendTo: appendToElement,
     focus: function( event, ui ) {//on focus: sets the value of the input[text] element
@@ -98,6 +100,11 @@ $.fn.datasetAutosuggest = function(wsSuggestUrl, limit, maxLength, appendToEleme
     create: function(event, ui) {
       //forcibly css classes are removed because of conflicts between existing styles and jquery ui styles
       $(".ui-autocomplete").removeClass("ui-widget-content ui-corner-all");
+      $(".ui-autocomplete").css("z-index",1000);
+    },
+    open: function(event, ui) {
+      //a high z-index ensures that the autocomplete will be "always" visible on top of other elements
+      $(".ui-autocomplete").css("z-index",1000);
     },
     appendTo: appendToElement,
     focus: function( event, ui ) {//on focus: sets the value of the input[text] element
@@ -176,6 +183,11 @@ $.fn.speciesAutosuggest = function(wsServiceUrl,limit,chklstKeysElementsSelector
     create: function(event, ui) {
       //forcibly css classes are removed because of conflicts between existing styles and jquery ui styles
       $(".ui-autocomplete").removeClass("ui-widget-content ui-corner-all");
+      $(".ui-autocomplete").css("z-index",1000);
+    },
+    open: function(event, ui) {
+      //a high z-index ensures that the autocomplete will be "always" visible on top of other elements
+      $(".ui-autocomplete").css("z-index",1000);
     },
     appendTo: appendToElement,
     focus: function( event, ui ) {//on focus: sets the value of the input[text] element
