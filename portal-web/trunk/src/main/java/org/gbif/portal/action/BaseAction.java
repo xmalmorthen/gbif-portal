@@ -5,6 +5,7 @@ import org.gbif.portal.config.Config;
 import org.gbif.portal.config.Constants;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -19,6 +20,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionSupport;
+import org.apache.http.client.utils.URIUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.util.ServletContextAware;
@@ -100,6 +102,23 @@ public abstract class BaseAction extends ActionSupport
     return getCurrentUrl(true);
   }
 
+  /**
+   * Used by the drupal login destination parameter which expects a relative URL of the current page.
+   * We need to remove any scheme, host or port information and also the root slash.
+   */
+  public String getCurrentDestinationParam() {
+    String url = getCurrentUrl();
+    try {
+      URI u = URI.create(url);
+      return URIUtils.rewriteURI(u, null).toString().substring(1);
+
+    } catch (Exception e) {
+      LOG.warn("Cannot produce the login destination URL for {}", url);
+      // return root if we ever should encounter an invalid URI
+      return "/";
+    }
+  }
+
   private String getCurrentUrl(boolean removePagingParams) {
     StringBuffer currentUrl = request.getRequestURL();
 
@@ -128,8 +147,6 @@ public abstract class BaseAction extends ActionSupport
     }
     return currentUrl.toString();
   }
-
-
 
   /**
    * @return the currently logged in user.
