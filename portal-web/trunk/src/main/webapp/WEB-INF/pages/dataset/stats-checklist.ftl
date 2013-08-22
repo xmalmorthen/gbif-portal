@@ -115,27 +115,29 @@
 
  </@common.article>
 
-  <@common.article id="overlap" title="Checklist Overlap">
-<div class="fullwidth">
+ <@common.article id="overlap" title="Checklist Overlap" titleRight="Names">
+<div class="left">
     <ul class="pies">
        <li><h3>GBIF BACKBONE</h3>
          <p>Percentage of name usages also found in the <a href="<@s.url value='/dataset/${nubKey}'/>">GBIF Backbone</a>.</p>
          <div id="pieNub"></div>
        </li>
-       <li><h3>CATALOGUE OF LIFE</h3>
+       <li class="last"><h3>CATALOGUE OF LIFE</h3>
          <p>Percentage of name usages also found in the <a href="<@s.url value='/dataset/${colKey}'/>">Catalogue of Life</a>.</p>
          <div id="pieCol"></div>
        </li>
-        <li class="last"><h3>UNIQUE NAMES</h3>
-          <p>There are ${metrics.distinctNamesCount} unique names in this dataset
-          <#if metrics.distinctNamesCount gt 0>
-            which means that on average ${100 * (metrics.usagesCount - metrics.distinctNamesCount) / metrics.distinctNamesCount}%
-            of the names are found in more than one taxon.
-          </#if>.
-          </p>
-        </li>
      </ul>
 </div>
+<div class="right">
+  <h3>UNIQUE NAMES</h3>
+  <p>There are ${metrics.distinctNamesCount} unique names in this dataset.
+  <#if metrics.distinctNamesCount gt 0>
+    On average ${100 * (metrics.usagesCount - metrics.distinctNamesCount) / metrics.distinctNamesCount}%
+    of the names are found in more than one taxon.
+  </#if>
+  </p>
+</div>
+
 </@common.article>
 
   <#if metrics.countNamesByLanguage?has_content>
