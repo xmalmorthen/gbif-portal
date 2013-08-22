@@ -18,7 +18,7 @@
   <properties>
     <bonecp.version>0.7.1.RELEASE</bonecp.version>
     <gbif-common.version>0.12</gbif-common.version>
-    <gbif-api.version>0.5-SNAPSHOT</gbif-api.version>
+    <gbif-api.version>0.5</gbif-api.version>
     <gbif-common-mybatis.version>0.6</gbif-common-mybatis.version>
     <gbif-common-service.version>0.5</gbif-common-service.version>
     <gbif-common-test.version>0.5</gbif-common-test.version>
