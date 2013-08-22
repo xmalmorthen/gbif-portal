@@ -53,7 +53,7 @@
 
         <#if node.homepage?has_content>
           <h3>Website</h3>
-          <p><a href="${node.homepage}">${node.homepage}</a></p>
+          <p><a href="${node.homepage}" target="_blank">${node.homepage}</a></p>
         </#if>
       </#if>
     </div>

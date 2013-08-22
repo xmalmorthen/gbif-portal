@@ -42,13 +42,7 @@
 
   <#if member.homepage?has_content>
     <h3>Website</h3>
-    <#-- If the URL doesn't begin with a protocol like http, a link such as www.wii.gov.in will be interpreted as a relative path and resolve to http://uat.gbif.org/publisher/www.wii.gov.in -->
-    <#-- Simple fix: append protocol to beginning of link -->
-    <#if member.homepage?starts_with("http")>
-        <p><a href="${member.homepage}">${member.homepage}</a></p>
-    <#else>
-        <p><a href="http://${member.homepage}">${member.homepage}</a></p>
-    </#if>
+    <p><a href="${member.homepage}" target="_blank">${member.homepage}</a></p>
   </#if>
 
   ${extraRight!}
