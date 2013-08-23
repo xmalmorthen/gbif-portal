@@ -111,18 +111,21 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
   protected void renderTileCubeAsJson(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     resp.setHeader("Content-Type", "application/json");
     resp.setHeader("Content-Encoding", "gzip");
-    GZIPOutputStream os = new GZIPOutputStream(resp.getOutputStream());
+    
     try {
       Optional<DensityTile> tile = getTile(req, DensityCube.INSTANCE);
       if (tile.isPresent()) {
         final TimerContext context = tcJsonRenderTimer.time();
         try {
+          GZIPOutputStream os = new GZIPOutputStream(resp.getOutputStream());
           TileCubesWriter.jsonNotation(tile.get(), os);
+          os.flush();
+          
         } finally {
           context.stop();
         }
       } else {
-        os.write(TileCubesWriter.EMPTY_TILE_CUBE);
+        resp.getOutputStream().write(TileCubesWriter.EMPTY_TILE_CUBE);
       }
     } catch (IllegalArgumentException e) {
       // If we couldn't get the content from the request
@@ -131,9 +134,7 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
       // We are unable to get or render the tile
       resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Tile server is out of action, please try later");
     } finally {
-      os.flush();
       resp.flushBuffer();
     }
-    
   }  
 }
