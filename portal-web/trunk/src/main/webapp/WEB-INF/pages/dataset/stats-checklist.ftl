@@ -40,6 +40,7 @@
               </#list>
 
             <#if metrics.countNamesByLanguage?has_content>
+              <#-- assumes they are sorted by size -->
               var maxVernacular = ${metrics.countNamesByLanguage?values[0]?c};
               console.debug("maxVernacular: " + maxVernacular);
               // max 400px

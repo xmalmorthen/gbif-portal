@@ -277,6 +277,13 @@
     </#if>
 
   </div>
+
+  <#if usage.remarks?has_content>
+    <div>
+      <h3>Remarks</h3>
+      <p>${usage.remarks}</p>
+    </div>
+  </#if>
 </div>
 
 <#-- Keep first image with url -->
