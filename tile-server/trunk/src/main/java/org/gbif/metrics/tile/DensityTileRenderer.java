@@ -110,13 +110,13 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
   
   protected void renderTileCubeAsJson(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     resp.setHeader("Content-Type", "application/json");
-    resp.setHeader("Content-Encoding", "gzip");
     
     try {
       Optional<DensityTile> tile = getTile(req, DensityCube.INSTANCE);
       if (tile.isPresent()) {
         final TimerContext context = tcJsonRenderTimer.time();
         try {
+          resp.setHeader("Content-Encoding", "gzip");
           GZIPOutputStream os = new GZIPOutputStream(resp.getOutputStream());
           TileCubesWriter.jsonNotation(tile.get(), os);
           os.flush();
