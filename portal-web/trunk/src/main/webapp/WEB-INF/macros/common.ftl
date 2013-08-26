@@ -101,7 +101,7 @@
     <span>${address.province}</span>
   </#if>
 
-  <#if address.country?has_content>
+  <#if address.country?has_content && address.country != 'UNKNOWN'>
     <span>${address.country.title}</span>
   </#if>
 
