@@ -57,11 +57,14 @@
     <li<#if (tab!"")=="info"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/species/${id?c}'/>" title="Information"><span>Information</span></a>
     </li>
+    <#--
+    NOT IMPLEMENTED YET
     <li<#if (tab!"")=="activity"> class='selected ${hl!}'</#if>>
       <a href="#" title="Activity"><span>Activity</span></a>
     </li>
     <li<#if (tab!"")=="stats"> class='selected ${hl!}'</#if>>
       <a href="#" title="Stats"><span>Stats</span></a>
     </li>
+    -->
   </ul>
 </content>
