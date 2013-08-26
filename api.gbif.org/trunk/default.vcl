@@ -79,18 +79,19 @@ sub vcl_recv {
       error 404 "GBIF Webservices are hosted at http://api.gbif.org/";
     }
 
-    # a known drupal path?
-    if ( req.url ~ "^/(newsroom|page|sites|misc|modules)" || (req.url ~ "^/user" && !req.url ~ "^/user/(downloads|namelist|cancel)") || req.url ~ "^/?$") {
-      set req.http.host="drupallive.gbif.org";
-      set req.backend = drupal;
-
-    } else {
+    # catch known java app paths
+    if ( req.url ~ "^/(dataset|occurrence|species|member|node|network|publisher|developer|country|cfg|css|fonts|img|js|favicon)" || (req.url ~ "^/user/(downloads|namelist|cancel)")) {
       set req.backend = jawa;
       set req.url = regsub(req.url, "^/", "/portal/");
+
+    } else {
+      # pass to drupal by default
+      set req.http.host="drupallive.gbif.org";
+      set req.backend = drupal;
     }
 
     # PORTAL - ONLY CACHE STATIC FILES !!!
-    if ( req.url ~ "^/(img|js|css|fonts|sites|misc|modules)" ) {
+    if ( req.url ~ "^/(cfg|css|fonts|img|js|favicon|sites|misc|modules)" ) {
       return (lookup);
     } else {
       return (pass);
