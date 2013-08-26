@@ -1,4 +1,9 @@
 # /etc/varnish/maintenance.vcl 
+# Usage see http://www.pjlewis.org/using-varnish-to-set-a-maintenance-page-on-your-website/
+#
+# varnishadm vcl.load maintenance_mode /etc/varnish/maintenance.vcl
+# varnishadm vcl.use maintenance_mode
+#
 backend default {
   .host = "130.226.238.148";    
   .port = "8080";   
