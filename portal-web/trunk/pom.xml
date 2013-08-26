@@ -25,7 +25,7 @@
 
   <groupId>org.gbif</groupId>
   <artifactId>portal-web</artifactId>
-  <version>0.5</version>
+  <version>0.5-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <name>GBIF Portal</name>
@@ -84,9 +84,9 @@
   </properties>
 
   <scm>
-    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/portal-web/tags/portal-web-0.5</connection>
-    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/portal-web/tags/portal-web-0.5</developerConnection>
-    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/portal-web/tags/portal-web-0.5</url>
+    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/portal-web/trunk</connection>
+    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/portal-web/trunk</developerConnection>
+    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/portal-web/trunk</url>
   </scm>
 
   <distributionManagement>
