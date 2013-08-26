@@ -88,6 +88,7 @@
     </a>
 
     <nav>
+
       <ul>
         <li>
           <a href="#" title="Data">Data</a>
@@ -99,9 +100,9 @@
               <li><a href="<@s.url value='/species'/>"><@s.text name="menu.species"/></a></li>
               <li><a href="<@s.url value='/country'/>"><@s.text name="menu.country"/></a></li>
               <li class="divider"></li>
-              <li><a class="placeholder_temp" href="#">Publishing data</a></li>
-              <li><a class="placeholder_temp" href="#">Using data</a></li>
-              <li><a class="placeholder_temp" href="#">Infrastructure</a></li>
+              <li><a href="${cfg.drupal}/publishingdata/summary">Publishing data</a></li>
+              <li><a href="${cfg.drupal}/usingdata/summary">Using data</a></li>
+              <li><a href="${cfg.drupal}/infrastructure/summary">Infrastructure</a></li>
             </ul>
           </div>
         </li>
@@ -111,25 +112,25 @@
           <div class="about">
             <a href="#"></a>
             <ul>
-              <li><a class="placeholder_temp" href="#">What is GBIF?</a></li>
-              <li><a class="placeholder_temp" href="#">Key information</a></li>
-              <li><a class="placeholder_temp" href="#">Governance</a></li>
-              <li><a class="placeholder_temp" href="#">Who we work with</a></li>
-              <li><a class="placeholder_temp" href="#">Contact us</a></li>
+              <li><a href="${cfg.drupal}/whatisgbif">What is GBIF?</a></li>
+              <li><a href="${cfg.drupal}/resources/keyinformation">Key information</a></li>
+              <li><a href="${cfg.drupal}/governance/summary">Governance</a></li>
+              <li><a href="${cfg.drupal}/whoweworkwith">Who we work with</a></li>
+              <li><a href="${cfg.drupal}/contact/contactus">Contact us</a></li>
             </ul>
           </div>
         </li>
 
 
-        <li>
+       <li>
           <a href="#" title="Community">Community</a>
           <div class="community">
             <a href="#"></a>
             <ul>
-                <li><a class="placeholder_temp" href="#">Participation</a></li>
-                <li><a class="placeholder_temp" href="#">Training/Capacity</a></li>
-                <li><a class="placeholder_temp" href="#">Networking</a></li>
-                <li><a class="placeholder_temp" href="#">Resources</a></li>
+                <li><a href="${cfg.drupal}/participation/summary">Participation</a></li>
+                <li><a href="${cfg.drupal}/capacityenhancement/summary">Capacity enhancement</a></li>
+                <li><a href="${cfg.drupal}/networking/nlink1">Networking</a></li>
+                <li><a href="${cfg.drupal}/resources/summary">Resources</a></li>
             </ul>
           </div>
         </li>
@@ -145,7 +146,6 @@
             <li><a href="${cfg.drupal}/newsroom/uses">Featured data use</a></li>
             <li><a href="${cfg.drupal}/newsroom/opportunities">Opportunities</a></li>
             <li><a href="${cfg.drupal}/newsroom/events">Events</a></li>
-            <li><a class="placeholder_temp" href="#">GBIF in the news</a></li>
           </ul>
         </div>
 
@@ -160,7 +160,8 @@
         </form>
         </li>
       </ul>
-      </nav>
+
+    </nav>
     </div>
   </div>
   <!-- /top -->
