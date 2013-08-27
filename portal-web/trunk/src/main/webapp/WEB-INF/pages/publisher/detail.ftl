@@ -18,7 +18,7 @@
 </@common.article>
 
 <#if page.results?has_content>
-<@common.article id="datasets" title="Published Datasets">
+<@common.article id="datasets" title="Published datasets">
   <div class="left">
       <ul class="notes">
         <#list page.results as d>

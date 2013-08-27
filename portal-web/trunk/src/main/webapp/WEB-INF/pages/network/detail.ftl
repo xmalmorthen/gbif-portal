@@ -8,7 +8,7 @@
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
-<@common.article id="information" title="Network Information">
+<@common.article id="information" title="Network information">
   <#include "/WEB-INF/pages/member/inc/basics.ftl">
 </@common.article>
 

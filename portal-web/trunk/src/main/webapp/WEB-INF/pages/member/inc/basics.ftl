@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 
 <div class="left">
-    <h3>Full Title</h3>
+    <h3>Full title</h3>
     <p>${member.title}</p>
 
   <#if member.description?has_content>
@@ -10,7 +10,7 @@
   </#if>
 
   <#if member.metadataLanguage?has_content>
-  <h3>Language of Metadata</h3>
+  <h3>Language of metadata</h3>
   <p>${member.metadataLanguage}</p>
   </#if>
 

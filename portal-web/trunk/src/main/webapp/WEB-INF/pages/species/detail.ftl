@@ -224,7 +224,7 @@
   </div>
 
   <div class="col">
-    <h3>Taxonomic Status</h3>
+    <h3>Taxonomic status</h3>
     <p>
       <@s.text name="enum.taxstatus.${usage.taxonomicStatus!'UNKNOWN'}"/>
 
@@ -236,22 +236,22 @@
     </p>
 
     <#if usage.publishedIn?has_content>
-      <h3>Published In</h3>
+      <h3>Published in</h3>
       <p>${usage.publishedIn}</p>
     </#if>
 
     <#if basionym?has_content>
-      <h3>Original Name</h3>
+      <h3>Original name</h3>
       <p><a href="<@s.url value='/species/${basionym.key?c}'/>">${basionym.scientificName}</a></p>
     </#if>
 
     <#if usage.nomenclaturalStatus?has_content>
-      <h3>Nomenclatural Status</h3>
+      <h3>Nomenclatural status</h3>
       <p><@common.renderNomStatusList usage.nomenclaturalStatus /></p>
     </#if>
 
     <#if usage.isExtinct()??>
-      <h3>Extinction Status</h3>
+      <h3>Extinction status</h3>
       <#if usage.isExtinct()?string == "true">
         <p><@s.text name="species.extinctionstatus.extinct"/></p>
       <#else>
@@ -260,7 +260,7 @@
     </#if>
 
     <#if (usage.livingPeriods?size>0)>
-      <h3>Living Period</h3>
+      <h3>Living period</h3>
       <p><#list usage.livingPeriods as p>${p?cap_first}<#if p_has_next>; </#if></#list></p>
     </#if>
 
@@ -272,7 +272,7 @@
     </#if>
 
     <#if (usage.threatStatus?size>0)>
-      <h3>Threat Status</h3>
+      <h3>Threat status</h3>
       <p><#list usage.threatStatus as t><#if t?has_content><@s.text name="enum.threatstatus.${t}"/><#if t_has_next>; </#if></#if></#list></p>
     </#if>
 
@@ -300,7 +300,7 @@
     </div>
   </#if>
 
-  <h3>External Links</h3>
+  <h3>External links</h3>
   <ul>
   <#list usage.externalLinks as i>
     <#if i.title?has_content || (i.datasetKey?has_content && datasets.get(i.datasetKey)??)>
@@ -337,7 +337,7 @@
 </div>
 </@common.article>
 
-<@common.article id="taxonomy" title="Subordinate Taxa" titleRight="Classification" class="taxonomies">
+<@common.article id="taxonomy" title="Subordinate taxa" titleRight="Classification" class="taxonomies">
     <div class="left">
       <div id="taxonomicChildren">
         <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif" alt=""></div>
@@ -390,7 +390,7 @@
 
   <div class="content">
     <div class="header">
-      <div class="right"><h2>Georeferenced Occurrences</h2></div>
+      <div class="right"><h2>Georeferenced occurrences</h2></div>
     </div>
 	  <div class="right">
       <div class="inner">
@@ -416,7 +416,7 @@
 </article>
 <#else>
   <#if usage.distributions?has_content>
-  <@common.article id="distribution" title="Distribution Range">
+  <@common.article id="distribution" title="Distribution range">
     <div class="fullwidth">
       <ul class="notes">
         <#assign skipped=0/>

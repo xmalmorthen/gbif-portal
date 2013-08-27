@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>${usage.canonicalOrScientificName!} - Complete Classification</title>
+  <title>${usage.canonicalOrScientificName!} - complete classification</title>
 </head>
 
 <body class="species">
