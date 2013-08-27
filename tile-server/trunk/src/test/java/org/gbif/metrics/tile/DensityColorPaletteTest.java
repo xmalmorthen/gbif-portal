@@ -15,10 +15,10 @@ public class DensityColorPaletteTest {
   final static byte[] BLUE = new byte[] {(byte) 0x00, (byte) 0x00, (byte) 0xFF, (byte) 0xFF};
 
   static void assertSame(DensityColorPalette p, byte[] color, int count) {
-    assertEquals(p.red(count), color[0]);
-    assertEquals(p.green(count), color[1]);
-    assertEquals(p.blue(count), color[2]);
-    assertEquals(p.alpha(count), color[3]);
+    assertEquals(p.red(count, 0), color[0]);
+    assertEquals(p.green(count, 0), color[1]);
+    assertEquals(p.blue(count, 0), color[2]);
+    assertEquals(p.alpha(count, 0), color[3]);
   }
 
   // basic functionality check

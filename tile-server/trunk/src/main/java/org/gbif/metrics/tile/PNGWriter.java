@@ -16,6 +16,7 @@ import java.util.zip.DeflaterOutputStream;
 
 import com.google.common.collect.Maps;
 import com.google.common.io.Closeables;
+import com.google.common.io.Closer;
 
 /**
  * A highly optimized PNG tile writer for a DensityTile.
@@ -62,8 +63,9 @@ public class PNGWriter {
   // This has to come after the rest of the static initialized fields
   static {
     ByteArrayOutputStream baos = null;
+    Closer closer = Closer.create();
     try {
-      baos = new ByteArrayOutputStream();
+      baos = closer.register(new ByteArrayOutputStream());
       byte[] r = new byte[DensityTile.TILE_SIZE * DensityTile.TILE_SIZE];
       byte[] g = new byte[DensityTile.TILE_SIZE * DensityTile.TILE_SIZE];
       byte[] b = new byte[DensityTile.TILE_SIZE * DensityTile.TILE_SIZE];
@@ -73,8 +75,13 @@ public class PNGWriter {
     } catch (IOException e) {
       // This is not recoverable, and indicates catastrophe
       throw new RuntimeException("Unable to produce blank tile during initialization");
+      
     } finally {
-      Closeables.closeQuietly(baos);
+      try {
+        closer.close();
+      } catch (IOException e) {
+        throw new RuntimeException("Unable to close outputstream");
+      }
     }
   }
 
@@ -120,7 +127,7 @@ public class PNGWriter {
   /**
    * Writes the tile to the stream as a PNG.
    */
-  public static void write(DensityTile tile, OutputStream out, ColorPalette palette, Layer... layers)
+  public static void write(DensityTile tile, OutputStream out, int zoom, ColorPalette palette, Layer... layers)
     throws IOException {
     // don't waste time setting up PNG if no data
     if (tile != null && !tile.layers().isEmpty()) {
@@ -146,8 +153,8 @@ public class PNGWriter {
         for (int i = 0; i < tile.getClusterSize(); i++) {
           // paint the cells pixel by pixel
           for (int j = cellStart; j < cellStart + tile.getClusterSize(); j++) {
-            paint(r, g, b, a, palette.red(e.getValue()), palette.green(e.getValue()), palette.blue(e.getValue()),
-              palette.alpha(e.getValue()), j);
+            paint(r, g, b, a, palette.red(e.getValue(), zoom), palette.green(e.getValue(), zoom), palette.blue(e.getValue(), zoom),
+              palette.alpha(e.getValue(), zoom), j);
           }
           cellStart += DensityTile.TILE_SIZE;
         }

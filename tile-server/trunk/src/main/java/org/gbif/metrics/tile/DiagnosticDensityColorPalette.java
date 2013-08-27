@@ -12,22 +12,22 @@ public class DiagnosticDensityColorPalette implements ColorPalette {
   public static DiagnosticDensityColorPalette INSTANCE = new DiagnosticDensityColorPalette();
   
   @Override
-  public byte alpha(int count) {
+  public byte alpha(int count, int zoom) {
     return (byte) 0xff;
   }
 
   @Override
-  public byte red(int count) {
+  public byte red(int count, int zoom) {
     return (byte) (0xFF & count>>16);
   }
 
   @Override
-  public byte green(int count) {
+  public byte green(int count, int zoom) {
     return (byte) (0xFF & count>>8);
   }
 
   @Override
-  public byte blue(int count) {
+  public byte blue(int count, int zoom) {
     return (byte) (0xFF & count);
   }
 }

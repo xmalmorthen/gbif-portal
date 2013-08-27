@@ -28,11 +28,13 @@ import org.slf4j.LoggerFactory;
 /**
  * A simple tile rendering servlet that sources it's data from a data cube.
  */
+@SuppressWarnings("serial")
 @Singleton
-public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
+public class DensityTileRenderer extends CubeTileRenderer {
+  private static final Logger LOG = LoggerFactory.getLogger(DensityTileRenderer.class);
+
   private static final String TILE_CUBE_AS_JSON_SUFFIX = ".tcjson";
-  private final Logger LOG = LoggerFactory.getLogger(DensityTileRenderer.class);
-  private static final long serialVersionUID = 8681716273998041332L;
+
   // allow monitoring of cube lookup, rendering speed and the throughput per second
   private final Timer pngRenderTimer = Metrics.newTimer(DensityTileRenderer.class, "pngRenderDuration",
     TimeUnit.MILLISECONDS, TimeUnit.SECONDS);
@@ -48,8 +50,10 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     requests.mark();
+    // as a tile server, we support cross domain requests
     resp.setHeader("Access-Control-Allow-Origin", "*");
     resp.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Prototype-Version, X-CSRF-Token");
+    
     if (req.getRequestURI().endsWith(TILE_CUBE_AS_JSON_SUFFIX)) {
       renderTileCubeAsJson(req, resp);
     } else {
@@ -89,9 +93,17 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
             }
           } else if (req.getParameter("colors") != null) {
             p = DensityColorPaletteFactory.build(req.getParameter("colors"));
+          } else if (req.getParameter("saturation") != null) {
+            Float hue = extractFloat(req, "hue", false);
+            if (hue!=null) {
+              p = new HSBPalette(hue);
+            } else {
+              p = new HSBPalette();  
+            }
+            
           }
 
-          PNGWriter.write(tile.get(), resp.getOutputStream(), p, l.toArray(new Layer[] {}));
+          PNGWriter.write(tile.get(), resp.getOutputStream(), extractInt(req, REQ_Z, true), p, l.toArray(new Layer[] {}));
         } finally {
           context.stop();
         }
@@ -103,6 +115,7 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
       resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
     } catch (Exception e) {
       // We are unable to get or render the tile
+      LOG.error(e.getMessage(), e);
       resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Tile server is out of action, please try later");
     }
     resp.flushBuffer();
@@ -132,9 +145,10 @@ public class DensityTileRenderer extends CubeTileRenderer<DensityTile> {
       resp.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
     } catch (Exception e) {
       // We are unable to get or render the tile
+      LOG.error(e.getMessage(), e);
       resp.sendError(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Tile server is out of action, please try later");
     } finally {
       resp.flushBuffer();
     }
-  }  
+  }
 }

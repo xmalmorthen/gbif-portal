@@ -48,7 +48,7 @@ public class PNGWriterTest {
         new DensityColorPalette.Builder().add(new ColorRule(null, 10, RED)).add(new ColorRule(10, 100, GREEN))
           .add(new ColorRule(100, null, BLUE)).build();
 
-      PNGWriter.write(t, fos, p, Layer.OBS_NO_YEAR);
+      PNGWriter.write(t, fos, 0, p, Layer.OBS_NO_YEAR);
 
       fos.flush();
     } catch (Exception e) {

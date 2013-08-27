@@ -9,7 +9,6 @@ public class InMemoryTileModuleTest {
   @Test
   public void test() {
     InMemoryTileModule m = new InMemoryTileModule(InMemoryTileModuleTest.class.getResource("/us-sampled.csv.gz").getPath(), 1, 1);
-    assertNotNull(m.getPointCubeIO());
     assertNotNull(m.getDensityCubeIO());
   }
 }

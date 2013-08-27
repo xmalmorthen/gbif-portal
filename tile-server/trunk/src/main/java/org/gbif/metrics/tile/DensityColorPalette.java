@@ -105,11 +105,11 @@ public class DensityColorPalette implements ColorPalette {
     this.index = ImmutableMap.copyOf(index); // defensive copy
   }
 
-  public byte alpha(int count) {
+  public byte alpha(int count, int zoom) {
     return color(count)[3]; // rgbA
   }
 
-  public byte blue(int count) {
+  public byte blue(int count, int zoom) {
     return color(count)[2]; // rgBa
   }
 
@@ -125,12 +125,12 @@ public class DensityColorPalette implements ColorPalette {
       + "].  Perhaps you are missing 'catchall' rules for minimum and maximum?");
   }
 
-  public byte green(int count) {
+  public byte green(int count, int zoom) {
     return color(count)[1]; // rGba
   }
 
 
-  public byte red(int count) {
+  public byte red(int count, int zoom) {
     return color(count)[0]; // Rgba
   }
 }

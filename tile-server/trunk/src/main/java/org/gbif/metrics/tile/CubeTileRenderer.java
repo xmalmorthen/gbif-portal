@@ -4,19 +4,22 @@
 package org.gbif.metrics.tile;
 
 import org.gbif.metrics.cube.tile.density.DensityCube;
+import org.gbif.metrics.cube.tile.density.DensityTile;
 import org.gbif.metrics.cube.tile.io.TileContentType;
 
 import java.io.IOException;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
 import com.urbanairship.datacube.Address;
 import com.urbanairship.datacube.DataCube;
 import com.urbanairship.datacube.DataCubeIo;
-import com.urbanairship.datacube.Op;
 import com.urbanairship.datacube.ReadBuilder;
 import com.yammer.metrics.Metrics;
 import com.yammer.metrics.core.Timer;
@@ -28,27 +31,28 @@ import org.slf4j.LoggerFactory;
 /**
  * Base class to simplify looking up tiles from the cube.
  */
-public abstract class CubeTileRenderer<TILE extends Op> extends HttpServlet {
-
-  private static final long serialVersionUID = -2954639619768008895L;
+@SuppressWarnings("serial")
+public abstract class CubeTileRenderer extends HttpServlet {
+  
   private static final Logger LOG = LoggerFactory.getLogger(CubeTileRenderer.class);
   public static final String REQ_TYPE = "type";
   public static final String REQ_KEY = "key";
   public static final String REQ_Z = "z";
   public static final String REQ_X = "x";
   public static final String REQ_Y = "y";
+  public static final String REQ_RESOLUTION = "resolution";
 
-  private final DataCubeIo<TILE> cubeIo;
+  private final DataCubeIo<DensityTile> cubeIo;
 
   // allow monitoring of cube lookup, rendering speed and the throughput per second
   private final Timer readTimer = Metrics.newTimer(DensityTileRenderer.class, "readDuration", TimeUnit.MILLISECONDS,
     TimeUnit.SECONDS);
 
-  public CubeTileRenderer(DataCubeIo<TILE> cubeIo) {
+  protected CubeTileRenderer(DataCubeIo<DensityTile> cubeIo) {
     this.cubeIo = cubeIo;
   }
 
-  private int extractInt(HttpServletRequest req, String key) throws IllegalArgumentException {
+  protected Integer extractInt(HttpServletRequest req, String key, boolean required) throws IllegalArgumentException {
     if (req.getParameter(key) != null) {
       try {
         return Integer.parseInt(req.getParameter(key));
@@ -56,10 +60,25 @@ public abstract class CubeTileRenderer<TILE extends Op> extends HttpServlet {
         throw new IllegalArgumentException("Parameter [" + key + "] is invalid.  Supplied: " + req.getParameter(key));
       }
     }
-    throw new IllegalArgumentException("Parameter [" + key + "] is required");
+    if (required)
+      throw new IllegalArgumentException("Parameter [" + key + "] is required");
+    return null;
+  }
+  
+  protected Float extractFloat(HttpServletRequest req, String key, boolean required) throws IllegalArgumentException {
+    if (req.getParameter(key) != null) {
+      try {
+        return Float.parseFloat(req.getParameter(key));
+      } catch (NumberFormatException e) {
+        throw new IllegalArgumentException("Parameter [" + key + "] is invalid.  Supplied: " + req.getParameter(key));
+      }
+    }
+    if (required)
+      throw new IllegalArgumentException("Parameter [" + key + "] is required");
+    return null;
   }
 
-  private TileContentType extractType(HttpServletRequest req) throws IllegalArgumentException {
+  protected TileContentType extractType(HttpServletRequest req) throws IllegalArgumentException {
     try {
       return TileContentType.valueOf(req.getParameter(REQ_TYPE));
     } catch (Exception e) {
@@ -68,17 +87,19 @@ public abstract class CubeTileRenderer<TILE extends Op> extends HttpServlet {
     }
   }
 
-  protected Optional<TILE> getTile(HttpServletRequest req, DataCube<TILE> cube) throws IOException, RuntimeException {
-    int x = extractInt(req, REQ_X);
-    int y = extractInt(req, REQ_Y);
-    int z = extractInt(req, REQ_Z);
+  protected Optional<DensityTile> getTile(HttpServletRequest req, DataCube<DensityTile> cube) throws IOException, RuntimeException {
+    int x = extractInt(req, REQ_X, true);
+    int y = extractInt(req, REQ_Y, true);
+    int z = extractInt(req, REQ_Z, true);
+    Integer resolution = extractInt(req, REQ_RESOLUTION, false); 
+    
     TileContentType type = extractType(req);
     String k = req.getParameter(REQ_KEY);
     if (k == null) {
       throw new IllegalArgumentException("Parameter [" + REQ_KEY + "] is required");
     }
 
-    Optional<TILE> tile =
+    Optional<DensityTile> tile =
       lookup(new ReadBuilder(cube).at(DensityCube.TYPE, type).at(DensityCube.KEY, k).at(DensityCube.TILE_X, x)
         .at(DensityCube.TILE_Y, y).at(DensityCube.ZOOM, z).build());
 
@@ -87,13 +108,18 @@ public abstract class CubeTileRenderer<TILE extends Op> extends HttpServlet {
     } else {
       LOG.debug("Tile request type[{}], key[{}], zoom[{}], x[{}], y[{}] has no tile", new Object[] {type, k, z, x, y});
     }
-
-    return tile;
+    
+    if (tile.isPresent() && resolution!=null) {
+      LOG.debug("Downscaling tile to resolution[{}]", resolution);
+      return Optional.of(tile.get().downscale(resolution));
+    } else {
+      return tile;  
+    }    
   }
-
+  
   // Looks up the tile from the cube
-  private Optional<TILE> lookup(Address address) throws IOException {
-    Optional<TILE> tile = null;
+  private Optional<DensityTile> lookup(Address address) throws IOException {
+    Optional<DensityTile> tile = null;
     final TimerContext context = readTimer.time();
     try {
       tile = cubeIo.get(address);
