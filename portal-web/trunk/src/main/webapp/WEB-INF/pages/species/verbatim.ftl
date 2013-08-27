@@ -19,7 +19,7 @@
 </div>
 
 <@common.notice title="Name Usage verbatim data">
-  <p>This listing shows the orignal information as received by GBIF from the data publisher, without further
+  <p>This listing shows the original information as received by GBIF from the data publisher, without further
     interpretation processing.
   </p>
 </@common.notice>
