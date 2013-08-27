@@ -13,7 +13,7 @@
 
   <#if type=='NODE'>
     <h3>
-      <@s.text name="enum.nodestatus.${member.participationStatus}.${member.type}"/>
+      <@s.text name="enum.nodestatus.${member.type}.${member.participationStatus}"/>
       <#if member.gbifRegion??> from <@s.text name="enum.region.${member.gbifRegion}"/></#if>
     </h3>
   <#else>
