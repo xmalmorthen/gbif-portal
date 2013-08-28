@@ -74,6 +74,9 @@ sub vcl_recv {
     }
   }
 
+  # keep original URL in custom header, see http://dev.gbif.org/issues/browse/GBIFCOM-137
+  set req.http.x-url = "http://" + req.http.host + req.url;
+  
   # first check for uat PORTAL subdomain
   if (req.http.host == "uat.gbif.org" || req.http.host == "portaldev.gbif.org") {
     # default to java apps
