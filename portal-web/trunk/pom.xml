@@ -45,8 +45,7 @@
     <devMode>true</devMode>
     <notDevMode>false</notDevMode>
     <google.analytics />
-    <!-- TODO: change to something sensible -->
-    <occurrencedownload.size.limit>10000</occurrencedownload.size.limit>
+    <occurrencedownload.size.limit>-1</occurrencedownload.size.limit>
 
     <!-- dependency versions -->
     <dwc-api.version>1.3</dwc-api.version>
