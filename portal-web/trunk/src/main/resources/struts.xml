@@ -308,6 +308,9 @@
 
   <!-- DATA PUBLISHER -->
   <package name="publisher" namespace="/publisher" extends="default">
+    <action name="search" class="org.gbif.portal.action.publisher.SearchAction">
+      <result>/WEB-INF/pages/publisher/search.ftl</result>
+    </action>
     <action name="*" class="org.gbif.portal.action.publisher.DetailAction">
       <param name="id">{1}</param>
       <result>/WEB-INF/pages/publisher/detail.ftl</result>
@@ -389,8 +392,5 @@
       <param name="id">{1}</param>
       <result>/WEB-INF/pages/country/news.ftl</result>
     </action>
-
-
   </package>
-
 </struts>

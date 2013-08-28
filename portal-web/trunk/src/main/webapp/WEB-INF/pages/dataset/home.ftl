@@ -15,10 +15,13 @@
     <header></header>
     <div class="content">
       <h1>Search ${numDatasets} datasets</h1>
+      <p>
+        or view the <a href="<@s.url value='/publisher/search'/>">publishing institutions</a>
+      </p>
 
       <form action="<@s.url value='/dataset/search'/>" method="GET">
         <span class="input_text">
-          <input type="text" value="" name="q" id="q" placeholder="Search title, description, publisher..." class="focus"/>
+          <input type="text" value="" name="q" id="q" placeholder="Search for datasets by title, description, publisher..." class="focus"/>
         </span>
         <button type="submit" class="search_button"><span>Search</span></button>
       </form>
