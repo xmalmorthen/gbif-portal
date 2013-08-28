@@ -1,14 +1,14 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>Other participant nodes</title>
+  <title>GBIF Participant Nodes</title>
 
     <style type="text/css">
         #content article.dataset .content {
             padding-top: 31px;
             padding-bottom: 0px;
         }
-        .node {
+        .active {
           text-decoration: underline;
         }
     </style>
@@ -17,13 +17,14 @@
 <body class="infobandless">
 
 
-<@common.article id="country_list" title="Other GBIF Participants">
+<@common.article id="country_list" title="GBIF Participant Nodes">
   <div class="fullwidth">
-    <p>Index to all GBIF Participants which are not a <a href="<@s.url value='/country'/>">Country Node</a>.</p>
+    <p>Index to all GBIF Participants which are not <a href="<@s.url value='/country'/>">Country Participants</a>.
+    </p>
 
     <ul>
       <#list nodes as n>
-        <li class="node"><a href="<@s.url value='/node/${n.key}'/>">${n.getTitle()}</a></li>
+        <li <#if n.participationStatus=='VOTING' || n.participationStatus=='ASSOCIATE'> class="active"</#if>><a href="<@s.url value='/node/${n.key}'/>">${n.getTitle()}</a></li>
       </#list>
     </ul>
 

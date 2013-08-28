@@ -96,7 +96,7 @@
       <ul>
         <#list countries as c>
           <#if c.isOfficial() && c_index lt maxIdx && c_index gt minIdx>
-            <li<#if nodes.contains(c)> class="node"</#if>><a href="<@s.url value='/country/${c.getIso2LetterCode()}'/>">${c.getTitle()}</a></li>
+            <li<#if activeNodes.contains(c)> class="node"</#if>><a href="<@s.url value='/country/${c.getIso2LetterCode()}'/>">${c.getTitle()}</a></li>
           </#if>
         </#list>
       </ul>
