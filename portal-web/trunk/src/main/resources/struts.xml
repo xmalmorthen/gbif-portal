@@ -278,6 +278,10 @@
 
   <!-- NODE -->
   <package name="node" namespace="/node" extends="default">
+    <action name="other" class="org.gbif.portal.action.node.OtherHome">
+      <result>/WEB-INF/pages/node/other_home.ftl</result>
+    </action>
+
     <action name="*" class="org.gbif.portal.action.node.NodeAction">
       <param name="id">{1}</param>
       <result>/WEB-INF/pages/node/detail.ftl</result>
