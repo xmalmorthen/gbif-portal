@@ -539,7 +539,6 @@
         <baseurl>http://uat.gbif.org</baseurl>
         <servername>http://uat.gbif.org</servername>
         <google.analytics>UA-42057855-1</google.analytics>
-        <!-- configure struts tags to exclude the servlet context -->
         <url.includeContext>false</url.includeContext>
         <registry.ws.url>http://api.gbif.org/</registry.ws.url>
         <checklistbank.ws.url>http://api.gbif.org/</checklistbank.ws.url>
@@ -575,6 +574,7 @@
         <notDevMode>true</notDevMode>
         <baseurl>http://portaldev.gbif.org</baseurl>
         <servername>http://portaldev.gbif.org</servername>
+        <url.includeContext>false</url.includeContext>
         <registry.ws.url>http://staging.gbif.org:8080/registry2-ws</registry.ws.url>
         <checklistbank.ws.url>http://apidev.gbif.org/</checklistbank.ws.url>
         <checklistbank.search.ws.url>http://apidev.gbif.org/name_usage/</checklistbank.search.ws.url>
