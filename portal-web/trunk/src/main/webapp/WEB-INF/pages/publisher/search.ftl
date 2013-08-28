@@ -2,12 +2,12 @@
 <#import "/WEB-INF/macros/pagination.ftl" as macro>
 <html>
 <head>
-  <title>Publisher Search Results for ${q!}</title>
+  <title>Publisher search</title>
   <content tag="extra_scripts"></content>
 </head>
 <body class="search">
   <content tag="infoband">
-    <h2>Search publishers</h2>
+    <h2>Search GBIF data publishers</h2>
 
     <form action="<@s.url value='/publisher/search'/>" method="GET" id="formSearch" >
       <input id="q" type="text" name="q" value="${q!}" autocomplete="off" placeholder="Search publisher title, country, by contact email etc..."/></br>
