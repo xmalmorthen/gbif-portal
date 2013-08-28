@@ -15,8 +15,24 @@ backend jawa {
   .max_connections = 75;
 }
 
-backend drupal {    
+backend drupallive {    
   .host = "drupallive.gbif.org";    
+  .port = "80";   
+  .connect_timeout = 60s;
+  .first_byte_timeout = 60s;
+  .between_bytes_timeout = 60s;  
+}
+
+backend staging {
+  .host = "130.226.238.148";    
+  .port = "8080";   
+  .connect_timeout = 60s;
+  .first_byte_timeout = 60s;
+  .between_bytes_timeout = 60s; 
+}
+
+backend drupalstaging {    
+  .host = "130.226.238.148";    
   .port = "80";   
   .connect_timeout = 60s;
   .first_byte_timeout = 60s;
@@ -31,13 +47,14 @@ backend boma {
   .between_bytes_timeout = 60s; 
 }
 
-backend staging {
-  .host = "130.226.238.148";    
-  .port = "8080";   
+backend ecatdev {
+  .host = "130.226.238.144";
+  .port = "8080";
   .connect_timeout = 60s;
   .first_byte_timeout = 60s;
-  .between_bytes_timeout = 60s; 
+  .between_bytes_timeout = 60s;
 }
+
 
 acl GBIFS {
     "localhost";
@@ -58,8 +75,14 @@ sub vcl_recv {
   }
 
   # first check for uat PORTAL subdomain
-  if (req.http.host == "uat.gbif.org") {
-
+  if (req.http.host == "uat.gbif.org" || req.http.host == "portaldev.gbif.org") {
+    # default to java apps
+    if (req.http.host == "uat.gbif.org") {
+      set req.backend = jawa;
+    } else {
+      set req.backend = staging;
+    }
+    
     # the registry console
     # TODO: this only exposes the html, but the vital css & js files are not exposed yet as they clash with the portal path. 
     # Maybe not needed to expose in UAT at all?
@@ -68,26 +91,24 @@ sub vcl_recv {
       if (!client.ip ~ GBIFS) {
         error 403 "Not allowed, this page is private to the GBIF Secretariat";
       }
-      set req.backend = jawa;
       set req.url = regsub(req.url, "^/console", "/registry2-ws/web/index.html");
       # dont cache any console files
       return (pass);
     }
 
-    # is this a webservice call which should go to api.gbif.org?
-    if ( req.url ~ "^/[a-z-]-ws" ) {
-      error 404 "GBIF Webservices are hosted at http://api.gbif.org/";
-    }
-
     # catch known java app paths
     if ( req.url ~ "^/(dataset|occurrence|species|member|node|network|publisher|developer|country|cfg|css|fonts|img|js|favicon)" || (req.url ~ "^/user/(downloads|namelist|cancel)")) {
-      set req.backend = jawa;
       set req.url = regsub(req.url, "^/", "/portal/");
 
     } else {
-      # pass to drupal by default
-      set req.http.host="drupallive.gbif.org";
-      set req.backend = drupal;
+      # pass to drupal for the rest
+      if (req.http.host == "uat.gbif.org") {
+        set req.http.host="drupallive.gbif.org";
+        set req.backend = drupallive;
+      } else {
+        set req.http.host="staging.gbif.org";
+        set req.backend = drupalstaging;
+      }
     }
 
     # PORTAL - ONLY CACHE STATIC FILES !!!
@@ -97,11 +118,10 @@ sub vcl_recv {
       return (pass);
     }
 
-  
+
+  #
   # ONLY WEBSERVICE CALLS IF WE REACH HERE !!!
   #
-  # first check API versions
-  # 
   } else if (req.http.host == "api.gbif.org") {
     set req.backend = jawa;
 
@@ -121,49 +141,52 @@ sub vcl_recv {
     error 404 "Not found";
   }
   
-  if (req.url ~ "^/lookup/"){
-    set req.backend = boma;
-    if (req.url ~ "^/lookup/name_usage"){
+  if (req.url ~ "^/lookup/name_usage"){
+    if (req.http.host == "apidev.gbif.org") {
+      set req.backend = ecatdev;
+      set req.url = regsub(req.url, "^/lookup/name_usage", "/nub-ws/nub");
+    } else {
+      set req.backend = boma;
       set req.url = regsub(req.url, "^/lookup/name_usage", "/ws-nub/nub");
-    } else if (req.url ~ "^/lookup/reverse_geocode"){
-      set req.url = regsub(req.url, "^/lookup/reverse_geocode", "/geocode-ws/reverse");
     }
+  
+  } else if (req.url ~ "^/lookup/reverse_geocode"){
+    set req.backend = boma;
+    set req.url = regsub(req.url, "^/lookup/reverse_geocode", "/geocode-ws/reverse");
 
-  } else {
-    if ( req.url ~ "^/name_usage/(search|suggest)") {
+  } else if ( req.url ~ "^/name_usage/(search|suggest)") {
       set req.url = regsub(req.url, "^/name_usage/", "/checklistbank-search-ws/");
-
-    } else if ( req.url ~ "^/(name_usage|dataset_metrics|description|name_list)" ) {
-      set req.url = regsub(req.url, "^/", "/checklistbank-ws/");
-
-    } else if ( req.url ~ "^/map") {
-      set req.url = regsub(req.url, "^/map", "/tile-server");
-
-    } else if ( req.url ~ "^/occurrence/(count|counts|datasets|countries|publishing_countries)") {
-      set req.url = regsub(req.url, "^/", "/metrics-ws/");
-
-    } else if ( req.url ~ "^/occurrence/download") {
-      set req.url = regsub(req.url, "^/", "/occurrence-download-ws/");
-      # not cache any download response, for this new downloads should evict the cache which is not the case
-      return (pass);
-
-    } else if ( req.url ~ "^/occurrence") {
-      set req.url = regsub(req.url, "^/", "/occurrence-ws/");
-
-    } else if ( req.url ~ "^/dataset/metrics") {
-      # not existing yet for all datasets - use checklist service for now
-      set req.url = regsub(req.url, "^/dataset/metrics", "/checklistbank-ws/dataset_metrics");
-
-    } else if ( req.url ~ "^/dataset/process") {
-      set req.url = regsub(req.url, "^/", "/crawler-ws/");
-
-    } else if ( req.url ~ "^/image") {
-      set req.url = regsub(req.url, "^/image", "/image-cache/");
-
-    } else if (req.url !~ "^/web") {
-      # anything left should be registry calls - BUT do not expose the console in the API!
-      set req.url = regsub(req.url, "^/", "/registry2-ws/");
-    }
+  
+  } else if ( req.url ~ "^/(name_usage|dataset_metrics|description|name_list)" ) {
+    set req.url = regsub(req.url, "^/", "/checklistbank-ws/");
+  
+  } else if ( req.url ~ "^/map") {
+    set req.url = regsub(req.url, "^/map", "/tile-server");
+  
+  } else if ( req.url ~ "^/occurrence/(count|counts|datasets|countries|publishing_countries)") {
+    set req.url = regsub(req.url, "^/", "/metrics-ws/");
+  
+  } else if ( req.url ~ "^/occurrence/download") {
+    set req.url = regsub(req.url, "^/", "/occurrence-download-ws/");
+    # not cache any download response, for this new downloads should evict the cache which is not the case
+    return (pass);
+  
+  } else if ( req.url ~ "^/occurrence") {
+    set req.url = regsub(req.url, "^/", "/occurrence-ws/");
+  
+  } else if ( req.url ~ "^/dataset/metrics") {
+    # not existing yet for all datasets - use checklist service for now
+    set req.url = regsub(req.url, "^/dataset/metrics", "/checklistbank-ws/dataset_metrics");
+  
+  } else if ( req.url ~ "^/dataset/process") {
+    set req.url = regsub(req.url, "^/", "/crawler-ws/");
+  
+  } else if ( req.url ~ "^/image") {
+    set req.url = regsub(req.url, "^/image", "/image-cache/");
+  
+  } else if (req.url !~ "^/web") {
+    # anything left should be registry calls - BUT do not expose the console in the API!
+    set req.url = regsub(req.url, "^/", "/registry2-ws/");
   }
 
   # apparently varnish tries to cache POST requests by converting them to GETs :(
