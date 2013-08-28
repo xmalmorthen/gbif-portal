@@ -45,7 +45,7 @@
         </#list>
       </table>
       <div class="footer">
-        <@macro.pagination page=page url=currentUrlWithoutPage maxOffset=100000/>
+        <@macro.pagination page=page url=currentUrlWithoutPage />
       </div>
     </div>
   </article>

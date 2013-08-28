@@ -123,7 +123,8 @@ public abstract class BaseAction extends ActionSupport
     StringBuffer currentUrl = request.getRequestURL();
 
     if (!cfg.isIncludeContext()) {
-      final int start = currentUrl.indexOf(ctx.getContextPath());
+      // dont replace context name in host name
+      final int start = currentUrl.indexOf(ctx.getContextPath(), cfg.getServerName().length()-1);
       currentUrl.replace(start, start+ctx.getContextPath().length(), "");
     }
 

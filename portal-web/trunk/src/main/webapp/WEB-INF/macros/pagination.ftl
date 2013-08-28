@@ -142,11 +142,11 @@ Pagination macro for rendering numbered page links as well as [FIRST PAGE] and [
 	If there are no existing query parameters, the append is done using the (?).
 -->
 <#function getPageUrl url offset>
-	<#assign fullUrl = "">
+	<#assign fullUrl = "" >
 		<#if url?contains("?")>
-			<#assign fullUrl = url+"&offset="+offset?c>
+			<#assign fullUrl = url + "&offset=" + offset?c >
 		<#else>
-			<#assign fullUrl = url+"?offset="+offset?c>
+			<#assign fullUrl = url + "?offset=" + offset?c >
 		</#if>
 	<#return fullUrl>	
 </#function>
