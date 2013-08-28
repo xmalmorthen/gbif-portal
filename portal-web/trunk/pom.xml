@@ -491,8 +491,6 @@
       <artifactId>commons-io</artifactId>
       <version>${commons-io.version}</version>
     </dependency>
-
-    <!-- Used undeclared dependencies added 26 Aug 2013 -->
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils-core</artifactId>
