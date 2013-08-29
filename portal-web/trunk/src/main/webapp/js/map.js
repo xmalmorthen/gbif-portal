@@ -177,7 +177,8 @@ $.fn.occurrenceMap = function(id, options) {
       se.lng = se.lng>180 ? 180 : se.lng;
       se.lat = se.lat<-90 ? -90 : se.lat;  
       
-      $(this).attr("href", target + separator + "GEOMETRY="
+      // records on maps are those with no issues
+      $(this).attr("href", target + separator + "SPATIAL_ISSUES=false&GEOMETRY="
         + sw.lng + " " + sw.lat + ","
         + nw.lng + " " + nw.lat + ","
         + ne.lng + " " + ne.lat + ","
