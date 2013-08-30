@@ -31,7 +31,7 @@ backend staging {
   .between_bytes_timeout = 60s; 
 }
 
-backend drupalstaging {    
+backend drupaldev {    
   .host = "130.226.238.148";    
   .port = "80";   
   .connect_timeout = 60s;
@@ -109,8 +109,8 @@ sub vcl_recv {
         set req.http.host="drupallive.gbif.org";
         set req.backend = drupallive;
       } else {
-        set req.http.host="staging.gbif.org";
-        set req.backend = drupalstaging;
+        set req.http.host="drupaldev.gbif.org";
+        set req.backend = drupaldev;
       }
     }
 
