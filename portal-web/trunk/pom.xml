@@ -586,7 +586,8 @@
         <metrics.ws.url>http://apidev.gbif.org/</metrics.ws.url>
         <drupal.url>http://staging.gbif.org</drupal.url>
         <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
-        <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
+        <drupal.cookiename>SESS546873328327e11daf05ce0d8f7dc390</drupal.cookiename>
+
         <!-- trusted application credentials -->
         <application.key>gbif.portal</application.key>
         <image-cache.url>http://apidev.gbif.org/image</image-cache.url>
