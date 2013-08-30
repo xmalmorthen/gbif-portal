@@ -1763,8 +1763,7 @@ var OccurrenceWidgetManager = (function ($,_) {
       /**
        * Binds the catalog number  auto-suggest widget used by the BBOX widget.
        */
-      bindMap : function() {
-        self = this;
+      bindMap : function() {        
         var CONFIG = { // global config var
             minZoom: 0,
             maxZoom: 14,
