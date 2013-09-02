@@ -64,9 +64,6 @@
             padding-top: 31px;
             padding-bottom: 0px;
         }
-        .node {
-          text-decoration: underline;
-        }
     </style>
 </head>
 
