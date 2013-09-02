@@ -1,21 +1,21 @@
 $(function() {
 
+  // Placeholders for old browsers
   if (!Modernizr.input.placeholder){ // placeholder fix
-
-    $("input").each(
-      function(){
-        if($(this).val()=="" && $(this).attr("placeholder")!=""){
-          $(this).val($(this).attr("placeholder"));
-          $(this).focus(function(){
-            if($(this).val()==$(this).attr("placeholder")) $(this).val("");
-          });
-          $(this).blur(function(){
-            if($(this).val()=="") $(this).val($(this).attr("placeholder"));
-          });
-        }
-      });
+    $('[placeholder]').focus(function() {
+      var input = $(this);
+      if (input.val() == input.attr('placeholder')) {
+        input.val('');
+        input.removeClass('placeholder');
+      }
+    }).blur(function() {
+      var input = $(this);
+      if (input.val() == '' || input.val() == input.attr('placeholder')) {
+        input.addClass('placeholder');
+        input.val(input.attr('placeholder'));
+      }
+    }).blur();
   }
-
 
   // DROPDOWN
 
@@ -118,17 +118,17 @@ $(function() {
             });
           },
           replaceWith:'Sort alphabetically<span class="more"></span>'
+      },
+      { name: "Sort by count",
+        callback: function(e) {
+          e.preventDefault();
+          $("#taxonomy .sp").animate({opacity:0}, 500, function() {
+            sortByCount($("#taxonomy .sp ul:first"));
+            $("#taxonomy .sp").animate({opacity:1}, 500);
+          });
         },
-        { name: "Sort by count",
-          callback: function(e) {
-            e.preventDefault();
-            $("#taxonomy .sp").animate({opacity:0}, 500, function() {
-              sortByCount($("#taxonomy .sp ul:first"));
-              $("#taxonomy .sp").animate({opacity:1}, 500);
-            });
-          },
-          replaceWith:'Sort by count<span class="more"></span>'
-        }
+        replaceWith:'Sort by count<span class="more"></span>'
+      }
       ]
     }
   });
@@ -145,23 +145,23 @@ $(function() {
           },
           replaceWith: "<span>EN</span>",
           select: "EN"
+      },
+      { name: "Spanish",
+        callback: function(e) {
+          e.preventDefault();
+          /* add callback action here */
         },
-        { name: "Spanish",
-          callback: function(e) {
-            e.preventDefault();
-            /* add callback action here */
-          },
-          replaceWith: "<span>ES</span>",
-          select: "ES"
+        replaceWith: "<span>ES</span>",
+        select: "ES"
+      },
+      { name: "Deutsch",
+        callback: function(e) {
+          e.preventDefault();
+          /* add callback action here */
         },
-        { name: "Deutsch",
-          callback: function(e) {
-            e.preventDefault();
-            /* add callback action here */
-          },
-          replaceWith: "<span>DE</span>",
-          select: "DE"
-        }
+        replaceWith: "<span>DE</span>",
+        select: "DE"
+      }
       ]
     }
   });
@@ -189,13 +189,13 @@ $(function() {
     var link = $(this).find('a').attr("href");
     var elem = $(this);
     $.ajax({
-        async: true,
-        url: link,
-        error: function(jqXHR, textStatus, errorThrown){
-          elem.hide();
-        },
-        success: function(){
-        }
+      async: true,
+      url: link,
+      error: function(jqXHR, textStatus, errorThrown){
+        elem.hide();
+      },
+      success: function(){
+      }
     });
   });
 })
