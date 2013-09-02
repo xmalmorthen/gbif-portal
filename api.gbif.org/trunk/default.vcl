@@ -169,8 +169,13 @@ sub vcl_recv {
   } else if ( req.url ~ "^/occurrence/(count|counts|datasets|countries|publishing_countries)") {
     set req.url = regsub(req.url, "^/", "/metrics-ws/");
   
-  } else if ( req.url ~ "^/occurrence/download") {
+  } else if ( req.url ~ "^/occurrence/download/request") {
     set req.url = regsub(req.url, "^/", "/occurrence-download-ws/");
+    # not cache any download response, for this new downloads should evict the cache which is not the case
+    return (pass);
+
+  } else if ( req.url ~ "^/occurrence/download") {
+    set req.url = regsub(req.url, "^/", "/registry2-ws/");
     # not cache any download response, for this new downloads should evict the cache which is not the case
     return (pass);
   
