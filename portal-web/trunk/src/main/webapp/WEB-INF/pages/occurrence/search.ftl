@@ -83,7 +83,7 @@
         <div class="box">
           <div class="content">
             <ul>
-              <li class="single"><h4>${searchResponse.count!0}</h4>Occurrences</li>
+              <li class="single last"><h4>${searchResponse.count!0}</h4>Occurrences</li>
             </ul>
             <a href="#" class="candy_blue_button download_button"><span>Download</span></a>
           </div>
