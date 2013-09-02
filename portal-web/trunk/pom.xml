@@ -529,8 +529,6 @@
       <!--
         configured to use the api.gbif.org/uat services and the live master drupal.
         All settings exist but we need these passwords from somewhere else:
-          <drupal.db.url>
-          <drupal.db.username>
           <drupal.db.password>
           <portal.application.secret>
       -->
@@ -553,8 +551,9 @@
         <image-cache.url>http://api.gbif.org/image</image-cache.url>
         <metrics.ws.url>http://api.gbif.org/</metrics.ws.url>
         <drupal.url>http://uat.gbif.org</drupal.url>
-        <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
         <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
+        <drupal.db.url>jdbc:mysql://nerf.gbif.org:3306/drupal_live?useUnicode=true&amp;characterEncoding=UTF8&amp;characterSetResults=UTF8</drupal.db.url>
+        <drupal.db.username>drupal_live</drupal.db.username>
       </properties>
     </profile>
 
@@ -563,8 +562,6 @@
         configured to use the api.gbif.org/dev services and the develop drupal.
         All settings exist but we need these passwords from somewhere else:
           <drupal.db.url>
-          <drupal.db.username>
-          <drupal.db.password>
           <portal.application.secret>
       -->
       <id>staging</id>
@@ -585,8 +582,9 @@
         <image-cache.url>http://apidev.gbif.org/image</image-cache.url>
         <metrics.ws.url>http://apidev.gbif.org/</metrics.ws.url>
         <drupal.url>http://staging.gbif.org</drupal.url>
-        <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
         <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
+        <drupal.db.url>jdbc:mysql://nerf.gbif.org:3306/drupal_devel?useUnicode=true&amp;characterEncoding=UTF8&amp;characterSetResults=UTF8</drupal.db.url>
+        <drupal.db.username>drupal_devel</drupal.db.username>
       </properties>
     </profile>
 
@@ -594,8 +592,6 @@
       <!--
         configured to use the staging webservices directly, bypassing varnish.
         All settings exist but we need these passwords from somewhere else:
-          <drupal.db.url>
-          <drupal.db.username>
           <drupal.db.password>
           <portal.application.secret>
       -->
@@ -616,8 +612,9 @@
         <image-cache.url>http://staging.gbif.org:8080/image-cache/</image-cache.url>
         <metrics.ws.url>http://staging.gbif.org:8080/metrics-ws</metrics.ws.url>
         <drupal.url>http://staging.gbif.org/drupal</drupal.url>
-        <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
         <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
+        <drupal.db.url>jdbc:mysql://nerf.gbif.org:3306/drupal_devel?useUnicode=true&amp;characterEncoding=UTF8&amp;characterSetResults=UTF8</drupal.db.url>
+        <drupal.db.username>drupal_devel</drupal.db.username>
       </properties>
     </profile>
 
