@@ -40,6 +40,8 @@
     <servername>http://localhost:8080</servername>
     <!-- configure struts tags to include the servlet context by default -->
     <url.includeContext>true</url.includeContext>
+    <!-- gbif proxy auth application key. Make sure the matching secret uses the same -->
+    <portal.application.key>gbif.portal</portal.application.key>
 
     <!-- this looks silly, but we're not aware of a way to negate a variable, so we keep them separate to be used in struts config files -->
     <devMode>true</devMode>
@@ -530,7 +532,7 @@
           <drupal.db.url>
           <drupal.db.username>
           <drupal.db.password>
-          <application.secret>
+          <portal.application.secret>
       -->
       <id>uat</id>
       <properties>
@@ -548,14 +550,11 @@
         <occurrence-download.ws.url>http://jawa.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url>
         <occurrence-download.ws.url.for.public.link>http://api.gbif.org/</occurrence-download.ws.url.for.public.link>
         <tile-server.url>http://api.gbif.org/map</tile-server.url>
+        <image-cache.url>http://api.gbif.org/image</image-cache.url>
         <metrics.ws.url>http://api.gbif.org/</metrics.ws.url>
         <drupal.url>http://uat.gbif.org</drupal.url>
         <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
         <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
-        <!-- trusted application credentials -->
-        <portal.application.key>gbif.portal</portal.application.key>
-        <image-cache.url>http://api.gbif.org/image</image-cache.url>
-
       </properties>
     </profile>
 
@@ -566,7 +565,7 @@
           <drupal.db.url>
           <drupal.db.username>
           <drupal.db.password>
-          <application.secret>
+          <portal.application.secret>
       -->
       <id>staging</id>
       <properties>
@@ -583,14 +582,11 @@
         <occurrence-download.ws.url>http://apidev.gbif.org/</occurrence-download.ws.url>
         <occurrence-download.ws.url.for.public.link>http://apidev.gbif.org/</occurrence-download.ws.url.for.public.link>
         <tile-server.url>http://apidev.gbif.org/map</tile-server.url>
+        <image-cache.url>http://apidev.gbif.org/image</image-cache.url>
         <metrics.ws.url>http://apidev.gbif.org/</metrics.ws.url>
         <drupal.url>http://staging.gbif.org</drupal.url>
         <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
         <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
-
-        <!-- trusted application credentials -->
-        <application.key>gbif.portal</application.key>
-        <image-cache.url>http://apidev.gbif.org/image</image-cache.url>
       </properties>
     </profile>
 
@@ -601,7 +597,7 @@
           <drupal.db.url>
           <drupal.db.username>
           <drupal.db.password>
-          <application.secret>
+          <portal.application.secret>
       -->
       <id>staging-direct</id>
       <properties>
@@ -617,13 +613,11 @@
         <occurrence-download.ws.url>http://staging.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url>
         <occurrence-download.ws.url.for.public.link>http://staging.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url.for.public.link>
         <tile-server.url>http://staging.gbif.org:8080/tile-server</tile-server.url>
+        <image-cache.url>http://staging.gbif.org:8080/image-cache/</image-cache.url>
         <metrics.ws.url>http://staging.gbif.org:8080/metrics-ws</metrics.ws.url>
         <drupal.url>http://staging.gbif.org/drupal</drupal.url>
         <drupal.db.driver>com.mysql.jdbc.Driver</drupal.db.driver>
         <drupal.cookiename>SESS751c3c6f031b889581268415447c0191</drupal.cookiename>
-        <!-- trusted application credentials -->
-        <application.key>gbif.portal</application.key>
-        <image-cache.url>http://staging.gbif.org:8080/image-cache/</image-cache.url>
       </properties>
     </profile>
 
