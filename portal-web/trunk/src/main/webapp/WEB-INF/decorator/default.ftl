@@ -279,8 +279,7 @@
   <script type="text/javascript" src="<@s.url value='/js/vendor/raphael-min.js'/>"></script>
   <script type="text/javascript" src="<@s.url value='/js/vendor/resourcebundle.js'/>"></script>
   <#-- JIRA feedback buttons -->
-  <script type="text/javascript" src="http://dev.gbif.org/issues/s/en_UK-h3luf8-418945332/812/5/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=d0843c23"></script>
-  <script type="text/javascript" src="http://dev.gbif.org/issues/s/en_UK-h3luf8-418945332/812/5/1.2.7/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4"></script>
+  <script type="text/javascript" src="http://dev.gbif.org/issues/s/en_UKkby86d-1988229788/6096/5/1.4.0-m2/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=a2e9eca4"></script>
   <#-- Google analytics -->
   <#if cfg.googleAnalytics?has_content>
   <script>
