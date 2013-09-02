@@ -251,12 +251,12 @@
         <li>You can also check the <a class="placeholder_temp" href="#">GBIF Directory</a></li>
       </ul>
 
-      <ul class="last">
+      <ul class="social last">
           <li><h3>SOCIAL MEDIA</h3></li>
-          <li class="twitter"><a href="https://twitter.com/GBIF">Follow GBIF on Twitter</a></li>
-          <li class="facebook"><a href="https://www.facebook.com/gbifnews">Like GBIF on Facebook</a></li>
-          <li class="linkedin"><a href="http://www.linkedin.com/groups/GBIF-55171">Join GBIF on Linkedin</a></li>
-          <li class="vimeo"><a href="http://vimeo.com/gbif">View GBIF on Vimeo</a></li>
+          <li class="twitter"><i></i><a href="https://twitter.com/GBIF">Follow GBIF on Twitter</a></li>
+          <li class="facebook"><i></i><a href="https://www.facebook.com/gbifnews">Like GBIF on Facebook</a></li>
+          <li class="linkedin"><i></i><a href="http://www.linkedin.com/groups/GBIF-55171">Join GBIF on Linkedin</a></li>
+          <li class="vimeo"><i></i><a href="http://vimeo.com/gbif">View GBIF on Vimeo</a></li>
       </ul>
 
     </div>

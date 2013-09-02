@@ -59,14 +59,11 @@ body > footer .footer,  #contact_footer .footer {
     }
 
     li {
+
       strong {
         width: 40px;
 
-        // TODO: replace with mixin
-        display: -moz-inline-stack;
-        vertical-align: top;
-        display: inline-block;
-        zoom: 1; *display: inline;
+        .inline_block();
 
         font-family: "DINOT-Regular", sans-serif;
         font-size: 11px;
@@ -76,32 +73,40 @@ body > footer .footer,  #contact_footer .footer {
       .logo {
         width:80px;
         height:94px;
-        background: url("../img/footer/logo_black.png") no-repeat;
         margin: 0 0 10px 0;
-      }
-
-      &.twitter {
-        .social_icon("../img/footer/twitter.png");
-      }
-      &.facebook {
-        .social_icon("../img/footer/facebook.png");
-      }
-      &.linkedin {
-        .social_icon("../img/footer/linkedin.png");
-      }
-      &.vimeo {
-        .social_icon("../img/footer/vimeo.png");
+        background: url("../img/footer/logo_black.png") no-repeat;
       }
     }
   }
+  
+ ul.social li {
 
+   margin: 0 0 5px 0; 
+
+   a { vertical-align:middle; }
+
+   i { 
+    .inline_block();
+    vertical-align:middle;
+    width: 25px; height: 25px;
+    margin: 0 7px 0 0;
+   }
+
+   &.twitter  i { .social_icon("../img/footer/twitter.png"); }
+   &.facebook i { .social_icon("../img/footer/facebook.png"); }
+   &.linkedin i { .social_icon("../img/footer/linkedin.png"); }
+   &.vimeo    i { .social_icon("../img/footer/vimeo.png"); }
+    }
+}
+
+.inline_block() {
+  display: -moz-inline-stack;
+  vertical-align: top;
+  display: inline-block;
+  zoom: 1; *display: inline;
 }
 
 .social_icon (@imgpath) {
-  background-image: url(@imgpath) ;
-  background-repeat: no-repeat;
+  background: url(@imgpath) 0 0 no-repeat;
   background-size: 25px 25px;
-  background-position: 0px 0px;
-  padding: 2px 0 0 32px;
-  height: 28px;
 }

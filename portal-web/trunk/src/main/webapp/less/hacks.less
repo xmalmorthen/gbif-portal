@@ -59,6 +59,18 @@ button::-moz-focus-inner {
   zoom: 1 !important;
 }
 
+.ie8 {
+  body > footer .footer,  
+  #contact_footer .footer {
+    ul.social li {
+      &.twitter  i { .social_icon("../img/footer/twitter_small.png"); }
+      &.facebook i { .social_icon("../img/footer/facebook_small.png"); }
+      &.linkedin i { .social_icon("../img/footer/linkedin_small.png"); }
+      &.vimeo    i { .social_icon("../img/footer/vimeo_small.png"); }
+    }
+  }
+}
+
 .ie9 h1, .ie9 h2, .ie9 h3, .ie9 h4, .ie9 h5, .ie9 h6,
 .ie9 #content article .content h2,
 .ie9 #content article .left h2,
