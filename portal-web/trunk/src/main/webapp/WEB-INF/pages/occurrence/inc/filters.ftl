@@ -98,7 +98,7 @@
               </#list>
             </ul>            
           </div>
-          <div>
+          <div class="center">
             <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>
           <a class="close"></a>
@@ -132,7 +132,7 @@
                 </tr>
              </table>                        
           </div>
-          <div>          
+          <div class="center">
             <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>
           <a class="close"></a>
@@ -165,14 +165,12 @@
                 </tr>
              </table>                        
           </div>
-          <div>          
+          <div class="center">
             <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>
           <a class="close"></a>
         </div>
-        <div class="summary_view">          
-          
-        </div>                
+        <div class="summary_view"></div>                
       </td>
     </tr>
   </script>
@@ -214,7 +212,7 @@
                 </tr>
              </table>                        
           </div>
-          <div>          
+          <div class="center">
             <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>
           <a class="close"></a>
@@ -287,7 +285,7 @@
                 </tr>
              </table>                        
           </div>
-          <div>          
+          <div class="center">
             <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-filter" data-filter="<%= paramName %>" apply-function="applyOccurrenceFilters"><span>Apply</span></a>
           </div>
           <a class="close"></a>
