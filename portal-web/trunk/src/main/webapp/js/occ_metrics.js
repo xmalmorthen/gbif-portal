@@ -7,7 +7,7 @@ $(window).ready(function() {
 */
   $('table.metrics').each(function() {
       var baseAddress = $(this).attr("data-address");
-      console.debug(baseAddress);
+      //console.debug(baseAddress);
       $(this).find('td.total div').each(function() {
         refresh(baseAddress, $(this), true);
       });
@@ -31,7 +31,7 @@ $(window).ready(function() {
       address = address + "&georeferenced=true";
     }
     var ws = cfg.wsMetrics + 'occurrence/count' + address;
-    console.debug(ws);
+    //console.debug(ws);
     $.getJSON(ws + '&callback=?', function (data) {
       $(target).html(data);
       if (nest && data!=0) {
