@@ -327,7 +327,6 @@ html.gecko #content{
         line-height: 28px;
         color: @cGray1;
         text-shadow: 0 1px white;
-        filter: progid:DXImageTransform.Microsoft.DropShadow(offx = 0, offy = 1, color = #FFFFFF);
       }
 
       h3 {
@@ -335,9 +334,8 @@ html.gecko #content{
         font-family: "DINOT-Medium", sans-serif;
         font-size: 13px;
         text-transform: uppercase;
-        color: @cGray1;
+        /*color: @cGray1;*/
         text-shadow: 0 1px white;
-        filter: progid:DXImageTransform.Microsoft.DropShadow(offx = 0, offy = 1, color = #FFFFFF);
       }
 
       .subtitle {
@@ -613,6 +611,8 @@ html.gecko #content{
 
         &.notes {
           margin: 0;
+          list-style-position: outside;
+          padding-left: 12px;
 
           li > a {
             display: block;
