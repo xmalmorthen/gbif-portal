@@ -62,7 +62,7 @@ public class DownloadsAction extends BaseAction {
 
   @Override
   public String execute() throws Exception {
-    // never null, guaranteed by the LoginInterceptor stack
+    // user is never null, guaranteed by the LoginInterceptor stack
     page = downloadService.listByUser(getCurrentUser().getUserName(), new PagingRequest(offset, 25));
     return SUCCESS;
   }

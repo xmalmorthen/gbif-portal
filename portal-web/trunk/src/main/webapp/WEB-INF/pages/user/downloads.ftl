@@ -21,6 +21,10 @@
 
   <@common.article title="Your Downloads" class="results">
     <div class="fullwidth">
+      <#if !page.results?has_content>
+        <p>You did not download any data so far.</p>
+      </#if>
+
       <#list page.results as download>
         <div class="result">
           <h2><strong>${download.key}</strong></h2>
