@@ -165,11 +165,9 @@ sub vcl_recv {
   
   } else if ( req.url ~ "^/map") {
     set req.url = regsub(req.url, "^/map", "/tile-server");
-    return(pass); // no map caching
   
   } else if ( req.url ~ "^/occurrence/(count|counts|datasets|countries|publishing_countries)") {
     set req.url = regsub(req.url, "^/", "/metrics-ws/");
-    return(pass); // no cube caching
   
   } else if ( req.url ~ "^/occurrence/download/request") {
     set req.url = regsub(req.url, "^/", "/occurrence-download-ws/");
@@ -226,8 +224,8 @@ sub vcl_fetch {
     return (hit_for_pass);
   }
   
-  # cache metrics only for a very short time
-  if ( req.url ~ "^/metrics-ws") {
+  # cache metrics and maps only for a very short time
+  if ( req.url ~ "^/(metrics-ws|tile-server)" ) {
     set beresp.ttl = 60s;
     # do not cache quickly changing count metrics
     if ( req.url ~ "count") {
