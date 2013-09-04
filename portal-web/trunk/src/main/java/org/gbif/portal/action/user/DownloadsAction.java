@@ -21,9 +21,12 @@ import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.util.HumanFilterBuilder;
 import org.gbif.portal.action.occurrence.util.QueryParameterFilterBuilder;
 
+import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.Map;
 
+import com.google.common.base.Enums;
+import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -51,6 +54,9 @@ public class DownloadsAction extends BaseAction {
   private NameUsageService usageService;
   @Inject
   private DatasetService datasetService;
+
+  private static final EnumSet<Download.Status> RUNNING_STATUSES = EnumSet.of(Download.Status.PREPARING,
+    Download.Status.RUNNING, Download.Status.SUSPENDED);
 
   public String cancel() throws Exception {
     if (!Strings.isNullOrEmpty(key)) {
@@ -98,6 +104,11 @@ public class DownloadsAction extends BaseAction {
       LOG.warn("Cannot create query parameter representation for predicate " + p);
       return null;
     }
+  }
+
+  public boolean isDownloadRunning(String strStatus) {
+    Optional<Download.Status> optStatus = Enums.getIfPresent(Download.Status.class, strStatus);
+    return (optStatus.isPresent() && RUNNING_STATUSES.contains(optStatus.get()));
   }
 
   public void setKey(String key) {

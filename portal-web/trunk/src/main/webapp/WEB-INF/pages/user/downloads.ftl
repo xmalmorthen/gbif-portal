@@ -63,8 +63,10 @@
                     <#if download.available>
                         <!-- cfg.wsOccDownload is not public, but needed for authentication. Therefore wsOccDownloadForPublicLink was created which is public -->
                         Ready for <a href="${cfg.wsOccDownloadForPublicLink}occurrence/download/request/${download.key}.zip">download</a> since ${download.modified?datetime?string.short_medium}
-                    <#else>
+                    <#elseif action.isDownloadRunning(download.status)>
                         Still running. Do you want to <a href="<@s.url value='/user/cancel?key=${download.key}'/>">cancel</a> the query?
+                    <#else>
+                      <@s.text name="enum.downloadstatus.${download.status}" />
                     </#if>
                   </dd>
 
