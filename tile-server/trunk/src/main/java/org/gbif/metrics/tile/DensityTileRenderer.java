@@ -53,6 +53,8 @@ public class DensityTileRenderer extends CubeTileRenderer {
     // as a tile server, we support cross domain requests
     resp.setHeader("Access-Control-Allow-Origin", "*");
     resp.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Prototype-Version, X-CSRF-Token");
+    resp.setHeader("Cache-Control", "public,max-age=60"); // encourage a 60 second caching by everybody
+    
     
     if (req.getRequestURI().endsWith(TILE_CUBE_AS_JSON_SUFFIX)) {
       renderTileCubeAsJson(req, resp);
