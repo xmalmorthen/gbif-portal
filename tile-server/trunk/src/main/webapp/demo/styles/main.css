@@ -65,17 +65,17 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 /* line 50, button-icons/*.png */
 .button-icons-sprite, .analysis i, .fullscreen {
-  background: url('http://apidev.gbif.org/map/images/button-icons-s238bcde1cc.png') no-repeat;
+  background: url('http://apidev.gbif.org/map/demo/images/button-icons-s238bcde1cc.png') no-repeat;
 }
 
 /* line 74, timeline-icons/*.png */
 .timeline-icons-sprite, .hamburger a, .hamburger a:active, .visible_years, .timeline_tooltip_link i, .timeline_tooltip_link.selected i, .timeline_tooltip_link:hover i {
-  background: url('http://apidev.gbif.org/map/images/timeline-icons-s0db679dd3e.png') no-repeat;
+  background: url('http://apidev.gbif.org/map/demo/images/timeline-icons-s0db679dd3e.png') no-repeat;
 }
 
 /* line 66, resolution-icons/*.png */
 .resolution-icons-sprite, .resolution_selector li.res1 a, .resolution_selector li.res2 a, .resolution_selector li.res4 a, .resolution_selector li.res8 a {
-  background: url('http://apidev.gbif.org/map/images/resolution-icons-sc8ae4ec65b.png') no-repeat;
+  background: url('http://apidev.gbif.org/map/demo/images/resolution-icons-sc8ae4ec65b.png') no-repeat;
 }
 
 /* line 10, ../sass/main.scss */
