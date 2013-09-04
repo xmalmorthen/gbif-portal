@@ -165,9 +165,11 @@ sub vcl_recv {
   
   } else if ( req.url ~ "^/map") {
     set req.url = regsub(req.url, "^/map", "/tile-server");
+    return(pass); // no map caching
   
   } else if ( req.url ~ "^/occurrence/(count|counts|datasets|countries|publishing_countries)") {
     set req.url = regsub(req.url, "^/", "/metrics-ws/");
+    return(pass); // no cube caching
   
   } else if ( req.url ~ "^/occurrence/download/request") {
     set req.url = regsub(req.url, "^/", "/occurrence-download-ws/");
