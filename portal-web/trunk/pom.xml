@@ -534,6 +534,7 @@
       -->
       <id>uat</id>
       <properties>
+        <cargo.context>portal</cargo.context>
         <devMode>false</devMode>
         <notDevMode>true</notDevMode>
         <baseurl>http://uat.gbif.org</baseurl>
@@ -566,6 +567,7 @@
       -->
       <id>staging</id>
       <properties>
+        <cargo.context>portal</cargo.context>
         <devMode>false</devMode>
         <notDevMode>true</notDevMode>
         <baseurl>http://portaldev.gbif.org</baseurl>
