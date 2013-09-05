@@ -227,11 +227,11 @@ sub vcl_fetch {
       set beresp.ttl = 10s;
     }
   } else if( req.url ~ "^/(cfg|css|fonts|img|js|favicon|sites|misc|modules)" ) {
-    # cache static files for a day 60s*60*24
-    set beresp.ttl = 86400s;
+    # cache static files for 10 days 10*60s*60*24
+    set beresp.ttl = 864000s;
   } else if( req.url ~ "^/([a-z0-9-]+-ws)" ) {
-    # cache json for a day 60s*60*24
-    set beresp.ttl = 86400s;
+    # cache json for a week 7*60s*60*24
+    set beresp.ttl = 604800s;
   } else {
     # cache all the rest for 10 minutes as default
     # includes tile-server, image-cache, non personalized drupal pages & portal html
