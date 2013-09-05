@@ -1,5 +1,32 @@
 $(function() {
 
+  /*// Load images
+  $("img[data-load]").each(function(img) {
+
+    var url = $(this).attr("data-load");
+
+    $(this).hide();
+    $(this).attr("src", url);
+
+    var imgLoad = imagesLoaded($(this), function(instance) {
+      [> All images loaded <]
+    });
+
+    imgLoad.on( 'done', function( instance ) {
+      _.each(instance.elements, function(img) {
+        $(img).fadeIn(250);
+      });
+
+    });
+
+    imgLoad.on( 'fail', function( instance ) {
+      _.each(instance.elements, function(img) {
+        $(img).hide();
+      });
+    });
+
+  });*/
+
   // Placeholders for old browsers
   if (!Modernizr.input.placeholder){ // placeholder fix
     $('[placeholder]').focus(function() {
@@ -100,7 +127,7 @@ $(function() {
     $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).parent().find(".message").html(),"remarks":$(obj).parent().find(".remarks").html()});
   });
 
-  $("#disclaimerToggle").bindDisclaimerPopover({});
+  $(".disclaimerToggle").bindDisclaimerPopover({});
 
   // setup taxonomic browser
   $("#taxonomicBrowser").taxonomicExplorer({transitionSpeed:300});

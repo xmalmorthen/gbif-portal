@@ -110,7 +110,7 @@
 
   <#if dataset.logoUrl?has_content>
     <div class="logo_holder">
-      <img src="<@s.url value='${dataset.logoUrl}'/>"/>
+      <img src="" data-load="<@s.url value='${dataset.logoUrl}'/>" />
     </div>
   </#if>
 

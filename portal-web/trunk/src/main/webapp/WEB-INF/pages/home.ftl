@@ -39,7 +39,7 @@
         <li><strong id="countOccurrences">?</strong> Occurrences</li>
         <li><strong id="countSpecies">?</strong> Species</li>
         <li><strong id="countDatasets">?</strong> Datasets</li>
-        <li><strong id="countPublishers">?</strong> Data publishers</li>
+        <li class="last"><strong id="countPublishers">?</strong> Data publishers</li>
       </ul>
     </div>
   </content>

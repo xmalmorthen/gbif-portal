@@ -35,6 +35,5 @@
     </div>
     <footer></footer>
     </article>
-
   </body>
 </html>

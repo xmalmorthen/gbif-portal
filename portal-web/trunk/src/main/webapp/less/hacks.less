@@ -214,3 +214,11 @@ input::-webkit-input-placeholder {
 input:-moz-placeholder {
   color: #cccccc;
 }
+
+html.gecko #content{
+  ol, ul {
+    // firefox renders badly: http://dev.gbif.org/issues/browse/POR-412
+    list-style-position: outside !important;
+  }
+}
+

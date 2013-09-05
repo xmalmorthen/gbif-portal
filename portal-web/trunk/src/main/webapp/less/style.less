@@ -1,6 +1,3 @@
-//
-//
-
 @import "reset";
 
 @import "helpers"; // color and mixin definitions
@@ -266,15 +263,6 @@ p.advice {
   opacity: 0.32;
 }
 
-
-
-html.gecko #content{
-  ol, ul {
-    // firefox renders badly: http://dev.gbif.org/issues/browse/POR-412
-    list-style-position: outside !important;
-  }
-}
-
 #content {
   clear: both;
   margin: auto;
@@ -493,72 +481,72 @@ html.gecko #content{
 
       // Article .header
       & > .header {
-    clear: both;
-    overflow: hidden;
+        clear: both;
+        overflow: hidden;
 
-    h4 {
-      margin-bottom: 8px;
-      font-family: "DINOT-Medium", sans-serif;
-      font-size: 15px;
-      text-transform: uppercase;
-      color: @cGray1;
-      text-shadow: 0 1px white;
-    }
+        h4 {
+          margin-bottom: 8px;
+          font-family: "DINOT-Medium", sans-serif;
+          font-size: 15px;
+          text-transform: uppercase;
+          color: @cGray1;
+          text-shadow: 0 1px white;
+        }
 
-    .left {
+        .left {
 
-      border: none;
-      padding-top: 0;
-      overflow: hidden !important;
+          border: none;
+          padding-top: 0;
+          overflow: hidden !important;
 
-      a { text-decoration: none; }
+          a { text-decoration: none; }
 
-      h2 {
-        float: left;
-        margin-bottom: 0;
-        padding-bottom: 20px;
-        line-height: 20px;
+          h2 {
+            float: left;
+            margin-bottom: 0;
+            padding-bottom: 20px;
+            line-height: 20px;
+          }
+
+        }
+
+        .left hgroup {
+          margin: 0 0 23px 0;
+
+          h2 {
+            float: none;
+            margin-bottom: 15px;
+          }
+
+          h3 {
+            font-family: "Arial", "Helvetica", sans-serif;
+            color: @cGray2;
+            font-size: 15px;
+            text-transform: none;
+          }
+        }
+
+        .middle {
+          border: none;
+          padding-top: 0;
+          overflow: hidden !important;
+
+          h2 {
+            float: left;
+            margin-bottom: 0;
+            padding-bottom: 20px;
+            line-height: 20px;
+          }
+        }
+
+        .right {
+          padding: 0;
+          border: none;
+
+          a { text-decoration: none; }
+          h4 { margin-top: 6px; }
+        }
       }
-
-    }
-
-    .left hgroup {
-      margin: 0 0 23px 0;
-
-      h2 {
-        float: none;
-        margin-bottom: 15px;
-      }
-
-      h3 {
-        font-family: "Arial", "Helvetica", sans-serif;
-        color: @cGray2;
-        font-size: 15px;
-        text-transform: none;
-      }
-    }
-
-    .middle {
-      border: none;
-      padding-top: 0;
-      overflow: hidden !important;
-
-      h2 {
-        float: left;
-        margin-bottom: 0;
-        padding-bottom: 20px;
-        line-height: 20px;
-      }
-    }
-
-    .right {
-      padding: 0;
-      border: none;
-
-      a { text-decoration: none; }
-      h4 { margin-top: 6px; }
-    }
-  }
 
       ul {
         line-height: 18px;
@@ -1505,54 +1493,54 @@ html.gecko #content{
     }
 
     &.light_pane {
-       .content {
+      .content {
 
-         background: url("../img/boxes/box_results_bkg.png") repeat-y;
-         padding-right: 15px;
+        background: url("../img/boxes/box_results_bkg.png") repeat-y;
+        padding-right: 15px;
 
-         & > .header {
+        & > .header {
 
-           .left {
+          .left {
 
-             a {
-               position: relative;
-               float: right;
+            a {
+              position: relative;
+              float: right;
 
-               margin-top: 7px;
-               margin-right: 10px;
+              margin-top: 7px;
+              margin-right: 10px;
 
-               font-size: 15px;
+              font-size: 15px;
 
-               &:hover span {
-                 background: url("../img/icons/tiny_arrow_black.png") no-repeat right bottom;
-               }
+              &:hover span {
+                background: url("../img/icons/tiny_arrow_black.png") no-repeat right bottom;
+              }
 
-             }
+            }
 
-           }
+          }
 
-           .right {
+          .right {
 
-             h3 {
-               font-family: "DINOT-Medium", sans-serif;
-               font-size: 22px;
-               text-transform: none;
-               color: @cGray3;
-             }
+            h3 {
+              font-family: "DINOT-Medium", sans-serif;
+              font-size: 22px;
+              text-transform: none;
+              color: @cGray3;
+            }
 
-           }
+          }
 
-         }
+        }
 
-         form   { margin: 0 0 28px 0; }
+        form   { margin: 0 0 28px 0; }
 
-         .left  { margin: 0 51px 0 0; }
-         .right { width: 220px; }
-       }
+        .left  { margin: 0 51px 0 0; }
+        .right { width: 220px; }
+      }
 
-       header { background: url("../img/boxes/box_results_top.png") no-repeat left top; }
-       footer { background: url("../img/boxes/box_results_bottom.png") no-repeat left top; }
-     }
+      header { background: url("../img/boxes/box_results_top.png") no-repeat left top; }
+      footer { background: url("../img/boxes/box_results_bottom.png") no-repeat left top; }
+    }
 
     &.mono_line {
 
@@ -1572,38 +1560,38 @@ html.gecko #content{
 
     &.notice {
 
-    .content {
-      background: url("../img/boxes/box_yellow_bkg.png") repeat-y;
+      .content {
+        background: url("../img/boxes/box_yellow_bkg.png") repeat-y;
 
-      p {
-        font-size: 13px;
-        width: 700px;
-        margin: 0;
+        p {
+          font-size: 13px;
+          width: 700px;
+          margin: 0;
+        }
+
+        p a {
+          color: @cGray2;
+          text-decoration: underline;
+        }
+
+        img {
+          position: absolute;
+          top: 0px;
+          right: 30px;
+          z-index: 1000;
+        }
       }
 
-      p a {
-        color: @cGray2;
-        text-decoration: underline;
+      header {
+        background: url("../img/boxes/box_yellow_top.png") no-repeat left top;
       }
 
-      img {
-        position: absolute;
-        top: 0px;
-        right: 30px;
-        z-index: 1000;
+      footer {
+        background: url("../img/boxes/box_yellow_bottom.png") no-repeat left top;
+        text-align: left;
       }
-    }
 
-    header {
-      background: url("../img/boxes/box_yellow_top.png") no-repeat left top;
     }
-
-    footer {
-      background: url("../img/boxes/box_yellow_bottom.png") no-repeat left top;
-      text-align: left;
-    }
-
-  }
 
     &.occurrence_home {
 
@@ -2255,8 +2243,8 @@ html.gecko #content{
       width: 702px;
 
       header {
-         width: 702px;
-         background: url("../img/boxes/box_dataset_top.png") no-repeat left top;
+        width: 702px;
+        background: url("../img/boxes/box_dataset_top.png") no-repeat left top;
       }
 
       footer {
@@ -2265,60 +2253,60 @@ html.gecko #content{
       }
 
       .content {
-         background: url("../img/boxes/box_dataset_bkg.png") repeat-y;
-         padding: 0 29px;
-         nav {
-           clear: both;
-           overflow: hidden;
-           margin: auto;
-           width: 638px;
+        background: url("../img/boxes/box_dataset_bkg.png") repeat-y;
+        padding: 0 29px;
+        nav {
+          clear: both;
+          overflow: hidden;
+          margin: auto;
+          width: 638px;
 
-           &.left {
-             margin: 0 0 5px 0;
-             padding: 0;
-             border: none;
+          &.left {
+            margin: 0 0 5px 0;
+            padding: 0;
+            border: none;
 
-             a.candy_blue_button,
-             a.candy_white_button {
-               float: left;
-               padding-right: 0;
-             }
-             p {
-               float: left;
-               padding: 0 0 8px 0;
-               margin: 0 0 0 8px;
-             }
-           }
+            a.candy_blue_button,
+            a.candy_white_button {
+              float: left;
+              padding-right: 0;
+            }
+            p {
+              float: left;
+              padding: 0 0 8px 0;
+              margin: 0 0 0 8px;
+            }
+          }
 
-           &.right {
-             margin: 0;
-             padding: 0;
-             border: none;
+          &.right {
+            margin: 0;
+            padding: 0;
+            border: none;
 
-             a.candy_blue_button,
-             a.candy_white_button {
-               float: right;
-               padding-right: 0;
-             }
-             p {
-               float: right;
-               padding: 0;
-               margin: 0 10px 0 0;
-             }
-           }
-           p {
-             line-height: 34px;
-             font-size: 13px;
-             color: @cGray3;
-             a {
-               text-decoration: underline;
-               color: @cGray3;
-               &:hover {
-                 color: #005e7d !important;
-               }
-             }
-           }
-         }
+            a.candy_blue_button,
+            a.candy_white_button {
+              float: right;
+              padding-right: 0;
+            }
+            p {
+              float: right;
+              padding: 0;
+              margin: 0 10px 0 0;
+            }
+          }
+          p {
+            line-height: 34px;
+            font-size: 13px;
+            color: @cGray3;
+            a {
+              text-decoration: underline;
+              color: @cGray3;
+              &:hover {
+                color: #005e7d !important;
+              }
+            }
+          }
+        }
 
         ul.breadcrumb {
           margin: 0 0 20px 0;
@@ -2608,30 +2596,30 @@ html.gecko #content{
 
   .mini-profile {
 
-  a {
-    text-decoration: underline;
+    a {
+      text-decoration: underline;
 
-    &.avatar {
-      float: left;
-      margin-right: 10px;
-      text-decoration: none;
+      &.avatar {
+        float: left;
+        margin-right: 10px;
+        text-decoration: none;
+      }
+    }
+
+    strong {
+      display: block;
+      width: 230px;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 15px;
+      color: @cGray1;
+    }
+
+    span.date {
+      font-size: 13px;
+      color: @cGray3;
     }
   }
-
-  strong {
-    display: block;
-    width: 230px;
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 15px;
-    color: @cGray1;
-  }
-
-  span.date {
-    font-size: 13px;
-    color: @cGray3;
-  }
-}
 
   .select-filter {
     display: none;
@@ -3371,11 +3359,11 @@ The id #content is used for forcing precedence over other style definitions.
         border: none;
         color: @cLink;
         &.ui-state-hover {
-         border: none;
-         padding: 0;
-         margin: 0;
-         background: none;
-       }
+          border: none;
+          padding: 0;
+          margin: 0;
+          background: none;
+        }
       }
     }
   }
@@ -3408,6 +3396,7 @@ The id #content is used for forcing precedence over other style definitions.
         &:hover .value span {
           display: block !important;
         }
+
         .value {
           float: left;
           position: relative;
@@ -3432,20 +3421,14 @@ The id #content is used for forcing precedence over other style definitions.
 
     ul.ps_selected {
       margin: 0;
+
       li {
         margin: 0 0 5px 0 !important;
 
-        a {
-          color: @cGray2;
-        }
+        a { color: @cGray2; }
+        .remove { padding: 3px; }
+        &:hover .remove { display: inline; }
 
-        .remove {
-          padding: 3px;
-        }
-
-        &:hover .remove {
-          display: inline;
-        }
       }
     }
 
@@ -3540,7 +3523,6 @@ The id #content is used for forcing precedence over other style definitions.
     visibility: hidden;
   }
 }
-
 
 // Register
 body.register footer {
@@ -3650,67 +3632,43 @@ form input[type="text"].placeholder {
   list-style-image: none !important;
 
   li {
+    float: left;
+    padding: 0px 10px 0 5px !important;
     color: #CCCCCC;
     font-family: Arial;
     font-size: 10px;
     font-weight: normal;
-    padding: 0px 10px 0 5px !important;
-    float: left;
     background: url("../img/icons/arrow_small_right.png") no-repeat right;
-    li:last-child {
-      background: none;
-    }
-  }
-  li.last {
-    background: none;
-  }
-}
 
-.numbered-pagination {
-	padding: 10px;
-	list-style: none;
-	width: 100%;
-	height: 20px;
-	text-align: center;
-    li {
-	  margin-right: 10px;
-	  display: inline-block;
-      a {
-	    text-decoration: none;
-	    color: #717171;
-	    font: bold 13px Arial, sans-serif;
-	    text-shadow: 0px 1px white;
-	    padding: 5px 15px;
-	    border-radius: 3px;
-	    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.35);
-	    background: #f9f9f9;
-        &:hover {
-          box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.55);
-          background: #fff;
-        }
-        &.current {
-          color: white;
-          text-shadow: 0px 1px #3f789f;
-          box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.8);
-          background: @cLink;
-          &:active { box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.5), 0px 1px 1px 0px rgba(255,255,255,1) !important; }
-          &:hover { box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.9); background: #99cefc; }
-        }
-        &:active { box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.5), 0px 1px 1px 0px rgba(255,255,255,1) !important;}
-	  }
-	}
+    li:last-child { background: none; }
+    &.last { background: none; }
+  }
+
 }
 
 #country_list ul {
   list-style-position: outside;
   padding: 0 0 0 10px;
-}
 
-#country_list ul li.node a {
-  text-decoration: underline;
+  li.node a { text-decoration: underline; }
+
 }
 
 // let the jira feedback buttons float above everything
 a.atlwdg-trigger {
   z-index: 1001;
+}
+
+.my_footer {
+  height: 100px;
+  background:blue;
+  text-align:center;
+  .inner {
+    text-align:left;
+    background:red;
+    width: 500px;
+    margin: auto;
+
+  }
+
 }

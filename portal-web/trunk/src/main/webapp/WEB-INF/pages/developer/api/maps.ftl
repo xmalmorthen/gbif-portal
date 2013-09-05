@@ -36,7 +36,7 @@
             + "&key=" + $("#key").val()
             + layers
             + palette;
-          console.log("GBIF layer template url: " +  url);
+          // console.log("GBIF layer template url: " +  url);
           $("#urlTemplate").html("<a href='" + url + "'>" + url + "</a>");
           return url;
         }        
@@ -71,7 +71,6 @@
         $('.toggle').click(function(e) {
           e.preventDefault();
           $.each($('.layer'), function(i,d) {
-            console.log(d.id);
             if (d.id.startsWith(e.target.id)) {
               d.checked = !d.checked;
             }

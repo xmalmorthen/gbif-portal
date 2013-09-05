@@ -31,7 +31,9 @@
   <meta name="description" content="">
   <meta name="author" content="GBIF">
   <#-- Mobile viewport optimized: j.mp/bplateviewport -->
+  <!--
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  -->
   <link rel="shortcut icon" href="<@s.url value='/img/favicon/favicon_32x32.ico'/>">
   <#-- Replace apple-touch-icon.png as per issue http://dev.gbif.org/issues/browse/POR-403 Without a proper path Struts2 configuration exception is thrown-->
   <link rel="apple-touch-icon" href="<@s.url value='/img/favicon/favicon_32x32.ico'/>">
@@ -83,8 +85,8 @@
       </div>
     </#if>
 
-    <a id="disclaimerToggle" href="<@s.url value='/disclaimer'/>">
-      <img id="beta" src="<@s.url value='/img/beta.gif'/>">
+    <a class="disclaimerToggle" href="<@s.url value='/disclaimer'/>">
+      <img src="<@s.url value='/img/beta.gif'/>">
     </a>
 
     <nav>

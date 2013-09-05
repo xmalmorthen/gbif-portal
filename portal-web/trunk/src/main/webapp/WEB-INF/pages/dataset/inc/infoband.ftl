@@ -58,7 +58,7 @@
       <div class="content">
         <#if dataset.type! == "OCCURRENCE">
             <ul>
-              <li class="single"><h4>${numOccurrences!0}</h4>Occurrences</li>
+              <li class="single last"><h4>${numOccurrences!0}</h4>Occurrences</li>
             </ul>
             <a href="<@s.url value='/occurrence/search?datasetKey=${id!}'/>" title="View occurrences" class="candy_blue_button"><span>View occurrences</span></a>
         <#elseif dataset.type! == "CHECKLIST">

@@ -50,3 +50,12 @@
 // transition speed for mouse hovering
 @hover-speed: .3s;
 
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.cf:after {
+    clear: both;
+}

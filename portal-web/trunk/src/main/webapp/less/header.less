@@ -1,8 +1,14 @@
 @import "helpers";
 
+@innerWidth: 924px;
+
+.home header .disclaimerToggle {
+  left: 150px;
+  right: auto;
+}
+
 header {
   position: relative;
-  padding-top: 3px;
   height: 285px;
 
   background: url("../img/header/top_bar.jpg") repeat-x;
@@ -10,7 +16,7 @@ header {
   #logo {
     position: absolute;
     top: 36px;
-    left: 55px;
+    left: 0;
     .size(300px, 38px);
     color: #333333;
     font-size: 11px;
@@ -34,10 +40,11 @@ header {
 
   }
 
-  #beta {
-    position: relative;
-    left: 800px;
+  .disclaimerToggle {
+    position:absolute;
     top: 20px;
+    right: 20px;
+
     z-index: 1000;
   }
 
@@ -48,12 +55,7 @@ header {
     background: url("../img/header/infoband.jpg") repeat-x right top;
 
     .content {
-      position: absolute;
-      width: 967px;
-      left: 50%;
-      right: 50%;
-      padding-left: 50px;
-      margin-left: -512px;
+      .absolute-landscape-center(@innerWidth);
       text-align: left;
 
       h1 {
@@ -66,9 +68,8 @@ header {
         font-size: 35px;
         color: white;
 
-        &.fullwidth {
-          width: auto;
-        }
+        &.fullwidth { width: auto; }
+
       }
 
       h2 {
@@ -165,7 +166,7 @@ header {
       .box {
         position: absolute;
         top: 0;
-        right: 37px;
+        right: 0;
         background: url("../img/header/infoband_box_left.png") no-repeat left top;
         padding: 0 12px;
 
@@ -211,7 +212,8 @@ header {
               }
               
               &.single {
-                min-width: 120px;
+                /*min-width: 120px;*/
+                width: 100%;
               }
 
               h4 {
@@ -228,17 +230,13 @@ header {
   }
 
   div#tabs {
+
     position: relative;
 
     ul {
+      .absolute-landscape-center(@innerWidth);
       padding: 0;
-      margin: 0;
-      position: absolute;
-      width: 924px;
       bottom: 0;
-      left: 50%;
-      right: 50%;
-      margin-left: -462px;
       z-index: 100;
 
       &.highlighted {
@@ -345,7 +343,7 @@ header {
     .account {
       position: absolute;
       top: -3px;
-      right: 52px;
+      right: 0;
 
       .size(170px, 19px);
 
@@ -370,18 +368,16 @@ header {
     }
 
     .content {
-      position: absolute;
-      width: 1024px;
-      margin-left: -512px;
-      left: 50%;
-      right: 50%;
+      .absolute-landscape-center(@innerWidth);
       text-align: left;
+
+      .info { left: 22px; }
     }
 
     nav {
       position: absolute;
       top: 50px;
-      right: 55px;
+      right: 0;
 
       z-index: 100;
 
@@ -568,20 +564,17 @@ body {
     height: 98px;
 
     #top .content {
-      position: absolute;
-      width: 810px;
-      margin-left: -405px;
-      left: 50%;
-      right: 50%;
+      .absolute-landscape-center(810px);
+
       nav ul {
         li.selected a,
-        li a:hover {
-          background: none;
-        }
+        li a:hover { background: none; }
       }
     }
+
     h2 { margin-left: 25px; }
   }
+
   &.infobandless {
     header {
       height: 98px;
@@ -612,6 +605,3 @@ body {
     width:auto;
   }
 }
-
-
-
