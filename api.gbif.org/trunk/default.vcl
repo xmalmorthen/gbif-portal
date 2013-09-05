@@ -110,7 +110,7 @@ sub vcl_recv {
     }
 
     # dont cache requests with session cookies
-    if (req.http.Cookie) {
+    if (req.http.Cookie || req.request != "GET") {
       return (pass);
     }
     return (lookup);
