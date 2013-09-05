@@ -9,7 +9,7 @@
 -->
 <content tag="infoband">
 
-  <h1>${common.limit(member.title!"???", 50)}</h1>
+  <h1 class="fullwidth">${common.limit(member.title, 70)}</h1>
 
   <#if type=='NODE'>
     <h3>
