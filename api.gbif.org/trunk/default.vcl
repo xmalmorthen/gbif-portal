@@ -78,7 +78,7 @@ sub vcl_recv {
   set req.http.x-url = "http://" + req.http.host + req.url;
   
   # first check for uat PORTAL subdomain
-  if (req.http.host == "uat.gbif.org" || req.http.host == "portaldev.gbif.org") {
+  if (req.http.host ~ "^(uat|portaldev).gbif.org") {
     # default to java apps
     if (req.http.host == "uat.gbif.org") {
       set req.backend = jawa;
@@ -86,17 +86,12 @@ sub vcl_recv {
       set req.backend = staging;
     }
     
-    # the registry console
-    # TODO: this only exposes the html, but the vital css & js files are not exposed yet as they clash with the portal path. 
-    # Maybe not needed to expose in UAT at all?
-    if ( req.url ~ "^/console" ) {
-      # the console is not public - only GBIFS can access it!
-      if (!client.ip ~ GBIFS) {
-        error 403 "Not allowed, this page is private to the GBIF Secretariat";
+    # remove all cookies if no drupal session is set - we configured varnish to only cache pages without any cookie!
+    if (req.http.Cookie) {
+      set req.http.x-cookie = req.http.Cookie;
+      if (!req.http.Cookie ~ "(^| )SESS[0-9abcdef]+") {
+        remove req.http.Cookie;
       }
-      set req.url = regsub(req.url, "^/console", "/registry2-ws/web/index.html");
-      # dont cache any console files
-      return (pass);
     }
 
     # catch known java app paths
@@ -114,12 +109,11 @@ sub vcl_recv {
       }
     }
 
-    # PORTAL - ONLY CACHE STATIC FILES !!!
-    if ( req.url ~ "^/(cfg|css|fonts|img|js|favicon|sites|misc|modules)" ) {
-      return (lookup);
-    } else {
+    # dont cache requests with session cookies
+    if (req.http.Cookie) {
       return (pass);
     }
+    return (lookup);
 
 
   #
@@ -146,13 +140,13 @@ sub vcl_recv {
   }
   
   if (req.url ~ "^/lookup/name_usage"){
-    if (req.http.host == "apidev.gbif.org") {
-      set req.backend = ecatdev;
-      set req.url = regsub(req.url, "^/lookup/name_usage", "/nub-ws/nub");
-    } else {
-      set req.backend = boma;
-      set req.url = regsub(req.url, "^/lookup/name_usage", "/ws-nub/nub");
-    }
+    set req.backend = ecatdev;
+    set req.url = regsub(req.url, "^/lookup/name_usage", "/nub-ws/nub");
+    # BOMA runs an old nublookup, but is intended to host the uat version in the future
+    # if (req.http.host == "apidev.gbif.org") {
+    #   set req.backend = boma;
+    #   set req.url = regsub(req.url, "^/lookup/name_usage", "/ws-nub/nub");
+    # }
   
   } else if (req.url ~ "^/lookup/reverse_geocode"){
     set req.backend = boma;
@@ -172,12 +166,12 @@ sub vcl_recv {
   
   } else if ( req.url ~ "^/occurrence/download/request") {
     set req.url = regsub(req.url, "^/", "/occurrence-download-ws/");
-    # not cache any download response, for this new downloads should evict the cache which is not the case
+    # not cache any download response
     return (pass);
 
   } else if ( req.url ~ "^/occurrence/download") {
     set req.url = regsub(req.url, "^/", "/registry2-ws/");
-    # not cache any download response, for this new downloads should evict the cache which is not the case
+    # not cache any download response
     return (pass);
   
   } else if ( req.url ~ "^/occurrence") {
@@ -210,8 +204,8 @@ sub vcl_recv {
 
 
 sub vcl_fetch {
-  # dont cache successful put, post,delete
-  if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE") && (beresp.status < 400)) {
+  # dont cache put, post or delete
+  if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE")) {
     return (hit_for_pass);
   }
  
@@ -225,16 +219,23 @@ sub vcl_fetch {
     return (hit_for_pass);
   }
   
-  # cache metrics and maps only for a very short time
-  if ( req.url ~ "^/(metrics-ws|tile-server)" ) {
+  # cache metrics andmap tiles for a minute
+  if ( req.url ~ "^/(metrics-ws|tile-server)") {
     set beresp.ttl = 60s;
-    # do not cache quickly changing count metrics
+    # cache quickly changing count metrics for 10 seconds only
     if ( req.url ~ "count") {
-      return (hit_for_pass);
+      set beresp.ttl = 10s;
     }
+  } else if( req.url ~ "^/(cfg|css|fonts|img|js|favicon|sites|misc|modules)" ) {
+    # cache static files for a day 60s*60*24
+    set beresp.ttl = 86400s;
+  } else if( req.url ~ "^/([a-z0-9-]+-ws)" ) {
+    # cache json for a day 60s*60*24
+    set beresp.ttl = 86400s;
   } else {
-    # cache for 30 days
-    set beresp.ttl = 2592000s;
+    # cache all the rest for 10 minutes as default
+    # includes tile-server, image-cache, non personalized drupal pages & portal html
+    set beresp.ttl = 600s;
   }
 
   return (deliver);
