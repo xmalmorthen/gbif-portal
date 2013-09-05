@@ -14,7 +14,7 @@
 
 <#if page.results?has_content>
 <@common.article id="datasets" title="Participating datasets: ${member.numConstituents}">
-  <div class="left">
+  <div class="fullwidth">
       <ul class="notes">
         <#list page.results as d>
           <li>
