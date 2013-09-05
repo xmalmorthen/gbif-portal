@@ -2,8 +2,9 @@
 
 <#--
 	Construct a Dataset record.
+	WARNING! if showPublisher is true an action method action.getOrganization(UUID) must exist to return the matching org
 -->
-<#macro dataset dataset maxDescriptionLength=500>
+<#macro dataset dataset maxDescriptionLength=500 showPublisher=false>
   <div class="result">
     <h2>
       <strong>
@@ -17,6 +18,13 @@
       <#-- If anything needs to be placed next to the dataset title, put it here -->
       <span class="note">${dataset.subtype!} <@s.text name="enum.datasettype.${dataset.type!}"/></span>
     </h2>
+
+    <#if showPublisher && dataset.owningOrganizationKey??>
+      <p>
+        <#assign publisher=action.getOrganization(dataset.owningOrganizationKey) />
+        Published by <a href="<@s.url value='/publisher/${publisher.key}'/>" title="${publisher.title}">${publisher.title}</a>.
+      </p>
+    </#if>
 
     <div class="footer">
       <#if dataset.description?has_content>

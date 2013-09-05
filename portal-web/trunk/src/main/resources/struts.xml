@@ -304,6 +304,10 @@
       <param name="id">{1}</param>
       <result>/WEB-INF/pages/network/detail.ftl</result>
     </action>
+    <action name="*/datasets" class="org.gbif.portal.action.network.DetailAction" method="datasets">
+      <param name="id">{1}</param>
+      <result>/WEB-INF/pages/network/datasets.ftl</result>
+    </action>
   </package>
 
   <!-- DATA PUBLISHER -->
