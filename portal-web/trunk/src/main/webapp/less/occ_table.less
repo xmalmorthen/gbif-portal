@@ -1,7 +1,7 @@
 #content article.ocurrence_results {
   z-index:1000;
   .content { padding: 0; }
-  
+
   .content  > .footer {
     padding: 24px 26px;
 
@@ -22,95 +22,102 @@
       text-align: center;
     }
   }  
-  
+
   div.location_option {
     border: 1px solid #F0F0F0; 
     border-radius:4px;
   }
-  
+
   .location_option_geo {
     border: 1px solid @cGray4; 
     border-radius:4px;
     background-color:#F2FAFB;
     margin:10px;
   }
-  
+
   fieldset {
-      legend { 
-        font-size: 11px;
-        color: @cGray2;
-        text-transform: uppercase;
-        font-family: "DINOT-Medium",sans-serif;
-        vertical-align: baseline;
-      }      
-      input[type='checkbox'] {
-        vertical-align: baseline;
-      }
+    legend { 
+      font-size: 11px;
+      color: @cGray2;
+      text-transform: uppercase;
+      font-family: "DINOT-Medium",sans-serif;
+      vertical-align: baseline;
+    }      
+    input[type='checkbox'] {
+      vertical-align: baseline;
+    }
   }
-  
+
   div.summary_view {
-        div.title {
-          display:inline-block !important;
-        } 
-        ul {
-          list-style-image: none !important;
-          list-style: none !important;
-          margin-bottom: 2px;         
-          font-size: 13px;            
-        }
-        div.filter {
-          border: 1px solid #DDDDDD;            
-          border-width: 1px !important;
-          -moz-border-radius: 4px !important;
-          border-radius: 4px !important;                           
-      }
+    div.title {
+      display:inline-block !important;
+    } 
+    ul {
+      list-style-image: none !important;
+      list-style: none !important;
+      margin-bottom: 2px;         
+      font-size: 13px;            
     }
-    .filter_content{
-      margin-left: 2px;
-      float:left;
+    div.filter {
+      border: 1px solid #DDDDDD;            
+      border-width: 1px !important;
+      -moz-border-radius: 4px !important;
+      border-radius: 4px !important;                           
     }
+  }
+  .filter_content{
+    margin-left: 2px;
+    float:left;
+  }
+
   .filter_view {
+    margin: 15px 0;
+    padding: 39px 19px 14px;
     background-color: #FFFFFF;
     border: 1px solid #DDDDDD;
     border-radius: 4px 4px 4px 4px;
-    margin: 15px 0;
-    padding: 39px 19px 14px;
+
+    clear:both; 
+    overflow:hidden;
+
 
     .center { 
 
-       clear:both;
-       overflow:hidden;
-       margin: auto;
-       width: 128px; 
-       padding: 0 4px;
+      clear:both;
+      overflow:hidden;
+      margin: auto;
+      width: 128px; 
+      padding: 0 4px;
 
-       .button { float: left; width: 128px; }
+      .button { float: left; width: 128px; }
 
     }
 
 
     h4.title {
-        background-color: #F5F5F5;
-        border: 1px solid #DDDDDD;
-        border-radius: 4px 0 4px 0;
-        color: #9DA0A4;        
-        font-size: 12px;
-        left: -1px;
-        padding: 3px 7px;
-        position: absolute;
-        top: -1px;
+      background-color: #F5F5F5;
+      border: 1px solid #DDDDDD;
+      border-radius: 4px 0 4px 0;
+      color: #9DA0A4;        
+      font-size: 12px;
+      left: -1px;
+      padding: 3px 7px;
+      position: absolute;
+      top: -1px;
     } 
+
     div.filter, #bboxContainer {
+
       table tr td{
-         padding: 8px 15px;
-         border: 0px none;
-         vertical-align: top;
+        padding: 8px 15px;
+        border: 0px none;
+        vertical-align: top;
       }
 
-     .geo_type{
-       cursor: pointer;
-     }
-      
+      .geo_type{
+        cursor: pointer;
+      }
+
       // (UGLY) fix the location of the zoom controls
       // This should be removed when the occurrence filters are styled 
       div#zoom_in {
@@ -131,7 +138,7 @@
       color: #999999;
       font-size: 11px;
     }
-    
+
     div.filterlist{
       ul {
         list-style: none;
@@ -140,59 +147,59 @@
         padding: 8px 0;
       }
     }
-    
+
     .close {        
-        border: none;                
-        right: -1px;
-        top: -1px;
-        padding: 1px;
-        margin-top: 2px;
-        position: absolute;        
+      border: none;                
+      right: -1px;
+      top: -1px;
+      padding: 1px;
+      margin-top: 2px;
+      position: absolute;        
     }
-    
+
     label { 
-        font-size: 11px;
-        color: @cGray2;
-        text-transform: uppercase;
-        font-family: "DINOT-Medium",sans-serif;
-        vertical-align: baseline;
-      }   
-      
-   ul.basis-of-record {
-    list-style: none;
-    background-color: #F5F5F5;
-    border: 1px solid #DDDDDD;
-    border-radius: 4px;
-    color: #9DA0A4;        
-    font-size: 15px;        
-    padding: 2px;      
-    li {
-          margin: 0 0 6px 0 !important;
-          padding-left: 20px !important;
-          cursor: pointer;
-          &:hover { background: url(../img/tick_disabled.png) no-repeat 0 3px !important;  }
-          &:hover a { font-weight: bold !important; }
+      font-size: 11px;
+      color: @cGray2;
+      text-transform: uppercase;
+      font-family: "DINOT-Medium",sans-serif;
+      vertical-align: baseline;
+    }   
 
-          a {
-            color: #666 !important;
-            font-size: 15px !important;
-            font-weight:normal !important;
-          }
+    ul.basis-of-record {
+      list-style: none;
+      background-color: #F5F5F5;
+      border: 1px solid #DDDDDD;
+      border-radius: 4px;
+      color: #9DA0A4;        
+      font-size: 15px;        
+      padding: 2px;      
+      li {
+        margin: 0 0 6px 0 !important;
+        padding-left: 20px !important;
+        cursor: pointer;
+        &:hover { background: url(../img/tick_disabled.png) no-repeat 0 3px !important;  }
+        &:hover a { font-weight: bold !important; }
 
-          &.selected { 
-            background: url(../img/tick.png) no-repeat 0 3px !important;
-            a { font-size: 15px !important; font-weight: bold !important;}
-          }
-        }  
-   }
-   a.apply {
-     cursor: pointer;
-     padding: 0 0 0 1px;
-   }       
+        a {
+          color: #666 !important;
+          font-size: 15px !important;
+          font-weight:normal !important;
+        }
+
+        &.selected { 
+          background: url(../img/tick.png) no-repeat 0 3px !important;
+          a { font-size: 15px !important; font-weight: bold !important;}
+        }
+      }  
+    }
+    a.apply {
+      cursor: pointer;
+      padding: 0 0 0 1px;
+    }       
   }
-  
+
   table.results {
-    
+
     width: 920px;
     margin: 0 0 0 2px;
     div.buttonContainer{
@@ -200,19 +207,22 @@
       margin-right:auto;
       margin-bottom:5px;
     }
+
     a.button {
-        .inline_block();
-          color: white;
-          text-shadow: 0px 1px #3f789f;
-          box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.8);
-          text-align: center;
-          background: @cLink;
-          margin-left:auto;
-          margin-right:auto;
-          &:active { box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.5), 0px 1px 1px 0px rgba(255,255,255,1) !important; }
-          &:hover { box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.9); background: #99cefc; }
+      .left {  float:left; }
+
+      .inline_block();
+      color: white;
+      text-shadow: 0px 1px #3f789f;
+      box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.8);
+      text-align: center;
+      background: @cLink;
+      margin-left:auto;
+      margin-right:auto;
+      &:active { box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.5), 0px 1px 1px 0px rgba(255,255,255,1) !important; }
+      &:hover { box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.9); background: #99cefc; }
     }    
-    
+
     tr.result:hover td         { background: #FFFFF5; }
     tr.header:hover td  { background: #FFFFFF; }    
 
@@ -220,7 +230,7 @@
       div,a {display:inline-block;}
       a {font-size:13px;}
     }
-    
+
     tr.filter { display: none; }
 
     tr.filter td {
@@ -234,7 +244,7 @@
 
       // we use this to solve a problem with relative td in Firefox
       .inner { position:relative; }      
-    
+
       .button {
         width: 128px;
       }
@@ -252,57 +262,57 @@
         outline: none;
         font-size: 13px;
       }
-      
+
       .configure_dates {  
-            float:right;
-            font-size:10px; 
-            cursor:pointer;
-            i {
-              margin-top: -3px;
-              .size(18px);
-              background: url(../img/icons/cog.png) no-repeat;
-            }   
-       }
-       
-       .configure_dates_box {
-          border: 1px solid @cGray4; 
-          border-radius:4px;
-          background-color:#F2FAFB;
-          margin:0px;
-          padding: 5px;
-          display:inline-block;
-          table tr td{
-            padding: 3px 3px; 
-          }
-          .label{
-            text-transform: uppercase;
-            color: #9DA0A4;
-            font-family: "DINOT-Medium",sans-serif;
-            font-size: 11px;
-            padding-right: 5px;
-          }
-          .dk_container{
-            float: right;
-            font-size: 11px;
-            margin-bottom: 2px;
-            line-height: 10px;
-            * {
-              font-size: 11px;
-            }
-          }
-          .date_format {
-            width: 78px;
+        float:right;
+        font-size:10px; 
+        cursor:pointer;
+        i {
+          margin-top: -3px;
+          .size(18px);
+          background: url(../img/icons/cog.png) no-repeat;
+        }   
+      }
+
+      .configure_dates_box {
+        border: 1px solid @cGray4; 
+        border-radius:4px;
+        background-color:#F2FAFB;
+        margin:0px;
+        padding: 5px;
+        display:inline-block;
+        table tr td{
+          padding: 3px 3px; 
+        }
+        .label{
+          text-transform: uppercase;
+          color: #9DA0A4;
+          font-family: "DINOT-Medium",sans-serif;
+          font-size: 11px;
+          padding-right: 5px;
+        }
+        .dk_container{
+          float: right;
+          font-size: 11px;
+          margin-bottom: 2px;
+          line-height: 10px;
+          * {
             font-size: 11px;
           }
         }
+        .date_format {
+          width: 78px;
+          font-size: 11px;
+        }
+      }
     }
 
-   tr.results-header td {
+    tr.results-header td {
 
       background: #F2FAFB;
 
       height: 20px;
-  
+
       text-align:center;
 
       ul li {
@@ -373,12 +383,12 @@
 
           }
         }
-          
+
         .dropdown-menu.filters, .dropdown-menu.configure {          
-                    
+
           label{vertical-align: baseline; font-size:12px;}
           input{vertical-align: baseline;  font-size:12px;}
-          
+
           ul { padding: 10px 0 0 0; margin-bottom:3px !important; font-size:15px !important;}
 
           ul li a {
@@ -459,7 +469,7 @@
           color: #005e7d;
         }
       }
-      
+
       a.title {
         font-weight: bold;
       }
@@ -495,7 +505,7 @@
         background:url(../img/icons/filter_close.png) no-repeat;
         cursor: pointer;        
       }
-      
+
       a.edit {
         background: url("../img/icons/edit.png") no-repeat scroll 0 0 transparent;
         float: right;
@@ -504,7 +514,7 @@
         width: 12px;
         cursor: pointer;
       }
-      
+
       a.closeFilter {
         position: relative !important;
         float: right;
@@ -514,33 +524,33 @@
         background:url(../img/icons/delete.png) no-repeat;
         cursor: pointer;
       }
-      
+
       // fix the unwanted inheritance on the leaflet attribution
       div.leaflet-control-attribution  a {
         font-size: 11px;
         top: 0px;
         display:inline;
         margin: 0;
-        
+
       }                  
     }    
-    
-    
-    
+
+
+
   }  
   div.date-filter {
-    
+
     min-width: 350px;
-    
+
     .dk_toggle{
       width: 70px !important;
     }
-    
+
     li {
       margin-bottom: 0px !important;
     }
-    
-    
+
+
   }
 }
 
@@ -713,29 +723,29 @@ span.warningCounter {
 }
 
 div.suggestionBox ul.taxonomy {
-    display: inline-block;
-    clear: both;
-    margin-bottom: 1px !important;
+  display: inline-block;
+  clear: both;
+  margin-bottom: 1px !important;
 
-    li {
-      float: left;
-      margin: 0 4px 0 0 !important;
-      padding: 0 6px 0 0 !important;
-      display: block !important;
-      border: none !important;
-      font-size: 10px;
-      background: url("../img/icons/arrow_small_right.png") no-repeat right;
-      list-style: none;
-      color: @cGray4;
+  li {
+    float: left;
+    margin: 0 4px 0 0 !important;
+    padding: 0 6px 0 0 !important;
+    display: block !important;
+    border: none !important;
+    font-size: 10px;
+    background: url("../img/icons/arrow_small_right.png") no-repeat right;
+    list-style: none;
+    color: @cGray4;
 
-      &.last {
-        background: none;
-      }
+    &.last {
+      background: none;
+    }
 
-      li:last-child {
-        background: none;
-      }
-    }       
+    li:last-child {
+      background: none;
+    }
+  }       
 }
 header #infoband .content {
   .table_title {

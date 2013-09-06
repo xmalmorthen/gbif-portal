@@ -546,9 +546,7 @@
                   <label for="spatialIssues">with known coordinate issues</label> <input type="checkbox" name="SPATIAL_ISSUES" id="spatialIssues" value="true" <#if action.isInFilter('SPATIAL_ISSUES', 'true')> checked</#if> <#if action.isInFilter('GEOREFERENCED', 'false')> disabled</#if>/>
                 </fieldset>
               </div>
-              <div style="display:inline-block;">         
-                <a class="button candy_blue_button apply" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply</span></a>
-               </div>         
+                <a class="button candy_blue_button apply left" title="<%= title %>" data-action="add-new-bbox-filter" data-filter="<%= paramName %>"><span>Apply</span></a>
            </div>                             
            <a class="close"></a>     
         </div>
