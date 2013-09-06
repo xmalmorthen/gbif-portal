@@ -1470,11 +1470,11 @@ var download = (function() {
       event.preventDefault();
       displayed && hide();
     });
-    
+
     $popover.find("#run-download").click(function (event) {
       callback(); // run it
     });
-    
+
     $popover.click(function(event) {
       event.stopPropagation();
     });
@@ -1690,7 +1690,11 @@ $.fn.speciesSlideshow = function(usageID) {
   $metadata        = $this.find(".scrollable");
   $imgCounter      = $this.find(".counter");
 
-  $.getJSON(cfg.wsClb + "name_usage/" + usageID + "/images", initImageData);
+  $(this).hide();
+
+  var url = cfg.wsClb + "name_usage/" + usageID + "/images?callback=?";
+
+  $.getJSON(url, initImageData);
 
 function updateMetadata(currentPhoto, data) {
   $imgCounter.text(1+currentPhoto + " / " + slideData.length);
@@ -1789,6 +1793,8 @@ function deactivateController(controller) {
 
 function initImageData(data) {
 
+  $this.show();
+
   var images = data.results;
   var $photos = $scroller.find(".photos");
   var n = 0;
@@ -1797,7 +1803,7 @@ function initImageData(data) {
     n++;
     slideData.push(imgJson);
 
-    $photos.append("<li><div class='spinner'/></div><a href='"+imgJson.image+"' class='fancybox' title='"+imgJson.title+"'><img id='photo_"+n+"'src='" + imgJson.image + "' /></a></li>");
+    $photos.append("<li><div class='spinner'></div><a href='"+imgJson.image+"' class='fancybox' title='"+imgJson.title+"'><img id='photo_"+n+"'src='" + imgJson.image + "' /></a></li>");
 
     var $img = $photos.find("#photo_" + n);
 
