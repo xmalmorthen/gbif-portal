@@ -29,6 +29,9 @@
           width: 199px;
           float: left;
         }
+        article .right ul.notes {
+          padding-left: 0px;
+        }
     </style>
   </content>
 </head>
@@ -162,6 +165,17 @@
     <p><a href="<@s.url value='/node/${publisher.endorsingNode.key}'/>"
           title="${publisher.endorsingNode.title!"Unknown"}">${publisher.endorsingNode.title!"Unknown"}</a>
     </p>
+  </#if>
+
+  <#if networks?has_content>
+    <h3>Networks</h3>
+    <ul>
+    <#list networks as n>
+      <li>
+        <a href="<@s.url value='/network/${n.key}'/>" title="${n.title}">${n.title}</a>
+      </li>
+    </#list>
+    </ul>
   </#if>
 
   <#if dataset.homepage?has_content || links?has_content>

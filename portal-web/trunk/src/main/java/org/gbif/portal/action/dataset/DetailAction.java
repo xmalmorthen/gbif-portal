@@ -13,6 +13,7 @@ import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Contact;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Endpoint;
+import org.gbif.api.model.registry.Network;
 import org.gbif.api.model.registry.eml.geospatial.GeospatialCoverage;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.vocabulary.EndpointType;
@@ -24,7 +25,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
@@ -57,6 +57,8 @@ public class DetailAction extends DatasetBaseAction {
   private final List<Endpoint> links = Lists.newArrayList();
   private final List<Endpoint> dataLinks = Lists.newArrayList();
   private final List<Endpoint> metaLinks = Lists.newArrayList();
+  private List<Network> networks;
+
   @Nullable
   private PagingResponse<Dataset> constituents;
   private boolean renderMaps = false; // flag controlling map article rendering or not
@@ -90,6 +92,8 @@ public class DetailAction extends DatasetBaseAction {
         }
       }
     }
+    // get networks
+    networks = datasetService.listNetworks(id);
 
     return SUCCESS;
   }
@@ -198,5 +202,9 @@ public class DetailAction extends DatasetBaseAction {
         links.add(p);
       }
     }
+  }
+
+  public List<Network> getNetworks() {
+    return networks;
   }
 }
