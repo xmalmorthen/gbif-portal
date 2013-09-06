@@ -84,7 +84,7 @@
 <#macro address address >
 <div class="address">
   <#if address.address?has_content>
-    <span>${address.address}</span>
+    <span><#list address.address?split("|") as x>${x}<#if x_has_next><br/></#if></#list></span>
   </#if>
 
   <#if address.postalCode?has_content || address.zip?has_content || address.city?has_content>
