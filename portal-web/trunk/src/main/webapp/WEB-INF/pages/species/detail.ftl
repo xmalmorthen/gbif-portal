@@ -296,7 +296,7 @@
 <div class="right">
   <#if primeImage?exists>
     <div class="species_image">
-      <a href="#images" class="images"><span><img src="${action.getImageCache(primeImage.image,'s')}" /></span></a>
+      <a href="#images" class="images"><span><img src="#" data-load="${action.getImageCache(primeImage.image,'s')}" /></span></a>
     </div>
   </#if>
 

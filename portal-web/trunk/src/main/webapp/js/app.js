@@ -1,31 +1,27 @@
 $(function() {
 
-  /*// Load images
+  // Image loading
   $("img[data-load]").each(function(img) {
 
     var url = $(this).attr("data-load");
-
-    $(this).hide();
     $(this).attr("src", url);
 
-    var imgLoad = imagesLoaded($(this), function(instance) {
-      [> All images loaded <]
+    // hide the image by default, only show it on success
+    $(this).hide();
+
+    $(this).on('load', function( instance ) {
+      $(this).fadeIn(250);
     });
 
-    imgLoad.on( 'done', function( instance ) {
-      _.each(instance.elements, function(img) {
-        $(img).fadeIn(250);
-      });
+    /*
+     *  Uncomment the following line if you need to handle
+     *  the error event:
+     *
+     *  $(this).on('error', function( instance ) { });
+     *
+    */
 
-    });
-
-    imgLoad.on( 'fail', function( instance ) {
-      _.each(instance.elements, function(img) {
-        $(img).hide();
-      });
-    });
-
-  });*/
+  });
 
   // Placeholders for old browsers
   if (!Modernizr.input.placeholder){ // placeholder fix
