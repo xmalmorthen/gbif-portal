@@ -110,8 +110,6 @@ L.GBIFLayer = L.TileLayer.extend({
             
       // only trigger a refresh if the URL has actually changed
       if (this._url != new_url) {
-        console.log(this._url);
-        console.log(new_url);
         this.setUrl(new_url);
       }
     }
