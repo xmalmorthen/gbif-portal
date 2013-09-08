@@ -347,6 +347,9 @@
     <action name="maps" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/developer/api/maps.ftl</result>
     </action>
+    <action name="map/demo" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/developer/map/demo.ftl</result>
+    </action>
   </package>
 
   <!-- COUNTRIES -->
