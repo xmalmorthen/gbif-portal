@@ -56,18 +56,16 @@ public class ImageCacheService {
     // download original
     LOG.info("Caching image " + url);
     File origImg = location(url, ImageSize.ORIGINAL);
-    // create parent folder that is unque for the original image
-    origImg.getParentFile().mkdir();
 
     OutputStream out = null;
     InputStream source = null;
     Closer closer = Closer.create();
 
     try {
-      out = new FileOutputStream(origImg);
-      closer.register(out);
-      source = url.openStream();
-      closer.register(source);
+      source = closer.register(url.openStream());
+      // create parent folder that is unque for the original image
+      origImg.getParentFile().mkdir();
+      out = closer.register(new FileOutputStream(origImg));
       ByteStreams.copy(source, out);
     } finally {
       closer.close();
@@ -100,7 +98,7 @@ public class ImageCacheService {
     if (size == ImageSize.ORIGINAL) {
       suffix = "";
     } else {
-      suffix = '-' + size.name().charAt(0) + '.' + PNG_FMT;
+      suffix = "-" + size.name().charAt(0) + "." + PNG_FMT;
     }
 
     return new File(folder, fileName + suffix);
