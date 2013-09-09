@@ -1,3 +1,6 @@
+// IE9 fix for Torque
+window.Float32Array = typeof(window['Float32Array']) == 'undefined' ? Array: Float32Array;
+
 var loaded        = false,
     map           = {},
     baseMap       = {},
