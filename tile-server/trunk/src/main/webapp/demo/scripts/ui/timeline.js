@@ -322,14 +322,16 @@ gbif.ui.view.Timeline = Backbone.View.extend({
 
       if(l === 0) {
         self.model.set("left_year", "no date"); // hardcode no-date
-      } else if(l === this.grid_x) {
-        self.model.set("left_year", "pre-1990"); // hardcode pre-date
+      } else if(l === self.grid_x) {
+        self.model.set("left_year", "pre-1900"); // hardcode pre-date
       } else if(l === y[0]) {
         self.model.set("left_year", y[1]);
       }
 
       if(r === y[0]) {
         self.model.set("right_year", y[1]);
+      } else if(r === self.grid_x) {
+        self.model.set("right_year", "pre-1900"); // hardcode pre-date
       } else if(r === self.grid_x * 14) {
         self.model.set("right_year", 2020); // hardcode last year :(
       }
@@ -364,13 +366,24 @@ gbif.ui.view.Timeline = Backbone.View.extend({
     this._updateLegendDesc();
 
 		mainLayer.setKey(key_array);
-
+		
     var iframeUrl = $.param(config.MAP);
 
+		// construct the year (where possible) for the search
+		if ("no date" == self.model.get("left_year") || "no date" == self.model.get("right_year")) {
+		  // if no date is chosen, we can't add a search at all
+		  config.SEARCH = _.omit(config.SEARCH, "YEAR");
+		} else {
+		  // pre 1900 needs a * in the search URL
+		  var min = (self.model.get("left_year") == "pre-1900") ? "*" : self.model.get("left_year");
+		  var max = (self.model.get("right_year") == "pre-1900") ? "*" : self.model.get("right_year");
+		  config.SEARCH.YEAR = min + " " + max;
+		}
     parent.postMessage({
       origin: window.name,
       records: this.model.get("records"),
-      url: iframeUrl
+      url: iframeUrl,
+      searchUrl: $.param(config.SEARCH)
     }, '*');
   },
 
@@ -619,6 +632,26 @@ gbif.ui.view.Timeline = Backbone.View.extend({
   updateCat: function(key, title) {
     this.model.set("current_title", title);
     this.model.set("current_cat", key);
+
+		// construct the basis of record for the search
+		switch(this.model.get("current_cat")) {
+		  case "sp": config.SEARCH.BASIS_OF_RECORD = "PRESERVED_SPECIMEN"; break;
+		  case "obs": config.SEARCH.BASIS_OF_RECORD = "OBSERVATION"; break;
+		  case "living": config.SEARCH.BASIS_OF_RECORD = "LIVING_SPECIMEN"; break;
+		  case "fossil": config.SEARCH.BASIS_OF_RECORD = "FOSSIL_SPECIMEN"; break;
+		  case "oth": config.SEARCH.BASIS_OF_RECORD = "UNKNOWN"; break;
+		  default: config.SEARCH = _.omit(config.SEARCH, "BASIS_OF_RECORD"); 
+		}
+		
+		// only living or fossil need to fire events- the others trigger a slider change, which will message
+		if (this.model.get("current_cat") == "living" || this.model.get("current_cat") == "fossil") {
+      parent.postMessage({
+        origin: window.name,
+        records: this.model.get("records"),
+        url: $.param(config.MAP), // iframe URL
+        searchUrl: $.param(config.SEARCH)
+      }, '*');
+		}
   },
 
   render: function() {
