@@ -15,7 +15,7 @@
   -->
 <configuration>
 
-  <contextName>tile-server</contextName>
+  <contextName>image-cache</contextName>
   <jmxConfigurator/>
 
   <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
@@ -31,18 +31,15 @@
   </appender>
 
   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>logs/tile-server.log</file>
+    <file>logs/image-cache.log</file>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>logs/tile-server.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+      <fileNamePattern>logs/image-cache.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
       <maxHistory>14</maxHistory>
     </rollingPolicy>
     <encoder>
       <pattern>${defaultPattern}</pattern>
     </encoder>
   </appender>
-
-  <!-- Urban airship DEBUG logging is Verbose, logging each GET for example -->
-  <logger name="com.urbanairship" level="INFO"/>
 
   <root level="WARN">
     <appender-ref ref="FILE"/>
