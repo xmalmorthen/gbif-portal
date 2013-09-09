@@ -50,8 +50,8 @@
     <logback.version>1.0.13</logback.version>
     <servlet-api.version>2.5</servlet-api.version>
     <guice.version>3.0</guice.version>
-    <guava.version>13.0.1</guava.version>
-    <thumbnailator.version>0.4.5</thumbnailator.version>
+    <guava.version>14.0.1</guava.version>
+    <thumbnailator.version>0.4.6</thumbnailator.version>
   </properties>
 
   <repositories>
