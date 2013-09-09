@@ -11,7 +11,12 @@
             $("#" + event.data.origin + "-link").attr("href", "<@s.url value='/occurrence/search'/>?" +  event.data.searchUrl);
           }
         }
-        window.addEventListener("message", receiveMessage, false);
+        
+        if (window.addEventListener){
+          window.addEventListener("message", receiveMessage, false);
+        } else if (window.attachEvent){ // IE 
+          window.attachEvent('onmessage', receiveMessage);
+        }             
       </script>    
     </content>
   </head>
