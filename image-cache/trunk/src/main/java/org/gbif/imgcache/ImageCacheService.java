@@ -34,7 +34,7 @@ public class ImageCacheService {
   @Inject
   public ImageCacheService(@Named("imgcache.repository") String repository) {
     repo = new File(repository);
-    LOG.info("Use image repository " + repo.getAbsolutePath());
+    LOG.info("Use image repository {}", repo.getAbsolutePath());
     if (!repo.exists() && !repo.isDirectory()) {
       throw new IllegalStateException("imgcache.repository needs to be an existing, writable directory: "
         + repo.getAbsolutePath());
@@ -52,15 +52,39 @@ public class ImageCacheService {
     return new CachedImage(url, size, MIME_TYPE, imgFile);
   }
 
+  private String buildFileName(URL url, ImageSize size) {
+    // try to get some sensible filename - optional
+    String fileName;
+    try {
+      fileName = new File(url.getPath()).getName();
+    } catch (Exception e) {
+      fileName = DFT_FILENAME;
+    }
+
+    if (size != ImageSize.ORIGINAL) {
+      fileName += "-" + size.name().charAt(0) + "." + PNG_FMT;
+    }
+
+    return fileName;
+  }
+
   private void cacheImage(URL url) throws IOException {
     // download original
-    LOG.info("Caching image " + url);
+    LOG.info("Caching image {}", url);
+    copyOriginal(url);
+    // now produce thumbnails from the original
+    produceImage(url, ImageSize.THUMBNAIL, ImageSize.SMALL, ImageSize.MIDSIZE, ImageSize.LARGE);
+  }
+
+  /**
+   * Creates a copy of the file with its original size.
+   */
+  private void copyOriginal(URL url) throws IOException {
     File origImg = location(url, ImageSize.ORIGINAL);
 
     OutputStream out = null;
     InputStream source = null;
     Closer closer = Closer.create();
-
     try {
       source = closer.register(url.openStream());
       // create parent folder that is unque for the original image
@@ -70,40 +94,34 @@ public class ImageCacheService {
     } finally {
       closer.close();
     }
-
-    // now produce a thumbnail from the original
-    produceImage(url, ImageSize.THUMBNAIL);
-    produceImage(url, ImageSize.SMALL);
-    produceImage(url, ImageSize.MIDSIZE);
-    produceImage(url, ImageSize.LARGE);
   }
 
+  /**
+   * Creates a location for the image URL with a suffix for the specified size.
+   */
   private File location(URL url, ImageSize size) throws IOException {
     File folder;
     try {
       folder = new File(repo, URLEncoder.encode(url.toString(), ENC));
     } catch (UnsupportedEncodingException e) {
-      throw new IOException("UnsupportedEncodingException", e);
+      LOG.error("Error setting image location", e);
+      throw new IOException("Encoding not supported", e);
     }
-
-    // try to get some sensible filename - optional
-    String fileName;
-    try {
-      fileName = new File(url.getPath()).getName();
-    } catch (Exception e) {
-      fileName = DFT_FILENAME;
-    }
-
-    String suffix;
-    if (size == ImageSize.ORIGINAL) {
-      suffix = "";
-    } else {
-      suffix = "-" + size.name().charAt(0) + "." + PNG_FMT;
-    }
-
-    return new File(folder, fileName + suffix);
+    return new File(folder, buildFileName(url, size));
   }
 
+  /**
+   * Produces an image for each size in the sizes paramater.
+   */
+  private void produceImage(URL url, ImageSize... sizes) throws IOException {
+    for (ImageSize size : sizes) {
+      produceImage(url, size);
+    }
+  }
+
+  /**
+   * Produces a single image from the url with the specified size.
+   */
   private void produceImage(URL url, ImageSize size) throws IOException {
     File orig = location(url, ImageSize.ORIGINAL);
     File calc = location(url, size);

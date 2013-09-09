@@ -38,10 +38,11 @@ public class GuiceListener extends GuiceServletContextListener {
     try {
       p.load(GuiceListener.class.getResourceAsStream(APPLICATION_PROPERTIES));
     } catch (IOException e) {
+      LOG.error("Error initiating web application", e);
       throw new IllegalArgumentException(APPLICATION_PROPERTIES + " is missing");
     }
 
-    //new InstrumentationModule(), new MetricsModule(p)
+    // new InstrumentationModule(), new MetricsModule(p)
     return Guice.createInjector(sm, new PrivateCacheModule(p));
   }
 
