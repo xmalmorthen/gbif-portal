@@ -110,6 +110,9 @@
 <#assign maxLftIdx = (countries.size()/2)?ceiling - 2 />
 <@common.article id="country_list" title="Countries, territories and islands">
   <div class="fullwidth">
+    <p>Index to all countries, active GBIF Nodes are underlined.<br/>
+        <a href="<@s.url value='/node/other'/>">Other GBIF Participant organizations</a> are not listed here.
+    </p>
     <@countryList minIdx=-1 maxIdx=maxLftIdx />
     <@countryList minIdx=maxLftIdx-1 maxIdx=10+maxLftIdx*2/>
   </div>
