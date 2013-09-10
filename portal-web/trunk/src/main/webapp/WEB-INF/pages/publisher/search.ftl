@@ -4,15 +4,6 @@
 <head>
   <title>Publisher search</title>
   <content tag="extra_scripts"></content>
-  <style type="text/css">
-      #content .result .logo_holder {
-        float: right;
-      }
-      #content .result .logo_holder img {
-        max-height: 60px !important;
-        max-width: 160px !important;
-      }
-  </style>
 </head>
 <body class="search">
   <content tag="infoband">
