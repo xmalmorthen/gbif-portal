@@ -40,7 +40,7 @@
     <#assign hl="highlighted" />
   </#if>
   <ul class="${hl!}">
-    <li<#if (tab!"")=="info"> class='selected'</#if>>
+    <li<#if (tab!"")=="info"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/${type.name()?lower_case}/${id}'/>" title="Information"><span>Information</span></a>
     </li>
     <#--

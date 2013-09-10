@@ -8,6 +8,7 @@
 
 <body class="species">
 
+<#assign tab="info"/>
 <#assign tabhl=true />
 <#include "/WEB-INF/pages/member/inc/infoband.ftl">
 
