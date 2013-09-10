@@ -198,26 +198,26 @@
     <div class="footer">
         <ul>
             <li><h3>JOIN THE COMMUNITY</h3></li>
-            <li><a class="placeholder_temp" href="#">Join GBIF Community Site</a></li>
-            <li><a class="placeholder_temp" href="#">Sign up to GBits newsletter</a></li>
-            <li><a class="placeholder_temp" href="#">GBIF Online Resource Centre</a></li>
+            <li><a href="http://community.gbif.org/">Join GBIF Community Site</a></li>
+            <li><a href="${cfg.drupal}/newsroom/summary">Sign up to GBits newsletter</a></li>
+            <li><a href="${cfg.drupal}/resources/summary">GBIF Online Resource Centre</a></li>
         </ul>
 
         <ul>
             <li><h3>WHO’S PARTICIPATING</h3></li>
-            <li><a class="placeholder_temp" href="#">Countries</a></li>
-            <li><a class="placeholder_temp" href="#">Organizations</a></li>
-            <li><a class="placeholder_temp" href="#">Data publishers</a></li>
+            <li><a href="<@s.url value='/country'/>">Countries</a></li>
+            <li><a href="<@s.url value='/node/other'/>">Organizations</a></li>
+            <li><a href="<@s.url value='/publisher/search'/>">Data publishers</a></li>
         </ul>
 
         <ul>
             <li><h3>KEY DOCUMENTS</h3></li>
-            <li><a class="placeholder_temp" href="#">Data use agreement</a></li>
-            <li><a class="placeholder_temp" href="#">Data sharing agreement</a></li>
-            <li><a class="placeholder_temp" href="#">Memorandum of Understanding</a></li>
-            <li><a class="placeholder_temp" href="#">Annual Report</a></li>
-            <li><a class="placeholder_temp" href="#">GBIF Strategic Plan</a></li>
-            <li><a class="placeholder_temp" href="#">GBIF Work Programme</a></li>
+            <li><a href="http://www.gbif.org/orc/?doc_id=2779&l=en">Data use agreement</a></li>
+            <li><a href="http://www.gbif.org/orc/?doc_id=2780&l=en">Data sharing agreement</a></li>
+            <li><a href="http://www.gbif.org/orc/?doc_id=2955&l=en">Memorandum of Understanding</a></li>
+            <li><a href="http://www.gbif.org/orc/?doc_id=5304">Annual Report</a></li>
+            <li><a href="http://www.gbif.org/orc/?doc_id=2792&l=en">GBIF Strategic Plan</a></li>
+            <li><a href="http://www.gbif.org/orc/?doc_id=4394&l=en">GBIF Work Programme</a></li>
         </ul>
 
         <ul class="last">
