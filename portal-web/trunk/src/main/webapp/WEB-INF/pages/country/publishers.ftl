@@ -40,7 +40,7 @@
       <div class="fullwidth">
 
       <#list publisherPage.results as item>
-        <@records.publisher publisher=item/>
+        <@records.publisherWithDescription publisher=item/>
       </#list>
         <div class="footer">
         <@paging.pagination page=publisherPage url=currentUrlWithoutPage/>

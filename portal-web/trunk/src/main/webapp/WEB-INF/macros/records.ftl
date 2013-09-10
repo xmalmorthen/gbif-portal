@@ -36,9 +36,9 @@
 
 
 <#--
-	Construct a data publisher record.
+	Construct a large data publisher record with a description.
 -->
-<#macro publisher publisher>
+<#macro publisherWithDescription publisher>
   <div class="result">
     <h2>
       <strong>
@@ -59,4 +59,17 @@
       </#if>
     </div>
   </div>
+</#macro>
+
+<#--
+	Construct a simple data publisher record useful for article blocks.
+-->
+<#macro publisher publisher>
+<li>
+  <a href="<@s.url value='/publisher/${publisher.key}'/>">${publisher.title!"???"}</a>
+  <span class="note">A data publisher
+    <#if publisher.city?? || publisher.country??>from <@common.cityAndCountry publisher/></#if>
+    <#if (publisher.numOwnedDatasets > 0)>with ${publisher.numOwnedDatasets} published datasets</#if>
+   </span>
+</li>
 </#macro>

@@ -1,16 +1,11 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
+<#import "/WEB-INF/macros/records.ftl" as records>
 
 <@common.article id="publishers" title="Endorsed Publishers">
   <div class="fullwidth">
       <ul class="notes">
         <#list publisherPage.results as pub>
-          <li>
-            <a href="<@s.url value='/publisher/${pub.key}'/>">${pub.title!"???"}</a>
-            <span class="note">A data publisher
-              <#if pub.city?? || pub.country??>from <@common.cityAndCountry pub/></#if>
-              <#if (pub.numOwnedDatasets > 0)>with ${pub.numOwnedDatasets} published datasets</#if>
-             </span>
-          </li>
+        <@records.publisher publisher=pub />
         </#list>
         <#if !publisherPage.endOfRecords>
           <li class="more">

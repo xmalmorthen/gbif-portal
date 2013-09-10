@@ -4,6 +4,15 @@
 <head>
   <title>Publisher search</title>
   <content tag="extra_scripts"></content>
+  <style type="text/css">
+      #content .result .logo_holder {
+        float: right;
+      }
+      #content .result .logo_holder img {
+        max-height: 60px !important;
+        max-width: 160px !important;
+      }
+  </style>
 </head>
 <body class="search">
   <content tag="infoband">
@@ -19,46 +28,41 @@
     </form>
   </content>
 
+  <#assign title>
+  ${page.count!} results <#if q?has_content>for &quot;${q}&quot;</#if>
+  </#assign>
+  <@common.article class="results" title=title>
+    <div class="fullwidth">
+    <#assign max_show_length = 68>
+    <#list page.results as pub>
+        <div class="result">
+          <#if pub.logoUrl?has_content>
+            <div class="logo_holder">
+              <img src="<@s.url value='${pub.logoUrl}'/>"/>
+            </div>
+          </#if>
 
+          <h2>
+            <a href="<@s.url value='/publisher/${pub.key}'/>" title="${pub.title!}">${pub.title!}</a>
+          </h2>
 
-  <#-- borrowing the styling from the occurrence search results here, since no facets exist -->
-  <article class="ocurrence_results">
-    <header></header>
-    <div class="content" id="content">
-      <table class="results">
-        <tr class="header">
-          <td class="summary" colspan="3">
-            <h2>${page.count!} results <#if q?has_content>for &quot;${q}&quot;</#if></h2>
-          </td>
-        </tr>
-        <tr class="results-header">
-          <td><h4>Publisher title</h4></td>
-          <td><h4>Endorsing node</h4></td>
-          <td><h4>Location</h4></td>
-        </tr>
-        <#list page.results as p>
-          <tr class="result">
-            <td><a href="<@s.url value='/publisher/${p.key}'/>">${p.title!""}</a></td>
-            <td><a href="<@s.url value='/node/${p.endorsingNodeKey}'/>">${(nodeIndex.get(p.endorsingNodeKey).title)!""}</a></td>
-            <td>${(p.country.title)!""}</td>
-          </tr>
-        </#list>
-      </table>
+          <p>A data publisher
+            <#if pub.city?? || pub.country??>from <@common.cityAndCountry pub/></#if>
+            <#if (pub.numOwnedDatasets > 0)>with ${pub.numOwnedDatasets} published datasets</#if>
+          </p>
+
+          <div class="footer">
+              <p>Endorsed by <a href="<@s.url value='/node/${pub.endorsingNodeKey}'/>">${(nodeIndex.get(pub.endorsingNodeKey).title)!""}</a></p>
+          </div>
+        </div>
+    </#list>
+
       <div class="footer">
         <@macro.pagination page=page url=currentUrlWithoutPage />
       </div>
     </div>
-  </article>
-  <div class="infowindow" id="waitDialog">
-    <div class="light_box">
-      <div class="content">
-        <h3>Processing request</h3>
 
-        <div>Wait while your request is processed...
-          <img src="<@s.url value='/img/ajax-loader.gif'/>" alt=""/>
-        </div>
-      </div>
-    </div>
-  </div>
+  </@common.article>
+
 </body>
 </html>
