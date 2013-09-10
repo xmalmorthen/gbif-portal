@@ -157,7 +157,6 @@
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
-
 <#if !nub>
 <#-- Warn that this is not a nub page -->
 <@common.notice title="This is a particular view of ${usage.canonicalOrScientificName!}">
@@ -188,8 +187,7 @@
 
   <div class="col">
     <h3>Full Name</h3>
-    <p>${usage.scientificName}</p>
-
+    <p><#if usage.isExtinct()!false>† </#if>${usage.scientificName}</p>
     <#if vernacularNames?has_content>
       <h3>Common names</h3>
       <ul>
@@ -235,6 +233,11 @@
       </#if>
     </p>
 
+    <#if usage.accordingTo?has_content>
+      <h3>According to</h3>
+      <p>${usage.accordingTo}</p>
+    </#if>
+
     <#if usage.publishedIn?has_content>
       <h3>Published in</h3>
       <p>${usage.publishedIn}</p>
@@ -248,15 +251,6 @@
     <#if usage.nomenclaturalStatus?has_content>
       <h3>Nomenclatural status</h3>
       <p><@common.renderNomStatusList usage.nomenclaturalStatus /></p>
-    </#if>
-
-    <#if usage.isExtinct()??>
-      <h3>Extinction status</h3>
-      <#if usage.isExtinct()?string == "true">
-        <p><@s.text name="species.extinctionstatus.extinct"/></p>
-      <#else>
-        <p><@s.text name="species.extinctionstatus.living"/></p>
-      </#if>
     </#if>
 
     <#if (usage.livingPeriods?size>0)>
@@ -339,15 +333,22 @@
 
 <@common.article id="taxonomy" title="Subordinate taxa" titleRight="Classification" class="taxonomies">
     <div class="left">
-      <div id="taxonomicChildren">
-        <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif" alt=""></div>
-        <div class="inner">
-          <div class="sp">
-            <ul>
-            </ul>
+      <#if usage.numDescendants gt 0>
+        <div id="taxonomicChildren">
+          <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif" alt=""></div>
+          <div class="inner">
+            <div class="sp">
+              <ul>
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      <#else>
+        <p>
+           There are no subordinate taxa<#if usage.rank??> for this <@s.text name="enum.rank.${usage.rank}"/></#if>.<br/>
+           You can explore the higher classification on the right.
+        </p>
+      </#if>
     </div>
 
     <div class="right">
@@ -371,18 +372,12 @@
         <dt>&nbsp;</dt>
         <dd><a href="<@s.url value='/species/${id?c}/classification'/>">complete classification</a></dd>
       </dl>
-      <br/>
-
-      <#if usage.accordingTo?has_content>
-        <h3>According to</h3>
-        <p>${usage.accordingTo}</p>
-      </#if>
-
     </div>
 </@common.article>
 
 <#-- Taxon maps are only calculated for the nub taxonomy -->
-<#if nub>
+
+<#if nub && numOccurrences gt 0>
 <article class="map">
   <header></header>
 
@@ -518,6 +513,9 @@
               <#break />
             </#if>
           </#list>
+          <#if !occurrenceDatasetCounts?has_content>
+              <li>None</li>
+          </#if>
         </ul>
       </div>
 
@@ -536,6 +534,9 @@
               <#break />
             </#if>
           </#list>
+          <#if !related?has_content>
+              <li>None</li>
+          </#if>
         </ul>
       </div>
     </div>
