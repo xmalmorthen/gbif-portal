@@ -3640,10 +3640,54 @@ form input[type="text"].placeholder {
     font-weight: normal;
     background: url("../img/icons/arrow_small_right.png") no-repeat right;
 
-    li:last-child { background: none; }
-    &.last { background: none; }
+    &:last-child {
+      background: none !important;
+    }
   }
+  li.last {
+    background: none !important;
+  }
+}
 
+.autosuggestRank {
+  color: #CCCCCC;
+  font-family: Arial;
+  font-size: 8px;
+  font-weight: normal;
+}
+.numbered-pagination {
+	padding: 10px;
+	list-style: none;
+	width: 100%;
+	height: 20px;
+	text-align: center;
+    li {
+	  margin-right: 10px;
+	  display: inline-block;
+      a {
+	    text-decoration: none;
+	    color: #717171;
+	    font: bold 13px Arial, sans-serif;
+	    text-shadow: 0px 1px white;
+	    padding: 5px 15px;
+	    border-radius: 3px;
+	    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.35);
+	    background: #f9f9f9;
+        &:hover {
+          box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.55);
+          background: #fff;
+        }
+        &.current {
+          color: white;
+          text-shadow: 0px 1px #3f789f;
+          box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.8);
+          background: @cLink;
+          &:active { box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.5), 0px 1px 1px 0px rgba(255,255,255,1) !important; }
+          &:hover { box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.9); background: #99cefc; }
+        }
+        &:active { box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.5), 0px 1px 1px 0px rgba(255,255,255,1) !important;}
+	  }
+	}
 }
 
 #country_list ul {

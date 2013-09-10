@@ -39,7 +39,7 @@
 
           <div class="footer">
             <@s.text name="enum.datasettype.${ds.type!'UNKNOWN'}"/>
-            with <a href="<@s.url value='/occurrence/search?country=${isocode}&datasetKey=${ds.key}'/>">${cw.count} occurrence<#if cw.count gt 1>s</#if></a>
+            with <a href="<@s.url value='/occurrence/search?country=${isocode}&dataset_key=${ds.key}'/>">${cw.count} occurrence<#if cw.count gt 1>s</#if></a>
               in ${country.title} out of ${cw.geoCount} <#if cw.geoCount gt 0>(${100.0 * cw.count / cw.geoCount} %)</#if>.
           </div>
 

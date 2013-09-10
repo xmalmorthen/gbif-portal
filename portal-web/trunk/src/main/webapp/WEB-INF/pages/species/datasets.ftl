@@ -43,7 +43,7 @@
           <#if ds.type=="CHECKLIST" && item.usage??>
             including <em><a href="<@s.url value='/species/${item.usage.key?c}'/>">${item.usage.scientificName}</a></em>
           <#else>
-            with <a href="<@s.url value='/occurrence/search?nubKey=${usage.nubKey?c}&datasetKey=${ds.key}'/>">${item.numOccurrences} records of <em>${usage.canonicalOrScientificName!}</em></a>
+            with <a href="<@s.url value='/occurrence/search?taxon_key=${usage.nubKey?c}&dataset_key=${ds.key}'/>">${item.numOccurrences} records of <em>${usage.canonicalOrScientificName!}</em></a>
           </#if>
           </div>
 

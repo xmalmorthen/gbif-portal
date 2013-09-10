@@ -174,6 +174,7 @@ $.fn.speciesAutosuggest = function(wsServiceUrl,limit,chklstKeysElementsSelector
             label: item.scientificName,
             value: item.scientificName,
             key: item.nubKey,
+            rank: item.rank,
             higherClassificationMap: item.higherClassificationMap
           }
         }));
@@ -220,7 +221,7 @@ $.fn.speciesAutosuggest = function(wsServiceUrl,limit,chklstKeysElementsSelector
     }
     return $( "<li></li>" )
       .data( "item.autocomplete", item )
-      .append("<a class='name'>" + this.highlight(item.value,self.val()) + "</a>")
+      .append("<a class='name'>" + this.highlight(item.value,self.val())  + (item.rank != null ? "<span class='autosuggestRank'> (" + item.rank + ")" : '') +  "</a>")
       .append(divHigherClassificationMap)
       .appendTo( ul );
     //last line customizes the generated elements of the auto-complete widget by highlighting the results and adding new css class
@@ -278,7 +279,7 @@ $.fn.termsAutosuggest = function(wsServiceUrl,appendToElement,limit,onSelectEven
   }).data( "autocomplete" )._renderItem = function( ul, item) {
     return $( "<li></li>" )
       .data( "item.autocomplete", item )
-      .append("<a class='name'>" + this.highlight(item.value,self.val()) + "</a>")
+      .append("<a class='name'>" + this.highlight(item.value,self.val()) + "</a>")      
       .appendTo( ul );
     //last line customizes the generated elements of the auto-complete widget by highlighting the results and adding new css class
   };
