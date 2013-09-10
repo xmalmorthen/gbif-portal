@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html style="margin: 0; padding: 0; width: 100%; height: 100%;">
+<head>
+  <title>Animalia</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css' rel='stylesheet' />
+  <!--[if lte IE 8]>
+    <link href='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.ie.css' rel='stylesheet' />
+  <![endif]-->
+  <script src='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
+</head>
+<body style="margin: 0; padding: 0; width: 100%; height: 100%;">
+  <div id="map" style="width: 100%; height: 100%;"></div>
+  <script>
+    var map = L.mapbox.map('map', 'timrobertson100.map-c9rscfra').setView([0, 0], 2);
+    var gbifUrl='http://apidev.gbif.org/map/density/tile?saturation=true&resolution=1&key=1&x={x}&y={y}&z={z}&type=TAXON';  
+    var gbifAttrib='GBIF contributors';
+    L.tileLayer(gbifUrl, {minZoom: 0, maxZoom: 14, attribution: gbifAttrib}).addTo(map);
+  </script>
+</body>
+</html>
