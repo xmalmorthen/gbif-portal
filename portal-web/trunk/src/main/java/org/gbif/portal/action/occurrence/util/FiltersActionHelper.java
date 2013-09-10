@@ -369,14 +369,17 @@ public class FiltersActionHelper {
       DatasetSuggestRequest suggestRequest = new DatasetSuggestRequest();
       suggestRequest.setLimit(SUGGESTIONS_LIMIT);
       for (String value : values) {
-        final String[] uuidPart = value.split(":"); // external dataset keys are in the pattern "UUID:identifier"
-        if (tryParseUUID(uuidPart[0]) == null) { // Is not a integer
-          List<DatasetSearchResult> suggestions = datasetSearchService.suggest(suggestRequest);
+        if (tryParseUUID(value) == null) { // Is not a integer
           suggestRequest.setQ(value);
           // By default only occurrence datasets are suggested
           suggestRequest.addParameter(DatasetSearchParameter.TYPE, DatasetType.OCCURRENCE);
+          List<DatasetSearchResult> suggestions = datasetSearchService.suggest(suggestRequest);
           // suggestions are stored in map: "parameter value" -> list of suggestions
-          searchSuggestions.getSuggestions().put(value, suggestions);
+          if (suggestions.size() == 1) {
+            searchSuggestions.getReplacements().put(value, suggestions.get(0));
+          } else {
+            searchSuggestions.getSuggestions().put(value, suggestions);
+          }
         }
       }
     }
