@@ -126,9 +126,15 @@
 
   <profiles>
     <profile>
-      <id>markus</id>
+      <id>uat</id>
       <properties>
-        <imgcache.repository>/Users/mdoering/imagecache</imgcache.repository>
+        <imgcache.repository>/mnt/occdownload/image-cache</imgcache.repository>
+      </properties>
+    </profile>
+    <profile>
+      <id>staging</id>
+      <properties>
+        <imgcache.repository>/mnt/occdownload/image-cache</imgcache.repository>
       </properties>
     </profile>
   </profiles>
