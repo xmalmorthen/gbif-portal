@@ -28,7 +28,7 @@
     <ul class="tags">
       <#list keywords as k>
           <li>
-              <a href="#" title="${k}">${k}</a>
+              <a href="<#if type=='PUBLISHER'><@s.url value='/publisher/search?search=${k}'/><#else>#</#if>" title="${k}">${k}</a>
           </li>
       </#list>
     </ul>

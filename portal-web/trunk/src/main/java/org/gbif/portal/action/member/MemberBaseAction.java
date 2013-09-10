@@ -24,6 +24,7 @@ public class MemberBaseAction<T extends NetworkEntity & Taggable> extends org.gb
   protected T member;
   private final NetworkEntityService<T> memberService;
   private final MemberType type;
+  private List<String> keywords;
 
   protected MemberBaseAction(MemberType type, NetworkEntityService<T> memberService) {
     this.memberService = memberService;
@@ -42,11 +43,21 @@ public class MemberBaseAction<T extends NetworkEntity & Taggable> extends org.gb
 
   /**
    * The member's list of lower cased, plain string keywords derived from public tags without a namespace.
-   * 
+   * This method loads keywords lazily.
    * @return member's list of keywords
    */
   public List<String> getKeywords() {
-    return getKeywords(member);
+    if (keywords == null) {
+      // lazy load keywords
+      Set<String> kws = Sets.newTreeSet();
+      for (Tag t : member.getTags()) {
+        if (!Strings.isNullOrEmpty(t.getValue())) {
+          kws.add(t.getValue().trim().toLowerCase());
+        }
+      }
+      keywords = Lists.newArrayList(kws);
+    }
+    return keywords;
   }
 
   public T getMember() {
@@ -73,20 +84,4 @@ public class MemberBaseAction<T extends NetworkEntity & Taggable> extends org.gb
     }
   }
 
-  /**
-   * Lists a unique set of lower cased, plain string keywords derived from public tags.
-   * 
-   * @return a list of unique plain keywords in lower case
-   */
-  private List<String> getKeywords(T member) {
-    Set<String> keywords = Sets.newTreeSet();
-
-    for (Tag t : member.getTags()) {
-      if (!Strings.isNullOrEmpty(t.getValue())) {
-        keywords.add(t.toString().trim().toLowerCase());
-      }
-    }
-
-    return Lists.newArrayList(keywords);
-  }
 }
