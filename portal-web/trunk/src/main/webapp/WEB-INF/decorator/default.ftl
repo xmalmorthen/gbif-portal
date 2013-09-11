@@ -109,20 +109,20 @@
           </div>
         </li>
 
-        <li>
-          <a href="#" title="About GBIF">About GBIF</a>
-          <div class="about">
+          <li>
+          <a href="#" title="About GBIF">News</a>
+
+          <div class="news">
             <a href="#"></a>
             <ul>
-              <li><a href="${cfg.drupal}/whatisgbif">What is GBIF?</a></li>
-              <li><a href="${cfg.drupal}/resources/keyinformation">Key information</a></li>
-              <li><a href="${cfg.drupal}/governance/summary">Governance</a></li>
-              <li><a href="${cfg.drupal}/whoweworkwith">Who we work with</a></li>
-              <li><a href="${cfg.drupal}/contact/contactus">Contact us</a></li>
+              <li><a href="${cfg.drupal}/newsroom/summary">GBIF news</a></li>
+              <li><a href="${cfg.drupal}/newsroom/uses">Featured data use</a></li>
+              <li><a href="${cfg.drupal}/newsroom/opportunities">Opportunities</a></li>
+              <li><a href="${cfg.drupal}/newsroom/events">Events</a></li>
             </ul>
           </div>
-        </li>
 
+          </li>
 
        <li>
           <a href="#" title="Community">Community</a>
@@ -137,21 +137,20 @@
           </div>
         </li>
 
+          <li>
+            <a href="#" title="About GBIF">About</a>
+            <div class="about">
+              <a href="#"></a>
+              <ul>
+                <li><a href="${cfg.drupal}/whatisgbif">What is GBIF?</a></li>
+                <li><a href="${cfg.drupal}/resources/keyinformation">Key information</a></li>
+                <li><a href="${cfg.drupal}/governance/summary">Governance</a></li>
+                <li><a href="${cfg.drupal}/whoweworkwith">Who we work with</a></li>
+                <li><a href="${cfg.drupal}/contact/contactus">Contact us</a></li>
+              </ul>
+            </div>
+          </li>
 
-        <li>
-        <a href="#" title="About GBIF">Newsroom</a>
-
-        <div class="news">
-          <a href="#"></a>
-          <ul>
-            <li><a href="${cfg.drupal}/newsroom/summary">GBIF news</a></li>
-            <li><a href="${cfg.drupal}/newsroom/uses">Featured data use</a></li>
-            <li><a href="${cfg.drupal}/newsroom/opportunities">Opportunities</a></li>
-            <li><a href="${cfg.drupal}/newsroom/events">Events</a></li>
-          </ul>
-        </div>
-
-        </li>
 
         <li class="search">
         <form href="<@s.url value='/dataset/search'/>" method="GET">
