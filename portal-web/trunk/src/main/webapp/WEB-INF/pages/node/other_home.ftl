@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>GBIF Participant Nodes</title>
+  <title>GBIF non-country Participant Nodes</title>
 
     <style type="text/css">
         #content article.dataset .content {
@@ -17,9 +17,9 @@
 <body class="infobandless">
 
 
-<@common.article id="country_list" title="GBIF Participant Nodes">
+<@common.article id="country_list" title="GBIF non-country Participant Nodes">
   <div class="fullwidth">
-    <p>Index to all GBIF Participants which are not <a href="<@s.url value='/country'/>">Country Participants</a>.
+    <p>Index to GBIF Nodes from Participants that are not <a href="<@s.url value='/country'/>">countries</a>.
     </p>
 
     <ul>
