@@ -10,11 +10,10 @@
     <h2>Search GBIF data publishers</h2>
 
     <form action="<@s.url value='/publisher/search'/>" method="GET" id="formSearch" >
-      <input id="q" type="text" name="q" value="${q!}" autocomplete="off" placeholder="Search publisher title, country, by contact email etc..."/></br>
+      <input id="q" type="text" name="q" value="${q!}" autocomplete="off" placeholder="Search by publisher title, country, contact email etc."/></br>
       <br/>
-      <#-- Remove this when implemented -->
       <span style="color:#FFF">
-        <em>Note:</em> Results show most recently modified publishers first.  Future versions will be alphabetically sorted
+        <em>Note:</em> Results are ordered by the date of publisher registration, starting with the most recent.
       </span>
     </form>
   </content>
