@@ -82,8 +82,8 @@
          </li>
 
        <li><h3>Kingdoms</h3>
-         <p>Number of name usages within kingdoms of the GBIF Backbone.</p>
          <#if metrics.countByKingdom?has_content>
+           <p>Number of name usages within kingdoms of the GBIF Backbone.</p>
            <div id="kingdoms" class="pieMultiLegend">
              <ul>
              <#list kingdoms as k>
@@ -93,13 +93,15 @@
              </#list>
              </ul>
            </div>
+         <#else>
+          <p>This dataset does not include any kingdom information.</p>
          </#if>
        </li>
 
 
        <li><h3>Ranks</h3>
-         <p>Number of accepted taxa by major ranks.</p>
          <#if metrics.countByRank?has_content>
+           <p>Number of accepted taxa by major ranks.</p>
            <div id="ranks" class="pieMultiLegend">
              <ul>
                <#list sortedMetricRanks as r>
@@ -110,6 +112,8 @@
                </#list>
              </ul>
            </div>
+         <#else>
+          <p>This dataset does not include any rank information.</p>
          </#if>
        </li>
      </ul>
