@@ -141,8 +141,8 @@
           overflow: hidden;
           max-height: 85px;
         }
-        #images .scrollable {
-          height: 300px;
+        #content #images .scrollable {
+          height: 350px;
         }
     </style>
   </content>
