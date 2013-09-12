@@ -35,8 +35,8 @@
             <a href='<@s.url value='/species/${item.usageKey?c}'/>'><strong>${item.vernacularName}</strong></a>
             <span class="note">${item.language!}</span>
           </h2>
-          <#if item.lifeStage?? || item.sex?? || item.country?? || item.area??>
-            <div class="footer">${item.lifeStage!} ${item.sex!} ${item.country!} ${item.area!}</div>
+          <#if item.lifeStage?? || item.sex?? || (item.country!'UNKNOWN') != 'UNKNOWN' || item.area??>
+            <div class="footer">${item.lifeStage!} ${item.sex!} <#if (item.country!'UNKNOWN') != 'UNKNOWN' >${item.country} </#if>${item.area!}</div>
           </#if>
 
           <div class="footer">
