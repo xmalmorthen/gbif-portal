@@ -106,7 +106,7 @@
   </#if>
 
   <#if address.email?has_content>
-      <span><a href="mailto:#" title="email">${address.email!}</a></span>
+      <span><a href="mailto:${address.email}" title="email">${address.email}</a></span>
   </#if>
 
   <#if address.phone?has_content>
