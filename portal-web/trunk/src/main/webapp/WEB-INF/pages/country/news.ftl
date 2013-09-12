@@ -42,6 +42,12 @@
         article.news p {
             margin: 0 0 5px 0;
         }
+        img.rss {
+          max-width: 25px;
+          float: right;
+          position: relative;
+          top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -50,7 +56,14 @@
 <#include "/WEB-INF/pages/country/inc/infoband.ftl">
 
 
-<@common.article id="news" title="Global GBIF news" titleRight="News from node" class="news">
+<#if feed??>
+  <#assign rtitle>News from node <a href="${feed}"><img class="rss" src="<@s.url value='/img/icons/rss-feed.gif'/>" /></a></#assign>
+<#else>
+  <#assign rtitle="News from node"/>
+</#if>
+
+
+<@common.article id="news" title="Global GBIF news" titleRight=rtitle class="news">
     <div class="left" id="gbifnews">
         <p>There are no global news for ${country.title}.</p>
         <#--
@@ -113,7 +126,7 @@
 
     <div class="right" id="nodenews">
       <#if feed??>
-          <p>No node news feed registered.</p>
+          <p>No news available in feed.</p>
       <#else>
           <p>No node news feed registered.</p>
       </#if>
