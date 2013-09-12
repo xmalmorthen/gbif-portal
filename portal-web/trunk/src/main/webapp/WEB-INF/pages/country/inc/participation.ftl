@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 
 <#if node??>
-<@common.article id="participation" title="GBIF Participant Information" titleRight="Node Address">
+<@common.article id="participation" title="GBIF participant information" titleRight="Node address">
     <div class="left">
       <h3>Member Status</h3>
       <p><@s.text name="enum.memberstatus.${node.type}.${node.participationStatus}"/></p>

@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <#import "/WEB-INF/macros/records.ftl" as records>
 
-<@common.article id="publishers" title="Endorsed Publishers">
+<@common.article id="publishers" title="Endorsed publishers">
   <div class="fullwidth">
       <ul class="notes">
         <#list publisherPage.results as pub>
