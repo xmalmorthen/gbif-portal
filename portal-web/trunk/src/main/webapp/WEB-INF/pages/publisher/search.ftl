@@ -14,7 +14,7 @@
       <br/>
       <span style="color:#FFF">
         <em>Note:</em> Results are ordered by the date of publisher registration, starting with the most recent.
-        Newly registered institutions yet to publish data, or awaiting endorsement to publish may be included in the results.
+        Newly registered institutions yet to publish data, or awaiting endorsement, may be included in the results.
       </span>
     </form>
   </content>
