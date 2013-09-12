@@ -3,8 +3,15 @@
 <#if node??>
 <@common.article id="participation" title="GBIF participant information" titleRight="Node address">
     <div class="left">
-      <h3>Member Status</h3>
-      <p><@s.text name="enum.memberstatus.${node.type}.${node.participationStatus}"/></p>
+        <#--
+        dont show a status for the GBIF Temp Node:
+        http://dev.gbif.org/issues/browse/PF-966
+        -->
+      <#if node.key != '02c40d2a-1cba-4633-90b7-e36e5e97aba8'>
+          <h3>Member Status</h3>
+          <p><@s.text name="enum.memberstatus.${node.type}.${node.participationStatus}"/></p>
+      </#if>
+
 
       <#if node.participantSince??>
         <h3>GBIF Participant Since</h3>

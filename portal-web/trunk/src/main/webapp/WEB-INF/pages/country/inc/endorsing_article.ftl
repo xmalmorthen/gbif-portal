@@ -3,6 +3,7 @@
 
 <@common.article id="publishers" title="Endorsed publishers">
   <div class="fullwidth">
+    <#if publisherPage.results?has_content>
       <ul class="notes">
         <#list publisherPage.results as pub>
         <@records.publisher publisher=pub />
@@ -18,5 +19,9 @@
           </li>
         </#if>
       </ul>
+    <#else>
+      <p>None endorsed.</p>
+    </#if>
+
   </div>
 </@common.article>

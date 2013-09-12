@@ -13,8 +13,14 @@
 
   <#if type=='NODE'>
     <h3>
-      <@s.text name="enum.nodestatus.${member.type}.${member.participationStatus}"/>
-      <#if member.gbifRegion??> from <@s.text name="enum.region.${member.gbifRegion}"/></#if>
+        <#--
+        dont show a status for the GBIF Temp Node:
+        http://dev.gbif.org/issues/browse/PF-966
+        -->
+      <#if member.key != '02c40d2a-1cba-4633-90b7-e36e5e97aba8'>
+        <@s.text name="enum.nodestatus.${member.type}.${member.participationStatus}"/>
+        <#if member.gbifRegion??> from <@s.text name="enum.region.${member.gbifRegion}"/></#if>
+      </#if>
     </h3>
   <#else>
     <h3>
@@ -43,13 +49,5 @@
     <li<#if (tab!"")=="info"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/${type.name()?lower_case}/${id}'/>" title="Information"><span>Information</span></a>
     </li>
-    <#--
-    <li<#if (tab!"")=="activity"> class='selected highlighted'</#if>>
-      <a href="#" title="Activity"><span>Activity</span></a>
-    </li>
-    <li<#if (tab!"")=="stats"> class='selected highlighted'</#if>>
-      <a href="#" title="Stats"><span>Stats</span></a>
-    </li>
-    -->
   </ul>
 </content>
