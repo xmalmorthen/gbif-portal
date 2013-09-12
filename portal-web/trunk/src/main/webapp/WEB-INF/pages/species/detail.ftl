@@ -101,8 +101,6 @@
 
       function initDescriptions(){
         <#if !descriptionToc.listLanguages().isEmpty()>
-            $showLang = "${descriptionToc.listLanguages()[0].getIso3LetterCode()?upper_case}";
-            showLanguageTopics($showLang);
             $("#description .topic").click(function(event) {
               event.preventDefault();
               loadDescription( $(this).attr("data-descriptionKeys") );
@@ -111,6 +109,10 @@
               event.preventDefault();
               showLanguageTopics($(this).attr("data-lang"));
             });
+            // show first language ToC,
+            // TODO: try to use in this order: user locale, english, first lang
+            $showLang = "${descriptionToc.listLanguages()[0]}";
+            showLanguageTopics($showLang);
         </#if>
       }
 
