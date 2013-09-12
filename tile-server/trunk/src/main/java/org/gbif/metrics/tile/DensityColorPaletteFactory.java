@@ -102,7 +102,8 @@ public class DensityColorPaletteFactory {
       "6 default colors need to be defined in #RGBA form (E.g. #FEEDDEFF)");
     // adding the transparency here
     return new DensityColorPalette.Builder()
-      .add(new DensityColorPalette.ColorRule(null, 10, toRGBAByteArray(cols[0] + "FF")))
+      .add(new DensityColorPalette.ColorRule(null, 1, toRGBAByteArray("#00000000"))) // hidden
+      .add(new DensityColorPalette.ColorRule(1, 10, toRGBAByteArray(cols[0] + "FF")))
       .add(new DensityColorPalette.ColorRule(10, 100, toRGBAByteArray(cols[1]+ "FF")))
       .add(new DensityColorPalette.ColorRule(100, 1000, toRGBAByteArray(cols[2]+ "FF")))
       .add(new DensityColorPalette.ColorRule(1000, 10000, toRGBAByteArray(cols[3]+ "FF")))
