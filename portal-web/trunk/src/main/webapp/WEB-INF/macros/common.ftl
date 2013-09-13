@@ -18,7 +18,14 @@
   </#if>
 </#function>
 
-<#-- 
+<#--
+	Creates a multiline paragraph by replaces any of \n, \n or \n\r with an html <br/> line break.
+-->
+<#function para x>
+  <#return x?replace("\r\n", "<br/>")?replace("\r", "<br/>")?replace("\n", "<br/>") />
+</#function>
+
+<#--
   Truncates the string if too long and adds a more link
 -->
 <#macro limitWithLink text max link>
@@ -84,11 +91,11 @@
 <#macro address address >
 <div class="address">
   <#if address.address?has_content>
-    <span><#list address.address?split("\r") as x>${x}<#if x_has_next><br/></#if></#list></span>
+    <span>${para(address.address)}</span>
   </#if>
 
   <#if address.postalCode?has_content || address.zip?has_content || address.city?has_content>
-    <span>
+    <span class="city">
     <#-- members use zip, but Contact postalCode -->
     <#if address.postalCode?has_content || address.zip?has_content>
       ${address.postalCode!address.zip}
@@ -98,19 +105,19 @@
   </#if>
 
   <#if address.province?has_content>
-    <span>${address.province}</span>
+    <span class="province">${address.province}</span>
   </#if>
 
   <#if address.country?has_content && address.country != 'UNKNOWN'>
-    <span>${address.country.title}</span>
+    <span class="country">${address.country.title}</span>
   </#if>
 
   <#if address.email?has_content>
-      <span><a href="mailto:${address.email}" title="email">${address.email}</a></span>
+      <span class="email"><a href="mailto:${address.email}" title="email">${address.email}</a></span>
   </#if>
 
   <#if address.phone?has_content>
-    <span>${address.phone}</span>
+    <span class="phone">${address.phone}</span>
   </#if>
 
 </div>
@@ -135,28 +142,40 @@
    <div class="contactName">
     ${con.firstName!} ${con.lastName!}
    </div>
-  <#if con.position?has_content || con.organization?has_content>
-   <div>
-    ${con.position!}
-    <#if con.position?has_content && con.organization?has_content> at </#if>
-    ${con.organization!}
-   </div>
-  </#if>
-  <@address address=con />
+  <#-- we use this div to toggle the grouped information -->
+  <div>
+    <#if con.position?has_content>
+     <div class="contactPosition">
+      ${con.position!}
+     </div>
+    </#if>
+    <#if con.organization?has_content>
+     <div class="contactInstitution">
+       ${con.organization!}
+     </div>
+    </#if>
+    <@address address=con />
+  </div>
 </div>
 </#macro>
 
 <#-- Creates a column list of contacts, defaults to 2 columns -->
-<#macro contactList contacts columns=2>
-  <#list contacts as c>
-    <#if c_index%columns==0>
-      <div class="row">
-    </#if>
-    <@contact con=c />
-    <#if c_index%columns==columns-1 || (c_index%columns==0 && !c_has_next) >
-      </div>
-    </#if>
-  </#list>
+<#macro contactList contacts columns=2 showAllButton=false>
+<#list contacts as c>
+ <#if c_index%columns==0>
+  <div class="row col${columns}">
+ </#if>
+ <@contact con=c />
+ <#if c_index%columns==columns-1 || !c_has_next >
+  <!-- end of row -->
+  </div>
+ </#if>
+</#list>
+<#if showAllButton>
+  <div class="row col${columns}">
+    <span class="showAllContacts small">show all</span>
+  </div>
+</#if>
 </#macro>
 
 <#--

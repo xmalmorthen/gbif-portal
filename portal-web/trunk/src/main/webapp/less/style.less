@@ -87,7 +87,7 @@ div.contact {
   line-height: 18px;
   word-wrap: break-word;
 
-  div {
+  ~ div {
     margin-bottom: 4px;
   }
 
@@ -102,11 +102,40 @@ div.contact {
   .contactName {
     text-decoration: underline;
     font-style: italic;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .address {
+    padding-top: 5px;
+  }
+  .email {
+    padding-top: 5px;
+  }
+  .phone {
+    padding-top: 5px;
+  }
+  .email + .phone {
+    padding-top: 0px;
   }
 }
 
 div.col div.contact {
   min-height: 100px;
+}
+
+.showAllContacts {
+  padding: 0px 10px 5px 0px;
+  text-decoration: underline;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.row .showAllContacts {
+  float: left;
+}
+.right .showAllContacts {
+  float: right;
 }
 
 address, .address{
@@ -118,7 +147,6 @@ address, .address{
     color: @cGray3;
     text-decoration: none;
   }
-
   span {
     display: block;
   }
@@ -716,6 +744,16 @@ p.advice {
         }
       }
 
+      .row {
+        clear: both;
+
+        & > div {
+          float: left;
+          padding-bottom: 20px;
+          padding-right: 10px;
+        }
+      }
+
       .fullwidth {
         float: left;
         width: 869px;
@@ -734,13 +772,14 @@ p.advice {
         }
 
         .row {
-          clear: both;
-
-          & > div {
+          &.col2 > div {
             width: 422px;
-            float: left;
-            padding-bottom: 20px;
-            padding-right: 10px;
+          }
+          &.col3 > div {
+            width: 280px;
+          }
+          &.col4 > div {
+            width: 211px;
           }
         }
       }
@@ -805,6 +844,18 @@ p.advice {
           float: none;
           font-size: 13px;
           line-height: 18px;
+        }
+
+        .row {
+          &.col2 > div {
+            width: 285px;
+          }
+          &.col3 > div {
+            width: 189px;
+          }
+          &.col4 > div {
+            width: 142px;
+          }
         }
 
         .col {

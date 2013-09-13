@@ -24,9 +24,8 @@
   <p>${member.phone}</p>
   </#if>
 
-  <#if (member.contacts?size>0) >
-    <#-- <h3>Contacts</h3> -->
-    <@common.contactList contacts=member.contacts/>
+  <#if (member.contacts?has_content) >
+    <@common.contactList contacts=member.contacts columns=3 showAllButton=true/>
   </#if>
 </div>
 

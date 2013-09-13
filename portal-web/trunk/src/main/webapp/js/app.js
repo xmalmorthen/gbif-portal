@@ -156,40 +156,6 @@ $(function() {
     }
   });
 
-
-  // Dropdown for the language selector
-  $('#language_selector').dropdownPopover({
-    options: {
-      links: [
-        { name: "English",
-          callback: function(e) {
-            e.preventDefault();
-            /* add callback action here */
-          },
-          replaceWith: "<span>EN</span>",
-          select: "EN"
-      },
-      { name: "Spanish",
-        callback: function(e) {
-          e.preventDefault();
-          /* add callback action here */
-        },
-        replaceWith: "<span>ES</span>",
-        select: "ES"
-      },
-      { name: "Deutsch",
-        callback: function(e) {
-          e.preventDefault();
-          /* add callback action here */
-        },
-        replaceWith: "<span>DE</span>",
-        select: "DE"
-      }
-      ]
-    }
-  });
-
-
   $('span.input_text input').focus(function() {
     $(this).parent().addClass("focus");
   });
@@ -221,4 +187,14 @@ $(function() {
       }
     });
   });
+
+  // hide and make contact addresses toggable
+  $(".contactName + div").hide();
+  $(".contactName").click(function(e){
+      $(this).next().slideToggle("fast");
+  });
+  $(".showAllContacts").click(function(e){
+      $(".contactName").next().slideToggle("fast");
+  });
+
 })

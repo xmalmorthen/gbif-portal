@@ -383,7 +383,8 @@
 
 <#-- PROJECT -->
 <#if dataset.project?has_content || (otherContacts?size>0) >
-<@common.article id="project" title='${(dataset.project.title)!"Project"}'>
+<#assign rtitle><span class="showAllContacts small">show all</span></#assign>
+<@common.article id="project" title='${(dataset.project.title)!"Project"}' titleRight=rtitle>
 <div class="left">
   <#if dataset.project?has_content>
     <#assign proj=dataset.project />

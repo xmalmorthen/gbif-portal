@@ -13,7 +13,8 @@
 <#include "/WEB-INF/pages/country/inc/participation.ftl">
 
 <#if node?? && node.contacts?has_content>
-<@common.article id="contacts" title="Contacts">
+<#assign rtitle><span class="showAllContacts small">show all</span></#assign>
+<@common.article id="contacts" title="Contacts" titleRight=rtitle>
     <div class="fullwidth">
       <#if node.contacts?has_content>
         <@common.contactList node.contacts />
