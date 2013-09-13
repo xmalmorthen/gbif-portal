@@ -109,7 +109,7 @@ function loadGBIF(callback) {
     config.MAP.key = getURLParameter("key");
   }
 
-  config.GBIF_URL = "../../density/tile.tcjson?key=" + config.MAP.key + "&x={x}&y={y}&z={z}&type=" + config.MAP.type + "&resolution=" + config.MAP.resolution;
+  config.GBIF_URL = "../density/tile.tcjson?key=" + config.MAP.key + "&x={x}&y={y}&z={z}&type=" + config.MAP.type + "&resolution=" + config.MAP.resolution;
   
   // http://vizzuality.github.io/gbif/index.html?layertype=png
   if(getURLParameter("type")) {
@@ -126,7 +126,7 @@ function loadGBIF(callback) {
   });
 
   if(config.LAYERTYPE === 'png') {
-    tileLayer = new L.GBIFLayer("../../density/tile.png?key=" + config.MAP.key + "&resolution={resolution}&x={x}&y={y}&z={z}&type=" + config.MAP.type + "&{style}", 
+    tileLayer = new L.GBIFLayer("../density/tile.png?key=" + config.MAP.key + "&resolution={resolution}&x={x}&y={y}&z={z}&type=" + config.MAP.type + "&{style}", 
       {resolution:4, style: "palette=yellows_reds"});
     tileLayer.setResolution(config.MAP.resolution);
     tileLayer.setStyle(layers[config.MAP.layer]['png-render-style']);
