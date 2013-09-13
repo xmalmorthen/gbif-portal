@@ -4984,7 +4984,7 @@ CartoCSS.prototype = {
 
   _createFn: function(ops) {
     var body = ops.join('\n');
-    console.log(body);
+    //console.log(body);
     return Function("data","ctx", "var _value = null; " +  body + "; return _value; ");
   },
 

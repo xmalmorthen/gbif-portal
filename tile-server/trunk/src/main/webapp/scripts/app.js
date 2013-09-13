@@ -17,7 +17,11 @@ var loaded        = false,
 function get_aggregated(callback) {
   torqueLayer.provider.getTile({ x: 0, y: 0 }, 0, function(data) {
     aggr_data = torqueLayer.provider.aggregateByKey(data.rows);
-
+    // where tiles don't cover all keys (e.g. buckets) we need to set to 0 records
+    // hard coded to cover all GBIF keys
+    for (i=0; i<= 43 ; i++)  {
+      aggr_data[i] = aggr_data[i] || 0;
+    }
     callback();
   });
 }
@@ -112,8 +116,10 @@ function loadGBIF(callback) {
   config.GBIF_URL = "density/tile.tcjson?key=" + config.MAP.key + "&x={x}&y={y}&z={z}&type=" + config.MAP.type + "&resolution=" + config.MAP.resolution;
   
   // http://vizzuality.github.io/gbif/index.html?layertype=png
-  if(getURLParameter("type")) {
+  if(getURLParameter("layertype")) {
     config.LAYERTYPE = getURLParameter("layertype");
+  } else {
+    config.LAYERTYPE = "png";
   }
 
   torqueLayer = new L.TiledTorqueLayer({
@@ -124,19 +130,18 @@ function loadGBIF(callback) {
     continuousWorld: false,
     subdomains: '1234'
   });
-
-  if(config.LAYERTYPE === 'png') {
+  if(config.LAYERTYPE === 'torque') {
+    torqueLayer.setZIndex(1000);
+    torqueLayer.setCartoCSS(config.TORQUE_LAYER_CARTOCSS);
+    mainLayer = torqueLayer;
+  
+  } else  {
     tileLayer = new L.GBIFLayer("density/tile.png?key=" + config.MAP.key + "&resolution={resolution}&x={x}&y={y}&z={z}&type=" + config.MAP.type + "&{style}", 
       {resolution:4, style: "palette=yellows_reds"});
     tileLayer.setResolution(config.MAP.resolution);
     tileLayer.setStyle(layers[config.MAP.layer]['png-render-style']);
     mainLayer = tileLayer;
-  } else {
-    torqueLayer.setZIndex(1000);
-    torqueLayer.setCartoCSS(config.TORQUE_LAYER_CARTOCSS);
-
-    mainLayer = torqueLayer;
-  }
+  } 
 
   mainLayer.addTo(map);
 
