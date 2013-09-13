@@ -39,7 +39,7 @@
         </div>
         <div class="map">
           <iframe id="map1" name="map1" 
-            src="${cfg.tileServerBaseUrl!}/demo/index.html?type=TAXON&key=1&layertype=png" 
+            src="${cfg.tileServerBaseUrl!}/index.html?type=TAXON&key=1&layertype=png" 
             allowfullscreen height="423" width="627" frameborder="0" />
           </iframe>
         </div>
