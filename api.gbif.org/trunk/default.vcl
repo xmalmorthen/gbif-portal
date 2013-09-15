@@ -79,6 +79,8 @@ sub vcl_recv {
   
   # first check for uat PORTAL subdomain
   if (req.http.host ~ "^(uat|portaldev).gbif.org") {
+    # remove trailing slash
+    set req.url = regsub(req.url, "(.)/$", "\1");
     # default to java apps
     if (req.http.host == "uat.gbif.org") {
       set req.backend = jawa;
