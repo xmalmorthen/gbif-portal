@@ -112,7 +112,7 @@ $.fn.occurrenceMap = function(id, options) {
 
   function _initDensityMap(key, type) {
     var
-    gbifUrl    = cfg.tileServerBaseUrl + '/density/tile?key=' + key + '&x={x}&y={y}&z={z}&type=' + type,
+    gbifUrl    = cfg.tileServerBaseUrl + '/density/tile?resolution=4&key=' + key + '&x={x}&y={y}&z={z}&type=' + type,
     l_all    = gbifUrl+ _buildLayer(LAYER_ALL) + "&palette=yellow_reds",
     l_obs    = gbifUrl+ _buildLayer(LAYER_OBSERVATION)  + "&palette=blues",
     l_liv    = gbifUrl+ _buildLayer(LAYER_LIVING)  + "&palette=greens",
