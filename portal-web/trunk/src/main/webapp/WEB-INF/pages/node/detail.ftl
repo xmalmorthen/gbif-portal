@@ -2,22 +2,16 @@
 <html>
 <head>
   <title>Node detail</title>
-  <script type="text/javascript" src="<@s.url value='/js/vendor/feedek/FeedEk.js'/>"></script>
+<#include "/WEB-INF/pages/country/inc/feed_templates.ftl">
   <script type="text/javascript">
-      $(function() {
-          $("#mapAbout").densityMap("${id}", "COUNTRY");
-          $("#mapBy").densityMap("${id}", "PUBLISHING_COUNTRY");
+    $(function() {
+      $("#mapAbout").densityMap("${id}", "COUNTRY");
+      $("#mapBy").densityMap("${id}", "PUBLISHING_COUNTRY");
 
-          <#if feed??>
-            $('#news').FeedEk({
-                FeedUrl: '${feed}',
-                MaxCount: 5,
-                ShowDesc: false,
-                ShowPubDate: false,
-                DescCharacterLimit: 30
-            });
-          </#if>
-      });
+      <#if feed??>
+        <@common.googleFeedJs url="${feed}" target="#news" />
+      </#if>
+    });
   </script>
 </head>
 <body class="species">

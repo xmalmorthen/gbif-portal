@@ -1,9 +1,12 @@
 package org.gbif.portal.config;
 
+import org.gbif.utils.file.FileUtils;
 import org.gbif.ws.client.filter.HttpGbifAuthFilter;
 import org.gbif.ws.client.guice.GbifApplicationAuthModule;
 import org.gbif.ws.security.GbifAppAuthService;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
 
 import com.google.inject.Inject;
@@ -32,6 +35,7 @@ public class PrivatePortalModule extends PrivateModule{
     bind(SessionAuthProvider.class).in(Scopes.SINGLETON);
 
     expose(ClientFilter.class);
+    expose(DrupalCountryTagMap.class);
   }
 
   @Provides
@@ -47,4 +51,10 @@ public class PrivatePortalModule extends PrivateModule{
     return new HttpGbifAuthFilter(appKey, authService, sessionAuthProvider);
   }
 
+  @Provides
+  @Singleton
+  public DrupalCountryTagMap provideDrupalCountryTagMap() throws IOException {
+    Map<String,String> rawMap = FileUtils.streamToMap(FileUtils.classpathStream("drupal_country_tags.txt"), 0, 1, true);
+    return new DrupalCountryTagMap(rawMap);
+  }
 }

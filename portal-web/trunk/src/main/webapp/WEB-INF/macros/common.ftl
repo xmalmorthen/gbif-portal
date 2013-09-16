@@ -259,3 +259,17 @@
   <#list nomStatusList as ns><#if ns.abbreviated?has_content>${ns.abbreviated}<#else>${ns?replace("_", " ")?lower_case}</#if><#if ns_has_next>, </#if></#list>
 </#macro>
 
+<#macro googleFeedJs url target>
+  var tmplG = $("#rss-google").html();
+  // we use google feed API to read external cross domain feeds
+  $.getJSON( 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&output=json&q=${url}&hl=en&callback=?', function( resp ) {
+    $("${target}").html( _.template(tmplG, {feed:resp.responseData.feed}) );
+  });
+</#macro>
+
+<#macro drupalFeedJs tagId target>
+  var tmplD = $("#rss-google-long").html();
+  $.getJSON( 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&output=json&q=${cfg.drupal}/taxonomy/term/${tagId}/feed&hl=en&callback=?', function( resp ) {
+    $("${target}").html( _.template(tmplD, {feed:resp.responseData.feed}) );
+  });
+</#macro>
