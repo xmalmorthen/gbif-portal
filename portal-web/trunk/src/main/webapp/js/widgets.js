@@ -1692,7 +1692,7 @@ $.fn.speciesSlideshow = function(usageID) {
 
   $(this).hide();
 
-  var url = cfg.wsClb + "name_usage/" + usageID + "/images?callback=?";
+  var url = cfg.wsClb + "species/" + usageID + "/images?callback=?";
 
   $.getJSON(url, initImageData);
 
@@ -2124,7 +2124,7 @@ function initImageData(data) {
       $this.find('.inner').jScrollPane({ verticalDragMinHeight: 20});
 
       // No, display the root taxa.
-      $url = cfg.wsClb + "name_usage/root/" + $cid + "?offset=0&limit=" + $limit;
+      $url = cfg.wsClb + "species/root/" + $cid + "?offset=0&limit=" + $limit;
       //create the tree with the root taxa
       recreateTree($url);
 
@@ -2135,7 +2135,7 @@ function initImageData(data) {
           $ps.find(".loadingTaxa").show();
           //set next paging values
           $spid = $ps.find(".breadcrumb li:last").attr("spid");
-          var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?callback=?&offset=" + $offset + "&limit=" +
+          var $wsUrl = cfg.wsClb + "species/" + $spid + "/children?callback=?&offset=" + $offset + "&limit=" +
             $limit;
           stop = true;
           var $wrapper = $("<ul></ul>");
@@ -2220,7 +2220,7 @@ function initImageData(data) {
         // make the new breadcrumb element appear with a slow transition
         $breadcrumb.find("li:last").animate({opacity:1}, data.settings.transitionSpeed);
         // url to call to recreate the taxonomic tree
-        var $wsUrl = cfg.wsClb + "name_usage/" + $spid + "/children?offset=" + $offset + "&limit=" + $limit;
+        var $wsUrl = cfg.wsClb + "species/" + $spid + "/children?offset=" + $offset + "&limit=" + $limit;
         //recreate the taxonomic tree
         recreateTree($wsUrl);
       });
@@ -2238,9 +2238,9 @@ function initImageData(data) {
           // url to call to recreate the taxonomic tree
           // if a user clicks ALL, the root tree of the checklist should be displayed
           if ($spidBC) {
-            $wsUrl = cfg.wsClb + "name_usage/" + $spidBC + "/children?offset=" + $offset + "&limit=" + $limit;
+            $wsUrl = cfg.wsClb + "species/" + $spidBC + "/children?offset=" + $offset + "&limit=" + $limit;
           } else {
-            $wsUrl = cfg.wsClb + "name_usage/root/" + data.datasetKey + "?offset=" + $offset + "&limit=" + $limit;
+            $wsUrl = cfg.wsClb + "species/root/" + data.datasetKey + "?offset=" + $offset + "&limit=" + $limit;
           }
 
           //recreate the taxonomic tree
@@ -2250,7 +2250,7 @@ function initImageData(data) {
           $htmlContent = '<li class="last"><a href="#">All</a></li>';
           if ($spidBC) {
             // show the classification breadcrumb entries
-            $.getJSON(cfg.wsClb + "name_usage/" + $spidBC + "?callback=?", function(data) {
+            $.getJSON(cfg.wsClb + "species/" + $spidBC + "?callback=?", function(data) {
               $htmlContent += breadcrumbEntry(data, data.kingdomKey, data.kingdom);
               $htmlContent += breadcrumbEntry(data, data.phylumKey, data.phylum);
               $htmlContent += breadcrumbEntry(data, data.classKey, data.clazz);

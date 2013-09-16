@@ -40,7 +40,7 @@
       // Function for loading and rendering children
       function loadChildren() {
         $ps=$("#taxonomicChildren");
-        var $wsUrl = cfg.wsClb + "name_usage/${id?c}/children?offset=" + $taxoffset + "&limit=25";
+        var $wsUrl = cfg.wsClb + "species/${id?c}/children?offset=" + $taxoffset + "&limit=25";
         // show loading wheel
         $ps.find(".loadingTaxa").show();
         //get the new list of children

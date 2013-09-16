@@ -26,7 +26,7 @@ cd ../../
 # test urls
 # http://jawa.gbif.org:8080/checklistbank-search-ws/search?q=Puma
 # http://jawa.gbif.org:8080/checklistbank-solr/collection1/select?q=scientific_name:puma
-# http://jawa.gbif.org:8080/checklistbank-ws/name_usage/1
+# http://jawa.gbif.org:8080/checklistbank-ws/species/1
 
 # set up occurrence apps
 svn co https://gbif-occurrencestore.googlecode.com/svn/occurrence/trunk occurrence

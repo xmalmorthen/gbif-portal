@@ -544,8 +544,8 @@
         <url.includeContext>false</url.includeContext>
         <registry.ws.url>http://api.gbif.org/</registry.ws.url>
         <checklistbank.ws.url>http://api.gbif.org/</checklistbank.ws.url>
-        <checklistbank.search.ws.url>http://api.gbif.org/name_usage/</checklistbank.search.ws.url>
-        <checklistbank.match.ws.url>http://api.gbif.org/lookup/name_usage/</checklistbank.match.ws.url>
+        <checklistbank.search.ws.url>http://api.gbif.org/species/</checklistbank.search.ws.url>
+        <checklistbank.match.ws.url>http://api.gbif.org/lookup/species/</checklistbank.match.ws.url>
         <occurrence.ws.url>http://api.gbif.org/</occurrence.ws.url>
         <occurrence-download.ws.url>http://jawa.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url>
         <occurrence-download.ws.url.for.public.link>http://api.gbif.org/</occurrence-download.ws.url.for.public.link>
@@ -576,8 +576,8 @@
         <url.includeContext>false</url.includeContext>
         <registry.ws.url>http://apidev.gbif.org/</registry.ws.url>
         <checklistbank.ws.url>http://apidev.gbif.org/</checklistbank.ws.url>
-        <checklistbank.search.ws.url>http://apidev.gbif.org/name_usage/</checklistbank.search.ws.url>
-        <checklistbank.match.ws.url>http://apidev.gbif.org/lookup/name_usage/</checklistbank.match.ws.url>
+        <checklistbank.search.ws.url>http://apidev.gbif.org/species/</checklistbank.search.ws.url>
+        <checklistbank.match.ws.url>http://apidev.gbif.org/lookup/species/</checklistbank.match.ws.url>
         <occurrence.ws.url>http://apidev.gbif.org/</occurrence.ws.url>
         <occurrence-download.ws.url>http://staging.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url>
         <occurrence-download.ws.url.for.public.link>http://apidev.gbif.org/</occurrence-download.ws.url.for.public.link>
