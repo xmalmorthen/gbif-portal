@@ -146,23 +146,23 @@ sub vcl_recv {
     error 301 regsub(req.url, "/name_usage", "/species");
   }
   
-  if (req.url ~ "^/lookup/name_usage"){
+  if (req.url ~ "^/lookup/species"){
     set req.backend = ecatdev;
-    set req.url = regsub(req.url, "^/lookup/name_usage", "/nub-ws/nub");
+    set req.url = regsub(req.url, "^/lookup/species", "/nub-ws/nub");
     # BOMA runs an old nublookup, but is intended to host the uat version in the future
     # if (req.http.host == "apidev.gbif.org") {
     #   set req.backend = boma;
-    #   set req.url = regsub(req.url, "^/lookup/name_usage", "/ws-nub/nub");
+    #   set req.url = regsub(req.url, "^/lookup/species", "/ws-nub/nub");
     # }
   
   } else if (req.url ~ "^/lookup/reverse_geocode"){
     set req.backend = boma;
     set req.url = regsub(req.url, "^/lookup/reverse_geocode", "/geocode-ws/reverse");
 
-  } else if ( req.url ~ "^/name_usage/(search|suggest)") {
-      set req.url = regsub(req.url, "^/name_usage/", "/checklistbank-search-ws/");
+  } else if ( req.url ~ "^/species/(search|suggest)") {
+      set req.url = regsub(req.url, "^/species/", "/checklistbank-search-ws/");
   
-  } else if ( req.url ~ "^/(name_usage|dataset_metrics|description|name_list)" ) {
+  } else if ( req.url ~ "^/(species|dataset_metrics|description|name_list)" ) {
     set req.url = regsub(req.url, "^/", "/checklistbank-ws/");
   
   } else if ( req.url ~ "^/map") {
