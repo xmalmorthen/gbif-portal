@@ -141,6 +141,11 @@ sub vcl_recv {
     error 404 "Not found";
   }
   
+  # temporary redirect for name_usage URLs
+  if (req.url ~ "/name_usage"){
+    error 301 regsub(req.url, "/name_usage", "/species");
+  }
+  
   if (req.url ~ "^/lookup/name_usage"){
     set req.backend = ecatdev;
     set req.url = regsub(req.url, "^/lookup/name_usage", "/nub-ws/nub");
@@ -241,4 +246,13 @@ sub vcl_fetch {
   }
 
   return (deliver);
+}
+
+
+sub vcl_error {
+  if (obj.status == 301) {
+    set obj.http.Location = obj.response;
+    set obj.status = 301;
+    return(deliver);
+  }
 }
