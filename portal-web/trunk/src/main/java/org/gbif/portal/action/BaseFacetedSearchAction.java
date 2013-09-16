@@ -168,7 +168,7 @@ public abstract class BaseFacetedSearchAction<T, P extends Enum<?> & SearchParam
     if (Strings.isNullOrEmpty(value)) {
       return null;
     }
-    return getText("enum." + resourceEntry + "." + value);
+    return getText("enum." + resourceEntry + "." + value.toUpperCase());
   }
 
   /**
