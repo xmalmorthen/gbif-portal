@@ -39,7 +39,7 @@
           <#if page.results?has_content>
             <#list page.results as item>
               <div class="result">
-                <h2><strong><#if item.country??>${item.country.title}: </#if>${item.locality!} ${item.locationId!}</strong>
+                <h2><strong><#if item.country?? && item.country != 'UNKNOWN'>${item.country.title}: </#if>${item.locality!} ${item.locationId!}</strong>
                   <span class="note">
                     <@s.text name='enum.occurrencestatus.${item.status!"PRESENT"}'/><#if item.establishmentMeans??>, <@s.text name='enum.establishmentmeans.${item.establishmentMeans}'/></#if>
                   </span>
