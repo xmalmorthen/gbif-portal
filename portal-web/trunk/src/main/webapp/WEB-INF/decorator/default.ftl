@@ -153,10 +153,10 @@
 
 
         <li class="search">
-        <form href="<@s.url value='/dataset/search'/>" method="GET">
+        <form href="<@s.url value='/search/node'/>" method="GET">
           <span class="input_text">
               <!-- Global search disabled until implemented later. See issue: http://dev.gbif.org/issues/browse/POR-387 -->
-            <input type="text" name="q" disabled="true"/>
+            <input type="text" name="keys" disabled="true"/>
           </span>
         </form>
         </li>
