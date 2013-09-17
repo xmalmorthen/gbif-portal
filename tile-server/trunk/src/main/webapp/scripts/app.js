@@ -181,9 +181,7 @@ function loadGBIF(callback) {
  */
 function addBboxes(bboxes) {
     // draw the bounding boxes should they exist (for example from a geographic coverage in the dataset)
-    alert(bboxes);
     if (typeof bboxes !== "undefined") {
-      alert(bboxes);
       // bboxes have minLat,maxLat,minLng,maxLng
       $.each(bboxes, function(index, box) {
         alert(box);
