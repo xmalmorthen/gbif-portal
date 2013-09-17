@@ -19,9 +19,12 @@ function get_aggregated(callback) {
     aggr_data = torqueLayer.provider.aggregateByKey(data.rows);
     // where tiles don't cover all keys (e.g. buckets) we need to set to 0 records
     // hard coded to cover all GBIF keys
+    var total=0;
     for (i=0; i<= 43 ; i++)  {
       aggr_data[i] = aggr_data[i] || 0;
+      total += aggr_data[i];
     }
+    alert(total);
     callback();
   });
 }
@@ -184,7 +187,6 @@ function addBboxes(bboxes) {
     if (typeof bboxes !== "undefined") {
       // bboxes have minLat,maxLat,minLng,maxLng
       $.each(bboxes, function(index, box) {
-        alert(box);
         // handle boxes that are really points
         if (box[0]==box[1] && box[2]==box[3]) {
         L.marker([box[0], box[2]]).addTo(map);
