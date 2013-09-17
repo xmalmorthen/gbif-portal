@@ -1,8 +1,8 @@
-package org.gbif.user.mybatis;
+package org.gbif.drupal.mybatis;
 
 import org.gbif.api.model.common.User;
 import org.gbif.api.service.common.UserService;
-import org.gbif.user.util.DrupalEncoder;
+import org.gbif.drupal.util.DrupalEncoder;
 
 import com.google.common.base.Strings;
 import com.google.inject.Inject;

@@ -1,4 +1,4 @@
-package org.gbif.user.mybatis;
+package org.gbif.drupal.mybatis;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;

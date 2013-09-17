@@ -1,4 +1,4 @@
-package org.gbif.user.util;
+package org.gbif.drupal.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

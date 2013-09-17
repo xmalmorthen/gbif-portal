@@ -1,6 +1,7 @@
-package org.gbif.user.guice;
+package org.gbif.drupal.guice;
 
 import org.gbif.api.service.common.UserService;
+import org.gbif.drupal.mybatis.ImsNodeMapper;
 import org.gbif.service.guice.PrivateServiceModule;
 
 import java.util.Properties;
@@ -29,5 +30,6 @@ public class DrupalMyBatisModule extends PrivateServiceModule {
 
     // expose services
     expose(UserService.class);
+    expose(ImsNodeMapper.class);
   }
 }

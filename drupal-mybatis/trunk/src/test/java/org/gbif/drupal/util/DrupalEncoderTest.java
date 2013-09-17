@@ -1,4 +1,4 @@
-package org.gbif.user.util;
+package org.gbif.drupal.util;
 
 import java.util.Collection;
 

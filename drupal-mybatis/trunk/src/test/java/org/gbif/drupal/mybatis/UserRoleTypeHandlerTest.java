@@ -1,4 +1,4 @@
-package org.gbif.user.mybatis;
+package org.gbif.drupal.mybatis;
 
 import org.gbif.api.exception.ServiceUnavailableException;
 import org.gbif.api.vocabulary.UserRole;
