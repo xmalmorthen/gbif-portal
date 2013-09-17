@@ -19,12 +19,9 @@ function get_aggregated(callback) {
     aggr_data = torqueLayer.provider.aggregateByKey(data.rows);
     // where tiles don't cover all keys (e.g. buckets) we need to set to 0 records
     // hard coded to cover all GBIF keys
-    var total=0;
     for (i=0; i<= 43 ; i++)  {
       aggr_data[i] = aggr_data[i] || 0;
-      total += aggr_data[i];
     }
-    alert(total);
     callback();
   });
 }
