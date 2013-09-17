@@ -71,7 +71,7 @@ public class DensityTileRenderer extends CubeTileRenderer {
       Optional<DensityTile> tile = getTile(req, DensityCube.INSTANCE);
       if (tile.isPresent()) {
         // add a header to help in debugging issues
-        resp.setHeader("GBIF-Total-Count", String.valueOf(accumulate(tile.get())));
+        resp.setHeader("X-GBIF-Total-Count", String.valueOf(accumulate(tile.get())));
 
         final TimerContext context = pngRenderTimer.time();
         try {
