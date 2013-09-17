@@ -196,7 +196,7 @@
         <#list vernacularNames?keys as vk>
           <#assign names=vernacularNames.get(vk)/>
           <#assign v=names[0]/>
-          <li>${v.vernacularName}<#if v.language??><span class="small">${v.language.getIso3LetterCode()}</span></#if>
+          <li>${v.vernacularName}<#if v.language??> <span class="small">${v.language.getIso3LetterCode()}</span></#if>
             <@common.usageSources components=names showSource=!usage.isNub() showChecklistSource=usage.isNub() />
           </li>
           <#if vk_has_next && vk_index==2>
