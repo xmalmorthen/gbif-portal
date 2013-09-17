@@ -148,6 +148,7 @@ public class DensityTileRenderer extends CubeTileRenderer {
     try {
       Optional<DensityTile> tile = getTile(req, DensityCube.INSTANCE);
       if (tile.isPresent()) {
+        resp.setHeader("X-GBIF-Total-Count", String.valueOf(accumulate(tile.get())));
         final TimerContext context = tcJsonRenderTimer.time();
         try {
           resp.setHeader("Content-Encoding", "gzip");
