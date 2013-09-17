@@ -1,22 +1,24 @@
-<script type="text/html" id="rss-google-long">
-  <ul>
-    <% _.each( feed.entries, function(item){ %>
-      <li>
-        <h4 class="date"><%= item.publishedDate %></h4>
-        <a href="<%= item.link %>" class="title"><%= item.title %></a>
-        <p><%= $(item.content).text().trim().substr(0,500) %> ...</p>
-        <a href="<%= item.link %>" class="read_more">Read more</a>
-      </li>
-    <% }); %>
-  </ul>
+<script type="text/html" id="rss-google-search">
+ <% _.each( feed.entries, function(item){ %>
+  <div class="result">
+    <h3>NEWS ITEM</h3>
+    <h2><a href="<%= item.link %>" title="<%= item.title %>"><%= item.title %></a></h2>
+    <p><%= $(item.content).text().trim().substr(0,500) %> ...</p>
+    <div class="footer">
+      <p class="date"><%= item.publishedDate %></p>
+    </div>
+  </div>
+ <% }); %>
 </script>
 <script type="text/html" id="rss-google">
-    <ul>
+    <ul class="notes">
       <% _.each( feed.entries, function(item){ %>
         <li>
-          <h4 class="date"><%= item.publishedDate %></h4>
           <a href="<%= item.link %>" class="title"><%= item.title %></a>
-          <p><%= item.contentSnippet.substr(0,150) %></p>
+          <#--
+          <span class="note"><%= item.contentSnippet.substr(0,150) %></span>
+           -->
+          <span class="note date"><%= item.publishedDate %></span>
         </li>
       <% }); %>
     </ul>

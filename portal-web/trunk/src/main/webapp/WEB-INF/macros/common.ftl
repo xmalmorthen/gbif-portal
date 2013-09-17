@@ -272,7 +272,7 @@
 </#macro>
 
 <#macro drupalFeedJs tagId target>
-  var tmplD = $("#rss-google-long").html();
+  var tmplD = $("#rss-google-search").html();
   $.getJSON( 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&output=json&q=${cfg.drupal}/taxonomy/term/${tagId}/feed&hl=en&callback=?', function( resp ) {
     $("${target}").html( _.template(tmplD, {feed:resp.responseData.feed}) );
     $("${target} .date").each(function(i) {
