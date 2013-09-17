@@ -132,7 +132,7 @@
             <ul>
                 <li><a href="${cfg.drupal}/participation/summary">Participation</a></li>
                 <li><a href="${cfg.drupal}/capacityenhancement/summary">Capacity enhancement</a></li>
-                <li><a href="${cfg.drupal}/networking/nlink1">Networking</a></li>
+                <li><a href="${cfg.drupal}/networking/summary">Networking</a></li>
                 <li><a href="${cfg.drupal}/resources/summary">Resources</a></li>
             </ul>
           </div>
