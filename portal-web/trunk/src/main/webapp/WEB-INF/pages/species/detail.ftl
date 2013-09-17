@@ -551,11 +551,12 @@
       <#list usage.typeSpecimens as ts>
         <ul>
           <li>
-          <#-- the scientific name must be present, or nothing gets shown -->
-            <#if ts.typeStatus?has_content>
-              <strong>${ts.typeStatus?capitalize}</strong>
+          <#-- require a type status or assume its type species/genus for higher ranks in case its null and we got a sciname -->
+            <#assign isNameType = (usage.rank?? && !usage.rank.isSpeciesOrBelow() && ts.scientificName?has_content) />
+            <#if ts.typeStatus?has_content || isNameType>
+              <strong>${(ts.typeStatus!"TYPE")?capitalize}</strong>
               <#if ts.scientificName?has_content> -
-                <#if ts.typeStatus=='TYPE_GENUS' || ts.typeStatus=='TYPE_SPECIES'>
+                <#if isNameType || ts.typeStatus=='TYPE_GENUS' || ts.typeStatus=='TYPE_SPECIES'>
                     <a href="<@s.url value='/species/search?q=${ts.scientificName}'/>">${ts.scientificName}</a>
                 <#else>
                     <a href="<@s.url value='/occurrence/search?TAXON_KEY=${ts.scientificName}'/>">${ts.scientificName}</a>
