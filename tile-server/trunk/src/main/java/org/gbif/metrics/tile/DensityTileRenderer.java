@@ -6,6 +6,8 @@ import org.gbif.metrics.cube.tile.density.Layer;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPOutputStream;
 
@@ -54,8 +56,8 @@ public class DensityTileRenderer extends CubeTileRenderer {
     resp.setHeader("Access-Control-Allow-Origin", "*");
     resp.setHeader("Access-Control-Allow-Headers", "X-Requested-With, X-Prototype-Version, X-CSRF-Token");
     resp.setHeader("Cache-Control", "public,max-age=60"); // encourage a 60 second caching by everybody
-    
-    
+
+
     if (req.getRequestURI().endsWith(TILE_CUBE_AS_JSON_SUFFIX)) {
       renderTileCubeAsJson(req, resp);
     } else {
@@ -68,6 +70,9 @@ public class DensityTileRenderer extends CubeTileRenderer {
     try {
       Optional<DensityTile> tile = getTile(req, DensityCube.INSTANCE);
       if (tile.isPresent()) {
+        // add a header to help in debugging issues
+        resp.setHeader("GBIF-Total-Count", String.valueOf(accumulate(tile.get())));
+
         final TimerContext context = pngRenderTimer.time();
         try {
           String[] layerStrings = req.getParameterValues("layer");
@@ -100,9 +105,9 @@ public class DensityTileRenderer extends CubeTileRenderer {
             if (hue!=null) {
               p = new HSBPalette(hue);
             } else {
-              p = new HSBPalette();  
+              p = new HSBPalette();
             }
-            
+
           }
 
           PNGWriter.write(tile.get(), resp.getOutputStream(), extractInt(req, REQ_Z, true), p, l.toArray(new Layer[] {}));
@@ -122,10 +127,24 @@ public class DensityTileRenderer extends CubeTileRenderer {
     }
     resp.flushBuffer();
   }
+
+  /**
+   * Accumulates the count represented by the tile.
+   */
+  private int accumulate(DensityTile tile) {
+    int total = 0;
+    for (Entry<Layer, Map<Integer, Integer>> e : tile.layers().entrySet()) {
+      for (Integer count : e.getValue().values()) {
+        total += count;
+      }
+    }
+    return total;
+  }
   
+
   protected void renderTileCubeAsJson(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     resp.setHeader("Content-Type", "application/json");
-    
+
     try {
       Optional<DensityTile> tile = getTile(req, DensityCube.INSTANCE);
       if (tile.isPresent()) {
@@ -135,7 +154,7 @@ public class DensityTileRenderer extends CubeTileRenderer {
           GZIPOutputStream os = new GZIPOutputStream(resp.getOutputStream());
           TileCubesWriter.jsonNotation(tile.get(), os);
           os.flush();
-          
+
         } finally {
           context.stop();
         }
