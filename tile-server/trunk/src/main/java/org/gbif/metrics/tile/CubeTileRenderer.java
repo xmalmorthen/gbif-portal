@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.gbif.metrics.tile;
 
@@ -8,15 +8,12 @@ import org.gbif.metrics.cube.tile.density.DensityTile;
 import org.gbif.metrics.cube.tile.io.TileContentType;
 
 import java.io.IOException;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
 import com.urbanairship.datacube.Address;
 import com.urbanairship.datacube.DataCube;
 import com.urbanairship.datacube.DataCubeIo;
@@ -33,7 +30,7 @@ import org.slf4j.LoggerFactory;
  */
 @SuppressWarnings("serial")
 public abstract class CubeTileRenderer extends HttpServlet {
-  
+
   private static final Logger LOG = LoggerFactory.getLogger(CubeTileRenderer.class);
   public static final String REQ_TYPE = "type";
   public static final String REQ_KEY = "key";
@@ -52,19 +49,6 @@ public abstract class CubeTileRenderer extends HttpServlet {
     this.cubeIo = cubeIo;
   }
 
-  protected Integer extractInt(HttpServletRequest req, String key, boolean required) throws IllegalArgumentException {
-    if (req.getParameter(key) != null) {
-      try {
-        return Integer.parseInt(req.getParameter(key));
-      } catch (NumberFormatException e) {
-        throw new IllegalArgumentException("Parameter [" + key + "] is invalid.  Supplied: " + req.getParameter(key));
-      }
-    }
-    if (required)
-      throw new IllegalArgumentException("Parameter [" + key + "] is required");
-    return null;
-  }
-  
   protected Float extractFloat(HttpServletRequest req, String key, boolean required) throws IllegalArgumentException {
     if (req.getParameter(key) != null) {
       try {
@@ -73,14 +57,34 @@ public abstract class CubeTileRenderer extends HttpServlet {
         throw new IllegalArgumentException("Parameter [" + key + "] is invalid.  Supplied: " + req.getParameter(key));
       }
     }
-    if (required)
+    if (required) {
       throw new IllegalArgumentException("Parameter [" + key + "] is required");
+    }
+    return null;
+  }
+
+  protected Integer extractInt(HttpServletRequest req, String key, boolean required) throws IllegalArgumentException {
+    if (req.getParameter(key) != null) {
+      try {
+        return Integer.parseInt(req.getParameter(key));
+      } catch (NumberFormatException e) {
+        throw new IllegalArgumentException("Parameter [" + key + "] is invalid.  Supplied: " + req.getParameter(key));
+      }
+    }
+    if (required) {
+      throw new IllegalArgumentException("Parameter [" + key + "] is required");
+    }
     return null;
   }
 
   protected TileContentType extractType(HttpServletRequest req) throws IllegalArgumentException {
     try {
-      return TileContentType.valueOf(req.getParameter(REQ_TYPE));
+      if (req.getParameter(REQ_TYPE) != null) {
+        return TileContentType.valueOf(req.getParameter(REQ_TYPE));
+      } else {
+        return TileContentType.ALL;
+      }
+
     } catch (Exception e) {
       throw new IllegalArgumentException("Parameter [" + REQ_TYPE + "] is invalid.  Supplied: "
         + req.getParameter(REQ_TYPE));
@@ -91,32 +95,40 @@ public abstract class CubeTileRenderer extends HttpServlet {
     int x = extractInt(req, REQ_X, true);
     int y = extractInt(req, REQ_Y, true);
     int z = extractInt(req, REQ_Z, true);
-    Integer resolution = extractInt(req, REQ_RESOLUTION, false); 
-    
+    Integer resolution = extractInt(req, REQ_RESOLUTION, false);
+
     TileContentType type = extractType(req);
     String k = req.getParameter(REQ_KEY);
-    if (k == null) {
+    if (k == null && !type.equals(TileContentType.ALL)) {
       throw new IllegalArgumentException("Parameter [" + REQ_KEY + "] is required");
     }
 
-    Optional<DensityTile> tile =
-      lookup(new ReadBuilder(cube).at(DensityCube.TYPE, type).at(DensityCube.KEY, k).at(DensityCube.TILE_X, x)
+    Optional<DensityTile> tile = null;
+
+    // At present the cube does not correctly accumulate all data
+    // http://dev.gbif.org/issues/browse/MET-30
+    if (type.equals(TileContentType.ALL)) {
+      tile = mergeAll(cube, x, y, z);
+
+    } else {
+      tile = lookup(new ReadBuilder(cube).at(DensityCube.TYPE, type).at(DensityCube.KEY, k).at(DensityCube.TILE_X, x)
         .at(DensityCube.TILE_Y, y).at(DensityCube.ZOOM, z).build());
+    }
 
     if (tile.isPresent()) {
       LOG.debug("Tile request type[{}], key[{}], zoom[{}], x[{}], y[{}] has a tile", new Object[] {type, k, z, x, y});
     } else {
       LOG.debug("Tile request type[{}], key[{}], zoom[{}], x[{}], y[{}] has no tile", new Object[] {type, k, z, x, y});
     }
-    
+
     if (tile.isPresent() && resolution!=null) {
       LOG.debug("Downscaling tile to resolution[{}]", resolution);
       return Optional.of(tile.get().downscale(resolution));
     } else {
-      return tile;  
-    }    
+      return tile;
+    }
   }
-  
+
   // Looks up the tile from the cube
   private Optional<DensityTile> lookup(Address address) throws IOException {
     Optional<DensityTile> tile = null;
@@ -132,5 +144,28 @@ public abstract class CubeTileRenderer extends HttpServlet {
       context.stop();
     }
     return tile;
+  }
+
+  /**
+   * A hack that merges all the kingdoms to create tiles for all data
+   *
+   * @throws IOException
+   */
+  private Optional<DensityTile> mergeAll(DataCube<DensityTile> cube, int x, int y, int z) throws IOException {
+    // Hack: The GBIF backbone kingdom keys are 1-8
+    // before fixing this, consider adding an all
+    DensityTile merged = null;
+    for (int kingdomKey=1; kingdomKey<=8; kingdomKey++) {
+      Optional<DensityTile> tile =
+        lookup(new ReadBuilder(cube).at(DensityCube.TYPE, TileContentType.TAXON)
+          .at(DensityCube.KEY, String.valueOf(kingdomKey))
+          .at(DensityCube.TILE_X, x)
+        .at(DensityCube.TILE_Y, y).at(DensityCube.ZOOM, z).build());
+
+      if (tile.isPresent()) {
+        merged = merged == null ? tile.get() : (DensityTile) merged.add(tile.get());
+      }
+    }
+    return Optional.of(merged);
   }
 }

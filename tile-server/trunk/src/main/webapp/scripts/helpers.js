@@ -208,10 +208,10 @@ var config = {
   ].join('\n'),
   LAYERTYPE: "png",
   MAP: {
-    type: "TAXON",
+    type: "ALL",
     key: 1,
     layer: "classic",
-    resolution: 4,
+    resolution: 1,
     cat: "all",
     lat: 0,
     lng: 0,
