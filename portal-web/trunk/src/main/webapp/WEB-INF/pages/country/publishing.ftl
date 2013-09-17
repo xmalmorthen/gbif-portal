@@ -11,7 +11,9 @@
   <script type="text/javascript" src="<@s.url value='/js/occ_metrics.js'/>"></script>
   <script type="text/javascript">
       $(function() {
-          $("#mapBy").densityMap("${isocode}", "PUBLISHING_COUNTRY");
+          $("#mapBy").append(
+            '<iframe id="mapByFrame" name="map" src="${cfg.tileServerBaseUrl!}/index.html?type=PUBLISHING_COUNTRY&key=${isocode}" allowfullscreen height="100%" width="100%" frameborder="0"/></iframe>'
+          );
       });
   </script>
 </head>

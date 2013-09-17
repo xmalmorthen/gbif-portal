@@ -11,18 +11,6 @@
   <meta property="dwc:datasetName" content="${dataset.title!}"/>
   <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${dataset.key}'/>"/>
   </#if>
-
-  <#if showMap>
-    <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
-    <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
-    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
-    <script type="text/javascript">
-        $(function() {
-            $("#map").pointMap("${occ.latitude?c}", "${occ.longitude?c}", {});
-        });
-    </script>
-  </#if>
 </head>
 <body class="pointmap">
 
@@ -40,7 +28,9 @@
 
 <@common.article id="location" title=title titleRight=titleRight class="map">
   <#if showMap>
-    <div id="map" class="map"></div>
+    <div id="map" class="map">
+      <iframe id="mapframe" name="mapframe" src="${cfg.tileServerBaseUrl!}/point.html?&style=grey-blue&point=${occ.latitude?c},${occ.longitude?c}&lat=${occ.latitude?c}&lng=${occ.longitude?c}&zoom=8" height="100%" width="100%" frameborder="0"/></iframe>
+    </div>
     <div class="right">
       <h3>Locality</h3>
         <p class="no_bottom">${occ.locality!}<#if occ.country??>, <a href="<@s.url value='/country/${occ.country.iso2LetterCode}'/>">${occ.country.title}</a></#if></p>

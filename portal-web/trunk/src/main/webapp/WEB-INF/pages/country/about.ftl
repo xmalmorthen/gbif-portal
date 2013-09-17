@@ -12,7 +12,9 @@
     <script type="text/javascript" src="<@s.url value='/js/occ_metrics.js'/>"></script>
     <script type="text/javascript">
         $(function() {
-            $("#mapAbout").densityMap("${isocode}", "COUNTRY");
+          $("#mapAbout").append(
+            '<iframe id="mapAboutFrame" name="map" src="${cfg.tileServerBaseUrl!}/index.html?type=COUNTRY&key=${isocode}" allowfullscreen height="100%" width="100%" frameborder="0"/></iframe>'
+          );
         });
     </script>
 </head>

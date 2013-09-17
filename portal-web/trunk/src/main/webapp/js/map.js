@@ -36,9 +36,9 @@ $.fn.occurrenceMap = function(id, options) {
     }, options
   );
 
-  var // see http://maps.cloudmade.com/editor for the styles - 69341 is named GBIF Original
-  cmAttr = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
-  cmUrl  = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png';
+  var 
+  cmAttr = 'Nokia',
+  cmUrl  = 'http://2.maps.nlp.nokia.com/maptile/2.1/maptile/newest/normal.day.grey/{z}/{x}/{y}/256/png8?app_id=_peU-uCkp-j8ovkzFGNU&app_code=gBoUkAMoxoqIWfxWA5DuMQ';
 
   var
   gbifBase  = L.tileLayer(cmUrl, {styleId: 69341, attribution: cmAttr}),
@@ -58,7 +58,6 @@ $.fn.occurrenceMap = function(id, options) {
   var overlays = {
   };
 
-  // no idea why passing in "this" instead of id does not work ...
   var map = L.map(id, {
     center: settings.center,
     zoom: settings.defaultZoom,
@@ -78,7 +77,11 @@ $.fn.occurrenceMap = function(id, options) {
 
   setupZoom(map);
 
-  L.control.layers(baseLayers, overlays).addTo(map);
+  // points (like occurrence detail) have no styling changes
+  if (options.type != "point") {
+    L.control.layers(baseLayers, overlays).addTo(map);
+  }
+  
 
   // entering fullscreen disables the window scrolling
   map.on('enterFullscreen', function(){

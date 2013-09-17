@@ -2,23 +2,27 @@
 <html>
 <head>
   <title>Occurrence search</title>
-   <content tag="extra_scripts"> 
-    <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
-      <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
-      <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
-      <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>      
-    <script>    
-      $(document).ready(function() {
-        var yearsValues = new Array();  
-        <#assign yearCounts=action.yearCounts>  
-        <#list yearCounts?keys as k>
-          yearsValues.push(${yearCounts.get(k)?c});
-        </#list>                     
-        $("#yearChart").addGraph(yearsValues, {height:240});
-      });     
-    
-      $("#map").densityMap("1", "TAXON"); // TODO, change to ALL data
-      </script>
+   <content tag="extra_scripts">
+      <#-- 
+        Maps are embedded as iframes, but we register event listeners to link through to the occurrence
+        search based on the state of the widget.
+      -->
+      <script type="text/javascript" src="${cfg.tileServerBaseUrl!}/map-events.js"></script>
+      <script>    
+        $(document).ready(function() {
+          var yearsValues = new Array();  
+          <#assign yearCounts=action.yearCounts>  
+          <#list yearCounts?keys as k>
+            yearsValues.push(${yearCounts.get(k)?c});
+          </#list>                     
+          $("#yearChart").addGraph(yearsValues, {height:240});
+          
+          new GBIFMapListener().subscribe(function(id, searchUrl) {
+            $("#geoOccurrenceSearch").attr("href", "<@s.url value='/occurrence/search'/>?" +  searchUrl);
+          });
+        });     
+
+     </script>
    </content>
 </head>
 <body class="infobandless">
@@ -66,15 +70,16 @@
 </article>
 
   <@common.article titleRight='${numGeoreferenced!0} georeferenced records' class="map">
-    <div id="map" class="map"></div>
+    <div id="map" class="map">
+      <iframe id="mapByFrame" name="map" src="${cfg.tileServerBaseUrl!}/index.html?type=ALL&resolution=1" allowfullscreen height="100%" width="100%" frameborder="0"/></iframe>
+    </div>
     <div class="right">
        <div class="inner">
          <h3>View records</h3>
          <p>
-           <a href="<@s.url value='/occurrence/search?GEOREFERENCED=true'/>">All records</a>
+           <a href="<@s.url value='/occurrence/search?GEOREFERENCED=true&SPATIAL_ISSUES=false'/>">All records</a>
            |
-           <#-- Note this is intercepted in the map.js to append the bounding box -->
-           <a href="<@s.url value='/occurrence/search'/>" class='viewableAreaLink'>In viewable area</a></li>
+           <a href="<@s.url value='/occurrence/search'/>" id='geoOccurrenceSearch'>In viewable area</a></li>
          </p>
          <h3>About</h3>
          <p>
@@ -82,7 +87,6 @@
          </p>
          <p> 
            To explore the records, zoom into the map or click on the links above and add further filters to customize search results. 
-           Note: In this release, only Animalia are shown on the map. Future versions will show all data.  
          </p>
          
        </div>

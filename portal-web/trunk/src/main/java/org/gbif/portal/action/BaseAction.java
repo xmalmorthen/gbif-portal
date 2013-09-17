@@ -42,12 +42,17 @@ public abstract class BaseAction extends ActionSupport
   protected HttpServletRequest request;
   protected ServletContext ctx;
 
+  /**
+   * The threshold that switches between 1px resolution and 4px resolution.
+   */
+  public static final int MAP_RESOLUTION_THRESHOLD = 50000;
+
   @Inject
   private Config cfg;
 
   /**
    * Checks whether a string starts with any of the prefixes specified
-   * 
+   *
    * @return true if string matches against any prefix. false otherwise.
    */
   private static boolean containsPrefix(String propertyKey, String[] prefixes) {
@@ -86,7 +91,7 @@ public abstract class BaseAction extends ActionSupport
    * Returns the absolute url to the current page including the query string.
    * Exposed to simplify freemarker and javascript.
    * It takes into account the includeContext struts settings to strip of the context if not used.
-   * 
+   *
    * @return the absolute, current url
    */
   public String getCurrentUrl() {
@@ -159,7 +164,7 @@ public abstract class BaseAction extends ActionSupport
   /**
    * Returns a map representing properties from the resource bundle but just those
    * properties whose keys match one or more of the given prefixes.
-   * 
+   *
    * @return a map which the matched properties
    */
   public Map<String, String> getResourceBundleProperties(String... prefix) {
@@ -220,5 +225,14 @@ public abstract class BaseAction extends ActionSupport
     } catch (UnsupportedEncodingException e) {
       return cfg.getWsImageCache() + "?url=" + url + "&size=" + size;
     }
+  }
+
+  /**
+   * A utility to provide the map resolution based on the provided record count.
+   * 
+   * @return the suggested resolution to use for the map.
+   */
+  public int getMapResolution(int recordCount) {
+    return (recordCount > MAP_RESOLUTION_THRESHOLD) ? 1 : 4;
   }
 }

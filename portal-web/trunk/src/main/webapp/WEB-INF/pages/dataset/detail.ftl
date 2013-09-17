@@ -4,24 +4,29 @@
   <title>${dataset.title!"???"} - Dataset detail</title>
   <content tag="extra_scripts">
     <#if renderMaps>
-      <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
-      <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
-      <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
-      <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
+      <!-- Subscribe to changes on the map and configure our search URL-->
+      <script type="text/javascript" src="${cfg.tileServerBaseUrl!}/map-events.js"></script>
       <script type="text/javascript">
-          $(function() {
-              // create an array of the bounding boxes from the geographic coverages
-              // we ignore anything that is global as that tells us very little
-              var bboxes = [
-              <#list dataset.geographicCoverages as geo>
-                 <#if geo.boundingBox?has_content && (!geo.boundingBox.isGlobalCoverage())>
-                   [${geo.boundingBox.minLatitude?c},${geo.boundingBox.maxLatitude?c},${geo.boundingBox.minLongitude?c},${geo.boundingBox.maxLongitude?c}],
-                 </#if>
-              </#list>
-              ];
-
-              $("#map").densityMap("${dataset.key}", "DATASET", {"bboxes": bboxes});
-          });
+        new GBIFMapListener().subscribe(function(id, searchUrl) {
+          $("#geoOccurrenceSearch").attr("href", "<@s.url value='/occurrence/search'/>?" +  searchUrl.replace("DATASET", "DATASET_KEY"));
+        });
+          
+        // create an array of the bounding boxes from the geographic coverages
+        // we ignore anything that is global as that tells us very little
+        var bboxes = [
+          <#list dataset.geographicCoverages as geo>
+            <#if geo.boundingBox?has_content && (!geo.boundingBox.isGlobalCoverage())>
+              [${geo.boundingBox.minLatitude?c},${geo.boundingBox.maxLatitude?c},${geo.boundingBox.minLongitude?c},${geo.boundingBox.maxLongitude?c}],
+            </#if>
+          </#list>
+        ];
+        
+        // paint the bounding box once the iframe is loaded
+        // This will only work when deployed in the same domain, but this is considered a good old hack for this isolated case 
+        var mapframe = document.getElementById('mapframe');
+        mapframe.onload = function() {
+          mapframe.contentWindow.addBboxes(bboxes);
+        };
       </script>
     </#if>
     <style type="text/css">
@@ -35,7 +40,7 @@
     </style>
   </content>
 </head>
-<body class="densitymap">
+<body>
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/dataset/inc/infoband.ftl">
@@ -334,15 +339,17 @@
 <#-- MAPS -->
 <#if renderMaps>
   <@common.article titleRight='${numGeoreferencedOccurrences!0} Georeferenced occurrences' class="map">
-    <div id="map" class="map"></div>
+    <div id="map" class="map">
+      <iframe id="mapframe" name="mapframe" src="${cfg.tileServerBaseUrl!}/index.html?type=DATASET&key=${id!}&style=grey-blue&resolution=${action.getMapResolution(numGeoreferencedOccurrences)}" allowfullscreen height="100%" width="100%" frameborder="0"/></iframe>
+    </div>
     <div class="right">
        <div class="inner">
          <h3>View records</h3>
          <p>
-           <a href="<@s.url value='/occurrence/search?datasetKey=${id!}&GEOREFERENCED=true'/>">All records</a>
+           <a href="<@s.url value='/occurrence/search?datasetKey=${id!}&GEOREFERENCED=true&SPATIAL_ISSUES=false'/>">All records</a>
            |
            <#-- Note this is intercepted in the map.js to append the bounding box -->
-           <a href="<@s.url value='/occurrence/search?datasetKey=${id!}'/>" class='viewableAreaLink'>In viewable area</a></li>
+           <a href="<@s.url value='/occurrence/search?datasetKey=${id!}'/>" id='geoOccurrenceSearch'>In viewable area</a></li>
          </p>
          <#-- Truncate long coverages, and display with a more link -->
          <#assign coverage><#list dataset.geographicCoverages as geo>${geo.description!}</#list></#assign>

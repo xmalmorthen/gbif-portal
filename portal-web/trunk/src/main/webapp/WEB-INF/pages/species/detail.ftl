@@ -5,12 +5,20 @@
   <title>${usage.scientificName} - Checklist View</title>
 
   <content tag="extra_scripts">
-  <#if nub>
-    <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
-    <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
-    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>
-  </#if>
+      <#-- 
+        Set up the map if only we will use it.  
+        Maps are embedded as iframes, but we register event listeners to link through to the occurrence
+        search based on the state of the widget.
+      -->
+      <#if nub && numOccurrences gt 0>
+         <script type="text/javascript" src="${cfg.tileServerBaseUrl!}/map-events.js"></script>
+         <script type="text/javascript">
+             new GBIFMapListener().subscribe(function(id, searchUrl) {
+               $("#geoOccurrenceSearch").attr("href", "<@s.url value='/occurrence/search'/>?" +  searchUrl);
+             });
+         </script>
+      </#if>
+      
       <#-- shadowbox to view large images -->
       <link rel="stylesheet" type="text/css" href="<@s.url value='/js/vendor/fancybox/jquery.fancybox.css?v=2.1.4'/>">
       <script type="text/javascript" src="<@s.url value='/js/vendor/fancybox/jquery.fancybox.js?v=2.1.4'/>"></script>
@@ -131,11 +139,6 @@
 
         // image slideshow
         $("#images").speciesSlideshow(${id?c});
-
-      <#if nub>
-        $("#map").densityMap("${usage.key?c}", "TAXON");
-      </#if>
-
       });
     </script>
     <style type="text/css">
@@ -155,7 +158,7 @@
   <meta property="dwc:datasetName" content="${(dataset.title)!"???"}"/>
   <meta rel="dc:isPartOf" href="<@s.url value='/dataset/${usage.datasetKey}'/>"/>
 </head>
-<body class="species densitymap">
+<body class="species">
 
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/species/inc/infoband.ftl">
@@ -380,23 +383,26 @@
 <#-- Taxon maps are only calculated for the nub taxonomy -->
 
 <#if nub && numOccurrences gt 0>
+<a name="map"></a>
 <article class="map">
   <header></header>
 
-  <div id="map" class="map"></div>
 
   <div class="content">
+    <div class="map">
+      <iframe id="map" name="map" src="${cfg.tileServerBaseUrl!}/index.html?type=TAXON&key=${usage.key?c}&resolution=${action.getMapResolution(numGeoreferencedOccurrences)}" allowfullscreen height="100%" width="100%" frameborder="0"/></iframe>
+    </div>
     <div class="header">
       <div class="right"><h2>Georeferenced occurrences</h2></div>
     </div>
-	  <div class="right">
+	<div class="right">
       <div class="inner">
         <#if numGeoreferencedOccurrences gt 0>
           <h3>View records</h3>
           <p>
-            <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180'/>">All ${numGeoreferencedOccurrences} </a>
+            <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180&SPATIAL_ISSUES=false'/>">All ${numGeoreferencedOccurrences} </a>
             |
-            <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}'/>" class='viewableAreaLink'>In viewable area</a>
+            <a href="<@s.url value='/occurrence/search?taxon_key=${usage.key?c}&BOUNDING_BOX=90,-180,-90,180&SPATIAL_ISSUES=false'/>" id='geoOccurrenceSearch'>In viewable area</a>
           </p>
         </#if>
 
