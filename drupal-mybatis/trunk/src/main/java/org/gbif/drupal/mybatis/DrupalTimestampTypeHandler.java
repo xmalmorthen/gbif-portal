@@ -18,25 +18,25 @@ public class DrupalTimestampTypeHandler implements TypeHandler<Date> {
 
   @Override
   public Date getResult(ResultSet rs, String columnName) throws SQLException {
-    return convert( (Integer) rs.getObject(columnName) );
+    return convert((Integer) rs.getObject(columnName));
   }
 
   @Override
   public Date getResult(ResultSet rs, int columnIndex) throws SQLException {
-    return convert( (Integer) rs.getObject(columnIndex) );
+    return convert((Integer) rs.getObject(columnIndex));
   }
 
   @Override
   public Date getResult(CallableStatement cs, int columnIndex) throws SQLException {
-    return convert( (Integer) cs.getObject(columnIndex) );
+    return convert((Integer) cs.getObject(columnIndex));
   }
 
   private Date convert(Integer sec) {
-    if (sec <= 0) {
+    if (sec == null || sec <= 0) {
       return null;
     }
     // php timestamps use unix epoche which is in seconds - java uses milliseconds
-    return new Date(1000l * sec );
+    return new Date(1000l * sec);
   }
 
   private int convert(Date phpDate) {
