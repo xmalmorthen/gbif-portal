@@ -19,8 +19,8 @@
 SELECT p.ParticipantID AS imsId, c.ISO2 AS country, n.Name_Full AS title, p.Name_Short AS abbreviation, n.URL AS homepage,
   p.Member_AsOf AS participantSince, null AS description,
   null AS modified,
-  i.Name AS institution, i.Address AS address, i.City AS city, null AS postalCode, null AS province, null AS phone, null AS email,
-  p.GBIFmembership, null AS Region, null AS MOU2012_Date
+  i.Name AS institution, i.Address AS address, i.City AS city, i.ZipCode AS postalCode, i.State AS province, i.Telephone AS phone, i.Email AS email,
+  p.GBIFmembership, null AS Region, p.MOU2012_Date AS MOU2012_Date
 
 FROM gbifims_Node n
   JOIN gbifims_Participant p ON n.ParticipantID = p.ParticipantID
@@ -50,7 +50,7 @@ WHERE p.ParticipantID = #{imsId}
     JOIN gbifims_ContactGrouproleNodeParticipant pc ON (n.ParticipantID = pc.ParticipantID OR n.NodeID = pc.NodeID)
       JOIN gbifims_Contact c ON pc.ContactID = c.ContactID
       JOIN gbifims_Grouprole gr ON pc.GrouproleID = gr.GrouproleID
-      JOIN gbifims_Group g ON gr.GroupID = g.GroupID AND (g.RelatesTo_Selection = 'Participant' OR gr.GroupID = 31)
+      JOIN gbifims_Group g ON gr.GroupID = g.GroupID AND gr.GroupID in (11,12,13,31)
       LEFT JOIN gbifims_Country ca ON c.CountryID_Address = ca.CountryID
       LEFT JOIN gbifims_Institution i ON c.InstitutionID = i.InstitutionID
     WHERE pc.Active!=0 AND (c.OnTheWeb is null OR c.OnTheWeb!=0) AND n.ParticipantID = #{imsId}
