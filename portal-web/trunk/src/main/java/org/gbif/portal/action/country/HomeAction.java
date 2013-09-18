@@ -24,7 +24,7 @@ public class HomeAction extends BaseAction {
 
   @Override
   public String execute() throws Exception {
-    activeNodes = Sets.newHashSet(nodeService.listNodeCountries());
+    activeNodes = Sets.newHashSet(nodeService.listActiveCountries());
     return SUCCESS;
   }
 
