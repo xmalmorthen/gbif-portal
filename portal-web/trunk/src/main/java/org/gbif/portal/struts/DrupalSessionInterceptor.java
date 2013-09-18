@@ -2,8 +2,8 @@ package org.gbif.portal.struts;
 
 import org.gbif.api.model.common.User;
 import org.gbif.api.service.common.UserService;
+import org.gbif.drupal.mybatis.UserServiceImpl;
 import org.gbif.portal.config.Config;
-import org.gbif.user.mybatis.UserServiceImpl;
 
 import java.util.Map;
 import javax.servlet.http.Cookie;
