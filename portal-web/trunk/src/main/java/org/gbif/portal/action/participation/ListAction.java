@@ -48,7 +48,7 @@ public class ListAction extends BaseAction {
         } else if (ParticipationStatus.ASSOCIATE == n.getParticipationStatus()) {
           associate.add(n);
         }
-      } else {
+      } else if (ParticipationStatus.ASSOCIATE == n.getParticipationStatus()){
         other.add(n);
       }
     }
