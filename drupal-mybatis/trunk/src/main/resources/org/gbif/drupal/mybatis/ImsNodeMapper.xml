@@ -42,8 +42,8 @@ WHERE p.ParticipantID = #{imsId}
     SELECT pc.ContactID AS cid, gr.GroupID, pc.ParticipantID, pc.NodeID,
          c.Name_First AS first_name, c.Name_Last AS last_name, gr.Name AS type,
          c.Address, c.City, c.ZipCode, ca.ISO2 AS country, i.Name AS organization,
-         c.Email AS email, c.Phone_Office AS phone, null AS homepage,
-         c.Job_Position AS job_position, null AS description,
+         c.Email AS email, c.Phone_Office AS phone, c.URL AS homepage,
+         c.Job_Position AS job_position, c.Job_Description AS description,
          null AS created_by, null AS created,
          null AS modified_by, null AS modified
     FROM gbifims_Node n
