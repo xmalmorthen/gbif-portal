@@ -13,8 +13,10 @@
 
 <#if about>
   <#assign tab="about"/>
+  <#assign link="publishing"/>
 <#else>
   <#assign tab="publishing"/>
+  <#assign link="about"/>
 </#if>
 <#assign tabhl=true />
 <#include "/WEB-INF/pages/country/inc/infoband.ftl">
@@ -43,7 +45,7 @@
       <#list countries as cw>
         <div class="result">
           <h2>
-              <strong><a title="${cw.obj.getTitle()}" href="<@s.url value='/country/${cw.obj.getIso2LetterCode()}'/>">${cw.obj.getTitle()}</a></strong>
+              <strong><a title="${cw.obj.getTitle()}" href="<@s.url value='/country/${cw.obj.getIso2LetterCode()}/${link}'/>">${cw.obj.getTitle()}</a></strong>
           </h2>
 
           <div class="footer">

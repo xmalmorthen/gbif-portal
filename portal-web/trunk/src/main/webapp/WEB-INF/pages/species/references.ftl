@@ -32,7 +32,7 @@
         <#list page.results as item>
         <div class="result">
           <h2><strong>${item.title!item.citation!}</strong>
-            <span class="note">${item.type!}<#if item.link?has_content> <a href="" target="_blank">link</a></#if></span>
+            <span class="note">${item.type!}<#if item.link?has_content> <a href="#" target="_blank">link</a></#if></span>
             <@common.usageSource component=item showChecklistSource=usage.nub showChecklistSourceOnly=true/>
           </h2>
           <div class="footer">

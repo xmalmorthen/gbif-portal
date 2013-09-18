@@ -23,17 +23,25 @@
         <p><@s.text name="enum.region.${node.gbifRegion}"/></p>
       </#if>
 
+      <#if node.type == 'COUNTRY'>
+        <#assign contactBaseUrl><@s.url value='/country/${isocode}/participation'/></#assign>
+      <#else>
+        <#assign contactBaseUrl><@s.url value='/node/${node.key}'/></#assign>
+      </#if>
+
       <#if headOfDelegation??>
         <h3>Head of Delegation</h3>
-        <p><a href="<@s.url value='/country/${isocode}/participation#contact${headOfDelegation.key?c}'/>">${headOfDelegation.firstName!} ${headOfDelegation.lastName!}</a></p>
+        <p>
+            <a href="${contactBaseUrl}#contact${headOfDelegation.key?c}">${headOfDelegation.firstName!} ${headOfDelegation.lastName!}</a>
+        </p>
       </#if>
 
       <#if nodeManagers?has_content>
         <h3>Node Manager<#if nodeManagers?size gt 1>s</#if></h3>
         <p>
-            <#list nodeManagers as nm>
-              <a href="<@s.url value='/country/${isocode}/participation#contact${nm.key?c}'/>">${nm.firstName!} ${nm.lastName!}</a><#if nm_has_next>, </#if>
-            </#list>
+          <#list nodeManagers as nm>
+            <a href="${contactBaseUrl}#contact${nm.key?c}">${nm.firstName!} ${nm.lastName!}</a><#if nm_has_next>, </#if>
+          </#list>
         </p>
       </#if>
 

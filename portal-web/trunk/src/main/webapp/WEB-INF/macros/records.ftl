@@ -6,6 +6,7 @@
 -->
 <#macro dataset dataset maxDescriptionLength=500 showPublisher=false>
   <div class="result">
+    <h3>${dataset.subtype!} <@s.text name="enum.datasettype.${dataset.type!}"/></h3>
     <h2>
       <strong>
 
@@ -15,8 +16,6 @@
       </#if>
 
       </strong>
-      <#-- If anything needs to be placed next to the dataset title, put it here -->
-      <span class="note">${dataset.subtype!} <@s.text name="enum.datasettype.${dataset.type!}"/></span>
     </h2>
 
     <#if showPublisher && dataset.owningOrganizationKey??>

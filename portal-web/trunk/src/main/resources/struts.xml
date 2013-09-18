@@ -278,10 +278,6 @@
 
   <!-- NODE -->
   <package name="node" namespace="/node" extends="default">
-    <action name="other" class="org.gbif.portal.action.node.OtherHome">
-      <result>/WEB-INF/pages/node/other_home.ftl</result>
-    </action>
-
     <action name="*" class="org.gbif.portal.action.node.NodeAction">
       <param name="id">{1}</param>
       <result>/WEB-INF/pages/node/detail.ftl</result>
@@ -344,11 +340,17 @@
 
   <!-- API DOCS -->
   <package name="developer" namespace="/developer" extends="default">
+    <action name="species" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/developer/species.ftl</result>
+    </action>
     <action name="maps" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/developer/api/maps.ftl</result>
+      <result>/WEB-INF/pages/developer/maps.ftl</result>
     </action>
     <action name="map/demo" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/developer/map/demo.ftl</result>
+    </action>
+    <action name="*" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/developer/under_construction.ftl</result>
     </action>
   </package>
 

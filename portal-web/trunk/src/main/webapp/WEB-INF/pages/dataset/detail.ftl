@@ -529,27 +529,9 @@
 </@common.article>
 </#if>
 
-<#-- LEGAL -->
-<@common.article id="legal" title="Dataset usage & legal issues" class="mono_line">
-<div class="fullwidth">
-  <#if dataset.intellectualRights?has_content>
-    <h3>Usage rights</h3>
-    <p>${dataset.intellectualRights}</p>
-  </#if>
-
-  <h3>How to cite</h3>
-  <p>
-    <#if dataset.citation??>
-      <@common.citation dataset.citation />    
-    </#if>
-  </p>
-
-</div>
-</@common.article>
-
 <#if (constituents.results)?has_content>
 <@common.article id="datasets" title="Constituent Datasets">
-  <div class="left">
+  <div class="fullwidth">
       <ul class="notes">
         <#list constituents.results as d>
           <li>
@@ -567,6 +549,24 @@
   </div>
 </@common.article>
 </#if>
+
+<#-- LEGAL -->
+<@common.article id="legal" title="Dataset usage & legal issues" class="mono_line">
+<div class="fullwidth">
+  <#if dataset.intellectualRights?has_content>
+    <h3>Usage rights</h3>
+    <p>${dataset.intellectualRights}</p>
+  </#if>
+
+  <h3>How to cite</h3>
+  <p>
+    <#if dataset.citation??>
+      <@common.citation dataset.citation />
+    </#if>
+  </p>
+
+</div>
+</@common.article>
 
 </body>
 </html>

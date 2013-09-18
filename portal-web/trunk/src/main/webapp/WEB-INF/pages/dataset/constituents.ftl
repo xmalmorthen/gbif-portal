@@ -1,5 +1,5 @@
 <#import "/WEB-INF/macros/pagination.ftl" as paging>
-<#import "/WEB-INF/macros/network_entity/dataset.ftl" as entity>
+<#import "/WEB-INF/macros/records.ftl" as record>
 <html>
 <head>
   <title>${dataset.title!"???"} - Constituents</title>
@@ -22,7 +22,7 @@
       <div class="fullwidth">
 
       <#list page.results as item>
-        <@entity.record dataset=item/>
+        <@record.dataset dataset=item/>
       </#list>
         <div class="footer">
         <@paging.pagination page=page url=currentUrlWithoutPage/>

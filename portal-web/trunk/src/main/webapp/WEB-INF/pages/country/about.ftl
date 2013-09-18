@@ -56,7 +56,7 @@
             <#break />
         </#if>
           <li>
-            <a title="${cw.obj.getTitle()}" href="<@s.url value='/occurrence/search?COUNTRY=${cw.obj.getIso2LetterCode()}'/>">${cw.obj.getTitle()}</a>
+            <a title="${cw.obj.getTitle()}" href="<@s.url value='/country/${cw.obj.getIso2LetterCode()}/publishing'/>">${cw.obj.getTitle()}</a>
             <span class="note"> ${cw.count} occurrences<#if cw.geoCount gt 0>, ${100.0 * cw.geoCount / cw.count} % georeferenced</#if>.</span>
           </li>
       </#list>

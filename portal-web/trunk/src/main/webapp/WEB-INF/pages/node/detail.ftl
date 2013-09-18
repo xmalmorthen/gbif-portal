@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>Node detail</title>
+  <title>Node detail of ${node.title}</title>
 <#include "/WEB-INF/pages/country/inc/feed_templates.ftl">
   <script type="text/javascript">
     $(function() {
@@ -17,9 +17,20 @@
 <body class="species">
 
 <#assign tab="info"/>
-<#include "/WEB-INF/pages/member/inc/infoband.ftl">
+<#include "/WEB-INF/pages/node/inc/infoband.ftl">
 
 <#include "/WEB-INF/pages/country/inc/participation.ftl">
+
+<#if node.contacts?has_content>
+<#assign rtitle><span class="showAllContacts small">show all</span></#assign>
+<@common.article id="contacts" title="Contacts" titleRight=rtitle>
+    <div class="fullwidth">
+      <#if node.contacts?has_content>
+        <@common.contactList node.contacts />
+      </#if>
+    </div>
+</@common.article>
+</#if>
 
 <#include "/WEB-INF/pages/country/inc/endorsing_article.ftl">
 

@@ -21,7 +21,7 @@
           <a href="${cfg.drupal}/participation/membership" title="Membership"><span>Membership</span></a>
       </li>
       <li class='selected'>
-          <a href="${cfg.drupal}/participation/list" title="Participant List"><span>Participant List</span></a>
+          <a href="<@s.url value='/participation/list'/>" title="Participant List"><span>Participant List</span></a>
       </li>
       <li>
           <a href="${cfg.drupal}/participation/howtojoin" title="How to join"><span>How to join</span></a>
@@ -49,11 +49,11 @@
       </div>
   </@common.article>
 
-<#macro particle id title plist>
-  <@common.article id=id title=title>
+<#macro particle id title plist linkToCountry=false>
+  <@common.article id=id title=title titleRight="Metrics">
     <div class="left">
       <#nested>
-      <table class="table table-bordered table-stripped">
+      <table class="table table-bordered table-striped">
           <thead>
             <tr>
               <th>Participant</th>
@@ -63,7 +63,7 @@
           <tbody>
             <#list plist as p>
             <tr>
-              <td><a href="<@s.url value='/node/${p.key}'/>">${p.title!}</a></td>
+              <td><a href="<#if linkToCountry && p.country??><@s.url value='/country/${p.country.getIso2LetterCode()}/participation'/><#else><@s.url value='/node/${p.key}'/></#if>">${p.title!}</a></td>
               <td><#if p.participantSince??>${p.participantSince?c}</#if></td>
             </tr>
             </#list>
@@ -72,19 +72,20 @@
     </div>
 
     <div class="right">
+        <p>${plist?size} ${title}</p>
     </div>
   </@common.article>
 </#macro>
 
 
-  <@particle id="voting" title="Voting Participants" plist=voting>
+  <@particle id="voting" title="Voting Participants" plist=voting linkToCountry=true>
     <p>
       Countries that have signed the GBIF Memorandum of Understanding and agree to make
       a <a href="${cfg.drupal}/governance/finance">basic financial contribution</a> to GBIF core funds.
     </p>
   </@particle>
 
-  <@particle id="associate" title="Associate Country Participants" plist=associate>
+  <@particle id="associate" title="Associate Country Participants" plist=associate linkToCountry=true>
     <p>
       Countries that have signed the GBIF Memorandum of Understanding but do not make a financial contribution to GBIF core funds,
       and do not have a vote on the <a href="${cfg.drupal}/governance/governingboard">GBIF Governing Board</a>.

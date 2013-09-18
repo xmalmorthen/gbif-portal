@@ -88,7 +88,7 @@
              <ul>
              <#list kingdoms as k>
                <#if metrics.countByKingdom(k)?has_content>
-                 <li><a href=""><@s.text name="enum.kingdom.${k}"/></a> <span class="number" data-cnt="${(metrics.countByKingdom(k)!0)?c}">${metrics.countByKingdom(k)!0}</span></li>
+                 <li><a href="#"><@s.text name="enum.kingdom.${k}"/></a> <span class="number" data-cnt="${(metrics.countByKingdom(k)!0)?c}">${metrics.countByKingdom(k)!0}</span></li>
                </#if>
              </#list>
              </ul>
@@ -152,7 +152,7 @@
         <#assign langs = metrics.countNamesByLanguage?keys>
         <ul class="no_bullets horizontal_graph">
         <#list langs as l>
-          <li><a href="">
+          <li><a href="#">
           <#if "UNKNOWN"==l>Unknown<#else>${l.getTitleEnglish()}</#if>
           </a> <div class="grey_bar">${(metrics.countNamesByLanguage(l)!0)?c}</div></li>
         </#list>

@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
   <head>
-    <title>Maps</title>
+    <title>Maps API</title>
 
     <content tag="extra_scripts">
       <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
@@ -82,24 +82,12 @@
     </content>
   </head>
 
-  <body class="search">
-    <content tag="infoband">
-      <h1>Mapping API v1.0</h1>
-      <h3>Looking to overlay GBIF content on your maps?  Try this simple to use, flexible tile rendering service...</h3>
-    </content>
+  <#assign tab="maps"/>
+  <#include "/WEB-INF/pages/developer/inc/tabs.ftl" />
 
-    <article>
-      <header></header>
-      <div class="content">
-        <div class="header">
-          <div class="left">
-            <h4>About the mapping API</h4>
-          </div>
-          <div class="right">
-            <h4>Quick links</h4>
-          </div>
-        </div>
-        
+  <body class="api">
+
+  <@common.article title='Mapping API' titleRight='Quick Links'>
         <div class="left">
           <p>
             The mapping api is a <a href="http://www.opengeospatial.org/standards/wmts">web map tile service</a>  
@@ -134,9 +122,7 @@
             <li><a href="#preview">Preview</a></li>
           </ul>
         </div>
-      </div>
-      <footer></footer>
-    </article>
+  </@common.article>
 
     <a name="spec"></a>
     <article>
