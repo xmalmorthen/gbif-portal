@@ -121,7 +121,7 @@
 <article>
   <header></header>
   <div class="content">
-    <h2>Characteristics about the nature of records</h2>
+    <h2>Record type characteristics</h2>
     <div class="fullwidth">
       <p>Records may originate from a variety of means, such as a scientist collecting a specimen or an individual recording the sighting of an organism.  This is classified by the <a target="_blank" href="http://rs.tdwg.org/dwc/terms/#basisOfRecord">Darwin Core basisOfRecord</a> standard.</p>
       <ul class="summary no_bullets">
