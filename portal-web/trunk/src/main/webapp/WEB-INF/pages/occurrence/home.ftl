@@ -71,7 +71,7 @@
 
   <@common.article titleRight='${numGeoreferenced!0} georeferenced records' class="map">
     <div id="map" class="map">
-      <iframe id="mapByFrame" name="map" src="${cfg.tileServerBaseUrl!}/index.html?type=ALL&resolution=1" allowfullscreen height="100%" width="100%" frameborder="0"/></iframe>
+      <iframe id="mapByFrame" name="map" src="${cfg.tileServerBaseUrl!}/index.html?type=ALL&resolution=1&style=dark" allowfullscreen height="100%" width="100%" frameborder="0"/></iframe>
     </div>
     <div class="right">
        <div class="inner">
