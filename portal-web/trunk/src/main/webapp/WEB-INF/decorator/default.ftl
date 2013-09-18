@@ -250,7 +250,7 @@
         <li><strong>Email</strong> info@gbif.org</li>
         <li><strong>Tel</strong> +45 35 32 14 70</li>
         <li><strong>Fax</strong> +45 35 32 14 80</li>
-        <li>You can also check the <a class="placeholder_temp" href="#">GBIF Directory</a></li>
+        <li>You can also check the <a href="${cfg.drupal}/contact/directoryofcontacts#secretariat">GBIF Directory</a></li>
       </ul>
 
       <ul class="social last">
