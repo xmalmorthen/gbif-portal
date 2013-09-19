@@ -212,8 +212,8 @@
 
         <ul>
             <li><h3>KEY DOCUMENTS</h3></li>
-            <li><a href="http://www.gbif.org/orc/?doc_id=2779&l=en">Data use agreement</a></li>
-            <li><a href="http://www.gbif.org/orc/?doc_id=2780&l=en">Data sharing agreement</a></li>
+            <li><a href="${cfg.drupal}/datauseagreement">Data use agreement</a></li>
+            <li><a href="${cfg.drupal}/datasharingagreement">Data sharing agreement</a></li>
             <li><a href="http://www.gbif.org/orc/?doc_id=2955&l=en">Memorandum of Understanding</a></li>
             <li><a href="http://www.gbif.org/orc/?doc_id=5304">Annual Report</a></li>
             <li><a href="http://www.gbif.org/orc/?doc_id=2792&l=en">GBIF Strategic Plan</a></li>
