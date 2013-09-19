@@ -49,21 +49,31 @@
       </div>
   </@common.article>
 
-<#macro particle id title plist linkToCountry=false>
+<#macro particle id title plist showCountry=false>
   <@common.article id=id title=title titleRight="Metrics">
     <div class="left">
       <#nested>
       <table class="table table-bordered table-striped">
           <thead>
             <tr>
-              <th>Participant</th>
+              <#if showCountry>
+                <th>Participant</th>
+                <th>Node Institution</th>
+              <#else>
+                <th>Participant</th>
+              </#if>
               <th>Member since</th>
             </tr>
           </thead>
           <tbody>
             <#list plist as p>
             <tr>
-              <td><a href="<#if linkToCountry && p.country??><@s.url value='/country/${p.country.getIso2LetterCode()}/participation'/><#else><@s.url value='/node/${p.key}'/></#if>">${p.title!}</a></td>
+              <#if showCountry>
+                <td><a href="<@s.url value='/country/${p.country.getIso2LetterCode()}/participation'/>">${p.country.title}</a></td>
+                <td><a href="<@s.url value='/node/${p.key}'/>">${p.title!}</a></td>
+              <#else>
+                <td><a href="<@s.url value='/node/${p.key}'/>">${p.title!}</a></td>
+              </#if>
               <td><#if p.participantSince??>${p.participantSince?c}</#if></td>
             </tr>
             </#list>
@@ -78,14 +88,14 @@
 </#macro>
 
 
-  <@particle id="voting" title="Voting Participants" plist=voting linkToCountry=true>
+  <@particle id="voting" title="Voting Participants" plist=voting showCountry=true>
     <p>
       Countries that have signed the GBIF Memorandum of Understanding and agree to make
       a <a href="${cfg.drupal}/governance/finance">basic financial contribution</a> to GBIF core funds.
     </p>
   </@particle>
 
-  <@particle id="associate" title="Associate Country Participants" plist=associate linkToCountry=true>
+  <@particle id="associate" title="Associate Country Participants" plist=associate showCountry=true>
     <p>
       Countries that have signed the GBIF Memorandum of Understanding but do not make a financial contribution to GBIF core funds,
       and do not have a vote on the <a href="${cfg.drupal}/governance/governingboard">GBIF Governing Board</a>.

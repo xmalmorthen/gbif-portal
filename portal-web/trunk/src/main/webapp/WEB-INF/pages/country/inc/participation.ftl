@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 
 <#if node??>
-<@common.article id="participation" title="GBIF participant information" titleRight="Node address">
+<@common.article id="participation" title="GBIF participant information" titleRight="Node">
     <div class="left">
         <#--
         dont show a status for the GBIF Temp Node:
@@ -60,6 +60,9 @@
       </#if>
 
       <#if node??>
+        <h3>Node name</h3>
+        <p>${node.title}</p>
+
         <h3>Address</h3>
         <#if node.institution?has_content>
           <p>${node.institution}</p>
