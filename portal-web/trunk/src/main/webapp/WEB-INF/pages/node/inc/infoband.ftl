@@ -41,10 +41,5 @@
     <li<#if (tab!"")=="info"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/node/${id}'/>" title="Information"><span>Information</span></a>
     </li>
-  <#if node.participationStatus!='FORMER' && node.participationStatus!='OBSERVER'>
-    <li<#if (tab!"")=="participation"> class='selected ${hl!}'</#if>>
-      <a href="<@s.url value='/node/${id}/participation'/>" title="Participation"><span>Participation</span></a>
-    </li>
-  </#if>
   </ul>
 </content>
