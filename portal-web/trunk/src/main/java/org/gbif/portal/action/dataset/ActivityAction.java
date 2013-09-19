@@ -10,11 +10,14 @@ import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetOccurrenceDownloadUsageService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.occurrence.util.HumanFilterBuilder;
+import org.gbif.portal.action.occurrence.util.QueryParameterFilterBuilder;
 
 import java.util.LinkedList;
 import java.util.Map;
 
 import com.google.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Extends the details action to return a different result name based on the dataset type, so we can use
@@ -22,6 +25,8 @@ import com.google.inject.Inject;
  * For external datasets the page is not found.
  */
 public class ActivityAction extends DetailAction {
+
+  private static Logger LOG = LoggerFactory.getLogger(ActivityAction.class);
 
   private final DatasetOccurrenceDownloadUsageService downloadUsageService;
   private final NameUsageService nameUsageService;
@@ -46,10 +51,6 @@ public class ActivityAction extends DetailAction {
   }
 
   public Pageable getPage() {
-    return request;
-  }
-
-  public PagingResponse<DatasetOccurrenceDownloadUsage> getResponse() {
     return response;
   }
 
@@ -57,15 +58,28 @@ public class ActivityAction extends DetailAction {
     request.setOffset(offset);
   }
 
-  public Map<OccurrenceSearchParameter, LinkedList<String>> toHumanReadable(Predicate predicate) {
+
+  //TODO: the same code is also used in DownloadsAction share it showhow!!!
+  public Map<OccurrenceSearchParameter, LinkedList<String>> getHumanFilter(Predicate p) {
     try {
-      if (predicate != null) {
-        HumanFilterBuilder builder = new HumanFilterBuilder(this, datasetService, nameUsageService);
-        return builder.humanFilter(predicate);
-      } else {
-        return null;
-      }
-    } catch (Exception e) {
+      // not thread safe!
+      HumanFilterBuilder builder = new HumanFilterBuilder(this, datasetService, nameUsageService);
+      return builder.humanFilter(p);
+
+    } catch (IllegalArgumentException e) {
+      LOG.warn("Cannot create human representation for predicate " + p);
+      return null;
+    }
+  }
+
+  public String getQueryParams(Predicate p) {
+    try {
+      // not thread safe!
+      QueryParameterFilterBuilder builder = new QueryParameterFilterBuilder();
+      return builder.queryFilter(p);
+
+    } catch (IllegalArgumentException e) {
+      LOG.warn("Cannot create query parameter representation for predicate " + p);
       return null;
     }
   }

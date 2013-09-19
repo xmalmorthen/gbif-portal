@@ -94,6 +94,7 @@ public class DownloadsAction extends BaseAction {
     return page;
   }
 
+  //TODO: the same code is also used in ActivityAction share it showhow!!!
   public String getQueryParams(Predicate p) {
     try {
       // not thread safe!
