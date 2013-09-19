@@ -17,7 +17,7 @@
 
   <select id="get" resultType="Node" resultMap="NODE_MAP">
 SELECT p.ParticipantID AS imsId, c.ISO2 AS country, n.Name_Full AS title, p.Name_Short AS abbreviation, n.URL AS homepage,
-  p.Member_AsOf AS participantSince, null AS description,
+  p.Member_AsOf AS participantSince, p.PublicDescription AS description,
   null AS modified,
   i.Name AS institution, i.Address AS address, i.City AS city, i.ZipCode AS postalCode, i.State AS province, i.Telephone AS phone, i.Email AS email,
   p.GBIFmembership, null AS Region, p.MOU2012_Date AS MOU2012_Date
