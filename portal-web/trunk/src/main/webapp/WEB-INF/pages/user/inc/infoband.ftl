@@ -27,8 +27,5 @@
     <li<#if (tab!"")=="downloads"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/user/downloads'/>" title="Downloads"><span>Downloads</span></a>
     </li>
-    <li<#if (tab!"")=="namelists"> class='selected ${hl!}'</#if>>
-      <a href="<@s.url value='/user/namelists'/>" title="Name Lists"><span>Name Lists</span></a>
-    </li>
   </ul>
 </content>
