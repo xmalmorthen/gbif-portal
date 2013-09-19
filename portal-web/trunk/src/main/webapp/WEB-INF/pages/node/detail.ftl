@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Node detail of ${node.title}</title>
-<#include "/WEB-INF/pages/country/inc/feed_templates.ftl">
+<#include "/WEB-INF/inc/feed_templates.ftl">
   <script type="text/javascript">
     $(function() {
       <#if feed??>

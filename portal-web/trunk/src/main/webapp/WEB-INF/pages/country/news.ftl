@@ -3,7 +3,7 @@
 <head>
   <title>Country News for ${country.title}</title>
 
-  <#include "/WEB-INF/pages/country/inc/feed_templates.ftl">
+  <#include "/WEB-INF/inc/feed_templates.ftl">
 
   <script type="text/javascript">
       $(function() {

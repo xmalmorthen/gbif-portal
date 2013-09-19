@@ -1,7 +1,10 @@
 <script type="text/html" id="rss-google-search">
  <% _.each( feed.entries, function(item){ %>
   <div class="result">
+    <#--
+    removed for now, see http://dev.gbif.org/issues/browse/PF-1017
     <h3>NEWS ITEM</h3>
+    -->
     <h2><a href="<%= item.link %>" title="<%= item.title %>"><%= item.title %></a></h2>
     <p><%= $(item.content).text().trim().substr(0,500) %> ...</p>
     <div class="footer">
