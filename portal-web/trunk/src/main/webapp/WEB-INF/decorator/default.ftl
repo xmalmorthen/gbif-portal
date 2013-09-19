@@ -205,8 +205,8 @@
 
         <ul>
             <li><h3>WHO’S PARTICIPATING</h3></li>
-            <li><a href="<@s.url value='/country'/>">Countries</a></li>
-            <li><a href="<@s.url value='/node/other'/>">Organizations</a></li>
+            <li><a href="<@s.url value='/participation/list#voting'/>">Countries</a></li>
+            <li><a href="<@s.url value='/participation/list#other'/>">Organizations</a></li>
             <li><a href="<@s.url value='/publisher/search'/>">Data publishers</a></li>
         </ul>
 
