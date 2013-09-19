@@ -4,6 +4,7 @@ import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.vocabulary.Country;
 import org.gbif.api.vocabulary.NodeType;
 import org.gbif.api.vocabulary.ParticipationStatus;
 import org.gbif.portal.action.BaseAction;
@@ -36,19 +37,20 @@ public class ListAction extends BaseAction {
   public String execute() throws Exception {
     PagingResponse<Node> resp = nodeService.list(new PagingRequest(0, 1000));
     List<Node> sorted = FluentIterable.from(resp.getResults())
-        // sort alphabetically
-        .filter(new Predicate<Node>() {
-          public boolean apply(@Nullable Node n) {
-            return !GBIF_TEMP_NODE_KEY.equals(n.getKey());
-          }
-        })
-        .toSortedList(Ordering.natural().onResultOf(new Function<Node, String>() {
-          @Nullable
-          @Override
-          public String apply(@Nullable Node n) {
-            return n == null ? null : n.getTitle();
-          }
-        }));
+      // sort alphabetically
+      .filter(new Predicate<Node>() {
+        public boolean apply(@Nullable Node n) {
+          return !GBIF_TEMP_NODE_KEY.equals(n.getKey());
+        }
+      })
+      .toSortedList(Ordering.natural().onResultOf(new Function<Node, Country>() {
+        @Nullable
+        @Override
+        public Country apply(@Nullable Node n) {
+          return n == null ? null : n.getCountry();
+        }
+      }));
+
     for (Node n: sorted) {
       if (GBIF_TEMP_NODE_KEY.equals(n.getKey())) {
         continue;
@@ -63,6 +65,17 @@ public class ListAction extends BaseAction {
         other.add(n);
       }
     }
+
+    // sort others according to node title
+    other = FluentIterable.from(other)
+      // sort alphabetically
+      .toSortedList(Ordering.natural().onResultOf(new Function<Node, String>() {
+        @Nullable
+        @Override
+        public String apply(@Nullable Node n) {
+          return n == null ? null : n.getTitle();
+        }
+      }));
 
     return SUCCESS;
   }
