@@ -5,9 +5,6 @@
 <#include "/WEB-INF/pages/country/inc/feed_templates.ftl">
   <script type="text/javascript">
     $(function() {
-      $("#mapAbout").densityMap("${id}", "COUNTRY");
-      $("#mapBy").densityMap("${id}", "PUBLISHING_COUNTRY");
-
       <#if feed??>
         <@common.googleFeedJs url="${feed}" target="#news" />
       </#if>
