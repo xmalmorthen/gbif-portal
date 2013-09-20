@@ -187,6 +187,7 @@
 </@common.notice>
 </#if>
 
+
 <@common.article id="overview" title="Overview">
 <div class="left">
 
@@ -336,50 +337,6 @@
 </div>
 </@common.article>
 
-<@common.article id="taxonomy" title="Subordinate taxa" titleRight="Classification" class="taxonomies">
-    <div class="left">
-      <#if usage.numDescendants gt 0>
-        <div id="taxonomicChildren">
-          <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif" alt=""></div>
-          <div class="inner">
-            <div class="sp">
-              <ul>
-              </ul>
-            </div>
-          </div>
-        </div>
-      <#else>
-        <p>
-           There are no subordinate taxa<#if usage.rank??> for this <@s.text name="enum.rank.${usage.rank}"/></#if>.<br/>
-           You can explore the higher classification on the right.
-        </p>
-      </#if>
-    </div>
-
-    <div class="right">
-      <dl>
-      <#list rankEnum as r>
-        <dt><@s.text name="enum.rank.${r}"/></dt>
-        <dd>
-          <#if usage.getHigherRankKey(r)??>
-            <#if usage.getHigherRankKey(r) == usage.key>
-              ${usage.canonicalOrScientificName}
-            <#else>
-              <a href="<@s.url value='/species/${usage.getHigherRankKey(r)?c}'/>">${usage.getHigherRank(r)}</a>
-            </#if>
-          <#elseif (usageMetrics.getNumByRank(r)!0) gt 0>
-            <a href="<@s.url value='/species/search?status=ACCEPTED&dataset_key=${usage.datasetKey}&rank=${r}&highertaxon_key=${usage.key?c}'/>">${usageMetrics.getNumByRank(r)}</a>
-          <#else>
-            ---
-          </#if>
-        </dd>
-      </#list>
-        <dt>&nbsp;</dt>
-        <dd><a href="<@s.url value='/species/${id?c}/classification'/>">complete classification</a></dd>
-      </dl>
-    </div>
-</@common.article>
-
 <#-- Taxon maps are only calculated for the nub taxonomy -->
 
 <#if nub && numOccurrences gt 0>
@@ -449,6 +406,52 @@
   </@common.article>
   </#if>
 </#if>
+
+
+<@common.article id="taxonomy" title="Subordinate taxa" titleRight="Classification" class="taxonomies">
+    <div class="left">
+      <#if usage.numDescendants gt 0>
+        <div id="taxonomicChildren">
+          <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif" alt=""></div>
+          <div class="inner">
+            <div class="sp">
+              <ul>
+              </ul>
+            </div>
+          </div>
+        </div>
+      <#else>
+        <p>
+           There are no subordinate taxa<#if usage.rank??> for this <@s.text name="enum.rank.${usage.rank}"/></#if>.<br/>
+           You can explore the higher classification on the right.
+        </p>
+      </#if>
+    </div>
+
+    <div class="right">
+      <dl>
+      <#list rankEnum as r>
+        <dt><@s.text name="enum.rank.${r}"/></dt>
+        <dd>
+          <#if usage.getHigherRankKey(r)??>
+            <#if usage.getHigherRankKey(r) == usage.key>
+              ${usage.canonicalOrScientificName}
+            <#else>
+              <a href="<@s.url value='/species/${usage.getHigherRankKey(r)?c}'/>">${usage.getHigherRank(r)}</a>
+            </#if>
+          <#elseif (usageMetrics.getNumByRank(r)!0) gt 0>
+            <a href="<@s.url value='/species/search?status=ACCEPTED&dataset_key=${usage.datasetKey}&rank=${r}&highertaxon_key=${usage.key?c}'/>">${usageMetrics.getNumByRank(r)}</a>
+          <#else>
+            ---
+          </#if>
+        </dd>
+      </#list>
+        <dt>&nbsp;</dt>
+        <dd><a href="<@s.url value='/species/${id?c}/classification'/>">complete classification</a></dd>
+      </dl>
+    </div>
+</@common.article>
+
 
 <#if !descriptionToc.isEmpty()>
   <@common.article id="description" title='Description' class="">
