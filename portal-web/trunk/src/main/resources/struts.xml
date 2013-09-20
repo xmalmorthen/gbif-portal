@@ -124,6 +124,10 @@
       <result type="redirect">/developer/summary</result>
     </action>
 
+    <action name="ipt" class="org.gbif.portal.action.ipt.IptAction">
+      <result>/WEB-INF/pages/ipt/about.ftl</result>
+    </action>
+
   </package>
 
   <!-- DATASETS -->
@@ -360,6 +364,16 @@
     </action>
     <action name="map/demo" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/developer/map/demo.ftl</result>
+    </action>
+  </package>
+
+  <!-- IPT -->
+  <package name="ipt" namespace="/ipt" extends="default">
+    <action name="stats" class="org.gbif.portal.action.ipt.IptAction">
+      <result>/WEB-INF/pages/ipt/stats.ftl</result>
+    </action>
+    <action name="releases" class="org.gbif.portal.action.ipt.IptAction">
+      <result>/WEB-INF/pages/ipt/releases.ftl</result>
     </action>
   </package>
 
