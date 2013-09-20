@@ -61,7 +61,7 @@ var layers = {
     "name": "light",
     "url": "http://{s}.tiles.mapbox.com/v3/timrobertson100.map-s9fg80cf/{z}/{x}/{y}.png",
     "attribution": "Mapbox, <a href='http://www.openstreetmap.org/copyright' target='_blank'>OpenStreetMap contributors</a>",
-    "png-render-style": "colors=%2C%2C%23000000FF"
+    "png-render-style": "colors=%2C%2C%23CC0000FF"
   },
   "grey-blue": {
     "name": "grey-blue",
