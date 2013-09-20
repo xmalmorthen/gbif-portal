@@ -1,6 +1,5 @@
-<#import "/WEB-INF/macros/pagination.ftl" as paging>
 <#import "/WEB-INF/macros/common.ftl" as common>
-<#import "/WEB-INF/macros/records.ftl" as records>
+<#import "/WEB-INF/pages/developer/inc/api.ftl" as api>
 <html>
 <head>
   <title>Species API</title>
@@ -12,7 +11,8 @@
 
 <body class="api">
 
-<@common.article id="overview" title="Introduction" titleRight="Quick links">
+
+<@api.introArticle>
 <div class="left">
     <p>
         This API works against data kept in the GBIF Checklist Bank which
@@ -26,19 +26,16 @@
         <li><a href="#parameters">Query Parameters</a></li>
     </ul>
 </div>
-</@common.article>
+</@api.introArticle>
 
-<#macro trow url resp="NameUsage" paging=false params=[]>
-<tr>
-    <td>/species${url}</td>
-    <td><a href="#" target="_blank">${resp}</a></td>
-    <td><#nested/></td>
-    <td>${paging?string}</td>
-    <td><#list params as p><a href='#p${p}'>${p}</a><#if p_has_next>, </#if></#list></td>
-</tr>
+
+<#-- define some often occurring species defaults -->
+<#macro trow url resp="NameUsage" respLink="#" paging=false params=[]>
+<@api.trow url="/species"+url resp=resp respLink=respLink paging=paging params=params><#nested /></@api.trow>
 </#macro>
 
-  <@common.article id="name_usages" title="Working with Name Usages">
+
+<@common.article id="name_usages" title="Working with Name Usages">
     <div class="fullwidth">
         <p>A name usage is a usage of a scientific name according to one
             particular Checklist including the <a href="<@s.url value='dataset/d7dddbf4-2cf0-4f39-9b2a-bb099caae36c'/>">GBIF Taxonomic Backbone</a>
@@ -83,122 +80,51 @@
   </@common.article>
 
 
-
-
 <@common.article id="name_usages" title="Searching Names">
   <div class="fullwidth">
-      <p>GBIF provides 3 different ways of looking up / searching name usages.
-      </p>
+      <p>GBIF provides 3 different ways of looking up / searching name usages.</p>
 
-<table class='table table-bordered table-striped table-params'>
-    <thead>
-    <tr>
-        <th width="18%" class='total'>Endpoint URL</th>
-        <th width="11%">Response</th>
-        <th width="43%">Description</th>
-        <th width="6%">Paging</th>
-        <th width="22%">Parameters</th>
-    </tr>
-    </thead>
-
-    <tbody>
-      <@trow url="" paging=true params=[2,3,6]>
-        List all name usages across all or some checklists that have an exact same canonical name
-      </@trow>
-      <@trow url="/matching" paging=false params=[5,6,7,8,9]>
-        Fuzzy matching against the GBIF Backbone Taxonomy with optional classification provided.
-      </@trow>
-      <@trow url="/search" paging=true params=[9,10,11,20,21,22,23,24,25,26]>Full text search across all name usages of all checklists.
-      Results are ordered by relevance.</@trow>
-    </tbody>
-</table>
+  <@api.apiTable>
+    <@trow url="" paging=true params=[2,3,6]>
+      List all name usages across all or some checklists that have an exact same canonical name
+    </@trow>
+    <@trow url="/matching" paging=false params=[5,6,7,8,9]>
+      Fuzzy matching against the GBIF Backbone Taxonomy with optional classification provided.
+    </@trow>
+    <@trow url="/search" paging=true params=[9,10,11,20,21,22,23,24,25,26]>Full text search across all name usages of all checklists.
+    Results are ordered by relevance.</@trow>
+  </@api.apiTable>
 
   </div>
 </@common.article>
 
 
-
-<@common.article id="parameters" title="Query parameters explained">
-  <div class="left">
-      <dl>
-          <a name="p1"></a>
-          <dt>user</dt>
-          <dd></dd>
-
-          <a name="p2"></a>
-          <dt>language</dt>
-          <dd>default=en or use HTTP header for this</dd>
-
-          <a name="p3"></a>
-          <dt>datasetKey</dt>
-          <dd>The checklist dataset key as a uuid</dd>
-
-          <a name="p4"></a>
-          <dt>sourceId</dt>
-          <dd></dd>
-
-          <a name="p5"></a>
-          <dt>rank</dt>
-          <dd>The taxonomic rank given as our rank enum</dd>
-
-          <a name="p6"></a>
-          <dt>name</dt>
-          <dd>case insensitive, canonical namestring. For example Puma concolor</dd>
-
-          <a name="p7"></a>
-          <dt>strict</dt>
-          <dd>if true it (fuzzy) matches only the given name, but never a taxon in the upper classification</dd>
-
-          <a name="p8"></a>
-          <dt>verbose</dt>
-          <dd>if true show alternative matches considered which had been rejected</dd>
-
-          <a name="p9"></a>
-          <dt>kingdom, phylum, class, order, family, genus</dt>
-          <dd>optional classification parameters accepting a canonical name.
-              If provided the default matching will also try to match against these if no direct match is found for the name alone.</dd>
-
-          <a name="p10"></a>
-          <dt>highlighting</dt>
-          <dd>Highlight matching query in fulltext search fields.</dd>
-
-          <a name="p11"></a>
-          <dt>facet</dt>
-          <dd>Every potential filter name below can also be used as a facet value to retrieve the 100 largest values.</dd>
-
-          <a name="p20"></a>
-          <dt>rank</dt>
-          <dd>Filters by the rank of the name usage. Can be used as a <a href="#p11">facet parameter</a> value.</dd>
-
-          <a name="p21"></a>
-          <dt>highertaxon_key</dt>
-          <dd>Filters by any of the higher linnean rank keys.
+<#assign params = {
+  "user": "User account name",
+  "language": "default=en or use HTTP header for this",
+  "datasetKey": "The checklist dataset key as a uuid",
+"sourceId": "",
+"rank": "The taxonomic rank given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/Rank.html'>rank enum</a>",
+"name": "case insensitive, canonical namestring. For example Puma concolor",
+"strict": "if true it (fuzzy) matches only the given name, but never a taxon in the upper classification",
+"verbose": "if true show alternative matches considered which had been rejected",
+"highlighting": "Highlight matching query in fulltext search fields.",
+"kingdom, phylum, class, order, family, genus": "optional classification parameters accepting a canonical name.
+              If provided the default matching will also try to match against these if no direct match is found for the name alone.",
+"facet": "A list of facet names (names identical to respective filter names) used to retrieve the 100 most frequent values. Allowed facets are:
+X, Y, Z (tbd)",
+"highertaxon_key": "Filters by any of the higher linnean rank keys.
               Note this is within the respective checklist and not searching nub keys across all checklists.
-              Can be used as a <a href="#p11">facet parameter</a> value.</dd>
+              Can be used as a <a href='#p11'>facet parameter</a> value.",
+"status": "Filter by the taxonomis status. Can be used as a <a href='#p11'>facet parameter</a> value.",
+"extinct": "Boolean filter for extinct taxa. Can be used as a <a href='#p11'>facet parameter</a> value.",
+"habitat": "Filter by the known habitats. Can be used as a <a href='#p11'>facet parameter</a> value.",
+"threat": "Filter by the threat status.  Can be used as a <a href='#p11'>facet parameter</a> value.",
+"name_type": "Filter by the name type enumeration. Can be used as a <a href='#p11'>facet parameter</a> value"
+} />
 
-          <a name="p22"></a>
-          <dt>status</dt>
-          <dd>Filter by the taxonomis status. Can be used as a <a href="#p11">facet parameter</a> value.</dd>
+<@api.paramArticle params=params />
 
-          <a name="p23"></a>
-          <dt>extinct</dt>
-          <dd>Boolean filter for extinct taxa. Can be used as a <a href="#p11">facet parameter</a> value.</dd>
-
-          <a name="p24"></a>
-          <dt>habitat</dt>
-          <dd>Filter by the known habitats. Can be used as a <a href="#p11">facet parameter</a> value.</dd>
-
-          <a name="p25"></a>
-          <dt>threat</dt>
-          <dd>Filter by the threat status.  Can be used as a <a href="#p11">facet parameter</a> value.</dd>
-
-          <a name="p26"></a>
-          <dt>name_type</dt>
-          <dd>Filter by the name type enumeration. Can be used as a <a href="#p11">facet parameter</a> value</dd>
-
-      </dl>
-  </div>
-</@common.article>
 
 </body>
 </html>

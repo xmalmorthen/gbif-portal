@@ -121,7 +121,7 @@
     </action>
 
     <action name="developer">
-      <result type="redirect">/developer/maps</result>
+      <result type="redirect">/developer/summary</result>
     </action>
 
   </package>
@@ -340,17 +340,26 @@
 
   <!-- API DOCS -->
   <package name="developer" namespace="/developer" extends="default">
+    <action name="summary" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/developer/summary.ftl</result>
+    </action>
+    <action name="registry" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/developer/registry.ftl</result>
+    </action>
     <action name="species" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/developer/species.ftl</result>
+    </action>
+    <action name="occurrence" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/developer/occurrence.ftl</result>
     </action>
     <action name="maps" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/developer/maps.ftl</result>
     </action>
+    <action name="news" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/developer/news.ftl</result>
+    </action>
     <action name="map/demo" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/developer/map/demo.ftl</result>
-    </action>
-    <action name="*" class="org.gbif.portal.action.DefaultHomeAction">
-      <result>/WEB-INF/pages/developer/under_construction.ftl</result>
     </action>
   </package>
 
