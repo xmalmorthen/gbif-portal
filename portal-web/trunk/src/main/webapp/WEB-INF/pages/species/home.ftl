@@ -1,3 +1,4 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
   <title>Species Search</title>
@@ -9,11 +10,9 @@
     <header></header>
     <div class="content">
       <h1>
-          Search ${colSpecies} species
+          Search ${colSpecies!0} species
       </h1>
-      <p>of the <a href="<@s.url value='/dataset/${nubDatasetKey}'/>">GBIF Backbone Taxonomy</a>
-          <br/>${nubMetrics.synonymsCount} synonyms and
-          <br/> ${nubSpecies-colSpecies} species under review</p>
+      <p>of the <a href="<@s.url value='/dataset/${nubDatasetKey}'/>">GBIF Backbone Taxonomy</a></p>
 
       <form action="<@s.url value='/species/search'/>" method="GET">
         <span class="input_text">
@@ -22,8 +21,9 @@
         <button id="submitSearch" type="submit" class="search_button"><span>Search</span></button>
         <input id="checklist" name="dataset_key" type="hidden" value="${nubDatasetKey}"/>
       </form>
-      <div class="example">
-</div>
+      
+      <div class="example">  </div>
+      
       <ul class="species">
         <li><a href="<@s.url value='/species/search?q=&dataset_key=${nubDatasetKey}&highertaxon_key=359'/>" title="Mammals">Mammals</a></li>
         <li><a href="<@s.url value='/species/search?q=&dataset_key=${nubDatasetKey}&highertaxon_key=212'/>" title="Birds">Birds</a></li>
@@ -39,14 +39,32 @@
         <li><a href="<@s.url value='/species/search?q=&dataset_key=${nubDatasetKey}&highertaxon_key=5'/>" title="Lizards">Fungi</a></li>
         <li><a href="<@s.url value='/species/search?q=&dataset_key=${nubDatasetKey}&highertaxon_key=49'/>" title="Lizards">Flowering Plants</a></li>
       </ul>
-      <div class="results">
+
+      <div class="species-progress">
+        <#assign progress = (100*colSpecies) / nubSpecies> 
         <ul>
-          <li><a href="<@s.url value='/species/search?dataset_key=${nubDatasetKey}&rank=species'/>" title="">${nubSpecies!0}</a>total species</li>
-          <li><a href="<@s.url value='/species/search?dataset_key=${nubDatasetKey}&rank=infraspecific_name&rank=subspecies&rank=infrasubspecific_name&rank=variety&rank=subvariety&rank=form&rank=subform&rank=cultivar_group&rank=cultivar'/>" title="">${nubInfraSpecies!0}</a>total infraspecific</li>
-          <li class="last"><a href="<@s.url value='/species/search?q=golden+eagle&dataset_key=${nubDatasetKey}'/>">${nubCommonNames!0}</a>common names in ${nubLanguages!"?"} languages</li>
+          <li class="confirmed" style="width:${progress}%">
+            ${colSpecies} 
+          </li>
+          <li class="unconfirmed" style="width:${100-progress}%">
+            ${nubSpecies-colSpecies}
+          </li>
+        </ul>
+        <ul style="width:${progress}%">
+          <li class="confirmed-text" >
+              Confirmed species in the <br/> <a href="<@s.url value='/dataset/${colKey}'/>">Catalogue of Life</a><br/>
+              <span class="small">which have ${nubMetrics.synonymsCount} synonyms</span>
+          </li>
+          <li class="unconfirmed-text" style="width:${100-progress}%">
+            Names under review 
+            <@common.popup message="There is currently no complete checklist of all known species.  Checklists published through GBIF are integrated into a backbone taxonomy, but these names require review before being considered a species.   
+            GBIF is working with other initiatives to review names and help to complete a global species list." title="Names under review"/>
+            </a></span>
+          </li>
         </ul>
       </div>
     </div>
+    
     <footer></footer>
   </article>
 

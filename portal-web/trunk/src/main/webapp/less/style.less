@@ -3802,3 +3802,45 @@ a.atlwdg-trigger {
   }
 
 }
+
+// provides progress bar styling for species home only 
+div.species-progress {
+  display: table;
+  width:60%;
+  margin: 0 auto;
+  align:center;
+
+  ul {
+    list-style-type: none;
+    display: table-row;
+    width:100%;
+    li {
+      padding: 3px;
+      list-style: none;
+      display: table-cell;
+      
+      &.confirmed {
+        background-color: #0099cc;
+        border-radius: 10px 0px 0px 10px;
+        color: #fff;
+        border: 1px solid #0099cc;
+      }
+      &.unconfirmed {
+        background-color: #e5e5e5;
+        color: #666;
+        border-radius: 0px 10px 10px 0px;
+        border: 1px solid #cccccc;
+      }
+      &.confirmed-text {
+        color: #999;
+        .small {
+          font-size: 13px;
+          color: #999;
+        }
+      }
+      &.unconfirmed-text {
+        color: #999;
+      }
+    }
+  }
+}
