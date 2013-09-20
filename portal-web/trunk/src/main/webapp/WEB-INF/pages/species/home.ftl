@@ -52,8 +52,7 @@
         </ul>
         <ul style="width:${progress}%">
           <li class="confirmed-text" >
-              Confirmed species in the <br/> <a href="<@s.url value='/dataset/${colKey}'/>">Catalogue of Life</a><br/>
-              <span class="small">which have ${nubMetrics.synonymsCount} synonyms</span>
+              Confirmed species in the <br/> <a href="<@s.url value='/dataset/${colKey}'/>">Catalogue of Life</a>
           </li>
           <li class="unconfirmed-text" style="width:${100-progress}%">
             Names under review 
