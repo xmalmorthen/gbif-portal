@@ -23,7 +23,7 @@
           </#if>
           <@records.downloadFilter download=du.download>
               <dt>Records</dt>
-              <dd><a href="<@s.url value='/occurrence/search?${queryParams}'/>">${du.numberRecords} records</a> from this dataset included</dd>
+              <dd><a href="<@s.url value='/occurrence/search?${queryParams}'/>">${du.numberRecords} records</a> from this dataset included at time of download</dd>
           </@records.downloadFilter>
         </#list>
 
