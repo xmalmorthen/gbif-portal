@@ -147,7 +147,7 @@ sub vcl_recv {
   }
   
   # druapl powered webservices
-  if (req.url ~ "/mendeley"){
+  if (req.url ~ "^/mendeley"){
     if (req.http.host == "api.gbif.org") {
       set req.backend = drupallive;
     } else {
@@ -155,6 +155,7 @@ sub vcl_recv {
     }
     # expose http://staging.gbif.org/mendeley/country/ES/json
     set req.url = regsub(req.url, "^/mendeley/country/([a-zA-Z]+)$", "/mendeley/country/\1/json");
+    return (lookup);
   }
 
   if (req.url ~ "^/lookup/species"){
