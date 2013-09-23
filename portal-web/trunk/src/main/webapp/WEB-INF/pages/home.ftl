@@ -1,6 +1,31 @@
 <html>
   <head>
     <title>GBIF Data Portal - Home</title>
+    
+    <style>
+      #map { 
+        height: 490px;
+        width:100%;
+        display: block;
+        position: absolute;
+      }
+      .leaflet-container { background: #519A45; }    
+      /* only on the homepage.  credit given everywhere else */
+      .leaflet-control-attribution { visibility: hidden }
+      .leaflet-popup-content-wrapper {
+        padding: 3px;
+        text-align: left;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+  }      
+    
+    </style>    
+    
+        <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />		
+ 	    <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->		
+	    <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>		
+	    <script type="text/javascript" src="<@s.url value='/js/map.js'/>"></script>		
+    
     <script type="text/javascript">
       <#-- EXECUTED ON WINDOWS LOAD -->
       $(function() {
@@ -16,6 +41,138 @@
           $.getJSON(cfg.wsReg + 'organization?limit=1&callback=?', function (data) {
             $("#countPublishers").html(data.count);
           });
+          
+          
+          
+          
+      var southWest = new L.LatLng(80, -180),
+      northEast = new L.LatLng(-80, 180),
+      bounds = new L.LatLngBounds(southWest, northEast);    
+      
+      var startLat = Math.floor((Math.random()*90)+1) - 45; // random +/-45
+      var startLng = Math.floor((Math.random()*180)+1) - 90; // random +/-90
+      
+      var map = L.map('map').setMaxBounds(bounds).setView([startLat, startLng], 1);
+      L.tileLayer('img/tiles/{z}/{x}/{y}.png', {
+        maxZoom: 4,
+        minZoom: 3,
+      }).addTo(map);      
+          
+      
+
+      var points = [];      
+      var visible = []; // at any time
+      var size = 100; // batch size from server
+      var maxVisible = 180; // at any time
+      var delayMsecs = 1000;
+      
+      function initData() {
+        for (var i=0;i<maxVisible;i++) {
+        points.push(
+          new L.CircleMarker([0, 0], {
+              fillColor: '#223E1D',
+              weight: 2,
+              color: '#ffffff',
+              fillOpacity: 1, 
+              opacity: 0.6,
+              radius: 4
+            }));
+        }
+      }
+      
+      // sample 
+      var publishers = [
+        {id:1, name: "Berlin Botanical Gardens"},
+        {id:2, name: "UK NBN"}
+      ];
+      var sciNames = [
+        {id:1, name: "Puma concolor"},
+        {id:2, name: "Abies alba"}
+      ];
+
+      function getOccurrences() {
+        var occurrences = [];
+        for (var i=0;i<size;i++) {
+          var lat = Math.floor((Math.random()*160)+1) - 85; // random +/-80
+          var lng = Math.floor((Math.random()*360)+1) - 180; // random +/-180
+          var id = Math.floor((Math.random()*400000000)+1);
+          var pubIndex = Math.floor((Math.random()*2));
+          var nameIndex = Math.floor((Math.random()*2));
+          occurrences.push(
+            {id:id, lat:lat, lng:lng, name:sciNames[nameIndex], publisher: publishers[pubIndex]});
+        }        
+        occurrences.reverse; // so we can just pop off the end
+        return occurrences;
+      }
+      
+      var currentPointIdx=0;
+      var occurrences = getOccurrences();
+      
+      function runMap() {
+        
+
+        // get a batch from the server
+        if (occurrences.length==0) {
+          occurrences = getOccurrences();
+        }
+      	      	
+      	var point = points[currentPointIdx];
+      	if(point._map && point._map.hasLayer(point._popup)) {
+      	  // popup is open, can't remove this point
+        } else {
+      	  var occurrence = occurrences.pop();
+        	//map.removeLayer(point);
+        	//point.setStyle({opacity:1.0, fillOpacity:1.0});
+        	point.setLatLng([occurrence.lat,occurrence.lng]);
+        	point.unbindPopup(); // avoid memory leak
+        	point.bindPopup(
+                "<p><a href=''>" + occurrence.name.name +"</a></p>" + 
+                "<p>Published by <a href=''>" + occurrence.publisher.name +"</a></p>")                 
+        	point.addTo(map); // it should already be
+        }      	
+        
+      	// move to next one
+      	currentPointIdx = currentPointIdx + 1;
+      	// reuse the points
+      	if (currentPointIdx >= points.length) {
+      	  currentPointIdx = 0;
+      	}
+      	
+      	// fade those about to disappear (hoses CPU - removing)
+      	/*
+      	var x = currentPointIdx
+      	for (var i=0;i<25;i++) {
+      	  if (x >= points.length) {
+      	    x = 0;
+      	  }
+      	  point = points[x];
+      	  if(point._map && point._map.hasLayer(point._popup)) {
+      	    // it's open
+      	  } else {
+      	    // TODO: take into consideration the starting opactiy
+      	    point.setStyle({opacity:(i/25), fillOpacity:(i/25)});        	  
+      	  }
+      	  x=x+1;
+      	}
+      	*/
+      	
+      	
+        
+        setTimeout(runMap, delayMsecs);
+      }
+      initData();
+      runMap();
+      
+
+        
+          
+          
+          
+          
+          
+          
+          
+          
         });
     </script>
       <style type="text/css">
@@ -27,6 +184,8 @@
   </head>
 
   <content tag="logo_header">
+  
+  
     <div id="logo">
       <a href="<@s.url value='/'/>" class="logo"></a>
     </div>
@@ -45,8 +204,12 @@
   </content>
 
   <body class="home">
+  
 
     <div class="container">
+    
+    
+    
 
     <article class="search">
 

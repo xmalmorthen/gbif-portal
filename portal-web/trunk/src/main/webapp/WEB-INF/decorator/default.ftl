@@ -59,10 +59,15 @@
 <body class="${page.properties["body.class"]!}">
 
   <header>
+  <!-- To most pages this will be ignored-->
+  <div id="map"></div>
+
 
   <!-- top -->
   <div id="top">
     <div class="content">
+
+
 
       <div class="account">
         <#if currentUser??>
