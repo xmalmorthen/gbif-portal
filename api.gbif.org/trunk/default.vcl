@@ -148,9 +148,11 @@ sub vcl_recv {
   
   # druapl powered webservices
   if (req.url ~ "^/mendeley"){
-    if (req.http.host == "api.gbif.org") {
+    if (req.http.host == "uat.gbif.org") {
+      set req.http.host="drupallive.gbif.org";
       set req.backend = drupallive;
     } else {
+      set req.http.host="drupaldev.gbif.org";
       set req.backend = drupaldev;
     }
     # expose http://staging.gbif.org/mendeley/country/ES/json
