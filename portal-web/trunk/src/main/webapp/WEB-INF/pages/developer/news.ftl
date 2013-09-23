@@ -15,17 +15,44 @@
 <@api.introArticle>
 <div class="left">
     <p>
-        This API is used to retrieve news from GBIF and is entirely based on RSS feeds.
+        This API is used to retrieve news or publications from or about GBIF.
     </p>
 </div>
 <div class="right">
     <ul>
-        <li><a href="#name_usages">News Feeds</a></li>
-        <li><a href="#searching">News search</a></li>
+        <li><a href="#news">GBIF news</a></li>
+        <li><a href="#mendeley">Mendeley publications</a></li>
     </ul>
 </div>
 </@api.introArticle>
 
+<@common.article id="news" title="GBIF news">
+  <div class="fullwidth">
+    <p>GBIF provides RSS feeds for all news or the subset relevant to a specific country.</p>
+
+  <@api.apiTable>
+    <@api.trow url="/news" resp="" respLink="#" paging=false>Feed for all GBIF news</@api.trow>
+    <@api.trow url="/news/country/{ISOCODE}" resp="" respLink="#" paging=false>News feed for a given country</@api.trow>
+  </@api.apiTable>
+
+  </div>
+</@common.article>
+
+
+<@common.article id="news" title="Mendeley">
+  <div class="fullwidth">
+      <p>GBIF maintains a <a href="http://www.mendeley.com/groups/1068301/gbif-public-library/">Mendeley group</a>
+         sharing publications relevant to the Global Biodiversity Information Facility.
+         They are tagged according to whether data accessed via GBIF are used in research,
+         or whether GBIF is discussed/mentioned, as well as subjects covered and countries of contributing authors.
+      </p>
+
+  <@api.apiTable>
+    <@api.trow url="/mendeley/country/{ISOCODE}" resp="" respLink="#" paging=false />
+  </@api.apiTable>
+
+  </div>
+</@common.article>
 
 </body>
 </html>

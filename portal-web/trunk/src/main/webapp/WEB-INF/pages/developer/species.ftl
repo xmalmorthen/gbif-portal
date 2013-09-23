@@ -43,38 +43,26 @@
             Name usages from other checklists with names that also exist in the nub will
             have a nubKey that points to the related usage in the backbone.
         </p>
-        
-  <table class='table table-bordered table-striped table-params'>
-      <thead>
-      <tr>
-          <th width="28%" class='total'>Endpoint URL</th>
-          <th width="15%">Response</th>
-          <th width="30%">Description</th>
-          <th width="6%">Paging</th>
-          <th width="15%">Parameters</th>
-      </tr>
-      </thead>
 
-      <tbody>
-        <@trow url="" paging=true params=[2,3,4,6]>Lists all name usages across all checklists</@trow>
-        <@trow url="/root/{uuid|shortname}" paging=true >Lists root usages of a checklist</@trow>
-        <@trow url="/{int}" params=[2]>Gets the single name usage</@trow>
-        <@trow url="/{int}/verbatim" resp="VerbatimNameUsage">Gets the verbatim name usage</@trow>
-        <@trow url="/{int}/name" resp="ParsedName">Gets the parsed name for a name usage</@trow>
-        <@trow url="/{int}/parents" params=[2]>Lists all parent usages for a name usage</@trow>
-        <@trow url="/{int}/children" paging=true params=[2]>Lists all direct child usages for a name usage</@trow>
-        <@trow url="/{int}/related" paging=false params=[2,3]>Lists all related name usages in other checklists</@trow>
-        <@trow url="/{int}/synonyms" paging=true params=[2]>Lists all synonyms for a name usage</@trow>
-        <@trow url="/{int}/descriptions" resp="Description" paging=true>Lists all descriptions for a name usage</@trow>
-        <@trow url="/{int}/distributions" resp="Distribution" paging=true >Lists all distributions for a name usage</@trow>
-        <@trow url="/{int}/images" resp="Image" paging=true>Lists all images for a name usage</@trow>
-        <@trow url="/{int}/references" resp="Reference" paging=true >Lists all references for a name usage</@trow>
-        <@trow url="/{int}/species_profiles" resp="SpeciesProfile" paging=true >Lists all species profiles for a name usage</@trow>
-        <@trow url="/{int}/vernacular_names" resp="VernacularName" paging=true >Lists all vernacular names for a name usage</@trow>
-        <@trow url="/{int}/type_specimens" resp="TypeSpecimen" paging=true >Lists all type specimens for a name usage</@trow>
-        <@trow url="/{int}/" paging=true params=[2]></@trow>
-      </tbody>
-  </table>
+      <@api.apiTable>
+            <@trow url="" paging=true params=[2,3,4,6]>Lists all name usages across all checklists</@trow>
+            <@trow url="/root/{uuid|shortname}" paging=true >Lists root usages of a checklist</@trow>
+            <@trow url="/{int}" params=[2]>Gets the single name usage</@trow>
+            <@trow url="/{int}/verbatim" resp="VerbatimNameUsage">Gets the verbatim name usage</@trow>
+            <@trow url="/{int}/name" resp="ParsedName">Gets the parsed name for a name usage</@trow>
+            <@trow url="/{int}/parents" params=[2]>Lists all parent usages for a name usage</@trow>
+            <@trow url="/{int}/children" paging=true params=[2]>Lists all direct child usages for a name usage</@trow>
+            <@trow url="/{int}/related" paging=false params=[2,3]>Lists all related name usages in other checklists</@trow>
+            <@trow url="/{int}/synonyms" paging=true params=[2]>Lists all synonyms for a name usage</@trow>
+            <@trow url="/{int}/descriptions" resp="Description" paging=true>Lists all descriptions for a name usage</@trow>
+            <@trow url="/{int}/distributions" resp="Distribution" paging=true >Lists all distributions for a name usage</@trow>
+            <@trow url="/{int}/images" resp="Image" paging=true>Lists all images for a name usage</@trow>
+            <@trow url="/{int}/references" resp="Reference" paging=true >Lists all references for a name usage</@trow>
+            <@trow url="/{int}/species_profiles" resp="SpeciesProfile" paging=true >Lists all species profiles for a name usage</@trow>
+            <@trow url="/{int}/vernacular_names" resp="VernacularName" paging=true >Lists all vernacular names for a name usage</@trow>
+            <@trow url="/{int}/type_specimens" resp="TypeSpecimen" paging=true >Lists all type specimens for a name usage</@trow>
+            <@trow url="/{int}/" paging=true params=[2]></@trow>
+      </@api.apiTable>
 
     </div>
   </@common.article>

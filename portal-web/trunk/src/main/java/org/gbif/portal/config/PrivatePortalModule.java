@@ -8,6 +8,7 @@ import org.gbif.ws.security.GbifAppAuthService;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import com.google.inject.Inject;
 import com.google.inject.PrivateModule;
@@ -36,6 +37,7 @@ public class PrivatePortalModule extends PrivateModule{
 
     expose(ClientFilter.class);
     expose(DrupalCountryTagMap.class);
+    expose(ContinentCountryMap.class);
   }
 
   @Provides
@@ -56,5 +58,12 @@ public class PrivatePortalModule extends PrivateModule{
   public DrupalCountryTagMap provideDrupalCountryTagMap() throws IOException {
     Map<String,String> rawMap = FileUtils.streamToMap(FileUtils.classpathStream("drupal_country_tags.txt"), 0, 1, true);
     return new DrupalCountryTagMap(rawMap);
+  }
+
+  @Provides
+  @Singleton
+  public ContinentCountryMap provideContinentCountryMap() throws IOException {
+    Set<String> raw = FileUtils.streamToSet(FileUtils.classpathStream("country_by_continent.txt"));
+    return new ContinentCountryMap(raw);
   }
 }
