@@ -61,7 +61,7 @@
 <tr>
     <td>${url}</td>
     <td>${httpMethod?upper_case}</td>
-    <td><#if httpMethod?upper_case == "GET"><a href="http://api.gbif.org${respLink}" target="_blank">${resp}</a></#if></td>
+    <td><#if httpMethod?upper_case == "GET"><a href="http://api.gbif.org${respLink}" target="_blank">${resp} <#if paging>List</#if></a></#if></td>
     <td><#nested/></td>
     <td>${authRequired?string}</td>
     <td>${paging?string}</td>
