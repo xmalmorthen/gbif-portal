@@ -24,7 +24,7 @@
 
 <#macro mendeleyFeedJs isoCode target>
   var tmplM = $("#mendeley-publications").html();
-  $.getJSON("<@s.url value='/js/country/${isoCode}/JSON'/>", function(data){
+  $.getJSON("<@s.url value='/mendeley/country/${isoCode}/json'/>", function(data){
     console.log(data);
     $("${target}").html( _.template(tmplM, {feed:data}) );
   });
