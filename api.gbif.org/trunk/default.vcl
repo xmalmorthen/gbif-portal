@@ -146,6 +146,17 @@ sub vcl_recv {
     error 301 regsub(req.url, "/name_usage", "/species");
   }
   
+  # druapl powered webservices
+  if (req.url ~ "/mendeley"){
+    if (req.http.host == "api.gbif.org") {
+      set req.backend = drupallive;
+    } else {
+      set req.backend = drupaldev;
+    }
+    # expose http://staging.gbif.org/mendeley/country/ES/json
+    set req.url = regsub(req.url, "^/mendeley/country/([a-zA-Z]+)$", "/mendeley/country/\1/json");
+  }
+
   if (req.url ~ "^/lookup/species"){
     set req.backend = ecatdev;
     set req.url = regsub(req.url, "^/lookup/species", "/nub-ws/nub");
