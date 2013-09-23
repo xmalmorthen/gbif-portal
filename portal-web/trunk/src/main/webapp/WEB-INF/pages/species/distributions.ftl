@@ -24,6 +24,7 @@
       should follow the <a href="http://rs.gbif.org/areas/">Named Area Standards</a> recommended by GBIF to publishers.
     </p>
   </@common.notice>
+
   <article class="results">
     <header></header>
     <div class="content">

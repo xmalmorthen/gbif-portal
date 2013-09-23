@@ -32,7 +32,9 @@
 
 <#include "/WEB-INF/pages/country/inc/about_article.ftl">
 
-<#include "/WEB-INF/pages/country/inc/publishing_article.ftl">
+<#if datasets?has_content>
+  <#include "/WEB-INF/pages/country/inc/publishing_article.ftl">
+</#if>
 
 <#include "/WEB-INF/pages/country/inc/participation.ftl">
 

@@ -23,44 +23,51 @@
 <#include "/WEB-INF/pages/country/inc/infoband.ftl">
 
 
-<#include "/WEB-INF/pages/country/inc/publishing_article.ftl">
+<#if datasets?has_content>
+  <#include "/WEB-INF/pages/country/inc/publishing_article.ftl">
 
-<#include "/WEB-INF/pages/country/inc/latest_datasets_article.ftl">
+  <#include "/WEB-INF/pages/country/inc/latest_datasets_article.ftl">
 
+  <@common.article id="countries" title="Countries of origin">
+    <div class="fullwidth">
+      <#if countries?has_content>
+        <p>
+          ${country.title} hosts ${otherCountryRecords} records for ${otherCountries} other countries & territories.
+          <br/>This accounts for ${otherCountryPercentage}% of the total data hosted by ${country.title}.
+        </p>
+        <ul>
+        <#list countries as cw>
+          <#if cw_index==6>
+              <li class="more"><a href="<@s.url value='/country/${isocode}/publishing/countries'/>">${by.countries - 6} more</a></li>
+              <#break />
+          </#if>
+            <li>
+              <a title="${cw.obj.getTitle()}" href="<@s.url value='/country/${cw.obj.getIso2LetterCode()}'/>">${cw.obj.getTitle()}</a>
+              <span class="note"> ${cw.count} occurrences<#if cw.geoCount gt 0>, ${100.0 * cw.geoCount / cw.count} % georeferenced</#if>.</span>
+            </li>
+        </#list>
+        </ul>
+      <#else>
+        <p>None.</p>
+      </#if>
+    </div>
+  </@common.article>
 
-<@common.article id="countries" title="Countries of origin">
-  <div class="fullwidth">
-    <#if countries?has_content>
+  <@common.article id="metrics" title="Data published by ${country.title}">
+    <div class="fullwidth">
       <p>
-        ${country.title} hosts ${otherCountryRecords} records for ${otherCountries} other countries & territories.
-        <br/>This accounts for ${otherCountryPercentage}% of the total data hosted by ${country.title}.
+        <@metrics.metricsTable baseAddress="hostCountry=${country}"/>
       </p>
-      <ul>
-      <#list countries as cw>
-        <#if cw_index==6>
-            <li class="more"><a href="<@s.url value='/country/${isocode}/publishing/countries'/>">${by.countries - 6} more</a></li>
-            <#break />
-        </#if>
-          <li>
-            <a title="${cw.obj.getTitle()}" href="<@s.url value='/country/${cw.obj.getIso2LetterCode()}'/>">${cw.obj.getTitle()}</a>
-            <span class="note"> ${cw.count} occurrences<#if cw.geoCount gt 0>, ${100.0 * cw.geoCount / cw.count} % georeferenced</#if>.</span>
-          </li>
-      </#list>
-      </ul>
-    <#else>
-      <p>None.</p>
-    </#if>
-  </div>
-</@common.article>
+    </div>
+  </@common.article>
+<#else>
 
+  <@common.notice title="No data publishing activity">
+    <p>${country.title} has no data publishing activity.</p>
+  </@common.notice>
 
-<@common.article id="metrics" title="Data published by ${country.title}">
-  <div class="fullwidth">
-    <p>
-      <@metrics.metricsTable baseAddress="hostCountry=${country}"/>
-    </p>
-  </div>
-</@common.article>
+  <#include "/WEB-INF/pages/country/inc/latest_datasets_article.ftl">
+</#if>
 
 <#--
 <@common.article id="networks" title="International Networks">
