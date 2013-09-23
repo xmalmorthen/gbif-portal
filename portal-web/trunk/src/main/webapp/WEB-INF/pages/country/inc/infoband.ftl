@@ -56,6 +56,9 @@
     <li<#if (tab!"")=="news"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/country/${isocode}/news'/>" title="News"><span>News</span></a>
     </li>
+    <li<#if (tab!"")=="publications"> class='selected ${hl!}'</#if>>
+      <a href="<@s.url value='/country/${isocode}/publications'/>" title="Publications"><span>Publications</span></a>
+    </li>
     <#--
     <li<#if (tab!"")=="use"> class='selected ${hl!}'</#if>>
       <a href="#" title="Data Use"><span>Data Use</span></a>

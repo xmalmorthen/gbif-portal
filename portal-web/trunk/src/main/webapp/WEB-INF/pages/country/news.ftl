@@ -1,4 +1,5 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
+<#import "/WEB-INF/macros/feeds.ftl" as feeds>
 <html>
 <head>
   <title>Country News for ${country.title}</title>
@@ -8,10 +9,10 @@
   <script type="text/javascript">
       $(function() {
         <#if drupalTagId?has_content>
-          <@common.drupalFeedJs tagId="${drupalTagId}" target="#gbifnews" />
+          <@feeds.drupalFeedJs tagId="${drupalTagId}" target="#gbifnews" />
         </#if>
         <#if feed??>
-          <@common.googleFeedJs url="${feed}" target="#nodenews" />
+          <@feeds.googleFeedJs url="${feed}" target="#nodenews" />
         </#if>
       });
   </script>

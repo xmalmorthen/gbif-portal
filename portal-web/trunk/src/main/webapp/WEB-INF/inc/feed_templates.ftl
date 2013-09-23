@@ -13,6 +13,7 @@
   </div>
  <% }); %>
 </script>
+
 <script type="text/html" id="rss-google">
     <ul class="notes">
       <% _.each( feed.entries, function(item){ %>
@@ -25,4 +26,32 @@
         </li>
       <% }); %>
     </ul>
+</script>
+
+<script type="text/html" id="mendeley-publications">
+ <% _.each( feed, function(pub){ %>
+  <div class="result">
+    <h3>
+        <%= pub.firstAuthor %>,
+        <% if (pub.publication_outlet.length > 1 && pub.publication_outlet.substring(0,1) != "[") { %>
+          <%= pub.publication_outlet%>
+          (<%= pub.year %>)
+        <% } else { %>
+          <%= pub.year %>
+        <% } %>
+    </h3>
+    <h2><a href="<%= pub.url %>" title="<%= pub.title %>"><%= pub.title %></a></h2>
+    <p><%= pub.abstract %> </p>
+    <div class="footer">
+      <% if (pub.keywords.length > 0) { %>
+        <p>
+            <strong>Keywords</strong>:
+            <% _.each( pub.keywords, function(k){ %>
+            <em><%= k %></em>;
+            <% }); %>
+        </p>
+      <% } %>
+    </div>
+  </div>
+ <% }); %>
 </script>

@@ -1,4 +1,5 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
+<#import "/WEB-INF/macros/feeds.ftl" as feeds>
 <html>
 <head>
   <title>Country Summary for ${country.title}</title>
@@ -19,7 +20,7 @@
           );
 
           <#if feed??>
-            <@common.googleFeedJs url="${feed}" target="#news" />
+            <@feeds.googleFeedJs url="${feed}" target="#news" />
           </#if>
       });
   </script>
