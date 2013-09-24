@@ -1,8 +1,7 @@
 @import "reset";
 
-@import "helpers"; // color and mixin definitions
+@import "helpers"; // variables, color, fonts and mixin definitions
 
-@import "fonts";
 @import "buttons";
 @import "occ_table";
 @import "popovers";
@@ -42,9 +41,11 @@ html, body {
 
 body {
   text-align: center;
-  font-size: 13px;
   color: @cGray2;
-  font-family: "Arial", "Helvetica", sans-serif;
+  font-size: 13px;
+  font-family: @font;
+  font-weight: normal;
+  font-style: normal;
 }
 
 em {
@@ -93,7 +94,6 @@ div.contact {
 
   .contactType {
     margin-bottom: 0px !important;
-    font-family: "DINOT-Medium",sans-serif;
     font-size: 13px;
     text-transform: uppercase;
     color: @cGray1;
@@ -162,7 +162,6 @@ span {
     color: @cGray2;
   }
   &.number {
-    font-family: "DINOT-Regular", sans-serif;
     color: @cGray4;
     font-size: 15px;
   }
@@ -226,7 +225,6 @@ dl {
     width: 200px;
     color: @cGray1;
     text-transform: uppercase;
-    font-family: "DINOT-Medium",sans-serif;
     text-shadow: 0 1px white;
     font-size: 13px;
     line-height: 15px;
@@ -341,7 +339,6 @@ p.advice {
 
       h2 {
         margin-bottom: 20px;
-        font-family: "DINOT-Medium", sans-serif;
         font-size: 23px;
         line-height: 28px;
         color: @cGray1;
@@ -350,14 +347,12 @@ p.advice {
 
       h3 {
         margin-bottom: 8px;
-        font-family: "DINOT-Medium", sans-serif;
         font-size: 13px;
         text-transform: uppercase;
         text-shadow: 0 1px white;
       }
 
       .subtitle {
-        font-family: "Arial", "Helvetica", sans-serif;
         font-size: 15px;
         color: @cGray2;
       }
@@ -440,7 +435,6 @@ p.advice {
               text-transform: none;
 
               span {
-                font-family: "Arial", "Helvetica", sans-serif;
                 margin-left: 7px;
                 font-size: 15px;
                 font-weight: normal;
@@ -493,7 +487,6 @@ p.advice {
               padding: 0;
               display: block;
               font-size: 35px;
-              font-family: "Arial", "Helvetica", sans-serif;
               font-weight: bold;
               color: @cGray2;
             }
@@ -520,7 +513,6 @@ p.advice {
 
         h4 {
           margin-bottom: 8px;
-          font-family: "DINOT-Medium", sans-serif;
           font-size: 15px;
           text-transform: uppercase;
           color: @cGray1;
@@ -553,7 +545,6 @@ p.advice {
           }
 
           h3 {
-            font-family: "Arial", "Helvetica", sans-serif;
             color: @cGray2;
             font-size: 15px;
             text-transform: none;
@@ -1053,7 +1044,6 @@ p.advice {
           .number {
             color: @cGray2;
             font-size: 31px;
-            font-family: "DINOT-Medium", sans-serif;
           }
 
           .percentage_bar_background {
@@ -1161,6 +1151,12 @@ p.advice {
           font-weight: bold !important;
         }
       }
+    }
+
+    // article class to remove border below title - only useful for no title
+    &.nohead .content > div {
+      border-top-width: 0px !important;
+      padding-top: 0px !important;
     }
 
     /* Species Images */
@@ -1283,7 +1279,6 @@ p.advice {
 
           h4 {
             margin-bottom: 18px;
-            font-family: "Arial", "Helvetica", sans-serif;
             font-weight: bold;
             font-size: 15px;
             text-transform: none;
@@ -1406,7 +1401,6 @@ p.advice {
           h3 {
             margin: 0 0 2px 0;
             color: @cGray4;
-            font-family: Arial, Helvetica, sans-serif;
             font-size: 13px;
             font-weight: normal;
             span {
@@ -1416,11 +1410,9 @@ p.advice {
           }
           h2 {
             margin: 0 0 0px 0;
-            font-family: "Arial", "Helvetica", sans-serif;
             font-size: 17px;
             font-weight: normal;
             a {
-              font-family: "Arial", "Helvetica", sans-serif;
               font-size: 17px;
               font-weight: bold;
               font-style: normal;
@@ -1492,7 +1484,6 @@ p.advice {
             margin: 0;
             padding: 0 0 20px 0;
             font-weight: normal;
-            //font-family: Arial;
             .gbifHl {
               color: @cGray2;
             }
@@ -1535,7 +1526,6 @@ p.advice {
 
             h4 {
               margin-bottom: 6px;
-              font-family: "DINOT-Medium", sans-serif;
               font-size: 11px;
               text-transform: uppercase;
               color: @cGray3;
@@ -1605,7 +1595,6 @@ p.advice {
           .right {
 
             h3 {
-              font-family: "DINOT-Medium", sans-serif;
               font-size: 22px;
               text-transform: none;
               color: @cGray3;
@@ -1695,7 +1684,6 @@ p.advice {
         bottom: 0px;
         font-size: 9px;
         color: #cccccc;
-        font-family: "DINOT-Medium", sans-serif;
         margin-top: -20px;
       }
 
@@ -1761,7 +1749,6 @@ p.advice {
               display: block;
               margin-bottom: 10px;
               color: @cLink;
-              font-family: "DINOT-Medium", sans-serif;
               font-size: 31px;
               text-decoration: none;
 
@@ -1849,7 +1836,6 @@ p.advice {
 
         h1 {
           margin-bottom: 23px;
-          font-family: "DINOT-Medium", sans-serif;
           color: @cGray2;
           font-size: 35px;
         }
@@ -1895,7 +1881,6 @@ p.advice {
                 display: block;
                 margin-bottom: 10px;
                 color: @cLink;
-                font-family: "DINOT-Medium", sans-serif;
                 font-size: 31px;
                 text-decoration: none;
 
@@ -1949,7 +1934,6 @@ p.advice {
         button {
           margin-right: 0;
           span {
-            font-family: "Arial", "Helvetica", sans-serif;
             font-size: 15px;
             font-weight: normal;
             color: @cLink;
@@ -2014,7 +1998,6 @@ p.advice {
           overflow: auto;
           font-size: 13px;
           background: url("../img/textarea_bkg.png") no-repeat;
-          font-family: "Arial", "Helvetica", sans-serif;
           &:focus {
             outline: none;
           }
@@ -2028,7 +2011,6 @@ p.advice {
         border: none;
         h4 {
           margin-bottom: 10px;
-          font-family: "DINOT-Medium", sans-serif;
           font-size: 13px;
           color: @cGray1;
         }
@@ -2053,7 +2035,6 @@ p.advice {
         button {
           margin-right: 0;
           span {
-            font-family: "Arial", "Helvetica", sans-serif;
             font-size: 15px;
             font-weight: normal;
             color: @cLink;
@@ -2094,7 +2075,6 @@ p.advice {
         h3 {
           margin-bottom: 3px;
           text-align: center;
-          font-family: "Arial", "Helvetica", sans-serif;
           font-weight: bold;
           font-size: 17px;
           text-transform: none;
@@ -2193,7 +2173,6 @@ p.advice {
                 padding: 0 0px 3px 0;
                 background: url("../img/buttons/input_small_button_right_bkg.png") no-repeat right top;
                 color: white;
-                font-family: "DINOT-Medium", sans-serif;
                 font-size: 15px;
                 span {
                   text-shadow: 0 -1px #0079a2;
@@ -2208,7 +2187,6 @@ p.advice {
           }
 
           h3 {
-            font-family: "Arial", "Helvetica", sans-serif;
             font-size: 15px;
             font-weight: bold;
             color: @cGray1;
@@ -2249,7 +2227,6 @@ p.advice {
 
         h1 {
           margin-bottom: 23px;
-          font-family: "DINOT-Medium", sans-serif;
           color: @cGray2;
           font-size: 35px;
         }
@@ -2282,7 +2259,6 @@ p.advice {
             height: 37px;
             background: url("../img/buttons/button_search.png") no-repeat left top;
             color: white;
-            font-family: "DINOT-Medium", sans-serif;
             font-size: 17px;
           }
         }
@@ -2295,7 +2271,6 @@ p.advice {
         h3 {
           margin-bottom: 3px;
           text-align: center;
-          font-family: "Arial", "Helvetica", sans-serif;
           font-weight: bold;
           font-size: 17px;
           text-transform: none;
@@ -2411,7 +2386,6 @@ p.advice {
             }
             h2 {
               display: inline;
-              font-family: "DINOT-Medium", sans-serif;
               font-size: 23px;
               color: @cGray4;
             }
@@ -2503,7 +2477,6 @@ p.advice {
             vertical-align: top;
             text-transform: uppercase;
             width: 250px;
-            font-family: "DINOT-Medium", sans-serif;
             font-size: 13px;
           }
 
@@ -2787,7 +2760,6 @@ p.advice {
         padding-right: 45px;
         line-height: 37px;
         background: url("../img/select_right_side.png") repeat-x right top;
-        font-family: "DINOT-Regular", sans-serif;
         font-size: 13px;
       }
 
@@ -2895,7 +2867,6 @@ p.advice {
       padding-right: 35px;
       line-height: 35px;
       background: url("../img/buttons/dropdown_right_side.png") repeat-x right top;
-      font-family: "DINOT-Medium", sans-serif;
       font-size: 15px;
       color: white;
       text-shadow: 0 -1px #0079a2;
@@ -3332,13 +3303,118 @@ p.advice {
       margin: 0;
       padding: 2px 10px 0 3px;
       background: url("../img/input_bkg.png") no-repeat right -214px;
-      font-family: "Arial", "Helvetica", sans-serif;
       font-size: 13px;
       color: @cGray1;
       border: none;
       resize: none;
       &:focus {
         outline: none;
+      }
+    }
+  }
+}
+
+
+
+
+// a single mendeley publication
+div.publication {
+  padding-top: 5px ;
+  border-bottom: 1px solid #F1F1F1;
+  padding-bottom: 0px ;
+  margin-bottom: 25px ;
+
+  span.author{
+    margin-right: 5px ;
+    &:after{
+      content: ",";
+    }
+    &:nth-last-child(2):after{
+      content: " & ";
+    }
+    &:last-of-type:after{
+      content: "";
+    }
+  }
+
+  h2 {
+    font-size: 21px !important;
+    margin-bottom: 10px !important;
+  }
+
+  p.journal {
+    padding-left: 40px ;
+    text-indent: -20px ;
+    margin-bottom: 10px ;
+    margin-bottom: 10px !important;
+    span.volume:before{
+      content: ", ";
+    }
+    span.issue:before{
+      content: " (";
+    }
+    span.issue:after{
+      content: ")";
+    }
+    span.pages:before{
+      content: ", ";
+    }
+    span.pages:after{
+      content: ".";
+    }
+  }
+}
+
+// journal article keyword list
+ul.keywords li{
+  display: inline;
+  list-style-type: none;
+  padding-right: 1px;
+  text-transform: lowercase;
+  font-size: 0.8em;
+  color: #999;
+  &:after{
+    content: ",";
+  }
+}
+
+// provides progress bar styling for species home only
+div.species-progress {
+  display: table;
+  width:60%;
+  margin: 0 auto;
+  align:center;
+
+  ul {
+    list-style-type: none;
+    display: table-row;
+    width:100%;
+    li {
+      padding: 3px;
+      list-style: none;
+      display: table-cell;
+
+      &.confirmed {
+        background-color: #0099cc;
+        border-radius: 10px 0px 0px 10px;
+        color: #fff;
+        border: 1px solid #0099cc;
+      }
+      &.unconfirmed {
+        background-color: #e5e5e5;
+        color: #666;
+        border-radius: 0px 10px 10px 0px;
+        border: 1px solid #cccccc;
+      }
+      &.confirmed-text {
+        color: #999;
+        .small {
+          font-size: 13px;
+          color: #999;
+        }
+      }
+      &.unconfirmed-text {
+        color: #999;
       }
     }
   }
@@ -3359,7 +3435,6 @@ The id #content is used for forcing precedence over other style definitions.
 .ac_results ul, #content ul.ui-autocomplete {
   z-index: 10000;
   text-transform: uppercase;
-  font-family: "DINOT-Medium", sans-serif;
   margin-top: -5px;
   margin-left: -5px;
   background-color: @cGray4;
@@ -3387,7 +3462,6 @@ The id #content is used for forcing precedence over other style definitions.
       display: block;
       text-transform: none;
       font-size: 11px;
-      font-family: "Arial", "Helvetica", sans-serif;
       color: @cLink;
       border: none;
       background: none;
@@ -3412,7 +3486,6 @@ The id #content is used for forcing precedence over other style definitions.
       color: @cGray4;
       font-size: 11px;
       text-transform: uppercase;
-      font-family: "DINOT-Medium", sans-serif;
       background: none;
       &:first-child {
         background: blue !important;
@@ -3438,7 +3511,6 @@ The id #content is used for forcing precedence over other style definitions.
         margin: 0;
         text-transform: none;
         font-size: 15px;
-        font-family: "Arial", "Helvetica", sans-serif;
         -webkit-border-radius: 0px;
         -moz-border-radius: 0px;
         border-radius: 0px;
@@ -3684,13 +3756,11 @@ form input[type="text"].placeholder {
   font-size:14px;
   font-weight:lighter;
   line-height: 36px;
-  font-family: "Arial", "Helvetica", sans-serif;
 }
 
 .input_text {
 
   input::-webkit-input-placeholder {
-    font-family: "Arial", "Helvetica", sans-serif;
     color:    @cGray1;
     opacity: .5;
     font-size:15px;
@@ -3698,14 +3768,12 @@ form input[type="text"].placeholder {
   }
 
   input:-moz-placeholder {
-    font-family: "Arial", "Helvetica", sans-serif;
     color:    @cGray1;
     opacity: .5;
     font-size:15px;
   }
 
   input:-ms-input-placeholder {
-    font-family: "Arial", "Helvetica", sans-serif;
     color:    @cGray1;
     opacity: .5;
     font-size:14px;
@@ -3721,7 +3789,6 @@ form input[type="text"].placeholder {
     float: left;
     padding: 0px 10px 0 5px !important;
     color: #CCCCCC;
-    font-family: Arial;
     font-size: 10px;
     font-weight: normal;
     background: url("../img/icons/arrow_small_right.png") no-repeat right;
@@ -3737,7 +3804,6 @@ form input[type="text"].placeholder {
 
 .autosuggestRank {
   color: #CCCCCC;
-  font-family: Arial;
   font-size: 8px;
   font-weight: normal;
 }
@@ -3753,7 +3819,8 @@ form input[type="text"].placeholder {
       a {
 	    text-decoration: none;
 	    color: #717171;
-	    font: bold 13px Arial, sans-serif;
+	    font-size: 13px;
+        font-weight: bold;
 	    text-shadow: 0px 1px white;
 	    padding: 5px 15px;
 	    border-radius: 3px;
@@ -3780,7 +3847,7 @@ form input[type="text"].placeholder {
   list-style-position: outside;
   padding: 0 0 0 10px;
 
-  li.node a { text-decoration: underline; }
+  .node a { text-decoration: underline; }
 
 }
 
@@ -3789,58 +3856,3 @@ a.atlwdg-trigger {
   z-index: 1001;
 }
 
-.my_footer {
-  height: 100px;
-  background:blue;
-  text-align:center;
-  .inner {
-    text-align:left;
-    background:red;
-    width: 500px;
-    margin: auto;
-
-  }
-
-}
-
-// provides progress bar styling for species home only 
-div.species-progress {
-  display: table;
-  width:60%;
-  margin: 0 auto;
-  align:center;
-
-  ul {
-    list-style-type: none;
-    display: table-row;
-    width:100%;
-    li {
-      padding: 3px;
-      list-style: none;
-      display: table-cell;
-      
-      &.confirmed {
-        background-color: #0099cc;
-        border-radius: 10px 0px 0px 10px;
-        color: #fff;
-        border: 1px solid #0099cc;
-      }
-      &.unconfirmed {
-        background-color: #e5e5e5;
-        color: #666;
-        border-radius: 0px 10px 10px 0px;
-        border: 1px solid #cccccc;
-      }
-      &.confirmed-text {
-        color: #999;
-        .small {
-          font-size: 13px;
-          color: #999;
-        }
-      }
-      &.unconfirmed-text {
-        color: #999;
-      }
-    }
-  }
-}

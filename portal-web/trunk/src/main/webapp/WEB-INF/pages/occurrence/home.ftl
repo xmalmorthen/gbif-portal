@@ -46,7 +46,7 @@
     <footer></footer>
 </article>
 
-  <@common.article titleRight='${numGeoreferenced!0} georeferenced records' class="map">
+  <@common.article titleRight='Georeferenced data' class="map">
     <div id="map" class="map">
       <iframe id="mapByFrame" name="map" src="${cfg.tileServerBaseUrl!}/index.html?type=ALL&resolution=1&style=dark" allowfullscreen height="100%" width="100%" frameborder="0"/></iframe>
     </div>
@@ -60,7 +60,7 @@
          </p>
          <h3>About</h3>
          <p>
-           This map shows the density of georeferenced occurrence records published through the GBIF network.
+           This map shows the density of all ${numGeoreferenced!0} georeferenced occurrence records published through the GBIF network.
          </p>
          <p> 
            To explore the records, zoom into the map or click on the links above and add further filters to customize search results. 

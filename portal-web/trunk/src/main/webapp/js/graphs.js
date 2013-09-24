@@ -301,12 +301,12 @@ function drawLabelPie(ob, r, percentage, label1, label2, size1) {
 
   function addLabel(label1, label2, size1) {
     var percentage_label = raphael.text(2 * r + 15, r - 10, label1);
-    percentage_label.attr({'font-size': size1, 'font-family': 'DINOT-Medium, Sans-Serif'});
+    percentage_label.attr({'font-size': size1});
     percentage_label.attr("fill", "#0099CC");
     percentage_label.attr("text-anchor", "start");
 
     var extra_label = raphael.text(2 * r + 15, r + 12, label2);
-    extra_label.attr({'font-size': 13, 'font-family': 'Arial, Sans-Serif'});
+    extra_label.attr({'font-size': 13});
     extra_label.attr("fill", "#666666");
     extra_label.attr("text-anchor", "start");
   }
@@ -314,7 +314,7 @@ function drawLabelPie(ob, r, percentage, label1, label2, size1) {
   function addOver100(percentage){
     var times = Math.round(percentage / 10) / 10;
     var centre_label = raphael.text(r-12, r, times + "x");
-    centre_label.attr({'font-size': 15, 'font-family': 'Arial, Sans-Serif'});
+    centre_label.attr({'font-size': 15});
     centre_label.attr("fill", "#fff");
     centre_label.attr("text-anchor", "start");
   }

@@ -13,6 +13,7 @@
  / /_/ / /_/ // // __/    / /_/ / /_/ / /_/ /_/ /  / ____/ /_/ / /  / /_/ /_/ / /
  \____/_____/___/_/      /_____/\__,_/\__/\__,_/  /_/    \____/_/   \__/\__,_/_/
 -->
+<#-- no-js comes from modernizer: http://alistapart.com/article/taking-advantage-of-html5-and-css3-with-modernizr -->
 <html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <!--<![endif]-->
 <head>

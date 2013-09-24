@@ -28,7 +28,8 @@
   $.getJSON("<@s.url value='/js/country/${isoCode}.json'/>", function(data){
   -->
   $.getJSON("<@s.url value='/mendeley/country/${isoCode}/json'/>", function(data){
-    console.log(data);
-    $("${target}").html( _.template(tmplM, {feed:data}) );
+    if (data.length > 0) {
+      $("${target}").html( _.template(tmplM, {feed:data}) );
+    }
   });
 </#macro>
