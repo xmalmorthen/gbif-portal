@@ -213,6 +213,6 @@ public class PredicateFactoryTest {
       return vocab.getEnumConstants()[0].name();
     }
 
-    return String.format("%04d", rnd.nextInt(2013));
+    return String.format("%04d", 1 + rnd.nextInt(2012));
   }
 }
