@@ -80,7 +80,7 @@
 <#include "/WEB-INF/pages/country/inc/infoband.ftl">
 
 
-<@common.article id="publications" title="Peer-reviewed research citing GBIF as a data source" class="">
+<@common.article id="publications" title="Uses of GBIF in scientific research">
     <div class="fullwidth">
       <p>
         Peer-reviewed research citing GBIF as a data source, with at least one author from ${country.title}.<br/>
