@@ -1540,7 +1540,7 @@ var disclaimer = (function() {
           '<ol>',
             '<li>While data and news are intended to be valid and up to date, many areas are still under development.</li>',
             '<li>This service may not be online permanently, and will periodically be updated</li>',
-            '<li>By using this service you agree to abide by the terms of usage set out <a href="http://data.gbif.org/tutorial/datauseagreement">here</a></li>',
+            '<li>By using this service you agree to abide by the terms of usage set out <a href="' + cfg.baseUrl + '/datauseagreement">here</a></li>',
             '<li>Any user accounts created may be deleted; users might need to recreate their accounts in the future</li>',
           '</ol>',
           '<br/><p>Please use the feedback buttons to report bugs or suggest feature enhancements.</p>',
