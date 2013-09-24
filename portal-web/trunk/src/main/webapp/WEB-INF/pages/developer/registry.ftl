@@ -91,7 +91,7 @@
         <@trowD url="/{UUID}/constituents" method="GET" respLink="/dataset/7ddf754f-d193-4cc9-b351-99906754a03b/constituents" paging=true>Lists the dataset's subdataset constituents (datasets that have a parentDatasetKey equal to the one requested)</@trowD>
         <@trowD url="/{UUID}/document" method="GET" respLink="/dataset/7ddf754f-d193-4cc9-b351-99906754a03b/document">Gets a GBIF generated EML document overlaying GBIF information with any existing metadata document data.</@trowD>
         <@trowD url="/{UUID}/document" method="POST" auth=true>Pushes a new original source metadata document for a dataset into the registry, replacing any previously existing document of the same type.</@trowD>
-        <@trowD url="/{UUID}/metadata" method="GET" respLink="/dataset/7ddf754f-d193-4cc9-b351-99906754a03b/metadata" params=[3]>Lists all metadata descriptions available for a dataset and optionally filters them by document type. The list is sorted by priority with the first result ranking highest. Highest priority in this sense means most relevant for augmenting/updating a dataset with EML being the most relevant cause informative type.</@trowD>
+        <@trowD url="/{UUID}/metadata" method="GET" respLink="/dataset/7ddf754f-d193-4cc9-b351-99906754a03b/metadata" params=[4]>Lists all metadata descriptions available for a dataset and optionally filters them by document type. The list is sorted by priority with the first result ranking highest. Highest priority in this sense means most relevant for augmenting/updating a dataset with EML being the most relevant cause informative type.</@trowD>
         <@trowD url="/metadata/{ID}" method="GET" respLink="/dataset/metadata/1">Get a metadata description by its identifier {ID}</@trowD>
         <@trowD url="/metadata/{ID}/document" method="GET" respLink="/dataset/metadata/1/document">Gets the actual metadata description's document by its identifier {ID}</@trowD>
         <@trowD url="/metadata/{ID}" method="DELETE" auth=true>Deletes a metadata description entry and its document by its identifier {ID}</@trowD>
@@ -109,9 +109,9 @@
     <p>The dataset search API provides search services for datasets.</p>
 
   <@api.apiTable>
-    <@trowS url="/search" respLink="/dataset/search?q=plant&PUBLISHING_COUNTRY=argentina" paging=true params=[4,5,6,7,8,9,10,11,12]>Full text search across all datasets.
+    <@trowS url="/search" respLink="/dataset/search?q=plant&PUBLISHING_COUNTRY=argentina" paging=true params=[5,6,7,8,9,10,11,12,13]>Full text search across all datasets.
         Results are ordered by relevance.</@trowS>
-    <@trowS url="/suggest" respLink="/dataset/suggest?q=Amazon&dataset_type=OCCURRENCE" params=[4,5,6,7,8,9,10,11,12]>Search that returns up to 20 matching datasets.
+    <@trowS url="/suggest" respLink="/dataset/suggest?q=Amazon&dataset_type=OCCURRENCE" params=[5,6,7,8,9,10,11,12,13]>Search that returns up to 20 matching datasets.
         Results are ordered by relevance.</@trowS>
   </@api.apiTable>
 
@@ -272,8 +272,9 @@
 
 <#assign params = {
   "q": "Simple search parameter. The value for this parameter can be a simple word or a phrase. Wildcards can be added to the simple word parameters only, i.e. q=*puma*",
-  "country": "Search by country given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/Country.html'>Country enum</a>.",
-  "type": "The metadata type given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/MetadataType.html'>MetadataType enum</a>",
+  "country": "Filters datasets by country given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/Country.html'>Country enum</a>.",
+  "type": "Filters datasets by their dataset type given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/DatasetType.html'>DatasetType enum</a>",
+  "type": "Filters metadata documents by the metadata type given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/MetadataType.html'>MetadataType enum</a>",
   "dataset_type": "Filters datasets by their dataset type given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/DatasetType.html'>DatasetType enum</a>",
   "dataset_subtype": "(Search index has no data to filter on yet) Filters datasets by their dataset subtype given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/DatasetSubtype.html'>DatasetSubtype enum</a>",
   "keyword": "Filters datasets by a case insensitive plain text keyword. The search is done on the merged collection of tags, the dataset keywordCollections and temporalCoverages.",

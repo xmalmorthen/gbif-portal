@@ -75,8 +75,8 @@
   <div class="left">
       <dl>
           <#list params?keys as k>
-            <a name="p_${k}"></a>
-            <dt>${k}</dt>
+            <a id="p${k_index + 1}"></a>
+            <dt>${k_index + 1}. ${k}</dt>
             <dd>${params[k]}</dd>
           </#list>
       </dl>
