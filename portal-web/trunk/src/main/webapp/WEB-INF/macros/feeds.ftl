@@ -24,7 +24,9 @@
 
 <#macro mendeleyFeedJs isoCode target>
   var tmplM = $("#mendeley-publications").html();
-  <#-- the drupal mendeley module does not offer JSONP yet -->
+  <#-- the drupal mendeley module does not offer JSONP yet
+  $.getJSON("<@s.url value='/js/country/${isoCode}.json'/>", function(data){
+  -->
   $.getJSON("<@s.url value='/mendeley/country/${isoCode}/json'/>", function(data){
     console.log(data);
     $("${target}").html( _.template(tmplM, {feed:data}) );

@@ -30,28 +30,40 @@
 
 <script type="text/html" id="mendeley-publications">
  <% _.each( feed, function(pub){ %>
-  <div class="result">
+  <div class="publication">
     <h3>
-        <%= pub.firstAuthor %>,
-        <% if (pub.publication_outlet.length > 1 && pub.publication_outlet.substring(0,1) != "[") { %>
-          <%= pub.publication_outlet%>
-          (<%= pub.year %>)
+        <% if (pub.authors.length > 3) { %>
+          <span class="author"><%= pub.authors[0].surname %>, <%= pub.authors[0].forename %> et al.</span>
         <% } else { %>
-          <%= pub.year %>
+          <% _.each( pub.authors, function(auth){%>
+          <span class="author"><%= auth.surname %>, <%= auth.forename %></span>
+          <% }); %>
         <% } %>
+        <%= pub.year %>
     </h3>
     <h2><a href="<%= pub.url %>" title="<%= pub.title %>"><%= pub.title %></a></h2>
+    <p class="journal">
+      <% if (pub.publication_outlet.length > 1 && pub.publication_outlet.substring(0,1) != "[") { %>
+          <em><%= pub.publication_outlet%></em><%
+          if (pub.volume) {
+            %><span class="volume"><%= pub.volume %></span><%
+          };
+          if (pub.issue) {
+            %><span class="issue"><%= pub.issue %></span><%
+          };
+          if (pub.pages) {
+            %><span class="pages"><%= pub.pages %></span><%
+          }
+        } %>
+    </p>
     <p><%= pub.abstract %> </p>
-    <div class="footer">
-      <% if (pub.keywords.length > 0) { %>
-        <p>
-            <strong>Keywords</strong>:
-            <% _.each( pub.keywords, function(k){ %>
-            <em><%= k %></em>;
-            <% }); %>
-        </p>
-      <% } %>
-    </div>
+    <% if (pub.keywords.length > 0) { %>
+      <ul class="keywords">
+          <% _.each( pub.keywords, function(k){ %>
+          <li><%= k %></li>
+          <% }); %>
+      </ul>
+    <% } %>
   </div>
  <% }); %>
 </script>
