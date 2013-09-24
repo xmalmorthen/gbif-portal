@@ -338,7 +338,7 @@
 
 <#-- MAPS -->
 <#if renderMaps>
-  <@common.article titleRight='${numGeoreferencedOccurrences!0} Georeferenced occurrences' class="map">
+  <@common.article titleRight='${numGeoreferencedOccurrences!0} Georeferenced data' class="map">
     <div id="map" class="map">
       <iframe id="mapframe" name="mapframe" src="${cfg.tileServerBaseUrl!}/index.html?type=DATASET&key=${id!}&style=classic&resolution=${action.getMapResolution(numGeoreferencedOccurrences)}" allowfullscreen height="100%" width="100%" frameborder="0"/></iframe>
     </div>

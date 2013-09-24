@@ -350,7 +350,7 @@
       <iframe id="map" name="map" src="${cfg.tileServerBaseUrl!}/index.html?type=TAXON&key=${usage.key?c}&resolution=${action.getMapResolution(numGeoreferencedOccurrences)}" allowfullscreen height="100%" width="100%" frameborder="0"/></iframe>
     </div>
     <div class="header">
-      <div class="right"><h2>Georeferenced occurrences</h2></div>
+      <div class="right"><h2>Georeferenced data</h2></div>
     </div>
 	<div class="right">
       <div class="inner">

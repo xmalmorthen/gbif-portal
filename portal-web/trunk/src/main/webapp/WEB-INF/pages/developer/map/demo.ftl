@@ -34,7 +34,7 @@
       <div class="content">
         <div class="header">
           <div class="right">
-            <h2>Georeferenced Occurrences</h2>
+            <h2>Georeferenced data</h2>
           </div>
         </div>
         <div class="map">
