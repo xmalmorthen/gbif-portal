@@ -11,6 +11,7 @@ import java.util.Set;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
@@ -24,7 +25,8 @@ import org.slf4j.LoggerFactory;
 public class ContinentCountryMap {
   private static final Logger LOG = LoggerFactory.getLogger(ContinentCountryMap.class);
   private static final Splitter ROW_SPLITTER = Splitter.on(CharMatcher.WHITESPACE).trimResults().omitEmptyStrings();
-  private Map<Continent, List<Country>> continents = Maps.newHashMap();
+  private final Map<Continent, List<Country>> continents = Maps.newHashMap();
+  private final List<Continent> continentsSortedAlphabetically;
 
   /**
    * @param lines key=continent enum value, value=country iso code
@@ -61,6 +63,13 @@ public class ContinentCountryMap {
         }
       }
     }
+
+    // continent enum is not sorted
+    continentsSortedAlphabetically = ImmutableList.copyOf(Ordering.usingToString().sortedCopy(continents.keySet()));
+  }
+
+  public List<Continent> alphabeticallyOrderedContinents() {
+    return continentsSortedAlphabetically;
   }
 
   public List<Country> listCountries(Continent c) {
