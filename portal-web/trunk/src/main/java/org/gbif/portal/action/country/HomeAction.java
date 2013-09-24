@@ -39,6 +39,7 @@ public class HomeAction extends BaseAction {
     // remove noise
     copy.remove(Country.UNKNOWN);
     copy.remove(Country.USER_DEFINED);
+    copy.remove(Country.INTERNATIONAL_WATERS);
     // sort on the title (knowing that the enumeration does things with Chinese Tapei etc
     countries = ImmutableList.copyOf(TitleOrdering.INSTANCE.sortedCopy(Lists.newArrayList(copy)));
   }
