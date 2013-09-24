@@ -33,10 +33,10 @@
   <div class="publication">
     <h3>
         <% if (pub.authors.length > 3) { %>
-          <span class="author"><%= pub.authors[0].surname %>, <%= pub.authors[0].forename %> et al.</span>
+          <span class="author"><%= pub.authors[0].surname %>, <%= pub.authors[0].forename.substring(0,1) %>. et al.</span>
         <% } else { %>
           <% _.each( pub.authors, function(auth){%>
-          <span class="author"><%= auth.surname %>, <%= auth.forename %></span>
+          <span class="author"><%= auth.surname %>, <%= auth.forename.substring(0,1) %>.</span>
           <% }); %>
         <% } %>
         <%= pub.year %>

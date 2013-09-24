@@ -46,6 +46,9 @@
         .publication span.author:last-of-type:after{
           content: "";
         }
+        .publication span.author:nth-last-child(2):after{
+          content: " & ";
+        }
         .publication p.journal span.volume:before{
           content: ", ";
         }
