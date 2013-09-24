@@ -17,10 +17,31 @@ import com.google.inject.Inject;
 public class HomeAction extends BaseAction {
 
   /**
-   * Ensure we are ordered
+   * Utility to order countries by title which is different to the toString() of the enum.
    */
-  private static List<Country> countries = ImmutableList.copyOf(Ordering.usingToString().sortedCopy(
-    Lists.newArrayList(Country.values())));
+  private static class TitleOrdering extends Ordering<Country> {
+    public static TitleOrdering INSTANCE = new TitleOrdering();
+    private TitleOrdering() {
+    }
+    @Override
+    public int compare(Country left, Country right) {
+      return left.getTitle().compareTo(right.getTitle());
+    }
+  }
+
+  /**
+   * Ensure we are ordered by title, removing noise.
+   */
+  private static List<Country> countries;
+  static {
+    // clean up the country list to something displayable
+    List<Country> copy = Lists.newArrayList(Country.values());
+    // remove noise
+    copy.remove(Country.UNKNOWN);
+    copy.remove(Country.USER_DEFINED);
+    // sort on the title (knowing that the enumeration does things with Chinese Tapei etc
+    countries = ImmutableList.copyOf(TitleOrdering.INSTANCE.sortedCopy(Lists.newArrayList(copy)));
+  }
 
 
   private Set<Country> activeNodes;
