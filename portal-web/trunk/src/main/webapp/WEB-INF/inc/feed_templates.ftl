@@ -2,7 +2,7 @@
  <% _.each( feed.nodes, function(i){ %>
   <div class="result">
     <h3><%= i.node.type %></h3>
-    <h2><a href="${cfg.drupal}/page/<%= i.node.uid %>" title="<%= i.node.title %>"><%= i.node.title %></a></h2>
+    <h2><a href="${cfg.drupal}/page/<%= i.node.nid %>" title="<%= i.node.title %>"><%= i.node.title %></a></h2>
     <p><%= i.node.body %></p>
     <div class="footer">
       <p><%= i.node.created %></p>
