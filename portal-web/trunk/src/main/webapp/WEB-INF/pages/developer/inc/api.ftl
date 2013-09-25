@@ -83,3 +83,25 @@
   </div>
 </@common.article>
 </#macro>
+
+<#macro apiTable_params>
+<table class='table table-bordered table-striped table-params'>
+    <thead>
+    <tr>
+        <th width="25%" class='total'>Resource URL</th>
+        <th width="75%">Response</th>
+    </tr>
+    </thead>
+
+    <tbody>
+      <#nested />
+    </tbody>
+</table>
+</#macro>
+
+<#macro trow_param index key description>
+<tr>
+    <td><a id="p${index}"></a>${key}</td>
+    <td>${description}</a></td>
+</tr>
+</#macro>
