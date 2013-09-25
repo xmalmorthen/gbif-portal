@@ -46,7 +46,6 @@ $(function() {
    */
   function getOccurrences() {
     var occurrences = [];
-		console.log(cfg);
     $.ajax({
       url: cfg.wsOcc + 'occurrence/featured?seed='+seed++,
       success: function(data) {
