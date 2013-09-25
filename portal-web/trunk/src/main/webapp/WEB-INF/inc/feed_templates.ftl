@@ -1,20 +1,17 @@
-<script type="text/html" id="rss-google-search">
- <% _.each( feed.entries, function(item){ %>
+<script type="text/html" id="tmpl-nodes-drupal">
+ <% _.each( feed.nodes, function(i){ %>
   <div class="result">
-    <#--
-    removed for now, see http://dev.gbif.org/issues/browse/PF-1017
-    <h3>NEWS ITEM</h3>
-    -->
-    <h2><a href="<%= item.link %>" title="<%= item.title %>"><%= item.title %></a></h2>
-    <p><%= $(item.content).text().trim().substr(0,500) %> ...</p>
+    <h3><%= i.node.type %></h3>
+    <h2><a href="${cfg.drupal}/page/<%= i.node.uid %>" title="<%= i.node.title %>"><%= i.node.title %></a></h2>
+    <p><%= i.node.body %></p>
     <div class="footer">
-      <p class="date"><%= item.publishedDate %></p>
+      <p><%= i.node.created %></p>
     </div>
   </div>
  <% }); %>
 </script>
 
-<script type="text/html" id="rss-google">
+<script type="text/html" id="tmpl-rss-google">
     <ul class="notes">
       <% _.each( feed.entries, function(item){ %>
         <li>
@@ -28,7 +25,7 @@
     </ul>
 </script>
 
-<script type="text/html" id="mendeley-publications">
+<script type="text/html" id="tmpl-mendeley-publications">
  <% _.each( feed, function(pub){ %>
   <div class="publication">
     <h3>

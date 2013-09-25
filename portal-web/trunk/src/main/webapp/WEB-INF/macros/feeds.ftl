@@ -1,5 +1,5 @@
 <#macro googleFeedJs url target>
-  var tmplG = $("#rss-google").html();
+  var tmplG = $("#tmpl-rss-google").html();
   // we use google feed API to read external cross domain feeds
   $.getJSON( 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&output=json&q=${url}&hl=en&callback=?', function( resp ) {
     $("${target}").html( _.template(tmplG, {feed:resp.responseData.feed}) );
@@ -11,23 +11,16 @@
 </#macro>
 
 <#macro drupalFeedJs tagId target>
-  var tmplD = $("#rss-google-search").html();
-  $.getJSON( 'http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&output=json&q=${cfg.drupal}/taxonomy/term/${tagId}/feed&hl=en&callback=?', function( resp ) {
-    $("${target}").html( _.template(tmplD, {feed:resp.responseData.feed}) );
-    $("${target} .date").each(function(i) {
-      var md = moment($(this).text());
-      $(this).text(md.fromNow());
-    });
+  var tmplD = $("#tmpl-nodes-drupal").html();
+  $.getJSON( '${cfg.drupal}/tags/id/${tagId}?callback=?', function( resp ) {
+    $("${target}").html( _.template(tmplD, {feed:resp}) );
   });
 </#macro>
 
 
 <#macro mendeleyFeedJs isoCode target>
-  var tmplM = $("#mendeley-publications").html();
-  <#-- the drupal mendeley module does not offer JSONP yet
-  $.getJSON("<@s.url value='/js/country/${isoCode}.json'/>", function(data){
-  -->
-  $.getJSON("<@s.url value='/mendeley/country/${isoCode}/json'/>", function(data){
+  var tmplM = $("#tmpl-mendeley-publications").html();
+  $.getJSON( '${cfg.drupal}/mendeley/country/${isoCode}/json?callback=?', function(data){
     if (data.length > 0) {
       $("${target}").html( _.template(tmplM, {feed:data}) );
     }
