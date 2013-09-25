@@ -61,7 +61,7 @@
 
   <header>
   <!-- To most pages this will be ignored-->
-  <div id="map"></div>
+  <div id="homepageMap"></div>
 
 
   <!-- top -->
