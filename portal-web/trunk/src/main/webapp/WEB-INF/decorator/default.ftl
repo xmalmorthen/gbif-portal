@@ -216,10 +216,10 @@
             <li><a href="<@s.url value='/publisher/search'/>">Data publishers</a></li>
         </ul>
 
-        <ul>
+        <ul>                               http://staging.gbif.org/
             <li><h3>KEY DOCUMENTS</h3></li>
-            <li><a href="${cfg.drupal}/datauseagreement">Data use agreement</a></li>
-            <li><a href="${cfg.drupal}/datasharingagreement">Data sharing agreement</a></li>
+            <li><a href="${cfg.drupal}/agreement/use">Data use agreement</a></li>
+            <li><a href="${cfg.drupal}/agreement/sharing">Data sharing agreement</a></li>
             <li><a href="http://www.gbif.org/orc/?doc_id=2955&l=en">Memorandum of Understanding</a></li>
             <li><a href="http://www.gbif.org/orc/?doc_id=5304">Annual Report</a></li>
             <li><a href="http://www.gbif.org/orc/?doc_id=2792&l=en">GBIF Strategic Plan</a></li>
