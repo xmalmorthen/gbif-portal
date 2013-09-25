@@ -125,11 +125,6 @@ sub vcl_recv {
     set req.backend = jawa;
 
   } else if (req.http.host == "apidev.gbif.org" 
-    || req.http.host == "apidev1.gbif.org" 
-    || req.http.host == "apidev2.gbif.org" 
-    || req.http.host == "apidev3.gbif.org" 
-    || req.http.host == "apidev4.gbif.org" 
-    || req.http.host == "d30ugvnferw5sg.cloudfront.net"
     || req.http.host ~ "^localhost") {
     set req.backend = staging;
 
