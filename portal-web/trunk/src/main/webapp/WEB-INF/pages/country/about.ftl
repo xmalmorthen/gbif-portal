@@ -76,8 +76,5 @@
 </@common.article>
 
 
-<@common.article id="trends" title="Trends in publishing about ${country.title}" class="placeholder_temp">
-</@common.article>
-
 </body>
 </html>

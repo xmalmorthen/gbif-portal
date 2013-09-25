@@ -10,13 +10,23 @@
   });
 </#macro>
 
-<#macro drupalFeedJs tagId target>
-  var tmplD = $("#tmpl-nodes-drupal").html();
+<#macro drupalTagFeedJs tagId target>
+  var tmplD = $("#tmpl-tag-drupal").html();
   $.getJSON( '${cfg.drupal}/tags/id/${tagId}?callback=?', function( resp ) {
     $("${target}").html( _.template(tmplD, {feed:resp}) );
   });
 </#macro>
 
+<#macro drupalFeaturedDatasetJs target>
+  $("${target}").hide();
+  var tmplD = $("#tmpl-datasets-drupal").html();
+  $.getJSON( '${cfg.drupal}/featureddatasets/json?callback=?', function( resp ) {
+    if (!_.isEmpty(resp.nodes) ) {
+      $("${target}").html( _.template(tmplD, {feed:resp}) );
+      $("${target}").show();
+    };
+  });
+</#macro>
 
 <#macro mendeleyFeedJs isoCode target>
   var tmplM = $("#tmpl-mendeley-publications").html();

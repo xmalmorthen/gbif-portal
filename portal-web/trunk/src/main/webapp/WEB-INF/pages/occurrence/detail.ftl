@@ -228,7 +228,7 @@ Identification details <span class='subtitle'>According to <a href="<@s.url valu
 </@common.article>
 
 <#-- TODO: uncomment once implemented
-<@common.article id="geology" title="Geological context" class="placeholder_temp">
+<@common.article id="geology" title="Geological context">
     <div class="left">
       <div class="col">
         <h3>Eon</h3>

@@ -1,3 +1,7 @@
+// TODO: lessify this css and nest it all under some occurrence specific selector
+// make sure we only use it on occurrence pages, otherwise move it to style.less
+// there are some very global selectors defined here that are likely to clash with others !!!
+
 #content article.ocurrence_results {
   z-index:1000;
   .content { padding: 0; }
@@ -211,7 +215,7 @@
       text-shadow: 0px 1px #3f789f;
       box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.8);
       text-align: center;
-      background: @cLink;
+      background: @colorLink;
       margin-left:auto;
       margin-right:auto;
       &:active { box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.5), 0px 1px 1px 0px rgba(255,255,255,1) !important; }
@@ -460,7 +464,7 @@
         display:block;
         margin: 0 0 3px 0;
 
-        color: @cLink;
+        color: @colorLink;
         font-size: 17px;
         &:hover {
           color: #005e7d;

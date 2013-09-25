@@ -71,7 +71,7 @@
 
 <#--
 <@common.article id="networks" title="International Networks">
-  <div class="fullwidth placeholder_temp">
+  <div class="fullwidth">
     <p>
       Institutions in ${country.title} participate in the following international networks.
     </p>
@@ -85,7 +85,7 @@
 
 <@common.article id="hosting" title="Data hosting services" titleRight="Metadata catalogues">
   <div class="left">
-      <ul class="placeholder_temp">
+      <ul>
           <li>Via GBIF France IPT
               <ul>
                   <li>for GBIF Benin, 89,223 occurrences records in 8 resources.</li>
@@ -101,7 +101,7 @@
       </ul>
   </div>
 
-  <div class="right placeholder_temp">
+  <div class="right">
       <h3>National metadata catalogues registered for ${country.title}</h3>
       <ul>
           <li>Staatsbibliothek XYZ</li>

@@ -1,4 +1,4 @@
-<script type="text/html" id="tmpl-nodes-drupal">
+<script type="text/html" id="tmpl-tag-drupal">
  <% _.each( feed.nodes, function(i){ %>
   <div class="result">
     <h3><%= i.node.type %></h3>
@@ -9,6 +9,24 @@
     </div>
   </div>
  <% }); %>
+</script>
+
+<script type="text/html" id="tmpl-datasets-drupal">
+  <ul>
+  <% _.each( _.first(feed.nodes, 3), function(i){ %>
+    <li>
+      <a href="<@s.url value='/dataset/'/><%= i.node.field_datasetkey %>">
+        <img src="<%= i.node.image %>" width="271" height="171">
+      </a>
+      <a id="<%= i.node.field_datasetkey %>" class="title" href="<@s.url value='/dataset/'/><%= i.node.field_datasetkey %>"><%= i.node.title %></a>
+      <p><%= i.node.body %></p>
+    </li><%
+      // add dataset title from registry, see helpers.js
+      getDatasetDetail(i.node.field_datasetkey, function(ds){
+        $("#" + i.node.field_datasetkey).attr("title", ds.title).text(ds.title);
+      });
+    }); %>
+  </ul>
 </script>
 
 <script type="text/html" id="tmpl-rss-google">

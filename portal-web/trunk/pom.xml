@@ -169,7 +169,7 @@
       <plugin>
           <groupId>org.lesscss</groupId>
           <artifactId>lesscss-maven-plugin</artifactId>
-          <version>1.3.0</version>
+          <version>1.3.3</version>
           <configuration>
               <sourceDirectory>${project.basedir}/src/main/webapp/less</sourceDirectory>
               <outputDirectory>${project.basedir}/src/main/webapp/css</outputDirectory>
@@ -180,10 +180,7 @@
                 <include>google.less</include>
                 <include>leaflet.ie.less</include>
                 <include>leaflet.less</include>
-                <include>occ-table.less</include>
-                <include>simple-modal.less</include>
                 <include>uniform.less</include>
-                <include>uploader.less</include>
               </includes>
           </configuration>
           <executions>

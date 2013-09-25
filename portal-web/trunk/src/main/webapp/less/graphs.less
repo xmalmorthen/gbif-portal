@@ -1,4 +1,4 @@
-@import "helpers";
+@import "variables";
 
 #content article .content {
 
@@ -81,7 +81,6 @@
   }
 }
 
-
 #content article.graph{
 
   .header {
@@ -99,147 +98,132 @@
     border: 0;
     margin: 0;
   }
+
+
+  div.graph, div.bargraph {
+    float: left;
+    margin-right: 24px;
+     &:last-child {
+       margin-right: 0;
+     }
+    .y_label {
+       font-size: 11px;
+       color: #cccccc;
+     }
+    .graph_axis {
+       width: 100%;
+     }
+    .start, .end {
+       display: block;
+       position: relative;
+       bottom: 0px;
+       font-size: 11px;
+       color: #cccccc;
+     }
+    .start {
+       float: left;
+     }
+    .end {
+       float: right;
+     }
+    div.summary {
+       clear: left;
+       text-align: right;
+       float: right;
+       color: @cGray2;
+       h3 {
+         float: left;
+         font-size: 31px;
+         color: @cGray2;
+         margin: 0 5px 0 0;
+         padding: 0;
+       }
+       .info {
+         float: left;
+         text-align: left;
+         margin-top: 3px;
+         strong {
+           display: block;
+           color: @cGray0;
+         }
+       }
+     }
+     ul {
+       padding: 20px 0 0 0;
+       margin: 0;
+       height: 180px;
+       float: left;
+       clear: both;
+       overflow: hidden;
+       li {
+         position: relative;
+         float: left;
+         margin: 0 1px;
+         height: 11em;
+         padding: 0;
+         background: none;
+         a {
+           display: block;
+           height: 100%;
+         }
+         .label {
+           display: none;
+           position: relative;
+           bottom: 0;
+           left: 0;
+           height: 0;
+           width: 100%;
+           font-size: 11px;
+           color: @cGray3;
+         }
+         .value {
+           display: block;
+           position: absolute;
+           bottom: 0;
+           left: 0;
+           .size(100%, 0);
+
+           background: #f1f1f1;
+           background: rgba(0, 0, 0, 0.1);
+           text-indent: -9999px;
+           overflow: hidden;
+
+           -webkit-border-top-left-radius: 3px;
+           -moz-border-top-left-radius: 3px;
+           border-top-left-radius: 3px;
+
+           -webkit-border-top-right-radius: 3px;
+           -moz-border-top-right-radius: 3px;
+           border-top-right-radius: 3px;
+         }
+         .value_label {
+           display: none;
+           position: relative;
+           bottom: 0;
+           left: 0;
+           height: 0;
+           width: 100%;
+           font-size: 16px;
+           color: #0099cc;
+         }
+         &:hover {
+           .value {
+             background: #0099cc;
+           }
+           .label {
+             display: block;
+           }
+           .value_label {
+             display: block;
+           }
+         }
+       }
+     }
+  }
 }
 
 
 
-#content article.graph div.graph, #content article.graph div.bargraph {
-  float: left;
-  margin-right: 24px;
-}
-
-#content article.graph div.graph:last-child, #content article.graph div.bargraph:last-child {
-  margin-right: 0;
-}
-
-#content article.graph div.graph .y_label, #content article.graph div.bargraph .y_label {
-  font-size: 11px;
-  color: #cccccc;
-}
-
-#content article.graph div.graph .graph_axis, #content article.graph div.bargraph .graph_axis {
-  width: 100%;
-}
-
-#content article.graph div.graph .start, #content article.graph div.graph .end, #content article.graph div.bargraph .start, #content article.graph div.bargraph .end {
-  display: block;
-  position: relative;
-  bottom: 0px;
-  font-size: 11px;
-  color: #cccccc;
-}
-
-#content article.graph div.graph .start, #content article.graph div.bargraph .start {
-  float: left;
-}
-
-#content article.graph div.graph .end, #content article.graph div.bargraph .end {
-  float: right;
-}
-
-#content article.graph div.graph div.summary, #content article.graph div.bargraph div.summary {
-  clear: left;
-  text-align: right;
-  float: right;
-  color: @cGray2;
-}
-
-#content article.graph div.graph div.summary h3, #content article.graph div.bargraph div.summary h3 {
-  float: left;
-  font-size: 31px;
-  color: @cGray2;
-  margin: 0 5px 0 0;
-  padding: 0;
-}
-
-#content article.graph div.graph div.summary .info, #content article.graph div.bargraph div.summary .info {
-  float: left;
-  text-align: left;
-  margin-top: 3px;
-}
-
-#content article.graph div.graph div.summary .info strong, #content article.graph div.bargraph div.summary .info strong {
-  display: block;
-  color: @cGray0;
-}
-
-#content article.graph div.graph ul, #content article.graph div.bargraph ul {
-  padding: 20px 0 0 0;
-  margin: 0;
-  height: 180px;
-  float: left;
-  clear: both;
-  overflow: hidden;
-}
-
-#content article.graph div.graph ul li, #content article.graph div.bargraph ul li {
-  position: relative;
-  float: left;
-  margin: 0 1px;
-  height: 11em;
-  padding: 0;
-  background: none;
-}
-
-#content article.graph div.graph ul li a, #content article.graph div.bargraph ul li a {
-  display: block;
-  height: 100%;
-}
-
-#content article.graph div.graph ul li:hover .value, #content article.graph div.bargraph ul li:hover .value {
-  background: #0099cc;
-}
-
-#content article.graph div.graph ul li:hover .label, #content article.graph div.bargraph ul li:hover .label {
-  display: block;
-}
-
-#content article.graph div.graph ul li:hover .value_label, #content article.graph div.bargraph ul li:hover .value_label {
-  display: block;
-}
-
-#content article.graph div.graph ul li .label, #content article.graph div.bargraph ul li .label {
-  display: none;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  height: 0;
-  width: 100%;
-  font-size: 11px;
-  color: @cGray3;
-}
-
-#content article.graph div.graph ul li .value, #content article.graph div.bargraph ul li .value {
-  display: block;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  .size(100%, 0);
-
-  background: #f1f1f1;
-  background: rgba(0, 0, 0, 0.1);
-  text-indent: -9999px;
-  overflow: hidden;
-
-  -webkit-border-top-left-radius: 3px;
-  -moz-border-top-left-radius: 3px;
-  border-top-left-radius: 3px;
-
-  -webkit-border-top-right-radius: 3px;
-  -moz-border-top-right-radius: 3px;
-  border-top-right-radius: 3px;
-}
-
-#content article.graph div.graph ul li .value_label, #content article.graph div.bargraph ul li .value_label {
-  display: none;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  height: 0;
-  width: 100%;
-  font-size: 16px;
-  color: #0099cc;
-}
 
 #content article .content .left .graph, #content article .content .left .bargraph, #content article .content .middle .graph, #content article .content .middle .bargraph {
   position: relative;

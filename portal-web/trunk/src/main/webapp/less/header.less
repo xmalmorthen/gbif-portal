@@ -1,4 +1,4 @@
-@import "helpers";
+@import "variables";
 
 @innerWidth: 924px;
 
@@ -447,7 +447,7 @@ header {
             }
           }
 
-          &.selected > a { color: @cLink; background:url(../img/header/tip_up.png) no-repeat right 7px; }
+          &.selected > a { color: @colorLink; background:url(../img/header/tip_up.png) no-repeat right 7px; }
 
           & > a {
             display: block;
@@ -456,7 +456,7 @@ header {
             padding: 0 13px 0 0;
             background:url(../img/header/tip_down.png) no-repeat right 7px;
 
-            &:hover { color: @cLink; }
+            &:hover { color: @colorLink; }
 
             z-index: 1000;
 

@@ -9,7 +9,7 @@
   <script type="text/javascript">
       $(function() {
         <#if drupalTagId?has_content>
-          <@feeds.drupalFeedJs tagId="${drupalTagId}" target="#gbifnews" />
+          <@feeds.drupalTagFeedJs tagId="${drupalTagId}" target="#gbifnews" />
         </#if>
         <#if feed??>
           <@feeds.googleFeedJs url="${feed}" target="#nodenews" />

@@ -42,8 +42,6 @@
   <#-- CSS: implied media="all" -->
   <link rel="stylesheet" href="<@s.url value='/css/style.css?v=2'/>"/>
   <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css" type="text/css" media="all"/>
-  <#-- Uncomment if you are specifically targeting less enabled mobile browsers
-  <link rel="stylesheet" media="handheld" href="css/handheld.css?v=2">  -->
   <link rel="stylesheet" type="text/css" media="print" href="<@s.url value='/css/print.css'/>">
 
   <script src="<@s.url value='/cfg'/>"></script>
@@ -216,7 +214,7 @@
             <li><a href="<@s.url value='/publisher/search'/>">Data publishers</a></li>
         </ul>
 
-        <ul>                               http://staging.gbif.org/
+        <ul>
             <li><h3>KEY DOCUMENTS</h3></li>
             <li><a href="${cfg.drupal}/agreement/use">Data use agreement</a></li>
             <li><a href="${cfg.drupal}/agreement/sharing">Data sharing agreement</a></li>
@@ -231,7 +229,10 @@
             <li><a href="<@s.url value='/developer'/>">Portal API</a></li>
             <li><a href="http://gbif.blogspot.com">Developer blog</a></li>
             <li><a href="http://tools.gbif.org">Tools</a></li>
-            <li><a class="placeholder_temp" href="#">Standards</a></li>
+          <#--
+            http://dev.gbif.org/issues/browse/PF-1110
+            <li><a href="#">Standards</a></li>
+            -->
         </ul>
 
       </div>

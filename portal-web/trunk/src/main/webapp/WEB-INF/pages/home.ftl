@@ -24,12 +24,6 @@
           });
       });
     </script>
-      <style type="text/css">
-          header #beta {
-            left: 200px;
-            top: 10px;
-          }
-      </style>
   </head>
 
   <content tag="logo_header">
@@ -38,7 +32,7 @@
       <a href="<@s.url value='/'/>" class="logo"></a>
     </div>
 
-    <div class="info">
+    <div id="metrics">
       <h1>Global Biodiversity Information Facility</h1>
       <h2>Free and open access to biodiversity data</h2>
 
