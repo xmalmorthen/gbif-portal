@@ -46,7 +46,7 @@
          });
        <#if action.showDownload()>
          $('a.download_button').click(function(event) {             
-            widgetManager.submit({emails:$('#emails').val()}, "<@s.url value='/occurrence/download'/>?");             
+            widgetManager.submit({emails:$('#emails').val()}, "<@s.url value='/occurrence/download'/>",true);             
          });
        </#if>
       });
@@ -86,7 +86,7 @@
               <li class="single last"><h4>${searchResponse.count!0}</h4>Occurrences</li>
             </ul>
             <a href="#" class="candy_blue_button download_button"><span>Download</span></a>
-          </div>
+          </div>          
         </div>
         </#if>
     </content>

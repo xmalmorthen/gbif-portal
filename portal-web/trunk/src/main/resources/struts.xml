@@ -186,12 +186,20 @@
     <action name="search" class="org.gbif.portal.action.occurrence.SearchAction">
       <result>/WEB-INF/pages/occurrence/search.ftl</result>
     </action>
-
-    <action name="download" class="org.gbif.portal.action.occurrence.DownloadAction">
+    
+    <action name="download" class="org.gbif.portal.action.occurrence.ExecuteDownloadAction">      
+      <interceptor-ref name="loginStack"/>
+      <result type="redirectAction">
+        <param name="actionName">download/result</param>
+        <param name="key">${key}</param>        
+      </result>      
+    </action>
+    
+    <action name="download/result" class="org.gbif.portal.action.occurrence.DownloadResultAction">
       <!-- Configure params interceptor to exclude some params:
       http://struts.apache.org/2.3.7/docs/parameters-interceptor.html -->
       <interceptor-ref name="loginStack"/>
-      <result>/WEB-INF/pages/occurrence/download.ftl</result>
+      <result>/WEB-INF/pages/occurrence/download.ftl</result>      
     </action>
 
     <action name="*/verbatim" class="org.gbif.portal.action.occurrence.DetailAction" method="verbatim">

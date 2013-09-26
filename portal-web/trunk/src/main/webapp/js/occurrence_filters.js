@@ -1847,11 +1847,16 @@ var OccurrenceWidgetManager = (function ($,_) {
         }
         this.initialize(filters);
       },
-
+      /**
+       * Submits a GET request
+       */
+      submit : function(additionalParams, submitTargetUrl){
+        this.submit(additionalParams,submitTargetUrl,false);
+      },
       /**
        * Submits the request using the selected filters.
        */
-      submit : function(additionalParams, submitTargetUrl){
+      submit : function(additionalParams, submitTargetUrl, isPost) {
         submitTargetUrl = submitTargetUrl || targetUrl;
         showWaitDialog();
         var params = $.extend({},additionalParams);               
@@ -1881,7 +1886,24 @@ var OccurrenceWidgetManager = (function ($,_) {
           }          
         }       
         //redirects the window to the target
-        window.location = submitTargetUrl + $.param(params,true);
+        if (isPost) {
+          var formStr = '<form action="' + submitTargetUrl + '" method="post">';
+          $.each(params, function(param,values) {
+            if($.isArray(values)){
+              $.each(values, function(index,value) {
+                formStr += '<input type="text" name="'+ param + '" value="' + value + '" />';
+              });
+            } else {
+              formStr += '<input type="text" name="'+ param + '" value="' + values+ '" />';
+            }
+          });                          
+          formStr += '</form>';
+          var objForm = $(formStr);
+          $('body').append(objForm);
+          $(objForm).submit();          
+        } else {
+          window.location = submitTargetUrl + $.param(params,true);
+        }
         return true;  // submit?
       },
 

@@ -18,15 +18,13 @@ import org.gbif.api.service.occurrence.DownloadRequestService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.OccurrenceDownloadService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.action.occurrence.DownloadsActionUtils;
 import org.gbif.portal.action.occurrence.util.HumanFilterBuilder;
 import org.gbif.portal.action.occurrence.util.QueryParameterFilterBuilder;
 
-import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.Map;
 
-import com.google.common.base.Enums;
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -37,6 +35,8 @@ import org.slf4j.LoggerFactory;
  * the cancel method can be used to cancel a single download and then return the list again.
  */
 public class DownloadsAction extends BaseAction {
+
+  private static final long serialVersionUID = 5431100837057685230L;
 
   private static Logger LOG = LoggerFactory.getLogger(DownloadsAction.class);
 
@@ -55,8 +55,6 @@ public class DownloadsAction extends BaseAction {
   @Inject
   private DatasetService datasetService;
 
-  private static final EnumSet<Download.Status> RUNNING_STATUSES = EnumSet.of(Download.Status.PREPARING,
-    Download.Status.RUNNING, Download.Status.SUSPENDED);
 
   public String cancel() throws Exception {
     if (!Strings.isNullOrEmpty(key)) {
@@ -108,8 +106,7 @@ public class DownloadsAction extends BaseAction {
   }
 
   public boolean isDownloadRunning(String strStatus) {
-    Optional<Download.Status> optStatus = Enums.getIfPresent(Download.Status.class, strStatus);
-    return (optStatus.isPresent() && RUNNING_STATUSES.contains(optStatus.get()));
+    return DownloadsActionUtils.isDownloadRunning(strStatus);
   }
 
   public void setKey(String key) {
