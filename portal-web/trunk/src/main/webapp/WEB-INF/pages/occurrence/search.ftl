@@ -46,7 +46,7 @@
          });
        <#if action.showDownload()>
          $('a.download_button').click(function(event) {             
-            widgetManager.submit({emails:$('#emails').val()}, "<@s.url value='/occurrence/download'/>",true);             
+            widgetManager.submit({emails:$('#emails').val()}, "<@s.url value='/occurrence/download'/>?",true);             
          });
        </#if>
       });
