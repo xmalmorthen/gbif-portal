@@ -16,7 +16,10 @@ $(function() {
   var map = L.map('homepageMap', {
     center: [startLng, startLat],
     zoom: 3,
-    minZoom: 1
+    minZoom: 1,
+    touchZoom: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false
   });  
   
   L.tileLayer('../img/tiles/{z}/{x}/{y}.png', {
