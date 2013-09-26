@@ -17,7 +17,7 @@
 
 <body class="search">
   <content tag="infoband">
-    <h2>Search datasets</h2>
+    <h1>Search datasets</h1>
     <form action="<@s.url value='/dataset/search'/>" method="GET" id="formSearch">
       <input type="text" name="q" id="q" value="${q!}" class="focus" placeholder="Search title, description, publisher..."/>
       <#list searchRequest.parameters.asMap()?keys as p>

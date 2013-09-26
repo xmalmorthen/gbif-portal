@@ -7,17 +7,17 @@
 </head>
 <body class="search">
   <content tag="infoband">
-    <h2>Search GBIF data publishers</h2>
-
+    <h1>Search data publishers</h1>
     <form action="<@s.url value='/publisher/search'/>" method="GET" id="formSearch" >
       <input id="q" type="text" name="q" value="${q!}" autocomplete="off" placeholder="Search by publisher title, country, contact email etc."/></br>
-      <br/>
-      <span style="color:#FFF">
-        <em>Note:</em> Results are ordered by the date of publisher registration, starting with the most recent.
-        Newly registered institutions yet to publish data, or awaiting endorsement, may be included in the results.
-      </span>
     </form>
   </content>
+
+<@common.notice title="">
+  <p>Results are ordered by the date of publisher registration, starting with the most recent.<br/>
+      Newly registered institutions yet to publish data, or awaiting endorsement, may be included in the results.</p>
+</@common.notice>
+
 
   <#assign title>
   ${page.count!} results <#if q?has_content>for &quot;${q}&quot;</#if>

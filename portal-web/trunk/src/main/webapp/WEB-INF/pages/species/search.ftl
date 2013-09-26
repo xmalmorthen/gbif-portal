@@ -14,7 +14,7 @@
 </head>
 <body class="search">
   <content tag="infoband">
-    <h2>Search species</h2>
+    <h1>Search species</h1>
 
     <form action="<@s.url value='/species/search'/>" method="GET" id="formSearch" >
       <input id="q" type="text" name="q" value="${q!}" autocomplete="off" placeholder="Search scientific name, common name, checklist description..."/>
