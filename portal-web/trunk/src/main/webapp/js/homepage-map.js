@@ -10,7 +10,7 @@ $(function() {
   var seed=0; 
       
   // randomize the initial view port location a little, but not too much 
-  var startLat = Math.floor(Math.random()*30) - 15; 
+  var startLat = Math.floor(Math.random()*30); 
   var startLng = Math.floor(Math.random()*90) - 45; 
   
   var map = L.map('homepageMap', {
