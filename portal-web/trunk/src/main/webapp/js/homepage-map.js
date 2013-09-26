@@ -77,13 +77,16 @@ $(function() {
   	  // popup is open, can't remove this point
     } else {
   	  var occurrence = occurrences.pop();
-    	point.setLatLng([occurrence.latitude,occurrence.longitude]);
-    	point.unbindPopup(); // avoid memory leak
-    	point.bindPopup(
-        "<p>Occurrence of <a href='occurrence/" + occurrence.key + "'>" + occurrence.scientificName +"</a></p>" +
-        "Published by <a href='publisher/" + occurrence.publisherKey + "'>" + occurrence.publisher +"</a>" +
-        "<p>Last indexed " + moment(occurrence.modified).fromNow() +"</p>");         
-    	point.addTo(map); // it should already be
+    	if (occurrence!==undefined) {
+      	point.setLatLng([occurrence.latitude,occurrence.longitude]);
+      	point.unbindPopup(); // avoid memory leak
+      	point.bindPopup(
+          "<p>Occurrence of <a href='occurrence/" + occurrence.key + "'>" + occurrence.scientificName +"</a></p>" +
+          "Published by <a href='publisher/" + occurrence.publisherKey + "'>" + occurrence.publisher +"</a>" +
+          "<p>Last indexed " + moment(occurrence.modified).fromNow() +"</p>");         
+      	point.addTo(map); // it should already be
+    	
+    	}
     }  	
     
   	// move to next one
