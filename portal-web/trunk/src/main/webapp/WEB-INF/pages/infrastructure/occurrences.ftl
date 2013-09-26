@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>Names</title>
+  <title>Occurrences</title>
 </head>
 <#assign tab="occurrences"/>
 <#include "/WEB-INF/pages/infrastructure/inc/infoband.ftl" />
