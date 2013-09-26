@@ -15,7 +15,7 @@
 <@api.introArticle>
 <div class="left">
     <p>
-        This API is used to retrieve news or publications from or about GBIF.
+        This API is used to retrieve <a href="${cfg.drupal}/newsroom/news">news</a> or publications from or about GBIF.
     </p>
 </div>
 <div class="right">
@@ -46,11 +46,9 @@
          They are tagged according to whether data accessed via GBIF are used in research,
          or whether GBIF is discussed/mentioned, as well as subjects covered and countries of contributing authors.
       </p>
-
-  <@api.apiTable>
-    <@api.trow url="/mendeley/country/{ISOCODE}" resp="" respLink="#" paging=false />
-  </@api.apiTable>
-
+    <p>GBIF is still developing a public API. Meanwhile we recommend you use the native
+        <a href="http://dev.mendeley.com/">Mendeley API</a>.
+    </p>
   </div>
 </@common.article>
 
