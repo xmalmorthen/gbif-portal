@@ -97,7 +97,7 @@ sub vcl_recv {
     }
 
     # catch known java app paths
-    if ( req.url ~ "^/(dataset|occurrence|species|member|node/|network/|publisher|developer|country|cfg|css|fonts|img|js|favicon|participation/list)" || (req.url ~ "^/user/(downloads|namelist|cancel)")) {
+    if ( req.url ~ "^/(dataset|occurrence|species|member|node/|network/|ipt/|publisher|developer|country|cfg|css|fonts|img|js|favicon|participation/list)" || (req.url ~ "^/user/(downloads|namelist|cancel)")) {
       set req.url = regsub(req.url, "^/", "/portal/");
 
     } else {
