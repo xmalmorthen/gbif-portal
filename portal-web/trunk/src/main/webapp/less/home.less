@@ -79,7 +79,8 @@ body.home {
     }
 
     #metrics {
-
+      /* needed for IE 8,9 which appears behind the leaflet layers */
+      z-index: 10001;
       -webkit-user-select: none; /* Chrome/Safari */
       -moz-user-select: none; /* Firefox */
       -ms-user-select: none; /* IE10+ */
