@@ -37,10 +37,10 @@
       <h2>Free and open access to biodiversity data</h2>
 
       <ul class="counters">
-        <li><strong id="countOccurrences">?</strong> Occurrences</li>
-        <li><strong id="countSpecies">?</strong> Species</li>
-        <li><strong id="countDatasets">?</strong> Datasets</li>
-        <li class="last"><strong id="countPublishers">?</strong> Data publishers</li>
+        <li><a href="<@s.url value='/occurrence'/>"><strong id="countOccurrences">?</strong> Occurrences</a></li>
+        <li><a href="<@s.url value='/species'/>"><strong id="countSpecies">?</strong> Species</a></li>
+        <li><a href="<@s.url value='/dataset'/>"><strong id="countDatasets">?</strong> Datasets</a></li>
+        <li class="last"><a href="<@s.url value='/publisher/search'/>"><strong id="countPublishers">?</strong> Data publishers</a></li>
       </ul>
     </div>
   </content>

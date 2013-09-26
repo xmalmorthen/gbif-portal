@@ -199,7 +199,8 @@
   </div>
 
   <footer>
-    <div class="footer">
+    <div id="link_footer">
+      <div class="footer">
         <ul>
             <li><h3>JOIN THE COMMUNITY</h3></li>
             <li><a href="http://community.gbif.org/">Join GBIF Community Site</a></li>
@@ -236,40 +237,40 @@
         </ul>
 
       </div>
-  </footer>
-
-  <div id="contact_footer">
-    <div class="footer">
-      <ul>
-          <li><h3>2013 &copy; GBIF</h3></li>
-          <li><div class="logo"></div></li>
-      </ul>
-
-      <ul>
-          <li><h3>GBIF Secretariat</h3></li>
-          <li>Universitetsparken 15</li>
-          <li>DK-2100 Copenhagen Ø</li>
-          <li>DENMARK</li>
-      </ul>
-
-      <ul>
-        <li><h3>Contact</h3></li>
-        <li><strong>Email</strong> info@gbif.org</li>
-        <li><strong>Tel</strong> +45 35 32 14 70</li>
-        <li><strong>Fax</strong> +45 35 32 14 80</li>
-        <li>You can also check the <a href="${cfg.drupal}/contact/directoryofcontacts#secretariat">GBIF Directory</a></li>
-      </ul>
-
-      <ul class="social last">
-          <li><h3>SOCIAL MEDIA</h3></li>
-          <li class="twitter"><i></i><a href="https://twitter.com/GBIF">Follow GBIF on Twitter</a></li>
-          <li class="facebook"><i></i><a href="https://www.facebook.com/gbifnews">Like GBIF on Facebook</a></li>
-          <li class="linkedin"><i></i><a href="http://www.linkedin.com/groups/GBIF-55171">Join GBIF on Linkedin</a></li>
-          <li class="vimeo"><i></i><a href="http://vimeo.com/gbif">View GBIF on Vimeo</a></li>
-      </ul>
-
     </div>
-  </div>
+    <div id="contact_footer">
+      <div class="footer">
+          <ul>
+              <li><h3>2013 &copy; GBIF</h3></li>
+              <li><div class="logo"></div></li>
+          </ul>
+
+          <ul>
+              <li><h3>GBIF Secretariat</h3></li>
+              <li>Universitetsparken 15</li>
+              <li>DK-2100 Copenhagen Ø</li>
+              <li>DENMARK</li>
+          </ul>
+
+          <ul>
+            <li><h3>Contact</h3></li>
+            <li><strong>Email</strong> info@gbif.org</li>
+            <li><strong>Tel</strong> +45 35 32 14 70</li>
+            <li><strong>Fax</strong> +45 35 32 14 80</li>
+            <li>You can also check the <a href="${cfg.drupal}/contact/directoryofcontacts#secretariat">GBIF Directory</a></li>
+          </ul>
+
+          <ul class="social last">
+              <li><h3>SOCIAL MEDIA</h3></li>
+              <li class="twitter"><i></i><a href="https://twitter.com/GBIF">Follow GBIF on Twitter</a></li>
+              <li class="facebook"><i></i><a href="https://www.facebook.com/gbifnews">Like GBIF on Facebook</a></li>
+              <li class="linkedin"><i></i><a href="http://www.linkedin.com/groups/GBIF-55171">Join GBIF on Linkedin</a></li>
+              <li class="vimeo"><i></i><a href="http://vimeo.com/gbif">View GBIF on Vimeo</a></li>
+          </ul>
+
+        </div>
+    </div>
+  </footer>
 
   <!-- JavaScript at the bottom for fast page loading -->
   <!-- scripts concatenated and minified via ant build script  -->

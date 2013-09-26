@@ -10,6 +10,7 @@
 
 // UI elements
 @import "lists";
+@import "tables";
 @import "buttons";
 @import "popovers";
 @import "graphs";
@@ -149,6 +150,13 @@ ul.notes .note {
   background-color: @colorBackContent;
   text-align: center;
 
+  // apply standard colors
+  h1, h2 {
+    color: @colorTitle;
+  }
+  p, ul, ol, h3, h4 {
+    color: @colorText;
+  }
   // The basic article,
   // section specific styles defined in articles.less
   // but this article already contains a tremendous amount of styles specific to classes inside the article
@@ -157,7 +165,7 @@ ul.notes .note {
     width: 924px;
     margin: 0 auto 66px auto;
     text-align: left;
-    color: @cGray1;
+    color: @colorText;
     z-index: 100;
 
     header {
@@ -193,7 +201,6 @@ ul.notes .note {
         margin-bottom: 20px;
         font-size: 23px;
         line-height: 28px;
-        color: @colorTitle;
         text-shadow: 0 1px white;
       }
 
@@ -228,250 +235,25 @@ ul.notes .note {
         }
       }
 
+      ol {
+        list-style: decimal;
+        list-style-position: inside;
+
+        li {
+          margin-bottom: 14px;
+          line-height: 18px;
+          font-size: 15px;
+        }
+
+        li a {
+          text-decoration: underline;
+        }
+      }
+
       ul {
         margin-bottom: 18px;
         line-height: 18px;
         font-size: 15px;
-
-        &.values {
-          clear: both;
-          margin: 0 !important;
-          padding: 0;
-
-          li {
-            overflow: hidden;
-            clear: both;
-            margin: 0;
-            padding: 0;
-            font-size: 15px;
-
-            &:hover div.value span {
-              display: block;
-            }
-
-          }
-
-          li div.value {
-            float: left;
-            position: relative;
-          }
-
-          li div.value span.remove {
-            display: none;
-            top: 8px;
-            right: -10px;
-            position: absolute;
-            .size(5px);
-
-            background: url("../img/icons/cross.png") no-repeat left top;
-          }
-
-        }
-
-        &.triptic {
-
-          clear: both;
-          overflow: hidden;
-          padding: 0;
-          margin: 0;
-
-          &.last li { margin-bottom: 0; }
-
-          li {
-            float: left;
-            width: 229px;
-            padding: 0;
-            margin: 0 90px 22px 0;
-            background: none;
-
-            h3 {
-              font-size: 19px;
-              text-transform: none;
-
-              span {
-                margin-left: 7px;
-                font-size: 15px;
-                font-weight: normal;
-                color: @cGray4;
-              }
-            }
-
-            p { width: 180px; }
-            &.last { margin: 0; }
-          }
-        }
-
-        &.summary {
-          // Appear in the "Main indicators" block
-
-          clear: both;
-          overflow: hidden;
-          margin: 16px 0 25px 0;
-          padding: 0;
-
-          li {
-            float: left;
-            width: 182px;
-            margin-right: 18px;
-            background: none;
-            padding: 0!important;
-            line-height: 15px;
-            font-size: 13px;
-            text-align: center;
-            color: @cGray3;
-
-            &.last { margin-right: 0; }
-            &:last-child { margin-right: 0; }
-
-            .light_box {
-              padding: 18px 0 0 0;
-            }
-
-            a.detail {
-              display: block;
-              margin-top: 17px;
-              padding: 13px 0 12px 0;
-
-              text-decoration: none;
-              border-top: 1px solid white;
-            }
-
-            h2 {
-              margin: 3px 0;
-              padding: 0;
-              display: block;
-              font-size: 35px;
-              font-weight: bold;
-              color: @cGray2;
-            }
-
-            h3 {
-              margin: 0 0 13px 0;
-              font-size: 25px;
-              color: @cGray1;
-            }
-          }
-        }
-
-        &.two_cols {
-          display: inline-block;
-          margin: 6px 0 25px 0;
-          vertical-align:text-top;
-          width: 380px;
-
-          li {
-            padding-left: 0;
-            background: none;
-          }
-        }
-
-        &.three_cols {
-          display: inline-block;
-          margin: 6px 0 25px 0;
-          vertical-align:text-top;
-          width: 195px;
-
-          li {
-            padding-left: 0;
-            background: none;
-          }
-        }
-
-        &.four_cols {
-          display: inline-block;
-          margin: 6px 0 25px 0;
-          vertical-align:text-top;
-          width: 610px;
-
-          li {
-            padding-left: 0;
-            background: none;
-          }
-        }
-
-        &.no_bullets {
-          display: inline-block;
-          margin: 6px 0 25px 0;
-
-          li {
-            padding-left: 0;
-            background: none;
-          }
-        }
-
-        &.notes {
-          margin: 0;
-          list-style-position: outside;
-          padding-left: 12px;
-
-          li > a {
-            display: block;
-            width: 100%;
-          }
-        }
-
-        &.thumbs_list {
-          margin: 0 0 20px 0;
-          padding: 0;
-
-          li {
-
-            // TODO: replace with mixin
-            display: -moz-inline-stack;
-            vertical-align: top;
-            display: inline-block;
-            zoom: 1; *display: inline;
-
-            margin: 0 3px 0 0;
-            padding: 0;
-            background: none;
-
-            a { display: block; }
-
-            img {
-              margin: 0px;
-              padding: 3px;
-              border: 1px solid @cGray4;
-              max-width: 136px;
-              max-height: 93px;
-              width: 136px;
-            }
-
-            &.last           { margin: 0 0px 0 0; }
-            &.last img       { margin-right: 0px; }
-            &:last-child img { margin-right: 0px; }
-          }
-        }
-
-        &.classification {
-          margin: 0;
-          padding: 0;
-
-          li {
-            padding: 0;
-            background: none;
-            margin: 0 0 15px 0;
-
-            .taxon_level {
-              width: 100px;
-              display: inline-block;
-              font-size: 13px;
-              color: @cGray2;
-            }
-
-            .separator {
-              .size(100px, 15px);
-
-              display: inline-block; // TODO: add mixin
-              margin: 0 10px;
-              background: url("../img/dotted_line_bck.png") repeat-x left bottom;
-            }
-
-            a {
-              font-weight: bold;
-            }
-          }
-        }
       }
 
       > ul {
@@ -485,7 +267,6 @@ ul.notes .note {
           margin-bottom: 8px;
           padding-left: 7px;
           background: url("../img/icons/dot.png") no-repeat left 8px;
-          color: @cGray2;
 
           &.download {
             padding-left: 18px;
@@ -500,38 +281,22 @@ ul.notes .note {
         }
       }
 
-      ol {
-        list-style: decimal;
-        list-style-position: inside;
-
-        li {
-          margin-bottom: 14px;
-          line-height: 18px;
-          font-size: 15px;
-          color: @cGray2;
-        }
-
-        li a {
-          text-decoration: underline;
-        }
-      }
-
       img.rss {
         max-width: 25px;
         position: relative;
         top: 5px;
       }
 
-      // Article .header
+      // real article header that contains the title
       & > .header {
         clear: both;
         overflow: hidden;
+        color: @colorTitle;
 
         h4 {
           margin-bottom: 8px;
           font-size: 15px;
           text-transform: uppercase;
-          color: @cGray1;
           text-shadow: 0 1px white;
         }
 
@@ -541,7 +306,9 @@ ul.notes .note {
           padding-top: 0;
           overflow: hidden !important;
 
-          a { text-decoration: none; }
+          a {
+            text-decoration: none;
+          }
 
           h2 {
             float: left;
@@ -549,7 +316,6 @@ ul.notes .note {
             padding-bottom: 20px;
             line-height: 20px;
           }
-
         }
 
         .left hgroup {
@@ -561,7 +327,6 @@ ul.notes .note {
           }
 
           h3 {
-            color: @cGray2;
             font-size: 15px;
             text-transform: none;
           }
@@ -739,11 +504,11 @@ ul.notes .note {
 
           p.location {
             margin: 0 0 5px 0;
-            color: @cGray2;
+            color: @colorText;
           }
           p.coordinates {
             font-size: 13px;
-            color: @cGray3;
+            color: @colorTextLight;
           }
         }
         ul {
@@ -836,7 +601,6 @@ ul.notes .note {
 
             li {
               font-size: 13px;
-              color: @cGray2;
               padding: 0;
               margin: 0 0 5px 0;
 
@@ -863,57 +627,7 @@ ul.notes .note {
           }
         }
 
-        .data_repatriation {
-          padding: 15px;
-          margin-bottom: 20px;
-
-          .number {
-            color: @cGray2;
-            font-size: 31px;
-          }
-
-          .percentage_bar_background {
-            display: inline-block;
-            .size(123px, 4px);
-            background: #dedede;
-            vertical-align: top;
-            margin: 14px 0 0 7px;
-
-            .border-radius(3px);
-          }
-          .percentage_bar {
-            display: inline-block;
-            .size(30px, 4px);
-            background: #3ec05c;
-            vertical-align: top;
-
-            -webkit-border-top-left-radius: 3px;
-            -webkit-border-top-right-radius: 0px;
-            -webkit-border-bottom-right-radius: 0px;
-            -webkit-border-bottom-left-radius: 3px;
-
-            -moz-border-radius-topleft: 3px;
-            -moz-border-radius-topright: 0px;
-            -moz-border-radius-bottomright: 0px;
-            -moz-border-radius-bottomleft: 3px;
-
-            border-top-left-radius: 3px;
-            border-top-right-radius: 0px;
-            border-bottom-right-radius: 0px;
-            border-bottom-left-radius: 3px;
-          }
-
-          p {
-            margin: 5px 0 0 0;
-            color: @cGray2;
-            font-size: 13px;
-            line-height: 15px;
-          }
-        }
-
-
         p {
-          color: @cGray1;
           font-size: 15px;
         }
 
@@ -963,20 +677,6 @@ ul.notes .note {
         }
       }
 
-      // occurrence metrics tables
-      table.metrics {
-        color: #666;
-        div {
-          display: inline-block;
-        }
-        .total, tr.total td {
-          font-weight: bold !important;
-          background-color: #FFFFDF !important;
-        }
-        td.title {
-          font-weight: bold !important;
-        }
-      }
     }
 
   }
@@ -1002,20 +702,8 @@ ul.notes .note {
     }
   }
 
-  a.more, .more > a {
-    background: url("../img/icons/tiny_gray_arrow.png") center right no-repeat;
-    padding:0 8px 0 0;
-    white-space:nowrap;
-    display: inline !important;
-  }
-
-  a.filter {
-    float: left;
-    display: block;
-    position: relative;
-  }
-
-  .back {
+  // the yellow back box used in subresource pages like vernacular names
+  div.back {
     padding: 16px 0 0 0;
     height: 28px;
     border-bottom: 1px solid @cGray4;
@@ -1034,38 +722,114 @@ ul.notes .note {
 
         background: url("../img/icons/arrow_dark_left.png") no-repeat left center;
         font-size: 15px;
-        color: @cGray2;
+        color: @colorText;
         text-decoration: underline;
       }
 
     }
   }
 
-  .mini-profile {
+  // a single mendeley publication
+  div.publication {
+    padding-top: 5px ;
+    border-bottom: 1px solid #F1F1F1;
+    padding-bottom: 0px ;
+    margin-bottom: 25px ;
 
-    a {
-      text-decoration: underline;
-
-      &.avatar {
-        float: left;
-        margin-right: 10px;
-        text-decoration: none;
+    span.author{
+      margin-right: 5px ;
+      &:after{
+        content: ",";
+      }
+      &:nth-last-child(2):after{
+        content: " & ";
+      }
+      &:last-of-type:after{
+        content: "";
       }
     }
 
-    strong {
-      display: block;
-      width: 230px;
-      margin-bottom: 5px;
-      font-weight: bold;
-      font-size: 15px;
-      color: @cGray1;
+    h2 {
+      font-size: 21px !important;
+      margin-bottom: 10px !important;
     }
 
-    span.date {
-      font-size: 13px;
-      color: @cGray3;
+    p.journal {
+      padding-left: 40px ;
+      text-indent: -20px ;
+      margin-bottom: 10px ;
+      margin-bottom: 10px !important;
+      span.volume:before{
+        content: ", ";
+      }
+      span.issue:before{
+        content: " (";
+      }
+      span.issue:after{
+        content: ")";
+      }
+      span.pages:before{
+        content: ", ";
+      }
+      span.pages:after{
+        content: ".";
+      }
     }
+  }
+
+  // provides progress bar styling for species home only
+  div.species-progress {
+    display: table;
+    width:60%;
+    margin: 0 auto;
+    align:center;
+
+    ul {
+      list-style-type: none;
+      display: table-row;
+      width:100%;
+      li {
+        padding: 3px;
+        list-style: none;
+        display: table-cell;
+
+        &.confirmed {
+          background-color: #0099cc;
+          border-radius: 10px 0px 0px 10px;
+          color: #fff;
+          border: 1px solid #0099cc;
+        }
+        &.unconfirmed {
+          background-color: #e5e5e5;
+          color: #666;
+          border-radius: 0px 10px 10px 0px;
+          border: 1px solid #cccccc;
+        }
+        &.confirmed-text {
+          color: #999;
+          .small {
+            font-size: 13px;
+            color: #999;
+          }
+        }
+        &.unconfirmed-text {
+          color: #999;
+        }
+      }
+    }
+  }
+
+  a.more, .more > a {
+    background: url("../img/icons/tiny_gray_arrow.png") center right no-repeat;
+    padding:0 8px 0 0;
+    white-space:nowrap;
+    display: inline !important;
+  }
+
+  a.filter {
+    float: left;
+    display: block;
+    position: relative;
   }
 
   .select-filter {
@@ -1700,100 +1464,9 @@ ul.notes .note {
       }
     }
   }
+
 }
 
-
-
-
-// a single mendeley publication
-div.publication {
-  padding-top: 5px ;
-  border-bottom: 1px solid #F1F1F1;
-  padding-bottom: 0px ;
-  margin-bottom: 25px ;
-
-  span.author{
-    margin-right: 5px ;
-    &:after{
-      content: ",";
-    }
-    &:nth-last-child(2):after{
-      content: " & ";
-    }
-    &:last-of-type:after{
-      content: "";
-    }
-  }
-
-  h2 {
-    font-size: 21px !important;
-    margin-bottom: 10px !important;
-  }
-
-  p.journal {
-    padding-left: 40px ;
-    text-indent: -20px ;
-    margin-bottom: 10px ;
-    margin-bottom: 10px !important;
-    span.volume:before{
-      content: ", ";
-    }
-    span.issue:before{
-      content: " (";
-    }
-    span.issue:after{
-      content: ")";
-    }
-    span.pages:before{
-      content: ", ";
-    }
-    span.pages:after{
-      content: ".";
-    }
-  }
-}
-
-// provides progress bar styling for species home only
-div.species-progress {
-  display: table;
-  width:60%;
-  margin: 0 auto;
-  align:center;
-
-  ul {
-    list-style-type: none;
-    display: table-row;
-    width:100%;
-    li {
-      padding: 3px;
-      list-style: none;
-      display: table-cell;
-
-      &.confirmed {
-        background-color: #0099cc;
-        border-radius: 10px 0px 0px 10px;
-        color: #fff;
-        border: 1px solid #0099cc;
-      }
-      &.unconfirmed {
-        background-color: #e5e5e5;
-        color: #666;
-        border-radius: 0px 10px 10px 0px;
-        border: 1px solid #cccccc;
-      }
-      &.confirmed-text {
-        color: #999;
-        .small {
-          font-size: 13px;
-          color: #999;
-        }
-      }
-      &.unconfirmed-text {
-        color: #999;
-      }
-    }
-  }
-}
 
 
 
@@ -2182,6 +1855,7 @@ form input[type="text"].placeholder {
   font-size: 8px;
   font-weight: normal;
 }
+
 .numbered-pagination {
 	padding: 10px;
 	list-style: none;
