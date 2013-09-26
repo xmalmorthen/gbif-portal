@@ -13,20 +13,22 @@
 
 <script type="text/html" id="tmpl-datasets-drupal">
   <ul>
-  <% _.each( _.first(feed.nodes, 3), function(i){
-    //TODO: remove temp defaults for Tim Hirsch
-    _.defaults(i.node, {image: "http://portaldev.gbif.org/sites/drupaldev.gbif.org/files/styles/featured/public/images/2013-August/202/f_Forest_close_to_the_Mana_River_at_Angoule%CC%82me%2C_French_Guiana.%20Photo%20by%20Wilkinson%20M%2C%20Sherratt%20E%2C%20Starace%20F%2C%20Gower%20DJ.png"});
-%>
-    <li>
+  <% _.each( _.first(feed.nodes, 3), function(i){ %>
+    <li id="<%= i.node.field_datasetkey %>">
       <a href="<@s.url value='/dataset/'/><%= i.node.field_datasetkey %>">
         <img src="<%= i.node.image %>" width="271" height="171">
       </a>
-      <a id="<%= i.node.field_datasetkey %>" class="title" href="<@s.url value='/dataset/'/><%= i.node.field_datasetkey %>"><%= i.node.title %></a>
+      <a class="title" href="<@s.url value='/dataset/'/><%= i.node.field_datasetkey %>"><%= i.node.title %></a>
       <p><%= i.node.body %></p>
     </li><%
       // add dataset title from registry, see helpers.js
       getDatasetDetail(i.node.field_datasetkey, function(ds){
-        $("#" + i.node.field_datasetkey).attr("title", ds.title).text(ds.title);
+        $("#" + i.node.field_datasetkey + " a.title").attr("title", ds.title).text(ds.title);
+        var img = $("#" + i.node.field_datasetkey + " img");
+        if ( _.isEmpty(img.src) ) {
+          _.defaults(ds, {logoUrl: "http://portaldev.gbif.org/sites/drupaldev.gbif.org/files/styles/featured/public/images/2013-August/202/f_Forest_close_to_the_Mana_River_at_Angoule%CC%82me%2C_French_Guiana.%20Photo%20by%20Wilkinson%20M%2C%20Sherratt%20E%2C%20Starace%20F%2C%20Gower%20DJ.png"});
+          img.attr("src", ds.logoUrl);
+        };
       });
     }); %>
   </ul>
