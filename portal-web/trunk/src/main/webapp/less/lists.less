@@ -232,6 +232,10 @@
     list-style-position: outside;
     padding-left: 12px;
 
+    .note {
+      padding-left: 0.85em;
+    }
+
     li > a {
       display: block;
       width: 100%;
@@ -271,4 +275,12 @@
     }
   }
 
+}
+
+
+// list specifics for the right columns
+#content .right ul {
+  &.notes {
+    padding-left: 0px;
+  }
 }
