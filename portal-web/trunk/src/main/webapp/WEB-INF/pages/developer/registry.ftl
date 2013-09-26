@@ -127,9 +127,9 @@
     <p>The dataset search API provides search services for datasets.</p>
 
   <@api.apiTable>
-    <@trowS url="/search" respLink="dataset/search?q=plant&publishing_country=argentina" paging=true params=[1,2,3,6,7,8,9,10,11,12,13,14]>Full text search across all datasets.
+    <@trowS url="/search" respLink="dataset/search?q=plant&publishing_country=argentina" paging=true params=[1,2,3,6,7,8,9,10,11,12,13,14,15,16,17]>Full text search across all datasets.
         Results are ordered by relevance.</@trowS>
-    <@trowS url="/suggest" respLink="dataset/suggest?q=Amazon&type=OCCURRENCE" params=[1,2,3,6,7,8,9,10,11,12,13,14]>Search that returns up to 20 matching datasets.
+    <@trowS url="/suggest" respLink="dataset/suggest?q=Amazon&type=OCCURRENCE" params=[1,2,3,6,7,8,9,10,11,12]>Search that returns up to 20 matching datasets.
         Results are ordered by relevance.</@trowS>
   </@api.apiTable>
 
@@ -314,12 +314,14 @@
   "keyword": "Filters datasets by a case insensitive plain text keyword. The search is done on the merged collection of tags, the dataset keywordCollections and temporalCoverages.",
   "owning_org": "Filters datasets by their owning organization UUID key",
   "hosting_org": "Filters datasets by their hosting organization UUID key",
-  "decade": "Filters datasets by their temporal coverage broken down to decades. Decade given as a full year, e.g. 1950, 1960 or 1980. Facet by decade to get the break down, e.g. /search?facet=DECADE&facet_only=true",
+  "decade": "Filters datasets by their temporal coverage broken down to decades. Decade given as a full year, e.g. 1950, 1960 or 1980. Facet by decade to get the break down, e.g. <a href='http://api.gbif.org/dataset/search?facet=DECADE&facet_only=true'>/search?facet=DECADE&facet_only=true</a>",
   "publishing_country": "Filters datasets by their owining organization's country given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/Country.html'>Country enum</a>",
   "continent": "Filters datasets by their continent(s) given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/Continent.html'>Continent enum</a>. The search is done on the continent of the geospatical coverage of the dataset. Be aware, this filter is not implemented yet.",
-  "hl": "Highlight matching query in fulltext search fields, which includes: title, keyword, country, publishing country, owning organization title, hosting organization title, description, full text field (not returned in response) that includes metadata documents.",
-  "facet": "A list of facet names used to retrieve the 100 most frequent values for a field. Allowed facets are: type, subtype (no data), keyword, owning_org, hosting_org, decade, country (no data), and publishing_country.
-  Set facet_only=true to exclude search results. Set facet_mincount={#} to exclude facets with a count less than {#}. Set facet_multiselect=true to still return results for values that are not currently filtered, i.e. /search?facet=type&facet_only=true&type=CHECKLIST&facet_multiselect=true"
+  "hl": "Set hl=true, to highlight matching query in fulltext search fields, which includes: title, keyword, country, publishing country, owning organization title, hosting organization title, description, full text field (not returned in response) that includes metadata documents.",
+  "facet": "A list of facet names used to retrieve the 100 most frequent values for a field. Allowed facets are: type, subtype (no data), keyword, owning_org, hosting_org, decade, country (no data), and publishing_country.",
+  "facet_only": "Used in combination with facet parameter. Set facet_only=true to exclude search results.",
+  "facet_mincount": "Used in combination with facet parameter. Set facet_mincount={#} to exclude facets with a count less than {#}, e.g. <a href='http://api.gbif.org/dataset/search?facet=type&facet_only=true&facet_mincount=10000'>/search?facet=type&facet_only=true&facet_mincount=10000</a> only shows the type value 'OCCURRENCE' because 'CHECKLIST' and 'METADATA' have counts less than 10000.",
+  "facet_multiselect": "Used in combination with facet parameter. Set facet_multiselect=true to still return counts for values that are not currently filtered, e.g. <a href='http://api.gbif.org/dataset/search?facet=type&facet_only=true&type=CHECKLIST&facet_multiselect=true'>/search?facet=type&facet_only=true&type=CHECKLIST&facet_multiselect=true</a> still shows type values 'OCCURRENCE' and 'METADATA' even though type is being filtered by type=CHECKLIST"
 } />
 
 <@common.article id="parameters" title="Parameters">
