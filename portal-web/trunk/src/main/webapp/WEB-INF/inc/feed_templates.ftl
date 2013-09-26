@@ -13,7 +13,10 @@
 
 <script type="text/html" id="tmpl-datasets-drupal">
   <ul>
-  <% _.each( _.first(feed.nodes, 3), function(i){ %>
+  <% _.each( _.first(feed.nodes, 3), function(i){
+    //TODO: remove temp defaults for Tim Hirsch
+    _.defaults(i.node, {image: "http://portaldev.gbif.org/sites/drupaldev.gbif.org/files/styles/featured/public/images/2013-August/202/f_Forest_close_to_the_Mana_River_at_Angoule%CC%82me%2C_French_Guiana.%20Photo%20by%20Wilkinson%20M%2C%20Sherratt%20E%2C%20Starace%20F%2C%20Gower%20DJ.png"});
+%>
     <li>
       <a href="<@s.url value='/dataset/'/><%= i.node.field_datasetkey %>">
         <img src="<%= i.node.image %>" width="271" height="171">
