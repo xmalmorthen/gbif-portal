@@ -124,6 +124,10 @@
       <result type="redirect">/developer/summary</result>
     </action>
 
+    <action name="infrastructure">
+      <result type="redirect">/infrastructure/summary</result>
+    </action>
+
     <action name="ipt" class="org.gbif.portal.action.ipt.IptAction">
       <result>/WEB-INF/pages/ipt/about.ftl</result>
     </action>
@@ -382,6 +386,25 @@
     </action>
     <action name="releases" class="org.gbif.portal.action.ipt.IptAction">
       <result>/WEB-INF/pages/ipt/releases.ftl</result>
+    </action>
+  </package>
+
+  <!-- Infrastructure -->
+  <package name="infrastructure" namespace="/infrastructure" extends="default">
+    <action name="summary" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/infrastructure/summary.ftl</result>
+    </action>
+    <action name="registry" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/infrastructure/registry.ftl</result>
+    </action>
+    <action name="occurrences" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/infrastructure/occurrences.ftl</result>
+    </action>
+    <action name="names" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/infrastructure/names.ftl</result>
+    </action>
+    <action name="tools" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/infrastructure/tools.ftl</result>
     </action>
   </package>
 
