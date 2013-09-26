@@ -42,20 +42,20 @@
 <@common.article id="purpose" title="Purpose"  titleRight="See also">
   <div class="left">
 <p>The role of the registry can be summarised as a component offering:</p>
-<ul class="hanging">
+<ul class="nested">
   <li>An authoritative source of information (metadata) on institutions, datasets, technical services and other key entities as required by registry partners.  Due to the nature of the network and tools in use, multiple versions of this information are often available.  Where this occurs, the registry aims to provide the most complete representation by merging sources and harmonizing conflicting views where possible.  This simplifies consumption to clients by providing a unified view of metadata in a consistent format.  Links to external representations available through other formats (e.g. EML[TODO:link], DiGIR [TODO: link]  etc) are available to clients.</li>
   <li>A source of information on inter-relationships between dataset, institutions and other entities according to the needs of the registry partners.  Datasets can be hosted by one party on behalf of another, and might themselves be a superset of other datasets.  Modelling of dataset relationships provides an indication of where duplicate content might exist and how to correctly determine the attribute chain for all parties involved in the data management lifecycle.  </li>
   <li>A trustworthy identifier assignment (minting) service for institutions and datasets.  Identifiers are allocated as Universally Unique IDentifiers (UUID) on first registration, packaged and will be made available as Digital Object Identifiers (DOI) for external use.  Other uses might use only the UUID format of the identifier.  Additional packaging of the identifier will be offered as required by the registry partners.</li>
   <li>An identifier resolution service allowing external clients to submit a known identifier and resolve this to the registry assigned identifier.  Thus clients already using (e.g.) a Biodiversity Collection Index (BCI) identifier can interact with the registry using BCI identifiers.  The number of identifier systems recognised is expected to grow continuously as more systems are connected.</li>
   <li>A mechanism to help coordinate distributed system activities by
-  <ol class="hanging">
+  <ol>
     <li>providing preferred technical access points where multiple routes exist</li>
     <li>offering stable identifiers for registered entities and</li>
     <li>providing notification services of significant events such as a dataset being registered</li>
   </ol> 
   </li>
   <li>A discovery mechanism for users and machines for 
-  <ol class="hanging">
+  <ol>
     <li>Registered network entities</li>
     <li>Technical endpoints</li>
     <li>Data definitions (e.g. Standards) such as the extensions and vocabularies used in the Darwin Core Archive [link: darwin core archive] format</li>    

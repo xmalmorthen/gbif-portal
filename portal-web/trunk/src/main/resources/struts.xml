@@ -406,6 +406,10 @@
     <action name="tools" class="org.gbif.portal.action.DefaultHomeAction">
       <result>/WEB-INF/pages/infrastructure/tools.ftl</result>
     </action>
+    <!-- TODO: remove -->
+    <action name="test" class="org.gbif.portal.action.DefaultHomeAction">
+      <result>/WEB-INF/pages/infrastructure/test.ftl</result>
+    </action>
   </package>
 
   <!-- COUNTRIES -->
