@@ -109,7 +109,7 @@
               <li class="divider"></li>
               <li><a href="${cfg.drupal}/publishingdata/summary">Publishing data</a></li>
               <li><a href="${cfg.drupal}/usingdata/summary">Using data</a></li>
-              <li><a href="${cfg.drupal}/infrastructure/summary">Infrastructure</a></li>
+              <li><a href="<@s.url value='/infrastructure/summary'/>">Infrastructure</a></li>
             </ul>
           </div>
         </li>
