@@ -7,7 +7,7 @@
 <#include "/WEB-INF/pages/infrastructure/inc/infoband.ftl" />
 <body>
 
-<@common.notice title="Occurrence verbatim data">
+<@common.notice title="Notice">
   <p>This is a placeholder for now to demonstrate documentation ideas.</p>
   <p>Text is being managed in Google docs for now, and will be copied across.</p>
 </@common.notice>
