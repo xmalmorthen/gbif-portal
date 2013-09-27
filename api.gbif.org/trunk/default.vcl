@@ -218,17 +218,21 @@ sub vcl_recv {
   }
 }
 
-
-sub vcl_fetch {
-  # dont cache put, post or delete
-  if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE")) {
-    return (hit_for_pass);
-  }
- 
+sub clean_redirects {
   # remove portal context from redirects
   if ( beresp.status == 302 && beresp.http.Location ~ "/portal/" ) {
     set beresp.http.Location = regsub(beresp.http.Location, "/portal/", "/");
   }
+}
+
+sub vcl_fetch {
+  # dont cache put, post or delete
+  if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE")) {
+    call clean_redirects;
+    return (hit_for_pass);
+  }
+ 
+  call clean_redirects;
  
   # dont cache redirects or errors - especially for staging errors can be temporary only
   if ( beresp.status >= 300 ) {
