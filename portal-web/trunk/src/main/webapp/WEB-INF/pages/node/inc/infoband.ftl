@@ -10,7 +10,13 @@
 -->
 <content tag="infoband">
 
-  <h1 class="fullwidth">${common.limit(node.title, 70)}</h1>
+ <h1 class="fullwidth">
+  <#if node.key == common.taiwanNodeKey>
+    ${node.country.title}
+  <#else>
+    ${common.limit(node.title, 70)}
+  </#if>
+ </h1>
 
   <h3>
       <#--
