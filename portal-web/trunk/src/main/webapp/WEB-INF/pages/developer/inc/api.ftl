@@ -50,7 +50,7 @@
 <#macro trow url resp httpMethod="" respLink="#" paging=false params=[]>
 <tr>
     <td>${url} <small>${httpMethod?upper_case}</small></td>
-    <td><a href="http://api.gbif.org/${respLink}" target="_blank">${resp}</a></td>
+    <td><a href="http://api.gbif.org${respLink}" target="_blank">${resp}</a></td>
     <td><#nested/></td>
     <td>${paging?string}</td>
     <td><#list params as p><a href='#p${p}'>${p}</a><#if p_has_next>, </#if></#list></td>

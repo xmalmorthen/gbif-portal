@@ -16,7 +16,11 @@
 <div class="left">
     <p>
         This API works against data kept in the GBIF Checklist Bank which
-        taxonomically indexes all registered <a href="<@s.url value='/dataset/search?type=CHECKLIST'/>">checklist datasets</a> in the GBIF network.
+        taxonomically indexes all registered <a href="<@s.url value='/dataset/search?type=CHECKLIST'/>">checklist
+        datasets</a> in the GBIF network.
+    </p>
+    <p>
+        For statistics on checklist datasets, you can refer to the <a href="<@s.url value='/developer/registry#dataset_metrics'/>">dataset metrics</a> section of the Registry API.
     </p>
 </div>
 <div class="right">
@@ -30,7 +34,7 @@
 
 
 <#-- define some often occurring species defaults -->
-<#macro trow url resp="NameUsage" respLink="#" paging=false params=[]>
+<#macro trow url resp="NameUsage List" respLink="#" paging=false params=[]>
 <@api.trow url="/species"+url resp=resp respLink=respLink paging=paging params=params><#nested /></@api.trow>
 </#macro>
 
@@ -45,23 +49,22 @@
         </p>
 
       <@api.apiTable>
-            <@trow url="" paging=true params=[2,3,4,6]>Lists all name usages across all checklists</@trow>
-            <@trow url="/root/{uuid|shortname}" paging=true >Lists root usages of a checklist</@trow>
-            <@trow url="/{int}" params=[2]>Gets the single name usage</@trow>
-            <@trow url="/{int}/verbatim" resp="VerbatimNameUsage">Gets the verbatim name usage</@trow>
-            <@trow url="/{int}/name" resp="ParsedName">Gets the parsed name for a name usage</@trow>
-            <@trow url="/{int}/parents" params=[2]>Lists all parent usages for a name usage</@trow>
-            <@trow url="/{int}/children" paging=true params=[2]>Lists all direct child usages for a name usage</@trow>
-            <@trow url="/{int}/related" paging=false params=[2,3]>Lists all related name usages in other checklists</@trow>
-            <@trow url="/{int}/synonyms" paging=true params=[2]>Lists all synonyms for a name usage</@trow>
-            <@trow url="/{int}/descriptions" resp="Description" paging=true>Lists all descriptions for a name usage</@trow>
-            <@trow url="/{int}/distributions" resp="Distribution" paging=true >Lists all distributions for a name usage</@trow>
-            <@trow url="/{int}/images" resp="Image" paging=true>Lists all images for a name usage</@trow>
-            <@trow url="/{int}/references" resp="Reference" paging=true >Lists all references for a name usage</@trow>
-            <@trow url="/{int}/species_profiles" resp="SpeciesProfile" paging=true >Lists all species profiles for a name usage</@trow>
-            <@trow url="/{int}/vernacular_names" resp="VernacularName" paging=true >Lists all vernacular names for a name usage</@trow>
-            <@trow url="/{int}/type_specimens" resp="TypeSpecimen" paging=true >Lists all type specimens for a name usage</@trow>
-            <@trow url="/{int}/" paging=true params=[2]></@trow>
+            <@trow url="" paging=true respLink="/species?datasetKey=00a0607f-fd7e-4268-9707-0f53aa265f1f&sourceId=ICIMOD_Barsey_Plants_001" params=[3,4,5,7]>Lists all name usages across all checklists</@trow>
+            <@trow url="/root/{uuid|shortname}" respLink="/species/root/66dd0960-2d7d-46ee-a491-87b9adcfe7b1" paging=true >Lists root usages of a checklist</@trow>
+            <@trow url="/{int}" resp="NameUsage" respLink="/species/5231190" params=[3]>Gets the single name usage</@trow>
+            <@trow url="/{int}/verbatim" resp="VerbatimNameUsage" respLink="/species/5231190/verbatim">Gets the verbatim name usage</@trow>
+            <@trow url="/{int}/name" resp="ParsedName" respLink="/species/5231190/name">Gets the parsed name for a name usage</@trow>
+            <@trow url="/{int}/parents" params=[3] respLink="/species/5231190/parents">Lists all parent usages for a name usage</@trow>
+            <@trow url="/{int}/children" paging=true params=[3] respLink="/species/5231190/children">Lists all direct child usages for a name usage</@trow>
+            <@trow url="/{int}/related" paging=false params=[3,4] respLink="/species/5231190/related">Lists all related name usages in other checklists</@trow>
+            <@trow url="/{int}/synonyms" paging=true params=[3] respLink="/species/5231190/synonyms">Lists all synonyms for a name usage</@trow>
+            <@trow url="/{int}/descriptions" resp="Description List" paging=true respLink="/species/5231190/descriptions">Lists all descriptions for a name usage</@trow>
+            <@trow url="/{int}/distributions" resp="Distribution List" paging=true respLink="/species/5231190/distributions">Lists all distributions for a name usage</@trow>
+            <@trow url="/{int}/images" resp="Image List" paging=true respLink="/species/5231190/images">Lists all images for a name usage</@trow>
+            <@trow url="/{int}/references" resp="Reference List" paging=true respLink="/species/5231190/references">Lists all references for a name usage</@trow>
+            <@trow url="/{int}/species_profiles" resp="SpeciesProfile List" paging=true respLink="/species/5231190/species_profiles">Lists all species profiles for a name usage</@trow>
+            <@trow url="/{int}/vernacular_names" resp="VernacularName List" paging=true respLink="/species/5231190/vernacular_names">Lists all vernacular names for a name usage</@trow>
+            <@trow url="/{int}/type_specimens" resp="TypeSpecimen List" paging=true respLink="/species/5231190/type_specimens">Lists all type specimens for a name usage</@trow>
       </@api.apiTable>
 
     </div>
@@ -73,13 +76,13 @@
       <p>GBIF provides 3 different ways of looking up / searching name usages.</p>
 
   <@api.apiTable>
-    <@trow url="" paging=true params=[2,3,6]>
+    <@trow url="" respLink="/species?name=Puma%20concolor" paging=true params=[3,4,7]>
       List all name usages across all or some checklists that have an exact same canonical name
     </@trow>
-    <@trow url="/matching" paging=false params=[5,6,7,8,9]>
+    <@trow url="/suggest" respLink="/species/suggest?name=Puma%20concolor" paging=false params=[1,6,7,8,9,10]>
       Fuzzy matching against the GBIF Backbone Taxonomy with optional classification provided.
     </@trow>
-    <@trow url="/search" paging=true params=[9,10,11,20,21,22,23,24,25,26]>Full text search across all name usages of all checklists.
+    <@trow url="/search" respLink="/species/search?q=Puma&rank=GENUS" paging=true params=[1,10,11,12,13,14,15,16,17,18,19,20,21,22,23]>Full text search across all name usages of all checklists.
     Results are ordered by relevance.</@trow>
   </@api.apiTable>
 
@@ -88,30 +91,43 @@
 
 
 <#assign params = {
+  "q": "Simple search parameter. The value for this parameter can be a simple word or a phrase. Wildcards can be added to the simple word parameters only, e.g. q=*puma*",
   "user": "User account name",
   "language": "default=en or use HTTP header for this",
-  "datasetKey": "The checklist dataset key as a uuid",
-"sourceId": "",
-"rank": "The taxonomic rank given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/Rank.html'>rank enum</a>",
-"name": "case insensitive, canonical namestring. For example Puma concolor",
-"strict": "if true it (fuzzy) matches only the given name, but never a taxon in the upper classification",
-"verbose": "if true show alternative matches considered which had been rejected",
-"highlighting": "Highlight matching query in fulltext search fields.",
-"kingdom, phylum, class, order, family, genus": "optional classification parameters accepting a canonical name.
-              If provided the default matching will also try to match against these if no direct match is found for the name alone.",
-"facet": "A list of facet names (names identical to respective filter names) used to retrieve the 100 most frequent values. Allowed facets are:
-X, Y, Z (tbd)",
-"highertaxon_key": "Filters by any of the higher linnean rank keys.
-              Note this is within the respective checklist and not searching nub keys across all checklists.
-              Can be used as a <a href='#p11'>facet parameter</a> value.",
-"status": "Filter by the taxonomis status. Can be used as a <a href='#p11'>facet parameter</a> value.",
-"extinct": "Boolean filter for extinct taxa. Can be used as a <a href='#p11'>facet parameter</a> value.",
-"habitat": "Filter by the known habitats. Can be used as a <a href='#p11'>facet parameter</a> value.",
-"threat": "Filter by the threat status.  Can be used as a <a href='#p11'>facet parameter</a> value.",
-"name_type": "Filter by the name type enumeration. Can be used as a <a href='#p11'>facet parameter</a> value"
+  "datasetKey": "Filters by the checklist dataset key as a uuid",
+  "sourceId": "Filters by the source identifier",
+  "rank": "The taxonomic rank given as our <a href='http://builds.gbif.org/view/Common/job/gbif-api/site/apidocs/org/gbif/api/vocabulary/Rank.html'>Rank enum</a>",
+  "name": "A case insensitive, canonical namestring, e.g 'Puma concolor'",
+  "strict": "If true it (fuzzy) matches only the given name, but never a taxon in the upper classification",
+  "verbose": "If true it shows alternative matches considered which had been rejected",
+  "kingdom, phylum, class, order, family, genus": "optional classification parameters accepting a canonical name. If provided the default matching will also try to match against these if no direct match is found for the name alone.",
+  "highertaxon_key": "Filters by any of the higher linnean rank keys. Note this is within the respective checklist and not searching nub keys across all checklists.",
+  "status": "Filter by the taxonomic status.",
+  "extinct": "Boolean filter for extinct taxa.",
+  "habitat": "Filter by the known habitats: marine (true) or not marine (false).",
+  "threat": "Filter by the threat status. Be aware, the search index has no data for threat to filter on yet.",
+  "name_type": "Filter by the name type enumeration.",
+  "dataset_key": "Filter by the dataset by key as a uuid",
+  "nomenclatural_status": "Filter by the nomenclatural status. Be aware, the search index has no data for nomenclatural_status to filter on yet.",
+  "hl": "Set hl=true, to highlight matching query in fulltext search fields.",
+  "facet": "A list of facet names used to retrieve the 100 most frequent values for a field. Allowed facets are: dataset_key, highertaxon_key, rank, status, extinct, habitat, threat (no data), nomenclatural_status (no data), and name_type.",
+  "facet_only": "Used in combination with facet parameter. Set facet_only=true to exclude search results.",
+  "facet_mincount": "Used in combination with facet parameter. Set facet_mincount={#} to exclude facets with a count less than {#}, e.g. <a href='http://api.gbif.org/species/search?facet=status&facet_only=true&facet_mincount=7000000'>/search?facet=status&facet_only=true&facet_mincount=7000000</a> only shows the type value 'ACCEPTED' because the other status have counts less than 7,000,000",
+  "facet_multiselect": "Used in combination with facet parameter. Set facet_multiselect=true to still return counts for values that are not currently filtered, e.g. <a href='http://api.gbif.org/species/search?facet=status&facet_only=true&status=ACCEPTED&facet_multiselect=true'>/search?facet=status&facet_only=true&status=ACCEPTED&facet_multiselect=true</a> still shows all status values even though status is being filtered by status=ACCEPTED"
 } />
 
-<@api.paramArticle params=params />
+<@common.article id="parameters" title="Parameters">
+    <div class="fullwidth">
+        <p>The following parameters are for use exclusively with the Species API described above.</p>
+
+      <@api.apiTable_params>
+        <#list params?keys as k>
+          <@api.trow_param index="${k_index + 1}" key="${k_index + 1}. ${k}" description="${params[k]}" />
+        </#list>
+      </@api.apiTable_params>
+
+    </div>
+</@common.article>
 
 
 </body>
