@@ -32,8 +32,8 @@
     <div class="fullwidth">
       <#if countries?has_content>
         <p>
-          ${country.title} hosts ${otherCountryRecords} records for ${otherCountries} other countries & territories.
-          <br/>This accounts for ${otherCountryPercentage}% of the total data hosted by ${country.title}.
+          ${country.title} publishes ${otherCountryRecords} records relating to biodiversity from ${otherCountries} other countries, territories and islands.
+          <br/>These records account for ${otherCountryPercentage}% of the total data published from ${country.title}.
         </p>
         <ul>
         <#list countries as cw>
