@@ -24,6 +24,8 @@ body.home {
       width:100%;
       display: block;
       position: absolute;
+      /* Needed for IE 8,9 */
+      z-index: -10 !important;
 
       .leaflet-control-zoom {
         z-index: 9999 !important;
