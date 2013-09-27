@@ -196,6 +196,7 @@
       <result type="redirectAction">
         <param name="actionName">download/result</param>
         <param name="key">${key}</param>        
+        <param name="namespace">/occurrence</param>
       </result>      
     </action>
     
