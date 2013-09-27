@@ -13,32 +13,11 @@
 </script>
 
 
-<script type="text/html" id="tmpl-datasets-drupal">
-  <ul>
-  <% _.each( _.first(feed.nodes, 3), function(i){
-      _.defaults(i.node, {image: "<@s.url value='/img/occurrence_world.png'/>"});
-  %>
-    <li id="<%= i.node.field_datasetkey %>">
-      <a href="<@s.url value='/dataset/'/><%= i.node.field_datasetkey %>">
-        <img src="<%= i.node.image %>" width="271" height="171">
-      </a>
-      <a class="title" href="<@s.url value='/dataset/'/><%= i.node.field_datasetkey %>"><%= i.node.title %></a>
-      <p><%= i.node.body %></p>
-    </li><%
-      // adds dataset title from registry async, see helpers.js
-      getDatasetDetail(i.node.field_datasetkey, function(ds){
-        $("#" + i.node.field_datasetkey + " a.title").attr("title", ds.title).text(ds.title);
-      });
-    }); %>
-  </ul>
-</script>
-
 <script type="text/javascript">
 $.fn.taxonomicExplorer = function(datasetKey) {
   var $browser = $(this);
   $browser.html( _.template($("#tmpl-taxbrowser-init").html()) );
 
-  var $width = 869;
   var transitionSpeed=300;
   var liHeight=25;
   var $limit = 45
