@@ -11,12 +11,14 @@
     </result-types>
 
     <interceptors>
+      <interceptor name="drupalParams" class="org.gbif.portal.struts.DrupalParamsInterceptor"/>
       <interceptor name="drupalSession" class="org.gbif.portal.struts.DrupalSessionInterceptor"/>
       <interceptor name="requireLogin" class="org.gbif.portal.struts.RequireLoginInterceptor"/>
       <interceptor name="requireAdmin" class="org.gbif.portal.struts.RequireAdminInterceptor"/>
       <interceptor name="jsrvalidation" class="org.gbif.portal.struts.ValidationInterceptor"/>
 
       <interceptor-stack name="portalStack">
+        <interceptor-ref name="drupalParams"/>
         <interceptor-ref name="drupalSession"/>
         <interceptor-ref name="i18nStack"/>
         <interceptor-ref name="staticParams"/>
