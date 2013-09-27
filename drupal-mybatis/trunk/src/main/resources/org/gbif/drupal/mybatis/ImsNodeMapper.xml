@@ -16,7 +16,7 @@
   </resultMap>
 
   <select id="get" resultType="Node" resultMap="NODE_MAP">
-SELECT p.ParticipantID AS imsId, c.ISO2 AS country, n.Name_Full AS title, p.Name_Short AS abbreviation, n.URL AS homepage,
+SELECT p.ParticipantID AS imsId, c.ISO2 AS country, n.Name_Full AS title, p.Name_Full AS participantTitle, p.Name_Short AS abbreviation, n.URL AS homepage,
   p.Member_AsOf AS participantSince, p.PublicDescription AS description,
   null AS modified,
   i.Name AS institution, i.Address AS address, i.City AS city, i.ZipCode AS postalCode, i.State AS province, i.Telephone AS phone, i.Email AS email,
@@ -41,7 +41,7 @@ WHERE p.ParticipantID = #{imsId}
   <select id="listContacts" resultType="Contact" resultMap="CONTACT_MAP">
     SELECT pc.ContactID AS cid, gr.GroupID, pc.ParticipantID, pc.NodeID,
          c.Name_First AS first_name, c.Name_Last AS last_name, gr.Name AS type,
-         c.Address, c.City, c.ZipCode, ca.ISO2 AS country, i.Name AS organization,
+         c.Address, c.City, c.ZipCode AS postalCode, ca.ISO2 AS country, i.Name AS organization,
          c.Email AS email, c.Phone_Office AS phone, c.URL AS homepage,
          c.Job_Position AS job_position, c.Job_Description AS description,
          null AS created_by, null AS created,
