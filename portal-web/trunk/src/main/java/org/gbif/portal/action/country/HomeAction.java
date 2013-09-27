@@ -7,8 +7,11 @@ import org.gbif.portal.config.ContinentCountryMap;
 
 import java.util.List;
 import java.util.Set;
+import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
@@ -17,33 +20,23 @@ import com.google.inject.Inject;
 public class HomeAction extends BaseAction {
 
   /**
-   * Utility to order countries by title which is different to the toString() of the enum.
-   */
-  private static class TitleOrdering extends Ordering<Country> {
-    public static TitleOrdering INSTANCE = new TitleOrdering();
-    private TitleOrdering() {
-    }
-    @Override
-    public int compare(Country left, Country right) {
-      return left.getTitle().compareTo(right.getTitle());
-    }
-  }
-
-  /**
    * Ensure we are ordered by title, removing noise.
    */
-  private static List<Country> countries;
-  static {
-    // clean up the country list to something displayable
-    List<Country> copy = Lists.newArrayList(Country.values());
-    // remove noise
-    copy.remove(Country.UNKNOWN);
-    copy.remove(Country.USER_DEFINED);
-    copy.remove(Country.INTERNATIONAL_WATERS);
-    // sort on the title (knowing that the enumeration does things with Chinese Tapei etc
-    countries = ImmutableList.copyOf(TitleOrdering.INSTANCE.sortedCopy(Lists.newArrayList(copy)));
-  }
-
+  private static List<Country> countries = FluentIterable.from(Lists.newArrayList(Country.values()))
+    // remove unofficial countries
+    .filter(new Predicate<Country>() {
+      public boolean apply(@Nullable Country n) {
+        return n.isOfficial();
+      }
+    })
+    // sort alphabetically
+    .toSortedList(Ordering.natural().onResultOf(new Function<Country, String>() {
+      @Nullable
+      @Override
+      public String apply(@Nullable Country n) {
+        return n == null ? null : n.getTitle();
+      }
+    }));
 
   private Set<Country> activeNodes;
   @Inject
@@ -64,4 +57,5 @@ public class HomeAction extends BaseAction {
   public List<Country> getCountries() {
     return countries;
   }
+
 }

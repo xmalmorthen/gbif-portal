@@ -66,14 +66,15 @@ public class ListAction extends BaseAction {
       }
     }
 
-    // sort others according to node title
+    // sort others according to node title, in case of taiwan use the country title
     other = FluentIterable.from(other)
       // sort alphabetically
       .toSortedList(Ordering.natural().onResultOf(new Function<Node, String>() {
         @Nullable
         @Override
         public String apply(@Nullable Node n) {
-          return n == null ? null : n.getTitle();
+          // yet another taiwan country hack: http://dev.gbif.org/issues/browse/PF-1031
+          return n == null ? null : (n.getCountry()==Country.TAIWAN ? Country.TAIWAN.getTitle() : n.getTitle()) ;
         }
       }));
 

@@ -1,3 +1,7 @@
+<#assign taiwanNodeKey='e1b85abc-61f9-430f-ba79-6813dec53a0f' />
+<#assign tempNodeKey='02c40d2a-1cba-4633-90b7-e36e5e97aba8' />
+
+
 <!-- maximum function -->
 <#function max x y>
     <#if (x<y)><#return y><#else><#return x></#if>

@@ -1,3 +1,4 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <#--
  THIS INCLUDE GENERATES THE INFOBAND AND TABS FOR A MEMBER PAGE
  to select a tab to be highlighted please assign on of the following to the freemarker variable "tab":
@@ -16,7 +17,7 @@
       dont show a status for the GBIF Temp Node:
       http://dev.gbif.org/issues/browse/PF-966
       -->
-    <#if node.key != '02c40d2a-1cba-4633-90b7-e36e5e97aba8'>
+    <#if node.key != common.tempNodeKey>
       <@s.text name="enum.nodestatus.${node.type}.${node.participationStatus}"/>
       <#if node.gbifRegion??> from <@s.text name="enum.region.${node.gbifRegion}"/></#if>
     </#if>
