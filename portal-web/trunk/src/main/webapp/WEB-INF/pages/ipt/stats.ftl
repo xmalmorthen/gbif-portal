@@ -3,62 +3,51 @@
 <html>
 <head>
   <title>IPT Stats</title>
+  <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
+  <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
 </head>
 
 <#assign tab="stats"/>
 <#include "/WEB-INF/pages/ipt/inc/infoband.ftl" />
 
-
 <body class="ipt">
 
+<#-- 
+  TODO: 
+  All the stats are hardcoded.
+  They need to be made accurate, or using registry WS where possible.
+  http://dev.gbif.org/issues/browse/PF-1143
+-->
 
-<@common.article title="IPT instances worldwide" titleRight="Overview">
-  <div class="left">
-      <div id="iptmap" class="map" style="height:400px"></div>
-
-      <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
-      <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
-      <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script><script>
-
-      var // see http://maps.cloudmade.com/editor for the styles - 69341 is named GBIF Original
-      cmAttr = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
-      cmUrl  = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png';
-
-      var
-      gbifBase  = L.tileLayer(cmUrl, {styleId: 69341, attribution: cmAttr}),
-      minimal   = L.tileLayer(cmUrl, {styleId: 997,   attribution: cmAttr}),
-      midnight  = L.tileLayer(cmUrl, {styleId: 999,   attribution: cmAttr});
-
-      // setup map on page
-      var map = L.map('iptmap', {
-          center: [0,0],
-          zoom: 1,
-          layers: [minimal],
-          zoomControl: false
-      });
-
-      // render a circle on the map for each Feature in the FeatureCollection
-      // TODO: URL is hardcoded, they will need to be updated when migrated to UAT for example
-
-      $.getJSON("http://apidev.gbif.org/installation/location/IPT_INSTALLATION", function(data){
-          console.log(data);
-          L.geoJson(data).addTo(map);
-      });
-
-  </script>
-  </div>
-  <div class="right">
+<@common.article id="installations" title="" titleRight="110 IPT Installations" class="map">
+  <div id="iptmap" class="map"></div>
+    <div class="right">
+      <p>Located in 30 countries, serving:</p>
       <ul>
-          <li>110 installations in 30 countries serving:</li>
-          <li>45 checklists published by 12 different organizations</li>
-          <li>65 occurrence datasets published by 90 different organizations totaling 219,000,000 records.</li>
-          <li>Please note, these numbers are fabricated and serve only as placeholders for the time being.</li>
+        <li>45 checklists published by 12 different organizations</li>
+        <li>65 occurrence datasets published by 90 different organizations totaling 219,000,000 records.</li>
       </ul>
-    <p>&nbsp;</p>
-      <h2>Don’t see your IPT?</h2>
+      <p>&nbsp;</p>
+      <h3>Don’t see your IPT?</h3>
       <p>Send <a href="mailto:helpdesk@gbif.org" title="Mail to GBIF Helpdesk requesting IPT be added to map">GBIF</a> your coordinates.</p>
   </div>
 </@common.article>
+<script>
+  var 
+  attr = 'Nokia',
+  url  = 'http://2.maps.nlp.nokia.com/maptile/2.1/maptile/newest/normal.day.grey/{z}/{x}/{y}/256/png8?app_id=_peU-uCkp-j8ovkzFGNU&app_code=gBoUkAMoxoqIWfxWA5DuMQ'
+  minimal   = L.tileLayer(url, {attribution: attr})
+  var map = L.map('iptmap', {
+      center: [30,0],
+      zoom: 1,
+      layers: [minimal],
+      zoomControl: true
+  });
+  $.getJSON(cfg.wsReg + "installation/location/IPT_INSTALLATION", function(data){
+      L.geoJson(data).addTo(map);
+  });
 
+</script>
 </body>
 </html>
