@@ -14,7 +14,6 @@ import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.service.checklistbank.NameUsageService;
-import org.gbif.api.service.occurrence.DownloadRequestService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.OccurrenceDownloadService;
 import org.gbif.portal.action.BaseAction;
@@ -25,7 +24,6 @@ import org.gbif.portal.action.occurrence.util.QueryParameterFilterBuilder;
 import java.util.LinkedList;
 import java.util.Map;
 
-import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,12 +38,10 @@ public class DownloadsAction extends BaseAction {
 
   private static Logger LOG = LoggerFactory.getLogger(DownloadsAction.class);
 
-  private String key;
   private PagingResponse<Download> page;
+
   private long offset;
 
-  @Inject
-  private DownloadRequestService downloadRequestService;
 
   @Inject
   private OccurrenceDownloadService downloadService;
@@ -55,14 +51,6 @@ public class DownloadsAction extends BaseAction {
   @Inject
   private DatasetService datasetService;
 
-
-  public String cancel() throws Exception {
-    if (!Strings.isNullOrEmpty(key)) {
-      downloadRequestService.cancel(key);
-    }
-    // to be used via POST/REDIRECT/GET
-    return SUCCESS;
-  }
 
   @Override
   public String execute() throws Exception {
@@ -83,16 +71,12 @@ public class DownloadsAction extends BaseAction {
     }
   }
 
-  public String getKey() {
-    return key;
-  }
-
 
   public PagingResponse<Download> getPage() {
     return page;
   }
 
-  //TODO: the same code is also used in ActivityAction share it showhow!!!
+  // TODO: the same code is also used in ActivityAction share it showhow!!!
   public String getQueryParams(Predicate p) {
     try {
       // not thread safe!
@@ -106,12 +90,10 @@ public class DownloadsAction extends BaseAction {
   }
 
   public boolean isDownloadRunning(String strStatus) {
+    LOG.info(strStatus);
     return DownloadsActionUtils.isDownloadRunning(strStatus);
   }
 
-  public void setKey(String key) {
-    this.key = key;
-  }
 
   public void setOffset(long offset) {
     this.offset = offset;
