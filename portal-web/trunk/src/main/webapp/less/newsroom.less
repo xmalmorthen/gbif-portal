@@ -168,10 +168,10 @@ body.newsroom {
 
     .right ul li {
 
-      margin: 0 0 10px 0;
+      margin: 0;
       color: #666666;
       font-size: 15px;
-
+      list-style: none ;
 
       .minimap {
         border: 1px solid #666;
@@ -285,8 +285,15 @@ body.newsroom {
       height: 424px;
       overflow:hidden;
 
-      li { display: none; position:absolute; top: 0; left: 0; }
-      li.selected { display: block; }
+      li {
+        list-style: none ;
+        display: none;
+        position:absolute;
+        top: 0; left: 0;
+        &.selected {
+          display: block;
+        }
+      }
     }
 
   }
@@ -329,8 +336,8 @@ body.newsroom {
 
       .more_news { float: left; }
 
-      ul {
 
+      ul {
         padding: 0 0 20px 0;
         margin: 20px 0 20px 0;
         border-bottom: 1px solid #D8DCE1;
@@ -378,15 +385,15 @@ body.newsroom {
             color: #A2ACAF;
             text-align: center;
             font-size: 13px;
+            height: 18px ;
           }
         }
       }
     }
   }
-
-
   }
 }
+
 
 
 
