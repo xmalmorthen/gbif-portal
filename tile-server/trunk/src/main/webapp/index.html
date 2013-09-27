@@ -54,13 +54,18 @@
   <script src="scripts/vendor/jquery-ui-1.10.3.custom.min.js"></script>
   <script src="scripts/vendor/underscore-min.js"></script>
   <script src="scripts/vendor/backbone-min.js"></script>
-  <script src="scripts/vendor/d3.min.js"></script>
-  <script src="scripts/vendor/carto.js"></script>
+<!--[if !(IE 8)]><!-->
+    <script src="scripts/vendor/d3.min.js"></script>
+    <script src="scripts/vendor/carto.js"></script>  
+<!--<![endif]-->  
 
   <script src="scripts/vendor/leaflet.js"></script>
   <script src="scripts/vendor/leaflet-custom.js"></script>
+<!--[if !(IE 8)]><!-->
   <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.uncompressed.js"></script>
   <script src="scripts/vendor/torque.uncompressed.js"></script>
+<!--<![endif]-->  
+  
 
   <script src="scripts/gbif.js"></script>
   <script src="scripts/gbif-leaflet.js"></script>
@@ -78,7 +83,14 @@
   <script src="scripts/ui/resolution_selector.js"></script>
 
   <script src="scripts/helpers.js"></script>
+<!--[if !(IE 8)]><!-->
   <script src="scripts/app.js"></script>
+<!--<![endif]-->  
+<!--[if lte IE 8]>
+  <script src="scripts/app-ie8.js"></script>
+<![endif]-->
+  
+  
 
   <!-- controls -->
   <script id="analysis_control-template" type="text/x-underscore-template">
