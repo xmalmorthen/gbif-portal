@@ -29,6 +29,17 @@
         };
       </script>
     </#if>
+
+    <#-- setup taxonomic browser ? -->
+    <#if dataset.type! == "CHECKLIST">
+      <#include "/WEB-INF/inc/taxonomic_browser.ftl">
+      <script type="text/javascript">
+        $(function() {
+          $("#taxonomicBrowser").taxonomicExplorer("${id}");
+        });
+      </script>
+    </#if>
+
     <style type="text/css">
         #primaryContacts .contact {
           width: 199px;
@@ -318,20 +329,7 @@
 <#if dataset.type! == "CHECKLIST" && metrics?? && metrics.usagesCount gt 0>
 <@common.article id="taxonomy" title="Browse Classification" class="taxonomies">
 <div class="fullwidth">
-  <div id="taxonomicBrowser">
-    <div class="breadcrumb">
-      <ul>
-        <li spid="-1" cid="${id}"><a href="#">All</a></li>
-      </ul>
-    </div>
-    <div class="loadingTaxa"><img src="../img/taxbrowser-loader.gif" alt=""></div>
-    <div class="inner">
-      <div class="sp">
-        <ul>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <div id="taxonomicBrowser"></div>
 </div>
 </@common.article>
 </#if>

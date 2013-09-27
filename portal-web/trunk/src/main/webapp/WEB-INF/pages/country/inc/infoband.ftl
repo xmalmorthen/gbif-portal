@@ -8,7 +8,6 @@
  <#assign tab="publishing"/>
  <#assign tab="participation"/>
  <#assign tab="news"/>
- <#assign tab="use"/>
 
  To show yellow tabs instead of default grey ones please assign:
   <#assign tabhl=true />
@@ -17,8 +16,8 @@
 <content tag="infoband">
   <h1 class="fullwidth">${common.limit(country.title, 70)}</h1>
 
+  <#-- dirty hack again just for troublesome Taiwain -->
   <#if isocode='TW'>
-    <#-- dirty hack just for troublesome Taiwain -->
     <h3>A GBIF Associate Participant Economy</h3>
   <#elseif node??>
     <h3>
@@ -59,10 +58,5 @@
     <li<#if (tab!"")=="publications"> class='selected ${hl!}'</#if>>
       <a href="<@s.url value='/country/${isocode}/publications'/>" title="Publications"><span>Publications</span></a>
     </li>
-    <#--
-    <li<#if (tab!"")=="use"> class='selected ${hl!}'</#if>>
-      <a href="#" title="Data Use"><span>Data Use</span></a>
-    </li>
-    -->
   </ul>
 </content>

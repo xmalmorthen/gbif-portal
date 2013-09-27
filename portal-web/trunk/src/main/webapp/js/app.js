@@ -125,9 +125,6 @@ $(function() {
 
   $(".disclaimerToggle").bindDisclaimerPopover({});
 
-  // setup taxonomic browser
-  $("#taxonomicBrowser").taxonomicExplorer({transitionSpeed:300});
-
   // Dropdown for the sorting options of the taxonomic explorer
   $('#tax_sort_ocurrences').dropdownPopover({
     options: {
