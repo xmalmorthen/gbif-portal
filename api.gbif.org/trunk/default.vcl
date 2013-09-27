@@ -226,13 +226,13 @@ sub clean_redirects {
 }
 
 sub vcl_fetch {
+
+  call clean_redirects;
+  
   # dont cache put, post or delete
   if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE")) {
-    call clean_redirects;
     return (hit_for_pass);
   }
- 
-  call clean_redirects;
  
   # dont cache redirects or errors - especially for staging errors can be temporary only
   if ( beresp.status >= 300 ) {
