@@ -38,6 +38,38 @@ For example <article class="featured"> to build a featured data use article
 }
 
 #content article {
+  &.rte {
+    strong {
+      font-weight:bold;
+    }
+    // spaced like paragraphs and indents nested lists with right margins
+    ul,ol {
+      list-style-position: inside;
+      margin-left: 6px;
+      li {
+        margin-bottom: 0.9em;
+      }
+      ul, ol {
+        margin-top: 10px;
+      }
+      > ul {
+        margin-left: 14px;
+      }
+      > ol {
+        margin-left: 18px;
+      }
+    }
+    ul {
+      > li, ul > li{
+        .hangingindent(10px);
+      }
+    }
+    ol {
+      > li, ol > li{
+        .hangingindent(17px);
+      }
+    }
+  }
 
   &.search {
 

@@ -1,41 +1,5 @@
-// lsit mixins
-
-.hangingOrderedList {
-
-}
-
 
 #content {
-  // spaced like paragraphs and indents nested lists with right margins
-  ul,ol {
-    &.nested {
-      list-style-position: inside;
-      li {
-        margin-bottom: 0.9em;
-      }
-      ul, ol {
-        margin-top: 10px;
-      }
-      > ul {
-        margin-left: 10px;
-      }
-      > ol {
-        margin-left: 17px;
-      }
-    }
-  }
-  ul.nested {
-    > li, ul > li{
-      .hangingindent(10px);
-    }
-  }
-  ol.nested {
-    > li, ol > li{
-      .hangingindent(17px);
-    }
-  }
-
-
   ul {
       // species home
       &.species {
