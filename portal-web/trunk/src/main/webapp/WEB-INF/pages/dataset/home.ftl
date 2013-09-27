@@ -38,8 +38,12 @@
      <div class="results">
        <ul>
          <li><a href="<@s.url value='/dataset/search?type=OCCURRENCE'/>">${numOccurrenceDatasets}</a>occurrences datasets</li>
-         <li><a href="<@s.url value='/dataset/search?type=CHECKLIST'/>">${numChecklistDatasets}</a>checklists</li>
-         <li class="last"><a href="<@s.url value='/dataset/search?type=METADATA'/>">${numMetadataDatasets}</a>metadata-only datasets</li>
+         <li class="last"><a href="<@s.url value='/dataset/search?type=CHECKLIST'/>">${numChecklistDatasets}</a>checklists</li>
+         <#--
+           http://dev.gbif.org/issues/browse/PF-1141
+           Removed while GBIF do not actually index much metadata - this raises question unnecessarily as it is so prominent
+           <li class="last"><a href="<@s.url value='/dataset/search?type=METADATA'/>">${numMetadataDatasets}</a>metadata-only datasets</li>
+         #-->
        </ul>
      </div>
  </@common.article>
