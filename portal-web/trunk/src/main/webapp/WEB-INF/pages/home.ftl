@@ -8,19 +8,22 @@
 	 <script type="text/javascript" src="<@s.url value='/js/homepage-map.js'/>"></script>
     
     <script type="text/javascript">
-      <#-- EXECUTED ON WINDOWS LOAD -->
+		function numberWithCommas(x) {
+	      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	    }
+      
       $(function() {
           $.getJSON(cfg.wsMetrics + 'occurrence/count?callback=?', function (data) {
-            $("#countOccurrences").html(data);
+            $("#countOccurrences").html(numberWithCommas(data));
           });
-          $.getJSON(cfg.wsClbSearch + '?dataset_key=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&limit=1&rank=species&status=accepted&callback=?', function (data) {
-            $("#countSpecies").html(data.count);
+          $.getJSON(cfg.wsClbSearch + '?dataset_key=7ddf754f-d193-4cc9-b351-99906754a03b&limit=1&rank=species&status=accepted&status=DOUBTFUL&callback=?', function (data) {
+            $("#countSpecies").html(numberWithCommas(data.count));
           });
           $.getJSON(cfg.wsRegSearch + '?limit=1&callback=?', function (data) {
-            $("#countDatasets").html(data.count);
+            $("#countDatasets").html(numberWithCommas(data.count));
           });
-          $.getJSON(cfg.wsReg + 'organization?limit=1&callback=?', function (data) {
-            $("#countPublishers").html(data.count);
+          $.getJSON(cfg.wsReg + 'organization/count?callback=?', function (data) {
+            $("#countPublishers").html(data);
           });
       });
     </script>
