@@ -29,8 +29,9 @@
 
 <@common.article id="componentArchitecture" title="Component architecture"  titleRight="See also" class="rte">
   <div class="left">
-<p>The architecture is designed to be an efficient distributed crawling architecture, with decoupling of components  
- and will be explained with 2 example use cases.</p>
+<p>The architecture is designed to be an efficient distributed crawling and processing system, with decoupling of components.  The primary goals of
+the architecture design were to ensure rapid processing of data to reduce latencies between publisher changes and global discovery, and to be flexible 
+enough that components can be swapped out or updated as needed.  The architecture is best explained with 2 example use cases.</p>
 <p>
 <ol>
 <ol>
