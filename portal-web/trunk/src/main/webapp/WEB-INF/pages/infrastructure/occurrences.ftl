@@ -55,7 +55,7 @@ distributed <a href="http://hadoop.apache.org/" title="Hadoop project" target="_
   that concurrent crawlers do not over eagerly crawl an endpoint.  Additionally, shared counters will be configured, which will be updated at every subsequent stage of processing to allow for overall 
   monitoring, and the ability to determine when a crawl is complete across all components.</li>
   <li>Some of the data protocols GBIF support require paging (e.g. TAPIR, BioCASe), while others support a single HTTP request (e.g. DwC-A).  In both cases, for each artifact retrieved (a page or the full dataset) 
-  the crawler harvests the content, persists it and emits a message declaring it is ready to process.  Shared counters are maintained (<a href="http://zookeeper.apache.org/" title="ZooKeeper project" 
+  the crawler harvests the content, persists it to disk and emits a message declaring it is ready to process.  Shared counters are maintained (<a href="http://zookeeper.apache.org/" title="ZooKeeper project" 
   target="_blank">Apache ZooKeeper</a>) about the progress.  For darwin core archives, validation will occur to ensure the archive is suitable for further processing</li>
   <li>For each artifact, a processor will extract single occurrence records, emitting a message for each record harvested.  This is received and a processor inspects the record for its identity 
   (e.g. dwc:occurrenceID or using the dwc:institutionCode, collectionCode and catalogNumber.  In this case the records are all new and the fragment for the record will be inserted into <a href="http://hbase.apache.org/" title="HBase project" 
@@ -88,9 +88,14 @@ distributed <a href="http://hadoop.apache.org/" title="Hadoop project" target="_
       <li><a href="http://lucene.apache.org/solr/" title="SOLR project" target="_blank">Apache SOLR</a></li>
       <li><a href="http://zookeeper.apache.org/" title="ZooKeeper project" target="_blank">Apache ZooKeeper</a></li>
       <li><a href="http://www.rabbitmq.com/" title="RabbitMQ project" target="_blank">RabbitMQ</a></li>
+      TODO:
+      oozie
+      hive
       tapir
       biocase
       darwin core archive
+      
+      
     </ul>
   </div>
 </@common.article>
