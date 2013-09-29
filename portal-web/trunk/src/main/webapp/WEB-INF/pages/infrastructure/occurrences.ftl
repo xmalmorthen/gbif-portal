@@ -58,7 +58,7 @@ distributed <a href="http://hadoop.apache.org/" title="Hadoop project" target="_
   the crawler harvests the content, persists it to disk and emits a message declaring it is ready to process.  Shared counters are maintained (<a href="http://zookeeper.apache.org/" title="ZooKeeper project" 
   target="_blank">Apache ZooKeeper</a>) about the progress.  For darwin core archives, validation will occur to ensure the archive is suitable for further processing</li>
   <li>For each artifact, a processor will extract single occurrence records, emitting a message for each record harvested.  This is received and a processor inspects the record for its identity 
-  (e.g. dwc:occurrenceID or using the dwc:institutionCode, collectionCode and catalogNumber.  In this case the records are all new and the fragment for the record will be inserted into <a href="http://hbase.apache.org/" title="HBase project" 
+  (e.g. dwc:occurrenceID or using the dwc:institutionCode, collectionCode and catalogNumber).  In this case the records are all new and the fragment for the record will be inserted into <a href="http://hbase.apache.org/" title="HBase project" 
   target="_blank">Apache HBase</a>.  This is the raw content as harvested, so might be a fragment of XML for some protocols. A message is emitted and counters updated</li>
   <li>A processor will receive the message and the raw view of the record is <em>normalized</em> into separate fields of the DarwinCore with as little interpretation as possible.  A message is emitted declaring the record is normalized 
   and a processor will start interpreting content and applying quality control.  This includes:
@@ -69,7 +69,7 @@ distributed <a href="http://hadoop.apache.org/" title="Hadoop project" target="_
     <li>Aligning the record to the GBIF Backbone taxonomy using the <a href="">name lookup web service</a></li>
   </ol>
   Once processing is complete, a message is emitted to declare the record is finished, and counters are updated.  The crawler coordinator monitoring the counters will observe this, and will write the result of the crawl
-  to the registry for future auditing, and reporting on crawling history.
+  to the registry for future auditing, and reporting on crawling history when it determines from the counters that all messages are processed.
   </li>
   <li>In order to support real time search, and various views on the portal such as maps and statistics specific data structures are maintained.  The newly created record messages will be observed by
   <ol>
@@ -88,12 +88,13 @@ distributed <a href="http://hadoop.apache.org/" title="Hadoop project" target="_
       <li><a href="http://lucene.apache.org/solr/" title="SOLR project" target="_blank">Apache SOLR</a></li>
       <li><a href="http://zookeeper.apache.org/" title="ZooKeeper project" target="_blank">Apache ZooKeeper</a></li>
       <li><a href="http://www.rabbitmq.com/" title="RabbitMQ project" target="_blank">RabbitMQ</a></li>
-      TODO:
-      oozie
-      hive
-      tapir
-      biocase
-      darwin core archive
+      
+      <li><a href="" title="" target="_blank">Apache Oozie (TODO)</a></li>
+      <li><a href="" title="" target="_blank">Apache Hive (TODO)</a></li>
+      <li><a href="" title="" target="_blank">TAPIR (TODO)</a></li>
+      <li><a href="" title="" target="_blank">BioCASe (TODO)</a></li>
+      <li><a href="" title="" target="_blank">Darwin Core Archives (TODO)</a></li>
+      <li><a href="" title="" target="_blank">Darwin Core Terms (TODO)</a></li>
       
       
     </ul>
