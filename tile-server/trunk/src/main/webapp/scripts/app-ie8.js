@@ -39,7 +39,8 @@ function loadGBIF(callback) {
 
   map = new L.Map('map', {
     center: center,
-    zoom: config.MAP.zoom
+    zoom: config.MAP.zoom,
+    maxZoom: 14
   });
 
   map.on('moveend', function(e) {
