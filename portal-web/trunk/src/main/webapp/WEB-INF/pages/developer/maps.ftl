@@ -41,21 +41,19 @@
           return url;
         }        
         
-        
 		var gbifAttrib='GBIF contributors';
 		var gbif = new L.TileLayer(getGBIFUrl(), {minZoom: 0, maxZoom: 14, attribution: gbifAttrib});		
-	    var cmAttr = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade',
-			cmUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png';
+	    var cmAttr = 'Nokia',
+			cmUrl = 'http://2.maps.nlp.nokia.com/maptile/2.1/maptile/newest/normal.day.grey/{z}/{x}/{y}/256/png8?app_id=_peU-uCkp-j8ovkzFGNU&app_code=gBoUkAMoxoqIWfxWA5DuMQ';
 	    var minimal   = L.tileLayer(cmUrl, {styleId: 22677, attribution: cmAttr});
-	    var midnight  = L.tileLayer(cmUrl, {styleId: 999,   attribution: cmAttr});
 
 		var map = L.map('map', {
 			center: [0, 0],
 			zoom: 1,
-			layers: [midnight, gbif]
+			maxZoom: 14,
+			layers: [minimal, gbif]
 		});
 
-		L.control.layers({"Minimal": minimal, "Midnight":midnight}, {"GBIF": gbif}).addTo(map);        
 		
         $('.refresh,.layer,.color').click(function(event) {
           gbif.setUrl(getGBIFUrl());
