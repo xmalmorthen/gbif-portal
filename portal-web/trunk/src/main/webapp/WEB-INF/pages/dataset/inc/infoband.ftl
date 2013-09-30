@@ -12,29 +12,38 @@
   <#assign tabhl=true />
 
 -->
-<content tag="infoband">
 
-  <h1>${common.limit(dataset.title, 36)}</h1>
-
-  <h3>
-    <@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/>
-    <#if publisher??>
-      published by <a href="<@s.url value='/publisher/${publisher.key}'/>">${common.limit(publisher.title!"Unknown", 70)}</a>
-    </#if>
-  </h3>
-
-<#-- 
-  When writing tags under the title we truncate if they are too long.  
+<#--
+  When writing tags under the title we truncate if they are too long.
   If they are truncated, the page flag is set to render the full keywords under the details.
   If there is a box for view occurrences / species, then the UL gets a new class attribute so the width can be controlled.
 -->
-<#if dataset.type! == "OCCURRENCE" ||  dataset.type! == "CHECKLIST">
+<#if dataset.type! == "OCCURRENCE" || (dataset.type! == "CHECKLIST" && !parentDataset?has_content)>
   <#assign box=true />
   <#assign maxKeywordChars=140 />
+  <#assign titleLength = 36 />
+  <#assign subtitleLength = 70 />
 <#else>
   <#assign box=false />
   <#assign maxKeywordChars=250 />
+  <#assign titleLength = 55 />
+  <#assign subtitleLength = 88 />
 </#if>
+
+
+<content tag="infoband">
+
+  <h1<#if !box> class="fullwidth"</#if>>${common.limit(dataset.title, titleLength)}</h1>
+
+  <h3>
+    <@s.text name="enum.datasettype.${dataset.type!'UNKNOWN'}"/>
+    <#if parentDataset?has_content>
+      constituent of <a href="<@s.url value='/dataset/${parentDataset.key}'/>" title="${parentDataset.title!"Unknown"}">${common.limit(parentDataset.title!"Unknown", subtitleLength)}</a>
+    <#elseif publisher??>
+      published by <a href="<@s.url value='/publisher/${publisher.key}'/>">${common.limit(publisher.title!"Unknown", subtitleLength)}</a>
+    </#if>
+  </h3>
+
 
 <#assign keywordTextLength=0 />
   <#-- use this var to indicate the details page if keywords were truncated! -->
