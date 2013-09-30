@@ -80,20 +80,24 @@
   </@common.article>
 
 
-<@common.article id="name_usages" title="Searching Names">
+<@common.article id="searching" title="Searching Names">
   <div class="fullwidth">
-      <p>GBIF provides 3 different ways of looking up / searching name usages.</p>
+      <p>GBIF provides 4 different ways of finding name usages.
+       They differ in their matching behavior, response format and also the actual content covered.
+      </p>
+
   <@api.apiTable>
-    <@trow_search url="/lookup/species" respLink="/lookup/species?name=Puma%20concolor" paging=false params=[6,7,8,9]>
-        Fuzzy matching against the GBIF Backbone Taxonomy with optional classification provided.
-    </@trow_search>
     <@trow_search url="/species" respLink="/species?name=Puma%20concolor" paging=true params=[3,4,7]>
-      List all name usages across all or some checklists that have an exact same canonical name
+      List name usages across all or some checklists that have an exact same canonical name, i.e. without authorship.
     </@trow_search>
-    <@trow_search url="/species/search" respLink="/species/search?q=Puma&rank=GENUS" paging=true params=[1,10,11,12,13,14,15,16,17,18,19,20,21,22,23]>Full text search across all name usages of all checklists.
-    Results are ordered by relevance.</@trow_search>
+    <@trow_search url="/species/match" respLink="/species/match?verbose=true&kingdom=Plantae&name=Oenante" paging=false params=[6,7,8,9]>
+      Fuzzy match scientific names against the GBIF Backbone Taxonomy with an optional classification provided.
+    </@trow_search>
+    <@trow_search url="/species/search" respLink="/species/search?q=Puma&rank=GENUS" paging=true params=[1,10,11,12,13,14,15,16,17,18,19,20,21,22,23]>
+        Full text search of name usages covering the scientific and vernacular name, the species description, distribution and the entire classification
+        across all name usages of all or some checklists. Results are ordered by relevance as this search usually returns a lot of results.</@trow_search>
     <@trow_search url="/species/suggest" respLink="/species/suggest?name=Puma%20concolor" paging=false params=[1,6,7,8,9,10]>
-        Search that returns up to 20 matching name usages.
+        A quick and simple autocomplete service that returns up to 20 name usages prefix matching the scientific name.
         Results are ordered by relevance.
     </@trow_search>
   </@api.apiTable>
