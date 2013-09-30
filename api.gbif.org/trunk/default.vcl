@@ -207,24 +207,20 @@ sub vcl_fetch {
   if ( beresp.status >= 300 ) {
     return (hit_for_pass);
   }
-  
-  # cache metrics and map tiles for a minute
-  if ( req.url ~ "^/(metrics-ws|tile-server)") {
-    set beresp.ttl = 60s;
-    # cache quickly changing count metrics for 10 seconds only
-    if ( req.url ~ "count") {
-      set beresp.ttl = 10s;
-    }
+
+  # CACHE CONTROL
+  # by default cache for an hour by default
+  set beresp.ttl = 3600s;
+
+  if ( req.url ~ "^/tile-server") {
+    # cache map tiles for a day
+    set beresp.ttl = 86400s;
   } else if( req.url ~ "^/(cfg|css|img|js|favicon|sites|misc|modules)" ) {
-    # cache static files for 10 days 10*60s*60*24
-    set beresp.ttl = 864000s;
+    # cache static files for one day 1*60s*60*24
+    set beresp.ttl = 86400s;
   } else if( req.url ~ "^/([a-z0-9-]+-ws)" ) {
-    # cache json for a week 7*60s*60*24
-    set beresp.ttl = 604800s;
-  } else {
-    # cache all the rest for 10 minutes as default
-    # includes tile-server, image-cache, non personalized drupal pages & portal html
-    set beresp.ttl = 600s;
+    # cache json for a day too
+    set beresp.ttl = 86400s;
   }
 
   # set explicit cache header
