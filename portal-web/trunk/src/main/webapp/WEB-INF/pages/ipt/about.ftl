@@ -96,7 +96,7 @@
         <p>Is there a mistake in the IPT documentation? Perhaps some topic in the IPT wiki is missing? If so, please contact the <a href="mailto:helpdesk@gbif.org" title="GBIF Helpdesk Email">GBIF Helpdesk</a> with your ideas, and we will grant you author privileges to the IPT wiki.</p>
     </div>
     <div class="right">
-        <p>"We see IPT as a great tool to facilitate the creation of Darwin Core Archives, which we will be able to use to upload data to VertNet." - Laura Russell, VertNet</p>
+        <p>"Darwin Core Archives are required for data harvest to our new portal. We see IPT as a great tool to facilitate the creation of these files and to provide hosting of them for our participating institutions." - Laura Russell, VertNet</p>
     </div>
 </@common.article>
 
