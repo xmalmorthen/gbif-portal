@@ -166,6 +166,10 @@ public abstract class CubeTileRenderer extends HttpServlet {
         merged = merged == null ? tile.get() : (DensityTile) merged.add(tile.get());
       }
     }
-    return Optional.of(merged);
+    if (merged == null) {
+      return Optional.absent();
+    } else {
+      return Optional.of(merged);
+    }
   }
 }
