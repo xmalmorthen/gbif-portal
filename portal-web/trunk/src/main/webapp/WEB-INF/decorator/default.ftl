@@ -229,7 +229,7 @@
             <li><h3>FOR DEVELOPERS</h3></li>
             <li><a href="<@s.url value='/developer'/>">Portal API</a></li>
             <li><a href="http://gbif.blogspot.com">Developer blog</a></li>
-            <li><a href="http://tools.gbif.org">Tools</a></li>
+            <li><a href="<@s.url value='/infrastructure/tools'/>">Tools</a></li>
           <#--
             http://dev.gbif.org/issues/browse/PF-1110
             <li><a href="#">Standards</a></li>
