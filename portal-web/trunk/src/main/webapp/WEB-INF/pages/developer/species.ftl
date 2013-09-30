@@ -22,6 +22,12 @@
     <p>
         For statistics on checklist datasets, you can refer to the <a href="<@s.url value='/developer/registry#dataset_metrics'/>">dataset metrics</a> section of the Registry API.
     </p>
+    <p>
+        It is recommended to use the Java web service client to consume these HTTP-based RESTful web services. Specific
+        instructions on how to configure the client can be found in its respective <a
+            href="https://code.google.com/p/gbif-ecat/source/browse/checklistbank/trunk/checklistbank-ws-client/README"
+            target="_blank">checklistbank-ws-client project</a>.
+    </p>
 </div>
 <div class="right">
     <ul>
@@ -36,6 +42,9 @@
 <#-- define some often occurring species defaults -->
 <#macro trow url resp="NameUsage List" respLink="#" paging=false params=[]>
 <@api.trow url="/species"+url resp=resp respLink=respLink paging=paging params=params><#nested /></@api.trow>
+</#macro>
+<#macro trow_search url resp="NameUsage List" respLink="#" paging=false params=[]>
+  <@api.trow url=""+url resp=resp respLink=respLink paging=paging params=params><#nested /></@api.trow>
 </#macro>
 
 
@@ -74,16 +83,19 @@
 <@common.article id="name_usages" title="Searching Names">
   <div class="fullwidth">
       <p>GBIF provides 3 different ways of looking up / searching name usages.</p>
-
   <@api.apiTable>
-    <@trow url="" respLink="/species?name=Puma%20concolor" paging=true params=[3,4,7]>
+    <@trow_search url="/lookup/species" respLink="/lookup/species?name=Puma%20concolor" paging=false params=[6,7,8,9]>
+        Fuzzy matching against the GBIF Backbone Taxonomy with optional classification provided.
+    </@trow_search>
+    <@trow_search url="/species" respLink="/species?name=Puma%20concolor" paging=true params=[3,4,7]>
       List all name usages across all or some checklists that have an exact same canonical name
-    </@trow>
-    <@trow url="/suggest" respLink="/species/suggest?name=Puma%20concolor" paging=false params=[1,6,7,8,9,10]>
-      Fuzzy matching against the GBIF Backbone Taxonomy with optional classification provided.
-    </@trow>
-    <@trow url="/search" respLink="/species/search?q=Puma&rank=GENUS" paging=true params=[1,10,11,12,13,14,15,16,17,18,19,20,21,22,23]>Full text search across all name usages of all checklists.
-    Results are ordered by relevance.</@trow>
+    </@trow_search>
+    <@trow_search url="/species/search" respLink="/species/search?q=Puma&rank=GENUS" paging=true params=[1,10,11,12,13,14,15,16,17,18,19,20,21,22,23]>Full text search across all name usages of all checklists.
+    Results are ordered by relevance.</@trow_search>
+    <@trow_search url="/species/suggest" respLink="/species/suggest?name=Puma%20concolor" paging=false params=[1,6,7,8,9,10]>
+        Search that returns up to 20 matching name usages.
+        Results are ordered by relevance.
+    </@trow_search>
   </@api.apiTable>
 
   </div>
