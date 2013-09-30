@@ -1,6 +1,6 @@
 <content tag="infoband">
-    <h1>Portal ${(tab!"")?capitalize} API</h1>
-    <h3><p>The GBIF Portal API v1.0</p></h3>
+    <h1>GBIF webservices ${(tab!"")?capitalize} API</h1>
+    <h3>Version v0.9</h3>
 </content>
 
 <content tag="tabs">
