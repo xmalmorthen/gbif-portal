@@ -27,7 +27,7 @@
       <h3>Feedback</h3>
       <ul>
           <li><a href="https://code.google.com/p/gbif-providertoolkit/issues/entry" title="IPT Report a bug" target="_blank">Report a Bug</a></li>
-          <li><a href="https://code.google.com/p/gbif-providertoolkit/issues/entry&amp;template=Feature request" title="IPT Report an enhancement" target="_blank">Report an Enhancement</a></li>
+          <li><a href="https://code.google.com/p/gbif-providertoolkit/issues/entry&amp;template=Feature request" title="IPT Request an enhancement" target="_blank">Request an Enhancement</a></li>
       </ul>
   </div>
 </@common.article>
