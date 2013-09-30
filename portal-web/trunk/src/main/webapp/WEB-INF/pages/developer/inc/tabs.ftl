@@ -1,5 +1,5 @@
 <content tag="infoband">
-    <h1>GBIF webservices ${(tab!"")?capitalize} API</h1>
+    <h1>GBIF webservice ${(tab!"")?capitalize} API</h1>
     <h3>Version v0.9</h3>
 </content>
 
