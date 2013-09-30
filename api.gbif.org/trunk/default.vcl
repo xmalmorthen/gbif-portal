@@ -102,16 +102,16 @@ sub recv_ws {
     set req.backend = drupal;
     set req.url = regsub(req.url, "^/mendeley/country/([a-zA-Z]+)$", "/mendeley/country/\1/json");
 
-  # nub lookup
-  } else if (req.url ~ "^/lookup/species"){
-    set req.backend = nublookup;
-    set req.url = regsub(req.url, "^/lookup/species", "/nub-ws/nub");
-  
   # geocode
   } else if (req.url ~ "^/lookup/reverse_geocode"){
     set req.backend = geocode;
     set req.url = regsub(req.url, "^/lookup/reverse_geocode", "/geocode-ws/reverse");
 
+  # nub lookup
+  } else if (req.url ~ "^/species/match"){
+    set req.backend = nublookup;
+    set req.url = regsub(req.url, "^/species/match", "/nub-ws/nub");
+    
   } else if ( req.url ~ "^/species/(search|suggest)") {
       set req.url = regsub(req.url, "^/species/", "/checklistbank-search-ws/");
   
@@ -181,7 +181,6 @@ sub recv_portal {
 
   # catch known struts paths
   if ( req.url ~ "^/(dataset|occurrence|species|member|node/|network/|ipt|publisher|developer|country|cfg|css|fonts|img|js|favicon|participation/list|infrastructure)" || (req.url ~ "^/user/(downloads|namelist|cancel)")) {
-#    set req.url = regsub(req.url, "^/", "/portal/");
     set req.backend = struts;
 
   } else {
@@ -235,7 +234,9 @@ sub vcl_fetch {
   }
 
   # set explicit cache header
+  set beresp.http.Cache-Control = "public";
   set beresp.http.Cache-Control = "max-age=" + beresp.ttl;
+
 
   return (deliver);
 }
