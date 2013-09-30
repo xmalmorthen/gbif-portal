@@ -34,6 +34,21 @@
   </div>
 </@common.article>
 <script>
+    // function gets called on each feature before adding it to the GeoJSON layer, and is used to create a popup
+    function onEachFeature(feature, layer) {
+        // check: does this feature have the required properties?
+        if (feature.properties && feature.properties.title && feature.properties.count && feature.properties.key) {
+            // create link to publisher page displaying publisher title in popup
+            var ln = '<a href="'+"/publisher/"+ feature.properties.key+'">'+feature.properties.title+'</a>';
+            // determine if it should say installation, or installations plural
+            var i = "installations";
+            if (feature.properties.count == "1") {
+                i = "installation";
+            }
+            // bind popup to feature
+            layer.bindPopup("<p>" + ln + "<br>" + feature.properties.count + " " + i + "</p>");
+        }
+    }
   var 
   attr = 'Nokia',
   url  = 'http://2.maps.nlp.nokia.com/maptile/2.1/maptile/newest/normal.day.grey/{z}/{x}/{y}/256/png8?app_id=_peU-uCkp-j8ovkzFGNU&app_code=gBoUkAMoxoqIWfxWA5DuMQ'
@@ -45,7 +60,7 @@
       zoomControl: true
   });
   $.getJSON(cfg.wsReg + "installation/location/IPT_INSTALLATION", function(data){
-      L.geoJson(data).addTo(map);
+      L.geoJson(data, {onEachFeature: onEachFeature}).addTo(map);
   });
 
 </script>
