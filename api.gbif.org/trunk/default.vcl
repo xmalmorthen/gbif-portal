@@ -15,6 +15,14 @@ backend tomcat {
   .max_connections = 75;
 }
 
+backend struts {
+  .host = "v-staging.gbif.org";    
+  .port = "80";
+  .connect_timeout = 1s;
+  .first_byte_timeout = 10s;
+  .between_bytes_timeout = 5s;
+}
+
 backend drupal {    
 #  .host = "drupallive.gbif.org";    
   .host = "drupaldev.gbif.org";    
@@ -174,7 +182,7 @@ sub recv_portal {
   # catch known struts paths
   if ( req.url ~ "^/(dataset|occurrence|species|member|node/|network/|ipt|publisher|developer|country|cfg|css|fonts|img|js|favicon|participation/list|infrastructure)" || (req.url ~ "^/user/(downloads|namelist|cancel)")) {
     set req.url = regsub(req.url, "^/", "/portal/");
-    set req.backend = tomcat;
+    set req.backend = struts;
 
   } else {
     set req.backend = drupal;
