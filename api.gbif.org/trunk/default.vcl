@@ -24,8 +24,8 @@ backend struts {
 }
 
 backend drupal {    
-#  .host = "drupallive.gbif.org";    
-  .host = "drupaldev.gbif.org";    
+#  .host = "drupallive.gbif.org";
+  .host = "v-drupaldev.gbif.org";
   .port = "80";   
   .connect_timeout = 2s;
   .first_byte_timeout = 10s;
@@ -181,7 +181,7 @@ sub recv_portal {
 
   # catch known struts paths
   if ( req.url ~ "^/(dataset|occurrence|species|member|node/|network/|ipt|publisher|developer|country|cfg|css|fonts|img|js|favicon|participation/list|infrastructure)" || (req.url ~ "^/user/(downloads|namelist|cancel)")) {
-    set req.url = regsub(req.url, "^/", "/portal/");
+#    set req.url = regsub(req.url, "^/", "/portal/");
     set req.backend = struts;
 
   } else {
