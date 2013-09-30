@@ -62,9 +62,6 @@ sub vcl_recv {
   # keep original URL in custom header, see http://dev.gbif.org/issues/browse/GBIFCOM-137
   set req.http.x-url = "http://" + req.http.host + req.url;
   
-  # remove whatever host we got, as varnish adds the backend hostname if none exists in the request
-  remove req.http.host;
-
   # is this a frontend or webservice request?
   if (req.http.host ~ "^api") {
     call recv_ws;
@@ -74,6 +71,9 @@ sub vcl_recv {
 }
 
 sub recv_ws {
+  # remove whatever host we got, as varnish adds the backend hostname if none exists in the request
+  remove req.http.host;
+
   # remove cookies in weird case they exist
   remove req.http.Cookie;
 
@@ -157,6 +157,9 @@ sub recv_ws {
 # subroutine dealing with any frontend call to either
 # struts or drupal
 sub recv_portal {
+  # remove whatever host we got, as varnish adds the backend hostname if none exists in the request
+  remove req.http.host;
+
   # remove trailing slash if exists
   set req.url = regsub(req.url, "(.)/$", "\1");
   
