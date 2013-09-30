@@ -8,8 +8,11 @@
  */
 package org.gbif.portal.action.user;
 
+import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.service.occurrence.DownloadRequestService;
+import org.gbif.api.service.registry.OccurrenceDownloadService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.portal.action.occurrence.DownloadsActionUtils;
 
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
@@ -27,11 +30,17 @@ public class DownloadCancelAction extends BaseAction {
   @Inject
   private DownloadRequestService downloadRequestService;
 
+  @Inject
+  private OccurrenceDownloadService occurrenceDownloadService;
+
   @Override
   public String execute() {
     if (!Strings.isNullOrEmpty(key)) {
-      downloadRequestService.cancel(key);
-
+      Download download = occurrenceDownloadService.get(key);
+      if (download != null && download.getRequest().getCreator().equals(getCurrentUser().getUserName())
+        && DownloadsActionUtils.RUNNING_STATUSES.contains(download.getStatus())) {
+        downloadRequestService.cancel(key);
+      }
     }
     // to be used via POST/REDIRECT/GET
     return SUCCESS;

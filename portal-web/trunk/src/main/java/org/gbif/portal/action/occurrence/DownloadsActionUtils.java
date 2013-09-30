@@ -12,6 +12,9 @@ import com.google.common.base.Optional;
  */
 public class DownloadsActionUtils {
 
+  public static final String DOWNLOAD_EXIST_ERR_KEY = "download.doesnt.exist";
+  public static final String DOWNLOAD_NULL_ERR_KEY = "download.key.null";
+
   public static final EnumSet<Download.Status> RUNNING_STATUSES = EnumSet.of(Download.Status.PREPARING,
     Download.Status.RUNNING, Download.Status.SUSPENDED);
 

@@ -352,7 +352,7 @@
       <result>/WEB-INF/pages/user/namelists.ftl</result>
     </action>
 
-    <action name="cancel" class="org.gbif.portal.action.user.DownloadCancelAction">
+    <action name="download/cancel" class="org.gbif.portal.action.user.DownloadCancelAction">
       <result type="redirectAction">downloads</result>
     </action>
   </package>
