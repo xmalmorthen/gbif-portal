@@ -17,8 +17,8 @@
             <th width="18%">Name</th>
             <th width="17%">Categories of use</th>
             <th width="48%">Short Description</th>
-            <th width="5%">Project site</th>
             <th width="5%">Demo site</th>
+            <th width="5%">Project site</th>
             <th width="5%">Mailing list</th>
         </tr>
         </thead>
@@ -58,7 +58,7 @@
 </@common.article>
 
 
-<@common.article id="npt" title="Nodes Portal Toolkit (NPT) Startup" titleRight="Short cuts">
+<@common.article id="npt" title="Nodes Portal Toolkit (NPT) Startup" titleRight="See also">
   <div class="left">
       <p>
           NPT Startup is a tool that targets GBIF Participants who have limited web presence. It helps establish the
@@ -104,7 +104,7 @@
 </@common.article>
 
 
-<@common.article id="validator" title="Darwin Core Archive Validator" titleRight="Short cuts">
+<@common.article id="validator" title="Darwin Core Archive Validator" titleRight="See also">
     <div class="left">
         <p>
             Helps you validate that a Darwin Core Archive complies with the Darwin Core Text Guidelines. It validates
@@ -138,7 +138,7 @@
     </div>
 </@common.article>
 
-  <@common.article id="parser" title="Name Parser" titleRight="Short cuts">
+  <@common.article id="parser" title="Name Parser" titleRight="See also">
       <div class="left">
           <p>
               Helps you atomize scientific names, and validate that a scientific name is a well-formed 3-part name. The parser is based on regular expressions to dissect a name string into its components.

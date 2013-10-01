@@ -10,7 +10,7 @@
 
 <body class="ipt">
 
-<@common.article id="about" title="About the IPT" titleRight="Short cuts">
+<@common.article id="about" title="About the IPT" titleRight="See also">
   <div class="left">
       <p>The Integrated Publishing Toolkit (IPT) is a free open source software tool written in Java that is used to publish and share biodiversity datasets through the GBIF network. Designed for interoperability, it enables the publishing of content in databases or text files using open standards namely the <a href="http://rs.tdwg.org/dwc/terms/" title="Darwin Core Terms" target="_blank">Darwin Core</a> and the <a href="http://knb.ecoinformatics.org/software/eml/" title="EML" target="_blank">Ecological Metadata Language</a>. You can also use a 'one-click' service to convert your metadata into a draft <a href="/publishingdata/datapapers" title="How to publish data papers">data paper manuscript</a> for submission to a peer-reviewed journal.</p>
       <p>The core development of the IPT happens at the GBIF Secretariat, but the coding, documentation, and internationalization are a community effort and everyone is welcome to join in. New versions incorporate the feedback from the people who actually use the IPT. In this way, users can help get the features they want by becoming involved. The IPT really is a community-driven tool.</p>
