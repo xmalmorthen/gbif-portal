@@ -8,20 +8,22 @@ import org.gbif.api.model.checklistbank.NameUsageMetrics;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Organization;
 import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.exception.NotFoundException;
 import org.gbif.portal.exception.ReferentialIntegrityException;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,16 +40,19 @@ public class UsageBaseAction extends BaseAction {
   protected DatasetMetricsService metricsService;
   @Inject
   protected CubeService occurrenceCubeService;
+  @Inject
+  protected OrganizationService organizationService;
 
   protected Integer id;
   protected NameUsageContainer usage;
   private NameUsageMetrics usageMetrics;
   protected Dataset dataset;
-  protected Dataset constituent;
+  private Dataset constituent;
+  private Organization publisher;
   protected DatasetMetrics metrics;
   private long numOccurrences;
   private long numGeoreferencedOccurrences;
-  protected Map<UUID, Dataset> datasets = new HashMap<UUID, Dataset>();
+  protected Map<UUID, Dataset> datasets = Maps.newHashMap();
 
   /**
    * @param maxSize
@@ -147,6 +152,9 @@ public class UsageBaseAction extends BaseAction {
       constituent = datasetService.get(usage.getConstituentKey());
     }
 
+    // load publisher
+    publisher = organizationService.get(dataset.getOwningOrganizationKey());
+
     try {
       metrics = metricsService.get(usage.getDatasetKey());
     } catch (ServiceUnavailableException e) {
@@ -190,5 +198,9 @@ public class UsageBaseAction extends BaseAction {
 
   public Dataset getConstituent() {
     return constituent;
+  }
+
+  public Organization getPublisher() {
+    return publisher;
   }
 }

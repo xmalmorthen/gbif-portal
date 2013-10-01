@@ -550,22 +550,7 @@
 </#if>
 
 <#-- LEGAL -->
-<@common.article id="legal" title="Dataset usage & legal issues" class="mono_line">
-<div class="fullwidth">
-  <#if dataset.intellectualRights?has_content>
-    <h3>Usage rights</h3>
-    <p>${dataset.intellectualRights}</p>
-  </#if>
-
-  <h3>How to cite</h3>
-  <p>
-    <#if dataset.citation??>
-      <@common.citation dataset.citation />
-    </#if>
-  </p>
-
-</div>
-</@common.article>
+<@common.citationArticle rights=dataset.intellectualRights!"" dataset=dataset publisher=publisher />
 
 </body>
 </html>

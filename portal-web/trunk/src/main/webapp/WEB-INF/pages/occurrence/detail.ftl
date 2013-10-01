@@ -271,25 +271,8 @@ Identification details <span class='subtitle'>According to <a href="<@s.url valu
 </@common.article>
 -->
 
-<@common.article id="legal" title="Usage & legal issues" class="mono_line">
-    <div class="fullwidth">
-      <#assign rights = occ.rights!dataset.intellectualRights! />
-      <#if rights?has_content>
-        <h3>Usage rights</h3>
-        <p>${rights}</p>
-      </#if>
+<@common.citationArticle rights=occ.rights!dataset.intellectualRights!"" dataset=dataset publisher=publisher />
 
-      <h3>How to cite</h3>
-      <p>
-        <#if occ.citation?has_content>
-          ${occ.citation}
-        <#elseif dataset.citation??>
-          <@common.citation dataset.citation />                  
-        </#if>
-      </p>
-
-    </div>
-</@common.article>
 
 <@common.notice title="Further information">
 <p>There may be more details available about this occurrence in the

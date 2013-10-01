@@ -214,6 +214,29 @@
   </#if>
 </#macro>
 
+<#macro citationArticle rights dataset publisher prefix="" postfix="">
+  <@common.article id="legal" title="Usage & legal issues" class="mono_line">
+  <div class="fullwidth">
+    <#if rights?has_content>
+      <h3>Usage rights</h3>
+      <p>${rights}</p>
+    </#if>
+
+    <h3>How to cite</h3>
+    <p>${prefix!}<#if publisher??>${publisher.title}:</#if>
+      ${dataset.title}<#if dataset.pubDate?has_content>, ${dataset.pubDate?date?iso_utc}</#if>${postfix!}.
+       (accessed via GBIF portal, ${currentUrl}, on ${.now?date?iso_utc})
+    </p>
+
+    <#if dataset.citation?? && !dataset.citation.text!?ends_with(dataset.title)>
+      <h3>Publisher wishes to be cited as</h3>
+      <p>${dataset.citation.text}</p>
+    </#if>
+  </div>
+  </@common.article>
+</#macro>
+
+
 <#macro enumParagraph enum>
   <p><#if enum.interpreted?has_content>${enum.interpreted?string}<#else>${enum.verbatim!"&nbsp;"}</#if></p>
 </#macro>

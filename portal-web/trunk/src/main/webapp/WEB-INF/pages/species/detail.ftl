@@ -627,35 +627,12 @@
   </@common.article>
 </#if>
 
-<@common.article id="legal" title="Usage & legal issues" class="mono_line">
-    <div class="fullwidth">
-      <#assign rights = usage.rights!dataset.intellectualRights! />
-      <#if rights?has_content>
-        <h3>Usage rights</h3>
-        <p>${rights}</p>
-      </#if>
+<#-- LEGAL -->
+<#if constituent??>
+  <#assign postfix>. Information for this taxon was derived from ${constituent.title}<#if usage.accordingTo?has_content>, ${usage.accordingTo!}</#if></#assign>
+</#if>
+<@common.citationArticle rights=usage.rights!dataset.intellectualRights! dataset=dataset publisher=publisher prefix="${usage.scientificName} In: " postfix=postfix!"" />
 
-        <h3>How to cite</h3>
-        <p>
-          <#if usage.citation?has_content>
-            ${usage.citation}
-          <#else>
-            ${usage.scientificName} In:
-            <#if dataset.key == common.colKey>
-              ${dataset.title}<#if dataset.pubDate??> ${dataset.pubDate?date?iso_utc}</#if>.
-              <#if constituent??>
-                Information for this taxon was derived from ${constituent.title}<#if usage.accordingTo?has_content>, ${usage.accordingTo!}</#if>.
-              </#if>
-            <#elseif dataset.citation??>
-              <@common.citation dataset.citation />
-            <#else>
-              missing, see <a href="http://dev.gbif.org/issues/browse/REG-229">REG-229</a>
-            </#if>
-          </#if>
-        </p>
-        <p>Accessed via ${currentUrl} on ${.now?date?iso_utc}</p>
-    </div>
-</@common.article>
 
 <#if !usage.isNub()>
   <@common.notice title="Further information">
