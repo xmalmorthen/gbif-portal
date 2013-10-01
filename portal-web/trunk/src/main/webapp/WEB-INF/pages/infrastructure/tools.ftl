@@ -122,6 +122,9 @@
             <a href="http://tools.gbif.org/dwca-validator" target="_blank">Try it out</a> now online, or by playing with
             its <a href="http://tools.gbif.org/dwca-validator/api.do" target="_blank">web services</a>.
         </p>
+        <p>
+            Please note that this will likely be included in the <a href="../../developer">GBIF API</a> in future versions.
+        </p>
 
     </div>
     <div class="right">
@@ -147,6 +150,9 @@
           <p>
               <a href="http://tools.gbif.org/nameparser/" target="_blank">Try it out</a> now online, or by playing with
               its <a href="http://tools.gbif.org/nameparser/api.do" target="_blank">web services</a>.
+          </p>
+          <p>
+              Please note that this will likely be included in the <a href="../../developer">GBIF API</a> in future versions.
           </p>
 
       </div>
