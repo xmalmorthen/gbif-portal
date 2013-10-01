@@ -59,34 +59,37 @@ public class DownloadsAction extends BaseAction {
     return SUCCESS;
   }
 
+  // TODO: the same code is also used in ActivityAction share it showhow!!!
   public Map<OccurrenceSearchParameter, LinkedList<String>> getHumanFilter(Predicate p) {
-    try {
-      // not thread safe!
-      HumanFilterBuilder builder = new HumanFilterBuilder(this, datasetService, usageService);
-      return builder.humanFilter(p);
+    if (p != null) {
+      try {
+        // not thread safe!
+        HumanFilterBuilder builder = new HumanFilterBuilder(this, datasetService, usageService);
+        return builder.humanFilter(p);
 
-    } catch (IllegalArgumentException e) {
-      LOG.warn("Cannot create human representation for predicate " + p);
-      return null;
+      } catch (Exception e) {
+        LOG.warn("Cannot create human representation for predicate {}", p);
+      }
     }
+    return null;
   }
-
 
   public PagingResponse<Download> getPage() {
     return page;
   }
 
-  // TODO: the same code is also used in ActivityAction share it showhow!!!
-  public String getQueryParams(Predicate p) {
-    try {
-      // not thread safe!
-      QueryParameterFilterBuilder builder = new QueryParameterFilterBuilder();
-      return builder.queryFilter(p);
+  public static String getQueryParams(Predicate p) {
+    if (p != null) {
+      try {
+        // not thread safe!
+        QueryParameterFilterBuilder builder = new QueryParameterFilterBuilder();
+        return builder.queryFilter(p);
 
-    } catch (IllegalArgumentException e) {
-      LOG.warn("Cannot create query parameter representation for predicate " + p);
-      return null;
+      } catch (Exception e) {
+        LOG.warn("Cannot create query parameter representation for predicate {}", p);
+      }
     }
+    return null;
   }
 
   public boolean isDownloadRunning(String strStatus) {

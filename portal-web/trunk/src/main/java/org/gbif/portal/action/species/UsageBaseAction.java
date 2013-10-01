@@ -43,6 +43,7 @@ public class UsageBaseAction extends BaseAction {
   protected NameUsageContainer usage;
   private NameUsageMetrics usageMetrics;
   protected Dataset dataset;
+  protected Dataset constituent;
   protected DatasetMetrics metrics;
   private long numOccurrences;
   private long numGeoreferencedOccurrences;
@@ -141,6 +142,11 @@ public class UsageBaseAction extends BaseAction {
       throw new ReferentialIntegrityException(NameUsage.class, id, "Missing dataset " + usage.getDatasetKey());
     }
 
+    // load constituent dataset too if we have one
+    if (usage.getConstituentKey() != null) {
+      constituent = datasetService.get(usage.getConstituentKey());
+    }
+
     try {
       metrics = metricsService.get(usage.getDatasetKey());
     } catch (ServiceUnavailableException e) {
@@ -180,5 +186,9 @@ public class UsageBaseAction extends BaseAction {
         datasets.put(datasetKey, null);
       }
     }
+  }
+
+  public Dataset getConstituent() {
+    return constituent;
   }
 }

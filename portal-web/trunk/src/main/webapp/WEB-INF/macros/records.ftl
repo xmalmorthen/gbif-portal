@@ -93,7 +93,12 @@
                 <a href="<@s.url value='/occurrence/search?${queryParams}'/>">
               </#if>
               <table class="table">
-              <#if filterMap?has_content>
+              <#if !download.request.predicate?has_content>
+                <tr>
+                  <th>None</th>
+                  <td></td>
+                </tr>
+              <#elseif filterMap?has_content>
                 <#list filterMap?keys as param>
                   <tr>
                     <th><@s.text name="search.facet.${param}" /></th>
@@ -103,7 +108,7 @@
               <#else>
                   <tr>
                     <th>Raw Filter</th>
-                    <td>${download.request.predicate}</td>
+                    <td>${download.request.predicate!"None"}</td>
                   </tr>
               </#if>
               </table>

@@ -10,7 +10,7 @@ import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetOccurrenceDownloadUsageService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.portal.action.occurrence.util.HumanFilterBuilder;
-import org.gbif.portal.action.occurrence.util.QueryParameterFilterBuilder;
+import org.gbif.portal.action.user.DownloadsAction;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -61,26 +61,20 @@ public class ActivityAction extends DetailAction {
 
   //TODO: the same code is also used in DownloadsAction share it showhow!!!
   public Map<OccurrenceSearchParameter, LinkedList<String>> getHumanFilter(Predicate p) {
-    try {
-      // not thread safe!
-      HumanFilterBuilder builder = new HumanFilterBuilder(this, datasetService, nameUsageService);
-      return builder.humanFilter(p);
+    if (p != null) {
+      try {
+        // not thread safe!
+        HumanFilterBuilder builder = new HumanFilterBuilder(this, datasetService, nameUsageService);
+        return builder.humanFilter(p);
 
-    } catch (IllegalArgumentException e) {
-      LOG.warn("Cannot create human representation for predicate " + p);
-      return null;
+      } catch (Exception e) {
+        LOG.warn("Cannot create human representation for predicate {}", p);
+      }
     }
+    return null;
   }
 
   public String getQueryParams(Predicate p) {
-    try {
-      // not thread safe!
-      QueryParameterFilterBuilder builder = new QueryParameterFilterBuilder();
-      return builder.queryFilter(p);
-
-    } catch (IllegalArgumentException e) {
-      LOG.warn("Cannot create query parameter representation for predicate " + p);
-      return null;
-    }
+    return DownloadsAction.getQueryParams(p);
   }
 }

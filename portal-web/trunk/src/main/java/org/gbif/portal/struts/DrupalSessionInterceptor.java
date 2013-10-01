@@ -27,7 +27,6 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
   private UserServiceImpl userService;
   private final String COOKIE_NAME;
   private final String DRUPAL_SESSION_NAME = "drupal_session";
-  private final String DEBUG_USER_PARAM = "DEBUG_USER";
 
   @Inject
   public DrupalSessionInterceptor(UserService userService, Config cfg) {
@@ -42,9 +41,9 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
     final Cookie cookie = findDrupalCookie(request);
 
     // FOR DEBUGGING DURING DEVELOPMENT ONLY - you can switch a user without authenticating him!!!
-/*    if (!Strings.isNullOrEmpty(request.getParameter(DEBUG_USER_PARAM))) {
-      LOG.info("Force login for user {}", request.getParameter(DEBUG_USER_PARAM));
-      User user = userService.get(request.getParameter(DEBUG_USER_PARAM));
+/*    if (!Strings.isNullOrEmpty(request.getParameter("DEBUG_USER"))) {
+      LOG.info("Force login for user {}", request.getParameter("DEBUG_USER"));
+      User user = userService.get(request.getParameter("DEBUG_USER"));
       session.put(SESSION_USER, user);
       session.put(DRUPAL_SESSION_NAME, "");
       return invocation.invoke();

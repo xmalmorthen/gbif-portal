@@ -166,23 +166,30 @@
 <#-- Warn that this is not a nub page -->
 <@common.notice title="This is a particular view of ${usage.canonicalOrScientificName!}">
   <p>This is the <em>${usage.scientificName}</em> view,
-    as seen by <a href="<@s.url value='/dataset/${usage.datasetKey}'/>">${(dataset.title)!"???"}</a> checklist.
+    as seen by
+      <#if constituent??><a href="<@s.url value='/dataset/${constituent.key}'/>">${constituent.title}</a>, a constituent of the </#if>
+      <a href="<@s.url value='/dataset/${usage.datasetKey}'/>">${(dataset.title)!"???"}</a> checklist.
+  </p>
+
+  <p>
     <#if usage.nubKey?exists>
       Remember that you can also check the
-      <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view on ${usage.canonicalOrScientificName!}</a>.
+      <a href="<@s.url value='/species/${usage.nubKey?c}'/>">GBIF view on ${usage.canonicalOrScientificName!}</a><#if usage.origin! != "SOURCE" || !verbatimExists>.</#if>
     </#if>
-    <br/>
     <#if usage.origin! == "SOURCE">
       <#-- only show the link to a verbatim page if it indeed exists. Some old checklists need to be reindexed to have verbatim data stored -->
       <#if verbatimExists>
-      You can also see the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
-      submitted by the data publisher.
+        <#if usage.nubKey?exists> or <#else> You can also see </#if>
+        the <a href="<@s.url value='/species/${id?c}/verbatim'/>">verbatim version</a>
+        submitted by the data publisher.
       </#if>
     <#else>
+      </p>
+
+      <p>
       This record has been created during indexing and did not explicitly exist in the source data as such.
       It was created as <@s.text name="enum.origin.${usage.origin}"/>.
     </#if>
-
   </p>
 </@common.notice>
 </#if>
