@@ -1,5 +1,6 @@
 <#assign taiwanNodeKey='e1b85abc-61f9-430f-ba79-6813dec53a0f' />
 <#assign tempNodeKey='02c40d2a-1cba-4633-90b7-e36e5e97aba8' />
+<#assign colKey='7ddf754f-d193-4cc9-b351-99906754a03b' />
 
 
 <!-- maximum function -->

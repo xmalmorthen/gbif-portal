@@ -447,7 +447,8 @@
               <a href="<@s.url value='/species/${usage.getHigherRankKey(r)?c}'/>">${usage.getHigherRank(r)}</a>
             </#if>
           <#elseif (usageMetrics.getNumByRank(r)!0) gt 0>
-            <a href="<@s.url value='/species/search?status=ACCEPTED&dataset_key=${usage.datasetKey}&rank=${r}&highertaxon_key=${usage.key?c}'/>">${usageMetrics.getNumByRank(r)}</a>
+            <#-- TODO: check how to search for accepted only, removed status=ACCEPTED cause its too strict -->
+            <a href="<@s.url value='/species/search?dataset_key=${usage.datasetKey}&rank=${r}&highertaxon_key=${usage.key?c}'/>">${usageMetrics.getNumByRank(r)}</a>
           <#else>
             ---
           </#if>
@@ -640,15 +641,19 @@
             ${usage.citation}
           <#else>
             ${usage.scientificName} In:
-            <#if dataset.citation??>
+            <#if dataset.key == common.colKey>
+              ${dataset.title}<#if dataset.pubDate??> ${dataset.pubDate?date?iso_utc}</#if>.
+              <#if constituent??>
+                Information for this taxon was derived from ${constituent.title}<#if usage.accordingTo?has_content>, ${usage.accordingTo!}</#if>.
+              </#if>
+            <#elseif dataset.citation??>
               <@common.citation dataset.citation />
             <#else>
               missing, see <a href="http://dev.gbif.org/issues/browse/REG-229">REG-229</a>
             </#if>
           </#if>
-          <br/>
-          Accessed via ${currentUrl} on ${.now?date?iso_utc}
         </p>
+        <p>Accessed via ${currentUrl} on ${.now?date?iso_utc}</p>
     </div>
 </@common.article>
 
