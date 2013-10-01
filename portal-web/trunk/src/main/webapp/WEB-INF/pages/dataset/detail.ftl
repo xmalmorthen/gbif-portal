@@ -161,16 +161,17 @@
 
   <!-- find IPT RSS feed endpoint -->
   <#assign feedURL = ""/>
+  <#assign rssIndex = 0/>
   <#list installation.endpoints as end>
     <#if end.type?string == 'FEED'>
       <#assign feedURL = end.url?string/>
+      <#assign rssIndex = feedURL?index_of("rss.do")/>
     </#if>
   </#list>
   <!-- Only show Served by installation-title, for datasets served through an IPT with a non-empty title and resolvable IPT URL -->
-  <#if installation?? && installation.type?string == 'IPT_INSTALLATION' && feedURL != "" && installation.title?has_content>
-      <h3>Served by</h3>
+  <#if installation?? && installation.type?string == 'IPT_INSTALLATION' && feedURL != "" && rssIndex &gt; 0 && installation.title?has_content>
+    <h3>Served by</h3>
       <!-- parse out IPT base URL from feed URL, so basically everything up until rss.do -->
-      <#assign rssIndex = feedURL?index_of("rss.do")/>
       <#assign iptBaseUrl = feedURL?substring(0, rssIndex)/>
       <p><a href="<@s.url value=iptBaseUrl/>" title="${installation.title}">${installation.title}</a></p>
   </#if>
