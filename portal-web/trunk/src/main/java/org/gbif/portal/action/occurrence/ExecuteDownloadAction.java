@@ -8,8 +8,6 @@ import org.gbif.portal.action.occurrence.util.PredicateFactory;
 
 import java.util.Set;
 
-import javax.ws.rs.HttpMethod;
-
 import com.google.common.base.Splitter;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
@@ -36,17 +34,13 @@ public class ExecuteDownloadAction extends BaseAction {
 
   @Override
   public String execute() {
-    if (request.getMethod().equalsIgnoreCase(HttpMethod.POST)) {
-      // nothing more we can do than suppress
-      @SuppressWarnings("unchecked")
-      Predicate p = predicateFactory.build(getServletRequest().getParameterMap());
-      LOG.info("Predicate build for passing to download [{}]", p);
-      emails.add(getCurrentUser().getEmail());
-      DownloadRequest download = new DownloadRequest(p, getCurrentUser().getUserName(), emails);
-      key = downloadRequestService.create(download);
-      return SUCCESS;
-    }
-    return ERROR;
+    @SuppressWarnings("unchecked")
+    Predicate p = predicateFactory.build(getServletRequest().getParameterMap());
+    LOG.info("Predicate build for passing to download [{}]", p);
+    emails.add(getCurrentUser().getEmail());
+    DownloadRequest download = new DownloadRequest(p, getCurrentUser().getUserName(), emails);
+    key = downloadRequestService.create(download);
+    return SUCCESS;
   }
 
 
