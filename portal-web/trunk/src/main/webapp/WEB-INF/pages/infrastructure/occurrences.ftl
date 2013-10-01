@@ -55,11 +55,11 @@ distributed <a href="http://hadoop.apache.org/" title="Hadoop project" target="_
   crawl resources to initiate the crawl.  At this point, locks (<a href="http://zookeeper.apache.org/" title="ZooKeeper project" target="_blank">Apache ZooKeeper</a>) are taken out to ensure 
   that concurrent crawlers do not over eagerly crawl an endpoint.  Additionally, shared counters will be configured, which will be updated at every subsequent stage of processing to allow for overall 
   monitoring, and the ability to determine when a crawl is complete across all components.</li>
-  <li>Some of the data protocols GBIF support require paging (e.g. TAPIR, BioCASe), while others support a single HTTP request (e.g. DwC-A).  In both cases, for each artifact retrieved (a page or the full dataset) 
+  <li>Some of the data protocols GBIF support require paging (e.g. <a href="http://www.tdwg.org/standards/449/" title="TAPIR" target="_blank">TAPIR</a>, <a href="http://www.biocase.org/" title="BioCASe" target="_blank">BioCASe</a>), while others support a single HTTP request (e.g. <a href="http://www.gbif.org/orc/?doc_id=2816&l=en" title="DarwinCore Archive" target="_blank">Darwin Core Archives</a>).  In both cases, for each artifact retrieved (a page or the full dataset) 
   the crawler harvests the content, persists it to disk and emits a message declaring it is ready to process.  Shared counters are maintained (<a href="http://zookeeper.apache.org/" title="ZooKeeper project" 
-  target="_blank">Apache ZooKeeper</a>) about the progress.  For darwin core archives, validation will occur to ensure the archive is suitable for further processing</li>
+  target="_blank">Apache ZooKeeper</a>) about the progress.  For <a href="http://www.gbif.org/orc/?doc_id=2816&l=en" title="DarwinCore Archive" target="_blank">Darwin Core Archives</a>, validation will occur to ensure the archive is suitable for further processing</li>
   <li>For each artifact, a processor will extract single occurrence records, emitting a message for each record harvested.  This is received and a processor inspects the record for its identity 
-  (e.g. dwc:occurrenceID or using the dwc:institutionCode, collectionCode and catalogNumber).  In this case the records are all new and the fragment for the record will be inserted into <a href="http://hbase.apache.org/" title="HBase project" 
+  (e.g. <a href="http://rs.tdwg.org/dwc/terms/#occurrenceID" target="_blank">dwc:occurrenceID</a> or using the <a href="http://rs.tdwg.org/dwc/terms/#institutionCode" target="_blank">dwc:institutionCode</a>, <a href="http://rs.tdwg.org/dwc/terms/#collectionCode" target="_blank">dwc:collectionCode</a> and <a href="http://rs.tdwg.org/dwc/terms/#catalogNumber" target="_blank">dwc:catalogNumber</a>).  In this case the records are all new and the fragment for the record will be inserted into <a href="http://hbase.apache.org/" title="HBase project" 
   target="_blank">Apache HBase</a>.  This is the raw content as harvested, so might be a fragment of XML for some protocols. A message is emitted and counters updated</li>
   <li>A processor will receive the message and the raw view of the record is <em>normalized</em> into separate fields of the DarwinCore with as little interpretation as possible.  A message is emitted declaring the record is normalized 
   and a processor will start interpreting content and applying quality control.  This includes:
@@ -67,7 +67,7 @@ distributed <a href="http://hadoop.apache.org/" title="Hadoop project" target="_
     <li>Ensuring all basis of record values align to a vocabulary</li>
     <li>Ensuring all coordinates look sensible compared to the other fields present</li>
     <li>Making inference of (e.g.) country, where coordinates exist but no country is stated</li>
-    <li>Aligning the record to the GBIF Backbone taxonomy using the <a href="">name lookup web service</a></li>
+    <li>Aligning the record to the GBIF Backbone taxonomy using the <a href="../../developer/species#searching" target="_blank">name lookup web service</a></li>
   </ol>
   Once processing is complete, a message is emitted to declare the record is finished, and counters are updated.  The crawler coordinator monitoring the counters will observe this, and will write the result of the crawl
   to the registry for future auditing, and reporting on crawling history when it determines from the counters that all messages are processed.
@@ -80,6 +80,27 @@ distributed <a href="http://hadoop.apache.org/" title="Hadoop project" target="_
   </ol>
   </li>
 </ul>
+<p>&nbsp</p>
+<h3>Use case: User search and download</h3>
+<ul class="indent">
+  <li>The user performs a search in the portal and chooses the download button</li>
+  <li>A download workflow is initiated, which is orchestrated by the Hadoop workflow manager provided by <a href="http://oozie.apache.org/" title="Oozie project" target="_blank">Apache Oozie</a></li>
+  <li>The workflow will follow the following process:
+  <ol>
+    <li>A query against <a href="http://lucene.apache.org/solr/" title="SOLR project" target="_blank">Apache SOLR</a> is used to get the count of records to download</li>
+    <li>If the result size is below a threshold, a paging process iterates over results from SOLR, retrieving the occurrence ids. For each ID, a "get by key" operation against HBase 
+    provides the record details, which are written into the output file.</li>
+    <li>If the result size is above the threshold, a Hadoop <a href="http://en.wikipedia.org/wiki/MapReduce" target="_blank">MapReduce</a> based process is initiated. 
+    <a href="http://hive.apache.org/" title="Hive project" target="_blank">Apache Hive</a> is used to provide a "SQL like" query language, which iterates over the HBase content
+    to produce the output file</li>
+    <li>Once complete, subsequent workflow stages run which produce the necessary citation and metadata files by using the <a href="../../developer/registry">Registry API</a></li>
+    <li>Finally all pieces are converted into a <a href="http://www.gbif.org/orc/?doc_id=2816&l=en" target="_blank">Darwin Core Archive</a> by zipping together.  For large datasets
+    this is the most time consuming stage, as the Zip format is very slow to produce as it cannot be parallelized, but is the most compatible.</li>
+  </ol>
+  
+  </li>
+</ul>
+
 
   </div>
   <div class="right">
@@ -89,15 +110,12 @@ distributed <a href="http://hadoop.apache.org/" title="Hadoop project" target="_
       <li><a href="http://lucene.apache.org/solr/" title="SOLR project" target="_blank">Apache SOLR</a></li>
       <li><a href="http://zookeeper.apache.org/" title="ZooKeeper project" target="_blank">Apache ZooKeeper</a></li>
       <li><a href="http://www.rabbitmq.com/" title="RabbitMQ project" target="_blank">RabbitMQ</a></li>
-      
-      <li><a href="" title="" target="_blank">Apache Oozie (TODO)</a></li>
-      <li><a href="" title="" target="_blank">Apache Hive (TODO)</a></li>
-      <li><a href="" title="" target="_blank">TAPIR (TODO)</a></li>
-      <li><a href="" title="" target="_blank">BioCASe (TODO)</a></li>
-      <li><a href="" title="" target="_blank">Darwin Core Archives (TODO)</a></li>
-      <li><a href="" title="" target="_blank">Darwin Core Terms (TODO)</a></li>
-      
-      
+      <li><a href="http://oozie.apache.org/" title="Oozie project" target="_blank">Apache Oozie</a></li>
+      <li><a href="http://hive.apache.org/" title="Hive project" target="_blank">Apache Hive</a></li>
+      <li><a href="http://www.tdwg.org/standards/449/" title="TAPIR" target="_blank">TAPIR</a></li>
+      <li><a href="http://www.biocase.org/" title="BioCASe" target="_blank">BioCASe</a></li>
+      <li><a href="http://www.gbif.org/orc/?doc_id=2816&l=en" title="DarwinCore Archive" target="_blank">Darwin Core Archives</a></li>
+      <li><a href="http://rs.tdwg.org/dwc/terms/" title="Darwin Core" target="_blank">Darwin Core Terms</a></li>
     </ul>
   </div>
 </@common.article>
