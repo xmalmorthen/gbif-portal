@@ -196,8 +196,11 @@ sub recv_portal {
 
 sub vcl_fetch {
   # remove portal context from redirects
-  if ( (beresp.status == 302 || beresp.status == 301) && beresp.http.Location ~ "/portal/" ) {
-    set beresp.http.Location = regsub(beresp.http.Location, "/portal/", "/");
+  if ( beresp.status == 302 || beresp.status == 301 ) {
+    if (beresp.http.Location ~ "/portal/") {
+      set beresp.http.Location = regsub(beresp.http.Location, "/portal/", "/");
+    }
+    set beresp.http.Location = regsub(beresp.http.Location, "v-[a-z]+.gbif.org", "portaldev.gbif.org");
   }
   
   # remove no cache headers. 
