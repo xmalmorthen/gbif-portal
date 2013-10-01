@@ -23,10 +23,6 @@
 <li><strong>Discovery and access</strong>: By building network wide indexes, discovery services are offered for users through portals and for machines by extensive web service APIs.</li>
      </ol>
     </ol>
-
-    </p>
-    <p>Physically this is deployed across many institutions, but conceptually can be simply illustrated as follows. (placeholder image for now)</p>
-    <p><img src="<@s.url value='/img/infrastructure/registry.png'/>"/></p>
   </div>
   <div class="right">
     <ul>
