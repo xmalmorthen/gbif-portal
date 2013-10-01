@@ -196,7 +196,7 @@ sub recv_portal {
 
 sub vcl_fetch {
   # remove portal context from redirects
-  if ( beresp.status == 302 && beresp.http.Location ~ "/portal/" ) {
+  if ( (beresp.status == 302 || beresp.status == 301) && beresp.http.Location ~ "/portal/" ) {
     set beresp.http.Location = regsub(beresp.http.Location, "/portal/", "/");
   }
   
@@ -206,7 +206,6 @@ sub vcl_fetch {
   # http://stackoverflow.com/questions/6451137/etag-attribute-present-but-no-cache-control-present-in-http-header
   # http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html
   remove beresp.http.Cache-Control;
-  remove beresp.http.expires;
     
   # dont cache put, post or delete
   if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE")) {
@@ -219,22 +218,24 @@ sub vcl_fetch {
   }
 
   # CACHE CONTROL
-  # by default caching time
+  # by default caching time for varnish, no browser client caching allowed yet!
   set beresp.ttl = 60s;
-  set beresp.http.Cache-Control = "max-age=60, public";
 
   if ( req.url ~ "^/tile-server") {
     # cache map tiles for a minute
     set beresp.ttl = 60s;
   } else if( req.url ~ "^/(cfg|css|img|js|favicon|sites|misc|modules)" ) {
-    # cache static files for one day in varnish: 86400s
-    set beresp.ttl = 3600s; # 1h for now!
+    # cache static files for 10 days in varnish and for an hour in the client
+    set beresp.ttl = 864000s;
     set beresp.http.Cache-Control = "max-age=3600, public";
   } else if( req.url ~ "^/([a-z0-9-]+-ws)" ) {
     # cache json for a day
     set beresp.ttl = 86400s;
   }
 
+  if ( beresp.http.Cookie ) {
+    set beresp.http.Cache-Control = "no-cache, must-revalidate, private";
+  }
   return (deliver);
 }
 
