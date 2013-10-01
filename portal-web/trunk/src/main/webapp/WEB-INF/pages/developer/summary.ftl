@@ -104,6 +104,8 @@
     <li>All query parameters for countries will be converted into ISO country codes where currently (e.g.) DENMARK is used</li>
   </ol>
   <p>Feedback is sought from developers on the API structure, before the frozen v1.0 will be released to <a href="mailto:dev@gbif.org">dev@gbif.org</a></p>
+  
+  <p>v1.0 is expected in <strong>December 2013</strong> unless feedback received indicates it should be delayed</p>
   </div>  
 </@common.article>
 
