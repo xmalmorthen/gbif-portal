@@ -17,7 +17,8 @@
 
 <@common.notice title="Feedback sought">
   <p>The API is currently at vesion v0.9 and is nearing stability - it powers all functions of this portal.</p>
-  <p>Please report issues to <a href="mailto:dev@gbif.org">dev@gbif.org</a> and help us move to a stable v1.0.</p>
+  <p>Please report issues to <a href="mailto:dev@gbif.org">dev@gbif.org</a> and help us move to a stable v1.0 
+  (expected December 2013)</p>
 </@common.notice>
 
 
