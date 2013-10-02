@@ -200,7 +200,7 @@ sub vcl_fetch {
     if (beresp.http.Location ~ "/portal/") {
       set beresp.http.Location = regsub(beresp.http.Location, "/portal/", "/");
     }
-    set beresp.http.Location = regsub(beresp.http.Location, "v-[a-z]+.gbif.org", "portaldev.gbif.org");
+    set beresp.http.Location = regsub(beresp.http.Location, "v-[a-z0-9-]+.gbif.org", "portaldev.gbif.org");
   }
   
   # remove no cache headers. 
