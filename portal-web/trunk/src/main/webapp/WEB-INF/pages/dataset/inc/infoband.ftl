@@ -26,8 +26,8 @@
 <#else>
   <#assign box=false />
   <#assign maxKeywordChars=250 />
-  <#assign titleLength = 55 />
-  <#assign subtitleLength = 88 />
+  <#assign titleLength = 52 />
+  <#assign subtitleLength = 86 />
 </#if>
 
 
