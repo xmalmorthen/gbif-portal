@@ -24,7 +24,7 @@ $.fn.taxonomicExplorer = function(datasetKey) {
   var $offset=0;
   var $spid = -1; // the current species aka name usage key or false to load the root
   var $lock = false; // used to block new requests while previous ahvent returned yet
-  var loadedAllChildren=false;
+  var $loadedAllChildren=false;
 
   var $breadcrumb = $browser.find(".breadcrumb");
   var $loading = $browser.find(".loadingTaxa");
@@ -34,7 +34,7 @@ $.fn.taxonomicExplorer = function(datasetKey) {
   // setup inner scroll pane to load more usages when we are close to the bottom
   $inner.scroll(function() {
     var triggerHeight = $usages.height() - $browser.height() - 100;
-    if (!loadedAllChildren && $inner.scrollTop() > triggerHeight){
+    if (!$loadedAllChildren && $inner.scrollTop() > triggerHeight){
       loadChildren(false);
     }
   });
@@ -91,8 +91,9 @@ $.fn.taxonomicExplorer = function(datasetKey) {
 
 
   function loadNewUsage() {
-    //reset offset var
+    //reset vars
     $offset = 0;
+    $loadedAllChildren = false;
     //remove all children from tax browser
     $usages.html("");
 
@@ -111,6 +112,7 @@ $.fn.taxonomicExplorer = function(datasetKey) {
     }
 
     $.getJSON($wsUrl + "?limit=" + $limit + "&offset=" + $offset + "&callback=?", function(data) {
+      $loadedAllChildren = data.endOfRecords;
       $(data.results).each(function() {
         $htmlContent = '<li spid="' + this.key + '">';
         $htmlContent += '<span class="sciname">' + canonicalOrScientificName(this) + "</span>";
