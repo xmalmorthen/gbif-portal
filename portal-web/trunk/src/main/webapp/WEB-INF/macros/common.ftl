@@ -225,7 +225,7 @@
     <#if dataset.citation?? && !dataset.citation.text!?ends_with(dataset.title)>
       <p>The content  of the "Citation provided by the publisher" depends on the metadata supplied by the publisher.  
          In some cases this may be incomplete.  A standard default form for citing this dataset is provided as an alternative.  
-         We are in transition towards providing more consistent citation text for all data sets.</p>
+         We are in transition towards providing more consistent citation text for all datasets.</p>
       <h3>Citation provided by publisher</h3>
       <p>${dataset.citation.text}</p>
     </#if>
