@@ -221,17 +221,21 @@
       <h3>Usage rights</h3>
       <p>${rights}</p>
     </#if>
-
-    <h3>How to cite</h3>
+    
+    <#if dataset.citation?? && !dataset.citation.text!?ends_with(dataset.title)>
+      <p>The content  of the "Citation provided by the publisher" depends on the metadata supplied by the publisher.  
+         In some cases this may be incomplete.  A standard default form for citing this dataset is provided as an alternative.  
+         We are in transition towards providing more consistent citation text for all data sets.</p>
+      <h3>Citation provided by publisher</h3>
+      <p>${dataset.citation.text}</p>
+    </#if>
+    
+    <h3>Default citation</h3>
     <p>${prefix!}<#if publisher??>${publisher.title}:</#if>
       ${dataset.title}<#if dataset.pubDate?has_content>, ${dataset.pubDate?date?iso_utc}</#if>${postfix!}.
        (accessed via GBIF portal, ${currentUrl}, on ${.now?date?iso_utc})
     </p>
 
-    <#if dataset.citation?? && !dataset.citation.text!?ends_with(dataset.title)>
-      <h3>Citation provided by publisher</h3>
-      <p>${dataset.citation.text}</p>
-    </#if>
   </div>
   </@common.article>
 </#macro>
