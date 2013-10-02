@@ -214,25 +214,27 @@
   </#if>
 </#macro>
 
-<#macro citationArticle rights dataset publisher prefix="" postfix="">
+<#macro citationArticle rights dataset publisher prefix="">
   <@common.article id="legal" title="Citation and licensing" class="mono_line">
   <div class="fullwidth">
-    <#if rights?has_content>
-      <h3>Usage rights</h3>
-      <p>${rights}</p>
-    </#if>
-    
     <#if dataset.citation?? && !dataset.citation.text!?ends_with(dataset.title)>
       <p>The content  of the "Dataset citation provided by the publisher" depends on the metadata supplied by the publisher.
-         In some cases this may be incomplete.  A standard default form for citing this dataset is provided as an alternative.  
-         We are in transition towards providing more consistent citation text for all datasets.</p>
+         In some cases this may be incomplete.  A standard default form for citing is provided as an alternative.
+         We are in transition towards providing more consistent citation text for all datasets.
+      </p>
+
       <h3>Dataset citation provided by publisher</h3>
       <p>${dataset.citation.text}</p>
     </#if>
-    
+
+    <#if rights?has_content>
+      <h3>Rights</h3>
+      <p>${rights}</p>
+    </#if>
+
     <h3>Default citation</h3>
     <p>${prefix!}<#if publisher??>${publisher.title}:</#if>
-      ${dataset.title}<#if dataset.pubDate?has_content>, ${dataset.pubDate?date?iso_utc}</#if>${postfix!}.
+      ${dataset.title}<#if dataset.pubDate?has_content>, ${dataset.pubDate?date?iso_utc}</#if>.
       <br/>Accessed via ${currentUrl} on ${.now?date?iso_utc}
     </p>
 

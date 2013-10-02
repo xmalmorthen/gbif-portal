@@ -629,9 +629,9 @@
 
 <#-- LEGAL -->
 <#if constituent??>
-  <#assign postfix>. Information for this taxon was derived from ${constituent.title}<#if usage.accordingTo?has_content>, ${usage.accordingTo!}</#if></#assign>
+  <#assign prefix>${usage.scientificName}<#if usage.accordingTo?has_content> recognized by ${usage.accordingTo}</#if>, ${constituent.title} in </#assign>
 </#if>
-<@common.citationArticle rights=usage.rights!dataset.rights! dataset=dataset publisher=publisher prefix="${usage.scientificName} In: " postfix=postfix!"" />
+<@common.citationArticle rights=usage.rights!dataset.rights! dataset=dataset publisher=publisher prefix=prefix />
 
 
 <#if !usage.isNub()>
