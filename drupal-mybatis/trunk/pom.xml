@@ -9,7 +9,7 @@
 
   <groupId>org.gbif</groupId>
   <artifactId>drupal-mybatis</artifactId>
-  <version>0.9-SNAPSHOT</version>
+  <version>0.9</version>
   <packaging>jar</packaging>
 
   <name>Drupal :: MyBatis Service</name>
@@ -38,9 +38,9 @@
   </properties>
 
   <scm>
-    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/drupal-mybatis/trunk</connection>
-    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/drupal-mybatis/trunk</developerConnection>
-    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/drupal-mybatis/trunk</url>
+    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/drupal-mybatis/tags/drupal-mybatis-0.9</connection>
+    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/drupal-mybatis/tags/drupal-mybatis-0.9</developerConnection>
+    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/drupal-mybatis/tags/drupal-mybatis-0.9</url>
   </scm>
 
   <ciManagement>
