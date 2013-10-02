@@ -215,7 +215,7 @@
 </#macro>
 
 <#macro citationArticle rights dataset publisher prefix="" postfix="">
-  <@common.article id="legal" title="Usage & legal issues" class="mono_line">
+  <@common.article id="legal" title="Citation and licensing" class="mono_line">
   <div class="fullwidth">
     <#if rights?has_content>
       <h3>Usage rights</h3>
@@ -229,7 +229,7 @@
     </p>
 
     <#if dataset.citation?? && !dataset.citation.text!?ends_with(dataset.title)>
-      <h3>Publisher wishes to be cited as</h3>
+      <h3>Citation provided by publisher</h3>
       <p>${dataset.citation.text}</p>
     </#if>
   </div>
