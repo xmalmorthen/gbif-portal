@@ -271,7 +271,7 @@ Identification details <span class='subtitle'>According to <a href="<@s.url valu
 </@common.article>
 -->
 
-<@common.citationArticle rights=occ.rights!dataset.intellectualRights!"" dataset=dataset publisher=publisher />
+<@common.citationArticle rights=occ.rights!dataset.rights!"" dataset=dataset publisher=publisher />
 
 
 <@common.notice title="Further information">

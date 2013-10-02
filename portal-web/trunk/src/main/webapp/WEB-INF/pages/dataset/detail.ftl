@@ -550,7 +550,7 @@
 </#if>
 
 <#-- LEGAL -->
-<@common.citationArticle rights=dataset.intellectualRights!"" dataset=dataset publisher=publisher />
+<@common.citationArticle rights=dataset.rights!"" dataset=dataset publisher=publisher />
 
 </body>
 </html>
