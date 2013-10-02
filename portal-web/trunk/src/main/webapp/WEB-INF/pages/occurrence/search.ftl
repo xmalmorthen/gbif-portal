@@ -295,9 +295,9 @@
     </div>    
     <div id="notifications">
         <a href="#">Notify others of results?</a>
-        <div id="emails">
+        <div id="emails_div">
             Enter additional email addresses to be notified, separated by ';'
-            <input type="text" name="emails" title="emails"/>
+            <input type="text" id="emails" name="emails" title="emails"/>
         </div>
     </div>
   </div>
