@@ -24,8 +24,8 @@ SELECT p.ParticipantID AS imsId, c.ISO2 AS country, n.Name_Full AS title, p.Name
 
 FROM gbifims_Node n
   JOIN gbifims_Participant p ON n.ParticipantID = p.ParticipantID
-  JOIN gbifims_Country c ON p.CountryID = c.CountryID
-  JOIN gbifims_Institution i ON p.InstitutionID = i.InstitutionID
+  LEFT JOIN gbifims_Country c ON p.CountryID = c.CountryID
+  LEFT JOIN gbifims_Institution i ON p.InstitutionID = i.InstitutionID
 
 WHERE p.ParticipantID = #{imsId}
   </select>
