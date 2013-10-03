@@ -50,8 +50,9 @@ public class ImageCacheServlet extends HttpServlet {
       resp.setHeader(HttpHeaders.CONTENT_TYPE, img.getMimeType());
       ByteStreams.copy(img, resp.getOutputStream());
     } catch (IOException e) {
-      LOG.error("No image found", e);
-      resp.sendError(HttpServletResponse.SC_NOT_FOUND, "No image found for url " + url);
+      String errMsg = String.format("No image found for url '%s'", url);
+      LOG.error(errMsg, e);
+      resp.sendError(HttpServletResponse.SC_NOT_FOUND, errMsg);
     } finally {
       resp.flushBuffer();
     }

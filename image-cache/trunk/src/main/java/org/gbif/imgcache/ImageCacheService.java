@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -30,6 +31,7 @@ public class ImageCacheService {
   private static final String PNG_FMT = "png";
   private static final String MIME_TYPE = "image/" + PNG_FMT;
   private static final String DFT_FILENAME = "image";
+  private static final String HEAD_METHOD = "HEAD";
 
   @Inject
   public ImageCacheService(@Named("imgcache.repository") String repository) {
@@ -69,11 +71,16 @@ public class ImageCacheService {
   }
 
   private void cacheImage(URL url) throws IOException {
-    // download original
-    LOG.info("Caching image {}", url);
-    copyOriginal(url);
-    // now produce thumbnails from the original
-    produceImage(url, ImageSize.THUMBNAIL, ImageSize.SMALL, ImageSize.MIDSIZE, ImageSize.LARGE);
+    if (exists(url)) {
+      // download original
+      LOG.info("Caching image {}", url);
+      copyOriginal(url);
+      // now produce thumbnails from the original
+      produceImage(url, ImageSize.THUMBNAIL, ImageSize.SMALL, ImageSize.MIDSIZE, ImageSize.LARGE);
+    } else {
+      String errMsg = String.format("Requested file doesn't exist %s", url);
+      throw new IOException(errMsg);
+    }
   }
 
   /**
@@ -93,6 +100,21 @@ public class ImageCacheService {
       ByteStreams.copy(source, out);
     } finally {
       closer.close();
+    }
+  }
+
+  /**
+   * Checks if the remote URL exists.
+   */
+  private boolean exists(URL url) {
+    try {
+      HttpURLConnection.setFollowRedirects(false);
+      HttpURLConnection con = (HttpURLConnection) url.openConnection();
+      con.setRequestMethod(HEAD_METHOD);
+      return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+    } catch (Exception e) {
+      LOG.error(String.format("Error getting file %s", url), e);
+      return false;
     }
   }
 
