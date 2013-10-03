@@ -18,6 +18,20 @@
 </@common.article>
 
 <#if page.results?has_content>
+
+  <#-- Occurrence cube provides no publisher metrics, so we have no way to know if the map has content -->
+  <@common.article titleRight='Georeferenced data' class="map">
+    <div id="map" class="map">
+      <iframe id="mapframe" name="mapframe" src="${cfg.tileServerBaseUrl!}/index.html?type=PUBLISHER&key=${id!}&style=classic&resolution=4" allowfullscreen height="100%" width="100%" frameborder="0"/></iframe>
+    </div>
+    <div class="right">
+       <div class="inner">
+         <h3>About</h3>
+         <p>The map shows georeferenced data for all datasets published</p>  
+       </div>
+    </div>
+  </@common.article>
+
 <@common.article id="datasets" title="Published datasets">
   <div class="left">
       <ul class="notes">
