@@ -227,16 +227,16 @@
       <p>${dataset.citation.text}</p>
     </#if>
 
-    <#if rights?has_content>
-      <h3>Rights</h3>
-      <p>${rights}</p>
-    </#if>
-
     <h3>Default citation</h3>
     <p>${prefix!}<#if publisher??>${publisher.title}:</#if>
       ${dataset.title}<#if dataset.pubDate?has_content>, ${dataset.pubDate?date?iso_utc}</#if>.
       <br/>Accessed via ${currentUrl} on ${.now?date?iso_utc}
     </p>
+
+    <#if rights?has_content>
+      <h3>Rights</h3>
+      <p>${rights}</p>
+    </#if>
 
   </div>
   </@common.article>
