@@ -1,5 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 
+<#assign apiUrl = "http://api.gbif.org/v0.9">
+
 <#macro introArticle>
   <@common.article id="overview" title="Introduction" titleRight="Quick links">
   <#nested />
@@ -107,7 +109,7 @@
 <#macro trow url resp httpMethod="" respLink="#" paging=false params=[]>
 <tr>
     <td>${url} <small>${httpMethod?upper_case}</small></td>
-    <td><a href="http://api.gbif.org${respLink}" target="_blank">${resp}</a></td>
+    <td><a href="${apiUrl}${respLink}" target="_blank">${resp}</a></td>
     <td><#nested/></td>
     <td>${paging?string}</td>
     <td><#list params as p><a href='#p${p}'>${p}</a><#if p_has_next>, </#if></#list></td>
@@ -119,7 +121,7 @@
 <tr>
     <td>${url}</td>
     <td>${httpMethod?upper_case}</td>
-    <td><#if httpMethod?upper_case == "GET"><a href="http://api.gbif.org${respLink}" target="_blank">${resp} <#if paging>List</#if></a><#elseif httpMethod?upper_case == "POST">${resp}</#if></td>
+    <td><#if httpMethod?upper_case == "GET"><a href="${apiUrl}${respLink}" target="_blank">${resp} <#if paging>List</#if></a><#elseif httpMethod?upper_case == "POST">${resp}</#if></td>
     <td><#nested/></td>
     <td>${authRequired?string}</td>
     <td>${paging?string}</td>
@@ -132,7 +134,7 @@
 <tr>
     <td>${url}</td>
     <td>${httpMethod?upper_case}</td>
-    <td><#if httpMethod?upper_case == "GET"><a href="http://api.gbif.org${respLink}" target="_blank">${resp} </a><#elseif httpMethod?upper_case == "POST">${resp}</#if></td>
+    <td><#if httpMethod?upper_case == "GET"><a href="${apiUrl}${respLink}" target="_blank">${resp} </a><#elseif httpMethod?upper_case == "POST">${resp}</#if></td>
     <td><#nested/></td>
     <td>${authRequired?string}</td>
 </tr>
@@ -142,7 +144,7 @@
 <tr>
     <td>${url}</td>
     <td>GET</td>
-    <td><a href="http://api.gbif.org${respLink}" target="_blank">${resp} </a></td>
+    <td><a href="${apiUrl}${respLink}" target="_blank">${resp} </a></td>
     <td><#nested/></td>
     <td><#list params as p><a href='#p${p}'>${p}</a><#if p_has_next>, </#if></#list></td>
 </tr>
@@ -152,7 +154,7 @@
 <tr>
     <td>${url}</td>
     <td>${httpMethod?upper_case}</td>
-    <td><#if httpMethod?upper_case == "GET"><a href="http://api.gbif.org${respLink}" target="_blank">${resp} <#if paging>List</#if></a><#elseif httpMethod?upper_case == "POST">${resp}</#if></td>
+    <td><#if httpMethod?upper_case == "GET"><a href="${apiUrl}${respLink}" target="_blank">${resp} <#if paging>List</#if></a><#elseif httpMethod?upper_case == "POST">${resp}</#if></td>
     <td><#nested/></td>
     <td>${authRequired?string}</td>
     <td>${paging?string}</td>
