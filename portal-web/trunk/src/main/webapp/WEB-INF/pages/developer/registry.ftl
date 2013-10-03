@@ -83,7 +83,7 @@
       <@api.apiTable_registry>
         <@trowD url="" respLink="/dataset" paging=true params=[1,2,3,4,5]>Lists all datasets</@trowD>
         <@trowD url="" method="POST" resp="UUID" auth=true>Creates a new dataset</@trowD>
-        <@trowD url="/{UUID}" respLink="/dataset/4fa7b334-ce0d-4e88-aaae-2e0c138d049e">Gets the single dataset detail</@trowD>
+        <@trowD url="/{UUID}" respLink="/dataset/4fa7b334-ce0d-4e88-aaae-2e0c138d049e">Gets details for the single dataset</@trowD>
         <@trowD url="/{UUID}" method="PUT" auth=true>Updates the dataset</@trowD>
         <@trowD url="/{UUID}" method="DELETE" auth=true>Deletes the dataset</@trowD>
         <@trowD url="/{UUID}/contact" method="GET" resp="Contact List" respLink="/dataset/4fa7b334-ce0d-4e88-aaae-2e0c138d049e/contact">Lists all contacts for the dataset</@trowD>
@@ -234,7 +234,7 @@
   <@api.apiTable_registry>
     <@trowNo url="" respLink="/node" paging=true params=[1,4,5]>Lists all nodes</@trowNo>
     <@trowNo url="" method="POST" resp="UUID" auth=true>Creates a new node</@trowNo>
-    <@trowNo url="/{UUID}" respLink="/node/0909d601-bda2-42df-9e63-a6d51847ebce">Gets the single node detail</@trowNo>
+    <@trowNo url="/{UUID}" respLink="/node/0909d601-bda2-42df-9e63-a6d51847ebce">Gets details for the single node</@trowNo>
     <@trowNo url="/{UUID}" method="PUT" auth=true>Updates the node</@trowNo>
     <@trowNo url="/{UUID}" method="DELETE" auth=true>Deletes the node</@trowNo>
     <@trowNo url="/{UUID}/organization" method="GET" resp="Organization" respLink="/node/0909d601-bda2-42df-9e63-a6d51847ebce/organization" paging=true>Lists organizations endorsed by the node</@trowNo>
@@ -272,7 +272,7 @@
   <@api.apiTable_registry>
     <@trowNe url="" respLink="/network" paging=true params=[1,4,5]>Lists all networks</@trowNe>
     <@trowNe url="" method="POST" resp="UUID" auth=true>Creates a new network</@trowNe>
-    <@trowNe url="/{UUID}" respLink="/network/7ddd1f14-a2b0-4838-95b0-785846f656f3">Gets the single network detail</@trowNe>
+    <@trowNe url="/{UUID}" respLink="/network/7ddd1f14-a2b0-4838-95b0-785846f656f3">Gets details for the single network</@trowNe>
     <@trowNe url="/{UUID}" method="PUT" auth=true>Updates the network</@trowNe>
     <@trowNe url="/{UUID}" method="DELETE" auth=true>Deletes the network</@trowNe>
     <@trowNe url="/{UUID}/contact" method="GET" resp="Contact List" respLink="/network/7ddd1f14-a2b0-4838-95b0-785846f656f3/contact">Lists all contacts for the network</@trowNe>
