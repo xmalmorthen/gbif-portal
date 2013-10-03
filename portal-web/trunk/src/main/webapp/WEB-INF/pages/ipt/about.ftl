@@ -96,7 +96,8 @@
         <p>Is there a mistake in the IPT documentation? Perhaps some topic in the IPT wiki is missing? If so, please contact the <a href="mailto:helpdesk@gbif.org" title="GBIF Helpdesk Email">GBIF Helpdesk</a> with your ideas, and we will grant you author privileges to the IPT wiki.</p>
     </div>
     <div class="right">
-        <p>"Darwin Core Archives are required for data harvest to our new portal. We see IPT as a great tool to facilitate the creation of these files and to provide hosting of them for our participating institutions." - Laura Russell, VertNet</p>
+        <p>"Darwin Core Archives are required for data harvest to our new portal. We see IPT as a great tool to facilitate the creation of these files and to provide hosting of them for our participating institutions." - <em>Laura Russell, VertNet</em></p>
+        <p>"Thanks to the IPT we now have a complete data mobilization workflow, from in-house data management systems to GBIF. The software tool has been instrumental in the growth of the Canadensys network." - <em>Peter Desmet, INBO &amp; Canadensys</em></p>
     </div>
 </@common.article>
 
