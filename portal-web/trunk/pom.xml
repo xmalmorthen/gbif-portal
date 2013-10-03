@@ -542,7 +542,7 @@
         <registry.ws.url>http://api.gbif.org/</registry.ws.url>
         <checklistbank.ws.url>http://api.gbif.org/</checklistbank.ws.url>
         <checklistbank.search.ws.url>http://api.gbif.org/species/</checklistbank.search.ws.url>
-        <checklistbank.match.ws.url>http://api.gbif.org/lookup/species/</checklistbank.match.ws.url>
+        <checklistbank.match.ws.url>http://api.gbif.org/species/match/</checklistbank.match.ws.url>
         <occurrence.ws.url>http://api.gbif.org/</occurrence.ws.url>
         <occurrence-download.ws.url>http://jawa.gbif.org:8080/occurrence-download-ws/</occurrence-download.ws.url>
         <occurrence-download.ws.url.for.public.link>http://api.gbif.org/</occurrence-download.ws.url.for.public.link>
