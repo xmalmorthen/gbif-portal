@@ -89,11 +89,7 @@
         <span>Free and open access to biodiversity data</span>
       </div>
     </#if>
-
-    <a class="disclaimerToggle" href="<@s.url value='/disclaimer'/>">
-      <img src="<@s.url value='/img/beta.gif'/>">
-    </a>
-
+    
     <nav>
 
       <ul>
