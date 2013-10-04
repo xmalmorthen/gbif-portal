@@ -68,6 +68,25 @@
 </table>
 </#macro>
 
+<#macro apiTable_occurrence_downloads>
+<table class='table table-bordered table-striped table-params'>
+    <thead>
+    <tr>
+        <th width="20%" class='total'>Resource URL</th>
+        <th width="8%" class='total'>Method</th>
+        <th width="15%">Response</th>
+        <th width="26%">Description</th>
+        <th width="4%">Auth</th>
+        <th width="6%">Paging</th>
+    </tr>
+    </thead>
+
+    <tbody>
+      <#nested />
+    </tbody>
+</table>
+</#macro>
+
 <#macro apiTable_occurrence_metrics>
 <table class='table table-bordered table-striped table-params'>
     <thead>
@@ -126,6 +145,17 @@
     <td>${authRequired?string}</td>
     <td>${paging?string}</td>
     <td><#list params as p><a href='#p${p}'>${p}</a><#if p_has_next>, </#if></#list></td>
+</tr>
+</#macro>
+
+<#macro trow_occurrence_downloads url resp httpMethod="" respLink="#" paging=false authRequired=false>
+<tr>
+    <td>${url}</td>
+    <td>${httpMethod?upper_case}</td>
+    <td><#if httpMethod?upper_case == "GET"><a href="http://api.gbif.org${respLink}" target="_blank">${resp} <#if paging>List</#if></a><#elseif httpMethod?upper_case == "POST">${resp}</#if></td>
+    <td><#nested/></td>
+    <td>${authRequired?string}</td>
+    <td>${paging?string}</td>
 </tr>
 </#macro>
 
