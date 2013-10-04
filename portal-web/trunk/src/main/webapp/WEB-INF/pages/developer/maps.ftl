@@ -7,10 +7,10 @@
       <link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.css'/>" />
       <!--[if lte IE 8]><link rel="stylesheet" href="<@s.url value='/js/vendor/leaflet/leaflet.ie.css'/>" /><![endif]-->
       <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
-      
+
       <script>
         var baseUrl = cfg.tileServerBaseUrl + '/density/tile?x={x}&y={y}&z={z}';
-        
+
         // Based on the preview content, build the tile template url
         function getGBIFUrl() {
           var layers="";
@@ -19,7 +19,7 @@
               layers =layers + "&layer=" + d.id;
             }
           });
-  
+
           var palette = "";
           $.each($('.color'), function(i,d) {
             if (d.checked) {
@@ -30,8 +30,8 @@
               }
             }
           });
-          
-          var url = baseUrl 
+
+          var url = baseUrl
             + "&type=" + $("#type").val()
             + "&key=" + $("#key").val()
             + layers
@@ -39,10 +39,10 @@
           // console.log("GBIF layer template url: " +  url);
           $("#urlTemplate").html("<a href='" + url + "'>" + url + "</a>");
           return url;
-        }        
-        
+        }
+
 		var gbifAttrib='GBIF contributors';
-		var gbif = new L.TileLayer(getGBIFUrl(), {minZoom: 0, maxZoom: 14, attribution: gbifAttrib});		
+		var gbif = new L.TileLayer(getGBIFUrl(), {minZoom: 0, maxZoom: 14, attribution: gbifAttrib});
 	    var cmAttr = 'Nokia',
 			cmUrl = 'http://2.maps.nlp.nokia.com/maptile/2.1/maptile/newest/normal.day.grey/{z}/{x}/{y}/256/png8?app_id=_peU-uCkp-j8ovkzFGNU&app_code=gBoUkAMoxoqIWfxWA5DuMQ';
 	    var minimal   = L.tileLayer(cmUrl, {styleId: 22677, attribution: cmAttr});
@@ -54,18 +54,18 @@
 			layers: [minimal, gbif]
 		});
 
-		
+
         $('.refresh,.layer,.color').click(function(event) {
           gbif.setUrl(getGBIFUrl());
-        });  
-		
+        });
+
 		// prototype util function
         if (typeof String.prototype.startsWith != 'function') {
             String.prototype.startsWith = function (str){
             return this.indexOf(str) == 0;
           };
-        }		
-		
+        }
+
         $('.toggle').click(function(e) {
           e.preventDefault();
           $.each($('.layer'), function(i,d) {
@@ -74,8 +74,8 @@
             }
           });
           gbif.setUrl(getGBIFUrl());
-        }); 		
-		
+        });
+
       </script>
     </content>
   </head>
@@ -88,7 +88,7 @@
   <@common.article title='Mapping API' titleRight='Quick Links'>
         <div class="left">
           <p>
-            The mapping api is a <a href="http://www.opengeospatial.org/standards/wmts">web map tile service</a>  
+            The mapping api is a <a href="http://www.opengeospatial.org/standards/wmts">web map tile service</a>
             making it trivial to visualize GBIF content on interactive maps, and overlay content from other sources.
           </p>
           <p>
@@ -99,18 +99,18 @@
             <ul>
               <li>Map layers available for a <strong>country</strong>, <strong>dataset</strong>, <strong>taxon</strong> (species, subspecies or higher taxon), <strong>publisher</strong></li>
               <li>User defined styling by selecting a predefined color palette, or by providing styling rules</li>
-              <li>Density of content is clustered to 4px clusters (regardless of zoom level)</li>             
+              <li>Density of content is clustered to a user defined cluster size (regardless of zoom level)</li>
               <li>The ability to customise content shown by the <a href="http://rs.tdwg.org/dwc/terms/#basisOfRecord">basis of record</a> (E.g. Specimens, Observations, Fossils etc)</li>
               <li>For certain basis of record types, the time period may be customised by decade; e.g. map the observations of a species since 1970</li>
             </ul>
           </p>
           <p>
-            This service is intended for use wth commonly used clients such as the <a href="https://developers.google.com/maps/">google 
+            This service is intended for use with commonly used clients such as the <a href="https://developers.google.com/maps/">google
             maps api</a>, <a href="http://leaflet.cloudmade.com">leaflet JS library</a> or the <a href="http://modestmaps.com">modest maps JS library</a>.
-            These libraries allow the GBIF layers to be visualized with other content, such as those coming from 
-            <a href="http://www.opengeospatial.org/standards/wms">web map service (WMS)</a> providers.  It should be noted that the mapping api is not 
+            These libraries allow the GBIF layers to be visualized with other content, such as those coming from
+            <a href="http://www.opengeospatial.org/standards/wms">web map service (WMS)</a> providers.  It should be noted that the mapping api is not
             a WMS service, nor does it support WFS capabilities.  The examples on this page use the leaflet library.
-          </p> 
+          </p>
         </div>
         <div class="right">
           <ul>
@@ -131,14 +131,14 @@
             <h4>The tile URL format</h4>
           </div>
         </div>
-        
+
         <div class="left">
           <p>
             The format of the url is as follows:
           </p>
           <p>
             <code>${cfg.tileServerBaseUrl}/density/tile?x={x}&y={y}&z={z}</code>
-          </p>		            
+          </p>
           <p>
             With the following parameters:
             <table class="params">
@@ -151,6 +151,11 @@
                 <td>key</td>
                 <td><strong>required</strong></td>
                 <td>The appropriate key for the chosen type (a taxon key, dataset/publisher uuid or 2 letter ISO country code)</td>
+              </tr>
+              <tr>
+                <td>resolution</td>
+                <td>optional (default 1)</td>
+                <td>The number of pixels to which density is aggregated. Valid values are 1, 2, 4, 8, and 16.</td>
               </tr>
               <tr>
                 <td>layer</td>
@@ -167,9 +172,15 @@
                 <td>optional</td>
                 <td>Provides a user defined set of rules for coloring the layer.  See <a href="#colors">styling a layer</a></td>
               </tr>
+              <tr>
+                <td>saturation & hue</td>
+                <td>optional</td>
+                <td>Allows selection of a hue value between 0.0 and 1.0 when saturation is set to true. See <a
+                        href="#colors">styling a layer</a></td>
+              </tr>
             </table>
           </p>
-          
+
         </div>
       </div>
       <footer></footer>
@@ -184,10 +195,10 @@
             <h4>Customizing layer content</h4>
           </div>
         </div>
-        
+
         <div class="left">
           <p>
-            The following layers may be used to instruct the server to combine the content into a single density layer.  All layers declared will be combined by the server on rendering.  
+            The following layers may be used to instruct the server to combine the content into a single density layer.  All layers declared will be combined by the server on rendering.
             Thus, for a given taxon, country, dataset or provider, it is possible to retrieve e.g:
             <ul>
               <li>A map of specimens only</li>
@@ -200,18 +211,18 @@
             </ul>
           </p>
           <p>
-            The quickest way to experiment with this is to use the <a href="#preview">preview functionality</a>.  The specification for the layers are provided below.  
+            The quickest way to experiment with this is to use the <a href="#preview">preview functionality</a>.  The specification for the layers are provided below.
             <ul>
               <li>This is a <strong>multivalue field</strong> so it is expected that several layers are requested in any single URL</li>
               <li>
                 Should <strong>no layers be specified, a sensible default is provided</strong>.  This is to preserve backwards compatibility since layering was an additional feature, and considered
                 acceptable since a map with no layers makes little sense.  At present the default returns all layers, but could be subject to future change (e.g. should a layer of records
-                with known issues be added, it might not be included in the default)  
+                with known issues be added, it might not be included in the default)
               </li>
             </ul>
-            
+
           </p>
-          <p>  
+          <p>
             <table class="params">
               <tr>
                 <td>Observations</td>
@@ -243,7 +254,7 @@
               </tr>
             </table>
           </p>
-          
+
         </div>
       </div>
       <footer></footer>
@@ -258,17 +269,18 @@
             <h4>Styling a layer</h4>
           </div>
         </div>
-        
+
         <div class="left">
           <p>
-            Styling the configured layer is controlled through either the <strong>&colors</strong> parameter or the <strong>&palette</strong> parameter.  If neither
+            Styling the configured layer is controlled through either the <strong>&colors</strong> parameter, the <strong>&palette</strong> parameter, or a combination of the <strong>&saturation</strong> and <strong>&hue</strong> parameters.  If none
             are provided, a sensible default will be used, which may be subject to change without notice.  The quickest way to experiment with this is to use the <a href="#preview">preview functionality</a>.
           </p>
+          <p><strong>Palette and Colors</strong></p>
           <p>
             The possible options for the <strong>palette</strong> are given:
           </p>
           <p>
-          
+
             <table width="100%" class="params">
               <tr>
                 <td/>
@@ -345,16 +357,16 @@
                 <td style="background-color:#FB6A4A"></td>
                 <td style="background-color:#DE2D26"></td>
                 <td style="background-color:#A50F15"></td>
-              </tr>      
-            </table>  
+              </tr>
+            </table>
           </p>
           <p>
             Should you wish to style a map further, you may provide a color ruleset using the <strong>&colors</strong> parameter.
-            A ruleset is a pipe(|) separated series of rules, where each rule is comma (,) separated containing the min (optional and inclusive), max(optional and exclusive) 
+            A ruleset is a pipe(|) separated series of rules, where each rule is comma (,) separated containing the min (optional and inclusive), max(optional and exclusive)
             and color to apply for the range.  Colors are in #RGBA format (red, green, blue, alpha with a preceding hash).  The ruleset must be
             URL encoded (in javascript, the encodeURIComponent() provides this).  Thus, the format of the ruleset is given as:
           </p>
-          <p>            
+          <p>
             <code>
               <strong>ruleset_expr:</strong></br/>
               &nbsp;&nbsp;<strong>rule_expr</strong>[|rule_expr ...]<br/><br/>
@@ -380,13 +392,17 @@
           </p>
           <p>
             The <a href="#preview">preview functionality</a> allows you to test styles.
-            A very useful resource providing color advice for cartographers is <a href="http://colorbrewer2.org">colorbrewer2.org</a>.  
+            A very useful resource providing color advice for cartographers is <a href="http://colorbrewer2.org">colorbrewer2.org</a>.
           </p>
+
+          <p><strong>Saturation and Hue</strong></p>
+          <p>If you set <strong>&saturation</strong> to true then you can specify a <strong>&hue</strong> between 0.0 and 1.0 and achieve a very different effect when visualizing the GBIF data. These settings are what allow maps as seen on the <a href="/occurrence">occurrence homepage</a>. It is a very different way of describing colour from what is described above - Wikipedia has <a href="http://en.wikipedia.org/wiki/HSV_color_space" target="_blank">a
+              good introduction to Hue, Saturation, and Brightness</a>.</p>
         </div>
       </div>
       <footer></footer>
-    </article>	
-	
+    </article>
+
 	<a name="preview"></a>
     <article class="results">
       <header></header>
@@ -399,18 +415,18 @@
             <h4>Customise</h4>
           </div>
         </div>
-        
+
         <div class="left">
           <div id="map" style="width: 100%; height: 500px;"></div>
           <p>
-            Type  
+            Type
             <select id="type">
               <option value="TAXON">Taxon</option>
               <option value="COUNTRY">Country</option>
               <option value="PUBLISHING_COUNTRY">Publishing Country</option>
               <option value="DATASET">Dataset</option>
               <option value="PUBLISHER">Publisher</option>
-            </select> 
+            </select>
           </p>
           <p>
              Key (or ISO country code) <input size="10" id="key" value="1"/> <input type="submit" class="refresh" value="Refresh"/>
@@ -433,7 +449,7 @@
                       <td><h4><a href="#" id="SP" class="toggle">Spe.</a></h4></td>
                       <td><h4><a href="#" id="OTH" class="toggle">Oth.</a></h4></td>
                     </tr>
-           
+
                     <#-- Render a single row -->
                     <#macro row label postfix>
                       <tr>
@@ -452,18 +468,18 @@
                     <@row label='2010+' postfix='2010_2020'/>
                     <tr class="separator">
                       <td><h4>Living</h4></td>
-                      <td><input type="checkbox" class="layer" id="LIVING" checked/></td> 
+                      <td><input type="checkbox" class="layer" id="LIVING" checked/></td>
                       <td colspan="2"/>
 	                </tr>
                     <tr>
                       <td><h4>Fossil</h4></td>
-                      <td><input type="checkbox" class="layer" id="FOSSIL" checked/></td> 
+                      <td><input type="checkbox" class="layer" id="FOSSIL" checked/></td>
                       <td colspan="2"/>
 	                </tr>
                   </table>
                 </li>
               </ul>
-            </div>            
+            </div>
           </div>
           <div class="refine">
             <div class="facet">
@@ -547,9 +563,9 @@
                   </table>
                 </li>
               </ul>
-            </div>            
+            </div>
           </div>
-        </div>        
+        </div>
       </div>
       <footer></footer>
     </article>
