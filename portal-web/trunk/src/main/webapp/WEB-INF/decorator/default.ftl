@@ -204,7 +204,7 @@
         <ul>
             <li><h3>JOIN THE COMMUNITY</h3></li>
             <li><a href="http://community.gbif.org/">Join GBIF Community Site</a></li>
-            <li><a href="${cfg.drupal}/newsroom/summary">Sign up to GBits newsletter</a></li>
+            <li><a href="${cfg.drupal}/newsroom/summary/#signup">Sign up to GBits newsletter</a></li>
             <li><a href="${cfg.drupal}/resources/summary">GBIF Online Resource Centre</a></li>
         </ul>
 
