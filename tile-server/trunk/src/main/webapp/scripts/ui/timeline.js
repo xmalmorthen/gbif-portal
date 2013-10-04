@@ -349,10 +349,11 @@ gbif.ui.view.Timeline = Backbone.View.extend({
         for(var j = 0; j < cats[this.model.get("current_cat")]['years'][cat_array[i]].length; j++) {
           var key = cats[this.model.get("current_cat")]['years'][cat_array[i]][j];
           key_array.push(key);
-          nums_array = nums_array + aggr_data[key];
+          nums_array += aggr_data[key];
         }
       } else {
         var key = cats[this.model.get("current_cat")]['years'][cat_array[i]];
+        nums_array += aggr_data[key];
         key_array.push(key);
       }
     }
@@ -387,7 +388,7 @@ gbif.ui.view.Timeline = Backbone.View.extend({
   },
 
   _updateLegendDesc: function() {
-    $(this.$legend_desc).text("Showing displayable data from " + this.model.get("left_year") + " to " + this.model.get("right_year") + " (" + this.model.get("records") + " records)");
+    $(this.$legend_desc).text("Showing data from " + this.model.get("left_year") + " to " + this.model.get("right_year") + " (" + this.model.get("records") + " records)");
   },
 
   _enableDrag: function() {
