@@ -89,32 +89,30 @@
           <dd>
               <#assign filterMap=action.getHumanFilter(download.request.predicate)!""/>
               <#assign queryParams=action.getQueryParams(download.request.predicate)!""/>
+              <#assign searchLink='/occurrence/search'/>
               <#if queryParams?has_content>
-                <a href="<@s.url value='/occurrence/search?${queryParams}'/>">
+                <#assign searchLink='/occurrence/search?'+ queryParams!""/>                
               </#if>
               <table class="table">
               <#if !download.request.predicate?has_content>
                 <tr>
-                  <th>None</th>
+                  <th><a href="${searchLink}'/>">None</a></th>
                   <td></td>
                 </tr>
               <#elseif filterMap?has_content>
                 <#list filterMap?keys as param>
                   <tr>
-                    <th><@s.text name="search.facet.${param}" /></th>
-                    <td><#list filterMap.get(param) as val><span>${val}</span><#if val_has_next>, </#if></#list></td>
+                    <th><a href="${searchLink}"><@s.text name="search.facet.${param}" /></a></th>
+                    <td><#list filterMap.get(param) as val><span><a href="${searchLink}">${val}</a></span><#if val_has_next><a href="${searchLink}">, </a></#if></#list></td>
                   </tr>
                 </#list>
               <#else>
                   <tr>
-                    <th>Raw Filter</th>
-                    <td>${download.request.predicate!"None"}</td>
+                    <th><a href="${searchLink}">Raw Filter</a></th>
+                    <td><a href="${searchLink}">${download.request.predicate!"None"}</a></td>
                   </tr>
               </#if>
               </table>
-              <#if queryParams?has_content>
-                </a>
-              </#if>
           </dd>
 
           <dt>Status</dt>
