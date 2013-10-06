@@ -90,13 +90,13 @@
     <@trow_search url="/species" respLink="/species?name=Puma%20concolor" paging=true params=[2,3,6]>
       Lists name usages across all or some checklists that share the exact same canonical name, i.e. without authorship.
     </@trow_search>
-    <@trow_search url="/species/match" respLink="/species/match?verbose=true&kingdom=Plantae&name=Oenante" paging=false params=[5,6,7,8]>
+    <@trow_search url="/species/match" respLink="/species/match?verbose=true&kingdom=Plantae&name=Oenante" paging=false params=[5,6,7,8,9]>
       Fuzzy matches scientific names against the GBIF Backbone Taxonomy with the optional classification provided.
     </@trow_search>
-    <@trow_search url="/species/search" respLink="/species/search?q=Puma&rank=GENUS" paging=true params=[1,9,10,11,12,13,14,15,16,17,18,19,20,21,22]>
+    <@trow_search url="/species/search" respLink="/species/search?q=Puma&rank=GENUS" paging=true params=[1,10,11,12,13,14,15,16,17,18,19,20,21,22]>
         Full text searche of name usages covering the scientific and vernacular name, the species description, distribution and the entire classification
         across all name usages of all or some checklists. Results are ordered by relevance as this search usually returns a lot of results.</@trow_search>
-    <@trow_search url="/species/suggest" respLink="/species/suggest?name=Puma%20concolor" paging=false params=[1,5,6,7,8,9]>
+    <@trow_search url="/species/suggest" respLink="/species/suggest?name=Puma%20concolor" paging=false params=[1,5,6,7,8]>
         A quick and simple autocomplete service that returns up to 20 name usages by doing prefix matching against the scientific name.
         Results are ordered by relevance.
     </@trow_search>
