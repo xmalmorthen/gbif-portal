@@ -49,7 +49,9 @@
 
       </strong>
       <#-- If anything needs to be placed next to the title, put it here -->
-      <span class="note">${publisher.numOwnedDatasets} published datasets.</span>
+      <#if publisher.numOwnedDatasets gt 0>
+        <span class="note">${publisher.numOwnedDatasets} published datasets.</span>
+      </#if>
     </h2>
 
     <div class="footer">
