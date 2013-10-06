@@ -145,7 +145,7 @@
               <ul>
                 <li><a href="${cfg.drupal}/whatisgbif">What is GBIF?</a></li>
                 <li><a href="${cfg.drupal}/resources/keyinformation">Key information</a></li>
-                <li><a href="${cfg.drupal}/governance/summary">Governance</a></li>
+                <li><a href="${cfg.drupal}/governance/governingboard">Governance</a></li>
                 <li><a href="${cfg.drupal}/whoweworkwith">Who we work with</a></li>
                 <li><a href="${cfg.drupal}/contact/contactus">Contact us</a></li>
               </ul>
