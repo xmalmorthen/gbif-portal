@@ -152,7 +152,7 @@
 <tr>
     <td>${url}</td>
     <td>${httpMethod?upper_case}</td>
-    <td><#if httpMethod?upper_case == "GET"><a href="http://api.gbif.org${respLink}" target="_blank">${resp} <#if paging>List</#if></a><#elseif httpMethod?upper_case == "POST">${resp}</#if></td>
+    <td><#if httpMethod?upper_case == "GET"><a href="${apiUrl}${respLink}" target="_blank">${resp} <#if paging>List</#if></a><#elseif httpMethod?upper_case == "POST">${resp}</#if></td>
     <td><#nested/></td>
     <td>${authRequired?string}</td>
     <td>${paging?string}</td>
