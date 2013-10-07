@@ -6,9 +6,9 @@ backend tomcat {
   .host = "jawa.gbif.org";
 #  .host = "staging.gbif.org";    
   .port = "8080";
-  .connect_timeout = 1s;
-  .first_byte_timeout = 10s;
-  .between_bytes_timeout = 5s;
+  .connect_timeout = 2s;
+  .first_byte_timeout = 60s;
+  .between_bytes_timeout = 60s;
   # never discard a backend
   .saintmode_threshold = 0;
   # don't overload tomcat (it has 100 connection pool)
@@ -19,9 +19,9 @@ backend struts {
   .host = "v-prod1-tomcat.gbif.org";    
 #  .host = "v-staging.gbif.org";
   .port = "80";
-  .connect_timeout = 1s;
-  .first_byte_timeout = 10s;
-  .between_bytes_timeout = 5s;
+  .connect_timeout = 2s;
+  .first_byte_timeout = 30s;
+  .between_bytes_timeout = 30s;
 }
 
 backend drupal {    
@@ -29,14 +29,14 @@ backend drupal {
 #  .host = "v-drupaldev.gbif.org";
   .port = "80";   
   .connect_timeout = 2s;
-  .first_byte_timeout = 10s;
-  .between_bytes_timeout = 10s;  
+  .first_byte_timeout = 30s;
+  .between_bytes_timeout = 30s;  
 }
 
 backend geocode {
   .host = "boma.gbif.org";    
   .port = "8080";   
-  .connect_timeout = 60s;
+  .connect_timeout = 2s;
   .first_byte_timeout = 60s;
   .between_bytes_timeout = 60s; 
 }
