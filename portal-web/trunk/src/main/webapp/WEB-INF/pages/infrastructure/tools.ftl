@@ -66,7 +66,7 @@
           and global communities in bringing up the relevance of biodiversity information.
       </p>
 
-      <p>NPT Startup is one of the outcomes of the Nodes Portal Toolkit project (NPT), which identifies the need for
+      <p>NPT Startup is one of the outcomes of the <a href="/capacityenhancement/npt">Nodes Portal Toolkit project (NPT)</a>, which identifies the need for
           facilitating the development of national and thematic biodiversity portals with reusable biodiversity
           informatics components. NPT Startup is built with Drupal content management framework backed by a strong,
           fast-growing, open-source community. Collaborating together with ViBRANT and INBio, NPT Startup is a
