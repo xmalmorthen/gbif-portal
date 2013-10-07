@@ -98,6 +98,7 @@
     <div class="right">
         <p>"Darwin Core Archives are required for data harvest to our new portal. We see IPT as a great tool to facilitate the creation of these files and to provide hosting of them for our participating institutions." - <em>Laura Russell, VertNet</em></p>
         <p>"Thanks to the IPT we now have a complete data mobilization workflow, from in-house data management systems to GBIF. The software tool has been instrumental in the growth of the Canadensys network." - <em>Peter Desmet, INBO &amp; Canadensys</em></p>
+        <p>"The IPT has facilitated primary data publication for us. At SiB Colombia we use it as a central part of our <a href="http://www.sibcolombia.net/web/sib/acerca-del-sib" target="_blank">data publication model</a>" - <em>Danny Vélez, SiB Colombia</em></p>
     </div>
 </@common.article>
 
