@@ -1,3 +1,4 @@
+<#import "/WEB-INF/macros/common.ftl" as common>
 <#import "/WEB-INF/macros/pagination.ftl" as macro>
 <html>
   <head>
@@ -281,29 +282,31 @@
   <footer></footer>
 </article>
 
- <#if action.showDownload()>
-  <article class="download_ocurrences">
-  <header></header>
-  <div class="content">
-  
-    <div class="header">
-      <h2>Download ${searchResponse.count} occurrences from your search</h2>
-    </div>
 
-    <div>
-      <a href="#" class="candy_blue_button download_button"><span>Download</span></a>
-    </div>    
-    <div id="notifications">
-        <a href="#">Notify others of results?</a>
-        <div id="emails_div">
-            Enter additional email addresses to be notified, separated by ';'
-            <input type="text" id="emails" name="emails" title="emails"/>
-        </div>
-    </div>
-  </div>
-  <footer></footer>  
-  </article>
+<#if searchResponse.offset gte maxAllowedOffset>
+<@common.notice title="Limited paging">
+  <p>
+    Result paging is limited to ${cfg.maxOccSearchOffset} records.
+    Please use more restrictive filters or download all occurrences.
+  </p>
+</@common.notice>
+</#if>
+
+ <#if action.showDownload()>
+ <@common.article class="download_ocurrences" title="Download ${searchResponse.count} occurrences from your search">
+   <div>
+     <a href="#" class="candy_blue_button download_button"><span>Download</span></a>
+   </div>
+   <div id="notifications">
+       <a href="#">Notify others of results?</a>
+       <div id="emails_div">
+           Enter additional email addresses to be notified, separated by ';'
+           <input type="text" id="emails" name="emails" title="emails"/>
+       </div>
+   </div>
+ </@common.article>
  </#if>
+
   <#include "/WEB-INF/pages/occurrence/inc/filters.ftl">
 
   <!-- /Filter templates -->

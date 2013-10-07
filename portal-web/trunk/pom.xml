@@ -48,6 +48,7 @@
     <notDevMode>false</notDevMode>
     <google.analytics />
     <occurrencedownload.size.limit>-1</occurrencedownload.size.limit>
+    <occurrence.search.maxoffset>10000</occurrence.search.maxoffset>
 
     <!-- dependency versions -->
     <dwc-api.version>1.3</dwc-api.version>

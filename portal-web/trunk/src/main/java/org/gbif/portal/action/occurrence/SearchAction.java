@@ -55,9 +55,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
   private List<ParameterValidationError<OccurrenceSearchParameter>> validationErrors = Lists.newArrayList();
 
-  // Maximum offset allowed
-  private static final Integer MAX_OFFSET = 1000000;
-
   // Message key in resource bundle
   private static final String MAXOFFSET_ERROR_KEY = "max.offset.error";
 
@@ -94,7 +91,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
 
     initSuggestions();
 
-    if (!isValidOffset()) {
+    if (getSearchRequest().getOffset() > getMaxAllowedOffset()) {
       addFieldError(
         OFFSET_FIELD,
         getText(MAXOFFSET_ERROR_KEY,
@@ -233,7 +230,7 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
    * Return the maximum default offset.
    */
   public int getMaxOffset() {
-    return MAX_OFFSET;
+    return getCfg().getMaxOccSearchOffset();
   }
 
   /**
@@ -316,8 +313,8 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   /**
    * Calculates the maximum offset allowed using the current limit parameter.
    */
-  private Integer getMaxAllowedOffset() {
-    return MAX_OFFSET - getSearchRequest().getLimit();
+  public Integer getMaxAllowedOffset() {
+    return getCfg().getMaxOccSearchOffset() - getSearchRequest().getLimit();
   }
 
   /**
@@ -338,13 +335,6 @@ public class SearchAction extends BaseSearchAction<Occurrence, OccurrenceSearchP
   private boolean isSuggestion(String value) {
     return nameUsagesSuggestions.getSuggestions().containsKey(value)
       || datasetsSuggestions.getSuggestions().containsKey(value);
-  }
-
-  /**
-   * Verifies if the offset parameter is not greater than the maximum value allowed.
-   */
-  private boolean isValidOffset() {
-    return getSearchRequest().getOffset() <= MAX_OFFSET - getSearchRequest().getLimit();
   }
 
   /**
