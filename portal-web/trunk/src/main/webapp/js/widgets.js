@@ -1521,100 +1521,6 @@ var download = (function() {
 
 /*
 * ================
-* DISCLAIMER POPOVER
-* ================
-*/
-
-var disclaimer = (function() {
-  var
-  el,
-  displayed       = false,
-  transitionSpeed = 200;
-
-  var template = ['<div id="disclaimer_popover" class="infowindow">',
-        '<div class="lheader"></div>',
-        '<div class="content">',
-          '<h2>DISCLAIMER</h2>',
-          '<p>You are viewing the new GBIF portal in a testing environment prior to full public release later in 2013.</p>',
-          '<p><strong>Please note that:</strong></p>',
-          '<ol>',
-            '<li>While data and news are intended to be valid and up to date, many areas are still under development.</li>',
-            '<li>This service may not be online permanently, and will periodically be updated</li>',
-            '<li>By using this service you agree to abide by the terms of usage set out <a href="' + cfg.baseUrl + '/agreement/use">here</a></li>',
-            '<li>Any user accounts created may be deleted; users might need to recreate their accounts in the future</li>',
-          '</ol>',
-          '<br/><p>Please use the feedback buttons to report bugs or suggest feature enhancements.</p>',
-          '<a class="candy_blue_button close"><span>OK, I understand</span></a>',
-        '</div>',
-        '<div class="lfooter white">',
-        '</div>',
-      '</div>'].join(' ');
-
-  function toggle(e, event) {
-    event.stopPropagation();
-    event.preventDefault();
-    el = e;
-
-    displayed ? hide() : show();
-  }
-
-  function getTopPosition() {
-    return (( $(window).height() - $popover.height()) / 2) + $(window).scrollTop() - 50;
-  }
-
-  function setupBindings() {
-    $popover.find(".close").click(function(event) {
-      event.preventDefault();
-      displayed && hide();
-    });
-
-    $popover.click(function(event) {
-      event.stopPropagation();
-    });
-  }
-
-  function show() {
-    $("#content").prepend(template);
-    $popover = $("#disclaimer_popover");
-
-    setupBindings();
-    $popover.css("top", getTopPosition() + "px");
-    $popover.fadeIn("slow", function() {
-      hidden = false;
-    });
-
-    $("body").append("<div id='lock_screen'></div>");
-    $("#lock_screen").height($(document).height());
-    $("#lock_screen").fadeIn("slow");
-    $("#lock_screen").on("click", hide);
-
-    displayed = true;
-  }
-
-  function hide(callback) {
-    $popover.find('a.close').unbind("click");
-
-    $popover.fadeOut(transitionSpeed, function() {
-      $popover.remove();
-      displayed = false;
-      $.cookie('GBIFdisclaimer', true, { expires: 30 });
-    });
-
-    $("#lock_screen").fadeOut(transitionSpeed, function() {
-      $("#lock_screen").remove();
-      callback && callback();
-    });
-  }
-
-  return {
-    toggle: toggle,
-    show: show,
-    hide: hide
-  };
-})();
-
-/*
-* ================
 * POPOVER BINDINGS
 * ================
 */
@@ -1634,16 +1540,6 @@ $.fn.bindSlider = function(min, max, values) {
   });
 
   $legend.val("BETWEEN " + $slider.slider("values", 0) + " AND " + $slider.slider("values", 1));
-};
-
-$.fn.bindDisclaimerPopover = function(opt) {
-  $(this).click(function(event) {
-    disclaimer.toggle($(this), event, opt);
-  });
-  // if no cookie exists show disclaimer
-  if (!$.cookie('GBIFdisclaimer')) {
-    disclaimer.show();
-  }
 };
 
 $.fn.bindLinkPopover = function(opt) {

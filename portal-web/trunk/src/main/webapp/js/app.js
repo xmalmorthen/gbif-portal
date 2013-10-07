@@ -123,8 +123,6 @@ $(function() {
     $(obj).sourcePopover({"title":$(obj).attr("title"),"message":$(obj).parent().find(".message").html(),"remarks":$(obj).parent().find(".remarks").html()});
   });
 
-  $(".disclaimerToggle").bindDisclaimerPopover({});
-
   // Dropdown for the sorting options of the taxonomic explorer
   $('#tax_sort_ocurrences').dropdownPopover({
     options: {
