@@ -208,7 +208,7 @@ sub vcl_fetch {
     if (beresp.http.Location ~ "/portal/") {
       set beresp.http.Location = regsub(beresp.http.Location, "/portal/", "/");
     }
-    set beresp.http.Location = regsub(beresp.http.Location, "v-[a-z0-9-]+.gbif.org", "uat.gbif.org");
+    set beresp.http.Location = regsub(beresp.http.Location, "v-[a-z0-9-]+.gbif.org", "www.gbif.org");
   }
   
   # remove no cache headers. 
@@ -234,14 +234,15 @@ sub vcl_fetch {
 
   if ( req.url ~ "^/tile-server") {
     # cache map tiles for a minute
-    set beresp.ttl = 60s;
+    set beresp.ttl = 3600s;
+    set beresp.http.Cache-Control = "public, max-age=3600";
   } else if( req.url ~ "^/(cfg|css|img|js|favicon|sites|misc|modules)" ) {
     # cache static files for 10 days in varnish and for a day in the client
-    set beresp.ttl = 864s;
-    set beresp.http.Cache-Control = "max-age=60, public";
+    set beresp.ttl = 3600s;
+    set beresp.http.Cache-Control = "public, max-age=3600";
   } else if( req.url ~ "^/([a-z0-9-]+-ws)" ) {
     # cache json for a day
-    set beresp.ttl = 864s;
+    set beresp.ttl = 3600s;
   }
 
   if ( beresp.http.Cookie ) {
