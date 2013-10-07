@@ -173,8 +173,8 @@
 
 <@common.article id="predicates" title="Occurrence Download Predicates">
     <div class="fullwidth">
-        <p>A download predicate is an query expression to retrieve occurence records downloads.</p>
-        <p>If you are interested in see some examples of how to use the Java API to build predicates, there are some <a href="http://gbif-occurrencestore.googlecode.com/svn/occurrence-download/trunk/occurrence-download-ws/src/test/java/org/gbif/occurrencestore/download/service/HiveQueryVisitorTest.java" target="_blank">test cases</a> that can be used as a reference.</p>
+        <p>A download predicate is an query expression to retrieve occurrence record downloads.</p>
+        <p>If you are interested in seeing some examples of how to use the Java API to build predicates, there are some <a href="http://gbif-occurrencestore.googlecode.com/svn/occurrence-download/trunk/occurrence-download-ws/src/test/java/org/gbif/occurrencestore/download/service/HiveQueryVisitorTest.java" target="_blank">test cases</a> that can be used as a reference.</p>
         <p>The table below lists the supported predicates that can be combined to build download requests.</p>
 
     <table class='table table-bordered table-striped table-params'>
@@ -217,7 +217,7 @@
                     &nbsp;&nbsp;{<br/>                  
                     &nbsp;&nbsp;&nbsp;&nbsp;"type":"and",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"predicates":                          
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"type":"equals","key":"SPATIAL_ISSUES","value":"false"},<br/>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[{"type":"equals","key":"SPATIAL_ISSUES","value":"false"},<br/>
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"type":"equals","key":"TAXON_KEY","value":"2440447"}]<br/>
                   &nbsp;&nbsp;}<br/>
                 }<br/>
@@ -236,7 +236,7 @@
                     &nbsp;&nbsp;{<br/>                 
                     &nbsp;&nbsp;&nbsp;&nbsp;"type":"or",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"predicates":                          
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"type":"equals","key":"SPATIAL_ISSUES","value":"false"},<br/>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[{"type":"equals","key":"SPATIAL_ISSUES","value":"false"},<br/>
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"type":"equals","key":"TAXON_KEY","value":"2440447"}]<br/>
                   &nbsp;&nbsp;}<br/>
                 }<br/>
