@@ -56,6 +56,7 @@ public class Config {
   private String wsOccInstitutionCodeSearch;
   private String wsImageCache;
   private Integer maxOccDowloadSize;
+  private int maxOccSearchOffset;
 
 
   /**
@@ -86,6 +87,7 @@ public class Config {
       cfg.wsOccDownload = getPropertyUrl(properties, "occurrencedownload.ws.url", true);
       cfg.wsOccDownloadForPublicLink = getPropertyUrl(properties, "occurrencedownload.ws.url.for.public.link", true);
       cfg.maxOccDowloadSize = Integer.parseInt(properties.getProperty("occurrencedownload.size.limit"));
+      cfg.maxOccSearchOffset = Integer.parseInt(properties.getProperty("occurrence.search.maxoffset"));
       cfg.wsMetrics = getPropertyUrl(properties, "metrics.ws.url", true);
       cfg.wsOccCatalogNumberSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + CATALOG_NUMBER_PATH;
       cfg.wsOccCollectorNameSearch = cfg.wsOcc + OCC_SEARCH_PATH + '/' + COLLECTOR_NAME_PATH;
@@ -243,5 +245,9 @@ public class Config {
 
   public void setTileServerBaseUrl(String tileServerBaseUrl) {
     this.tileServerBaseUrl = tileServerBaseUrl;
+  }
+
+  public int getMaxOccSearchOffset() {
+    return maxOccSearchOffset;
   }
 }
