@@ -42,6 +42,8 @@ import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import com.google.common.base.Enums;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
@@ -193,13 +195,13 @@ public class FiltersActionHelper {
     return BasisOfRecord.values();
   }
 
+
   /**
    * Returns the list of {@link Country} literals.
    */
   public Set<Country> getCountries() {
     return COUNTRIES;
   }
-
 
   /**
    * Gets the title(name) of a country.
@@ -243,21 +245,22 @@ public class FiltersActionHelper {
    * Gets the displayable value of filter parameter.
    */
   public String getFilterTitle(String filterKey, String filterValue) {
+    String title = filterValue;
     OccurrenceSearchParameter parameter =
       (OccurrenceSearchParameter) VocabularyUtils.lookupEnum(filterKey, OccurrenceSearchParameter.class);
     if (parameter != null) {
       if (parameter == OccurrenceSearchParameter.TAXON_KEY) {
-        return getScientificName(filterValue);
+        return StringEscapeUtils.escapeEcmaScript(getScientificName(filterValue));
       } else if (parameter == OccurrenceSearchParameter.BASIS_OF_RECORD) {
         return LocalizedTextUtil.findDefaultText(BASIS_OF_RECORD_KEY + filterValue, getLocale());
       } else if (parameter == OccurrenceSearchParameter.DATASET_KEY) {
-        return getDatasetTitle(filterValue);
+        return StringEscapeUtils.escapeEcmaScript(getDatasetTitle(filterValue));
       } else if (parameter == OccurrenceSearchParameter.GEOMETRY) {
         return getGeometryTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.GEOREFERENCED) {
         return getGeoreferencedTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.COUNTRY) {
-        return getCountryTitle(filterValue);
+        return StringEscapeUtils.escapeEcmaScript(getCountryTitle(filterValue));
       } else if (parameter == OccurrenceSearchParameter.DEPTH || parameter == OccurrenceSearchParameter.ALTITUDE) {
         return getRangeTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.DATE || parameter == OccurrenceSearchParameter.MODIFIED) {
@@ -270,7 +273,7 @@ public class FiltersActionHelper {
         return getSpatialIssuesTitle(filterValue);
       }
     }
-    return filterValue;
+    return title;
   }
 
   public String getGeoreferencedTitle(String value) {
@@ -327,6 +330,7 @@ public class FiltersActionHelper {
     return processStringSuggestions(request, OccurrenceSearchParameter.CATALOG_NUMBER, suggestCatalogNumbers);
   }
 
+
   /**
    * Searches for suggestion to all the COLLECTION_CODE parameter values, if the input value has an exact match against
    * any
@@ -335,7 +339,6 @@ public class FiltersActionHelper {
   public SearchSuggestions<String> processCollectionCodeSuggestions(HttpServletRequest request) {
     return processStringSuggestions(request, OccurrenceSearchParameter.COLLECTION_CODE, suggestCollectionCodes);
   }
-
 
   /**
    * Searches for suggestion to all the COLLECTOR_NAME parameter values, if the input value has an exact match against
@@ -346,6 +349,7 @@ public class FiltersActionHelper {
     return processStringSuggestions(request, OccurrenceSearchParameter.COLLECTOR_NAME, suggestCollectorNames);
   }
 
+
   /**
    * Replace the DATASET_KEY parameters that have a scientific name that could be interpreted directly.
    */
@@ -354,7 +358,6 @@ public class FiltersActionHelper {
     processReplacements(searchRequest, suggestions, OccurrenceSearchParameter.DATASET_KEY, DS_RESULT_KEY_GETTER);
 
   }
-
 
   /**
    * Validates if a string (not an UUID) value was sent for the DATASET_KEY parameter.
@@ -524,6 +527,7 @@ public class FiltersActionHelper {
     }
   }
 
+
   /**
    * Gets the name of the month int parameter.
    */
@@ -532,7 +536,6 @@ public class FiltersActionHelper {
     cal.set(Calendar.MONTH, month - 1); // Java indexes month from 0
     return new SimpleDateFormat("MMMM", getLocale()).format(cal.getTime());
   }
-
 
   /**
    * Returns the displayable label/value of a range filter.
@@ -552,6 +555,7 @@ public class FiltersActionHelper {
       return String.format(IS_FMT, getMonthName(Integer.parseInt(value)));
     }
   }
+
 
   /**
    * Returns the displayable label/value of a range filter.
@@ -589,7 +593,6 @@ public class FiltersActionHelper {
       return String.format(IS_FMT, value);
     }
   }
-
 
   /**
    * Validates if the list of coordinates forms a rectangle.
@@ -664,6 +667,7 @@ public class FiltersActionHelper {
       + queryString;
   }
 
+
   /**
    * Converts a list of NameUsageMatch into a list of NameUsageSearchResult.
    */
@@ -674,7 +678,6 @@ public class FiltersActionHelper {
     }
     return suggestions;
   }
-
 
   /**
    * Converts a NameUsageMatch into a NameUsageSearchResult.
