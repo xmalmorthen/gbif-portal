@@ -3,7 +3,6 @@
 <html>
 <head>
   <title>${usage.scientificName} - Checklist View</title>
-
   <content tag="extra_scripts">
       <#-- 
         Set up the map if only we will use it.  
@@ -318,7 +317,7 @@
       <#if i.title?has_content>
         ${i.title}
       <#else>
-        ${common.limit( datasets.get(i.datasetKey).title ,29)}
+        ${common.limit( datasets.get(i.datasetKey).title ,28)}
       </#if>
       <#if i.identifierLink?has_content>
         </a>
@@ -329,18 +328,25 @@
   <#if usage.nubKey??>
     <li><a target="_blank" href="http://eol.org/search/?q=${usage.canonicalOrScientificName}" title="Encyclopedia of Life">Encyclopedia of Life</a></li>
   </#if>
-
-  <#if (usage.lsids?size>0)>
-    <li>
-      <@common.popover linkTitle="Life Science Identifier" popoverTitle="Life Science Identifier">
-        <#list usage.lsids as i>
-          <p><a href='${i.identifierLink}'>${i.identifier}</a></p><br/>
-        </#list>
-      </@common.popover>
-    </li>
+  <#if usage.canonicalName??>
+    <li><a target="_blank" href="http://www.biodiversitylibrary.org/name/${usage.canonicalName?replace(' ','_')}">Biodiversity Heritage Library</a></li>
   </#if>
   </ul>
 
+    <dl class="identifier">
+      <dt>GBIF ID</dt>
+      <dd><a href="#" title="GBIF ID ${id?c}">${id?c}</a></dd>
+      <#if !nub && usage.sourceId??>
+        <dt>Source ID</dt>
+        <dd><a href="#" title="${usage.sourceId}">${usage.sourceId}</a></dd>
+      </#if>
+      <#list usage.identifiers as i>
+      <#if i.type != 'URL' && i.type!='SOURCE_ID'>
+        <dt>${i.type}</dt>
+        <dd><a href="${i.identifierLink!'#'}" title="${i.identifier}">${common.limit(i.identifier ,22)}</a></dd>
+      </#if>
+      </#list>
+    </dl>
 </div>
 </@common.article>
 
@@ -599,7 +605,7 @@
 
 <#if (usage.references?size>0)>
   <@common.article id="references" title="Bibliography">
-    <div class="left">
+    <div class="fullwidth">
       <#if usage.references?has_content>
         <#list usage.references as ref>
           <p>
@@ -614,16 +620,6 @@
         </#list>
       </#if>
     </div>
-
-    <div class="right">
-      <h3>External Sources</h3>
-      <ul>
-        <#if usage.canonicalName??>
-          <li><a target="_blank" href="http://www.biodiversitylibrary.org/name/${usage.canonicalName?replace(' ','_')}">Biodiversity Heritage Library</a></li>
-        </#if>
-      </ul>
-    </div>
-
   </@common.article>
 </#if>
 
