@@ -283,7 +283,7 @@
 </article>
 
 
-<#if searchResponse.offset gte maxAllowedOffset>
+<#if searchResponse?has_content && searchResponse.offset gte maxAllowedOffset>
 <@common.notice title="Limited paging">
   <p>
     Result paging is limited to ${cfg.maxOccSearchOffset} records.
