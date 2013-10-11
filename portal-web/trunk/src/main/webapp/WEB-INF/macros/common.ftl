@@ -2,6 +2,11 @@
 <#assign tempNodeKey='02c40d2a-1cba-4633-90b7-e36e5e97aba8' />
 <#assign colKey='7ddf754f-d193-4cc9-b351-99906754a03b' />
 <#assign uknbnOrganizationKey='07f617d0-c688-11d8-bf62-b8a03c50a862' />
+<#assign iptInstallationType='IPT_INSTALLATION' />
+<#assign digirInstallationType='DIGIR_INSTALLATION' />
+<#assign tapirInstallationType='TAPIR_INSTALLATION' />
+<#assign biocaseInstallationType='BIOCASE_INSTALLATION' />
+<#assign httpInstallationType='HTTP_INSTALLATION' />
 
 
 <!-- maximum function -->

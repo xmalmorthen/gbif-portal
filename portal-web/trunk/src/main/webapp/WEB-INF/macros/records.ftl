@@ -33,6 +33,39 @@
   </div>
 </#macro>
 
+<#--
+	Construct a Installation record.
+	WARNING! if showPublisher is true an action method action.getOrganization(UUID) must exist to return the matching org
+-->
+<#macro installation installation maxDescriptionLength=500 showPublisher=false>
+<div class="result">
+    <h3><@s.text name="enum.installationtype.${installation.type!}"/></h3>
+    <h2>
+        <strong>
+
+        <#-- installation name and hyperlinked to its corresponding page -->
+          <#if installation.title?has_content>
+              <a href="<@s.url value='/installation/${installation.key}'/>">${installation.title}</a>
+          </#if>
+
+        </strong>
+    </h2>
+
+  <#if showPublisher && installation.organizationKey??>
+      <p>
+        <#assign publisher=action.getOrganization(installation.organizationKey) />
+          Hosted by <a href="<@s.url value='/publisher/${publisher.key}'/>" title="${publisher.title}">${publisher.title}</a>.
+      </p>
+  </#if>
+
+    <div class="footer">
+      <#if installation.description?has_content>
+          <p class="note semi_bottom">${common.limit(installation.description, maxDescriptionLength)}</p>
+      </#if>
+    </div>
+</div>
+</#macro>
+
 
 <#--
 	Construct a large data publisher record with a description.
