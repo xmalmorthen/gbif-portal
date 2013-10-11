@@ -3,6 +3,7 @@ package org.gbif.portal.action.publisher;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.model.registry.Installation;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
 import org.gbif.api.service.registry.NodeService;
@@ -20,6 +21,7 @@ public class DetailAction extends MemberBaseAction<Organization> {
 
   private Node node;
   private PagingResponse<Dataset> page;
+  private PagingResponse<Installation> installationsPage;
   private long offset = 0;
 
   @Inject
@@ -34,6 +36,12 @@ public class DetailAction extends MemberBaseAction<Organization> {
     return SUCCESS;
   }
 
+  public String installations() throws Exception {
+    super.execute();
+    installationsPage = organizationService.installations(id, new PagingRequest(offset, 25));
+    return SUCCESS;
+  }
+
   @Override
   public String execute() throws Exception {
     super.execute();
@@ -43,6 +51,8 @@ public class DetailAction extends MemberBaseAction<Organization> {
     }
     // load first 10 datasets
     page = organizationService.ownedDatasets(id, new PagingRequest(0, 10));
+    // load first 10 hosted installations
+    installationsPage = organizationService.installations(id, new PagingRequest(0, 10));
 
     return SUCCESS;
   }
@@ -53,6 +63,10 @@ public class DetailAction extends MemberBaseAction<Organization> {
 
   public PagingResponse<Dataset> getPage() {
     return page;
+  }
+
+  public PagingResponse<Installation> getInstallationsPage() {
+    return installationsPage;
   }
 
   public void setOffset(long offset) {

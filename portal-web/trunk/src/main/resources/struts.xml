@@ -338,6 +338,22 @@
       <param name="id">{1}</param>
       <result>/WEB-INF/pages/publisher/published_datasets.ftl</result>
     </action>
+    <action name="*/installations" class="org.gbif.portal.action.publisher.DetailAction" method="installations">
+      <param name="id">{1}</param>
+      <result>/WEB-INF/pages/publisher/hosted_installations.ftl</result>
+    </action>
+  </package>
+
+  <!-- INSTALLATION -->
+  <package name="installation" namespace="/installation" extends="default">
+    <action name="*" class="org.gbif.portal.action.installation.DetailAction">
+      <param name="id">{1}</param>
+      <result>/WEB-INF/pages/installation/detail.ftl</result>
+    </action>
+    <action name="*/datasets" class="org.gbif.portal.action.installation.DetailAction" method="datasets">
+      <param name="id">{1}</param>
+      <result>/WEB-INF/pages/installation/served_datasets.ftl</result>
+    </action>
   </package>
 
   <!-- USER (most of user is served from drupal) -->

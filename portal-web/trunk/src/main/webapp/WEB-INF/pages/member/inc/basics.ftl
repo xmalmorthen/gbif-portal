@@ -36,8 +36,16 @@
     </div>
   </#if>
 
-  <h3>Address</h3>
-  <@common.address address=member />
+  <#-- No address shown for members of type installation -->
+  <#if member.type?? &&
+  member.type != common.iptInstallationType &&
+  member.type != common.digirInstallationType &&
+  member.type != common.tapirInstallationType &&
+  member.type != common.biocaseInstallationType &&
+  member.type != common.httpInstallationType >
+    <h3>Address</h3>
+    <@common.address address=member />
+  </#if>
 
   <#if member.homepage?has_content>
     <h3>Website</h3>

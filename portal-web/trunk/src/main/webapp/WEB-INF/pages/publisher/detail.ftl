@@ -51,7 +51,25 @@
   </div>
 </@common.article>
 </#if>
-
+<#if installationsPage.results?has_content>
+  <@common.article id="installations" title="Hosted installations">
+      <div class="left">
+          <ul class="notes">
+            <#list installationsPage.results as i>
+                <li>
+                  <a href="<@s.url value='/installation/${i.key}'/>">${i.title!"???"}</a>
+                  <span class="note"><@s.text name="enum.installationtype.${i.type!}"/></span>
+                </li>
+            </#list>
+            <#if !installationsPage.isEndOfRecords()>
+                <li class="more">
+                    <a href="<@s.url value='/publisher/${member.key}/installations'/>">more</a>
+                </li>
+            </#if>
+          </ul>
+      </div>
+  </@common.article>
+</#if>
 
 </body>
 </html>
