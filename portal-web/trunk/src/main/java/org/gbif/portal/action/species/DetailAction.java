@@ -3,6 +3,7 @@ package org.gbif.portal.action.species;
 import org.gbif.api.model.checklistbank.Description;
 import org.gbif.api.model.checklistbank.NameUsage;
 import org.gbif.api.model.checklistbank.NameUsageComponent;
+import org.gbif.api.model.checklistbank.Reference;
 import org.gbif.api.model.checklistbank.VernacularName;
 import org.gbif.api.model.common.paging.Pageable;
 import org.gbif.api.model.common.paging.PagingRequest;
@@ -22,17 +23,22 @@ import org.gbif.portal.model.VernacularLocaleComparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 /**
@@ -82,6 +88,7 @@ public class DetailAction extends UsageBaseAction {
   private final Pageable page1 = new PagingRequest(0, 1);
   private final Pageable page6 = new PagingRequest(0, 6);
   private final Pageable page10 = new PagingRequest(0, 10);
+  private final Pageable page15 = new PagingRequest(0, 15);
   private final Pageable page20 = new PagingRequest(0, 20);
   private final Pageable page50 = new PagingRequest(0, 50);
   private final Pageable page100 = new PagingRequest(0, 100);
@@ -203,7 +210,6 @@ public class DetailAction extends UsageBaseAction {
     }
     usage.setSynonyms(usageService.listSynonyms(id, getLocale(), page6).getResults());
     usage.setVernacularNames(vernacularNameService.listByUsage(id, page100).getResults());
-    usage.setReferences(referenceService.listByUsage(id, page10).getResults());
     usage.setDistributions(distributionService.listByUsage(id, page10).getResults());
     usage.setImages(imageService.listByUsage(id, page1).getResults()); // first only
     usage.setTypeSpecimens(typeSpecimenService.listByUsage(id, page10).getResults());
@@ -212,6 +218,27 @@ public class DetailAction extends UsageBaseAction {
     for (Description d : descriptionService.listByUsage(id, page50).getResults()) {
       descriptionToc.addDescription(d);
     }
+
+    final Set<String> seenRefs = Sets.newHashSet();
+    usage.setReferences(FluentIterable.from(referenceService.listByUsage(id, page15).getResults())
+      .filter(new Predicate<Reference>() {
+        public boolean apply(@Nullable Reference r) {
+          if (r == null) return false;
+          // deduplicate references only for nub species
+          if (usage.isNub() && seenRefs.contains(r.getCitation())) {
+            return false;
+          }
+          seenRefs.add(r.getCitation());
+          return true;
+        }
+      })
+      .toSortedList(Ordering.natural().onResultOf(new Function<Reference, String>() {
+        @Override
+        public String apply(@Nullable Reference r) {
+          return r == null ? null : r.getCitation();
+        }
+      }))
+    );
 
     if (Origin.SOURCE == usage.getOrigin()) {
       verbatimExists = usageService.getVerbatim(id) != null;
