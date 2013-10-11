@@ -59,7 +59,7 @@
                 <#if u.rank??> <@s.text name="enum.rank.${u.rank}"/></#if>
               </#if>
               <#if showAccordingTo>
-                <span>from ${u.datasetTitle}</span>
+                <span>from ${titles.get(u.datasetKey)!"???"}</span>
               </#if>
             </h3>
 

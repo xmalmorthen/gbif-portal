@@ -39,9 +39,9 @@ public class SearchAction
 
   // injected
   private final NameUsageService usageService;
-  private final DatasetService checklistService;
+  private final DatasetService datasetService;
 
-  private Function<String, String> getChecklistTitle;
+  private Function<String, String> getDatasetTitle;
   private Function<String, String> getHigherTaxaTitle;
   private Function<String, String> getExtinctTitle;
   private Function<String, String> getHabitatTitle;
@@ -53,10 +53,10 @@ public class SearchAction
 
   @Inject
   public SearchAction(NameUsageSearchService nameUsageSearchService, NameUsageService usageService,
-    DatasetService checklistService) {
+    DatasetService datasetService) {
     super(nameUsageSearchService, NameUsageSearchParameter.class, new NameUsageSearchRequest());
     this.usageService = usageService;
-    this.checklistService = checklistService;
+    this.datasetService = datasetService;
     initGetTitleFunctions();
   }
 
@@ -75,7 +75,7 @@ public class SearchAction
     lookupFacetTitles(NameUsageSearchParameter.HIGHERTAXON_KEY, getHigherTaxaTitle);
 
     // replace checklist key with labels
-    lookupFacetTitles(NameUsageSearchParameter.DATASET_KEY, getChecklistTitle);
+    lookupFacetTitles(NameUsageSearchParameter.DATASET_KEY, getDatasetTitle);
 
     // replace taxonomic status keys with labels
     lookupFacetTitles(NameUsageSearchParameter.STATUS, getTaxStatusTitle);
@@ -143,19 +143,24 @@ public class SearchAction
 
 
   /**
-   * Initializes the getTitle* functions: getChecklistTitle and getHigherTaxaTitle.
+   * Initializes the getTitle* functions: getDatasetTitle and getHigherTaxaTitle.
    * Because we need the non static resource bundle lookup method getText() these methods
    * unfortuantely cant be static ones and are created here instead for every action.
    */
   private void initGetTitleFunctions() {
-    getChecklistTitle = new Function<String, String>() {
+    // the function makes use of the shared and ftl exposed base searhc action title map cache
+    getDatasetTitle = new Function<String, String>() {
 
       @Override
       public String apply(String name) {
         if (Strings.emptyToNull(name) == null) {
           return null;
         }
-        return checklistService.get(UUID.fromString(name)).getTitle();
+        final UUID dsKey = UUID.fromString(name);
+        if (!titles.containsKey(dsKey)) {
+          titles.put(dsKey, datasetService.get(dsKey).getTitle());
+        }
+        return titles.get(dsKey);
       }
     };
 
