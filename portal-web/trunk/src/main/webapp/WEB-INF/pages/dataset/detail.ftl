@@ -242,7 +242,7 @@
 
   <#-- DATA DESCRIPTIONS -->
   <#-- By urgent request, we do not show links to the UK NBN data files -->
-  <#if (dataset.dataDescriptions?has_content || dataLinks?has_content) && publisher.key! != '07f617d0-c688-11d8-bf62-b8a03c50a862'>
+  <#if (dataset.dataDescriptions?has_content || dataLinks?has_content) && publisher.key! != common.uknbnOrganizationKey>
     <p>
     <h3>External Data</h3>
     <ul class="notes">
