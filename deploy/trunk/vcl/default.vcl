@@ -188,7 +188,7 @@ sub recv_portal {
   }
 
   # catch known struts paths
-  if ( req.url ~ "^/(dataset|occurrence|species|member|node/|network/|ipt|publisher|developer|country|cfg|css|fonts|img|js|favicon|participation/list|infrastructure)" || (req.url ~ "^/user/(downloads|namelist|cancel)")) {
+  if ( req.url ~ "^/(dataset|occurrence|species|installation|member|node/|network/|ipt|publisher|developer|country|cfg|css|fonts|img|js|favicon|participation/list|infrastructure)" || (req.url ~ "^/user/(downloads|namelist|cancel)")) {
     set req.backend = struts;
 
   } else {
