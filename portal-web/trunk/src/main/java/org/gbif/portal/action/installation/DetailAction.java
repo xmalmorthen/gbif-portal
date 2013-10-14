@@ -10,6 +10,8 @@ import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.member.MemberBaseAction;
 import org.gbif.portal.action.member.MemberType;
 
+import java.util.UUID;
+
 import com.google.inject.Inject;
 
 public class DetailAction extends MemberBaseAction<Installation> {
@@ -59,6 +61,14 @@ public class DetailAction extends MemberBaseAction<Installation> {
     if (offset >= 0) {
       this.offset = offset;
     }
+  }
+
+  /**
+   * Utility method to retrieve organization by key.
+   * Used in templates to show the publisher for served datasets.
+   */
+  public Organization getOrganization(UUID key) {
+    return organizationService.get(key);
   }
 }
 
