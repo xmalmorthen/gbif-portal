@@ -123,7 +123,7 @@ sub recv_ws {
   } else if ( req.url ~ "^/species/(search|suggest)") {
       set req.url = regsub(req.url, "^/species/", "/checklistbank-search-ws/");
   
-  } else if ( req.url ~ "^/(species|dataset_metrics|description|name_list)" ) {
+  } else if ( req.url ~ "^/(parser/name|species|dataset_metrics|description|name_list)" ) {
     set req.url = regsub(req.url, "^/", "/checklistbank-ws/");
   
   } else if ( req.url ~ "^/map") {
