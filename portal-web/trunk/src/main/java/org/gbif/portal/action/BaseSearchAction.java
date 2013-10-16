@@ -137,6 +137,18 @@ public abstract class BaseSearchAction<T, P extends Enum<?> & SearchParameter, R
       m.appendTail(sb);
     }
 
+    // Case where highlightedText wraps entire input string, and it exceeds the max length.
+    // E.g. highlightedText = "<em class=\"gbifHl\">kyle</em>", and max length is 2.
+    if (sb.toString().equals(abrevMarker) && highlightedText.startsWith(HL_PRE) && highlightedText.endsWith(HL_POST)
+        && ((highlightedText.length() - HL_MARKER_LENGTH) > max)) {
+      String txt = highlightedText.substring(HL_PRE.length(), highlightedText.indexOf(HL_POST));
+      // if we're sure it doesn't contain other highlighting tags,
+      // slide end tag backwards so highlighted text length = max length, then append "...", and closing tag
+      if (!txt.contains(HL_PRE) && !txt.contains(HL_POST)) {
+        return highlightedText.substring(0, max) + abrevMarker + HL_POST;
+      }
+    }
+
     return abbreviate(sb.toString(), max + matched * HL_MARKER_LENGTH);
   }
 
