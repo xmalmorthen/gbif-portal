@@ -33,6 +33,7 @@
     <ul>
         <li><a href="#name_usages">Name Usages</a></li>
         <li><a href="#searching">Searching</a></li>
+        <li><a href="#parser">Name Parser</a></li>
         <li><a href="#parameters">Query Parameters</a></li>
     </ul>
 </div>
@@ -106,6 +107,24 @@
 </@common.article>
 
 
+<@common.article id="parser" title="Name Parser">
+  <div class="fullwidth">
+      <p>GBIF exposes its java based name parser library through our API.
+       The service takes one or a list of simple scientific name strings, parses each and returns a list of parsed names.
+      </p>
+
+  <@api.apiTable>
+    <@trow_search url="/parser/name" respLink="/parser/name?names=Abies%20alba%20Mill.%20sec.%20Markus%20D.|Abies%20pinsapo%20var.%20marocana%20(Trab.)%20Ceballos%20%26%20Bolaño%201928" paging=false params=[23]>
+      Parse list of name strings and return the ParsedName version of them. Available as POST or GET.
+      If you use GET with query parameters make sure you url encode the names properly.
+    </@trow_search>
+  </@api.apiTable>
+
+  </div>
+</@common.article>
+
+
+
 <#assign params = {
   "q": "Simple search parameter. The value for this parameter can be a simple word or a phrase. Wildcards can be added to the simple word parameters only, e.g. q=*puma*",
   "language": "default=en or use HTTP header for this",
@@ -128,7 +147,8 @@
   "facet": "A list of facet names used to retrieve the 100 most frequent values for a field. Allowed facets are: dataset_key, highertaxon_key, rank, status, extinct, habitat, and name_type. Additionally threat and nomenclatural_status are legal values but not yet implemented, so data will not yet be returned for them.",
   "facet_only": "Used in combination with the facet parameter. Set facet_only=true to exclude search results.",
   "facet_mincount": "Used in combination with the facet parameter. Set facet_mincount={#} to exclude facets with a count less than {#}, e.g. <a href='http://api.gbif.org/species/search?facet=status&facet_only=true&facet_mincount=7000000' target='_blank'>/search?facet=status&facet_only=true&facet_mincount=7000000</a> only shows the type value 'ACCEPTED' because the other statuses have counts less than 7,000,000",
-  "facet_multiselect": "Used in combination with the facet parameter. Set facet_multiselect=true to still return counts for values that are not currently filtered, e.g. <a href='http://api.gbif.org/species/search?facet=status&facet_only=true&status=ACCEPTED&facet_multiselect=true' target='_blank'>/search?facet=status&facet_only=true&status=ACCEPTED&facet_multiselect=true</a> still shows all status values even though status is being filtered by status=ACCEPTED"
+  "facet_multiselect": "Used in combination with the facet parameter. Set facet_multiselect=true to still return counts for values that are not currently filtered, e.g. <a href='http://api.gbif.org/species/search?facet=status&facet_only=true&status=ACCEPTED&facet_multiselect=true' target='_blank'>/search?facet=status&facet_only=true&status=ACCEPTED&facet_multiselect=true</a> still shows all status values even though status is being filtered by status=ACCEPTED",
+  "names": "List of scientific names concatenated wither by pipe (|) or new lines (\n). Each name can be of any rank and include authorship, year, concept references, nomenclatoral, identification or other informal notes."
 } />
 
 <@common.article id="parameters" title="Parameters">
