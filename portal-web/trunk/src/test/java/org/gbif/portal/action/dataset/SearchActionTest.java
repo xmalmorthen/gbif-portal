@@ -50,6 +50,11 @@ public class SearchActionTest {
       sa.addMissingHighlighting("pontaurus PONTAURUS", "pon"));
     assertEquals("Schulhof Gymnasium Hürth Bonn<em class=\"gbifHl\">strasse</em>",
       sa.addMissingHighlighting("Schulhof Gymnasium Hürth Bonnstrasse", "straße"));
+    assertEquals(
+      "<em class=\"gbifHl\">FADA Ephemeroptera: World checklist of freshwater Ephemeroptera species in the Catalogue of Life</em>",
+      sa.addMissingHighlighting(
+        "FADA Ephemeroptera: World checklist of freshwater Ephemeroptera species in the Catalogue of Life",
+        "FADA Ephemeroptera: World checklist of freshwater Ephemeroptera species in the Catalogue of Life"));
   }
 
   @Test

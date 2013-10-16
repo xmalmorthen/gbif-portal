@@ -35,5 +35,8 @@ public class BaseSearchActionTest {
     assertEquals("String …", BaseSearchAction.limitHighlightedText(text, 12));
     assertEquals("String <em class=\"gbifHl\">buffers</em>…", BaseSearchAction.limitHighlightedText(text, 15));
     assertEquals("String <em class=\"gbifHl\">buffers</em> support mutabl…", BaseSearchAction.limitHighlightedText(text, 30));
+    // Test addresses this issue: http://dev.gbif.org/issues/browse/PF-1247
+    final String longText = "<em class=\"gbifHl\">FADA Ephemeroptera: World checklist of freshwater Ephemeroptera species in the Catalogue of Life</em>";
+    assertEquals("<em class=\"gbifHl\">FADA Ephemeroptera: World checklist of freshwater…</em>", BaseSearchAction.limitHighlightedText(longText, 68));
   }
 }
