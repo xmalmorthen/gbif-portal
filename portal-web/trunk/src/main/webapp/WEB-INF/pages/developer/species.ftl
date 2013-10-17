@@ -97,7 +97,7 @@
     <@trow_search url="/species/search" respLink="/species/search?q=Puma&rank=GENUS" paging=true params=[1,10,11,12,13,14,15,16,17,18,19,20,21,22]>
         Full text searche of name usages covering the scientific and vernacular name, the species description, distribution and the entire classification
         across all name usages of all or some checklists. Results are ordered by relevance as this search usually returns a lot of results.</@trow_search>
-    <@trow_search url="/species/suggest" respLink="/species/suggest?name=Puma%20concolor" paging=false params=[1,5,6,7,8]>
+    <@trow_search url="/species/suggest" respLink="/species/suggest?datasetKey=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&name=Puma%20concolor" paging=false params=[1,3,5,6,7,8]>
         A quick and simple autocomplete service that returns up to 20 name usages by doing prefix matching against the scientific name.
         Results are ordered by relevance.
     </@trow_search>
