@@ -15,7 +15,7 @@ $(function() {
   
   var map = L.map('homepageMap', {
     center: [startLng, startLat],
-    zoom: 3,
+    zoom: 2,
     minZoom: 1,
     touchZoom: false,
     scrollWheelZoom: false,
