@@ -28,12 +28,10 @@
 
 <@common.article id="news" title="GBIF news">
   <div class="fullwidth">
-    <p>GBIF provides RSS feeds for all news or the subset relevant to a specific country.</p>
-
-  <@api.apiTable>
-    <@api.trow url="/news" resp="" respLink="#" paging=false>Feed for all GBIF news</@api.trow>
-    <@api.trow url="/news/country/{ISOCODE}" resp="" respLink="#" paging=false>News feed for a given country</@api.trow>
-  </@api.apiTable>
+    <p>GBIF provides RSS feeds for all news or the subset relevant to a specific country.
+    These feeds are currently not accessible through the API and are linked from the respective country pages,
+    for example the <a href="<@s.url value='/country/ES/news'/>">Spanish news</a>.
+    </p>
 
   </div>
 </@common.article>
@@ -46,9 +44,11 @@
          They are tagged according to whether data accessed via GBIF are used in research,
          or whether GBIF is discussed/mentioned, as well as subjects covered and countries of contributing authors.
       </p>
-    <p>GBIF is still developing a public API. Meanwhile we recommend you use the native
-        <a href="http://dev.mendeley.com/">Mendeley API</a>.
-    </p>
+
+    <@api.apiTable>
+      <@api.trow url="/mendeley/country/{ISOCODE}" resp="PublicationList" respLink="/mendeley/country/FR" paging=false>Publications tagged with a given country</@api.trow>
+    </@api.apiTable>
+
   </div>
 </@common.article>
 
