@@ -35,71 +35,68 @@
 
 
 <#-- define some often occurring defaults -->
-<#macro trowO url method="GET" resp="Occurrence" respLink="#" authRequired=false>
-  <@api.trow_occurrence_simple url="/occurrence"+url httpMethod=method resp=resp respLink=respLink authRequired=authRequired><#nested /></@api.trow_occurrence_simple>
+<#macro trowO url method="GET" resp="Occurrence" respLink="" >
+  <@api.trow url="/occurrence"+url httpMethod=method resp=resp respLink=respLink authRequired=""><#nested /></@api.trow>
 </#macro>
 
-<#macro trowS url resp="Occurrence" respLink="#" paging=false params=[] authRequired=false  method="GET">
-  <@api.trow_occurrence url="/occurrence/search"+url resp=resp respLink=respLink paging=paging params=params authRequired=authRequired httpMethod=method><#nested /></@api.trow_occurrence>
+<#macro trowS url resp="Occurrence" respLink="" paging=false params=[] method="GET">
+  <@api.trow url="/occurrence/search"+url httpMethod="GET" resp=resp respLink=respLink paging=paging params=params authRequired="" httpMethod=method><#nested /></@api.trow>
 </#macro>
 
-<#macro trowDR url resp="" method="GET" respLink="#" paging=false authRequired=false>
-  <@api.trow_occurrence_downloads url="/occurrence/download/request"+url resp=resp httpMethod=method respLink=respLink paging=paging authRequired=authRequired><#nested /></@api.trow_occurrence_downloads>
+<#macro trowDR url resp="" method="GET" respLink="" paging=false authRequired=false>
+  <@api.trow url="/occurrence/download/request"+url resp=resp httpMethod=method respLink=respLink paging=paging authRequired=authRequired><#nested /></@api.trow>
 </#macro>
 
-<#macro trowD url resp="" method="GET" respLink="#" paging=false authRequired=false>
-  <@api.trow_occurrence_downloads url="/occurrence/download"+url resp=resp httpMethod=method respLink=respLink paging=paging authRequired=authRequired><#nested /></@api.trow_occurrence_downloads>
+<#macro trowD url resp="" method="GET" respLink="" paging=false authRequired=false>
+  <@api.trow url="/occurrence/download"+url resp=resp httpMethod=method respLink=respLink paging=paging authRequired=authRequired><#nested /></@api.trow>
+</#macro>
+
+<#macro trowM url resp="" respLink="" paging=false params=[]>
+  <@api.trow url=url resp=resp httpMethod="GET" respLink=respLink paging=paging authRequired="" params=params><#nested /></@api.trow>
 </#macro>
 
 
-<@common.article id="occurrences" title="Occurrences">
-  <div class="fullwidth">
-    <p>This API provides services related to the retrieval of single occurrence records.</p>
 
-    <@api.apiTable_occurrence_no_params>
-      <@trowO url="/{key}" respLink="/occurrence/252408386">Gets details for a single, interpreted occurrence</@trowO>
-      <@trowO url="/{key}/fragment" respLink="/occurrence/252408386/fragment">Not yet available. Will eventually get a single occurrence fragment in its raw form (xml or json) (expected November, 2013)</@trowO>
-      <@trowO url="/{key}/verbatim" resp="VerbatimOccurrence" respLink="/occurrence/252408386/verbatim">Gets the verbatim (no interpretation) occurrence record</@trowO>
-    </@api.apiTable_occurrence_no_params>
+<@api.article id="occurrences" title="Occurrences">
+  <p>This API provides services related to the retrieval of single occurrence records.</p>
 
-  </div>
-</@common.article>
+  <@api.apiTable auth=false>
+    <@trowO url="/{key}" respLink="/occurrence/252408386">Gets details for a single, interpreted occurrence</@trowO>
+    <@trowO url="/{key}/fragment" respLink="/occurrence/252408386/fragment">Not yet available. Will eventually get a single occurrence fragment in its raw form (xml or json) (expected November, 2013)</@trowO>
+    <@trowO url="/{key}/verbatim" resp="VerbatimOccurrence" respLink="/occurrence/252408386/verbatim">Gets the verbatim (no interpretation) occurrence record</@trowO>
+  </@api.apiTable>
 
+</@api.article>
 
 
-<@common.article id="search" title="Searching">
-    <div class="fullwidth">
-        <p>This API provides services for searching occurrence records that have been indexed by GBIF.</p>
 
-     <@api.apiTable_occurrence>
-      <@trowS url="" respLink="/occurrence/search?taxonKey=1"  paging=true params=[1,2,3,6,7,8,9,10,11,12,13,14,15,16,17,18,19]>Full search across all occurrences.
+<@api.article id="search" title="Searching">
+  <p>This API provides services for searching occurrence records that have been indexed by GBIF.</p>
+
+  <@api.apiTable auth=false>
+      <@trowS url="" respLink="/occurrence/search?taxonKey=1"  paging=true params=["datasetKey","year","month","latitude","longitude","country","altitude","depth","institutionCode", "collectionCode", "catalogNumber","collectorName","basisOfRecord","taxonKey","georeferenced","geometry","spatialIssues"]>Full search across all occurrences.
       Results are ordered by relevance.</@trowS>
-      <@trowS url="/catalog_number" respLink="/occurrence/search/catalog_number?q=122&limit=5" params=[20,21]>Search that returns matching catalog numbers.
+      <@trowS url="/catalog_number" respLink="/occurrence/search/catalog_number?q=122&limit=5" params=["q","limit"]>Search that returns matching catalog numbers.
       Results are ordered by relevance.</@trowS>
-      <@trowS url="/collection_code" respLink="/occurrence/search/collection_code?q=12&limit=5" params=[20,21]>Search that returns matching collection codes.
+      <@trowS url="/collection_code" respLink="/occurrence/search/collection_code?q=12&limit=5" params=["q","limit"]>Search that returns matching collection codes.
       Results are ordered by relevance.</@trowS>
-      <@trowS url="/collector_name" respLink="/occurrence/search/collector_name?q=juan&limit=5" params=[20,21]>Search that returns matching collector names.
-       Results are ordered by relevance.</@trowS>
-      <@trowS url="/institution_code" respLink="/occurrence/search/institution_code?q=GB&limit=5" params=[20,21]>Search that returns matching institution codes.
+      <@trowS url="/collector_name" respLink="/occurrence/search/collector_name?q=juan&limit=5" params=["q","limit"]>Search that returns matching collector names.
       Results are ordered by relevance.</@trowS>
-    </@api.apiTable_occurrence>
+      <@trowS url="/institution_code" respLink="/occurrence/search/institution_code?q=GB&limit=5" params=["q","limit"]>Search that returns matching institution codes.
+      Results are ordered by relevance.</@trowS>
+    </@api.apiTable>
+</@api.article>
 
-  </div>
-</@common.article>
 
 
+<@api.article id="downloads" title="Occurrence Downloads">
+  <p>This API provides services to download occurrence records and retrieve information about those downloads.</p>
+  <p>Occurrence downloads are created asynchronously - the user requests a download and, once complete, is sent and email with a link to the resulting file.</p>
+  <p>Internally we use a Java web service client for the consumption of these HTTP-based, RESTful web services. It may
+    be of interest to those coding against the API, and can be found in the <a href="http://gbif-occurrencestore.googlecode.com/svn/occurrence-download/trunk/occurrence-download-ws-client/" target="_blank">occurrence-download-ws-client</a>.
+  </p>
 
-<@common.article id="downloads" title="Occurrence Downloads">
-    <div class="fullwidth">
-        <p>This API provides services to download occurrence records and retrieve information about those downloads.</p>
-        <p>Occurrence downloads are created asynchronously - the user requests a download and, once complete, is sent and email with a link to the resulting file.</p>
-        
-        <p>
-        Internally we use a Java web service client for the consumption of these HTTP-based, RESTful web services. It may
-        be of interest to those coding against the API, and can be found in the <a href="http://gbif-occurrencestore.googlecode.com/svn/occurrence-download/trunk/occurrence-download-ws-client/" target="_blank">occurrence-download-ws-client</a>.
-        </p>
-
-    <@api.apiTable_occurrence_downloads>
+  <@api.apiTable>
       <@trowDR url="" resp="Download key" method="POST" authRequired=true>Starts the process of creating a download file. See the <a href="#predicates">predicates</a> section to consult the requests accepted by this service.</@trowDR>
       <@trowDR url="/{key}" resp="Download file" respLink="/occurrence/download/request/0000447-130906152512535" method="GET" authRequired=false>Retrieves the download file if it is available.</@trowDR>
       <@trowDR url="/{key}" method="DELETE" authRequired=true>Cancels the download process.</@trowDR>
@@ -109,26 +106,25 @@
       <@trowD url="/{key}" method="POST" authRequired=true>Creates the metadata about an occurrence download. This operation can be executed by the role ADMIN only.</@trowD>
       <@trowD url="/user" method="GET" authRequired=true>Lists the downloads of the current user.</@trowD>
       <@trowD url="/user/{user}" method="GET" authRequired=true>Lists the downloads created by a user. Only role ADMIN can list downloads of other users.</@trowD>
-    </@api.apiTable_occurrence_downloads>
-
-  </div>
-</@common.article>
+    </@api.apiTable>
+</@api.article>
 
 
-<@common.article id="metrics" title="Occurrence Metrics">
-    <div class="fullwidth">
-        <p>This API provides services to retrieve various counts and metrics provided about occurrence records.</p>
+<@api.article id="metrics" title="Occurrence Metrics">
+  <p>This API provides services to retrieve various counts and metrics provided about occurrence records.</p>
 
-    <@api.apiTable_occurrence_metrics>
-      <@api.trow_occurrence_metrics url="/count" resp="Count" respLink="/occurrence/count">Returns occurrence counts for a predefined set of dimensions. The supported dimensions are enumerated in the <a href="http://api.gbif.org/v0.9/occurrence/count/schema" target="_blank">/occurrence/count/schema</a> service. An example for the count of georeferenced observations from Canada: <a href="http://api.gbif.org/v0.9/occurrence/count?country=CANADA&georeferenced=true&basisOfRecord=OBSERVATION" target="_blank">/occurrence/count?country=CANADA&georeferenced=true&basisOfRecord=OBSERVATION</a>. Note that country is the full name, not ISO code. This will change to ISO code in v1.0 of the API.</@api.trow_occurrence_metrics>
-      <@api.trow_occurrence_metrics url="/count/schema" resp="Count" respLink="/occurrence/count/schema">List the supported schemas by the occurrence/count service.</@api.trow_occurrence_metrics>
-      <@api.trow_occurrence_metrics url="/counts/basis_of_record" resp="Counts" respLink="/occurrence/counts/basis_of_record">Lists occurrence counts by basis of record.</@api.trow_occurrence_metrics>
-      <@api.trow_occurrence_metrics url="/counts/countries"resp="Counts" respLink="/occurrence/counts/countries?publishingCountry=US" params=[22]>Lists occurrence counts by publishing country.</@api.trow_occurrence_metrics>
-      <@api.trow_occurrence_metrics url="/counts/year" resp="Counts" respLink="/occurrence/counts/year?from=2000&to=20012" params=[23,24]>Lists occurrence counts by year.</@api.trow_occurrence_metrics>
-    </@api.apiTable_occurrence_metrics>
-
-  </div>
-</@common.article>
+  <@api.apiTable auth=false>
+      <@trowM url="/count" resp="Count" respLink="/occurrence/count">Returns occurrence counts for a predefined set of dimensions.
+        The supported dimensions are enumerated in the <a href="http://api.gbif.org/v0.9/occurrence/count/schema" target="_blank">/occurrence/count/schema</a> service.
+        An example for the count of georeferenced observations from Canada: <a href="http://api.gbif.org/v0.9/occurrence/count?country=CANADA&georeferenced=true&basisOfRecord=OBSERVATION" target="_blank">/occurrence/count?country=CANADA&georeferenced=true&basisOfRecord=OBSERVATION</a>.
+        Note that country is the full name, not ISO code. This will change to ISO code in v1.0 of the API.
+      </@trowM>
+      <@trowM url="/count/schema" resp="Count" respLink="/occurrence/count/schema">List the supported schemas by the occurrence/count service.</@trowM>
+      <@trowM url="/counts/basis_of_record" resp="Counts" respLink="/occurrence/counts/basis_of_record">Lists occurrence counts by basis of record.</@trowM>
+      <@trowM url="/counts/countries"resp="Counts" respLink="/occurrence/counts/countries?publishingCountry=US" params=["publishingCountry"]>Lists occurrence counts by publishing country.</@trowM>
+      <@trowM url="/counts/year" resp="Counts" respLink="/occurrence/counts/year?from=2000&to=20012" params=["from","to"]>Lists occurrence counts by year.</@trowM>
+    </@api.apiTable>
+</@api.article>
 
 <#assign params = {
   "datasetKey": "The occurrence dataset key (a uuid)",
@@ -158,18 +154,8 @@
 } />
 
 
-<@common.article id="parameters" title="Parameters">
-  <div class="fullwidth">
-    <p>The following parameters are for use exclusively with the Occurrence API described above.</p>
+<@api.paramArticle params=params apiName="Occurrence" />
 
-    <@api.apiTable_params>
-      <#list params?keys as k>
-        <@api.trow_param index="${k_index + 1}" key="${k_index + 1}. ${k}" description="${params[k]}" />
-      </#list>
-    </@api.apiTable_params>
-
-  </div>
-</@common.article>
 
 <@common.article id="predicates" title="Occurrence Download Predicates">
     <div class="fullwidth">

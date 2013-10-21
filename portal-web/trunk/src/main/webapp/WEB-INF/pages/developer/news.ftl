@@ -26,31 +26,25 @@
 </div>
 </@api.introArticle>
 
-<@common.article id="news" title="GBIF news">
-  <div class="fullwidth">
-    <p>GBIF provides RSS feeds for all news or the subset relevant to a specific country.
-    These feeds are currently not accessible through the API and are linked from the respective country pages,
-    for example the <a href="<@s.url value='/country/ES/news'/>">Spanish news</a>.
-    </p>
-
-  </div>
-</@common.article>
+<@api.article id="news" title="GBIF news">
+  <p>GBIF provides RSS feeds for all news or the subset relevant to a specific country.
+  These feeds are currently not accessible through the API and are linked from the respective country pages,
+  for example the <a href="<@s.url value='/country/ES/news'/>">Spanish news</a>.
+  </p>
+</@api.article>
 
 
-<@common.article id="news" title="Mendeley">
-  <div class="fullwidth">
-      <p>GBIF maintains a <a href="http://www.mendeley.com/groups/1068301/gbif-public-library/">Mendeley group</a>
-         sharing publications relevant to the Global Biodiversity Information Facility.
-         They are tagged according to whether data accessed via GBIF are used in research,
-         or whether GBIF is discussed/mentioned, as well as subjects covered and countries of contributing authors.
-      </p>
+<@api.article id="news" title="Mendeley">
+  <p>GBIF maintains a <a href="http://www.mendeley.com/groups/1068301/gbif-public-library/">Mendeley group</a>
+     sharing publications relevant to the Global Biodiversity Information Facility.
+     They are tagged according to whether data accessed via GBIF are used in research,
+     or whether GBIF is discussed/mentioned, as well as subjects covered and countries of contributing authors.
+  </p>
 
-    <@api.apiTable>
-      <@api.trow url="/mendeley/country/{ISOCODE}" resp="PublicationList" respLink="/mendeley/country/FR" paging=false>Publications tagged with a given country</@api.trow>
-    </@api.apiTable>
-
-  </div>
-</@common.article>
+  <@api.apiTable auth=false>
+    <@api.trow url="/mendeley/country/{ISOCODE}" httpMethod="GET" resp="PublicationList" respLink="/mendeley/country/FR" authRequired="" paging=false>Publications tagged with a given country</@api.trow>
+  </@api.apiTable>
+</@api.article>
 
 </body>
 </html>

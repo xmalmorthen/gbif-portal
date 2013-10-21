@@ -4,7 +4,7 @@
 
 */
 
-#content tables {
+#content table {
   // occurrence metrics tables
   &.metrics {
     color: #666;
@@ -17,6 +17,21 @@
     }
     td.title {
       font-weight: bold !important;
+    }
+  }
+
+  &.api {
+    .wordwrap a {
+      word-wrap: normal !important;
+      word-break: normal !important;
+    }
+    td a{
+      word-break: break-all;
+      word-wrap: break-word;
+    }
+    ul {
+      margin-bottom: 0px;
+      font-size: 13px;
     }
   }
 

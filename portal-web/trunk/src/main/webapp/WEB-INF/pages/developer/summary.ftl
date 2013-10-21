@@ -76,12 +76,12 @@
       </thead>
       <tbody>
         <tr>
-          <td>Limit</td>
+          <td>limit</td>
           <td>Controls the number of results in the page.  Using too high a value will be overwritten with the default
             maximum threshold, depending on the service.  Sensible defaults are used so this may be omitted.</td>
         </tr>
         <tr>
-          <td>Offset</td>
+          <td>offset</td>
           <td>Determines the offset for the search results.  A limit of 20 and offset of 20, will get the second page
           of 20 results.</td>
         </tr>
