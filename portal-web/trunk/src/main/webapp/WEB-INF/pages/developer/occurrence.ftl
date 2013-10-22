@@ -36,23 +36,19 @@
 
 <#-- define some often occurring defaults -->
 <#macro trowO url method="GET" resp="Occurrence" respLink="" >
-  <@api.trow url="/occurrence"+url httpMethod=method resp=resp respLink=respLink authRequired=""><#nested /></@api.trow>
+  <@api.trow url="/occurrence"+url httpMethod=method resp=resp respLink=respLink authRequired="" showParams=false paging=""><#nested /></@api.trow>
 </#macro>
 
 <#macro trowS url resp="Occurrence" respLink="" paging=false params=[] method="GET">
   <@api.trow url="/occurrence/search"+url httpMethod="GET" resp=resp respLink=respLink paging=paging params=params authRequired="" httpMethod=method><#nested /></@api.trow>
 </#macro>
 
-<#macro trowDR url resp="" method="GET" respLink="" paging=false authRequired=false>
-  <@api.trow url="/occurrence/download/request"+url resp=resp httpMethod=method respLink=respLink paging=paging authRequired=authRequired><#nested /></@api.trow>
-</#macro>
-
 <#macro trowD url resp="" method="GET" respLink="" paging=false authRequired=false>
-  <@api.trow url="/occurrence/download"+url resp=resp httpMethod=method respLink=respLink paging=paging authRequired=authRequired><#nested /></@api.trow>
+  <@api.trow url="/occurrence/download"+url resp=resp httpMethod=method respLink=respLink paging=paging authRequired=authRequired showParams=false><#nested /></@api.trow>
 </#macro>
 
-<#macro trowM url resp="" respLink="" paging=false params=[]>
-  <@api.trow url=url resp=resp httpMethod="GET" respLink=respLink paging=paging authRequired="" params=params><#nested /></@api.trow>
+<#macro trowM url resp="" respLink="" params=[]>
+  <@api.trow url=url resp=resp httpMethod="GET" respLink=respLink paging="" authRequired="" params=params><#nested /></@api.trow>
 </#macro>
 
 
@@ -60,7 +56,7 @@
 <@api.article id="occurrences" title="Occurrences">
   <p>This API provides services related to the retrieval of single occurrence records.</p>
 
-  <@api.apiTable auth=false>
+  <@api.apiTable auth=false paging=false params=false>
     <@trowO url="/{key}" respLink="/occurrence/252408386">Gets details for a single, interpreted occurrence</@trowO>
     <@trowO url="/{key}/fragment" respLink="/occurrence/252408386/fragment">Not yet available. Will eventually get a single occurrence fragment in its raw form (xml or json) (expected November, 2013)</@trowO>
     <@trowO url="/{key}/verbatim" resp="VerbatimOccurrence" respLink="/occurrence/252408386/verbatim">Gets the verbatim (no interpretation) occurrence record</@trowO>
@@ -96,16 +92,15 @@
     be of interest to those coding against the API, and can be found in the <a href="http://gbif-occurrencestore.googlecode.com/svn/occurrence-download/trunk/occurrence-download-ws-client/" target="_blank">occurrence-download-ws-client</a>.
   </p>
 
-  <@api.apiTable>
-      <@trowDR url="" resp="Download key" method="POST" authRequired=true>Starts the process of creating a download file. See the <a href="#predicates">predicates</a> section to consult the requests accepted by this service.</@trowDR>
-      <@trowDR url="/{key}" resp="Download file" respLink="/occurrence/download/request/0000447-130906152512535" method="GET" authRequired=false>Retrieves the download file if it is available.</@trowDR>
-      <@trowDR url="/{key}" method="DELETE" authRequired=true>Cancels the download process.</@trowDR>
-      <@trowD url="" resp="Download" respLink="/occurrence/download" method="GET" authRequired=true>Lists all the downloads. This operation can be executed by the role ADMIN only.</@trowD>
+  <@api.apiTable params=false>
+      <@trowD url="/request" resp="Download key" method="POST" authRequired=true>Starts the process of creating a download file. See the <a href="#predicates">predicates</a> section to consult the requests accepted by this service.</@trowD>
+      <@trowD url="/request/{key}" resp="Download file" respLink="/occurrence/download/request/0000447-130906152512535" method="GET" authRequired=false>Retrieves the download file if it is available.</@trowD>
+      <@trowD url="/request/{key}" method="DELETE" authRequired=true>Cancels the download process.</@trowD>
+      <@trowD url="" method="GET" resp="Download Page" respLink="/occurrence/download" authRequired=true paging=true>Lists all the downloads. This operation can be executed by the role ADMIN only.</@trowD>
       <@trowD url="/{key}" resp="Download" respLink="/occurrence/download/0000447-130906152512535" method="GET">Retrieves the occurrence download metadata by its unique key.</@trowD>
       <@trowD url="/{key}" method="PUT" authRequired=true>Updates the status of an existing occurrence download. This operation can be executed by the role ADMIN only.</@trowD>
       <@trowD url="/{key}" method="POST" authRequired=true>Creates the metadata about an occurrence download. This operation can be executed by the role ADMIN only.</@trowD>
-      <@trowD url="/user" method="GET" authRequired=true>Lists the downloads of the current user.</@trowD>
-      <@trowD url="/user/{user}" method="GET" authRequired=true>Lists the downloads created by a user. Only role ADMIN can list downloads of other users.</@trowD>
+      <@trowD url="/user/{user}" method="GET" resp="Download Page" authRequired=true paging=true>Lists the downloads created by a user. Only role ADMIN can list downloads of other users.</@trowD>
     </@api.apiTable>
 </@api.article>
 
@@ -113,7 +108,7 @@
 <@api.article id="metrics" title="Occurrence Metrics">
   <p>This API provides services to retrieve various counts and metrics provided about occurrence records.</p>
 
-  <@api.apiTable auth=false>
+  <@api.apiTable auth=false paging=false>
       <@trowM url="/count" resp="Count" respLink="/occurrence/count">Returns occurrence counts for a predefined set of dimensions.
         The supported dimensions are enumerated in the <a href="http://api.gbif.org/v0.9/occurrence/count/schema" target="_blank">/occurrence/count/schema</a> service.
         An example for the count of georeferenced observations from Canada: <a href="http://api.gbif.org/v0.9/occurrence/count?country=CANADA&georeferenced=true&basisOfRecord=OBSERVATION" target="_blank">/occurrence/count?country=CANADA&georeferenced=true&basisOfRecord=OBSERVATION</a>.

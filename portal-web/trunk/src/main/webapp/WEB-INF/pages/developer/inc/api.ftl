@@ -49,7 +49,7 @@
 
 
 
-<#macro trow url httpMethod resp respLink="#" paging=false params=[] authRequired=false>
+<#macro trow url httpMethod resp respLink="" paging=false showParams=true params=[] authRequired=false>
 <tr>
     <td class="nowrap">${url}</td>
     <td class="nowrap">${httpMethod?upper_case}</td>
@@ -61,7 +61,9 @@
   <#if paging?string!="">
     <td class="nowrap">${paging?string}</td>
   </#if>
+  <#if showParams>
     <td class="wordwrap"><#list params as p><a href='#p_${p}'>${p}</a><#if p_has_next>, </#if></#list></td>
+  </#if>
 </tr>
 </#macro>
 
