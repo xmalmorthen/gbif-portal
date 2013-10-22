@@ -41,7 +41,7 @@
 
 
 <#-- define some often occurring species defaults -->
-<#macro trow url httpMethod="GET" resp="NameUsage List" respLink="#" paging=false params=[]>
+<#macro trow url resp httpMethod="GET" respLink="" paging=false params=[]>
 <@api.trow url="/species"+url httpMethod=httpMethod resp=resp respLink=respLink paging=paging params=params authRequired=""><#nested /></@api.trow>
 </#macro>
 
@@ -55,22 +55,22 @@
   </p>
 
   <@api.apiTable auth=false>
-    <@trow url="" paging=true respLink="/species?datasetKey=00a0607f-fd7e-4268-9707-0f53aa265f1f&sourceId=ICIMOD_Barsey_Plants_001" params=["language","datasetKey","sourceId","name"]>Lists all name usages across all checklists</@trow>
-    <@trow url="/root/{uuid|shortname}" respLink="/species/root/66dd0960-2d7d-46ee-a491-87b9adcfe7b1" paging=true >Lists root usages of a checklist</@trow>
+    <@trow url="" paging=true resp="NameUsage Page" respLink="/species?datasetKey=00a0607f-fd7e-4268-9707-0f53aa265f1f&sourceId=ICIMOD_Barsey_Plants_001" params=["language","datasetKey","sourceId","name"]>Lists all name usages across all checklists</@trow>
+    <@trow url="/root/{uuid|shortname}" resp="NameUsage Page" respLink="/species/root/66dd0960-2d7d-46ee-a491-87b9adcfe7b1" paging=true >Lists root usages of a checklist</@trow>
     <@trow url="/{int}" resp="NameUsage" respLink="/species/5231190" params=["language"]>Gets the single name usage</@trow>
     <@trow url="/{int}/verbatim" resp="VerbatimNameUsage" respLink="/species/5231190/verbatim">Gets the verbatim name usage</@trow>
     <@trow url="/{int}/name" resp="ParsedName" respLink="/species/5231190/name">Gets the parsed name for a name usage</@trow>
-    <@trow url="/{int}/parents" params=["language"] respLink="/species/5231190/parents">Lists all parent usages for a name usage</@trow>
-    <@trow url="/{int}/children" paging=true params=["language"] respLink="/species/5231190/children">Lists all direct child usages for a name usage</@trow>
-    <@trow url="/{int}/related" paging=false params=["language","datasetKey"] respLink="/species/5231190/related">Lists all related name usages in other checklists</@trow>
-    <@trow url="/{int}/synonyms" paging=true params=["language"] respLink="/species/5231190/synonyms">Lists all synonyms for a name usage</@trow>
-    <@trow url="/{int}/descriptions" resp="Description List" paging=true respLink="/species/5231190/descriptions">Lists all descriptions for a name usage</@trow>
-    <@trow url="/{int}/distributions" resp="Distribution List" paging=true respLink="/species/5231190/distributions">Lists all distributions for a name usage</@trow>
-    <@trow url="/{int}/images" resp="Image List" paging=true respLink="/species/5231190/images">Lists all images for a name usage</@trow>
-    <@trow url="/{int}/references" resp="Reference List" paging=true respLink="/species/5231190/references">Lists all references for a name usage</@trow>
-    <@trow url="/{int}/species_profiles" resp="SpeciesProfile List" paging=true respLink="/species/5231190/species_profiles">Lists all species profiles for a name usage</@trow>
-    <@trow url="/{int}/vernacular_names" resp="VernacularName List" paging=true respLink="/species/5231190/vernacular_names">Lists all vernacular names for a name usage</@trow>
-    <@trow url="/{int}/type_specimens" resp="TypeSpecimen List" paging=true respLink="/species/5231190/type_specimens">Lists all type specimens for a name usage</@trow>
+    <@trow url="/{int}/parents" resp="NameUsage List" params=["language"] respLink="/species/5231190/parents">Lists all parent usages for a name usage</@trow>
+    <@trow url="/{int}/children" resp="NameUsage Page" paging=true params=["language"] respLink="/species/5231190/children">Lists all direct child usages for a name usage</@trow>
+    <@trow url="/{int}/related" resp="NameUsage List" paging=false params=["language","datasetKey"] respLink="/species/5231190/related">Lists all related name usages in other checklists</@trow>
+    <@trow url="/{int}/synonyms" resp="NameUsage Page" paging=true params=["language"] respLink="/species/5231190/synonyms">Lists all synonyms for a name usage</@trow>
+    <@trow url="/{int}/descriptions" resp="Description Page" paging=true respLink="/species/5231190/descriptions">Lists all descriptions for a name usage</@trow>
+    <@trow url="/{int}/distributions" resp="Distribution Page" paging=true respLink="/species/5231190/distributions">Lists all distributions for a name usage</@trow>
+    <@trow url="/{int}/images" resp="Image Page" paging=true respLink="/species/5231190/images">Lists all images for a name usage</@trow>
+    <@trow url="/{int}/references" resp="Reference Page" paging=true respLink="/species/5231190/references">Lists all references for a name usage</@trow>
+    <@trow url="/{int}/species_profiles" resp="SpeciesProfile Page" paging=true respLink="/species/5231190/species_profiles">Lists all species profiles for a name usage</@trow>
+    <@trow url="/{int}/vernacular_names" resp="VernacularName Page" paging=true respLink="/species/5231190/vernacular_names">Lists all vernacular names for a name usage</@trow>
+    <@trow url="/{int}/type_specimens" resp="TypeSpecimen Page" paging=true respLink="/species/5231190/type_specimens">Lists all type specimens for a name usage</@trow>
   </@api.apiTable>
 
 </@api.article>
@@ -82,17 +82,17 @@
   </p>
 
   <@api.apiTable auth=false>
-    <@trow url="" respLink="/species?name=Puma%20concolor" paging=true params=["language","datasetKey","name"] >
+    <@trow url="" resp="NameUsage Page" respLink="/species?name=Puma%20concolor" paging=true params=["language","datasetKey","name"] >
       Lists name usages across all or some checklists that share the exact same canonical name, i.e. without authorship.
     </@trow>
-    <@trow url="/match" respLink="/species/match?verbose=true&kingdom=Plantae&name=Oenante" paging=false params=["rank","name","strict","verbose","kingdom","phylum","class","order","family","genus"]>
+    <@trow url="/match" resp="NameUsage Page" respLink="/species/match?verbose=true&kingdom=Plantae&name=Oenante" paging=false params=["rank","name","strict","verbose","kingdom","phylum","class","order","family","genus"]>
       Fuzzy matches scientific names against the GBIF Backbone Taxonomy with the optional classification provided.
       If a classification is provided and strict is not set to true, the default matching will also try to match against these if no direct match is found for the name parameter alone.
     </@trow>
-    <@trow url="/search" respLink="/species/search?q=Puma&rank=GENUS" paging=true params=["q","datasetKey","rank","highertaxonKey","status","extinct","habitat","threat","nameType","nomenclaturalStatus","hl","facet","facet_only","facet_mincount","facet_multiselect"]>
+    <@trow url="/search" resp="NameUsage Page" respLink="/species/search?q=Puma&rank=GENUS" paging=true params=["q","datasetKey","rank","highertaxonKey","status","extinct","habitat","threat","nameType","nomenclaturalStatus","hl","facet","facet_only","facet_mincount","facet_multiselect"]>
         Full text search of name usages covering the scientific and vernacular name, the species description, distribution and the entire classification
         across all name usages of all or some checklists. Results are ordered by relevance as this search usually returns a lot of results.</@trow>
-    <@trow url="/suggest" respLink="/species/suggest?datasetKey=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&q=Puma%20con" paging=false params=["q","datasetKey","rank"]>
+    <@trow url="/suggest" resp="NameUsage Page" respLink="/species/suggest?datasetKey=d7dddbf4-2cf0-4f39-9b2a-bb099caae36c&q=Puma%20con" paging=false params=["q","datasetKey","rank"]>
         A quick and simple autocomplete service that returns up to 20 name usages by doing prefix matching against the scientific name.
         Results are ordered by relevance.
     </@trow>
@@ -106,11 +106,11 @@
   </p>
 
   <@api.apiTable auth=false>
-    <@trow url="/parser/name" httpMethod="GET" resp="ParsedName" respLink="/parser/name?name=Abies%20alba%20Mill.%20sec.%20Markus%20D.&name=Abies%20pinsapo%20var.%20marocana%20(Trab.)%20Ceballos%20%26%20Bolaño%201928" paging=false params=["name"]>
+    <@trow url="/parser/name" httpMethod="GET" resp="ParsedName List" respLink="/parser/name?name=Abies%20alba%20Mill.%20sec.%20Markus%20D.&name=Abies%20pinsapo%20var.%20marocana%20(Trab.)%20Ceballos%20%26%20Bolaño%201928" paging=false params=["name"]>
       Parses a scientific name string and returns the ParsedName version of it.
       Accepts multiple parameters each with a single name. Make sure you url encode the names properly.
     </@trow>
-    <@trow url="/parser/name" resp="" httpMethod="POST" paging=false params=["name"]>
+    <@trow url="/parser/name" resp="ParsedName List" httpMethod="POST" paging=false params=["name"]>
       Parse list of name strings supplied via one of the following media type encodings:
       <ul>
         <li><em>json</em> array of name strings</li>
