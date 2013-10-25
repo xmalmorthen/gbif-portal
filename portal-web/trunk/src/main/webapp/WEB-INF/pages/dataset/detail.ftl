@@ -427,7 +427,7 @@
 
 <#-- METHODS -->
 <#if dataset.samplingDescription?has_content>
-<@common.article id="methods" title="Methodolgy">
+<@common.article id="methods" title="Methodology">
   <#assign sd=dataset.samplingDescription />
 <div class="left">
 
