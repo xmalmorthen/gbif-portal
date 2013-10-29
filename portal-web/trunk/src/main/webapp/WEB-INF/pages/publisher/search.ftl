@@ -38,12 +38,16 @@
           </h2>
 
           <p>A data publisher
-            <#if pub.city?? || pub.country??>from <@common.cityAndCountry pub/></#if>
+            <#if pub.city?? || (pub.country?? && pub.country?lower_case != "unknown") >from <@common.cityAndCountry pub/></#if>
             <#if (pub.numOwnedDatasets > 0)>with ${pub.numOwnedDatasets} published datasets</#if>
           </p>
 
           <div class="footer">
+            <#if pub.endorsementApproved>
               <p>Endorsed by <a href="<@s.url value='/node/${pub.endorsingNodeKey}'/>">${(nodeIndex.get(pub.endorsingNodeKey).title)!""}</a></p>
+            <#else>
+              <p>Not endorsed yet</p>
+            </#if>
           </div>
         </div>
     </#list>
