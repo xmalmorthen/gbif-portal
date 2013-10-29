@@ -11,8 +11,12 @@
 
 <@common.article id="information" title="Data publisher information">
   <#assign extraRight>
-      <h3>Endorsed by</h3>
-      <p><#if node??><a href="<@s.url value='/node/${node.key}'/>">${node.title}</a><#else>Not endorsed yet</#if></p>
+    <#if node?? && member.endorsementApproved>
+        <h3>Endorsed by</h3>
+        <p><a href="<@s.url value='/node/${node.key}'/>">${node.title}</a></p>
+    <#else>
+        <h3>Not endorsed yet</h3>
+    </#if>
   </#assign>
   <#include "/WEB-INF/pages/member/inc/basics.ftl">
 </@common.article>
