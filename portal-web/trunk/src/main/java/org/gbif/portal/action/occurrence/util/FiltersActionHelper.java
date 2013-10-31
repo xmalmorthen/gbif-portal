@@ -30,7 +30,7 @@ import org.gbif.portal.model.SearchSuggestions;
 
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
+import java.text.DateFormatSymbols;
 import java.util.Calendar;
 import java.util.EnumSet;
 import java.util.Enumeration;
@@ -41,8 +41,6 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Function;
@@ -57,6 +55,7 @@ import com.google.inject.Inject;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.util.LocalizedTextUtil;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -195,7 +194,6 @@ public class FiltersActionHelper {
     return BasisOfRecord.values();
   }
 
-
   /**
    * Returns the list of {@link Country} literals.
    */
@@ -321,6 +319,7 @@ public class FiltersActionHelper {
     }
   }
 
+
   /**
    * Searches for suggestion to all the CATALOG_NUMBER parameter values, if the input value has an exact match against
    * any
@@ -329,7 +328,6 @@ public class FiltersActionHelper {
   public SearchSuggestions<String> processCatalogNumberSuggestions(HttpServletRequest request) {
     return processStringSuggestions(request, OccurrenceSearchParameter.CATALOG_NUMBER, suggestCatalogNumbers);
   }
-
 
   /**
    * Searches for suggestion to all the COLLECTION_CODE parameter values, if the input value has an exact match against
@@ -340,6 +338,7 @@ public class FiltersActionHelper {
     return processStringSuggestions(request, OccurrenceSearchParameter.COLLECTION_CODE, suggestCollectionCodes);
   }
 
+
   /**
    * Searches for suggestion to all the COLLECTOR_NAME parameter values, if the input value has an exact match against
    * any
@@ -348,7 +347,6 @@ public class FiltersActionHelper {
   public SearchSuggestions<String> processCollectorSuggestions(HttpServletRequest request) {
     return processStringSuggestions(request, OccurrenceSearchParameter.COLLECTOR_NAME, suggestCollectorNames);
   }
-
 
   /**
    * Replace the DATASET_KEY parameters that have a scientific name that could be interpreted directly.
@@ -512,6 +510,7 @@ public class FiltersActionHelper {
     }
   }
 
+
   /**
    * Gets the locale from the current web context.
    */
@@ -527,15 +526,13 @@ public class FiltersActionHelper {
     }
   }
 
-
   /**
    * Gets the name of the month int parameter.
    */
   private String getMonthName(int month) {
-    Calendar cal = Calendar.getInstance();
-    cal.set(Calendar.MONTH, month - 1); // Java indexes month from 0
-    return new SimpleDateFormat("MMMM", getLocale()).format(cal.getTime());
+    return DateFormatSymbols.getInstance(getLocale()).getMonths()[month - 1];
   }
+
 
   /**
    * Returns the displayable label/value of a range filter.
@@ -574,7 +571,6 @@ public class FiltersActionHelper {
       return String.format(IS_FMT, value);
     }
   }
-
 
   /**
    * Returns the displayable label/value of a range filter.
@@ -655,6 +651,7 @@ public class FiltersActionHelper {
     return searchSuggestions;
   }
 
+
   /**
    * Remove the parameter/value pair from the query string.
    */
@@ -666,7 +663,6 @@ public class FiltersActionHelper {
     return Strings.isNullOrEmpty(queryString) ? request.getRequestURI() : request.getRequestURI() + '?'
       + queryString;
   }
-
 
   /**
    * Converts a list of NameUsageMatch into a list of NameUsageSearchResult.
@@ -699,6 +695,7 @@ public class FiltersActionHelper {
 
     return nameUsageSearchResult;
   }
+
 
   /**
    * Try to parse a UUID, if an exception is caught null is returned.
