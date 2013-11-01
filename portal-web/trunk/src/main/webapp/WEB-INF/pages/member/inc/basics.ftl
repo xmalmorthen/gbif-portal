@@ -24,8 +24,17 @@
   <p>${member.phone}</p>
   </#if>
 
-  <#if (member.contacts?has_content) >
-    <@common.contactList contacts=member.contacts columns=3 showAllButton=true/>
+  <#-- only publisher pages need to separate contacts into primary and other -->
+  <#if primaryContacts?? && otherContacts??>
+    <#if primaryContacts?has_content>
+    <#-- show all link should get shown at bottom of other contacts, depending on whether there are other contacts -->
+      <@common.contactList contacts=primaryContacts columns=3  showAllButton=(otherContacts?size == 0) title='Primary contacts'/>
+    </#if>
+    <#if otherContacts?has_content>
+      <@common.contactList contacts=otherContacts columns=3 showAllButton=true title="Other contacts"/>
+    </#if>
+  <#elseif member.contacts?has_content>
+      <@common.contactList contacts=member.contacts columns=3 showAllButton=true/>
   </#if>
 </div>
 

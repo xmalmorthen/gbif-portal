@@ -171,8 +171,11 @@
 </#macro>
 
 <#-- Creates a column list of contacts, defaults to 2 columns -->
-<#macro contactList contacts columns=2 showAllButton=false>
-<#list contacts as c>
+<#macro contactList contacts title="" columns=2 showAllButton=false>
+  <#if title?has_content>
+    <h3>${title}</h3>
+  </#if>
+  <#list contacts as c>
  <#if c_index%columns==0>
   <div class="row col${columns}">
  </#if>
@@ -186,6 +189,9 @@
   <div class="row col${columns}">
     <span class="showAllContacts small">show all</span>
   </div>
+<#else>
+  <#-- needed to terminate contact block, e.g. where primary contacts and other contacts are separated in 2 blocks on publisher page -->
+  <div class="row"></div>
 </#if>
 </#macro>
 
