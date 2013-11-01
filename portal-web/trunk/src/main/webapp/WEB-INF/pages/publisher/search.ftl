@@ -38,7 +38,8 @@
           </h2>
 
           <p>A data publisher
-            <#if pub.city?? || (pub.country?? && pub.country?lower_case != "unknown") >from <@common.cityAndCountry pub/></#if>
+            <#-- country can appear on its own, but if city appears, there must be a country too -->
+            <#if pub.country?? && (pub.country?lower_case != "unknown" && pub.city??) || pub.country?lower_case != "unknown" >from <@common.cityAndCountry pub/></#if>
             <#if (pub.numOwnedDatasets > 0)>with ${pub.numOwnedDatasets} published datasets</#if>
           </p>
 
