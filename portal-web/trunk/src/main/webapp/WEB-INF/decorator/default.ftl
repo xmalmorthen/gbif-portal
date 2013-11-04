@@ -215,10 +215,10 @@
             <li><a href="${cfg.drupal}/disclaimer">Disclaimer</a></li>
             <li><a href="${cfg.drupal}/disclaimer/datause">Data use agreement</a></li>
             <li><a href="${cfg.drupal}/disclaimer/datasharing">Data sharing agreement</a></li>
-            <li><a href="http://www.gbif.org/orc/?doc_id=2955&l=en">Memorandum of Understanding</a></li>
-            <li><a href="http://www.gbif.org/orc/?doc_id=5304">Annual Report</a></li>
-            <li><a href="http://www.gbif.org/orc/?doc_id=2792&l=en">GBIF Strategic Plan</a></li>
-            <li><a href="http://www.gbif.org/orc/?doc_id=4394&l=en">GBIF Work Programme</a></li>
+            <li><a href="http://www.gbif.org/resources/2605">Memorandum of Understanding</a></li>
+            <li><a href="http://www.gbif.org/resources/2262">Annual Report</a></li>
+            <li><a href="http://www.gbif.org/resources/2569">GBIF Strategic Plan</a></li>
+            <li><a href="http://www.gbif.org/resources/2970">GBIF Work Programme</a></li>
         </ul>
 
         <ul class="last">
