@@ -9,7 +9,7 @@ import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetOccurrenceDownloadUsageService;
 import org.gbif.api.service.registry.DatasetService;
-import org.gbif.portal.action.occurrence.util.HumanFilterBuilder;
+import org.gbif.api.util.occurrence.HumanFilterBuilder;
 import org.gbif.portal.action.user.DownloadsAction;
 
 import java.util.LinkedList;
@@ -50,21 +50,12 @@ public class ActivityAction extends DetailAction {
     return SUCCESS;
   }
 
-  public Pageable getPage() {
-    return response;
-  }
-
-  public void setOffset(long offset) {
-    request.setOffset(offset);
-  }
-
-
-  //TODO: the same code is also used in DownloadsAction share it showhow!!!
+  // TODO: the same code is also used in DownloadsAction share it showhow!!!
   public Map<OccurrenceSearchParameter, LinkedList<String>> getHumanFilter(Predicate p) {
     if (p != null) {
       try {
         // not thread safe!
-        HumanFilterBuilder builder = new HumanFilterBuilder(this, datasetService, nameUsageService);
+        HumanFilterBuilder builder = new HumanFilterBuilder(this.getTexts(), datasetService, nameUsageService);
         return builder.humanFilter(p);
 
       } catch (Exception e) {
@@ -74,7 +65,16 @@ public class ActivityAction extends DetailAction {
     return null;
   }
 
+  public Pageable getPage() {
+    return response;
+  }
+
+
   public String getQueryParams(Predicate p) {
     return DownloadsAction.getQueryParams(p);
+  }
+
+  public void setOffset(long offset) {
+    request.setOffset(offset);
   }
 }

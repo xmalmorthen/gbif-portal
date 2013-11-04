@@ -197,11 +197,11 @@
                       <%}%>                                  
                       <option value="bt">Between</option>          
                     </select>
-                    <input type="text" size="17" maxlength="15" name="<%=paramName%>" class="<%= inputClasses %>" placeholder="<%= placeholder %>" style="width:130px;"/>
+                    <input type="text" size="17" maxlength="15" name="<%=paramName%>" class="form-control <%= inputClasses %>" placeholder="<%= placeholder %>" style="width:130px;"/>
                     <span style="display:none" class="erroMsg">Please enter a value</span>                 
                     <span id="maxValue" style="display:none">
                       <span>and</span> 
-                      <input type="text" size="17"  maxlength="15" name="<%=paramName%>Max" class="<%= inputClasses %>" placeholder="<%= placeholder %>" style="width:130px;"/>
+                      <input type="text" size="17"  maxlength="15" name="<%=paramName%>Max" class="form-control <%= inputClasses %>" placeholder="<%= placeholder %>" style="width:130px;"/>
                     </span>   
                     <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">                    
                   </td>
@@ -270,11 +270,11 @@
                       <option value="gte">Is after</option>
                       <option value="bt">Between</option>
                     </select>     
-                    <input type="text" size="17" maxlength="15" name="<%=paramName%>" class="min_value <%= inputClasses %>" placeholder="<%= placeholder %>" style="width:90px;" readonly/>
+                    <input type="text" size="17" maxlength="15" name="<%=paramName%>" class="min_value <%= inputClasses %>" placeholder="<%= placeholder %>" style="width:90px;"/>                    
                     <span style="display:none" class="erroMsg">Please enter a value</span>                 
                     <span id="maxValue" style="display:none" class="max_value_cfg">
                       <span>and</span>                                             
-                        <input type="text" size="17"  maxlength="15" name="<%=paramName%>Max" class="max_value <%= inputClasses %>" placeholder="<%= placeholder %>" style="width:90px;" readonly/>                      
+                        <input type="text" size="17"  maxlength="15" name="<%=paramName%>Max" class="max_value <%= inputClasses %>" placeholder="<%= placeholder %>" style="width:90px;"/>                      
                     </span>                       
                     <input type="image" src="<@s.url value='/img/admin/add-small.png'/>" class="addFilter">                    
                   </td>

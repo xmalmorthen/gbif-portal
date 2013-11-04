@@ -5,7 +5,8 @@
     <title>Occurrence Search Results</title>
 
     <content tag="extra_scripts">    
-    <link rel="stylesheet" href="<@s.url value='/js/vendor/datepicker/css/datepicker.css'/>"/>    
+    <link rel="stylesheet" href="<@s.url value='/js/vendor/datepicker/css/datepicker.css'/>"/>
+      
 <!--    <link rel="stylesheet" href="<@s.url value='/css/combobox.css?v=2'/>"/>    -->
     <script src='<@s.url value='/js/vendor/jquery.url.js'/>' type='text/javascript'></script>
     <script type="text/javascript" src="<@s.url value='/js/vendor/jquery-ui-1.8.17.min.js'/>"></script>
@@ -18,7 +19,9 @@
     <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/leaflet.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/vendor/leaflet/draw/leaflet.draw.js'/>"></script>
     <script type="text/javascript" src="<@s.url value='/js/occurrence_filters.js'/>"></script>
-    <script type="text/javascript" src="<@s.url value='/js/vendor/datepicker/js/bootstrap-datepicker.js'/>"></script>    
+    <script type="text/javascript" src="<@s.url value='/js/vendor/datepicker/js/bootstrap-datepicker.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/vendor/inputmask/js/jquery.inputmask.js'/>"></script>
+    <script type="text/javascript" src="<@s.url value='/js/vendor/inputmask/js/jquery.inputmask.date.extensions.js'/>"></script> 
     <script>                 
       var filtersFromRequest = new Object();   
       var countryList = [<#list countries as country><#if country.official>{label:"${country.title}",iso2Lettercode:"${country.iso2LetterCode}"}<#if country_has_next>,</#if></#if></#list>];
@@ -156,8 +159,8 @@
                     <li><a tabindex="-1" href="#" data-placeholder="Type a collector name..." data-filter="COLLECTOR_NAME" title="Collector name" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value collector_name_autosuggest auto_add" class="filter-control">Collector</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a name..." data-filter="BASIS_OF_RECORD" title="Basis Of Record" data-template-filter="template-basis-of-record-filter" data-template-summary="template-filter" class="filter-control">Basis of record</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a dataset name..." data-filter="DATASET_KEY" title="Dataset" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value dataset_autosuggest auto_add" class="filter-control">Dataset</a></li>
-                    <li><a tabindex="-1" href="#" data-placeholder="Select a date..." data-filter="DATE" title="Collection date" data-template-filter="template-date-compare-filter" data-template-summary="template-filter" class="filter-control">Collection date</a></li>
-                    <li><a tabindex="-1" href="#" data-placeholder="Select a date..." data-filter="MODIFIED" title="Date last modified" data-template-filter="template-date-compare-filter" data-template-summary="template-filter" class="filter-control">Date last modified</a></li>
+                    <li><a tabindex="-1" href="#" data-placeholder="" data-filter="DATE" title="Collection date" data-template-filter="template-date-compare-filter" data-template-summary="template-filter" class="filter-control" data-input-classes="">Collection date</a></li>
+                    <li><a tabindex="-1" href="#" data-placeholder="" data-filter="MODIFIED" title="Date last modified" data-template-filter="template-date-compare-filter" data-template-summary="template-filter" class="filter-control" data-input-classes="">Date last modified</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a year..." data-filter="YEAR" title="Occurrence year" data-template-filter="template-compare-filter" data-template-summary="template-filter" data-input-classes="value auto_add temporal" class="filter-control">Year</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Select a month..." data-filter="MONTH" title="Occurrence month" data-template-filter="template-month-filter" data-template-summary="template-filter" data-input-classes="value auto_add" class="filter-control">Month</a></li>
                     <li><a tabindex="-1" href="#" data-placeholder="Type a catalogue number..." data-filter="CATALOG_NUMBER" title="Catalog number" data-template-filter="template-add-filter" data-template-summary="suggestions-template-filter" data-input-classes="value catalog_number_autosuggest auto_add" class="filter-control">Catalogue number</a></li>
@@ -224,10 +227,10 @@
                   N/A
                 </#if>
                 <#if occ.altitude?has_content>
-                  <div class="code">Altitude: ${occ.altitude}</div>
+                  <div class="code">Altitude: ${occ.altitude}m</div>
                 </#if>
                 <#if occ.depth?has_content>
-                  <div class="code">Depth: ${occ.depth}</div>
+                  <div class="code">Depth: ${occ.depth}m</div>
                 </#if>
               </div>
             </td>
