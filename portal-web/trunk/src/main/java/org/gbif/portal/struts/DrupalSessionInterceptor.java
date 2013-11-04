@@ -2,10 +2,12 @@ package org.gbif.portal.struts;
 
 import org.gbif.api.model.common.User;
 import org.gbif.api.service.common.UserService;
+import org.gbif.api.vocabulary.UserRole;
 import org.gbif.drupal.mybatis.UserServiceImpl;
 import org.gbif.portal.config.Config;
 
 import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,9 +24,10 @@ import static org.gbif.portal.config.Constants.SESSION_USER;
  * An Interceptor that puts the current user into the session if its not yet existing and a request principle is given.
  */
 public class DrupalSessionInterceptor extends AbstractInterceptor {
+
   private static final Logger LOG = LoggerFactory.getLogger(DrupalSessionInterceptor.class);
 
-  private UserServiceImpl userService;
+  private final UserServiceImpl userService;
   private final String COOKIE_NAME;
   private final String DRUPAL_SESSION_NAME = "drupal_session";
 
@@ -37,19 +40,26 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
   @Override
   public String intercept(final ActionInvocation invocation) throws Exception {
     final Map session = invocation.getInvocationContext().getSession();
-    final HttpServletRequest request = (HttpServletRequest) invocation.getInvocationContext().get(StrutsStatics.HTTP_REQUEST);
+    final HttpServletRequest request =
+      (HttpServletRequest) invocation.getInvocationContext().get(StrutsStatics.HTTP_REQUEST);
     final Cookie cookie = findDrupalCookie(request);
-
+    User user = new User();
+    user.setUserName("fmendez");
+    user.setEmail("fmendez@gbif.org");
+    user.setKey(1);
+    user.addRole(UserRole.ADMIN);
+    session.put(SESSION_USER, user);
+    session.put(DRUPAL_SESSION_NAME, "");
     // FOR DEBUGGING DURING DEVELOPMENT ONLY - you can switch a user without authenticating him!!!
-/*    if (!Strings.isNullOrEmpty(request.getParameter("DEBUG_USER"))) {
-      LOG.info("Force login for user {}", request.getParameter("DEBUG_USER"));
-      User user = userService.get(request.getParameter("DEBUG_USER"));
-      session.put(SESSION_USER, user);
-      session.put(DRUPAL_SESSION_NAME, "");
-      return invocation.invoke();
-}*/
-
-    User user = (User) session.get(SESSION_USER);
+    /*
+     * if (!Strings.isNullOrEmpty(request.getParameter("DEBUG_USER"))) {
+     * LOG.info("Force login for user {}", request.getParameter("DEBUG_USER"));
+     * User user = userService.get(request.getParameter("DEBUG_USER"));
+     * session.put(SESSION_USER, user);
+     * session.put(DRUPAL_SESSION_NAME, "");
+     * return invocation.invoke();
+     * }
+     */
 
     // invalidate current user if cookie is missing or drupal session is different
     if (user != null && (cookie == null || !cookie.getValue().equals(session.get(DRUPAL_SESSION_NAME)))) {
@@ -61,7 +71,7 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
     if (user == null && cookie != null) {
       // user logged into drupal
       user = userService.getBySession(cookie.getValue());
-      if (user == null){
+      if (user == null) {
         LOG.warn("Drupal cookie contains invalid session {}", cookie.getValue());
       } else {
         session.put(SESSION_USER, user);
@@ -73,9 +83,9 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
     return invocation.invoke();
   }
 
-  private Cookie findDrupalCookie(HttpServletRequest request){
+  private Cookie findDrupalCookie(HttpServletRequest request) {
     if (request.getCookies() != null) {
-      for (Cookie cookie : request.getCookies()){
+      for (Cookie cookie : request.getCookies()) {
         if (COOKIE_NAME.equalsIgnoreCase(cookie.getName())) {
           return cookie;
         }

@@ -16,10 +16,10 @@ import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.service.checklistbank.NameUsageService;
 import org.gbif.api.service.registry.DatasetService;
 import org.gbif.api.service.registry.OccurrenceDownloadService;
+import org.gbif.api.util.occurrence.HumanFilterBuilder;
+import org.gbif.api.util.occurrence.QueryParameterFilterBuilder;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.DownloadsActionUtils;
-import org.gbif.portal.action.occurrence.util.HumanFilterBuilder;
-import org.gbif.portal.action.occurrence.util.QueryParameterFilterBuilder;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -64,7 +64,7 @@ public class DownloadsAction extends BaseAction {
     if (p != null) {
       try {
         // not thread safe!
-        HumanFilterBuilder builder = new HumanFilterBuilder(this, datasetService, usageService);
+        HumanFilterBuilder builder = new HumanFilterBuilder(this.getTexts(), datasetService, usageService);
         return builder.humanFilter(p);
 
       } catch (Exception e) {

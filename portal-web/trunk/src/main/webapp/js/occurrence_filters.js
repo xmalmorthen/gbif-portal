@@ -1249,8 +1249,9 @@ var OccurrenceDateComparatorWidget = (function ($,_,OccurrenceWidget) {
     
     //Shows the date format configuration section
     self.filterElement.find(".configure_dates:first").click(function(e) {
+      $('.datepicker').hide();
       e.preventDefault();
-      self.filterElement.find(".date_fmt_cfg:first").show();
+      self.filterElement.find(".date_fmt_cfg:first").show();      
       if(self.isRangeQuery()){
         self.filterElement.find(".max_value_cfg").show();
       } else {
@@ -1299,6 +1300,10 @@ var OccurrenceDateComparatorWidget = (function ($,_,OccurrenceWidget) {
       valueMax = inputMaxValue.val();
       label = value + " and " +  valueMax;
     }
+    
+    if(!this.validateDateInput(inputMinValue)){
+      return;
+    }
     var rangeValue = null;
     if(predicate == 'bt') { // is between predicate
       rangeValue = predicatePatternMap[predicate].replace('%v1',value).replace('%v2',valueMax);
@@ -1316,7 +1321,7 @@ var OccurrenceDateComparatorWidget = (function ($,_,OccurrenceWidget) {
         return;
       } 
       
-      if(isRangeQuery && (self.isBlank(valueMax) || !self.isValidRange())) {        
+      if(isRangeQuery && (self.isBlank(valueMax) || !self.validateDateInput(inputMaxValue) || !self.isValidRange())) {        
         inputMaxValue.addClass(ERROR_CLASS);
         return;        
       } 
@@ -1352,6 +1357,60 @@ var OccurrenceDateComparatorWidget = (function ($,_,OccurrenceWidget) {
     }
   };
   
+  
+  /**
+   * Gets the date format related to the viewMode parameter.
+   */
+  InnerOccurrenceDateComparatorWidget.prototype.setDateMask = function(viewMode, input) {
+    var defaultFormat = {mask: '9999-99', placeholder: 'yyyy-mm'};    
+    $(input).removeClass(ERROR_CLASS)
+    if (viewMode == 'months') {
+      $(input).inputmask(defaultFormat);
+      $(input).data('date-mask','yyyy-mm');
+      $(input).attr('placeholder','yyyy-mm');
+    } else if (viewMode == 'days') {
+      $(input).inputmask('yyyy-mm-dd');
+      $(input).data('date-mask','yyyy-mm-dd');
+      $(input).attr('placeholder','yyyy-mm-dd');
+    } else if (viewMode == 'years') {
+      $(input).inputmask({mask: '9999', placeholder: 'yyyy'});
+      $(input).data('date-mask','yyyy');
+      $(input).attr('placeholder','yyyy');
+    } else {
+      $(input).inputmask(defaultFormat);
+      $(input).data('date-mask','yyyy-mm');
+      $(input).attr('placeholder','yyyy-mm');
+    }
+  };
+  
+  /**
+   * Validates the value of date input control.
+   */
+  InnerOccurrenceDateComparatorWidget.prototype.validateDateInput = function(input) { 
+    var now = new Date();
+    var mask = $(input).data('date-mask');
+    if(mask == 'yyyy'){
+      var yearValue = parseInt($(input).val());
+      if (yearValue < 0 || yearValue > now.getFullYear()) {
+        $(input).addClass(ERROR_CLASS);
+        return false;
+      }
+    } else if(mask == 'yyyy-mm') {
+      var spliDate = $(input).val().split("-");
+      var yearValue = parseInt(spliDate[0]);
+      if (yearValue < 0 || yearValue > now.getFullYear()) {
+        $(input).addClass(ERROR_CLASS);
+        return false;
+      }
+      var monthValue = parseInt(spliDate[1]);
+      if (monthValue < 0 || monthValue > 12) {
+        $(input).addClass(ERROR_CLASS);
+        return false;
+      }      
+    }
+    return true;
+  };
+  
   /**
    * Create datepickers components.
    */
@@ -1373,7 +1432,9 @@ var OccurrenceDateComparatorWidget = (function ($,_,OccurrenceWidget) {
       this.dateTo.remove();
       $(self.filterElement.find(".max_value")[0]).val('');      
     }
-    var dateTo = this.filterElement.find(".max_value").datepicker({format:self.getDateFormat(dateToViewMode),viewMode:dateToViewMode,minViewMode:dateToViewMode,endDate:now,
+    var maxDate = this.filterElement.find(".max_value");      
+    self.setDateMask(dateToViewMode, maxDate);    
+    var dateTo = maxDate.datepicker({format:self.getDateFormat(dateToViewMode),viewMode:dateToViewMode,minViewMode:dateToViewMode,endDate:now,
       onRender: function(date) {
         return self.dateFrom && date.valueOf() <= self.dateFrom.date.valueOf() ? 'disabled' : '';
       }
@@ -1383,6 +1444,9 @@ var OccurrenceDateComparatorWidget = (function ($,_,OccurrenceWidget) {
       self.dateFrom.setEndDate(newDate);      
       dateTo.hide();
     }).data('datepicker');
+    $(maxDate).keypress(function(){
+      dateTo.show();
+    });
     this.dateTo = dateTo;
   };
   
@@ -1397,8 +1461,10 @@ var OccurrenceDateComparatorWidget = (function ($,_,OccurrenceWidget) {
     if (this.dateFrom) {
       this.dateFrom.remove();
       $(self.filterElement.find(".min_value")[0]).val('');
-    }
-    var dateFrom = this.filterElement.find(".min_value").datepicker({format:self.getDateFormat(dateFromViewMode),viewMode:dateFromViewMode,minViewMode:dateFromViewMode,endDate:now,
+    }    
+    var minDate = this.filterElement.find(".min_value");
+    self.setDateMask(dateFromViewMode,minDate);
+    var dateFrom = minDate.datepicker({format:self.getDateFormat(dateFromViewMode),viewMode:dateFromViewMode,minViewMode:dateFromViewMode,endDate:now,
       onRender: function(date) {
         return date.valueOf() < now.valueOf() ? 'disabled' : '';
       }
@@ -1412,7 +1478,11 @@ var OccurrenceDateComparatorWidget = (function ($,_,OccurrenceWidget) {
       if(self.dateTo && self.isBlank($(self.filterElement.find(".max_value")[0]).val())) {
         self.filterElement.find(".max_value")[0].focus();
       }
-    }).data('datepicker');    
+    }).data('datepicker');
+    
+    $(minDate).keypress(function(){
+      dateFrom.show();
+    });
     this.dateFrom = dateFrom;    
   };
   
