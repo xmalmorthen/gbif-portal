@@ -156,6 +156,8 @@ public class FiltersActionHelper {
 
   private static final String NOSPATIAL_ISSUES_LEGEND = "With NO known coordinate issues";
 
+  private static final String METER = "m";
+
   // List of official countries
   private static final Set<Country> COUNTRIES = Sets.immutableEnumSet(Sets.filter(
     Sets.newHashSet(Country.values()),
@@ -260,7 +262,7 @@ public class FiltersActionHelper {
       } else if (parameter == OccurrenceSearchParameter.COUNTRY) {
         return StringEscapeUtils.escapeEcmaScript(getCountryTitle(filterValue));
       } else if (parameter == OccurrenceSearchParameter.DEPTH || parameter == OccurrenceSearchParameter.ALTITUDE) {
-        return getRangeTitle(filterValue);
+        return getRangeTitle(filterValue, METER);
       } else if (parameter == OccurrenceSearchParameter.DATE || parameter == OccurrenceSearchParameter.MODIFIED) {
         return getDateRangeTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.YEAR) {
@@ -557,18 +559,18 @@ public class FiltersActionHelper {
   /**
    * Returns the displayable label/value of a range filter.
    */
-  private String getRangeTitle(String value) {
+  private String getRangeTitle(String value, String unit) {
     final String[] rangeValue = value.split(",");
     if (rangeValue.length == 2) {
       if (rangeValue[0].equals(QUERY_WILDCARD)) {
-        return String.format(LESS_THAN_FMT, rangeValue[1]);
+        return String.format(LESS_THAN_FMT, rangeValue[1] + unit);
       } else if (rangeValue[1].equals(QUERY_WILDCARD)) {
-        return String.format(GREATER_THAN_FMT, rangeValue[0]);
+        return String.format(GREATER_THAN_FMT, rangeValue[0] + unit);
       } else {
-        return String.format(BETWEEN_FMT, rangeValue[0], rangeValue[1]);
+        return String.format(BETWEEN_FMT, rangeValue[0] + unit, rangeValue[1] + unit);
       }
     } else {
-      return String.format(IS_FMT, value);
+      return String.format(IS_FMT, value + unit);
     }
   }
 
