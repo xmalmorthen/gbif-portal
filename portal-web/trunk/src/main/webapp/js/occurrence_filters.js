@@ -1437,7 +1437,8 @@ var OccurrenceDateComparatorWidget = (function ($,_,OccurrenceWidget) {
     var dateTo = maxDate.datepicker({format:self.getDateFormat(dateToViewMode),viewMode:dateToViewMode,minViewMode:dateToViewMode,endDate:now,
       onRender: function(date) {
         return self.dateFrom && date.valueOf() <= self.dateFrom.date.valueOf() ? 'disabled' : '';
-      }
+      },
+      keyboardNavigation: false
     }).on('changeDate', function(ev) {      
       var newDate = new Date(ev.date);
       newDate.setDate(newDate.getDate() - 1);                  
@@ -1467,7 +1468,8 @@ var OccurrenceDateComparatorWidget = (function ($,_,OccurrenceWidget) {
     var dateFrom = minDate.datepicker({format:self.getDateFormat(dateFromViewMode),viewMode:dateFromViewMode,minViewMode:dateFromViewMode,endDate:now,
       onRender: function(date) {
         return date.valueOf() < now.valueOf() ? 'disabled' : '';
-      }
+      },
+      keyboardNavigation: false
     }).on('changeDate', function(ev) {
       if(this.dateTo){
         var newDate = new Date(ev.date);
