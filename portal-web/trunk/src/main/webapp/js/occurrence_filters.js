@@ -1123,7 +1123,8 @@ var OccurrenceLocationWidget = (function ($,_,OccurrenceWidget) {
  */
 var OccurrenceComparatorWidget = (function ($,_,OccurrenceWidget) {
   
-  var InnerOccurrenceComparatorWidget = function () {        
+  var InnerOccurrenceComparatorWidget = function () {   
+    this.unit = "";
   }; 
   
   //Inherits everything from the OccurrenceWidget module.
@@ -1143,6 +1144,20 @@ var OccurrenceComparatorWidget = (function ($,_,OccurrenceWidget) {
         }     
       }
      });         
+  };
+  
+  /**
+   * Sets the unit value.
+   */
+  InnerOccurrenceComparatorWidget.prototype.setUnit = function(unitP){
+    this.unit = unitP;
+  };
+  
+  /**
+   * Gets the unit value.
+   */
+  InnerOccurrenceComparatorWidget.prototype.getUnit = function(){
+    return this.unit;
   };
 
   /**
@@ -1167,11 +1182,11 @@ var OccurrenceComparatorWidget = (function ($,_,OccurrenceWidget) {
     inputMaxValue.removeClass(ERROR_CLASS);
     var predicate = self.filterElement.find(':input[name=predicate] option:selected').val();
     var predicateText = self.filterElement.find(':input[name=predicate] option:selected').text();
-    var label = value;
+    var label = value + self.unit;
     var isRangeQuery = this.filterElement.find("#maxValue").is(":visible");
     if(isRangeQuery){
       valueMax = inputMaxValue.val();
-      label = value + " and " +  valueMax;
+      label = value + self.unit + " and " +  valueMax + self.unit;
     }
     var rangeValue = null;
     if(predicate == 'bt') { // is between predicate
@@ -1671,7 +1686,8 @@ var OccurrenceWidgetManager = (function ($,_) {
               newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCountryAutosuggest});              
             } else if (filterName == "ALTITUDE" || filterName == "DEPTH" | filterName == "YEAR") {
               newWidget = new OccurrenceComparatorWidget();
-              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});              
+              newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});        
+              newWidget.setUnit("m");
             } else { //By default creates a simple OccurrenceWidget with an empty binding function
               newWidget = new OccurrenceWidget();
               newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});                      
