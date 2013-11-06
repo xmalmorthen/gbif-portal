@@ -15,6 +15,8 @@ public class UserRoleTypeConverter extends BaseConverter<Long, UserRole> {
     .put(2l, UserRole.USER)
     .put(3l, UserRole.ADMIN)
     .put(4l, UserRole.EDITOR)
+    .put(5l, UserRole.REGISTRY_ADMIN)
+    .put(6l, UserRole.REGISTRY_EDITOR)
     .build());
   };
 }
