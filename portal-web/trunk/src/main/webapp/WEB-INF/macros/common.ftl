@@ -296,12 +296,27 @@
 </article>
 </#macro>
 
+<#-- write "from city, country" or "from country" under the condition that country must always be present in both cases -->
 <#macro cityAndCountry member>
-  <#if member.city?has_content>${member.city}<#if member.country?has_content>, </#if></#if>
-  <#if member.country?has_content>${member.country.title}</#if>
+  <#if member.country??>
+    <#if member.country?lower_case != "unknown">
+    from
+      <#if member.city??>
+        <#if member.city?has_content>${member.city}<#if member.country?has_content>, </#if></#if>
+      </#if>
+      ${member.country.title}
+    </#if>
+  </#if>
 </#macro>
 
 <#macro renderNomStatusList nomStatusList>
   <#list nomStatusList as ns><#if ns.abbreviated?has_content>${ns.abbreviated}<#else>${ns?replace("_", " ")?lower_case}</#if><#if ns_has_next>, </#if></#list>
 </#macro>
 
+<#-- writes a standard list item for a dataset for display across country, node, network, installation, dataset and publisher pages -->
+<#macro datasetListItem title key type modified owningOrganizationKey="" owningOrganizationTitle="" count=0 geoCount=0 >
+  <li>
+    <a title="${title}" href="<@s.url value='/dataset/${key}'/>">${common.limit(title, 100)}</a>
+    <span class="note">${type?lower_case?cap_first} dataset. <#if modified?has_content>Updated ${modified?date}.</#if> <#if (count &gt; 0)>${count} records <#if geoCount &gt; 0>(${geoCount} georeferenced)</#if></#if> <#if owningOrganizationKey?has_content && owningOrganizationTitle?has_content> Published by <a href="<@s.url value='/publisher/${owningOrganizationKey}'/>" title="${owningOrganizationTitle}">${owningOrganizationTitle}</a></#if></span>
+  </li>
+</#macro>

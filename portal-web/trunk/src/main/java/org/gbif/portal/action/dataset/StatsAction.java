@@ -1,7 +1,10 @@
 package org.gbif.portal.action.dataset;
 
 import org.gbif.api.model.Constants;
+import org.gbif.api.service.checklistbank.DatasetMetricsService;
+import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.DatasetType;
 import org.gbif.portal.action.species.HomeAction;
 import org.gbif.portal.exception.NotFoundException;
@@ -21,8 +24,9 @@ public class StatsAction extends DetailAction {
   private static final String CHECKLIST_RESULT = "checklist";
 
   @Inject
-  public StatsAction(DatasetService datasetService) {
-    super(datasetService);
+  public StatsAction(DatasetService datasetService, CubeService cubeService,
+    DatasetMetricsService datasetMetricsService, OrganizationService organizationService) {
+    super(datasetService, cubeService, datasetMetricsService, organizationService);
   }
 
   @Override

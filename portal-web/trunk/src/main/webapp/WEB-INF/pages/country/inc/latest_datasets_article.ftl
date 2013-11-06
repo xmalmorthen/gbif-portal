@@ -11,19 +11,10 @@
         <ul class="notes">
           <#list datasets as cw>
             <#if cw_index==6>
-                <li class="more"><a href="<@s.url value='/dataset/search?publishingCountry=${country.name()}'/>">${by.occurrenceDatasets + by.checklistDatasets - 6} more</a></li>
+              <li class="more"><a href="<@s.url value='/dataset/search?publishingCountry=${country.name()}'/>">${by.occurrenceDatasets + by.checklistDatasets - 6} more</a></li>
                 <#break />
             </#if>
-              <li>
-                <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
-                <span class="note">${cw.obj.modified?date}. ${cw.count} records <#if cw.geoCount gt 0>(${cw.geoCount} georeferenced)</#if>
-                  <#if cw.obj.owningOrganizationKey??>
-                    published by <a href="<@s.url value='/publisher/${cw.obj.owningOrganizationKey}'/>" title="${action.getOrganization(cw.obj.owningOrganizationKey).title}">${action.getOrganization(cw.obj.owningOrganizationKey).title}</a>
-                  <#else>
-                    indexed.
-                  </#if>
-                </span>
-              </li>
+            <@common.datasetListItem title=cw.obj.title key=cw.obj.key type=cw.obj.type modified=cw.obj.modified owningOrganizationKey=cw.obj.owningOrganizationKey owningOrganizationTitle=action.getOrganization(cw.obj.owningOrganizationKey).title count=cw.count geoCount=cw.geoCount></@common.datasetListItem>
           </#list>
         </ul>
       <#else>

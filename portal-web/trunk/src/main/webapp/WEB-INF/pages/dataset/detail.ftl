@@ -520,17 +520,13 @@
 <@common.article id="datasets" title="Constituent Datasets">
   <div class="fullwidth">
       <ul class="notes">
-        <#list constituents.results as d>
-          <li>
-            <a href="<@s.url value='/dataset/${d.key}'/>">${d.title!"???"}</a>
-            <span class="note">${d.subtype!} <@s.text name="enum.datasettype.${d.type!}"/>
-              <#if d.pubDate??>${d.pubDate?date?string.medium}</#if></span>
-          </li>
+        <#list datasets as cw>
+          <@common.datasetListItem title=cw.obj.title key=cw.obj.key type=cw.obj.type modified=cw.obj.modified count=cw.count geoCount=cw.geoCount></@common.datasetListItem>
         </#list>
         <#if !constituents.isEndOfRecords()>
-          <li class="more">
-            <a href="<@s.url value='/dataset/${member.key}/constituents'/>">more</a>
-          </li>
+            <li class="more">
+                <a href="<@s.url value='/dataset/${member.key}/constituents'/>">more</a>
+            </li>
         </#if>
       </ul>
   </div>

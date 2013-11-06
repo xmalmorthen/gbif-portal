@@ -16,22 +16,13 @@
 <@common.article id="datasets" title="Participating datasets: ${member.numConstituents}">
   <div class="fullwidth">
       <ul class="notes">
-        <#list page.results as d>
-          <li>
-            <a href="<@s.url value='/dataset/${d.key}'/>">${d.title!"???"}</a>
-            <span class="note">${d.subtype!} <@s.text name="enum.datasettype.${d.type!}"/>
-              <#if d.pubDate??>${d.pubDate?date?string.medium}</#if>
-              <#if d.owningOrganizationKey??>
-                <#assign publisher=action.getOrganization(d.owningOrganizationKey) />
-                published by <a href="<@s.url value='/publisher/${publisher.key}'/>" title="${publisher.title}">${publisher.title}</a>.
-              </#if>
-            </span>
-          </li>
+        <#list datasets as cw>
+          <@common.datasetListItem title=cw.obj.title key=cw.obj.key type=cw.obj.type modified=cw.obj.modified owningOrganizationKey=cw.obj.owningOrganizationKey owningOrganizationTitle=action.getOrganization(cw.obj.owningOrganizationKey).title count=cw.count geoCount=cw.geoCount></@common.datasetListItem>
         </#list>
         <#if !page.isEndOfRecords()>
-          <li class="more">
-            <a href="<@s.url value='/network/${member.key}/datasets'/>">more</a>
-          </li>
+            <li class="more">
+                <a href="<@s.url value='/network/${member.key}/datasets'/>">more</a>
+            </li>
         </#if>
       </ul>
   </div>

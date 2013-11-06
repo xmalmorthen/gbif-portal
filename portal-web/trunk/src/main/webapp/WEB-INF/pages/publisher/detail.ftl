@@ -37,14 +37,10 @@
   </@common.article>
 
 <@common.article id="datasets" title="Published datasets">
-  <div class="left">
+  <div class="fullwidth">
       <ul class="notes">
-        <#list page.results as d>
-          <li>
-            <a href="<@s.url value='/dataset/${d.key}'/>">${d.title!"???"}</a>
-            <span class="note">${d.subtype!} <@s.text name="enum.datasettype.${d.type!}"/>
-              <#if d.pubDate??>${d.pubDate?date?string.medium}</#if></span>
-          </li>
+        <#list datasets as cw>
+          <@common.datasetListItem title=cw.obj.title key=cw.obj.key type=cw.obj.type modified=cw.obj.modified count=cw.count geoCount=cw.geoCount></@common.datasetListItem>
         </#list>
         <#if !page.isEndOfRecords()>
           <li class="more">
@@ -57,7 +53,7 @@
 </#if>
 <#if installationsPage.results?has_content>
   <@common.article id="installations" title="Hosted installations">
-      <div class="left">
+      <div class="fullwidth">
           <ul class="notes">
             <#list installationsPage.results as i>
                 <li>

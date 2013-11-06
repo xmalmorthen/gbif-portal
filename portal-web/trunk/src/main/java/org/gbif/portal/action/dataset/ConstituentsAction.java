@@ -11,7 +11,10 @@ package org.gbif.portal.action.dataset;
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.registry.Dataset;
+import org.gbif.api.service.checklistbank.DatasetMetricsService;
+import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.OrganizationService;
 
 import com.google.inject.Inject;
 import org.slf4j.Logger;
@@ -25,8 +28,9 @@ public class ConstituentsAction extends DatasetBaseAction {
   private long offset = 0;
 
   @Inject
-  public ConstituentsAction(DatasetService datasetService) {
-    super(datasetService);
+  public ConstituentsAction(DatasetService datasetService, CubeService occurrenceCubeService,
+    DatasetMetricsService metricsService, OrganizationService organizationService) {
+    super(datasetService, occurrenceCubeService, metricsService, organizationService);
   }
 
   @Override

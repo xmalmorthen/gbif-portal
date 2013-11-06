@@ -52,14 +52,10 @@
 <#if page.results?has_content>
 
   <@common.article id="datasets" title="Served datasets">
-      <div class="left">
+      <div class="fullwidth">
           <ul class="notes">
-            <#list page.results as d>
-                <li>
-                    <a href="<@s.url value='/dataset/${d.key}'/>">${d.title!"???"}</a>
-            <span class="note">${d.subtype!} <@s.text name="enum.datasettype.${d.type!}"/>
-              <#if d.pubDate??>${d.pubDate?date?string.medium}</#if></span>
-                </li>
+            <#list datasets as cw>
+              <@common.datasetListItem title=cw.obj.title key=cw.obj.key type=cw.obj.type modified=cw.obj.modified owningOrganizationKey=cw.obj.owningOrganizationKey owningOrganizationTitle=action.getOrganization(cw.obj.owningOrganizationKey).title count=cw.count geoCount=cw.geoCount></@common.datasetListItem>
             </#list>
             <#if !page.isEndOfRecords()>
                 <li class="more">

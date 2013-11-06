@@ -15,7 +15,10 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Endpoint;
 import org.gbif.api.model.registry.Network;
 import org.gbif.api.model.registry.eml.geospatial.GeospatialCoverage;
+import org.gbif.api.service.checklistbank.DatasetMetricsService;
+import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.Extension;
 import org.gbif.api.vocabulary.Kingdom;
@@ -66,8 +69,9 @@ public class DetailAction extends DatasetBaseAction {
   private static final int PAGE_SIZE = 10;
 
   @Inject
-  public DetailAction(DatasetService datasetService) {
-    super(datasetService);
+  public DetailAction(DatasetService datasetService, CubeService occurrenceCubeService,
+    DatasetMetricsService metricsService, OrganizationService organizationService) {
+    super(datasetService, occurrenceCubeService, metricsService, organizationService);
   }
 
   @Override
@@ -78,6 +82,7 @@ public class DetailAction extends DatasetBaseAction {
     // only datasets with a key (internal) can have constituents
     if (id != null) {
       constituents = datasetService.listConstituents(id, new PagingRequest(0, PAGE_SIZE));
+      super.loadCountWrappedDatasets(constituents);
     }
 
     // the map article is rendered only if the cube has indicated georeferenced records, or if there are
