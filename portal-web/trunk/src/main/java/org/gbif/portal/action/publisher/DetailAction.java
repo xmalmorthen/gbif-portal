@@ -7,6 +7,8 @@ import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Installation;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
+import org.gbif.api.service.checklistbank.DatasetMetricsService;
+import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.NodeService;
 import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.portal.action.member.MemberBaseAction;
@@ -31,8 +33,9 @@ public class DetailAction extends MemberBaseAction<Organization> {
   private List<Contact> otherContacts;
 
   @Inject
-  public DetailAction(OrganizationService organizationService) {
-    super(MemberType.PUBLISHER, organizationService);
+  public DetailAction(OrganizationService organizationService, CubeService cubeService,
+    DatasetMetricsService datasetMetricsService) {
+    super(MemberType.PUBLISHER, organizationService, cubeService, datasetMetricsService, organizationService);
     this.organizationService = organizationService;
   }
 
@@ -57,6 +60,8 @@ public class DetailAction extends MemberBaseAction<Organization> {
     }
     // load first 10 datasets
     page = organizationService.ownedDatasets(id, new PagingRequest(0, 10));
+    super.loadCountWrappedDatasets(page);
+
     // load first 10 hosted installations
     installationsPage = organizationService.installations(id, new PagingRequest(0, 10));
     // separate contacts into 2 lists: primary contacts and other contacts

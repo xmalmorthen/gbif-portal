@@ -2,21 +2,20 @@ package org.gbif.portal.action.node;
 
 import org.gbif.api.model.common.paging.PagingRequest;
 import org.gbif.api.model.common.paging.PagingResponse;
-import org.gbif.api.model.metrics.cube.OccurrenceCube;
-import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry.Contact;
 import org.gbif.api.model.registry.Dataset;
 import org.gbif.api.model.registry.Endpoint;
 import org.gbif.api.model.registry.Node;
 import org.gbif.api.model.registry.Organization;
+import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.NodeService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.ContactType;
 import org.gbif.api.vocabulary.EndpointType;
 import org.gbif.api.vocabulary.NodeType;
 import org.gbif.portal.action.member.MemberBaseAction;
 import org.gbif.portal.action.member.MemberType;
-import org.gbif.portal.model.CountWrapper;
 
 import java.net.URI;
 import java.util.Collections;
@@ -34,11 +33,7 @@ public class NodeAction extends MemberBaseAction<Node> {
   protected CubeService cubeService;
 
   private PagingResponse<Organization> publisherPage;
-  protected PagingResponse<Dataset> datasetPage;
   private long offset = 0;
-
-  protected List<CountWrapper<Dataset>> datasets = Lists.newArrayList();
-  private Long datasetsCount;
 
   private static List<ContactType> contactTypeOrder = Lists.newArrayList(
     ContactType.HEAD_OF_DELEGATION,
@@ -78,8 +73,9 @@ public class NodeAction extends MemberBaseAction<Node> {
   }
 
   @Inject
-  public NodeAction(NodeService nodeService, CubeService cubeService) {
-    super(MemberType.NODE, nodeService);
+  public NodeAction(NodeService nodeService, CubeService cubeService, DatasetMetricsService datasetMetricsService,
+    OrganizationService organizationService) {
+    super(MemberType.NODE, nodeService, cubeService, datasetMetricsService, organizationService);
     this.nodeService = nodeService;
     this.cubeService = cubeService;
   }
@@ -93,7 +89,8 @@ public class NodeAction extends MemberBaseAction<Node> {
       return "country";
     }
 
-    loadLatestDatasetsPublished(10);
+    PagingResponse<Dataset> datasetPage = nodeService.endorsedDatasets(member.getKey(), new PagingRequest(offset, 10));
+    super.loadCountWrappedDatasets(datasetPage);
     loadPublishers(10);
     sortContacts();
     return SUCCESS;
@@ -114,21 +111,6 @@ public class NodeAction extends MemberBaseAction<Node> {
     return SUCCESS;
   }
 
-  protected void loadLatestDatasetsPublished(int limit) {
-    datasetPage = nodeService.endorsedDatasets(member.getKey(), new PagingRequest(offset, limit));
-    datasetsCount = datasetPage.getCount();
-    for (Dataset d : datasetPage.getResults()) {
-      long cnt = cubeService.get(new ReadBuilder()
-        .at(OccurrenceCube.DATASET_KEY, d.getKey()));
-
-      long geoCnt = cubeService.get(new ReadBuilder()
-        .at(OccurrenceCube.DATASET_KEY, d.getKey())
-        .at(OccurrenceCube.IS_GEOREFERENCED, true));
-
-      datasets.add(new CountWrapper(d, cnt, geoCnt));
-    }
-  }
-
   protected void loadPublishers(int limit) {
     publisherPage = nodeService.endorsedOrganizations(member.getKey(), new PagingRequest(offset, limit));
   }
@@ -138,18 +120,10 @@ public class NodeAction extends MemberBaseAction<Node> {
     return publisherPage;
   }
 
-  public PagingResponse<Dataset> getDatasetPage() {
-    return datasetPage;
-  }
-
   public void setOffset(long offset) {
     if (offset >= 0) {
       this.offset = offset;
     }
-  }
-
-  public List<CountWrapper<Dataset>> getDatasets() {
-    return datasets;
   }
 
   public URI getFeed() {
@@ -194,10 +168,6 @@ public class NodeAction extends MemberBaseAction<Node> {
       }
     }
     return contacts;
-  }
-
-  public Long getDatasetsCount() {
-    return datasetsCount;
   }
 
   public long getOffset() {

@@ -3,7 +3,10 @@ package org.gbif.portal.action.dataset;
 import org.gbif.api.model.common.InterpretedEnum;
 import org.gbif.api.model.registry.eml.TaxonomicCoverage;
 import org.gbif.api.model.registry.eml.TaxonomicCoverages;
+import org.gbif.api.service.checklistbank.DatasetMetricsService;
+import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.vocabulary.Rank;
 import org.gbif.portal.action.dataset.util.DisplayableTaxonomicCoverage;
 import org.gbif.portal.action.dataset.util.OrganizedTaxonomicCoverage;
@@ -21,7 +24,8 @@ public class DatasetBaseActionTest {
 
   @Test
   public void testPopulateOrganizedCoverages() {
-    DatasetBaseAction action = new DatasetBaseAction(mock(DatasetService.class));
+    DatasetBaseAction action = new DatasetBaseAction(mock(DatasetService.class),
+      mock(CubeService.class), mock(DatasetMetricsService.class), mock(OrganizationService.class));
 
     // create coverages #1
     TaxonomicCoverages coverages1 = new TaxonomicCoverages();

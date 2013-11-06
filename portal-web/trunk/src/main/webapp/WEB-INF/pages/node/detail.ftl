@@ -38,14 +38,11 @@
    <#assign titleRight = "" />
  </#if>
 <@common.article id="latest" title="Latest datasets published" titleRight=titleRight>
-    <div class="left">
+    <div class="<#if feed??>left<#else>fullwidth</#if>">
       <#if datasets?has_content>
         <ul class="notes">
           <#list datasets as cw>
-            <li>
-              <a title="${cw.obj.title}" href="<@s.url value='/dataset/${cw.obj.key}'/>">${common.limit(cw.obj.title, 100)}</a>
-              <span class="note">${cw.count} records<#if cw.geoCount gt 0>, ${cw.geoCount} georeferenced</#if></span>
-            </li>
+            <@common.datasetListItem title=cw.obj.title key=cw.obj.key type=cw.obj.type modified=cw.obj.modified owningOrganizationKey=cw.obj.owningOrganizationKey owningOrganizationTitle=action.getOrganization(cw.obj.owningOrganizationKey).title count=cw.count geoCount=cw.geoCount></@common.datasetListItem>
           </#list>
         </ul>
       <#else>

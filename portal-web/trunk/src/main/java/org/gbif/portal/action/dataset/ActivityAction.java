@@ -6,9 +6,12 @@ import org.gbif.api.model.common.paging.PagingResponse;
 import org.gbif.api.model.occurrence.predicate.Predicate;
 import org.gbif.api.model.occurrence.search.OccurrenceSearchParameter;
 import org.gbif.api.model.registry.DatasetOccurrenceDownloadUsage;
+import org.gbif.api.service.checklistbank.DatasetMetricsService;
 import org.gbif.api.service.checklistbank.NameUsageService;
+import org.gbif.api.service.metrics.CubeService;
 import org.gbif.api.service.registry.DatasetOccurrenceDownloadUsageService;
 import org.gbif.api.service.registry.DatasetService;
+import org.gbif.api.service.registry.OrganizationService;
 import org.gbif.api.util.occurrence.HumanFilterBuilder;
 import org.gbif.portal.action.user.DownloadsAction;
 
@@ -36,8 +39,9 @@ public class ActivityAction extends DetailAction {
 
   @Inject
   public ActivityAction(DatasetService datasetService, DatasetOccurrenceDownloadUsageService downloadUsageService,
-    NameUsageService nameUsageService) {
-    super(datasetService);
+    NameUsageService nameUsageService, CubeService cubeService, DatasetMetricsService datasetMetricsService,
+    OrganizationService organizationService) {
+    super(datasetService, cubeService, datasetMetricsService, organizationService);
     this.downloadUsageService = downloadUsageService;
     this.nameUsageService = nameUsageService;
     request = new PagingRequest(0, DEFAULT_LIMIT);

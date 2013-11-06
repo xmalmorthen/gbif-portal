@@ -70,8 +70,9 @@ public class DatasetBaseAction extends MemberBaseAction<Dataset> {
 
   protected DatasetService datasetService;
 
-  public DatasetBaseAction(DatasetService datasetService) {
-    super(MemberType.DATASET, datasetService);
+  public DatasetBaseAction(DatasetService datasetService, CubeService occurrenceCubeService,
+    DatasetMetricsService metricsService, OrganizationService organizationService) {
+    super(MemberType.DATASET, datasetService, occurrenceCubeService, metricsService, organizationService);
     this.datasetService = datasetService;
   }
 

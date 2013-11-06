@@ -7,7 +7,6 @@ import org.gbif.api.model.common.search.SearchResponse;
 import org.gbif.api.model.metrics.cube.OccurrenceCube;
 import org.gbif.api.model.metrics.cube.ReadBuilder;
 import org.gbif.api.model.registry.Dataset;
-import org.gbif.api.model.registry.Organization;
 import org.gbif.api.model.registry.search.DatasetSearchParameter;
 import org.gbif.api.model.registry.search.DatasetSearchRequest;
 import org.gbif.api.model.registry.search.DatasetSearchResult;
@@ -31,7 +30,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,27 +44,23 @@ public class CountryBaseAction extends NodeAction {
   private CountryMetrics by;
   private final List<CountWrapper<Country>> countries = Lists.newArrayList();
   private PagingResponse<Country> countryPage;
-  private Map<UUID, Organization> orgMap = Maps.newHashMap();
+  private PagingResponse<Dataset> datasetPage;
 
   protected OccurrenceDatasetIndexService datasetIndexService;
   protected OccurrenceCountryIndexService countryIndexService;
   protected DatasetService datasetService;
   protected DatasetSearchService datasetSearchService;
-  protected DatasetMetricsService datasetMetricsService;
-  protected OrganizationService organizationService;
 
   @Inject
   public CountryBaseAction(NodeService nodeService, CubeService cubeService,
     OccurrenceDatasetIndexService datasetIndexService, OccurrenceCountryIndexService countryIndexService,
     DatasetService datasetService, DatasetSearchService datasetSearchService,
     DatasetMetricsService datasetMetricsService, OrganizationService organizationService) {
-    super(nodeService, cubeService);
+    super(nodeService, cubeService, datasetMetricsService, organizationService);
     this.datasetIndexService = datasetIndexService;
     this.countryIndexService = countryIndexService;
     this.datasetService = datasetService;
     this.datasetSearchService = datasetSearchService;
-    this.datasetMetricsService = datasetMetricsService;
-    this.organizationService = organizationService;
   }
 
   @Override
@@ -112,6 +106,15 @@ public class CountryBaseAction extends NodeAction {
   }
 
   /**
+   * Get a page of datasets. Used to display the list of occurrence datasets about Country.
+   *
+   * @return page of datasets
+   */
+  public PagingResponse<Dataset> getDatasetPage() {
+    return datasetPage;
+  }
+
+  /**
    * populates the about field and optionally also loads the first requested datasets into the datasets property.
    * This allows to only call the index service once effectively and process its response.
    * 
@@ -151,48 +154,23 @@ public class CountryBaseAction extends NodeAction {
     final long extDatasets = datasetService.listByCountry(country, DatasetType.METADATA, p).getCount();
     final int organizations = -1;
 
-    long chkRecords = 0;
     // for total checklist counts we need to retrieve the stats for every single checklist
     // we do not have a checklist cube yet
-
-    // quick checklist count cache as checklist metrics are performance critical
-    Map<UUID, Integer> checklistCounts = Maps.newHashMap();
-
+    long chkRecords = 0;
     p = new PagingRequest(0, 1000);  // there are only 100 checklists alltogether!
     for (Dataset chkl : datasetService.listByCountry(country, DatasetType.CHECKLIST, p).getResults()) {
       DatasetMetrics metric = datasetMetricsService.get(chkl.getKey());
       if (metric != null) {
-        checklistCounts.put(chkl.getKey(), metric.getUsagesCount());
         // count them all
         chkRecords += metric.getUsagesCount();
-      } else {
-        checklistCounts.put(chkl.getKey(), 0);
       }
     }
 
     // load full datasets preview if requested
     if (numDatasetsToLoad > 0) {
       p = new PagingRequest(0, numDatasetsToLoad);
-      for (Dataset d : datasetService.listByCountry(country, null, p).getResults()) {
-        final long dsCnt;
-        final long dsGeoCnt;
-        if (DatasetType.OCCURRENCE == d.getType()) {
-          dsCnt = cubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, d.getKey()));
-          dsGeoCnt =
-            cubeService.get(new ReadBuilder().at(OccurrenceCube.DATASET_KEY, d.getKey()).at(
-              OccurrenceCube.IS_GEOREFERENCED, true));
-
-        } else if (DatasetType.CHECKLIST == d.getType()) {
-          // we have all checklist counts cached
-          dsCnt = checklistCounts.get(d.getKey());
-          dsGeoCnt = 0;
-
-        } else {
-          dsCnt = 0;
-          dsGeoCnt = 0;
-        }
-        datasets.add(new CountWrapper<Dataset>(d, dsCnt, dsGeoCnt));
-      }
+      PagingResponse<Dataset> datasetPage = datasetService.listByCountry(country, null, p);
+      super.loadCountWrappedDatasets(datasetPage);
     }
 
     int countryCount = loadCountryPage(false, numCountriesToLoad);
@@ -221,7 +199,7 @@ public class CountryBaseAction extends NodeAction {
         } else {
           long total = cubeService.get(new ReadBuilder()
             .at(OccurrenceCube.DATASET_KEY, d.getKey()));
-          datasets.add(new CountWrapper(d, metric.getValue(), total));
+          datasets.add(new CountWrapper<Dataset>(d, metric.getValue(), total));
         }
       }
       idx++;
@@ -275,23 +253,10 @@ public class CountryBaseAction extends NodeAction {
         }
 
         long geoCnt = cubeService.get(rb);
-        countries.add(new CountWrapper(metric.getKey(), metric.getValue(), geoCnt));
+        countries.add(new CountWrapper<Country>(metric.getKey(), metric.getValue(), geoCnt));
       }
 
       idx++;
     }
-  }
-
-  /**
-   * Utility method to access node infos using a small map cache.
-   * Used in templates to show the endorsing node for datasets for example.
-   */
-  public Organization getOrganization(UUID key) {
-    if (orgMap.containsKey(key)) {
-      return orgMap.get(key);
-    }
-    Organization o = organizationService.get(key);
-    orgMap.put(key, o);
-    return o;
   }
 }
