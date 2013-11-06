@@ -9,8 +9,8 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
-
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
 
@@ -32,6 +32,8 @@ public class ImageCacheService {
   private static final String MIME_TYPE = "image/" + PNG_FMT;
   private static final String DFT_FILENAME = "image";
   private static final String HEAD_METHOD = "HEAD";
+  private static final int TIMEOUT_MS = 2*60*1000;  // 2 minutes
+  private static final int CONNECT_TIMEOUT_MS = 30*1000;  // 30 seconds
 
   @Inject
   public ImageCacheService(@Named("imgcache.repository") String repository) {
@@ -93,7 +95,10 @@ public class ImageCacheService {
     InputStream source = null;
     Closer closer = Closer.create();
     try {
-      source = closer.register(url.openStream());
+      URLConnection con = url.openConnection();
+      con.setConnectTimeout(CONNECT_TIMEOUT_MS);
+      con.setReadTimeout(TIMEOUT_MS);
+      source = closer.register(con.getInputStream());
       // create parent folder that is unque for the original image
       origImg.getParentFile().mkdir();
       out = closer.register(new FileOutputStream(origImg));
