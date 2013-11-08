@@ -24,7 +24,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PredicateFactoryTest {
+
   Random rnd = new Random();
+
+  @Test
+  public void assertAllParametersAreConvertible() throws Exception {
+    PredicateFactory pf = new PredicateFactory();
+    Map<String, String[]> params = Maps.newHashMap();
+
+    for (OccurrenceSearchParameter p : OccurrenceSearchParameter.values()) {
+      params.put(p.name(), new String[] {randomValue(p)});
+    }
+
+    Predicate p = pf.build(params);
+    assertEquals(OccurrenceSearchParameter.values().length, ((ConjunctionPredicate) p).getPredicates().size());
+  }
+
 
   @Test
   public void testBuild() {
@@ -72,6 +87,66 @@ public class PredicateFactoryTest {
     assertEquals("10.07", gp.getValue());
   }
 
+  @Test
+  public void testIsoDate() throws Exception {
+    PredicateFactory pf = new PredicateFactory();
+    Map<String, String[]> params = Maps.newHashMap();
+
+    params.put("DATE", new String[] {"1989-09-11, 1991"});
+    Predicate p = pf.build(params);
+    assertTrue(p instanceof ConjunctionPredicate);
+    ConjunctionPredicate and = (ConjunctionPredicate) p;
+
+    assertEquals(2, and.getPredicates().size());
+    Iterator<Predicate> iter = and.getPredicates().iterator();
+
+    p = iter.next();
+    GreaterThanOrEqualsPredicate gt = (GreaterThanOrEqualsPredicate) p;
+    assertEquals(OccurrenceSearchParameter.DATE, gt.getKey());
+    assertEquals("1989-09-11", gt.getValue());
+
+    p = iter.next();
+    LessThanOrEqualsPredicate lt = (LessThanOrEqualsPredicate) p;
+    assertEquals(OccurrenceSearchParameter.DATE, lt.getKey());
+    assertEquals("1991-12-31", lt.getValue());
+  }
+
+  @Test
+  public void testIsoDateUnbound() throws Exception {
+    PredicateFactory pf = new PredicateFactory();
+    Map<String, String[]> params = Maps.newHashMap();
+
+    params.put("DATE", new String[] {"*,1991"});
+    Predicate p = pf.build(params);
+
+    LessThanOrEqualsPredicate lt = (LessThanOrEqualsPredicate) p;
+    assertEquals(OccurrenceSearchParameter.DATE, lt.getKey());
+    assertEquals("1991-12-31", lt.getValue());
+  }
+
+  @Test
+  public void testOR() {
+    PredicateFactory pf = new PredicateFactory();
+    Map<String, String[]> params = Maps.newHashMap();
+
+    params.put("CATALOG_NUMBER", new String[] {"A", "B"});// equals
+
+    Predicate p = pf.build(params);
+    assertTrue(p instanceof DisjunctionPredicate);
+  }
+
+  @Test
+  public void testPolygon() throws Exception {
+    PredicateFactory pf = new PredicateFactory();
+    Map<String, String[]> params = Maps.newHashMap();
+
+    params.put("GEOMETRY", new String[] {"30 10,10 20,20 40,40 40,30 10"});// equals
+
+    Predicate p = pf.build(params);
+    assertTrue(p instanceof WithinPredicate);
+    WithinPredicate within = (WithinPredicate) p;
+    assertEquals("POLYGON((30 10,10 20,20 40,40 40,30 10))", within.getGeometry());
+  }
 
   @Test
   public void testRange() {
@@ -112,103 +187,32 @@ public class PredicateFactoryTest {
     assertEquals(expectedValue, sp.getValue());
   }
 
-  @Test
-  public void testOR() {
-    PredicateFactory pf = new PredicateFactory();
-    Map<String, String[]> params = Maps.newHashMap();
-
-    params.put("CATALOG_NUMBER", new String[] {"A", "B"});// equals
-
-    Predicate p = pf.build(params);
-    assertTrue(p instanceof DisjunctionPredicate);
-  }
-
-  @Test
-  public void testPolygon() throws Exception {
-    PredicateFactory pf = new PredicateFactory();
-    Map<String, String[]> params = Maps.newHashMap();
-
-    params.put("GEOMETRY", new String[] {"30 10,10 20,20 40,40 40,30 10"});// equals
-
-    Predicate p = pf.build(params);
-    assertTrue(p instanceof WithinPredicate);
-    WithinPredicate within = (WithinPredicate) p;
-    assertEquals("POLYGON((30 10,10 20,20 40,40 40,30 10))", within.getGeometry());
-  }
-
-  @Test
-  public void testIsoDate() throws Exception {
-    PredicateFactory pf = new PredicateFactory();
-    Map<String, String[]> params = Maps.newHashMap();
-
-    params.put("DATE", new String[] {"1989-09-11, 1991"});
-    Predicate p = pf.build(params);
-    assertTrue(p instanceof ConjunctionPredicate);
-    ConjunctionPredicate and = (ConjunctionPredicate) p;
-
-    assertEquals(2, and.getPredicates().size());
-    Iterator<Predicate> iter = and.getPredicates().iterator();
-
-    p = iter.next();
-    GreaterThanOrEqualsPredicate gt = (GreaterThanOrEqualsPredicate) p;
-    assertEquals(OccurrenceSearchParameter.DATE, gt.getKey());
-    assertEquals("1989-09-11", gt.getValue());
-
-    p = iter.next();
-    LessThanOrEqualsPredicate lt = (LessThanOrEqualsPredicate) p;
-    assertEquals(OccurrenceSearchParameter.DATE, lt.getKey());
-    assertEquals("1991-12-31", lt.getValue());
-  }
-
-  @Test
-  public void testIsoDateUnbound() throws Exception {
-    PredicateFactory pf = new PredicateFactory();
-    Map<String, String[]> params = Maps.newHashMap();
-
-    params.put("DATE", new String[] {"*,1991"});
-    Predicate p = pf.build(params);
-
-    LessThanOrEqualsPredicate lt = (LessThanOrEqualsPredicate) p;
-    assertEquals(OccurrenceSearchParameter.DATE, lt.getKey());
-    assertEquals("1991-12-31", lt.getValue());
-  }
-
-  @Test
-  public void assertAllParametersAreConvertible() throws Exception {
-    PredicateFactory pf = new PredicateFactory();
-    Map<String, String[]> params = Maps.newHashMap();
-
-    for (OccurrenceSearchParameter p : OccurrenceSearchParameter.values()) {
-      params.put(p.name(), new String[] {randomValue(p)});
-    }
-
-    Predicate p = pf.build(params);
-    assertEquals(OccurrenceSearchParameter.values().length, ((ConjunctionPredicate) p).getPredicates().size());
-  }
-
-  private String randomValue (OccurrenceSearchParameter p) {
-    if (OccurrenceSearchParameter.COUNTRY == p){
+  private String randomValue(OccurrenceSearchParameter p) {
+    if (OccurrenceSearchParameter.COUNTRY == p) {
       return Country.SPAIN.getIso2LetterCode();
 
-    } else if (OccurrenceSearchParameter.GEOMETRY == p){
+    } else if (OccurrenceSearchParameter.GEOMETRY == p) {
       return "30.12 10, 10 20, 20 40, 40 40, 30.12 10";
 
-    } else if (UUID.class.isAssignableFrom(p.type())){
+    } else if (UUID.class.isAssignableFrom(p.type())) {
       return UUID.randomUUID().toString();
 
-    } else if (Boolean.class.isAssignableFrom(p.type())){
+    } else if (Boolean.class.isAssignableFrom(p.type())) {
       return "true";
 
-    } else if (OccurrenceSearchParameter.MONTH == p){
+    } else if (OccurrenceSearchParameter.MONTH == p) {
       return String.format("%02d", 1 + rnd.nextInt(11));
-      
-    } else if (OccurrenceSearchParameter.LONGITUDE == p){
+
+    } else if (OccurrenceSearchParameter.LONGITUDE == p) {
       return Integer.toString(rnd.nextInt(180));
-          
-    } else if (OccurrenceSearchParameter.LATITUDE == p){
-        return Integer.toString(rnd.nextInt(90));
-        
-    } else if (Enum.class.isAssignableFrom(p.type())){
+
+    } else if (OccurrenceSearchParameter.LATITUDE == p) {
+      return Integer.toString(rnd.nextInt(90));
+
+    } else if (OccurrenceSearchParameter.COUNTRY == p || OccurrenceSearchParameter.PUBLISHING_COUNTRY == p) {
+      return Country.AFGHANISTAN.getIso2LetterCode();
+
+    } else if (Enum.class.isAssignableFrom(p.type())) {
       Class<? extends Enum<?>> vocab = (Class<? extends Enum<?>>) p.type();
       return vocab.getEnumConstants()[0].name();
     }

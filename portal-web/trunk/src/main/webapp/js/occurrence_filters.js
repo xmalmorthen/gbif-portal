@@ -1681,7 +1681,7 @@ var OccurrenceWidgetManager = (function ($,_) {
             } else if (filterName == "BASIS_OF_RECORD") {
               newWidget = new OccurrenceBasisOfRecordWidget();
               newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: function(){}});              
-            } else if (filterName == "COUNTRY") {
+            } else if (filterName == "COUNTRY" || filterName == "PUBLISHING_COUNTRY") {
               newWidget = new OccurrenceWidget();
               newWidget.init({widgetContainer: widgetContainer,manager: self,bindingsExecutor: self.bindCountryAutosuggest});              
             } else if (filterName == "ALTITUDE" || filterName == "DEPTH" | filterName == "YEAR") {
