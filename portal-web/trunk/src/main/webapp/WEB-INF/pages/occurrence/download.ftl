@@ -16,7 +16,7 @@
         <#if download.available>
           <!-- cfg.wsOccDownload is not public, but needed for authentication. Therefore wsOccDownloadForPublicLink was created which is public -->
          <p>Your download is ready for <a href="${cfg.wsOccDownloadForPublicLink}occurrence/download/request/${download.key}.zip">download</a> since ${download.modified?datetime?string.short_medium}</p>
-         <p>Download information: <#if download.size?has_content>${download.size} KB - </#if>
+         <p>Download information: <#if download.size?has_content>${download.size} Bytes - </#if>
               <#if download.totalRecords?has_content>${download.totalRecords} records - </#if>
               <#if download.numberDatasets?has_content>${download.numberDatasets} datasets</#if>   
       <#elseif action.isDownloadRunning(download.status)></p>
