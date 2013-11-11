@@ -4,6 +4,15 @@
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
   <title>Your Downloads</title>
+   <content tag="extra_scripts">    
+    <script>
+      $(document).ready(function() {
+         $('tr.rowlink').click(function() {
+            window.location = $(this).data("target");
+        });
+      });
+    </script>
+  </content>
 </head>
 
 <body class="newsroom">
