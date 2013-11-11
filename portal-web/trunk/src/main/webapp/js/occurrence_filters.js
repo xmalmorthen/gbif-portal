@@ -1800,7 +1800,10 @@ var OccurrenceWidgetManager = (function ($,_) {
         var self = this;
         $(':text[name="COUNTRY"]').each( function(idx,el){
           $(el).countryAutosuggest(countryList,"#content",buildOnSelectHandler('COUNTRY',el));
-        });   
+        });  
+        $(':text[name="PUBLISHING_COUNTRY"]').each( function(idx,el){
+          $(el).countryAutosuggest(countryList,"#content",buildOnSelectHandler('PUBLISHING_COUNTRY',el));
+        });  
       },
 
       /**

@@ -1,8 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>Occurrence Download - GBIF</title>
-
+  <title>Occurrence Download - GBIF</title> 
 </head>
 <body class="search">
 

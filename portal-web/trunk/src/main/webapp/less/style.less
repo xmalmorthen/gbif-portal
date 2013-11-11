@@ -1456,3 +1456,20 @@ a.atlwdg-trigger {
   }
 }
 
+.rowlink {
+  color: @colorLink;
+  font-weight: normal;
+  text-decoration: none;
+  cursor:pointer;
+
+  &:hover {
+    color: @colorLinkHover;
+    -webkit-transition: color @hover-speed ease-in-out;
+    -moz-transition:    color @hover-speed ease-in-out;
+    -o-transition:      color @hover-speed ease-in-out;
+    -ms-transition:     color @hover-speed ease-in-out;
+    transition:         color @hover-speed ease-in-out;
+    cursor:pointer;
+  }
+}
+

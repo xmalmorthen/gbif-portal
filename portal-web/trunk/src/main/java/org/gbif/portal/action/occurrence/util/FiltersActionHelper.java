@@ -259,7 +259,8 @@ public class FiltersActionHelper {
         return getGeometryTitle(filterValue);
       } else if (parameter == OccurrenceSearchParameter.GEOREFERENCED) {
         return getGeoreferencedTitle(filterValue);
-      } else if (parameter == OccurrenceSearchParameter.COUNTRY) {
+      } else if (parameter == OccurrenceSearchParameter.COUNTRY
+        || parameter == OccurrenceSearchParameter.PUBLISHING_COUNTRY) {
         return StringEscapeUtils.escapeEcmaScript(getCountryTitle(filterValue));
       } else if (parameter == OccurrenceSearchParameter.DEPTH || parameter == OccurrenceSearchParameter.ALTITUDE) {
         return getRangeTitle(filterValue, METER);
