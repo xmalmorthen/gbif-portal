@@ -2,7 +2,6 @@ package org.gbif.portal.struts;
 
 import org.gbif.api.model.common.User;
 import org.gbif.api.service.common.UserService;
-import org.gbif.api.vocabulary.UserRole;
 import org.gbif.drupal.mybatis.UserServiceImpl;
 import org.gbif.portal.config.Config;
 
@@ -21,9 +20,11 @@ import org.slf4j.LoggerFactory;
 import static org.gbif.portal.config.Constants.SESSION_USER;
 
 /**
- * An Interceptor that puts the current user into the session if its not yet existing and a request principle is given.
+ * An interceptor that puts the current user into the session if its not yet existing and a request principle is given.
  */
 public class DrupalSessionInterceptor extends AbstractInterceptor {
+
+  private static final long serialVersionUID = 8383908769617385684L;
 
   private static final Logger LOG = LoggerFactory.getLogger(DrupalSessionInterceptor.class);
 
@@ -43,13 +44,7 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
     final HttpServletRequest request =
       (HttpServletRequest) invocation.getInvocationContext().get(StrutsStatics.HTTP_REQUEST);
     final Cookie cookie = findDrupalCookie(request);
-    User user = new User();
-    user.setUserName("fmendez");
-    user.setEmail("fmendez@gbif.org");
-    user.setKey(1);
-    user.addRole(UserRole.ADMIN);
-    session.put(SESSION_USER, user);
-    session.put(DRUPAL_SESSION_NAME, "");
+
     // FOR DEBUGGING DURING DEVELOPMENT ONLY - you can switch a user without authenticating him!!!
     /*
      * if (!Strings.isNullOrEmpty(request.getParameter("DEBUG_USER"))) {
@@ -60,6 +55,8 @@ public class DrupalSessionInterceptor extends AbstractInterceptor {
      * return invocation.invoke();
      * }
      */
+
+    User user = (User) session.get(SESSION_USER);
 
     // invalidate current user if cookie is missing or drupal session is different
     if (user != null && (cookie == null || !cookie.getValue().equals(session.get(DRUPAL_SESSION_NAME)))) {
