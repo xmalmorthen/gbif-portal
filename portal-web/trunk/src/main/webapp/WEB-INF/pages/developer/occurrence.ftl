@@ -71,7 +71,7 @@
   <p>This API provides services for searching occurrence records that have been indexed by GBIF.</p>
 
   <@api.apiTable auth=false>
-      <@trowS url="" respLink="/occurrence/search?taxonKey=1"  paging=true params=["datasetKey","year","month","latitude","longitude","country","altitude","depth","institutionCode", "collectionCode", "catalogNumber","collectorName","basisOfRecord","taxonKey","georeferenced","geometry","spatialIssues"]>Full search across all occurrences.
+      <@trowS url="" respLink="/occurrence/search?taxonKey=1"  paging=true params=["datasetKey","year","month","latitude","longitude","country","publishingCountry","altitude","depth","institutionCode", "collectionCode", "catalogNumber","collectorName","basisOfRecord","taxonKey","georeferenced","geometry","spatialIssues"]>Full search across all occurrences.
       Results are ordered by relevance.</@trowS>
       <@trowS url="/catalog_number" respLink="/occurrence/search/catalog_number?q=122&limit=5" params=["q","limit"]>Search that returns matching catalog numbers.
       Results are ordered by relevance.</@trowS>
@@ -144,6 +144,7 @@
   "latitude": "Latitude in decimals between -90 and 90 based on WGS 84.",
   "longitude": "Longitude in decimals between -180 and 180 based on WGS 84.",
   "country": "The 2-letter country code (as per <a href='http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm' target='_blank'>ISO-3166-1</a>) of the country in which the occurrence was recorded.",
+  "publishingCountry" : "The 2-letter country code (as per <a href='http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm' target='_blank'>ISO-3166-1</a>) of the country in which the occurrence was recorded.",  
   "altitude": "Altitude/elevation in meters above sea level.",
   "depth" : "Depth in meters relative to altitude. For example 10 meters below a lake surface with given altitude.",
   "institutionCode" : "An identifier of any form assigned by the source to identify the institution the record belongs to. Not guaranteed to be unique.",
@@ -157,8 +158,7 @@
   "geometry": "Searches for occurrences inside a polygon described in Well Known Text (WKT) format. A WKT shape written as POLYGON ((30.1 10.1, 10 20, 20 40, 40 40, 30.1 10.1)) would be queried as is, i.e. <a href='http://api.gbif.org/v0.9/occurrence/search?geometry=POLYGON((30.1 10.1, 10 20, 20 40, 40 40, 30.1 10.1))' target='_blank'>/occurrence/search?geometry=POLYGON((30.1 10.1, 10 20, 20 40, 40 40, 30.1 10.1))</a>.",
   "spatialIssues": "Includes/excludes occurrence records which contain spatial issues (as determined in our record interpretation), i.e. spatialIssues=true returns only those records with spatial issues while spatialIssues=false includes only records without spatial issues. The absence of this parameter returns any record with or without spatial issues.",
   "q" : "Simple search parameter. The value for this parameter can be a simple word or a phrase.",
-  "limit": "The maximum number of results to return.",
-  "publishingCountry" : "The 2-letter country code (as per <a href='http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm' target='_blank'>ISO-3166-1</a>) of the country in which the occurrence was recorded.",
+  "limit": "The maximum number of results to return.",  
   "from" : "The minimum year for which to return occurrences.",
   "to" : "The maximum year for which to return occurrences."
 } />
