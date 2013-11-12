@@ -52,6 +52,20 @@ public class DownloadsAction extends BaseAction {
   private DatasetService datasetService;
 
 
+  public static String getQueryParams(Predicate p) {
+    if (p != null) {
+      try {
+        // not thread safe!
+        QueryParameterFilterBuilder builder = new QueryParameterFilterBuilder();
+        return builder.queryFilter(p);
+
+      } catch (Exception e) {
+        LOG.warn("Cannot create query parameter representation for predicate {}", p);
+      }
+    }
+    return null;
+  }
+
   @Override
   public String execute() throws Exception {
     // user is never null, guaranteed by the LoginInterceptor stack
@@ -78,22 +92,7 @@ public class DownloadsAction extends BaseAction {
     return page;
   }
 
-  public static String getQueryParams(Predicate p) {
-    if (p != null) {
-      try {
-        // not thread safe!
-        QueryParameterFilterBuilder builder = new QueryParameterFilterBuilder();
-        return builder.queryFilter(p);
-
-      } catch (Exception e) {
-        LOG.warn("Cannot create query parameter representation for predicate {}", p);
-      }
-    }
-    return null;
-  }
-
   public boolean isDownloadRunning(String strStatus) {
-    LOG.info(strStatus);
     return DownloadsActionUtils.isDownloadRunning(strStatus);
   }
 
