@@ -53,14 +53,14 @@
     <!-- dependency versions -->
     <dwc-api.version>1.3</dwc-api.version>
     <gbif-api.version>0.10-SNAPSHOT</gbif-api.version>
-    <checklistbank-ws-client.version>2.3</checklistbank-ws-client.version>
-    <registry-ws-client.version>2.7</registry-ws-client.version>
-    <occurrence-download-ws-client.version>0.10</occurrence-download-ws-client.version>
-    <occurrence-ws-client.version>0.10</occurrence-ws-client.version>
-    <metrics-ws-client.version>0.10</metrics-ws-client.version>
-    <drupal-mybatis.version>0.9</drupal-mybatis.version>
-    <gbif-common.version>0.13</gbif-common.version>
-    <gbif-common-ws.version>0.10</gbif-common-ws.version>
+    <checklistbank-ws-client.version>2.4-SNAPSHOT</checklistbank-ws-client.version>
+    <registry-ws-client.version>2.9-SNAPSHOT</registry-ws-client.version>
+    <occurrence-download-ws-client.version>0.11-SNAPSHOT</occurrence-download-ws-client.version>
+    <occurrence-ws-client.version>0.11-SNAPSHOT</occurrence-ws-client.version>
+    <metrics-ws-client.version>0.11-SNAPSHOT</metrics-ws-client.version>
+    <drupal-mybatis.version>0.10-SNAPSHOT</drupal-mybatis.version>
+    <gbif-common.version>0.14-SNAPSHOT</gbif-common.version>
+    <gbif-common-ws.version>0.11-SNAPSHOT</gbif-common-ws.version>
     
     <freemarker.version>2.3.20</freemarker.version>
     <guice.version>3.0</guice.version>
