@@ -59,12 +59,23 @@ acl GBIFS {
 }
 
 sub vcl_recv {
+	# this evicts single objects from the cache
   if (req.request == "PURGE") {
     if (!client.ip ~ GBIFS) {
       error 403 "Forbidden.";
     } else {
-      ban_url(req.url);
-      error 200 "Purged.";
+      return (lookup);
+    }
+  }
+
+	# this bans matching objects via regex from being served if older than the ban
+  if (req.request == "BAN") {
+    if (!client.ip ~ GBIFS) {
+      error 403 "Forbidden.";
+    } else {
+	    set req.http.x-ban-url = regsub(req.http.x-ban-url, "^/v0.9/", "/");
+			ban("obj.http.x-url ~ " + req.http.x-ban-url);
+      error 200 "Banned";
     }
   }
 
@@ -203,6 +214,10 @@ sub recv_portal {
 }
 
 sub vcl_fetch {
+	# keep request url in cache for varnishs ban lurker thread:
+	# https://www.varnish-software.com/static/book/Cache_invalidation.html#smart-bans
+	# see use of x-url in vcl_recv BAN
+	set beresp.http.x-url = req.url;
   # remove portal context from redirects
   if ( beresp.status == 302 || beresp.status == 301 ) {
     if (beresp.http.Location ~ "/portal/") {
@@ -257,4 +272,24 @@ sub vcl_error {
     set obj.status = 301;
     return(deliver);
   }
+}
+
+sub vcl_deliver {
+	# remove smart ban header
+	unset resp.http.x-url;
+}
+
+sub vcl_hit {
+	if (req.request == "PURGE") {
+		purge;
+		error 200 "Purged.";
+	}
+}
+
+# we also purge cache misses as there might be variants (Vary) of the resource
+sub vcl_miss {
+	if (req.request == "PURGE") {
+		purge;
+		error 200 "Purged.";
+	}
 }
