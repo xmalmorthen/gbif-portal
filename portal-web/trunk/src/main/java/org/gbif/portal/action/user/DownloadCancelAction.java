@@ -16,6 +16,8 @@ import org.gbif.portal.action.occurrence.DownloadsActionUtils;
 
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Manages user downloads. Default action lists a page of downloads,
@@ -24,6 +26,8 @@ import com.google.inject.Inject;
 public class DownloadCancelAction extends BaseAction {
 
   private static final long serialVersionUID = -8026802291497869845L;
+
+  private static final Logger LOG = LoggerFactory.getLogger(DownloadCancelAction.class);
 
   private String key;
 
@@ -36,6 +40,7 @@ public class DownloadCancelAction extends BaseAction {
   @Override
   public String execute() {
     if (!Strings.isNullOrEmpty(key)) {
+      LOG.info("Cancel request for download {}", key);
       Download download = occurrenceDownloadService.get(key);
       if (download != null && download.getRequest().getCreator().equals(getCurrentUser().getUserName())
         && DownloadsActionUtils.RUNNING_STATUSES.contains(download.getStatus())) {
