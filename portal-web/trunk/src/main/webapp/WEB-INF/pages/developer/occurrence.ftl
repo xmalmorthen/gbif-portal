@@ -24,9 +24,9 @@
 </div>
 <div class="right">
     <ul>
-        <li><a href="#occurrences">Occurrences</a></li>
+        <li><a href="#occurrence">Occurrences</a></li>
         <li><a href="#search">Search Occurrences</a></li>
-        <li><a href="#downloads">Occurrence Downloads</a></li>
+        <li><a href="#download">Occurrence Downloads</a></li>
         <li><a href="#metrics">Occurrence Metrics</a></li>
         <li><a href="#inventories">Occurrence Inventories</a></li>
     </ul>
@@ -54,7 +54,7 @@
 
 
 
-<@api.article id="occurrences" title="Occurrences">
+<@api.article id="occurrence" title="Occurrences">
   <p>This API provides services related to the retrieval of single occurrence records.</p>
 
   <@api.apiTable auth=false paging=false params=false>
@@ -86,7 +86,7 @@
 
 
 
-<@api.article id="downloads" title="Occurrence Downloads">
+<@api.article id="download" title="Occurrence Downloads">
   <p>This API provides services to download occurrence records and retrieve information about those downloads.</p>
   <p>Occurrence downloads are created asynchronously - the user requests a download and, once complete, is sent and email with a link to the resulting file.</p>
   <p>Internally we use a Java web service client for the consumption of these HTTP-based, RESTful web services. It may
@@ -144,7 +144,7 @@
   "latitude": "Latitude in decimals between -90 and 90 based on WGS 84.",
   "longitude": "Longitude in decimals between -180 and 180 based on WGS 84.",
   "country": "The 2-letter country code (as per <a href='http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm' target='_blank'>ISO-3166-1</a>) of the country in which the occurrence was recorded.",
-  "publishingCountry" : "The 2-letter country code (as per <a href='http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm' target='_blank'>ISO-3166-1</a>) of the country in which the occurrence was recorded.",  
+  "publishingCountry" : "The 2-letter country code (as per <a href='http://www.iso.org/iso/country_codes/iso_3166_code_lists/country_names_and_code_elements.htm' target='_blank'>ISO-3166-1</a>) of the country in which the occurrence was recorded.",
   "altitude": "Altitude/elevation in meters above sea level.",
   "depth" : "Depth in meters relative to altitude. For example 10 meters below a lake surface with given altitude.",
   "institutionCode" : "An identifier of any form assigned by the source to identify the institution the record belongs to. Not guaranteed to be unique.",
@@ -158,7 +158,7 @@
   "geometry": "Searches for occurrences inside a polygon described in Well Known Text (WKT) format. A WKT shape written as POLYGON ((30.1 10.1, 10 20, 20 40, 40 40, 30.1 10.1)) would be queried as is, i.e. <a href='http://api.gbif.org/v0.9/occurrence/search?geometry=POLYGON((30.1 10.1, 10 20, 20 40, 40 40, 30.1 10.1))' target='_blank'>/occurrence/search?geometry=POLYGON((30.1 10.1, 10 20, 20 40, 40 40, 30.1 10.1))</a>.",
   "spatialIssues": "Includes/excludes occurrence records which contain spatial issues (as determined in our record interpretation), i.e. spatialIssues=true returns only those records with spatial issues while spatialIssues=false includes only records without spatial issues. The absence of this parameter returns any record with or without spatial issues.",
   "q" : "Simple search parameter. The value for this parameter can be a simple word or a phrase.",
-  "limit": "The maximum number of results to return.",  
+  "limit": "The maximum number of results to return.",
   "from" : "The minimum year for which to return occurrences.",
   "to" : "The maximum year for which to return occurrences."
 } />
@@ -181,13 +181,13 @@
             <th width="60%">Example</th>
         </tr>
         </thead>
-    
+
         <tbody>
         <tr>
             <td>equals</td>
             <td>equality comparison</td>
             <td>
-              <code>            
+              <code>
                {<br/>
                   &nbsp;&nbsp;"creator":"userName",<br/>
                   &nbsp;&nbsp;"notification_address": ["userName@gbif.org"],<br/>
@@ -205,14 +205,14 @@
             <td>and</td>
             <td>logical AND(conjuction)</td>
             <td>
-              <code>            
+              <code>
                {<br/>
                   &nbsp;&nbsp;"creator":"userName",<br/>
                   &nbsp;&nbsp;"notification_address": ["userName@gbif.org"],<br/>
                   &nbsp;&nbsp;"predicate":<br/>
-                    &nbsp;&nbsp;{<br/>                  
+                    &nbsp;&nbsp;{<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"type":"and",<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;"predicates":                          
+                    &nbsp;&nbsp;&nbsp;&nbsp;"predicates":
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[{"type":"equals","key":"SPATIAL_ISSUES","value":"false"},<br/>
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"type":"equals","key":"TAXON_KEY","value":"2440447"}]<br/>
                   &nbsp;&nbsp;}<br/>
@@ -224,14 +224,14 @@
             <td>or</td>
             <td>logical OR(disjunction)</td>
             <td>
-              <code>            
+              <code>
                {<br/>
                   &nbsp;&nbsp;"creator":"userName",<br/>
                   &nbsp;&nbsp;"notification_address": ["userName@gbif.org"],<br/>
-                  &nbsp;&nbsp;"predicate":<br/> 
-                    &nbsp;&nbsp;{<br/>                 
+                  &nbsp;&nbsp;"predicate":<br/>
+                    &nbsp;&nbsp;{<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"type":"or",<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;"predicates":                          
+                    &nbsp;&nbsp;&nbsp;&nbsp;"predicates":
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[{"type":"equals","key":"SPATIAL_ISSUES","value":"false"},<br/>
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{"type":"equals","key":"TAXON_KEY","value":"2440447"}]<br/>
                   &nbsp;&nbsp;}<br/>
@@ -243,15 +243,15 @@
            <td>lessThan</td>
            <td>is less than</td>
            <td>
-            <code>            
+            <code>
                {<br/>
                   &nbsp;&nbsp;"creator":"userName",<br/>
                   &nbsp;&nbsp;"notification_address": ["userName@gbif.org"],<br/>
                   &nbsp;&nbsp;"predicate":<br/>
-                    &nbsp;&nbsp;{<br/>                  
-                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"lessThan",<br/>                                         
+                    &nbsp;&nbsp;{<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"lessThan",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"key":"YEAR",<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;"value":"1900"<br/>                          
+                    &nbsp;&nbsp;&nbsp;&nbsp;"value":"1900"<br/>
                   &nbsp;&nbsp;}<br/>
                 }<br/>
               </code>
@@ -261,15 +261,15 @@
            <td>lessThanOrEquals</td>
            <td>is less than or equals</td>
            <td>
-            <code>            
+            <code>
                {<br/>
                   &nbsp;&nbsp;"creator":"userName",<br/>
                   &nbsp;&nbsp;"notification_address": ["userName@gbif.org"],<br/>
                   &nbsp;&nbsp;"predicate":<br/>
-                    &nbsp;&nbsp;{<br/>                  
-                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"lessThanOrEquals",<br/>                                         
+                    &nbsp;&nbsp;{<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"lessThanOrEquals",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"key":"ALTITUDE",<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;"value":"1000"<br/>                          
+                    &nbsp;&nbsp;&nbsp;&nbsp;"value":"1000"<br/>
                   &nbsp;&nbsp;}<br/>
                 }<br/>
              </code>
@@ -279,15 +279,15 @@
            <td>greaterThan</td>
            <td>is greater than</td>
            <td>
-            <code>            
+            <code>
                {<br/>
                   &nbsp;&nbsp;"creator":"userName",<br/>
                   &nbsp;&nbsp;"notification_address": ["userName@gbif.org"],<br/>
                   &nbsp;&nbsp;"predicate":<br/>
-                    &nbsp;&nbsp;{<br/>                  
-                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"greaterThan",<br/>                                         
+                    &nbsp;&nbsp;{<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"greaterThan",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"key":"YEAR",<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;"value":"1900"<br/>                          
+                    &nbsp;&nbsp;&nbsp;&nbsp;"value":"1900"<br/>
                   &nbsp;&nbsp;}<br/>
                 }<br/>
              </code>
@@ -297,15 +297,15 @@
            <td>greaterThanOrEquals</td>
            <td>is greater than or equals</td>
            <td>
-            <code>            
+            <code>
                {<br/>
                   &nbsp;&nbsp;"creator":"userName",<br/>
                   &nbsp;&nbsp;"notification_address": ["userName@gbif.org"],<br/>
                   &nbsp;&nbsp;"predicate":<br/>
-                    &nbsp;&nbsp;{<br/>                  
-                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"greaterThanOrEquals",<br/>                                         
+                    &nbsp;&nbsp;{<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"greaterThanOrEquals",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"key":"ALTITUDE",<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;"value":"1000"<br/>                          
+                    &nbsp;&nbsp;&nbsp;&nbsp;"value":"1000"<br/>
                   &nbsp;&nbsp;}<br/>
                 }<br/>
              </code>
@@ -315,15 +315,15 @@
            <td>in</td>
            <td>specify multiple values to be compared</td>
            <td>
-            <code>            
+            <code>
                {<br/>
                   &nbsp;&nbsp;"creator":"userName",<br/>
                   &nbsp;&nbsp;"notification_address": ["userName@gbif.org"],<br/>
                   &nbsp;&nbsp;"predicate":<br/>
-                    &nbsp;&nbsp;{<br/>                  
-                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"in",<br/>                                         
+                    &nbsp;&nbsp;{<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"in",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"key":"CATALOG_NUMBER",<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;"values":["cat1","cat2","cat3"]<br/>                          
+                    &nbsp;&nbsp;&nbsp;&nbsp;"values":["cat1","cat2","cat3"]<br/>
                   &nbsp;&nbsp;}<br/>
                 }<br/>
              </code>
@@ -333,16 +333,16 @@
            <td>within</td>
            <td>geospatial predicate that checks if the coordinates are inside a POLYGON</td>
            <td>
-            <code>            
+            <code>
                {<br/>
                   &nbsp;&nbsp;"creator":"userName",<br/>
                   &nbsp;&nbsp;"notification_address": ["userName@gbif.org"],<br/>
                   &nbsp;&nbsp;"predicate":<br/>
-                    &nbsp;&nbsp;{<br/>                  
-                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"within",<br/>                                                             
+                    &nbsp;&nbsp;{<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"within",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"geometry":"POLYGON((-130.78125 51.179342,<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-130.78125 22.593726,-62.578125 22.593726,<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-62.578125 51.179342,-130.78125 51.179342))"<br/>                          
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-62.578125 51.179342,-130.78125 51.179342))"<br/>
                   &nbsp;&nbsp;}<br/>
                 }<br/>
              </code>
@@ -352,19 +352,19 @@
            <td>not</td>
            <td>logical negation</td>
            <td>
-            <code>            
+            <code>
                {<br/>
                   &nbsp;&nbsp;"creator":"userName",<br/>
                   &nbsp;&nbsp;"notification_address": ["userName@gbif.org"],<br/>
                   &nbsp;&nbsp;"predicate":<br/>
-                    &nbsp;&nbsp;{<br/>                  
+                    &nbsp;&nbsp;{<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"type":"not",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"predicate":<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"type":"equals",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"key":"CATALOG_NUMBER",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"value":"cat1"<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>                    
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br/>
                   &nbsp;&nbsp;}<br/>
                 }<br/>
              </code>
@@ -374,15 +374,15 @@
            <td>like</td>
            <td>search for a pattern</td>
            <td>
-            <code>            
+            <code>
                {<br/>
                   &nbsp;&nbsp;"creator":"userName",<br/>
                   &nbsp;&nbsp;"notification_address": ["userName@gbif.org"],<br/>
                   &nbsp;&nbsp;"predicate":<br/>
-                    &nbsp;&nbsp;{<br/>                  
-                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"like",<br/>                                         
+                    &nbsp;&nbsp;{<br/>
+                    &nbsp;&nbsp;&nbsp;&nbsp;"type":"like",<br/>
                     &nbsp;&nbsp;&nbsp;&nbsp;"key":"CATALOG_NUMBER",<br/>
-                    &nbsp;&nbsp;&nbsp;&nbsp;"value":"PAPS5-560%"<br/>                          
+                    &nbsp;&nbsp;&nbsp;&nbsp;"value":"PAPS5-560%"<br/>
                   &nbsp;&nbsp;}<br/>
                 }<br/>
              </code>

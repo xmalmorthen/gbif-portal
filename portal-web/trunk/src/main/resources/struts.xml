@@ -179,7 +179,7 @@
       <result name="occurrence">/WEB-INF/pages/dataset/stats-occurrence.ftl</result>
       <result name="checklist">/WEB-INF/pages/dataset/stats-checklist.ftl</result>
     </action>
-    
+
     <action name="*/activity" class="org.gbif.portal.action.dataset.ActivityAction">
       <param name="id">{1}</param>
       <result>/WEB-INF/pages/dataset/activity.ftl</result>
@@ -192,21 +192,21 @@
     <action name="search" class="org.gbif.portal.action.occurrence.SearchAction">
       <result>/WEB-INF/pages/occurrence/search.ftl</result>
     </action>
-    
-    <action name="download" class="org.gbif.portal.action.occurrence.ExecuteDownloadAction">      
+
+    <action name="download" class="org.gbif.portal.action.occurrence.ExecuteDownloadAction">
       <interceptor-ref name="loginStack"/>
       <result type="redirectAction">
         <param name="actionName">download/result</param>
-        <param name="key">${key}</param>        
+        <param name="key">${key}</param>
         <param name="namespace">/occurrence</param>
-      </result>      
+      </result>
     </action>
-    
+
     <action name="download/result" class="org.gbif.portal.action.occurrence.DownloadResultAction">
       <!-- Configure params interceptor to exclude some params:
       http://struts.apache.org/2.3.7/docs/parameters-interceptor.html -->
       <interceptor-ref name="loginStack"/>
-      <result>/WEB-INF/pages/occurrence/download.ftl</result>      
+      <result>/WEB-INF/pages/occurrence/download.ftl</result>
     </action>
 
     <action name="*/verbatim" class="org.gbif.portal.action.occurrence.DetailAction" method="verbatim">
@@ -360,12 +360,12 @@
   <package name="user" namespace="/user" extends="default">
     <default-interceptor-ref name="loginStack"/>
 
-    <action name="downloads" class="org.gbif.portal.action.user.DownloadsAction">
-      <result>/WEB-INF/pages/user/downloads.ftl</result>
+    <action name="download" class="org.gbif.portal.action.user.DownloadsAction">
+      <result>/WEB-INF/pages/user/download.ftl</result>
     </action>
 
-    <action name="namelists" class="org.gbif.portal.action.user.NameListsAction">
-      <result>/WEB-INF/pages/user/namelists.ftl</result>
+    <action name="namelist" class="org.gbif.portal.action.user.NameListsAction">
+      <result>/WEB-INF/pages/user/namelist.ftl</result>
     </action>
 
     <action name="download/cancel" class="org.gbif.portal.action.user.DownloadCancelAction">
