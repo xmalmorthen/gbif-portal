@@ -1,7 +1,7 @@
 <#import "/WEB-INF/macros/common.ftl" as common>
 <html>
 <head>
-  <title>Occurrence Download - GBIF</title> 
+  <title>Occurrence Download - GBIF</title>
 </head>
 <body class="search">
 
@@ -18,7 +18,7 @@
          <p>Your download is ready for <a href="${cfg.wsOccDownloadForPublicLink}occurrence/download/request/${download.key}.zip">download</a> since ${download.modified?datetime?string.short_medium}</p>
          <p>Download information: <#if download.size?has_content>${download.size} Bytes - </#if>
               <#if download.totalRecords?has_content>${download.totalRecords} records - </#if>
-              <#if download.numberDatasets?has_content>${download.numberDatasets} datasets</#if>   
+              <#if download.numberDatasets?has_content>${download.numberDatasets} datasets</#if>
       <#elseif action.isDownloadRunning(download.status)></p>
           <p>Your <a href="${cfg.wsOccDownloadForPublicLink}occurrence/download/${key}">download #${key}</a> is running</p>
           <p>Please expect 10 to 15 minutes for the download to complete. <br/>
@@ -31,11 +31,11 @@
           </p>
       <#else>
         <p>Your download status is "<@s.text name="enum.downloadstatus.${download.status}" />"</p>
-      </#if>                
-      <p>In your user home you can also see the status and link to <a href="<@s.url value='/user/downloads'/>">all your requested downloads</a>.</p>
+      </#if>
+      <p>In your user home you can also see the status and link to <a href="<@s.url value='/user/download'/>">all your requested downloads</a>.</p>
       <#else>
         <p><@s.fielderror fieldName="key"/></p>
-      </#if>       
+      </#if>
     </div>
 </@common.article>
 

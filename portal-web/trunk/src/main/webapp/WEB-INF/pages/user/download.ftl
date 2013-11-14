@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 <head>
   <title>Your Downloads</title>
-   <content tag="extra_scripts">    
+   <content tag="extra_scripts">
     <script>
       $(document).ready(function() {
          $('tr.rowlink').click(function() {
@@ -17,7 +17,7 @@
 
 <body class="newsroom">
 
-<#assign tab="downloads"/>
+<#assign tab="download"/>
 <#include "/WEB-INF/pages/user/inc/infoband.ftl">
 
   <@common.article title="Your Downloads" class="results">
