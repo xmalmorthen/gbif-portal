@@ -369,7 +369,7 @@
     </action>
 
     <action name="download/cancel" class="org.gbif.portal.action.user.DownloadCancelAction">
-      <result type="redirectAction">downloads</result>
+      <result type="redirectAction">download</result>
     </action>
   </package>
 
