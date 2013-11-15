@@ -69,7 +69,7 @@ public class ListAction extends BaseAction {
     // sort others according to node title, in case of taiwan use the country title
     other = FluentIterable.from(other)
       // sort alphabetically
-      .toSortedList(Ordering.natural().onResultOf(new Function<Node, String>() {
+      .toSortedList(Ordering.natural().nullsLast().onResultOf(new Function<Node, String>() {
         @Nullable
         @Override
         public String apply(@Nullable Node n) {
