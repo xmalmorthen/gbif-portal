@@ -43,7 +43,7 @@ public class ListAction extends BaseAction {
           return !GBIF_TEMP_NODE_KEY.equals(n.getKey());
         }
       })
-      .toSortedList(Ordering.natural().onResultOf(new Function<Node, Country>() {
+      .toSortedList(Ordering.natural().nullsLast().onResultOf(new Function<Node, Country>() {
         @Nullable
         @Override
         public Country apply(@Nullable Node n) {
