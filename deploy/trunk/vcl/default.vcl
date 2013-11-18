@@ -154,7 +154,7 @@ sub recv_ws {
     return (pass);
 
   } else if ( req.url ~ "^/occurrence/download") {
-    set req.url = regsub(req.url, "^/", "/b_registry2-ws/");
+    set req.url = regsub(req.url, "^/", "/b_registry-ws/");
     # not cache any download response
     return (pass);
   
@@ -173,7 +173,7 @@ sub recv_ws {
   
   } else if (req.url !~ "^/web") {
     # anything left should be registry calls
-    set req.url = regsub(req.url, "^/", "/b_registry2-ws/");
+    set req.url = regsub(req.url, "^/", "/b_registry-ws/");
   }
 
   # apparently varnish tries to cache POST requests by converting them to GETs :(
