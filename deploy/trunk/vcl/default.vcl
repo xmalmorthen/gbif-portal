@@ -73,17 +73,22 @@ sub vcl_recv {
     if (!client.ip ~ GBIFS) {
       error 403 "Forbidden.";
     } else {
-	    set req.http.x-ban-url = regsub(req.http.x-ban-url, "^/v0.9/", "/");
-			ban("obj.http.x-url ~ " + req.http.x-ban-url);
+			ban("obj.http.x-api-url ~ " + req.http.x-ban-url);
       error 200 "Banned";
     }
   }
 
-  # keep original URL in custom header, see http://dev.gbif.org/issues/browse/GBIFCOM-137
-  set req.http.x-url = "http://" + req.http.host + req.url;
-  
+  # keep original URL in custom header for the ban lurker process later one in vcl_fetch. We modify the request URL here to match the backend apps
+  set req.http.x-api-url = req.url;
+  # temporarily until the java clients set the headers themselves
+  if (!req.http.x-url) {
+   set req.http.x-url = req.url;
+  }  
+	
   # is this a frontend or webservice request?
   if (req.http.host ~ "^api") {
+		# sets a custom header so we can easily detect this was a webservice call to our API in later routines of varnish
+    set req.http.x-api = "true";
     call recv_ws;
   } else {
     call recv_portal;
@@ -132,43 +137,43 @@ sub recv_ws {
     set req.url = regsub(req.url, "^/species/match", "/nub-ws/nub");
     
   } else if ( req.url ~ "^/species/(search|suggest)") {
-      set req.url = regsub(req.url, "^/species/", "/checklistbank-search-ws/");
+      set req.url = regsub(req.url, "^/species/", "/b_checklistbank-search-ws/");
   
   } else if ( req.url ~ "^/(parser/name|species|dataset_metrics|description|name_list)" ) {
-    set req.url = regsub(req.url, "^/", "/checklistbank-ws/");
+    set req.url = regsub(req.url, "^/", "/b_checklistbank-ws/");
   
   } else if ( req.url ~ "^/map") {
-    set req.url = regsub(req.url, "^/map", "/tile-server");
+    set req.url = regsub(req.url, "^/map", "/b_tile-server");
   
   } else if ( req.url ~ "^/occurrence/(count|counts|datasets|countries|publishing_countries)") {
-    set req.url = regsub(req.url, "^/", "/metrics-ws/");
+    set req.url = regsub(req.url, "^/", "/b_metrics-ws/");
   
   } else if ( req.url ~ "^/occurrence/download/request") {
-    set req.url = regsub(req.url, "^/", "/occurrence-download-ws/");
+    set req.url = regsub(req.url, "^/", "/b_occurrence-download-ws/");
     # not cache any download response
     return (pass);
 
   } else if ( req.url ~ "^/occurrence/download") {
-    set req.url = regsub(req.url, "^/", "/registry2-ws/");
+    set req.url = regsub(req.url, "^/", "/b_registry2-ws/");
     # not cache any download response
     return (pass);
   
   } else if ( req.url ~ "^/occurrence") {
-    set req.url = regsub(req.url, "^/", "/occurrence-ws/");
+    set req.url = regsub(req.url, "^/", "/b_occurrence-ws/");
   
   } else if ( req.url ~ "^/dataset/metrics") {
     # not existing yet for all datasets - use checklist service for now
-    set req.url = regsub(req.url, "^/dataset/metrics", "/checklistbank-ws/dataset_metrics");
+    set req.url = regsub(req.url, "^/dataset/metrics", "/b_checklistbank-ws/dataset_metrics");
   
   } else if ( req.url ~ "^/dataset/process") {
-    set req.url = regsub(req.url, "^/", "/crawler-ws/");
+    set req.url = regsub(req.url, "^/", "/b_crawler-ws/");
   
   } else if ( req.url ~ "^/image") {
-    set req.url = regsub(req.url, "^/image", "/image-cache/");
+    set req.url = regsub(req.url, "^/image", "/b_image-cache/");
   
   } else if (req.url !~ "^/web") {
     # anything left should be registry calls
-    set req.url = regsub(req.url, "^/", "/registry2-ws/");
+    set req.url = regsub(req.url, "^/", "/b_registry2-ws/");
   }
 
   # apparently varnish tries to cache POST requests by converting them to GETs :(
@@ -214,51 +219,52 @@ sub recv_portal {
 }
 
 sub vcl_fetch {
-	# keep request url in cache for varnishs ban lurker thread:
+	# keep original request url in cache for varnishs ban lurker thread:
 	# https://www.varnish-software.com/static/book/Cache_invalidation.html#smart-bans
-	# see use of x-url in vcl_recv BAN
-	set beresp.http.x-url = req.url;
+	# x-api-url is set in vcl_recv BAN
+	set beresp.http.x-api-url = req.http.x-api-url;
+
+  # ban (flush) entire registry cache
+  if(req.request != "GET" && req.http.x-api-url ~ "/(organization|node|dataset|network|installation)") {
+		ban("obj.http.x-api-url ~ /(organization|node|dataset|network|installation)");
+  }
+
   # remove portal context from redirects
   if ( beresp.status == 302 || beresp.status == 301 ) {
-    if (beresp.http.Location ~ "/portal/") {
-      set beresp.http.Location = regsub(beresp.http.Location, "/portal/", "/");
+    if (beresp.http.Location ~ "/b_portal/") {
+      set beresp.http.Location = regsub(beresp.http.Location, "/b_portal/", "/");
     }
     set beresp.http.Location = regsub(beresp.http.Location, "v-[a-z0-9-]+.gbif.org", "www.gbif.org");
   }
   
+
+  #
+  # CACHE CONTROL
+  #
   # remove no cache headers. 
   # Cache-Control: mag-age takes precendence over Last-Modified or ETags:
   # https://www.varnish-cache.org/trac/wiki/VCLExampleLongerCaching
   # http://stackoverflow.com/questions/6451137/etag-attribute-present-but-no-cache-control-present-in-http-header
   # http://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html
   remove beresp.http.Cache-Control;
-    
-  # dont cache put, post or delete
-  if((bereq.request == "PUT" || bereq.request == "POST" || bereq.request == "DELETE")) {
-    return (hit_for_pass);
-  }
  
   # dont cache redirects or errors - especially for staging errors can be temporary only
   if ( beresp.status >= 300 ) {
-    return (hit_for_pass);
-  }
-
-  # CACHE CONTROL
-  # by default caching time for varnish, no browser client caching allowed yet!
-  set beresp.ttl = 60s;
-
-  if ( req.url ~ "^/tile-server") {
-    # cache map tiles for a minute
-    set beresp.ttl = 3600s;
-    set beresp.http.Cache-Control = "public, max-age=3600";
-  } else if( req.url ~ "^/(cfg|css|img|js|favicon|sites|misc|modules)" ) {
-    # cache static files for 10 days in varnish and for a day in the client
-    set beresp.ttl = 3600s;
-    set beresp.http.Cache-Control = "public, max-age=3600";
-  } else if( req.url ~ "^/([a-z0-9-]+-ws)" ) {
-    # cache json for a day
-    set beresp.ttl = 3600s;
-  }
+    set beresp.ttl = 0s;
+	} else {
+	  if ( req.url ~ "^/tile-server") {
+	    # cache map tiles
+	    set beresp.ttl = 3600s;
+	    set beresp.http.Cache-Control = "public, max-age=3600";
+	  } else if( req.url ~ "^/(cfg|css|img|js|favicon|sites|misc|modules)" ) {
+	    # cache static files
+	    set beresp.ttl = 3600s;
+	    set beresp.http.Cache-Control = "public, max-age=3600";
+	  } else if( req.http.x-api ) {
+	    # cache all API calls
+	    set beresp.ttl = 3600s;
+	  }
+	}
 
   if ( beresp.http.Cookie ) {
     set beresp.http.Cache-Control = "no-cache, must-revalidate, private";
@@ -275,8 +281,11 @@ sub vcl_error {
 }
 
 sub vcl_deliver {
-	# remove smart ban header
-	unset resp.http.x-url;
+	# remove vcl internal headers
+	# Keep headers for better debugging until API stabilizes
+#	unset resp.http.x-url;
+#	unset resp.http.x-api-url;
+# unset resp.http.x-api;
 }
 
 sub vcl_hit {
