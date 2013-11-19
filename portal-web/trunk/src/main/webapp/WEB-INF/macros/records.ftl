@@ -155,7 +155,7 @@
             <#if download.available>
               <!-- cfg.wsOccDownload is not public, but needed for authentication. Therefore wsOccDownloadForPublicLink was created which is public -->
               Ready for <a href="${cfg.wsOccDownloadForPublicLink}occurrence/download/request/${download.key}.zip">download</a>
-              <#if download.size?has_content>(${download.size} KB - </#if>
+              <#if download.size?has_content>(${action.getHumanRedeableBytesSize(download.getSize())} </#if>
               <#if download.totalRecords?has_content>${download.totalRecords} records - </#if>
               <#if download.numberDatasets?has_content>${download.numberDatasets} datasets)</#if>               
             <#elseif showCancel && action.isDownloadRunning(download.status)>

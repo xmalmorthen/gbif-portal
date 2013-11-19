@@ -20,6 +20,7 @@ import org.gbif.api.util.occurrence.HumanFilterBuilder;
 import org.gbif.api.util.occurrence.QueryParameterFilterBuilder;
 import org.gbif.portal.action.BaseAction;
 import org.gbif.portal.action.occurrence.DownloadsActionUtils;
+import org.gbif.utils.file.FileUtils;
 
 import java.util.LinkedList;
 import java.util.Map;
@@ -78,7 +79,7 @@ public class DownloadsAction extends BaseAction {
     if (p != null) {
       try {
         // not thread safe!
-        HumanFilterBuilder builder = new HumanFilterBuilder(this.getTexts(), datasetService, usageService);
+        HumanFilterBuilder builder = new HumanFilterBuilder(this.getTexts(), datasetService, usageService, true);
         return builder.humanFilter(p);
 
       } catch (Exception e) {
@@ -86,6 +87,10 @@ public class DownloadsAction extends BaseAction {
       }
     }
     return null;
+  }
+
+  public String getHumanRedeableBytesSize(long bytes) {
+    return FileUtils.humanReadableByteCount(bytes, true);
   }
 
   public PagingResponse<Download> getPage() {

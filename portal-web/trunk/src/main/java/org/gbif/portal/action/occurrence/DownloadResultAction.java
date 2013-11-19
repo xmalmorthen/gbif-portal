@@ -3,6 +3,7 @@ package org.gbif.portal.action.occurrence;
 import org.gbif.api.model.occurrence.Download;
 import org.gbif.api.service.registry.OccurrenceDownloadService;
 import org.gbif.portal.action.BaseAction;
+import org.gbif.utils.file.FileUtils;
 
 import java.util.Set;
 
@@ -60,6 +61,10 @@ public class DownloadResultAction extends BaseAction {
     return download.getRequest().getNotificationAddresses();
   }
 
+  public String getHumanRedeableBytesSize(long bytes) {
+    return FileUtils.humanReadableByteCount(bytes, true);
+  }
+
   /**
    * Download key.
    */
@@ -95,5 +100,4 @@ public class DownloadResultAction extends BaseAction {
     LOG.error(errorText);
     addFieldError(DOWNLOAD_KEY_PARAM, errorText);
   }
-
 }

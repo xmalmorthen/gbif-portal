@@ -59,7 +59,7 @@ public class ActivityAction extends DetailAction {
     if (p != null) {
       try {
         // not thread safe!
-        HumanFilterBuilder builder = new HumanFilterBuilder(this.getTexts(), datasetService, nameUsageService);
+        HumanFilterBuilder builder = new HumanFilterBuilder(this.getTexts(), datasetService, nameUsageService, true);
         return builder.humanFilter(p);
 
       } catch (Exception e) {
