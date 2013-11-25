@@ -134,7 +134,7 @@ sub recv_ws {
   # nub lookup
   } else if (req.url ~ "^/species/match"){
     set req.backend = nublookup;
-    set req.url = regsub(req.url, "^/species/match", "/nub-ws/nub");
+    set req.url = regsub(req.url, "^/species/match", "/nub-ws/species/match");
     
   } else if ( req.url ~ "^/species/(search|suggest)") {
       set req.url = regsub(req.url, "^/species/", "/b_checklistbank-search-ws/");
