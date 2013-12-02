@@ -56,6 +56,13 @@
 <#assign tab="info"/>
 <#include "/WEB-INF/pages/dataset/inc/infoband.ftl">
 
+<#-- Has this dataset been flagged as deleted? In other words, is the deleted timestamp not null? -->
+<#if dataset.deleted?has_content>
+  <@common.notice title="Dataset has been deleted">
+    <p>You are viewing the metadata for a dataset that was deleted on ${dataset.deleted?date}.</p>
+  </@common.notice>
+</#if>
+
 <#-- SUMMARY -->
 <@common.article id="summary" title="Summary">
 <div class="left">
