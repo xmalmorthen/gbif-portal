@@ -118,7 +118,7 @@
       <@trowM url="/count/schema" resp="Count" respLink="/occurrence/count/schema">List the supported schemas by the occurrence/count service.</@trowM>
       <@trowM url="/counts/basis_of_record" resp="Counts" respLink="/occurrence/counts/basis_of_record">Lists occurrence counts by basis of record.</@trowM>
       <@trowM url="/counts/countries"resp="Counts" respLink="/occurrence/counts/countries?publishingCountry=US" params=["publishingCountry"]>Lists occurrence counts by publishing country.</@trowM>
-      <@trowM url="/counts/year" resp="Counts" respLink="/occurrence/counts/year?from=2000&to=20012" params=["from","to"]>Lists occurrence counts by year.</@trowM>
+      <@trowM url="/counts/year" resp="Counts" respLink="/occurrence/counts/year?from=2000&to=2012" params=["from","to"]>Lists occurrence counts by year.</@trowM>
     </@api.apiTable>
 </@api.article>
 
