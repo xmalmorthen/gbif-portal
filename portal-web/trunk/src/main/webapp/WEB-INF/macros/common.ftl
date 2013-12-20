@@ -1,4 +1,3 @@
-<#assign taiwanNodeKey='e1b85abc-61f9-430f-ba79-6813dec53a0f' />
 <#assign tempNodeKey='02c40d2a-1cba-4633-90b7-e36e5e97aba8' />
 <#assign colKey='7ddf754f-d193-4cc9-b351-99906754a03b' />
 <#assign uknbnOrganizationKey='07f617d0-c688-11d8-bf62-b8a03c50a862' />
@@ -84,7 +83,7 @@
 
 <#--
   a popup help along the lines of this:
-  http://dev.gbif.org/issues/secure/attachment/11424/gbif_help_links.png 
+  http://dev.gbif.org/issues/secure/attachment/11424/gbif_help_links.png
 -->
 <#macro explanation message label remarks="" title="Help">
   <#if message?has_content>
