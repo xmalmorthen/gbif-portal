@@ -56,31 +56,22 @@
       <table class="table table-bordered table-striped">
           <thead>
             <tr>
-              <#if showCountry>
-                <th>Participant</th>
-                <th>Node Institution</th>
-              <#else>
-                <th>Participant</th>
-              </#if>
+              <th>Participant</th>
+              <th>Node Institution</th>
               <th>Member since</th>
             </tr>
           </thead>
           <tbody>
             <#list plist as p>
             <tr>
-              <#if showCountry>
-                <td><a href="<@s.url value='/country/${p.country.getIso2LetterCode()}/participation'/>">${p.country.title}</a></td>
-                <td>
-                  <#if p.homepage?has_content>
-                    <a href="${p.homepage}">${p.title!}</a>
-                  <#else>
-                    ${p.title!}
-                  </#if>
-                </td>
-              <#else>
-                <#-- TAIWAN HACK, see http://dev.gbif.org/issues/browse/PF-1031 -->
-                <td><a href="<@s.url value='/node/${p.key}'/>"><#if common.taiwanNodeKey == p.key>${p.country.title}<#else>${p.title!}</#if></a></td>
-              </#if>
+              <td><a href="<@s.url value='/node/${p.key}'/>">${p.participantTitle!p.title}</a></td>
+              <td>
+                <#if p.homepage?has_content>
+                  <a href="${p.homepage}">${p.title!}</a>
+                <#else>
+                  ${p.title!}
+                </#if>
+              </td>
               <td><#if p.participantSince??>${p.participantSince?c}</#if></td>
             </tr>
             </#list>
