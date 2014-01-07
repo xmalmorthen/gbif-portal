@@ -72,7 +72,7 @@
 
   <@api.apiTable auth=false>
       <@trowS url="" respLink="/occurrence/search?taxonKey=1"  paging=true params=["datasetKey","year","month","latitude","longitude","country","publishingCountry","altitude","depth","institutionCode", "collectionCode", "catalogNumber","collectorName","basisOfRecord","taxonKey","georeferenced","geometry","spatialIssues"]>Full search across all occurrences.
-      Results are ordered by relevance.</@trowS>
+      Results are ordered by relevance. Currently the maximum page size is 300 and the maximum offset is 1 million records.</@trowS>
       <@trowS url="/catalog_number" respLink="/occurrence/search/catalog_number?q=122&limit=5" params=["q","limit"]>Search that returns matching catalog numbers.
       Results are ordered by relevance.</@trowS>
       <@trowS url="/collection_code" respLink="/occurrence/search/collection_code?q=12&limit=5" params=["q","limit"]>Search that returns matching collection codes.
@@ -158,7 +158,7 @@
   "geometry": "Searches for occurrences inside a polygon described in Well Known Text (WKT) format. A WKT shape written as POLYGON ((30.1 10.1, 10 20, 20 40, 40 40, 30.1 10.1)) would be queried as is, i.e. <a href='http://api.gbif.org/v0.9/occurrence/search?geometry=POLYGON((30.1 10.1, 10 20, 20 40, 40 40, 30.1 10.1))' target='_blank'>/occurrence/search?geometry=POLYGON((30.1 10.1, 10 20, 20 40, 40 40, 30.1 10.1))</a>.",
   "spatialIssues": "Includes/excludes occurrence records which contain spatial issues (as determined in our record interpretation), i.e. spatialIssues=true returns only those records with spatial issues while spatialIssues=false includes only records without spatial issues. The absence of this parameter returns any record with or without spatial issues.",
   "q" : "Simple search parameter. The value for this parameter can be a simple word or a phrase.",
-  "limit": "The maximum number of results to return. This can't be greater than 300, any value greater is set to 300.",    
+  "limit": "The maximum number of results to return. This can't be greater than 300, any value greater is set to 300.",
   "from" : "The minimum year for which to return occurrences.",
   "to" : "The maximum year for which to return occurrences."
 } />
