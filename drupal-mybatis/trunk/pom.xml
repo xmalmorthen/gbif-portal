@@ -195,4 +195,13 @@
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <properties>
+        <drupal.db.url>jdbc:mysql://nerf.gbif.org:3306/drupal_devel?useUnicode=true&amp;characterEncoding=UTF8&amp;characterSetResults=UTF8</drupal.db.url>
+        <drupal.db.username>drupal_devel</drupal.db.username>
+      </properties>
+    </profile>
+  </profiles>
 </project>
