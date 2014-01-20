@@ -10,11 +10,13 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  *
  */
+@Ignore("A manual test for the Drupal db with IMS tables only")
 public class ImsNodeMapperIT {
 
   private ImsNodeMapper mapper;
