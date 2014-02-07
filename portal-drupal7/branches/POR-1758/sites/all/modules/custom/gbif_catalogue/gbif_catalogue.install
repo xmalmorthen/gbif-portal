@@ -1,0 +1,9 @@
+<?php
+/**
+ * @file
+ * Installation of gbif_catalogue
+ * This installation will:
+ *   1) Populate all required vocabularies;
+ *   2) Import all resource from IMS;
+ **/
+
