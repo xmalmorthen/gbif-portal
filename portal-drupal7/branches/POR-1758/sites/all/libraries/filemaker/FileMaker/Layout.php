@@ -46,7 +46,7 @@ class FileMaker_Layout
      */
     function FileMaker_Layout(&$fm)
     {
-        $this->_impl =& new FileMaker_Layout_Implementation($fm);
+        $this->_impl = new FileMaker_Layout_Implementation($fm);
     }
 
     /**
