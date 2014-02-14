@@ -1,6 +1,10 @@
 <?php
 
 function gbif_catalogue_settings_form() {
+  
+  // Temporarily commented out because the vocabularies shouldn't be
+  // Uninstalled when the contents are pulled in.
+  /*
   $form['gbif_catalogue_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Setting management'),
@@ -28,6 +32,7 @@ function gbif_catalogue_settings_form() {
       'effect' => 'fade',
     ),
   );
+  */
   $form['gbif_catalogue_contents'] = array(
     '#type' => 'fieldset',
     '#title' => t('Content management'),
