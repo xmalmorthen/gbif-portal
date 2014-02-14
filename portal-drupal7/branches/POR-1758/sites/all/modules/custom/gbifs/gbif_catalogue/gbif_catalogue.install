@@ -64,6 +64,9 @@ function gbif_catalogue_install() {
   
   // The other fields.
   _gbif_catalogue_create_custom_fields();
+  
+  // Hide "submitted by" by default.
+  variable_set('node_submitted_resource', 0);
 }
 
 /**
