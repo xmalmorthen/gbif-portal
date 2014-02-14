@@ -34,6 +34,33 @@ function gbif_catalogue_menu() {
 }
 
 /**
+ * Implements hook_node_info().
+ */
+function gbif_catalogue_node_info() {
+  return array(
+    'resource' => array(
+      'name' => t('Resource'),
+      'base' => 'resource',
+      'description' => t('IMS resources which will be eventually managed natively in the Drupal system.'),
+      'has_title' => TRUE,
+      'title_label' => t('Title'),
+      'locked' => TRUE, // Unchangeable by the administrator from UI.
+    ),
+  );
+}
+
+function resource_form($node, $form_state) {
+  $type = node_type_get_type($node);
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => check_plain($type->title_label),
+    '#default_value' => !empty($node->title) ? $node->title : '',
+    '#required' => TRUE,
+  );
+  return $form;
+}
+
+/**
  * Helper function for defining vocabularies and their terms.
  */
 function _gbif_catalogue_definition() {
