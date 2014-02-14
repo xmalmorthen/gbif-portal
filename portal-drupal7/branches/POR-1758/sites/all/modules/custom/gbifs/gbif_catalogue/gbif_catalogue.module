@@ -1,4 +1,10 @@
 <?php
+/**
+ * This module packs relevant settings and procedures that sets up the
+ * GBIF Tools Catalogue, a deliverable in GBIF Work Programme.
+ * For convenience, we use gbif_catalogue as the machine name while
+ * using "GBIF Tools Catalogue" as human readables.
+ */
 
 /**
  * Implements hook_menu().
@@ -15,8 +21,8 @@ function gbif_catalogue_menu() {
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
   );
-  $items['admin/config/gbif/catalogue'] = array(
-    'title' => 'GBIF Catalogue',
+  $items['admin/config/gbif/tools-catalogue'] = array(
+    'title' => 'GBIF Tools Catalogue',
     'description' => 'Settings and configuration for the GBIF Catalogue.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('gbif_catalogue_settings_form'),
@@ -36,63 +42,63 @@ function gbif_catalogue_definition() {
       'machine_name' => 'orc_purpose',
       'description' => '[ORC] The purpose of the tool',
       'terms' => array('Data digitization', 'Data curation/quality', 'Data publishing', 'Data access/display', 'Data analysis'),
-      'weight' => 0
+      'weight' => 0,
     ),
     array(
       'name' => 'Target audience',
       'machine_name' => 'orc_target_audience',
       'description' => '[ORC] Targeted type of audience. For example, taxonomists or modellers.',
       'terms' => array('Data publishers', 'Data users', 'Nat. Hist. col.', 'Naturalists', 'GBIF Nodes', 'IT specialists', 'Scientists', 'Field biologists', 'Taxonomists', 'Modellers', 'Nat. resource managers', 'Practitioners', 'Software developers', 'Wider audiences'),
-      'weight' => 1
+      'weight' => 1,
     ),
     array(
       'name' => 'Language',
       'machine_name' => 'orc_language',
       'description' => '[ORC] The language(s) for accessing this resource.',
       'terms' => array('Chinese', 'English', 'French', 'Spanish'),
-      'weight' => 2
+      'weight' => 2,
     ),
     array(
       'name' => 'Data type',
       'machine_name' => 'orc_data_type',
       'description' => '[ORC] Applicable data types.',
       'terms' => array('Occurrence data', 'Names and taxonomy', 'Metadata', 'Species information', 'Multimedia data', 'Ecological data'),
-      'weight' => 3
+      'weight' => 3,
     ),
     array(
       'name' => 'Tool type',
       'machine_name' => 'orc_tool_type',
       'description' => '[ORC] In which form the tool is used. For example, desktop or web based.',
       'terms' => array('Desktop tool', 'Online tool', 'Server application', 'Web service', 'Widget', 'Tool set', 'Mobile application'),
-      'weight' => 4
+      'weight' => 4,
     ),
     array(
       'name' => 'Development status',
       'machine_name' => 'orc_development_status',
       'description' => '[ORC] In which phase the development is.',
       'terms' => array('Production ready', 'Beta', 'Alpha / prototype', 'Demo', 'In development'),
-      'weight' => 5
+      'weight' => 5,
     ),
     array(
       'name' => 'Operating system',
       'machine_name' => 'orc_operating_system',
       'description' => '[ORC] On which platform the tool runs.',
       'terms' => array('OS independent', 'MS Windows', 'Mac OS X', 'Linux', 'iOS', 'Android', 'MS Windows ME'),
-      'weight' => 6
+      'weight' => 6,
     ),
     array(
       'name' => 'BI standard',
       'machine_name' => 'orc_bi_standard',
       'description' => '[ORC] Compliance of standard(s).',
       'terms' => array('Darwin Core', 'Darwin Core Archive', 'GBIF Metadata Profile', 'ABCD', 'OGC', 'Dublin Core', 'Plinian Core', 'Audubon Core', 'DELTA', 'SDD', 'RDF', 'SHP', 'KML', 'GML', 'ISO 19115'),
-      'weight' => 7
+      'weight' => 7,
     ),
     array(
       'name' => 'Resource type',
       'machine_name' => 'orc_resource_type',
       'description' => '[ORC] Resource type.',
       'terms' => array('Data resource', 'Digital document', 'Digital file', 'Internet URL', 'Presentation', 'Tool'),
-      'weight' => 8
+      'weight' => 8,
     ),
   );
   
