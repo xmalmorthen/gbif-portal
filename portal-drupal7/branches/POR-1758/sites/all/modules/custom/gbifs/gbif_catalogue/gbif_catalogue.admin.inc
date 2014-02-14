@@ -1,12 +1,12 @@
 <?php
 
 function gbif_catalogue_settings_form() {
-  $form['gbif_catalogue'] = array(
+  $form['gbif_catalogue_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Settings management.'),
+    '#title' => t('Setting management'),
     '#description' => '<p>' . t('Settings and triggers at the development phase.') . '</p>',
   );
-  $form['gbif_catalogue']['vocabulary_create'] = array(
+  $form['gbif_catalogue_settings']['vocabulary_create'] = array(
     '#type' => 'submit',
     '#value' => t('Install vocabulary'),
     '#prefix' => '<div id="install-div">',
@@ -17,7 +17,7 @@ function gbif_catalogue_settings_form() {
       'effect' => 'fade',
     ),
   );
-  $form['gbif_catalogue']['vocabulary_delete'] = array(
+  $form['gbif_catalogue_settings']['vocabulary_delete'] = array(
     '#type' => 'submit',
     '#value' => t('Delete vocabulary'),
     '#prefix' => '<div id="delete-div">',
@@ -25,6 +25,22 @@ function gbif_catalogue_settings_form() {
     '#ajax' => array(
       'callback' => 'gbif_catalogue_vocabularies_delete',
       'wrapper' => 'delete-status-wrapper',
+      'effect' => 'fade',
+    ),
+  );
+  $form['gbif_catalogue_contents'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Content management'),
+    '#description' => '<p>' . t('Content import and synchronisation at the development phase.') . '</p>',
+  );
+  $form['gbif_catalogue_contents']['import_tools'] = array(
+    '#type' => 'submit',
+    '#value' => t('Import tools'),
+    '#prefix' => '<div id="import-tools">',
+    '#suffix' => '<div id="import-tools-wrapper"></div></div>',
+    '#ajax' => array(
+      'callback' => 'gbif_catalogue_import_tools',
+      'wrapper' => 'import-tools-wrapper',
       'effect' => 'fade',
     ),
   );
