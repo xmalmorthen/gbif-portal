@@ -68,6 +68,7 @@ function gbif_catalogue_install() {
 
 /**
  * Implemtation of hook_uninstall().
+ * @todo remove the tools_catalogue view.
  */
 function gbif_catalogue_uninstall() {
 

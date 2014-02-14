@@ -61,10 +61,20 @@ function resource_form($node, $form_state) {
 }
 
 /**
+ * Implementation of hook_views_api().
+ */
+function gbif_catalogue_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module', 'gbif_catalogue') . '/views'
+  );
+}
+
+/**
  * Load FileMaker API if it's not already loaded.
  * @return TRUE if the FileMaker API is loaded, FALSE otherwise.
  */
-function gbif_catalogue_load_api() {
+function filemaker_load_api() {
 
   if (!class_exists('FileMaker')) {
 
@@ -92,6 +102,59 @@ function gbif_catalogue_load_api() {
   return class_exists('FileMaker');
 }
 
+/**
+ * Import tools from the IMS to resource content type
+ * @todo return proper AJAX message upon task completion or errors.
+ */
+function gbif_catalogue_import_tools() {
+  
+  $records = array();
+  
+  // Load FileMaker api
+  filemaker_load_api();
+
+  // Load credentials
+  $IMSCredential = variable_get('ims_connection');
+
+  $IMS = new FileMaker();
+  $IMS->setProperty('database', $IMSCredential['database']);
+  $IMS->setProperty('hostspec', $IMSCredential['hostname']);
+  $IMS->setProperty('username', $IMSCredential['username']);
+  $IMS->setProperty('password', $IMSCredential['password']);
+  
+  $ListNodes_find =& $IMS->newFindCommand('WDOCS_File');
+  $ListNodes_find->addFindCriterion('_kf_TypeID', '102'); // For now only get tools
+  $ListNodes_find->addSortRule('Title_Text', 1, FILEMAKER_SORT_ASCEND);
+  $result = $ListNodes_find->execute();
+
+  // Handle error (if any)
+  if (FileMaker::isError($result)) {
+    echo "Error: " . $result->getMessage() . "\n"; 
+  }
+
+  $records['IMS'] = $result->getRecords();
+  
+  // As per POR-1797 we only preserve Title_Text and Description
+  foreach ($records['IMS'] as $value) {
+    
+    $node = new stdClass();
+    $node->type = 'resource';
+    node_object_prepare($node);
+    
+    $node->title = $value->getField('Title_Text');
+    $node->language = LANGUAGE_NONE;
+    
+    $node->body[$node->language][0]['value'] = $value->getField('Description');
+    $node->body[$node->language][0]['summary'] = text_summary($value->getField('Description'));
+    $node->body[$node->language][0]['format'] = 'filtered_html';
+    
+    $node = node_submit($node);
+    
+    node_save($node);
+    
+  }
+  
+}
 
 /**
  * Helper function for defining vocabularies and their terms.
