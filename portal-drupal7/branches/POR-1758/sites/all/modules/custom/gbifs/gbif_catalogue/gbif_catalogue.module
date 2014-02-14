@@ -104,7 +104,8 @@ function filemaker_load_api() {
 
 /**
  * Import tools from the IMS to resource content type
- * @todo return proper AJAX message upon task completion or errors.
+ * @todo check the result and return proper AJAX message upon
+ *       task completion or errors.
  */
 function gbif_catalogue_import_tools() {
   
@@ -154,10 +155,17 @@ function gbif_catalogue_import_tools() {
     
     node_save($node);
     
+    // Retrieve nid to judge whether the node_save is successful.
+    if ($node->nid) {
+      $value->nid = $node->nid; 
+    }
+    
   }
 
   error_reporting(E_ALL);
   
+  // Examine the result and inform via the UI
+  return t('All tools from IMS are successfully retrieved and saved.');
 }
 
 /**
