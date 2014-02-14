@@ -61,6 +61,39 @@ function resource_form($node, $form_state) {
 }
 
 /**
+ * Load FileMaker API if it's not already loaded.
+ * @return TRUE if the FileMaker API is loaded, FALSE otherwise.
+ */
+function gbif_catalogue_load_api() {
+
+  if (!class_exists('FileMaker')) {
+
+    // Try to use libraries module.
+    if (module_exists('libraries')) {
+
+      $libraries_path = drupal_get_path('module', 'libraries');
+      $libraries_include = $libraries_path . '/' . 'libraries.module';
+
+      include_once($libraries_include);
+
+      // Let's see if the FileMaker API is really available from libraries.
+      $filemaker_api = './' . libraries_get_path('filemaker') . '/FileMaker.php';
+      if (file_exists($filemaker_api)) {
+        include_once $filemaker_api;
+      }
+    }
+  }
+
+  if (!class_exists('FileMaker')) {
+    drupal_set_message(t('Can not find FileMaker API. Please place the FileMaker API at sites/all/libraries/filemakerapi/FileMaker. See README.txt for details.'), 'error');
+  }
+  
+  // Tell the caller if the FileMaker class exists.
+  return class_exists('FileMaker');
+}
+
+
+/**
  * Helper function for defining vocabularies and their terms.
  */
 function _gbif_catalogue_definition() {

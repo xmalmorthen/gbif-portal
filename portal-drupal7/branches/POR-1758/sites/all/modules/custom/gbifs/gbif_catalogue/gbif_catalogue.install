@@ -15,6 +15,35 @@
 require_once(dirname(__FILE__)) . '/gbif_catalogue.module';
 
 /**
+ * Implementation of hook_requiremensts()
+ */
+function gbif_catalogue_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == "runtime") {
+    // Try to load the API.
+    gbif_catalogue_load_api();
+    $requirements['gbif_catalogue']['title'] = t('GBIF Tools Catalogue');
+    
+    // Is the API available?
+    if (class_exists('FileMaker')) {
+      $requirements['gbif_catalogue']['value'] = 'FileMaker API is installed correctly';
+      $requirements['gbif_catalogue']['severity'] = REQUIREMENT_OK;
+    }
+
+    // Required API wasn't found.
+    else {
+      $requirements['gbif_catalogue']['value'] = t('FileMaker API was not found');
+
+      // Provide instructions on installing the FileMaker API for PHP.
+      $requirements['gbif_catalogue']['description'] = t('The FileMaker API for PHP is required for this module. The API comes with your copy of FileMaker server and should be placed in sites/all/libraries/filemakerapi.');
+      $requirements['gbif_catalogue']['severity'] = REQUIREMENT_ERROR;
+    }
+  }
+  return $requirements;
+}
+
+/**
  * Implemtation of hook_install().
  * @todo Change body title to description.
  */
