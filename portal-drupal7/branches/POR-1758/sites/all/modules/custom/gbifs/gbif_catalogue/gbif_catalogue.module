@@ -33,8 +33,10 @@ function gbif_catalogue_menu() {
   return $items;
 }
 
-
-function gbif_catalogue_definition() {
+/**
+ * Helper function for defining vocabularies and their terms.
+ */
+function _gbif_catalogue_definition() {
   // The definition set
   $definitions = array(
     array(
@@ -107,7 +109,7 @@ function gbif_catalogue_definition() {
 
 function gbif_catalogue_vocabularies_create() {
 
-  $definitions = gbif_catalogue_definition();
+  $definitions = _gbif_catalogue_definition();
 
   // Insert default vocabularies and initial terms
   foreach ($definitions as $df) {
@@ -153,7 +155,7 @@ function gbif_catalogue_vocabularies_create() {
 }
 
 function gbif_catalogue_vocabularies_delete() {
-  $definitions = gbif_catalogue_definition();
+  $definitions = _gbif_catalogue_definition();
   foreach ($definitions as $df) {
     $voc = taxonomy_vocabulary_machine_name_load($df['machine_name']);
     taxonomy_vocabulary_delete($voc->vid);
