@@ -108,7 +108,8 @@ function filemaker_load_api() {
  */
 function gbif_catalogue_import_tools() {
   
-  $records = array();
+  // Temporary suppress "deprecated" warning of FileMaker API
+  error_reporting(E_ALL ^ E_DEPRECATED);
   
   // Load FileMaker api
   filemaker_load_api();
@@ -132,6 +133,7 @@ function gbif_catalogue_import_tools() {
     echo "Error: " . $result->getMessage() . "\n"; 
   }
 
+  $records = array();
   $records['IMS'] = $result->getRecords();
   
   // As per POR-1797 we only preserve Title_Text and Description
@@ -153,6 +155,8 @@ function gbif_catalogue_import_tools() {
     node_save($node);
     
   }
+
+  error_reporting(E_ALL);
   
 }
 
