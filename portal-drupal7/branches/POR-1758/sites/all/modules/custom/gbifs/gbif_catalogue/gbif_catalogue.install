@@ -2,8 +2,28 @@
 /**
  * @file
  * Installation of gbif_catalogue
- * This installation will:
- *   1) Populate all required vocabularies;
- *   2) Import all resource from IMS;
- **/
+ * The installation will:
+ *   1) Populate all required vocabularies and their terms;
+ *   2) Establish the "resource" content type and its field settings; 
+ *   3) Create search server and index;
+ *   4) Create Facets for search;
+ *   5) Create Blocks for positioning search facets;
+ *   6) Create Views for browsing tools;
+ *   7) Import all resource from IMS;
+ */
 
+require_once(dirname(__FILE__)) . '/gbif_catalogue.module';
+
+/**
+ * Implemtation of hook_install().
+ */
+function gbif_catalogue_install() {
+  gbif_catalogue_vocabularies_create();
+}
+
+/**
+ * Implemtation of hook_uninstall().
+ */
+function gbif_catalogue_uninstall() {
+  gbif_catalogue_vocabularies_delete();
+}
