@@ -125,7 +125,7 @@ sub recv_ws {
     set req.url = regsub(req.url, "^/", "/metrics-ws/");
   
   } else if ( req.url ~ "^/occurrence/download/request") {
-    set req.url = regsub(req.url, "^/", "/occurrence-download-ws/");
+    set req.url = regsub(req.url, "^/", "/occurrence-ws/");
     # not cache any download response
     return (pass);
 
@@ -238,6 +238,11 @@ sub vcl_fetch {
 
   if ( beresp.http.Cookie ) {
     set beresp.http.Cache-Control = "no-cache, must-revalidate, private";
+  }
+  
+  if ( req.url ~ "^/occurrence/download/request") {
+    set beresp.do_stream = true;
+    return (hit_for_pass);
   }
   return (deliver);
 }
