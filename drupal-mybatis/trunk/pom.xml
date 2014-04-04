@@ -4,12 +4,12 @@
   <parent>
     <groupId>org.gbif</groupId>
     <artifactId>motherpom</artifactId>
-    <version>15-SNAPSHOT</version>
+    <version>15</version>
   </parent>
 
   <groupId>org.gbif</groupId>
   <artifactId>drupal-mybatis</artifactId>
-  <version>0.11</version>
+  <version>0.11-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>Drupal :: MyBatis Service</name>
