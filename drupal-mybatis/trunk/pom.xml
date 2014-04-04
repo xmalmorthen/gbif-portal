@@ -9,7 +9,7 @@
 
   <groupId>org.gbif</groupId>
   <artifactId>drupal-mybatis</artifactId>
-  <version>0.11-SNAPSHOT</version>
+  <version>0.11</version>
   <packaging>jar</packaging>
 
   <name>Drupal :: MyBatis Service</name>
