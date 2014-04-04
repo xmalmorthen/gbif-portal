@@ -38,10 +38,11 @@
   </properties>
 
   <scm>
-    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/drupal-mybatis/tags/drupal-mybatis-0.11</connection>
-    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/drupal-mybatis/tags/drupal-mybatis-0.11</developerConnection>
-    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/drupal-mybatis/tags/drupal-mybatis-0.11</url>
+    <connection>scm:svn:http://gbif-portal.googlecode.com/svn/drupal-mybatis/trunk</connection>
+    <developerConnection>scm:svn:https://gbif-portal.googlecode.com/svn/drupal-mybatis/trunk</developerConnection>
+    <url>http://code.google.com/p/gbif-portal/source/browse/#svn/drupal-mybatis/trunk</url>
   </scm>
+
 
   <ciManagement>
     <system>jenkins</system>
