@@ -21,12 +21,7 @@
   <apply executable="php" failonerror="true">
    <arg value="-l" />
 
-   <fileset dir="${basedir}/src">
-    <include name="**/*.php" />
-    <modified />
-   </fileset>
-
-   <fileset dir="${basedir}/tests">
+   <fileset dir="${basedir}">
     <include name="**/*.php" />
     <modified />
    </fileset>
